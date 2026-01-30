@@ -151,3 +151,60 @@ nav button {
   background: var(--accent);
   color: white;
 }
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  background: #0b132b;
+  color: #eaeaea;
+  margin: 0;
+}
+
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 0.2rem;
+}
+
+.tagline {
+  opacity: 0.8;
+  margin-bottom: 2rem;
+}
+
+.chat-box {
+  background: rgba(255,255,255,0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.bot {
+  margin-bottom: 1rem;
+}
+
+.options {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: block;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: #1c2541;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #3a86ff;
+}
+

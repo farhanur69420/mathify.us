@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Percentage Calculator | Mathify</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header>
+  <h1>📊 Percentage Calculator</h1>
+  <p>Fast. Simple. Exam-friendly.</p>
+</header>
+
+<main>
+  <label>
+    Value:
+    <input type="number" id="value">
+  </label>
+
+  <label>
+    Percentage (%):
+    <input type="number" id="percent">
+  </label>
+
+  <button onclick="calculate()">Calculate</button>
+
+  <h2 id="result"></h2>
+</main>
+
+<script>
+function calculate() {
+  const v = Number(document.getElementById("value").value);
+  const p = Number(document.getElementById("percent").value);
+  document.getElementById("result").innerText =
+    (v * p / 100).toFixed(2);
+}
+</script>
+
+</body>
+</html>
+
