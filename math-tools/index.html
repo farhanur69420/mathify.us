@@ -2,83 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Math Tools | Mathify</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Math Tools | FarMath</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
-<header class="topbar">
-  <div class="logo">FarMath</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="math-tools.html">Math Tools</a>
-    <a href="civil-tools.html">Civil Tools</a>
-    <a href="study-notes.html">Study Notes</a>
-    <a href="about.html">About</a>
-    <button id="themeToggle">🌙</button>
-  </nav>
+
+<header>
+  <h1>Mathify</h1>
+  <p>Choose a topic</p>
 </header>
 
-<main class="hero">
-<h1>Unit Converter</h1>
-<p class="subtitle">Do → Remember → Test</p>
+<main class="content">
 
-<section>
-<h2>Length Converter</h2>
-<input id="lengthInput" type="number" placeholder="Enter value">
-<select id="fromUnit">
-  <option value="m">m</option>
-  <option value="cm">cm</option>
-  <option value="km">km</option>
-  <option value="ft">ft</option>
-</select>
- →
-<select id="toUnit">
-  <option value="m">m</option>
-  <option value="cm">cm</option>
-  <option value="km">km</option>
-  <option value="ft">ft</option>
-</select>
-<button onclick="convertLength()">Convert</button>
-<p id="result"></p>
-</section>
+  <a class="tool-card" href="algebra/">
+    Algebra Basics
+  </a>
 
-<section>
-<h2>Flashcards (Click to flip)</h2>
-<div class="flashcards">
-  <div class="flashcard" onclick="flipCard(this)">
-    <div class="flashcard-inner">
-      <div class="flashcard-face">💡 FAST TRICK: cm → m</div>
-      <div class="flashcard-face flashcard-back">Divide by 100</div>
-    </div>
-  </div>
-  <div class="flashcard" onclick="flipCard(this)">
-    <div class="flashcard-inner">
-      <div class="flashcard-face">🧠 EXAM HACK: m → ft</div>
-      <div class="flashcard-face flashcard-back">Multiply by 3.28</div>
-    </div>
-  </div>
-</div>
-</section>
-
-<section>
-<h2>Quiz (5 Random Questions)</h2>
-
-<p id="quizQ"></p>
-
-<div class="quiz-options">
-  <button id="opt0"></button>
-  <button id="opt1"></button>
-  <button id="opt2"></button>
-</div>
-
-<p id="quizResult"></p>
-<p id="scoreBox"></p>
-</section>
+  <a class="tool-card" href="percentage.html">
+    Percentage Calculator
+  </a>
 
 </main>
 
-<script src="js/theme.js"></script>
-<script src="js/math-tools.js"></script>
 </body>
 </html>
+
