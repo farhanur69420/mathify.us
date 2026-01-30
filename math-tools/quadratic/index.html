@@ -1,0 +1,21 @@
+<h1>Quadratic Solver</h1>
+<p>ax² + bx + c = 0</p>
+
+<input id="a" placeholder="a">
+<input id="b" placeholder="b">
+<input id="c" placeholder="c">
+<button onclick="solve()">Solve</button>
+
+<p id="out"></p>
+
+<script>
+function solve(){
+  let a=+a.value,b=+b.value,c=+c.value;
+  let d=b*b-4*a*c;
+  if(d<0){out.innerText="No real roots";return;}
+  out.innerText =
+    "x = " + ((-b+Math.sqrt(d))/(2*a)).toFixed(2) +
+    ", " + ((-b-Math.sqrt(d))/(2*a)).toFixed(2);
+}
+</script>
+
