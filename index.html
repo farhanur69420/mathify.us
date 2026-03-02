@@ -1,111 +1,541 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Flexural Analysis — Mathify</title>
-<link rel="stylesheet" href="../../css/style.css">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathify — Math & Civil Engineering</title>
+<meta name="description" content="Math and civil engineering resources for students and engineers worldwide">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-.module {
-    max-width: 900px;
-    margin: auto;
-    padding: 40px;
-}
-
-h1 {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-.section {
-    margin: 60px 0;
-}
-
-.highlight {
-    background: rgba(255,0,0,0.1);
-    padding: 15px;
-    border-left: 4px solid red;
-}
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --steel: #2c3e50;
+    --rust: #c0392b;
+    --blueprint: #1a3a5c;
+    --grid: #d4cfc4;
+    --accent: #e67e22;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(26,58,92,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,58,92,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(245,240,232,0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--grid);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--blueprint);
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--steel);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--rust); }
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .hero-text { max-width: 560px; }
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--rust);
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--blueprint);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title span { color: var(--rust); font-style: italic; }
+  .hero-sub {
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--steel);
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: var(--blueprint);
+    color: var(--paper);
+    padding: 1rem 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .hero-cta:hover { background: var(--rust); transform: translateY(-2px); }
+  .hero-cta::after { content: '→'; }
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .blueprint-frame {
+    position: relative;
+    width: 420px;
+    height: 420px;
+    border: 2px solid var(--blueprint);
+  }
+  .blueprint-frame::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(26,58,92,0.3);
+  }
+  .blueprint-frame::after {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 1px solid rgba(26,58,92,0.15);
+  }
+  .blueprint-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .blueprint-label {
+    position: absolute;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--blueprint);
+    opacity: 0.7;
+    letter-spacing: 0.08em;
+  }
+  .blueprint-label.top { top: 6px; left: 50%; transform: translateX(-50%); }
+  .blueprint-label.bottom { bottom: 6px; left: 50%; transform: translateX(-50%); }
+  .blueprint-label.left { left: 6px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+  .blueprint-label.right { right: 6px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+  section { position: relative; z-index: 1; padding: 6rem 4rem; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--rust);
+    letter-spacing: 0.1em;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    color: var(--blueprint);
+  }
+  .topics { background: var(--blueprint); color: var(--paper); }
+  .topics .section-title { color: var(--paper); }
+  .topics .section-num { color: var(--accent); }
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+  }
+  .topic-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 2.5rem;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .topic-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-3px); }
+  .topic-card:hover::before { transform: scaleX(1); }
+  .topic-icon { font-size: 2rem; margin-bottom: 1.2rem; }
+  .topic-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: #fff;
+  }
+  .topic-desc {
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.7);
+  }
+  .topic-tag {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.25rem 0.6rem;
+  }
+  .formulas-section { background: var(--paper); }
+  .formulas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .formula-card {
+    border: 1px solid var(--grid);
+    padding: 2rem;
+    background: white;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .formula-card:hover {
+    box-shadow: 6px 6px 0 var(--blueprint);
+    transform: translate(-3px, -3px);
+  }
+  .formula-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--rust);
+    margin-bottom: 0.8rem;
+  }
+  .formula-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--blueprint);
+    margin-bottom: 1rem;
+  }
+  .formula-expr {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 0.8rem 1rem;
+    border-left: 3px solid var(--accent);
+    margin-bottom: 1rem;
+  }
+  .formula-desc { font-size: 0.85rem; line-height: 1.6; color: #555; }
+  .about-section {
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-section .section-title { color: var(--paper); }
+  .about-section .section-num { color: var(--accent); }
+  .about-text { font-size: 1.05rem; line-height: 1.8; color: rgba(245,240,232,0.8); }
+  .about-text p + p { margin-top: 1.2rem; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .stat-box {
+    padding: 2rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.5);
+    margin-top: 0.5rem;
+  }
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--grid);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: #999;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes drawLine {
+    from { stroke-dashoffset: 1000; }
+    to { stroke-dashoffset: 0; }
+  }
+  .hero-text > * { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+  .hero-eyebrow { animation-delay: 0.1s; }
+  .hero-title { animation-delay: 0.3s; }
+  .hero-sub { animation-delay: 0.5s; }
+  .hero-cta { animation-delay: 0.7s; }
+  .animated-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLine 3s ease forwards;
+    animation-delay: 0.5s;
+  }
+  @media (max-width: 900px) {
+    nav { padding: 1rem 2rem; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; }
+    .hero-visual { display: none; }
+    section { padding: 4rem 2rem; }
+    .about-section { grid-template-columns: 1fr; gap: 3rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
 </style>
 </head>
-
 <body>
-
-<div class="module">
-
-<h1>Flexural Analysis of RC Beam</h1>
-<p><i>The 3-sided coin: Civil • Physics • Math</i></p>
-
-<hr>
-
-<div class="section">
-<h2>🧱 CIVIL ENGINEERING VIEW</h2>
-
-<p>
-When a beam carries load, it bends.
-Top fibers compress.
-Bottom fibers stretch.
-</p>
-
-<div class="highlight">
-Concrete is strong in compression but weak in tension.
-That’s why steel bars are placed at the bottom.
-</div>
-
-</div>
-
-<div class="section">
-<h2>⚡ PHYSICS VIEW</h2>
-
-<p>
-Bending creates internal stress.
-The farther from the neutral axis → the greater the stress.
-</p>
-
-<p>
-This follows Hooke’s Law:
-</p>
-
-<h3>σ = Eε</h3>
-
-</div>
-
-<div class="section">
-<h2>📐 MATH VIEW</h2>
-
-<p>The bending stress formula:</p>
-
-<h2>σ = My / I</h2>
-
-<ul>
-<li>M = bending moment</li>
-<li>y = distance from neutral axis</li>
-<li>I = moment of inertia</li>
-</ul>
-
-</div>
-
-<div class="section">
-<h2>🧠 THE CORE IDEA</h2>
-
-<div class="highlight">
-Civil = Real Structure  
-Physics = Why forces behave  
-Math = How we calculate them
-</div>
-
-<p>
-These are not separate subjects.
-They are three sides of one coin.
-</p>
-
-</div>
-
-<div class="section">
-<h2>Next: Transformed Section Method →</h2>
-<p>Coming in the next lesson.</p>
-</div>
-
-</div>
-
+<nav>
+  <div class="nav-logo">∑ Mathify</div>
+  <ul class="nav-links">
+    <li><a href="#topics">Topics</a></li>
+    <li><a href="#formulas">Formulas</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Math · Civil Engineering · For Everyone</div>
+    <h1 class="hero-title">Where Numbers<br>Meet <span>Structure</span></h1>
+    <p class="hero-sub">From basics to far-advanced learning — exploring the elegant mathematics behind the built world. For students and engineers everywhere.</p>
+    <a href="#topics" class="hero-cta">Explore Topics</a>
+  </div>
+  <div class="hero-visual">
+    <div class="blueprint-frame">
+      <span class="blueprint-label top">ELEVATION — A</span>
+      <span class="blueprint-label bottom">SCALE 1:100</span>
+      <span class="blueprint-label left">SECTION</span>
+      <span class="blueprint-label right">REV 01</span>
+      <svg class="blueprint-svg" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#1a3a5c" stroke-width="1.5" opacity="0.5">
+          <line x1="40" y1="40" x2="380" y2="40" stroke-dasharray="4 4" stroke-width="0.5"/>
+          <line x1="40" y1="80" x2="380" y2="80" stroke-dasharray="4 4" stroke-width="0.5"/>
+          <line x1="40" y1="340" x2="380" y2="340" stroke-dasharray="4 4" stroke-width="0.5"/>
+          <line x1="40" y1="380" x2="380" y2="380" stroke-dasharray="4 4" stroke-width="0.5"/>
+          <line x1="40" y1="40" x2="40" y2="380" stroke-dasharray="4 4" stroke-width="0.5"/>
+          <line x1="380" y1="40" x2="380" y2="380" stroke-dasharray="4 4" stroke-width="0.5"/>
+        </g>
+        <line class="animated-line" x1="60" y1="260" x2="360" y2="260" stroke="#1a3a5c" stroke-width="3"/>
+        <polyline class="animated-line" points="60,260 60,160 360,160 360,260" stroke="#1a3a5c" stroke-width="2" fill="none" style="animation-delay:0.8s"/>
+        <line class="animated-line" x1="60" y1="260" x2="120" y2="160" stroke="#c0392b" stroke-width="1.5" style="animation-delay:1.2s"/>
+        <line class="animated-line" x1="120" y1="160" x2="180" y2="260" stroke="#1a3a5c" stroke-width="1.5" style="animation-delay:1.4s"/>
+        <line class="animated-line" x1="180" y1="260" x2="240" y2="160" stroke="#c0392b" stroke-width="1.5" style="animation-delay:1.6s"/>
+        <line class="animated-line" x1="240" y1="160" x2="300" y2="260" stroke="#1a3a5c" stroke-width="1.5" style="animation-delay:1.8s"/>
+        <line class="animated-line" x1="300" y1="260" x2="360" y2="160" stroke="#c0392b" stroke-width="1.5" style="animation-delay:2.0s"/>
+        <line class="animated-line" x1="120" y1="160" x2="120" y2="260" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="5 3" style="animation-delay:2.2s"/>
+        <line class="animated-line" x1="180" y1="160" x2="180" y2="260" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="5 3" style="animation-delay:2.3s"/>
+        <line class="animated-line" x1="240" y1="160" x2="240" y2="260" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="5 3" style="animation-delay:2.4s"/>
+        <line class="animated-line" x1="300" y1="160" x2="300" y2="260" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="5 3" style="animation-delay:2.5s"/>
+        <rect class="animated-line" x="50" y="260" width="20" height="60" fill="rgba(26,58,92,0.15)" style="animation-delay:2.6s"/>
+        <rect class="animated-line" x="350" y="260" width="20" height="60" fill="rgba(26,58,92,0.15)" style="animation-delay:2.6s"/>
+        <line x1="60" y1="340" x2="360" y2="340" stroke="#e67e22" stroke-width="1"/>
+        <line x1="60" y1="335" x2="60" y2="345" stroke="#e67e22" stroke-width="1"/>
+        <line x1="360" y1="335" x2="360" y2="345" stroke="#e67e22" stroke-width="1"/>
+        <text x="210" y="355" font-family="Space Mono" font-size="9" fill="#e67e22" text-anchor="middle">L = SPAN</text>
+        <text x="210" y="145" font-family="Space Mono" font-size="9" fill="#c0392b" text-anchor="middle">σ = M·y / I</text>
+        <circle cx="60" cy="260" r="4" fill="#1a3a5c"/>
+        <circle cx="360" cy="260" r="4" fill="#1a3a5c"/>
+        <circle cx="60" cy="160" r="3" fill="rgba(26,58,92,0.5)"/>
+        <circle cx="360" cy="160" r="3" fill="rgba(26,58,92,0.5)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+<section class="topics" id="topics">
+  <div class="section-header">
+    <span class="section-num">01 —</span>
+    <h2 class="section-title">Topics Covered</h2>
+  </div>
+  <div class="topics-grid">
+    <div class="topic-card">
+      <div class="topic-icon">∫</div>
+      <div class="topic-name">Calculus & Analysis</div>
+      <p class="topic-desc">Derivatives, integrals, differential equations, and their applications to real-world physical systems and structural analysis.</p>
+      <span class="topic-tag">Mathematics</span>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">⊕</div>
+      <div class="topic-name">Linear Algebra</div>
+      <p class="topic-desc">Matrices, vectors, transformations, and eigenvalues — the backbone of structural analysis, finite element methods, and more.</p>
+      <span class="topic-tag">Mathematics</span>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">🏗</div>
+      <div class="topic-name">Structural Engineering</div>
+      <p class="topic-desc">Beams, trusses, frames, stress and strain analysis — how structures carry load and why they (sometimes) fail.</p>
+      <span class="topic-tag">Civil Engineering</span>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">💧</div>
+      <div class="topic-name">Fluid Mechanics</div>
+      <p class="topic-desc">Hydraulics, pipe flow, open channels, and the mathematics of fluids in motion — essential for drainage and water systems.</p>
+      <span class="topic-tag">Civil Engineering</span>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">📐</div>
+      <div class="topic-name">Geometry & Surveying</div>
+      <p class="topic-desc">Coordinate systems, trigonometry applied to land surveying, and the precision math behind mapping the physical world.</p>
+      <span class="topic-tag">Both</span>
+    </div>
+    <div class="topic-card">
+      <div class="topic-icon">🌍</div>
+      <div class="topic-name">Geotechnical Basics</div>
+      <p class="topic-desc">Soil mechanics, bearing capacity, and how the ground beneath a structure behaves under load — from equations to intuition.</p>
+      <span class="topic-tag">Civil Engineering</span>
+    </div>
+  </div>
+</section>
+<section class="formulas-section" id="formulas">
+  <div class="section-header">
+    <span class="section-num">02 —</span>
+    <h2 class="section-title">Essential Formulas</h2>
+  </div>
+  <div class="formulas-grid">
+    <div class="formula-card">
+      <div class="formula-category">Structural Engineering</div>
+      <div class="formula-name">Bending Stress</div>
+      <div class="formula-expr">σ = M · y / I</div>
+      <p class="formula-desc">The bending stress in a beam at distance y from the neutral axis, where M is the bending moment and I is the second moment of area.</p>
+    </div>
+    <div class="formula-card">
+      <div class="formula-category">Fluid Mechanics</div>
+      <div class="formula-name">Bernoulli's Equation</div>
+      <div class="formula-expr">P + ½ρv² + ρgh = const</div>
+      <p class="formula-desc">Energy conservation along a streamline — relates pressure, velocity, and elevation in ideal fluid flow.</p>
+    </div>
+    <div class="formula-card">
+      <div class="formula-category">Mathematics</div>
+      <div class="formula-name">Euler's Identity</div>
+      <div class="formula-expr">e^(iπ) + 1 = 0</div>
+      <p class="formula-desc">Often called the most beautiful equation in mathematics — connecting five fundamental constants in one elegant expression.</p>
+    </div>
+    <div class="formula-card">
+      <div class="formula-category">Structural Engineering</div>
+      <div class="formula-name">Euler's Buckling Load</div>
+      <div class="formula-expr">P_cr = π²EI / (KL)²</div>
+      <p class="formula-desc">The critical compressive load at which a slender column will buckle, depending on its stiffness EI and effective length KL.</p>
+    </div>
+    <div class="formula-card">
+      <div class="formula-category">Mathematics</div>
+      <div class="formula-name">Taylor Series</div>
+      <div class="formula-expr">f(x) = Σ fⁿ(a)/n! · (x-a)ⁿ</div>
+      <p class="formula-desc">Approximating any smooth function as an infinite polynomial — the foundation of numerical methods in engineering.</p>
+    </div>
+    <div class="formula-card">
+      <div class="formula-category">Geotechnical</div>
+      <div class="formula-name">Terzaghi Bearing Capacity</div>
+      <div class="formula-expr">q_u = cNc + qNq + ½γBNγ</div>
+      <p class="formula-desc">The ultimate bearing capacity of shallow foundations in soil, combining cohesion, surcharge, and soil weight contributions.</p>
+    </div>
+  </div>
+</section>
+<section class="about-section" id="about">
+  <div>
+    <div class="section-header">
+      <span class="section-num">03 —</span>
+      <h2 class="section-title">About Mathify</h2>
+    </div>
+    <div class="about-text">
+      <p>Mathify is a growing resource for anyone curious about the mathematics that underpins the built world. Whether you're a student, a practicing engineer, or simply someone who likes understanding how things work — you're in the right place.</p>
+      <p>New topics, worked examples, and deep dives will be added regularly. The goal is clarity over complexity — showing that even advanced engineering concepts become accessible with the right explanation.</p>
+      <p>From basics to far-advanced learning, for students and engineers everywhere in the world.</p>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Topic Areas</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Key Formulas</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Things to Learn</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">🌍</div>
+      <div class="stat-label">For Everyone</div>
+    </div>
+  </div>
+</section>
+<footer>
+  <span>∑ Mathify — Math & Civil Engineering</span>
+  <span>From basics to far-advanced learning</span>
+</footer>
 </body>
 </html>
