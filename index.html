@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mathify \u2014 Math & Civil Engineering</title>
-<meta name="description" content="Math and civil engineering resources for students and engineers worldwide \u2014 from basics to advanced learning.">
-<meta property="og:title" content="Mathify \u2014 Math & Civil Engineering">
+<title>Mathify — Math & Civil Engineering</title>
+<meta name="description" content="Math and civil engineering resources for students and engineers worldwide — from basics to advanced learning.">
+<meta property="og:title" content="Mathify — Math & Civil Engineering">
 <meta property="og:description" content="From basics to far-advanced learning. For students and engineers everywhere.">
 <meta property="og:url" content="https://mathify.us">
 <meta name="theme-color" content="#1a3a5c">
@@ -34,7 +34,6 @@
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
     overflow-x: hidden;
-    transition: font-family 0.2s;
   }
   body.rtl { direction: rtl; text-align: right; }
   body::before {
@@ -48,8 +47,6 @@
     pointer-events: none;
     z-index: 0;
   }
-
-  /* NAV */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -88,8 +85,6 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--rust); }
-
-  /* LANGUAGE SWITCHER */
   .lang-switcher {
     display: flex;
     gap: 0.3rem;
@@ -105,15 +100,12 @@
     color: var(--steel);
     cursor: pointer;
     transition: all 0.2s;
-    letter-spacing: 0.05em;
   }
   .lang-btn:hover, .lang-btn.active {
     background: var(--blueprint);
     color: var(--paper);
     border-color: var(--blueprint);
   }
-
-  /* HERO */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -176,6 +168,7 @@
     border: 1px solid var(--blueprint);
     color: var(--blueprint);
   }
+  .hero-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .hero-cta {
     display: inline-flex;
     align-items: center;
@@ -189,11 +182,9 @@
     text-transform: uppercase;
     text-decoration: none;
     transition: background 0.2s, transform 0.2s;
-    margin-right: 1rem;
-    margin-bottom: 0.5rem;
   }
   .hero-cta:hover { background: var(--rust); transform: translateY(-2px); }
-  .hero-cta::after { content: '\u2192'; }
+  .hero-cta::after { content: '→'; }
   .hero-cta.secondary {
     background: transparent;
     color: var(--blueprint);
@@ -201,13 +192,7 @@
   }
   .hero-cta.secondary:hover { background: var(--blueprint); color: var(--paper); }
   .hero-cta.secondary::after { content: ''; }
-
-  /* BLUEPRINT VISUAL */
-  .hero-visual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  .hero-visual { display: flex; justify-content: center; align-items: center; }
   .blueprint-frame {
     position: relative;
     width: 400px;
@@ -227,14 +212,11 @@
     font-size: 0.58rem;
     color: var(--blueprint);
     opacity: 0.6;
-    letter-spacing: 0.06em;
   }
   .blueprint-label.top { top: 5px; left: 50%; transform: translateX(-50%); }
   .blueprint-label.bottom { bottom: 5px; left: 50%; transform: translateX(-50%); }
   .blueprint-label.left { left: 5px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
   .blueprint-label.right { right: 5px; top: 50%; transform: translateY(-50%) rotate(90deg); }
-
-  /* SECTIONS */
   section { position: relative; z-index: 1; padding: 6rem 4rem; }
   .section-header {
     display: flex;
@@ -255,8 +237,6 @@
     font-weight: 700;
     color: var(--blueprint);
   }
-
-  /* QUICK LINKS (existing pages) */
   .quicklinks { background: white; border-top: 3px solid var(--blueprint); }
   .quicklinks-grid {
     display: grid;
@@ -283,13 +263,7 @@
     color: var(--blueprint);
     margin-bottom: 0.4rem;
   }
-  .qlink-desc {
-    font-size: 0.82rem;
-    color: #666;
-    line-height: 1.5;
-  }
-
-  /* TOPICS */
+  .qlink-desc { font-size: 0.82rem; color: #666; line-height: 1.5; }
   .topics { background: var(--blueprint); color: var(--paper); }
   .topics .section-title { color: var(--paper); }
   .topics .section-num { color: var(--accent); }
@@ -350,8 +324,6 @@
     border: 1px solid var(--accent);
     padding: 0.2rem 0.5rem;
   }
-
-  /* FORMULAS */
   .formulas-section { background: var(--paper); }
   .formulas-grid {
     display: grid;
@@ -384,17 +356,17 @@
     margin-bottom: 0.8rem;
   }
   .formula-expr {
-    font-family: 'Space Mono', monospace;
     font-size: 1rem;
     background: var(--paper);
     padding: 0.8rem 1rem;
     border-left: 3px solid var(--accent);
     margin-bottom: 0.8rem;
     overflow-x: auto;
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
   }
   .formula-desc { font-size: 0.83rem; line-height: 1.65; color: #555; }
-
-  /* ABOUT */
   .about-section {
     background: var(--ink);
     color: var(--paper);
@@ -428,8 +400,6 @@
     color: rgba(245,240,232,0.45);
     margin-top: 0.4rem;
   }
-
-  /* FOOTER */
   footer {
     position: relative;
     z-index: 1;
@@ -445,8 +415,6 @@
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-
-  /* ANIMATIONS */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
@@ -467,8 +435,6 @@
     animation: drawLine 2.8s ease forwards;
     animation-delay: 0.6s;
   }
-
-  /* RESPONSIVE */
   @media (max-width: 960px) {
     nav { padding: 0.8rem 1.5rem; }
     .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
@@ -481,9 +447,8 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">\u2211 Mathify</a>
+  <a class="nav-logo" href="#">∑ Mathify</a>
   <ul class="nav-links">
     <li><a href="#pages" data-i18n="nav_pages">Pages</a></li>
     <li><a href="#topics" data-i18n="nav_topics">Topics</a></li>
@@ -492,21 +457,22 @@
   </ul>
   <div class="lang-switcher">
     <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('hi')">\u0939\u093f</button>
-    <button class="lang-btn" onclick="setLang('ar')">\u0639</button>
+    <button class="lang-btn" onclick="setLang('hi')">हि</button>
+    <button class="lang-btn" onclick="setLang('ar')">ع</button>
     <button class="lang-btn" onclick="setLang('es')">ES</button>
     <button class="lang-btn" onclick="setLang('fr')">FR</button>
-    <button class="lang-btn" onclick="setLang('bn')">\u09ac\u09be</button>
-    <button class="lang-btn" onclick="setLang('zh')">\u4e2d</button>
+    <button class="lang-btn" onclick="setLang('bn')">বা</button>
+    <button class="lang-btn" onclick="setLang('zh')">中</button>
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-text">
-    <div class="hero-eyebrow" data-i18n="hero_eyebrow">Math \u00b7 Civil Engineering \u00b7 For Everyone</div>
-    <h1 class="hero-title" data-i18n="hero_title">Where Numbers<br>Meet <span data-i18n="hero_title_span">Structure</span></h1>
-    <p class="hero-sub" data-i18n="hero_sub">From basics to far-advanced learning \u2014 exploring the mathematics behind the built world. Free for students and engineers everywhere.</p>
+    <div class="hero-eyebrow" data-i18n="hero_eyebrow">Math · Civil Engineering · For Everyone</div>
+    <h1 class="hero-title">
+      <span data-i18n="hero_title_line1">Where Numbers<br>Meet </span><span data-i18n="hero_title_span" style="color:var(--rust);font-style:italic">Structure</span>
+    </h1>
+    <p class="hero-sub" data-i18n="hero_sub">From basics to far-advanced learning — exploring the mathematics behind the built world. Free for students and engineers everywhere.</p>
     <div class="hero-audience">
       <span class="audience-tag" data-i18n="aud_hs">High School</span>
       <span class="audience-tag" data-i18n="aud_uni">University</span>
@@ -520,7 +486,7 @@
   </div>
   <div class="hero-visual">
     <div class="blueprint-frame">
-      <span class="blueprint-label top">ELEVATION \u2014 A</span>
+      <span class="blueprint-label top">ELEVATION — A</span>
       <span class="blueprint-label bottom">SCALE 1:100</span>
       <span class="blueprint-label left">SECTION</span>
       <span class="blueprint-label right">REV 01</span>
@@ -548,7 +514,7 @@
         <line x1="55" y1="325" x2="55" y2="335" stroke="#e67e22" stroke-width="1"/>
         <line x1="345" y1="325" x2="345" y2="335" stroke="#e67e22" stroke-width="1"/>
         <text x="200" y="348" font-family="Space Mono" font-size="8" fill="#e67e22" text-anchor="middle">L = SPAN</text>
-        <text x="200" y="142" font-family="Space Mono" font-size="8" fill="#c0392b" text-anchor="middle">\u03c3 = M\u00b7y / I</text>
+        <text x="200" y="142" font-family="Space Mono" font-size="8" fill="#c0392b" text-anchor="middle">σ = M·y / I</text>
         <circle cx="55" cy="255" r="4" fill="#1a3a5c"/>
         <circle cx="345" cy="255" r="4" fill="#1a3a5c"/>
       </svg>
@@ -556,220 +522,425 @@
   </div>
 </section>
 
-<!-- QUICK LINKS TO EXISTING PAGES -->
 <section class="quicklinks" id="pages">
   <div class="section-header">
-    <span class="section-num">00 \u2014</span>
+    <span class="section-num">00 —</span>
     <h2 class="section-title" data-i18n="pages_title">Explore the Site</h2>
   </div>
   <div class="quicklinks-grid">
     <a href="civil-tools.html" class="qlink-card">
-      <div class="qlink-icon">\ud83c\udfd7\ufe0f</div>
+      <div class="qlink-icon">🏗️</div>
       <div class="qlink-name" data-i18n="page_civil">Civil Tools</div>
       <p class="qlink-desc" data-i18n="page_civil_desc">Engineering calculators and tools for civil and structural work.</p>
     </a>
     <a href="study-notes.html" class="qlink-card">
-      <div class="qlink-icon">\ud83d\udcd6</div>
+      <div class="qlink-icon">📖</div>
       <div class="qlink-name" data-i18n="page_notes">Study Notes</div>
       <p class="qlink-desc" data-i18n="page_notes_desc">Concise notes on math and engineering topics for quick revision.</p>
     </a>
     <a href="about.html" class="qlink-card">
-      <div class="qlink-icon">\ud83d\udc64</div>
+      <div class="qlink-icon">👤</div>
       <div class="qlink-name" data-i18n="page_about">About</div>
       <p class="qlink-desc" data-i18n="page_about_desc">Learn more about Mathify and its mission to make learning accessible.</p>
     </a>
     <a href="status.html" class="qlink-card">
-      <div class="qlink-icon">\ud83d\udcca</div>
+      <div class="qlink-icon">📊</div>
       <div class="qlink-name" data-i18n="page_status">Status</div>
       <p class="qlink-desc" data-i18n="page_status_desc">Track what's being built and what's coming next on Mathify.</p>
     </a>
   </div>
 </section>
 
-<!-- TOPICS -->
-<section class="topics" id="topi; }
-  }
-</style>
-</head>
-<body>
-<nav>
-  <div class="nav-logo">∑ Mathify</div>
-  <ul class="nav-links">
-    <li><a href="#topics">Topics</a></li>
-    <li><a href="#formulas">Formulas</a></li>
-    <li><a href="#about">About</a></li>
-  </ul>
-</nav>
-<section class="hero">
-  <div class="hero-text">
-    <div class="hero-eyebrow">Math · Civil Engineering · For Everyone</div>
-    <h1 class="hero-title">Where Numbers<br>Meet <span>Structure</span></h1>
-    <p class="hero-sub">From basics to far-advanced learning — exploring the elegant mathematics behind the built world. For students and engineers everywhere.</p>
-    <a href="#topics" class="hero-cta">Explore Topics</a>
-  </div>
-  <div class="hero-visual">
-    <div class="blueprint-frame">
-      <span class="blueprint-label top">ELEVATION — A</span>
-      <span class="blueprint-label bottom">SCALE 1:100</span>
-      <span class="blueprint-label left">SECTION</span>
-      <span class="blueprint-label right">REV 01</span>
-      <svg class="blueprint-svg" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#1a3a5c" stroke-width="1.5" opacity="0.5">
-          <line x1="40" y1="40" x2="380" y2="40" stroke-dasharray="4 4" stroke-width="0.5"/>
-          <line x1="40" y1="80" x2="380" y2="80" stroke-dasharray="4 4" stroke-width="0.5"/>
-          <line x1="40" y1="340" x2="380" y2="340" stroke-dasharray="4 4" stroke-width="0.5"/>
-          <line x1="40" y1="380" x2="380" y2="380" stroke-dasharray="4 4" stroke-width="0.5"/>
-          <line x1="40" y1="40" x2="40" y2="380" stroke-dasharray="4 4" stroke-width="0.5"/>
-          <line x1="380" y1="40" x2="380" y2="380" stroke-dasharray="4 4" stroke-width="0.5"/>
-        </g>
-        <line class="animated-line" x1="60" y1="260" x2="360" y2="260" stroke="#1a3a5c" stroke-width="3"/>
-        <polyline class="animated-line" points="60,260 60,160 360,160 360,260" stroke="#1a3a5c" stroke-width="2" fill="none" style="animation-delay:0.8s"/>
-        <line class="animated-line" x1="60" y1="260" x2="120" y2="160" stroke="#c0392b" stroke-width="1.5" style="animation-delay:1.2s"/>
-        <line class="animated-line" x1="120" y1="160" x2="180" y2="260" stroke="#1a3a5c" stroke-width="1.5" style="animation-delay:1.4s"/>
-        <line class="animated-line" x1="180" y1="260" x2="240" y2="160" stroke="#c0392b" stroke-width="1.5" style="animation-delay:1.6s"/>
-        <line class="animated-line" x1="240" y1="160" x2="300" y2="260" stroke="#1a3a5c" stroke-width="1.5" style="animation-delay:1.8s"/>
-        <line class="animated-line" x1="300" y1="260" x2="360" y2="160" stroke="#c0392b" stroke-width="1.5" style="animation-delay:2.0s"/>
-        <line class="animated-line" x1="120" y1="160" x2="120" y2="260" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="5 3" style="animation-delay:2.2s"/>
-        <line class="animated-line" x1="180" y1="160" x2="180" y2="260" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="5 3" style="animation-delay:2.3s"/>
-        <line class="animated-line" x1="240" y1="160" x2="240" y2="260" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="5 3" style="animation-delay:2.4s"/>
-        <line class="animated-line" x1="300" y1="160" x2="300" y2="260" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="5 3" style="animation-delay:2.5s"/>
-        <rect class="animated-line" x="50" y="260" width="20" height="60" fill="rgba(26,58,92,0.15)" style="animation-delay:2.6s"/>
-        <rect class="animated-line" x="350" y="260" width="20" height="60" fill="rgba(26,58,92,0.15)" style="animation-delay:2.6s"/>
-        <line x1="60" y1="340" x2="360" y2="340" stroke="#e67e22" stroke-width="1"/>
-        <line x1="60" y1="335" x2="60" y2="345" stroke="#e67e22" stroke-width="1"/>
-        <line x1="360" y1="335" x2="360" y2="345" stroke="#e67e22" stroke-width="1"/>
-        <text x="210" y="355" font-family="Space Mono" font-size="9" fill="#e67e22" text-anchor="middle">L = SPAN</text>
-        <text x="210" y="145" font-family="Space Mono" font-size="9" fill="#c0392b" text-anchor="middle">σ = M·y / I</text>
-        <circle cx="60" cy="260" r="4" fill="#1a3a5c"/>
-        <circle cx="360" cy="260" r="4" fill="#1a3a5c"/>
-        <circle cx="60" cy="160" r="3" fill="rgba(26,58,92,0.5)"/>
-        <circle cx="360" cy="160" r="3" fill="rgba(26,58,92,0.5)"/>
-      </svg>
-    </div>
-  </div>
-</section>
 <section class="topics" id="topics">
   <div class="section-header">
     <span class="section-num">01 —</span>
-    <h2 class="section-title">Topics Covered</h2>
+    <h2 class="section-title" data-i18n="topics_title">Topics Covered</h2>
   </div>
   <div class="topics-grid">
     <div class="topic-card">
+      <div class="topic-level" data-i18n="level_hs">High School → University</div>
       <div class="topic-icon">∫</div>
-      <div class="topic-name">Calculus & Analysis</div>
-      <p class="topic-desc">Derivatives, integrals, differential equations, and their applications to real-world physical systems and structural analysis.</p>
+      <div class="topic-name" data-i18n="topic1">Calculus & Analysis</div>
+      <p class="topic-desc" data-i18n="topic1_desc">Derivatives, integrals, differential equations, and their applications to real-world physical systems.</p>
       <span class="topic-tag">Mathematics</span>
     </div>
     <div class="topic-card">
+      <div class="topic-level" data-i18n="level_uni">University → Professional</div>
       <div class="topic-icon">⊕</div>
-      <div class="topic-name">Linear Algebra</div>
-      <p class="topic-desc">Matrices, vectors, transformations, and eigenvalues — the backbone of structural analysis, finite element methods, and more.</p>
+      <div class="topic-name" data-i18n="topic2">Linear Algebra</div>
+      <p class="topic-desc" data-i18n="topic2_desc">Matrices, vectors, transformations, and eigenvalues — the backbone of structural analysis and finite element methods.</p>
       <span class="topic-tag">Mathematics</span>
     </div>
     <div class="topic-card">
-      <div class="topic-icon">🏗</div>
-      <div class="topic-name">Structural Engineering</div>
-      <p class="topic-desc">Beams, trusses, frames, stress and strain analysis — how structures carry load and why they (sometimes) fail.</p>
+      <div class="topic-level" data-i18n="level_uni">University → Professional</div>
+      <div class="topic-icon">🏗️</div>
+      <div class="topic-name" data-i18n="topic3">Structural Engineering</div>
+      <p class="topic-desc" data-i18n="topic3_desc">Beams, trusses, frames, stress and strain analysis — how structures carry load and why they (sometimes) fail.</p>
       <span class="topic-tag">Civil Engineering</span>
     </div>
     <div class="topic-card">
+      <div class="topic-level" data-i18n="level_all">All Levels</div>
       <div class="topic-icon">💧</div>
-      <div class="topic-name">Fluid Mechanics</div>
-      <p class="topic-desc">Hydraulics, pipe flow, open channels, and the mathematics of fluids in motion — essential for drainage and water systems.</p>
+      <div class="topic-name" data-i18n="topic4">Fluid Mechanics</div>
+      <p class="topic-desc" data-i18n="topic4_desc">Hydraulics, pipe flow, open channels, and the mathematics of fluids in motion — essential for drainage and water systems.</p>
       <span class="topic-tag">Civil Engineering</span>
     </div>
     <div class="topic-card">
+      <div class="topic-level" data-i18n="level_hs">High School → University</div>
       <div class="topic-icon">📐</div>
-      <div class="topic-name">Geometry & Surveying</div>
-      <p class="topic-desc">Coordinate systems, trigonometry applied to land surveying, and the precision math behind mapping the physical world.</p>
+      <div class="topic-name" data-i18n="topic5">Geometry & Surveying</div>
+      <p class="topic-desc" data-i18n="topic5_desc">Coordinate systems, trigonometry applied to land surveying, and the precision math behind mapping the physical world.</p>
       <span class="topic-tag">Both</span>
     </div>
     <div class="topic-card">
+      <div class="topic-level" data-i18n="level_uni">University → Professional</div>
       <div class="topic-icon">🌍</div>
-      <div class="topic-name">Geotechnical Basics</div>
-      <p class="topic-desc">Soil mechanics, bearing capacity, and how the ground beneath a structure behaves under load — from equations to intuition.</p>
+      <div class="topic-name" data-i18n="topic6">Geotechnical Basics</div>
+      <p class="topic-desc" data-i18n="topic6_desc">Soil mechanics, bearing capacity, and how the ground beneath a structure behaves under load — from equations to intuition.</p>
       <span class="topic-tag">Civil Engineering</span>
     </div>
   </div>
 </section>
+
 <section class="formulas-section" id="formulas">
   <div class="section-header">
     <span class="section-num">02 —</span>
-    <h2 class="section-title">Essential Formulas</h2>
+    <h2 class="section-title" data-i18n="formulas_title">Essential Formulas</h2>
   </div>
   <div class="formulas-grid">
     <div class="formula-card">
       <div class="formula-category">Structural Engineering</div>
-      <div class="formula-name">Bending Stress</div>
-      <div class="formula-expr">σ = M · y / I</div>
-      <p class="formula-desc">The bending stress in a beam at distance y from the neutral axis, where M is the bending moment and I is the second moment of area.</p>
+      <div class="formula-name" data-i18n="f1">Bending Stress</div>
+      <div class="formula-expr">\( \sigma = \dfrac{M \cdot y}{I} \)</div>
+      <p class="formula-desc" data-i18n="f1_desc">Bending stress at distance y from the neutral axis, where M is the bending moment and I is the second moment of area.</p>
     </div>
     <div class="formula-card">
       <div class="formula-category">Fluid Mechanics</div>
-      <div class="formula-name">Bernoulli's Equation</div>
-      <div class="formula-expr">P + ½ρv² + ρgh = const</div>
-      <p class="formula-desc">Energy conservation along a streamline — relates pressure, velocity, and elevation in ideal fluid flow.</p>
+      <div class="formula-name" data-i18n="f2">Bernoulli's Equation</div>
+      <div class="formula-expr">\( P + \tfrac{1}{2}\rho v^2 + \rho g h = \text{const} \)</div>
+      <p class="formula-desc" data-i18n="f2_desc">Energy conservation along a streamline — relates pressure, velocity, and elevation in ideal fluid flow.</p>
     </div>
     <div class="formula-card">
       <div class="formula-category">Mathematics</div>
-      <div class="formula-name">Euler's Identity</div>
-      <div class="formula-expr">e^(iπ) + 1 = 0</div>
-      <p class="formula-desc">Often called the most beautiful equation in mathematics — connecting five fundamental constants in one elegant expression.</p>
+      <div class="formula-name" data-i18n="f3">Euler's Identity</div>
+      <div class="formula-expr">\( e^{i\pi} + 1 = 0 \)</div>
+      <p class="formula-desc" data-i18n="f3_desc">The most beautiful equation in mathematics — connecting five fundamental constants in one elegant expression.</p>
     </div>
     <div class="formula-card">
       <div class="formula-category">Structural Engineering</div>
-      <div class="formula-name">Euler's Buckling Load</div>
-      <div class="formula-expr">P_cr = π²EI / (KL)²</div>
-      <p class="formula-desc">The critical compressive load at which a slender column will buckle, depending on its stiffness EI and effective length KL.</p>
+      <div class="formula-name" data-i18n="f4">Euler's Buckling Load</div>
+      <div class="formula-expr">\( P_{cr} = \dfrac{\pi^2 EI}{(KL)^2} \)</div>
+      <p class="formula-desc" data-i18n="f4_desc">The critical compressive load at which a slender column will buckle, depending on stiffness EI and effective length KL.</p>
     </div>
     <div class="formula-card">
       <div class="formula-category">Mathematics</div>
-      <div class="formula-name">Taylor Series</div>
-      <div class="formula-expr">f(x) = Σ fⁿ(a)/n! · (x-a)ⁿ</div>
-      <p class="formula-desc">Approximating any smooth function as an infinite polynomial — the foundation of numerical methods in engineering.</p>
+      <div class="formula-name" data-i18n="f5">Taylor Series</div>
+      <div class="formula-expr">\( f(x) = \sum_{n=0}^{\infty} \dfrac{f^{(n)}(a)}{n!}(x-a)^n \)</div>
+      <p class="formula-desc" data-i18n="f5_desc">Approximating any smooth function as an infinite polynomial — the foundation of numerical methods in engineering.</p>
     </div>
     <div class="formula-card">
       <div class="formula-category">Geotechnical</div>
-      <div class="formula-name">Terzaghi Bearing Capacity</div>
-      <div class="formula-expr">q_u = cNc + qNq + ½γBNγ</div>
-      <p class="formula-desc">The ultimate bearing capacity of shallow foundations in soil, combining cohesion, surcharge, and soil weight contributions.</p>
+      <div class="formula-name" data-i18n="f6">Terzaghi Bearing Capacity</div>
+      <div class="formula-expr">\( q_u = cN_c + qN_q + \tfrac{1}{2}\gamma B N_\gamma \)</div>
+      <p class="formula-desc" data-i18n="f6_desc">The ultimate bearing capacity of shallow foundations in soil, combining cohesion, surcharge, and soil weight contributions.</p>
     </div>
   </div>
 </section>
+
 <section class="about-section" id="about">
   <div>
     <div class="section-header">
       <span class="section-num">03 —</span>
-      <h2 class="section-title">About Mathify</h2>
+      <h2 class="section-title" data-i18n="about_title">About Mathify</h2>
     </div>
     <div class="about-text">
-      <p>Mathify is a growing resource for anyone curious about the mathematics that underpins the built world. Whether you're a student, a practicing engineer, or simply someone who likes understanding how things work — you're in the right place.</p>
-      <p>New topics, worked examples, and deep dives will be added regularly. The goal is clarity over complexity — showing that even advanced engineering concepts become accessible with the right explanation.</p>
-      <p>From basics to far-advanced learning, for students and engineers everywhere in the world.</p>
+      <p data-i18n="about1">Mathify is a free, open resource for anyone curious about the mathematics behind the built world — from a high school student encountering calculus for the first time, to a professional engineer looking for a quick reference.</p>
+      <p data-i18n="about2">New topics, worked examples, interactive tools, and deep dives are added regularly. The goal is clarity over complexity — making advanced engineering concepts accessible to everyone, everywhere.</p>
+      <p data-i18n="about3">Available in 7 languages. Built for the world.</p>
     </div>
   </div>
   <div class="stats-grid">
     <div class="stat-box">
       <div class="stat-num">6</div>
-      <div class="stat-label">Topic Areas</div>
+      <div class="stat-label" data-i18n="stat1">Topic Areas</div>
     </div>
     <div class="stat-box">
       <div class="stat-num">6</div>
-      <div class="stat-label">Key Formulas</div>
+      <div class="stat-label" data-i18n="stat2">Key Formulas</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">7</div>
+      <div class="stat-label" data-i18n="stat3">Languages</div>
     </div>
     <div class="stat-box">
       <div class="stat-num">∞</div>
-      <div class="stat-label">Things to Learn</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num">🌍</div>
-      <div class="stat-label">For Everyone</div>
+      <div class="stat-label" data-i18n="stat4">Things to Learn</div>
     </div>
   </div>
 </section>
+
 <footer>
-  <span>∑ Mathify — Math & Civil Engineering</span>
-  <span>From basics to far-advanced learning</span>
+  <span>∑ Mathify — mathify.us</span>
+  <span data-i18n="footer">Free for students and engineers everywhere · 7 languages</span>
 </footer>
+
+<script>
+const T = {
+  en: {
+    nav_pages:"Pages",nav_topics:"Topics",nav_formulas:"Formulas",nav_about:"About",
+    hero_eyebrow:"Math · Civil Engineering · For Everyone",
+    hero_title_line1:"Where Numbers<br>Meet ",hero_title_span:"Structure",
+    hero_sub:"From basics to far-advanced learning — exploring the mathematics behind the built world. Free for students and engineers everywhere.",
+    aud_hs:"High School",aud_uni:"University",aud_eng:"Engineers",aud_self:"Self-Learners",
+    hero_cta:"Explore Topics",hero_cta2:"View Formulas",
+    pages_title:"Explore the Site",
+    page_civil:"Civil Tools",page_civil_desc:"Engineering calculators and tools for civil and structural work.",
+    page_notes:"Study Notes",page_notes_desc:"Concise notes on math and engineering topics for quick revision.",
+    page_about:"About",page_about_desc:"Learn more about Mathify and its mission to make learning accessible.",
+    page_status:"Status",page_status_desc:"Track what's being built and what's coming next on Mathify.",
+    topics_title:"Topics Covered",
+    level_hs:"High School → University",level_uni:"University → Professional",level_all:"All Levels",
+    topic1:"Calculus & Analysis",topic1_desc:"Derivatives, integrals, differential equations, and their applications to real-world physical systems.",
+    topic2:"Linear Algebra",topic2_desc:"Matrices, vectors, transformations, and eigenvalues — the backbone of structural analysis.",
+    topic3:"Structural Engineering",topic3_desc:"Beams, trusses, frames, stress and strain — how structures carry load.",
+    topic4:"Fluid Mechanics",topic4_desc:"Hydraulics, pipe flow, open channels, and the mathematics of fluids in motion.",
+    topic5:"Geometry & Surveying",topic5_desc:"Trigonometry applied to surveying and the math behind mapping the physical world.",
+    topic6:"Geotechnical Basics",topic6_desc:"Soil mechanics, bearing capacity, and how the ground behaves under load.",
+    formulas_title:"Essential Formulas",
+    f1:"Bending Stress",f1_desc:"Bending stress at distance y from the neutral axis, where M is the bending moment.",
+    f2:"Bernoulli's Equation",f2_desc:"Energy conservation along a streamline in ideal fluid flow.",
+    f3:"Euler's Identity",f3_desc:"The most beautiful equation — connecting five fundamental constants.",
+    f4:"Euler's Buckling Load",f4_desc:"Critical compressive load at which a slender column will buckle.",
+    f5:"Taylor Series",f5_desc:"Approximating any smooth function as an infinite polynomial.",
+    f6:"Terzaghi Bearing Capacity",f6_desc:"Ultimate bearing capacity of shallow foundations in soil.",
+    about_title:"About Mathify",
+    about1:"Mathify is a free, open resource for anyone curious about the mathematics behind the built world — from a high school student to a professional engineer.",
+    about2:"New topics, worked examples, interactive tools, and deep dives are added regularly. The goal is clarity over complexity.",
+    about3:"Available in 7 languages. Built for the world.",
+    stat1:"Topic Areas",stat2:"Key Formulas",stat3:"Languages",stat4:"Things to Learn",
+    footer:"Free for students and engineers everywhere · 7 languages"
+  },
+  hi: {
+    nav_pages:"पृष्ठ",nav_topics:"विषय",nav_formulas:"सूत्र",nav_about:"परिचय",
+    hero_eyebrow:"गणित · सिविल इंजीनियरिंग · सभी के लिए",
+    hero_title_line1:"जहाँ संख्याएँ<br>मिलती हैं ",hero_title_span:"संरचना से",
+    hero_sub:"मूल बातों से उन्नत शिक्षा तक — निर्मित दुनिया के गणित की खोज। दुनिया भर के छात्रों और इंजीनियरों के लिए निःशुल्क।",
+    aud_hs:"हाई स्कूल",aud_uni:"विश्वविद्यालय",aud_eng:"इंजीनियर",aud_self:"स्व-अध्ययन",
+    hero_cta:"विषय देखें",hero_cta2:"सूत्र देखें",
+    pages_title:"साइट का अन्वेषण करें",
+    page_civil:"सिविल टूल्स",page_civil_desc:"सिविल और संरचनात्मक कार्य के लिए इंजीनियरिंग कैलकुलेटर।",
+    page_notes:"अध्ययन नोट्स",page_notes_desc:"त्वरित संशोधन के लिए संक्षिप्त नोट्स।",
+    page_about:"परिचय",page_about_desc:"Mathify और इसके मिशन के बारे में अधिक जानें।",
+    page_status:"स्थिति",page_status_desc:"Mathify पर क्या बन रहा है और आगे क्या आ रहा है।",
+    topics_title:"कवर किए गए विषय",
+    level_hs:"हाई स्कूल → विश्वविद्यालय",level_uni:"विश्वविद्यालय → पेशेवर",level_all:"सभी स्तर",
+    topic1:"कलन और विश्लेषण",topic1_desc:"अवकलन, समाकलन, अवकल समीकरण और उनके अनुप्रयोग।",
+    topic2:"रैखिक बीजगणित",topic2_desc:"आव्यूह, सदिश, रूपांतरण और eigenvalues।",
+    topic3:"संरचनात्मक इंजीनियरिंग",topic3_desc:"बीम, ट्रस, फ्रेम और तनाव विश्लेषण।",
+    topic4:"तरल यांत्रिकी",topic4_desc:"हाइड्रोलिक्स, पाइप प्रवाह और खुली नहरें।",
+    topic5:"ज्यामिति और सर्वेक्षण",topic5_desc:"भूमि सर्वेक्षण पर लागू त्रिकोणमिति।",
+    topic6:"भू-तकनीकी मूल बातें",topic6_desc:"मृदा यांत्रिकी और वहन क्षमता।",
+    formulas_title:"आवश्यक सूत्र",
+    f1:"नमन प्रतिबल",f1_desc:"तटस्थ अक्ष से y दूरी पर बीम में नमन प्रतिबल।",
+    f2:"बर्नौली का समीकरण",f2_desc:"आदर्श द्रव प्रवाह में ऊर्जा संरक्षण।",
+    f3:"ऑयलर की पहचान",f3_desc:"गणित का सबसे सुंदर समीकरण।",
+    f4:"ऑयलर का बकलिंग भार",f4_desc:"वह क्रांतिक भार जिस पर पतला स्तंभ बक्ल होता है।",
+    f5:"टेलर श्रेणी",f5_desc:"किसी भी फ़ंक्शन को अनंत बहुपद के रूप में अनुमानित करना।",
+    f6:"तेर्ज़ाघी वहन क्षमता",f6_desc:"मिट्टी में उथली नींव की अंतिम वहन क्षमता।",
+    about_title:"Mathify के बारे में",
+    about1:"Mathify एक निःशुल्क संसाधन है — हाई स्कूल के छात्र से लेकर पेशेवर इंजीनियर तक, सभी के लिए।",
+    about2:"नए विषय, उदाहरण और इंटरैक्टिव टूल नियमित रूप से जोड़े जाते हैं।",
+    about3:"7 भाषाओं में उपलब्ध। दुनिया के लिए बनाया गया।",
+    stat1:"विषय क्षेत्र",stat2:"मुख्य सूत्र",stat3:"भाषाएँ",stat4:"सीखने योग्य",
+    footer:"दुनिया भर के छात्रों और इंजीनियरों के लिए निःशुल्क · 7 भाषाएँ"
+  },
+  ar: {
+    nav_pages:"الصفحات",nav_topics:"المواضيع",nav_formulas:"المعادلات",nav_about:"عن الموقع",
+    hero_eyebrow:"رياضيات · هندسة مدنية · للجميع",
+    hero_title_line1:"حيث تلتقي الأرقام<br>بـ",hero_title_span:"الهياكل",
+    hero_sub:"من الأساسيات إلى التعلم المتقدم — استكشاف الرياضيات وراء العالم المبني. مجاني للطلاب والمهندسين في كل مكان.",
+    aud_hs:"الثانوية",aud_uni:"الجامعة",aud_eng:"المهندسون",aud_self:"التعلم الذاتي",
+    hero_cta:"استكشف المواضيع",hero_cta2:"عرض المعادلات",
+    pages_title:"استكشف الموقع",
+    page_civil:"أدوات مدنية",page_civil_desc:"حاسبات هندسية لأعمال الهندسة المدنية.",
+    page_notes:"ملاحظات الدراسة",page_notes_desc:"ملاحظات موجزة للمراجعة السريعة.",
+    page_about:"عن الموقع",page_about_desc:"تعرف على Mathify ورسالته.",
+    page_status:"الحالة",page_status_desc:"تتبع ما يُبنى وما هو قادم.",
+    topics_title:"المواضيع المشمولة",
+    level_hs:"ثانوي ← جامعي",level_uni:"جامعي ← احترافي",level_all:"جميع المستويات",
+    topic1:"حساب التفاضل والتكامل",topic1_desc:"المشتقات والتكاملات والمعادلات التفاضلية وتطبيقاتها.",
+    topic2:"الجبر الخطي",topic2_desc:"المصفوفات والمتجهات والتحويلات والقيم الذاتية.",
+    topic3:"الهندسة الإنشائية",topic3_desc:"الكمرات والجمالونات والأطر وتحليل الإجهاد.",
+    topic4:"ميكانيكا الموائع",topic4_desc:"الهيدروليك وجريان الأنابيب والقنوات المفتوحة.",
+    topic5:"الهندسة والمساحة",topic5_desc:"المثلثات المطبقة على المساحة.",
+    topic6:"أساسيات الجيوتقنية",topic6_desc:"ميكانيكا التربة وقدرة التحمل.",
+    formulas_title:"المعادلات الأساسية",
+    f1:"إجهاد الانحناء",f1_desc:"إجهاد الانحناء في الكمرة عند مسافة y من المحور المحايد.",
+    f2:"معادلة برنولي",f2_desc:"الطاقة على طول خط تدفق في السائل المثالي.",
+    f3:"هوية أويلر",f3_desc:"المعادلة الأجمل في الرياضيات.",
+    f4:"حمل انبعاج أويلر",f4_desc:"الحمل الحرج الذي يتعرض له العمود النحيل للانبعاج.",
+    f5:"متسلسلة تايلور",f5_desc:"تقريب أي دالة ناعمة كمتعدد حدود لانهائي.",
+    f6:"قدرة تحمل تيرزاغي",f6_desc:"القدرة القصوى للأساسات الضحلة في التربة.",
+    about_title:"عن Mathify",
+    about1:"Mathify مورد مجاني لأي شخص مهتم بالرياضيات وراء العالم المبني — من طالب ثانوي إلى مهندس محترف.",
+    about2:"تُضاف مواضيع وأمثلة وأدوات جديدة بانتظام. الهدف هو الوضوح فوق التعقيد.",
+    about3:"متاح بـ7 لغات. مصمم للعالم.",
+    stat1:"مجالات المواضيع",stat2:"معادلات أساسية",stat3:"لغات",stat4:"أشياء للتعلم",
+    footer:"مجاني للطلاب والمهندسين في كل مكان · 7 لغات"
+  },
+  es: {
+    nav_pages:"Páginas",nav_topics:"Temas",nav_formulas:"Fórmulas",nav_about:"Acerca de",
+    hero_eyebrow:"Matemáticas · Ingeniería Civil · Para Todos",
+    hero_title_line1:"Donde los Números<br>se Encuentran con ",hero_title_span:"la Estructura",
+    hero_sub:"Desde lo básico hasta el aprendizaje avanzado — explorando las matemáticas detrás del mundo construido. Gratis para estudiantes e ingenieros en todo el mundo.",
+    aud_hs:"Secundaria",aud_uni:"Universidad",aud_eng:"Ingenieros",aud_self:"Autodidactas",
+    hero_cta:"Explorar Temas",hero_cta2:"Ver Fórmulas",
+    pages_title:"Explorar el Sitio",
+    page_civil:"Herramientas Civiles",page_civil_desc:"Calculadoras para ingeniería civil y estructural.",
+    page_notes:"Apuntes de Estudio",page_notes_desc:"Notas concisas para revisión rápida.",
+    page_about:"Acerca de",page_about_desc:"Conoce más sobre Mathify y su misión.",
+    page_status:"Estado",page_status_desc:"Seguimiento de lo que se está construyendo.",
+    topics_title:"Temas Cubiertos",
+    level_hs:"Secundaria → Universidad",level_uni:"Universidad → Profesional",level_all:"Todos los Niveles",
+    topic1:"Cálculo y Análisis",topic1_desc:"Derivadas, integrales, ecuaciones diferenciales y sus aplicaciones.",
+    topic2:"Álgebra Lineal",topic2_desc:"Matrices, vectores, transformaciones y valores propios.",
+    topic3:"Ingeniería Estructural",topic3_desc:"Vigas, armaduras, marcos y análisis de tensión.",
+    topic4:"Mecánica de Fluidos",topic4_desc:"Hidráulica, flujo en tuberías y canales abiertos.",
+    topic5:"Geometría y Topografía",topic5_desc:"Trigonometría aplicada a la topografía.",
+    topic6:"Geotecnia Básica",topic6_desc:"Mecánica del suelo y capacidad portante.",
+    formulas_title:"Fórmulas Esenciales",
+    f1:"Tensión de Flexión",f1_desc:"Tensión de flexión en una viga a distancia y del eje neutro.",
+    f2:"Ecuación de Bernoulli",f2_desc:"Conservación de energía a lo largo de una línea de corriente.",
+    f3:"Identidad de Euler",f3_desc:"La ecuación más bella de las matemáticas.",
+    f4:"Carga de Pandeo de Euler",f4_desc:"Carga crítica a la que una columna esbelta pandea.",
+    f5:"Serie de Taylor",f5_desc:"Aproximar cualquier función suave como un polinomio infinito.",
+    f6:"Capacidad de Carga de Terzaghi",f6_desc:"Capacidad portante última de cimentaciones superficiales.",
+    about_title:"Acerca de Mathify",
+    about1:"Mathify es un recurso gratuito para cualquiera curioso sobre las matemáticas detrás del mundo construido.",
+    about2:"Se agregan nuevos temas, ejemplos resueltos y herramientas regularmente. El objetivo es claridad.",
+    about3:"Disponible en 7 idiomas. Construido para el mundo.",
+    stat1:"Áreas Temáticas",stat2:"Fórmulas Clave",stat3:"Idiomas",stat4:"Cosas que Aprender",
+    footer:"Gratis para estudiantes e ingenieros en todo el mundo · 7 idiomas"
+  },
+  fr: {
+    nav_pages:"Pages",nav_topics:"Sujets",nav_formulas:"Formules",nav_about:"À propos",
+    hero_eyebrow:"Mathématiques · Génie Civil · Pour Tous",
+    hero_title_line1:"Là où les Chiffres<br>Rencontrent la ",hero_title_span:"Structure",
+    hero_sub:"Des bases à l'apprentissage avancé — explorer les mathématiques du monde bâti. Gratuit pour les étudiants et ingénieurs partout.",
+    aud_hs:"Lycée",aud_uni:"Université",aud_eng:"Ingénieurs",aud_self:"Autodidactes",
+    hero_cta:"Explorer les Sujets",hero_cta2:"Voir les Formules",
+    pages_title:"Explorer le Site",
+    page_civil:"Outils Civils",page_civil_desc:"Calculatrices pour le génie civil et structurel.",
+    page_notes:"Notes d'Étude",page_notes_desc:"Notes concises pour révision rapide.",
+    page_about:"À propos",page_about_desc:"En savoir plus sur Mathify et sa mission.",
+    page_status:"Statut",page_status_desc:"Suivre ce qui est en construction.",
+    topics_title:"Sujets Couverts",
+    level_hs:"Lycée → Université",level_uni:"Université → Professionnel",level_all:"Tous Niveaux",
+    topic1:"Calcul & Analyse",topic1_desc:"Dérivées, intégrales, équations différentielles et leurs applications.",
+    topic2:"Algèbre Linéaire",topic2_desc:"Matrices, vecteurs, transformations et valeurs propres.",
+    topic3:"Génie Structurel",topic3_desc:"Poutres, treillis, cadres et analyse des contraintes.",
+    topic4:"Mécanique des Fluides",topic4_desc:"Hydraulique, écoulement en conduite et canaux ouverts.",
+    topic5:"Géométrie & Topographie",topic5_desc:"Trigonométrie appliquée à la topographie.",
+    topic6:"Géotechnique de Base",topic6_desc:"Mécanique des sols et capacité portante.",
+    formulas_title:"Formules Essentielles",
+    f1:"Contrainte de Flexion",f1_desc:"Contrainte de flexion dans une poutre à la distance y de l'axe neutre.",
+    f2:"Équation de Bernoulli",f2_desc:"Conservation d'énergie le long d'une ligne de courant.",
+    f3:"Identité d'Euler",f3_desc:"La plus belle équation des mathématiques.",
+    f4:"Charge Critique de Flambement",f4_desc:"Charge critique à laquelle une colonne élancée flambe.",
+    f5:"Série de Taylor",f5_desc:"Approximer toute fonction lisse comme un polynôme infini.",
+    f6:"Capacité Portante de Terzaghi",f6_desc:"Capacité portante ultime des fondations superficielles.",
+    about_title:"À Propos de Mathify",
+    about1:"Mathify est une ressource gratuite pour quiconque est curieux des mathématiques du monde bâti.",
+    about2:"De nouveaux sujets, exemples et outils sont ajoutés régulièrement. L'objectif est la clarté.",
+    about3:"Disponible en 7 langues. Construit pour le monde.",
+    stat1:"Domaines",stat2:"Formules Clés",stat3:"Langues",stat4:"Choses à Apprendre",
+    footer:"Gratuit pour étudiants et ingénieurs partout · 7 langues"
+  },
+  bn: {
+    nav_pages:"পাতা",nav_topics:"বিষয়",nav_formulas:"সূত্র",nav_about:"পরিচিতি",
+    hero_eyebrow:"গণিত · সিভিল ইঞ্জিনিয়ারিং · সবার জন্য",
+    hero_title_line1:"যেখানে সংখ্যা<br>মেলে ",hero_title_span:"কাঠামোর সাথে",
+    hero_sub:"মৌলিক থেকে উন্নত শিক্ষা পর্যন্ত — নির্মিত পৃথিবীর গণিত অন্বেষণ। সারা বিশ্বের শিক্ষার্থী ও প্রকৌশলীদের জন্য বিনামূল্যে।",
+    aud_hs:"উচ্চ মাধ্যমিক",aud_uni:"বিশ্ববিদ্যালয়",aud_eng:"প্রকৌশলী",aud_self:"স্ব-শিক্ষার্থী",
+    hero_cta:"বিষয় দেখুন",hero_cta2:"সূত্র দেখুন",
+    pages_title:"সাইট অন্বেষণ করুন",
+    page_civil:"সিভিল টুলস",page_civil_desc:"সিভিল ও স্ট্রাকচারাল কাজের জন্য ক্যালকুলেটর।",
+    page_notes:"পড়ার নোট",page_notes_desc:"দ্রুত পুনরাবৃত্তির জন্য সংক্ষিপ্ত নোট।",
+    page_about:"পরিচিতি",page_about_desc:"Mathify ও এর লক্ষ্য সম্পর্কে আরও জানুন।",
+    page_status:"অবস্থা",page_status_desc:"কী তৈরি হচ্ছে এবং কী আসছে তা দেখুন।",
+    topics_title:"কভার করা বিষয়সমূহ",
+    level_hs:"উচ্চ মাধ্যমিক → বিশ্ববিদ্যালয়",level_uni:"বিশ্ববিদ্যালয় → পেশাদার",level_all:"সব স্তর",
+    topic1:"ক্যালকুলাস ও বিশ্লেষণ",topic1_desc:"অবকলন, সমাকলন, অবকল সমীকরণ ও তাদের প্রয়োগ।",
+    topic2:"রৈখিক বীজগণিত",topic2_desc:"ম্যাট্রিক্স, ভেক্টর, রূপান্তর এবং eigenvalue।",
+    topic3:"স্ট্রাকচারাল ইঞ্জিনিয়ারিং",topic3_desc:"বিম, ট্রাস, ফ্রেম এবং পীড়ন বিশ্লেষণ।",
+    topic4:"তরল বলবিদ্যা",topic4_desc:"হাইড্রোলিক্স, পাইপ প্রবাহ এবং খোলা নালা।",
+    topic5:"জ্যামিতি ও সার্ভেয়িং",topic5_desc:"ভূমি জরিপে ত্রিকোণমিতির প্রয়োগ।",
+    topic6:"জিওটেকনিক্যাল বেসিক্স",topic6_desc:"মৃত্তিকা বলবিদ্যা ও বহন ক্ষমতা।",
+    formulas_title:"প্রয়োজনীয় সূত্রসমূহ",
+    f1:"বাঁকন পীড়ন",f1_desc:"নিরপেক্ষ অক্ষ থেকে y দূরত্বে বিমে বাঁকন পীড়ন।",
+    f2:"বার্নুলির সমীকরণ",f2_desc:"আদর্শ তরল প্রবাহে শক্তি সংরক্ষণ।",
+    f3:"অয়লারের পরিচয়",f3_desc:"গণিতের সবচেয়ে সুন্দর সমীকরণ।",
+    f4:"অয়লারের বাকলিং লোড",f4_desc:"যে সংকট লোডে সরু স্তম্ভ বেঁকে যায়।",
+    f5:"টেলর সিরিজ",f5_desc:"যেকোনো মসৃণ ফাংশনকে অসীম বহুপদীরূপে প্রকাশ।",
+    f6:"তেরজাঘি বহন ক্ষমতা",f6_desc:"মাটিতে অগভীর ভিত্তির চূড়ান্ত বহন ক্ষমতা।",
+    about_title:"Mathify সম্পর্কে",
+    about1:"Mathify একটি বিনামূল্যের সম্পদ — উচ্চ মাধ্যমিক শিক্ষার্থী থেকে পেশাদার প্রকৌশলী পর্যন্ত সবার জন্য।",
+    about2:"নতুন বিষয়, উদাহরণ ও টুলস নিয়মিত যোগ করা হচ্ছে। লক্ষ্য হলো সহজ বোধগম্যতা।",
+    about3:"৭টি ভাষায় উপলব্ধ। বিশ্বের জন্য তৈরি।",
+    stat1:"বিষয় এলাকা",stat2:"মূল সূত্র",stat3:"ভাষা",stat4:"শেখার বিষয়",
+    footer:"সারা বিশ্বের শিক্ষার্থী ও প্রকৌশলীদের জন্য বিনামূল্যে · ৭টি ভাষা"
+  },
+  zh: {
+    nav_pages:"页面",nav_topics:"主题",nav_formulas:"公式",nav_about:"关于",
+    hero_eyebrow:"数学 · 土木工程 · 面向所有人",
+    hero_title_line1:"数字与",hero_title_span:"结构的相遇",
+    hero_sub:"从基础到高级学习——探索建筑世界背后的数学。免费为全球学生和工程师提供。",
+    aud_hs:"高中",aud_uni:"大学",aud_eng:"工程师",aud_self:"自学者",
+    hero_cta:"探索主题",hero_cta2:"查看公式",
+    pages_title:"探索网站",
+    page_civil:"土木工具",page_civil_desc:"土木和结构工程计算器。",
+    page_notes:"学习笔记",page_notes_desc:"快速复习的简明笔记。",
+    page_about:"关于",page_about_desc:"了解更多关于Mathify及其使命。",
+    page_status:"状态",page_status_desc:"跟踪正在构建的内容和即将推出的内容。",
+    topics_title:"涵盖主题",
+    level_hs:"高中 → 大学",level_uni:"大学 → 专业",level_all:"所有级别",
+    topic1:"微积分与分析",topic1_desc:"导数、积分、微分方程及其应用。",
+    topic2:"线性代数",topic2_desc:"矩阵、向量、变换和特征值。",
+    topic3:"结构工程",topic3_desc:"梁、桁架、框架和应力应变分析。",
+    topic4:"流体力学",topic4_desc:"水力学、管道流和明渠流。",
+    topic5:"几何与测量",topic5_desc:"应用于土地测量的三角学。",
+    topic6:"岩土基础",topic6_desc:"土力学和承载能力。",
+    formulas_title:"基本公式",
+    f1:"弯曲应力",f1_desc:"梁在距中性轴y处的弯曲应力。",
+    f2:"伯努利方程",f2_desc:"理想流体中沿流线的能量守恒。",
+    f3:"欧拉恒等式",f3_desc:"数学中最美丽的方程式。",
+    f4:"欧拉临界屈曲载荷",f4_desc:"细长柱发生屈曲的临界压缩载荷。",
+    f5:"泰勒级数",f5_desc:"将任意光滑函数近似为无穷多项式。",
+    f6:"太沙基承载力",f6_desc:"土中浅基础的极限承载力。",
+    about_title:"关于Mathify",
+    about1:"Mathify是一个免费资源——从高中生到专业工程师，面向所有人。",
+    about2:"定期添加新主题、示例和工具。目标是简洁清晰。",
+    about3:"支持7种语言。为全世界而建。",
+    stat1:"主题领域",stat2:"核心公式",stat3:"语言",stat4:"学习内容",
+    footer:"免费为全球学生和工程师提供 · 7种语言"
+  }
+};
+
+function setLang(lang) {
+  const t = T[lang];
+  if (!t) return;
+  document.documentElement.lang = lang;
+  const isRTL = lang === 'ar';
+  document.body.classList.toggle('rtl', isRTL);
+  document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick') === `setLang('${lang}')`);
+  });
+}
+</script>
 </body>
 </html>
