@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mathify — Math & Civil Engineering</title>
-<meta name="description" content="Math and civil engineering resources for students and engineers worldwide">
+<title>Mathify \u2014 Math & Civil Engineering</title>
+<meta name="description" content="Math and civil engineering resources for students and engineers worldwide \u2014 from basics to advanced learning.">
+<meta property="og:title" content="Mathify \u2014 Math & Civil Engineering">
+<meta property="og:description" content="From basics to far-advanced learning. For students and engineers everywhere.">
+<meta property="og:url" content="https://mathify.us">
+<meta name="theme-color" content="#1a3a5c">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 <style>
   :root {
     --ink: #0d0d0d;
@@ -23,7 +34,9 @@
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
     overflow-x: hidden;
+    transition: font-family 0.2s;
   }
+  body.rtl { direction: rtl; text-align: right; }
   body::before {
     content: '';
     position: fixed;
@@ -35,6 +48,8 @@
     pointer-events: none;
     z-index: 0;
   }
+
+  /* NAV */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -42,10 +57,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 4rem;
-    background: rgba(245,240,232,0.9);
+    padding: 1rem 3rem;
+    background: rgba(245,240,232,0.93);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--grid);
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
   .nav-logo {
     font-family: 'Space Mono', monospace;
@@ -53,15 +70,17 @@
     letter-spacing: 0.1em;
     color: var(--blueprint);
     text-transform: uppercase;
+    text-decoration: none;
   }
   .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: 2rem;
     list-style: none;
+    flex-wrap: wrap;
   }
   .nav-links a {
     font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--steel);
@@ -69,6 +88,32 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--rust); }
+
+  /* LANGUAGE SWITCHER */
+  .lang-switcher {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .lang-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--grid);
+    background: transparent;
+    color: var(--steel);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .lang-btn:hover, .lang-btn.active {
+    background: var(--blueprint);
+    color: var(--paper);
+    border-color: var(--blueprint);
+  }
+
+  /* HERO */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -97,23 +142,39 @@
     width: 30px;
     height: 1px;
     background: var(--rust);
+    flex-shrink: 0;
   }
   .hero-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-size: clamp(2.8rem, 5.5vw, 5.5rem);
     font-weight: 900;
-    line-height: 1.0;
+    line-height: 1.05;
     color: var(--blueprint);
     margin-bottom: 1.5rem;
   }
   .hero-title span { color: var(--rust); font-style: italic; }
   .hero-sub {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 300;
-    line-height: 1.7;
+    line-height: 1.75;
     color: var(--steel);
-    max-width: 440px;
-    margin-bottom: 2.5rem;
+    max-width: 460px;
+    margin-bottom: 2rem;
+  }
+  .hero-audience {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .audience-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--blueprint);
+    color: var(--blueprint);
   }
   .hero-cta {
     display: inline-flex;
@@ -123,24 +184,34 @@
     color: var(--paper);
     padding: 1rem 2rem;
     font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
     transition: background 0.2s, transform 0.2s;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
   }
   .hero-cta:hover { background: var(--rust); transform: translateY(-2px); }
-  .hero-cta::after { content: '→'; }
+  .hero-cta::after { content: '\u2192'; }
+  .hero-cta.secondary {
+    background: transparent;
+    color: var(--blueprint);
+    border: 1px solid var(--blueprint);
+  }
+  .hero-cta.secondary:hover { background: var(--blueprint); color: var(--paper); }
+  .hero-cta.secondary::after { content: ''; }
+
+  /* BLUEPRINT VISUAL */
   .hero-visual {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .blueprint-frame {
     position: relative;
-    width: 420px;
-    height: 420px;
+    width: 400px;
+    height: 400px;
     border: 2px solid var(--blueprint);
   }
   .blueprint-frame::before {
@@ -149,62 +220,93 @@
     inset: 10px;
     border: 1px solid rgba(26,58,92,0.3);
   }
-  .blueprint-frame::after {
-    content: '';
-    position: absolute;
-    inset: 20px;
-    border: 1px solid rgba(26,58,92,0.15);
-  }
   .blueprint-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   .blueprint-label {
     position: absolute;
     font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     color: var(--blueprint);
-    opacity: 0.7;
-    letter-spacing: 0.08em;
+    opacity: 0.6;
+    letter-spacing: 0.06em;
   }
-  .blueprint-label.top { top: 6px; left: 50%; transform: translateX(-50%); }
-  .blueprint-label.bottom { bottom: 6px; left: 50%; transform: translateX(-50%); }
-  .blueprint-label.left { left: 6px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
-  .blueprint-label.right { right: 6px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+  .blueprint-label.top { top: 5px; left: 50%; transform: translateX(-50%); }
+  .blueprint-label.bottom { bottom: 5px; left: 50%; transform: translateX(-50%); }
+  .blueprint-label.left { left: 5px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+  .blueprint-label.right { right: 5px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+
+  /* SECTIONS */
   section { position: relative; z-index: 1; padding: 6rem 4rem; }
   .section-header {
     display: flex;
     align-items: baseline;
     gap: 1.5rem;
-    margin-bottom: 4rem;
+    margin-bottom: 3.5rem;
   }
   .section-num {
     font-family: 'Space Mono', monospace;
     font-size: 0.75rem;
     color: var(--rust);
     letter-spacing: 0.1em;
+    white-space: nowrap;
   }
   .section-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
     font-weight: 700;
     color: var(--blueprint);
   }
+
+  /* QUICK LINKS (existing pages) */
+  .quicklinks { background: white; border-top: 3px solid var(--blueprint); }
+  .quicklinks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .qlink-card {
+    display: block;
+    text-decoration: none;
+    border: 1px solid var(--grid);
+    padding: 1.8rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+    background: var(--paper);
+  }
+  .qlink-card:hover {
+    box-shadow: 5px 5px 0 var(--blueprint);
+    transform: translate(-2px, -2px);
+  }
+  .qlink-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+  .qlink-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--blueprint);
+    margin-bottom: 0.4rem;
+  }
+  .qlink-desc {
+    font-size: 0.82rem;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  /* TOPICS */
   .topics { background: var(--blueprint); color: var(--paper); }
   .topics .section-title { color: var(--paper); }
   .topics .section-num { color: var(--accent); }
   .topics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     gap: 2px;
   }
   .topic-card {
     background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 2.5rem;
-    cursor: pointer;
-    transition: background 0.25s, transform 0.25s;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 2.2rem;
+    transition: background 0.2s, transform 0.2s;
     position: relative;
     overflow: hidden;
   }
-  .topic-card::before {
+  .topic-card::after {
     content: '';
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -214,74 +316,85 @@
     transform-origin: left;
     transition: transform 0.3s;
   }
-  .topic-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-3px); }
-  .topic-card:hover::before { transform: scaleX(1); }
-  .topic-icon { font-size: 2rem; margin-bottom: 1.2rem; }
+  .topic-card:hover { background: rgba(255,255,255,0.09); transform: translateY(-3px); }
+  .topic-card:hover::after { transform: scaleX(1); }
+  .topic-level {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .topic-icon { font-size: 1.8rem; margin-bottom: 1rem; }
   .topic-name {
     font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    margin-bottom: 0.8rem;
     color: #fff;
+    margin-bottom: 0.7rem;
   }
   .topic-desc {
-    font-size: 0.9rem;
-    font-weight: 300;
+    font-size: 0.87rem;
     line-height: 1.7;
     color: rgba(245,240,232,0.7);
+    margin-bottom: 1rem;
   }
   .topic-tag {
     display: inline-block;
-    margin-top: 1.2rem;
     font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--accent);
     border: 1px solid var(--accent);
-    padding: 0.25rem 0.6rem;
+    padding: 0.2rem 0.5rem;
   }
+
+  /* FORMULAS */
   .formulas-section { background: var(--paper); }
   .formulas-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
     gap: 1.5rem;
   }
   .formula-card {
     border: 1px solid var(--grid);
-    padding: 2rem;
+    padding: 1.8rem;
     background: white;
     transition: box-shadow 0.2s, transform 0.2s;
   }
   .formula-card:hover {
-    box-shadow: 6px 6px 0 var(--blueprint);
-    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 0 var(--blueprint);
+    transform: translate(-2px, -2px);
   }
   .formula-category {
     font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--rust);
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.6rem;
   }
   .formula-name {
     font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--blueprint);
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
   }
   .formula-expr {
     font-family: 'Space Mono', monospace;
-    font-size: 1.1rem;
-    color: var(--ink);
+    font-size: 1rem;
     background: var(--paper);
     padding: 0.8rem 1rem;
     border-left: 3px solid var(--accent);
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
+    overflow-x: auto;
   }
-  .formula-desc { font-size: 0.85rem; line-height: 1.6; color: #555; }
+  .formula-desc { font-size: 0.83rem; line-height: 1.65; color: #555; }
+
+  /* ABOUT */
   .about-section {
     background: var(--ink);
     color: var(--paper);
@@ -292,29 +405,31 @@
   }
   .about-section .section-title { color: var(--paper); }
   .about-section .section-num { color: var(--accent); }
-  .about-text { font-size: 1.05rem; line-height: 1.8; color: rgba(245,240,232,0.8); }
-  .about-text p + p { margin-top: 1.2rem; }
+  .about-text { font-size: 1rem; line-height: 1.85; color: rgba(245,240,232,0.82); }
+  .about-text p + p { margin-top: 1.1rem; }
   .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
   .stat-box {
-    padding: 2rem;
+    padding: 1.8rem;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
   }
   .stat-num {
     font-family: 'Playfair Display', serif;
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 900;
     color: var(--accent);
     line-height: 1;
   }
   .stat-label {
     font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: rgba(245,240,232,0.5);
-    margin-top: 0.5rem;
+    color: rgba(245,240,232,0.45);
+    margin-top: 0.4rem;
   }
+
+  /* FOOTER */
   footer {
     position: relative;
     z-index: 1;
@@ -324,36 +439,155 @@
     justify-content: space-between;
     align-items: center;
     font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     letter-spacing: 0.05em;
     color: #999;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
+
+  /* ANIMATIONS */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
   }
   @keyframes drawLine {
     from { stroke-dashoffset: 1000; }
     to { stroke-dashoffset: 0; }
   }
-  .hero-text > * { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+  .hero-text > * { opacity: 0; animation: fadeUp 0.65s ease forwards; }
   .hero-eyebrow { animation-delay: 0.1s; }
-  .hero-title { animation-delay: 0.3s; }
-  .hero-sub { animation-delay: 0.5s; }
-  .hero-cta { animation-delay: 0.7s; }
+  .hero-title { animation-delay: 0.25s; }
+  .hero-sub { animation-delay: 0.4s; }
+  .hero-audience { animation-delay: 0.5s; }
+  .hero-btns { animation-delay: 0.6s; }
   .animated-line {
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
-    animation: drawLine 3s ease forwards;
-    animation-delay: 0.5s;
+    animation: drawLine 2.8s ease forwards;
+    animation-delay: 0.6s;
   }
-  @media (max-width: 900px) {
-    nav { padding: 1rem 2rem; }
-    .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    nav { padding: 0.8rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
     .hero-visual { display: none; }
-    section { padding: 4rem 2rem; }
+    section { padding: 4rem 1.5rem; }
     .about-section { grid-template-columns: 1fr; gap: 3rem; }
-    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">\u2211 Mathify</a>
+  <ul class="nav-links">
+    <li><a href="#pages" data-i18n="nav_pages">Pages</a></li>
+    <li><a href="#topics" data-i18n="nav_topics">Topics</a></li>
+    <li><a href="#formulas" data-i18n="nav_formulas">Formulas</a></li>
+    <li><a href="#about" data-i18n="nav_about">About</a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('hi')">\u0939\u093f</button>
+    <button class="lang-btn" onclick="setLang('ar')">\u0639</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('bn')">\u09ac\u09be</button>
+    <button class="lang-btn" onclick="setLang('zh')">\u4e2d</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow" data-i18n="hero_eyebrow">Math \u00b7 Civil Engineering \u00b7 For Everyone</div>
+    <h1 class="hero-title" data-i18n="hero_title">Where Numbers<br>Meet <span data-i18n="hero_title_span">Structure</span></h1>
+    <p class="hero-sub" data-i18n="hero_sub">From basics to far-advanced learning \u2014 exploring the mathematics behind the built world. Free for students and engineers everywhere.</p>
+    <div class="hero-audience">
+      <span class="audience-tag" data-i18n="aud_hs">High School</span>
+      <span class="audience-tag" data-i18n="aud_uni">University</span>
+      <span class="audience-tag" data-i18n="aud_eng">Engineers</span>
+      <span class="audience-tag" data-i18n="aud_self">Self-Learners</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#topics" class="hero-cta" data-i18n="hero_cta">Explore Topics</a>
+      <a href="#formulas" class="hero-cta secondary" data-i18n="hero_cta2">View Formulas</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="blueprint-frame">
+      <span class="blueprint-label top">ELEVATION \u2014 A</span>
+      <span class="blueprint-label bottom">SCALE 1:100</span>
+      <span class="blueprint-label left">SECTION</span>
+      <span class="blueprint-label right">REV 01</span>
+      <svg class="blueprint-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#1a3a5c" opacity="0.4">
+          <line x1="40" y1="40" x2="360" y2="40" stroke-dasharray="4 4" stroke-width="0.5"/>
+          <line x1="40" y1="360" x2="360" y2="360" stroke-dasharray="4 4" stroke-width="0.5"/>
+          <line x1="40" y1="40" x2="40" y2="360" stroke-dasharray="4 4" stroke-width="0.5"/>
+          <line x1="360" y1="40" x2="360" y2="360" stroke-dasharray="4 4" stroke-width="0.5"/>
+        </g>
+        <line class="animated-line" x1="55" y1="255" x2="345" y2="255" stroke="#1a3a5c" stroke-width="3"/>
+        <polyline class="animated-line" points="55,255 55,155 345,155 345,255" stroke="#1a3a5c" stroke-width="2" fill="none" style="animation-delay:0.9s"/>
+        <line class="animated-line" x1="55" y1="255" x2="113" y2="155" stroke="#c0392b" stroke-width="1.5" style="animation-delay:1.2s"/>
+        <line class="animated-line" x1="113" y1="155" x2="171" y2="255" stroke="#1a3a5c" stroke-width="1.5" style="animation-delay:1.4s"/>
+        <line class="animated-line" x1="171" y1="255" x2="229" y2="155" stroke="#c0392b" stroke-width="1.5" style="animation-delay:1.6s"/>
+        <line class="animated-line" x1="229" y1="155" x2="287" y2="255" stroke="#1a3a5c" stroke-width="1.5" style="animation-delay:1.8s"/>
+        <line class="animated-line" x1="287" y1="255" x2="345" y2="155" stroke="#c0392b" stroke-width="1.5" style="animation-delay:2.0s"/>
+        <line class="animated-line" x1="113" y1="155" x2="113" y2="255" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.2s"/>
+        <line class="animated-line" x1="171" y1="155" x2="171" y2="255" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.3s"/>
+        <line class="animated-line" x1="229" y1="155" x2="229" y2="255" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.4s"/>
+        <line class="animated-line" x1="287" y1="155" x2="287" y2="255" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.5s"/>
+        <rect class="animated-line" x="45" y="255" width="20" height="55" fill="rgba(26,58,92,0.12)" style="animation-delay:2.6s"/>
+        <rect class="animated-line" x="335" y="255" width="20" height="55" fill="rgba(26,58,92,0.12)" style="animation-delay:2.6s"/>
+        <line x1="55" y1="330" x2="345" y2="330" stroke="#e67e22" stroke-width="1"/>
+        <line x1="55" y1="325" x2="55" y2="335" stroke="#e67e22" stroke-width="1"/>
+        <line x1="345" y1="325" x2="345" y2="335" stroke="#e67e22" stroke-width="1"/>
+        <text x="200" y="348" font-family="Space Mono" font-size="8" fill="#e67e22" text-anchor="middle">L = SPAN</text>
+        <text x="200" y="142" font-family="Space Mono" font-size="8" fill="#c0392b" text-anchor="middle">\u03c3 = M\u00b7y / I</text>
+        <circle cx="55" cy="255" r="4" fill="#1a3a5c"/>
+        <circle cx="345" cy="255" r="4" fill="#1a3a5c"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK LINKS TO EXISTING PAGES -->
+<section class="quicklinks" id="pages">
+  <div class="section-header">
+    <span class="section-num">00 \u2014</span>
+    <h2 class="section-title" data-i18n="pages_title">Explore the Site</h2>
+  </div>
+  <div class="quicklinks-grid">
+    <a href="civil-tools.html" class="qlink-card">
+      <div class="qlink-icon">\ud83c\udfd7\ufe0f</div>
+      <div class="qlink-name" data-i18n="page_civil">Civil Tools</div>
+      <p class="qlink-desc" data-i18n="page_civil_desc">Engineering calculators and tools for civil and structural work.</p>
+    </a>
+    <a href="study-notes.html" class="qlink-card">
+      <div class="qlink-icon">\ud83d\udcd6</div>
+      <div class="qlink-name" data-i18n="page_notes">Study Notes</div>
+      <p class="qlink-desc" data-i18n="page_notes_desc">Concise notes on math and engineering topics for quick revision.</p>
+    </a>
+    <a href="about.html" class="qlink-card">
+      <div class="qlink-icon">\ud83d\udc64</div>
+      <div class="qlink-name" data-i18n="page_about">About</div>
+      <p class="qlink-desc" data-i18n="page_about_desc">Learn more about Mathify and its mission to make learning accessible.</p>
+    </a>
+    <a href="status.html" class="qlink-card">
+      <div class="qlink-icon">\ud83d\udcca</div>
+      <div class="qlink-name" data-i18n="page_status">Status</div>
+      <p class="qlink-desc" data-i18n="page_status_desc">Track what's being built and what's coming next on Mathify.</p>
+    </a>
+  </div>
+</section>
+
+<!-- TOPICS -->
+<section class="topics" id="topi; }
   }
 </style>
 </head>
