@@ -1,0 +1,2155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC Design — Chapter 1: Working Stress Design | Mathify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+  :root {
+    --bg: #07090f;
+    --bg2: #0d1320;
+    --bg3: #111827;
+    --border: #1e2d45;
+    --gold: #f59e0b;
+    --gold2: #fbbf24;
+    --sky: #38bdf8;
+    --green: #34d399;
+    --red: #f87171;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --dim: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.25;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(7,9,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    color: var(--gold);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 80px 32px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    letter-spacing: 0.1em;
+  }
+  .hero h1 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 18px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--dim);
+    max-width: 680px;
+    margin-bottom: 32px;
+  }
+  .chapter-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    border-left: 2px solid var(--border);
+    padding-left: 10px;
+  }
+  .meta-item strong { color: var(--sky); display: block; font-size: 0.9rem; }
+
+  /* BEAM ANIMATION */
+  .beam-demo {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .beam-demo canvas {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg2);
+    display: block;
+  }
+  .beam-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .beam-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--dim);
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 200px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .load-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--gold);
+    min-width: 60px;
+  }
+  .stage-badge {
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .stage-1 { background: rgba(52,211,153,0.15); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+  .stage-2 { background: rgba(245,158,11,0.15); color: var(--gold); border: 1px solid rgba(245,158,11,0.3); }
+  .stage-3 { background: rgba(248,113,113,0.15); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+
+  /* SECTION LAYOUT */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .section + .section {
+    border-top: 1px solid var(--border);
+  }
+  .section-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .section h2 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .section h2 em { color: var(--gold); font-style: normal; }
+  .section .lead {
+    color: var(--dim);
+    font-size: 1.05rem;
+    max-width: 680px;
+    margin-bottom: 36px;
+  }
+  h3 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--sky);
+  }
+
+  /* CONCEPT CARDS */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .concept-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+  .concept-card:hover { border-color: var(--gold); }
+  .concept-icon {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+  .concept-card h4 {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .concept-card p {
+    font-size: 0.88rem;
+    color: var(--dim);
+    line-height: 1.55;
+  }
+  .concept-card .value {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin-top: 10px;
+    display: block;
+  }
+
+  /* EQUATION BOX */
+  .eq-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-size: 1.05rem;
+  }
+  .eq-box .eq-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .eq-note {
+    font-size: 0.85rem;
+    color: var(--dim);
+    margin-top: 10px;
+  }
+
+  /* INFO BOXES */
+  .info-box {
+    background: rgba(56,189,248,0.06);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 0.92rem;
+    color: var(--dim);
+  }
+  .info-box strong { color: var(--sky); }
+  .warn-box {
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 0.92rem;
+    color: var(--dim);
+  }
+  .warn-box strong { color: var(--gold); }
+
+  /* MATERIAL PROPERTY CHART */
+  .prop-chart canvas {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg2);
+  }
+
+  /* INTERACTIVE CALCULATOR */
+  .calc-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px;
+    margin: 24px 0;
+  }
+  .calc-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .input-group label {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .input-group input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .input-group input:focus { border-color: var(--sky); }
+  .calc-btn {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+  }
+  .calc-btn:hover { background: var(--gold2); }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .result-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 14px 16px;
+  }
+  .result-item .r-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+  .result-item .r-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .result-item .r-unit {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+
+  /* STEPS */
+  .steps {
+    counter-reset: step;
+    margin: 24px 0;
+  }
+  .step {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .step::before {
+    counter-increment: step;
+    content: counter(step);
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step-content h4 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .step-content p {
+    font-size: 0.88rem;
+    color: var(--dim);
+    line-height: 1.55;
+  }
+  .step-content .step-eq {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--sky);
+  }
+
+  /* STRESS DIAGRAM CANVAS */
+  .diagram-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  @media (max-width: 600px) { .diagram-row { grid-template-columns: 1fr; } }
+  .diagram-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+  }
+  .diagram-box .d-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .diagram-box canvas { width: 100%; display: block; }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin: 20px 0;
+  }
+  .data-table th {
+    background: var(--bg3);
+    color: var(--sky);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(30,45,69,0.5);
+    color: var(--dim);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .data-table tr:hover td { background: var(--bg2); }
+  .data-table .highlight { color: var(--gold); }
+
+  /* HISTORY TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+    border-left: 2px solid var(--border);
+    margin: 20px 0;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 24px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -29px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--bg);
+  }
+  .timeline-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .timeline-item h4 {
+    font-size: 0.92rem;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .timeline-item p { font-size: 0.83rem; color: var(--dim); }
+
+  /* FOOTER */
+  footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  footer .f-left {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  footer .f-left a { color: var(--gold); text-decoration: none; }
+
+  /* STRESS-STRAIN INTERACTIVE */
+  .ss-canvas-wrap { position: relative; }
+  .ss-canvas-wrap canvas { display: block; width: 100%; }
+  .ss-legend {
+    display: flex;
+    gap: 20px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--dim);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-in { animation: fadeInUp 0.6s ease forwards; }
+  .delay-1 { animation-delay: 0.1s; opacity: 0; }
+  .delay-2 { animation-delay: 0.2s; opacity: 0; }
+  .delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+  /* SECTION DIVIDER */
+  .divider {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .divider hr {
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* WORKED PROBLEM */
+  .worked-problem {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 24px 0;
+  }
+  .wp-header {
+    background: var(--bg3);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .wp-badge {
+    background: rgba(245,158,11,0.15);
+    color: var(--gold);
+    border: 1px solid rgba(245,158,11,0.3);
+    padding: 2px 10px;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+  }
+  .wp-title {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  .wp-body { padding: 24px; }
+  .wp-given {
+    background: var(--bg3);
+    border-radius: 3px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .wp-given h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--sky);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .wp-given table { border-collapse: collapse; }
+  .wp-given td {
+    padding: 3px 16px 3px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--dim);
+  }
+  .wp-given td:first-child { color: var(--gold); min-width: 60px; }
+
+  /* Toggle tabs */
+  .tab-bar {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+    gap: 0;
+  }
+  .tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+  }
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* cross-section svg */
+  .cross-section-wrap {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  .cross-section-svg { flex-shrink: 0; }
+
+  .result-highlight {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 3px;
+    padding: 12px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--gold);
+    margin: 12px 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav { padding: 12px 16px; }
+    .section, .hero, .beam-demo { padding-left: 16px; padding-right: 16px; }
+    .input-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">∑ Mathify</a>
+  <ul class="nav-links">
+    <li><a href="#materials">Materials</a></li>
+    <li><a href="#bending">Bending</a></li>
+    <li><a href="#stages">3 Stages</a></li>
+    <li><a href="#wsd-analysis">WSD Analysis</a></li>
+    <li><a href="#wsd-design">WSD Design</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero animate-in">
+  <div class="hero-tag">CEE335 — CHAPTER 1</div>
+  <h1>Reinforced Concrete:<br><span>Working Stress Design</span></h1>
+  <p>Concrete is brilliant in compression but breaks easily in tension. Steel does the opposite. Together, they form one of the most powerful structural materials in the world. This chapter explains exactly how and why — from atoms to equations.</p>
+  <div class="chapter-meta">
+    <div class="meta-item"><strong>Method</strong>WSD (Working Stress)</div>
+    <div class="meta-item"><strong>Code</strong>ACI 318</div>
+    <div class="meta-item"><strong>Topics</strong>5 Core Concepts</div>
+    <div class="meta-item"><strong>Problems</strong>2 Worked Examples</div>
+  </div>
+</div>
+
+<!-- BEAM ANIMATION -->
+<div class="beam-demo animate-in delay-1">
+  <canvas id="beamCanvas" width="840" height="220"></canvas>
+  <div class="beam-controls">
+    <span class="beam-label">APPLIED LOAD:</span>
+    <input type="range" id="loadSlider" min="0" max="100" value="0">
+    <span class="load-value" id="loadDisplay">0 k/ft</span>
+    <span class="beam-label" style="margin-left:16px;">STAGE:</span>
+    <span class="stage-badge stage-1" id="stageBadge">I — UNCRACKED</span>
+    <span style="font-size:0.82rem; color:var(--muted); margin-left:auto;">↑ drag the slider to load the beam</span>
+  </div>
+</div>
+
+<!-- SECTION 0: WHY RC -->
+<section class="section" id="why-rc">
+  <div class="section-number">00 — FOUNDATION</div>
+  <h2>Why <em>Reinforced</em> Concrete?</h2>
+  <p class="lead">Concrete alone is like a piece of chalk — strong if you squeeze it, but snaps the moment you try to bend or pull it. That's where steel steps in.</p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <div class="concept-icon">🪨</div>
+      <h4>Concrete in Compression</h4>
+      <p>Concrete is an artificial stone made of cement, sand, water, and air. Like stone, it handles compression extremely well — loads pushing down on it.</p>
+      <span class="value">f'c = 3,000 – 5,000 psi</span>
+    </div>
+    <div class="concept-card">
+      <div class="concept-icon">⚠️</div>
+      <h4>Concrete in Tension</h4>
+      <p>Concrete is terrible at handling tension (pulling forces). Its tensile strength is roughly 1/10 of its compressive strength. It cracks easily.</p>
+      <span class="value">ft ≈ f'c / 10</span>
+    </div>
+    <div class="concept-card">
+      <div class="concept-icon">🔩</div>
+      <h4>Steel Takes the Tension</h4>
+      <p>Steel bars (rebars) are placed in the tension zone of a concrete beam. They carry the tensile forces that concrete cannot handle. Perfect teamwork.</p>
+      <span class="value">fy = 60 ksi (Grade 60)</span>
+    </div>
+    <div class="concept-card">
+      <div class="concept-icon">🏗️</div>
+      <h4>The RC Team</h4>
+      <p>In a beam bending under load: the top is in compression (concrete handles it), the bottom is in tension (steel handles it). Neither could do it alone.</p>
+      <span class="value">n = Es/Ec ≈ 8</span>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <strong>Plain English:</strong> Imagine bending a ruler. The top edge gets shorter (compression) and the bottom edge gets longer (tension). Now imagine the ruler is concrete — it will snap on the tension side. RC puts steel exactly where the snapping would happen.
+  </div>
+
+  <h3>A Brief History</h3>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">ANCIENT ROME</div>
+      <h4>Pozzolana Cement</h4>
+      <p>Romans used volcanic ash (pozzolana) mixed with lime to make a primitive concrete. Used in the Pantheon dome.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1796 — ENGLAND</div>
+      <h4>Portland Cement</h4>
+      <p>Joseph Aspdin patents Portland cement — the same cement used in concrete worldwide today.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1832</div>
+      <h4>First Concrete House</h4>
+      <p>Plain concrete used for buildings. Immediately clear it struggles with tension.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">1867 — THE KEY DATE</div>
+      <h4>Reinforced Concrete: Joseph Monier</h4>
+      <p>French gardener Joseph Monier patents iron-reinforced concrete flower pots. The idea spreads rapidly to beams, slabs, and eventually skyscrapers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1: MATERIALS -->
+<section class="section" id="materials">
+  <div class="section-number">01 — MATERIAL PROPERTIES</div>
+  <h2>Concrete & Steel: <em>The Numbers</em></h2>
+  <p class="lead">Before designing anything, engineers need to know exactly how their materials behave under stress. These are the key numbers for every RC calculation.</p>
+
+  <!-- Stress-Strain Canvas -->
+  <h3>Stress–Strain Curves</h3>
+  <div class="diagram-row">
+    <div class="diagram-box">
+      <div class="d-title">CONCRETE — COMPRESSIVE STRESS-STRAIN</div>
+      <canvas id="concreteSSCanvas" width="360" height="220"></canvas>
+    </div>
+    <div class="diagram-box">
+      <div class="d-title">STEEL — STRESS-STRAIN (ELASTIC-PERFECTLY PLASTIC)</div>
+      <canvas id="steelSSCanvas" width="360" height="220"></canvas>
+    </div>
+  </div>
+  <div class="ss-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Concrete (non-linear, peak at f'c)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div>Steel (linear then flat at fy)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>WSD range (linear only)</div>
+  </div>
+
+  <div class="info-box">
+    <strong>Key insight:</strong> In Working Stress Design (WSD), we only use the <strong>linear portion</strong> of both curves — where stress is directly proportional to strain. This keeps the math simple and adds a safety margin below the non-linear zone.
+  </div>
+
+  <!-- Material Properties Table -->
+  <h3 style="margin-top:32px;">Material Property Reference</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>PROPERTY</th>
+        <th>SYMBOL</th>
+        <th>CONCRETE</th>
+        <th>STEEL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Compressive Strength</td>
+        <td class="highlight">f'c / fy</td>
+        <td>3,000–5,000 psi</td>
+        <td>60,000 psi (Grade 60)</td>
+      </tr>
+      <tr>
+        <td>Modulus of Elasticity</td>
+        <td class="highlight">Ec / Es</td>
+        <td>57,000√f'c (psi)</td>
+        <td>29 × 10⁶ psi</td>
+      </tr>
+      <tr>
+        <td>Crushing/Yield Strain</td>
+        <td class="highlight">εu / εy</td>
+        <td>0.003 (0.30%)</td>
+        <td>fy/Es ≈ 0.00207</td>
+      </tr>
+      <tr>
+        <td>Tensile Strength</td>
+        <td class="highlight">fr</td>
+        <td>7.5√f'c (Modulus of Rupture)</td>
+        <td>Same as compressive (isotropic)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="eq-box">
+    <div class="eq-label">MODULUS OF ELASTICITY — CONCRETE (ACI)</div>
+    \[ E_c = 57{,}000\sqrt{f'_c} \quad \text{(psi)} \]
+    <div class="eq-note">For f'c = 5,000 psi: E<sub>c</sub> = 57,000 × √5000 ≈ 4 × 10⁶ psi</div>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-label">MODULUS OF RUPTURE (Cracking Stress)</div>
+    \[ f_r = 7.5\sqrt{f'_c} \quad \text{(psi)} \]
+    <div class="eq-note">This is the tensile stress at which concrete first cracks. Below this → section is uncracked. Above this → section cracks and steel activates.</div>
+  </div>
+
+  <!-- Interactive n Calculator -->
+  <h3 style="margin-top:32px;">Modular Ratio Calculator</h3>
+  <p style="color:var(--dim); font-size:0.92rem; margin-bottom:16px;">
+    The <strong style="color:var(--text)">modular ratio n</strong> tells us how much stiffer steel is compared to concrete. It's the key to transforming a two-material problem into a single-material one.
+  </p>
+  <div class="eq-box">
+    <div class="eq-label">MODULAR RATIO</div>
+    \[ n = \frac{E_s}{E_c} = \frac{29 \times 10^6}{57{,}000\sqrt{f'_c}} \]
+    <div class="eq-note">n tells us: "1 in² of steel is equivalent to n in² of concrete." Typically n ≈ 6–10 for common concrete strengths.</div>
+  </div>
+
+  <div class="calc-box">
+    <div class="calc-title">MODULAR RATIO — INTERACTIVE CALCULATOR</div>
+    <div class="input-grid">
+      <div class="input-group">
+        <label>f'c — Concrete Compressive Strength (psi)</label>
+        <input type="number" id="fc_n" value="4000" min="2000" max="8000">
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcN()">CALCULATE n</button>
+    <div class="results-grid" id="nResults" style="display:none">
+      <div class="result-item">
+        <div class="r-label">Ec</div>
+        <div class="r-value" id="r_Ec">—</div>
+      </div>
+      <div class="result-item">
+        <div class="r-label">Es</div>
+        <div class="r-value">29,000,000<span class="r-unit">psi</span></div>
+      </div>
+      <div class="result-item">
+        <div class="r-label">n = Es/Ec</div>
+        <div class="r-value" id="r_n">—</div>
+      </div>
+      <div class="result-item">
+        <div class="r-label">fr (Modulus of Rupture)</div>
+        <div class="r-value" id="r_fr">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Steel bar sizes -->
+  <h3 style="margin-top:32px;">Standard Steel Bar Sizes</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>BAR NO.</th><th>DIAMETER (in)</th><th>AREA (in²)</th><th>WEIGHT (lb/ft)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>#3</td><td>3/8 = 0.375"</td><td>0.11</td><td>0.376</td></tr>
+      <tr><td>#4</td><td>4/8 = 0.500"</td><td>0.20</td><td>0.668</td></tr>
+      <tr><td>#5</td><td>5/8 = 0.625"</td><td>0.31</td><td>1.043</td></tr>
+      <tr><td class="highlight">#6</td><td>6/8 = 0.750"</td><td class="highlight">0.44</td><td>1.502</td></tr>
+      <tr><td>#7</td><td>7/8 = 0.875"</td><td>0.60</td><td>2.044</td></tr>
+      <tr><td class="highlight">#8</td><td>1.000"</td><td class="highlight">0.79</td><td>2.670</td></tr>
+    </tbody>
+  </table>
+  <div class="info-box">
+    <strong>How to read bar numbers:</strong> The bar number equals the diameter in eighths of an inch. So #6 bar = 6/8" = 0.75" diameter.
+  </div>
+</section>
+
+<!-- SECTION 2: BENDING STRESS -->
+<section class="section" id="bending">
+  <div class="section-number">02 — BENDING STRESS</div>
+  <h2>The <em>Flexure Formula</em> & Its Limits</h2>
+  <p class="lead">When a beam bends, stresses vary linearly from top to bottom — compression on one side, tension on the other. But there's a critical catch for RC beams.</p>
+
+  <div class="eq-box">
+    <div class="eq-label">BENDING (FLEXURE) STRESS FORMULA</div>
+    \[ \sigma = \frac{M \cdot y}{I} \]
+    <div class="eq-note">
+      σ = bending stress at distance y from neutral axis<br>
+      M = bending moment at the section<br>
+      y = distance from neutral axis to the point of interest<br>
+      I = moment of inertia of the cross-section
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ RC Limitation:</strong> This formula was derived for materials that are <strong>homogeneous</strong> (same throughout) and <strong>isotropic</strong> (same in all directions). Reinforced concrete is <em>neither</em> — it's two different materials. We need special treatment to use this formula for RC.
+  </div>
+
+  <h3>Solution: The Transformed Section</h3>
+  <p style="color:var(--dim); margin-bottom:16px; font-size:0.92rem;">
+    Since steel is n times stiffer than concrete, we can replace the steel bars with an <em>equivalent area of concrete</em>. This creates a single-material "transformed section" we can analyze normally.
+  </p>
+
+  <div class="cross-section-wrap">
+    <div>
+      <div class="d-title" style="font-family:'IBM Plex Mono'; font-size:0.72rem; color:var(--muted); margin-bottom:8px;">ACTUAL RC SECTION</div>
+      <svg width="120" height="200" viewBox="0 0 120 200" class="cross-section-svg">
+        <rect x="10" y="10" width="100" height="170" fill="#1e2d45" stroke="#38bdf8" stroke-width="1.5"/>
+        <circle cx="35" cy="168" r="7" fill="#f59e0b"/>
+        <circle cx="60" cy="168" r="7" fill="#f59e0b"/>
+        <circle cx="85" cy="168" r="7" fill="#f59e0b"/>
+        <text x="60" y="6" fill="#64748b" font-size="9" font-family="monospace" text-anchor="middle">b</text>
+        <text x="5" y="100" fill="#64748b" font-size="9" font-family="monospace" text-anchor="middle">h</text>
+        <text x="60" y="185" fill="#f59e0b" font-size="9" font-family="monospace" text-anchor="middle">As (3 bars)</text>
+        <line x1="10" y1="85" x2="110" y2="85" stroke="#64748b" stroke-width="0.8" stroke-dasharray="4,3"/>
+        <text x="115" y="88" fill="#64748b" font-size="8" font-family="monospace">N.A.</text>
+      </svg>
+    </div>
+    <div style="display:flex;align-items:center;color:var(--gold);font-size:1.4rem;padding-top:60px;">→</div>
+    <div>
+      <div class="d-title" style="font-family:'IBM Plex Mono'; font-size:0.72rem; color:var(--muted); margin-bottom:8px;">TRANSFORMED SECTION</div>
+      <svg width="140" height="200" viewBox="0 0 140 200" class="cross-section-svg">
+        <rect x="10" y="10" width="100" height="170" fill="#1e2d45" stroke="#38bdf8" stroke-width="1.5"/>
+        <!-- Transformed steel as wider area -->
+        <rect x="5" y="152" width="120" height="18" fill="rgba(245,158,11,0.2)" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="65" y="164" fill="#f59e0b" font-size="8" font-family="monospace" text-anchor="middle">nAs</text>
+        <line x1="10" y1="90" x2="115" y2="90" stroke="#64748b" stroke-width="0.8" stroke-dasharray="4,3"/>
+        <text x="120" y="93" fill="#64748b" font-size="8" font-family="monospace">N.A.</text>
+        <text x="65" y="205" fill="#64748b" font-size="8" font-family="monospace" text-anchor="middle">(n-1)As if steel displaced</text>
+      </svg>
+    </div>
+    <div style="padding-top:40px; max-width:280px;">
+      <div class="eq-box" style="margin:0">
+        <div class="eq-label">TRANSFORMED STEEL AREA</div>
+        \[ A_{s,\text{transformed}} = n \cdot A_s \]
+        <div class="eq-note" style="margin-top:8px;">Replace each steel bar with n times its area in concrete. Now treat the whole section as concrete and apply σ = My/I normally.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-box" style="margin-top:24px;">
+    <div class="eq-label">FINDING THE NEUTRAL AXIS (Transformed Section)</div>
+    <p style="font-size:0.9rem; color:var(--dim); margin-bottom:10px;">Take moments of area about the neutral axis and set equal to zero:</p>
+    \[ b \cdot \bar{y} \cdot \frac{\bar{y}}{2} = n \cdot A_s \cdot (d - \bar{y}) \]
+    <div class="eq-note">where ȳ = depth to neutral axis from top, d = effective depth to steel centroid</div>
+  </div>
+</section>
+
+<!-- SECTION 3: THREE STAGES -->
+<section class="section" id="stages">
+  <div class="section-number">03 — THREE STAGES OF LOADING</div>
+  <h2>From Zero Load to <em>Collapse</em></h2>
+  <p class="lead">An RC beam doesn't fail suddenly. It goes through three distinct stages as load increases — and understanding each stage is the foundation of all RC analysis.</p>
+
+  <div class="concept-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="concept-card" style="border-color:rgba(52,211,153,0.3)">
+      <div class="stage-badge stage-1" style="display:inline-block;margin-bottom:12px;">STAGE I</div>
+      <h4>Section Uncracked</h4>
+      <p>Tensile stress in concrete is below the modulus of rupture (fr). The full cross-section — concrete and steel together — resists the bending moment. Linear elastic behavior.</p>
+      <div class="eq-note" style="margin-top:10px; color:var(--green)">f<sub>ct</sub> &lt; f<sub>r</sub> = 7.5√f'c</div>
+    </div>
+    <div class="concept-card" style="border-color:rgba(245,158,11,0.3)">
+      <div class="stage-badge stage-2" style="display:inline-block;margin-bottom:12px;">STAGE II</div>
+      <h4>Section Cracked (Elastic)</h4>
+      <p>Tensile stress exceeds fr — concrete cracks in the tension zone. Concrete in tension is ignored (fct = 0). Steel carries all tension. This is the WSD working range.</p>
+      <div class="eq-note" style="margin-top:10px; color:var(--gold)">f<sub>s</sub> &lt; f<sub>y</sub> , f<sub>c</sub> &lt; ½f'c</div>
+    </div>
+    <div class="concept-card" style="border-color:rgba(248,113,113,0.3)">
+      <div class="stage-badge stage-3" style="display:inline-block;margin-bottom:12px;">STAGE III</div>
+      <h4>Ultimate / Failure</h4>
+      <p>Steel yields (reaches fy) or concrete crushes (εu = 0.003). Non-linear behavior. This is the basis of Strength Design (USD), not covered in WSD.</p>
+      <div class="eq-note" style="margin-top:10px; color:var(--red)">f<sub>s</sub> = f<sub>y</sub> or ε<sub>c</sub> = 0.003</div>
+    </div>
+  </div>
+
+  <h3>Stage I → Stage II: The Cracking Moment</h3>
+  <p style="color:var(--dim); margin-bottom:16px; font-size:0.92rem;">
+    The transition from Stage I to Stage II happens when the tensile stress at the bottom of the beam equals the modulus of rupture fr. This defines the cracking moment M<sub>cr</sub>.
+  </p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-content">
+        <h4>Check tensile stress using bending formula</h4>
+        <p>Using the uncracked transformed section, compute the tensile stress at the extreme bottom fiber:</p>
+        <div class="step-eq">\( f_{ct} = \frac{M \cdot y_{bottom}}{I_{transformed}} \)</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <h4>Compare to modulus of rupture</h4>
+        <p>If f<sub>ct</sub> < f<sub>r</sub>: Section is uncracked → use Stage I analysis.<br>
+        If f<sub>ct</sub> > f<sub>r</sub>: Section has cracked → use Stage II (cracked section) analysis.</p>
+        <div class="step-eq">\( f_r = 7.5\sqrt{f'_c} \quad \text{(psi)} \)</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-content">
+        <h4>After cracking: set concrete tension to zero</h4>
+        <p>In Stage II, we simply assume concrete cannot carry any tension at all. The analysis changes: only the compression zone above the neutral axis carries compression, and steel carries all tension.</p>
+        <div class="step-eq">After cracking: f<sub>ct</sub> = 0 (concrete tension ignored)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: WSD ANALYSIS (CRACKED) -->
+<section class="section" id="wsd-analysis">
+  <div class="section-number">04 — CRACKED SECTION ANALYSIS (WSD)</div>
+  <h2>The <em>k & j</em> Method</h2>
+  <p class="lead">Once a section is cracked (Stage II), we need a different approach. The cracked section analysis introduces two key dimensionless parameters: k (neutral axis ratio) and j (moment arm ratio).</p>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('theory', this)">THEORY</button>
+    <button class="tab-btn" onclick="switchTab('derivation', this)">DERIVATION</button>
+    <button class="tab-btn" onclick="switchTab('calculator', this)">INTERACTIVE CALC</button>
+    <button class="tab-btn" onclick="switchTab('worked', this)">WORKED PROBLEM</button>
+  </div>
+
+  <!-- THEORY TAB -->
+  <div class="tab-panel active" id="tab-theory">
+    <div class="cross-section-wrap" style="align-items:center;">
+      <div>
+        <div class="d-title" style="font-family:'IBM Plex Mono'; font-size:0.72rem; color:var(--muted); margin-bottom:8px;">CRACKED SECTION — FORCES</div>
+        <svg width="160" height="220" viewBox="0 0 160 220">
+          <!-- Beam cross section -->
+          <rect x="20" y="10" width="80" height="180" fill="#0d1320" stroke="#1e2d45" stroke-width="1.5"/>
+          <!-- Neutral axis at kd -->
+          <line x1="18" y1="70" x2="102" y2="70" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="108" y="73" fill="#f59e0b" font-size="9" font-family="monospace">kd</text>
+          <!-- Compression block (triangle) -->
+          <polygon points="20,10 100,10 20,70" fill="rgba(248,113,113,0.25)" stroke="rgba(248,113,113,0.4)" stroke-width="1"/>
+          <text x="35" y="42" fill="#f87171" font-size="9" font-family="monospace">C</text>
+          <text x="35" y="54" fill="#f87171" font-size="8" font-family="monospace">½fc·b·kd</text>
+          <!-- Steel bars -->
+          <circle cx="40" cy="178" r="7" fill="#f59e0b"/>
+          <circle cx="60" cy="178" r="7" fill="#f59e0b"/>
+          <circle cx="80" cy="178" r="7" fill="#f59e0b"/>
+          <text x="60" y="205" fill="#f59e0b" font-size="9" font-family="monospace" text-anchor="middle">T = As·fs</text>
+          <!-- d dimension -->
+          <line x1="108" y1="10" x2="108" y2="178" stroke="#64748b" stroke-width="0.8"/>
+          <line x1="104" y1="10" x2="112" y2="10" stroke="#64748b" stroke-width="0.8"/>
+          <line x1="104" y1="178" x2="112" y2="178" stroke="#64748b" stroke-width="0.8"/>
+          <text x="118" y="100" fill="#64748b" font-size="9" font-family="monospace">d</text>
+          <!-- jd arm -->
+          <line x1="5" y1="58" x2="5" y2="178" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="8" y="122" fill="#38bdf8" font-size="9" font-family="monospace">jd</text>
+          <!-- Crack lines at bottom -->
+          <line x1="25" y1="70" x2="22" y2="140" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="2,3"/>
+          <line x1="45" y1="70" x2="42" y2="140" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="2,3"/>
+          <line x1="65" y1="70" x2="60" y2="140" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="2,3"/>
+        </svg>
+      </div>
+      <div style="flex:1">
+        <div class="eq-box" style="margin-bottom:16px;">
+          <div class="eq-label">COMPRESSION FORCE (in concrete)</div>
+          \[ C = \frac{1}{2} f_c \cdot b \cdot kd \]
+        </div>
+        <div class="eq-box" style="margin-bottom:16px;">
+          <div class="eq-label">TENSION FORCE (in steel)</div>
+          \[ T = A_s \cdot f_s \]
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">MOMENT EQUILIBRIUM</div>
+          \[ M = T \cdot jd = A_s \cdot f_s \cdot jd \]
+          \[ M = C \cdot jd = \tfrac{1}{2} f_c \cdot b \cdot kd \cdot jd \]
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:16px;">
+      <strong>Key idea:</strong> Equilibrium tells us C = T (no net horizontal force). This gives us the relationship between the concrete stress fc and steel stress fs. With a known moment M, we can then find both stresses.
+    </div>
+  </div>
+
+  <!-- DERIVATION TAB -->
+  <div class="tab-panel" id="tab-derivation">
+    <p style="color:var(--dim); margin-bottom:20px; font-size:0.92rem;">Here's where k and j come from — derived from first principles using strain compatibility and force equilibrium.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-content">
+          <h4>Define the reinforcement ratio ρ (rho)</h4>
+          <p>ρ is the ratio of steel area to effective concrete area. It tells us how much steel we have relative to the beam size.</p>
+          <div class="step-eq">\( \rho = \frac{A_s}{b \cdot d} \)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <h4>Force equilibrium: C = T</h4>
+          <p>Setting compression force equal to tension force:</p>
+          <div class="step-eq">\( \frac{1}{2} f_c \cdot b \cdot kd = A_s \cdot f_s \quad \Rightarrow \quad \rho \cdot f_s = \frac{1}{2} f_c \cdot k \)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <h4>Strain compatibility: steel and concrete strains are compatible</h4>
+          <p>The strain diagram is linear. Using similar triangles and the modular ratio n:</p>
+          <div class="step-eq">\( \frac{f_s / E_s}{d - kd} = \frac{f_c / E_c}{kd} \quad \Rightarrow \quad k = \frac{n \cdot f_c}{n \cdot f_c + f_s} \)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <h4>Solve the quadratic for k</h4>
+          <p>Combining steps 2 and 3 and substituting ρn = p·n:</p>
+          <div class="step-eq">\( k^2 + 2\rho n \cdot k - 2\rho n = 0 \)</div>
+          <div class="step-eq">\( \boxed{k = \sqrt{(\rho n)^2 + 2\rho n} - \rho n} \)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <h4>The moment arm ratio j</h4>
+          <p>The internal moment arm (distance between C and T) is jd, where:</p>
+          <div class="step-eq">\( \boxed{j = 1 - \frac{k}{3}} \)</div>
+          <div class="eq-note" style="color:var(--dim); margin-top:6px;">This comes from the centroid of the triangular stress block being at kd/3 from the top.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eq-box" style="margin-top:8px">
+      <div class="eq-label">STRESSES — SOLVING FOR fc AND fs</div>
+      \[ f_s = \frac{M}{A_s \cdot j \cdot d} \qquad f_c = \frac{2M}{k \cdot j \cdot b \cdot d^2} \]
+    </div>
+  </div>
+
+  <!-- INTERACTIVE CALC TAB -->
+  <div class="tab-panel" id="tab-calculator">
+    <div class="calc-box">
+      <div class="calc-title">CRACKED SECTION STRESS ANALYSIS — WSD</div>
+      <p style="color:var(--dim); font-size:0.85rem; margin-bottom:20px;">Enter beam properties and applied moment to find concrete and steel stresses. Assumes section is cracked (Stage II).</p>
+      <div class="input-grid">
+        <div class="input-group">
+          <label>b — Width (in)</label>
+          <input type="number" id="c_b" value="12">
+        </div>
+        <div class="input-group">
+          <label>d — Effective Depth (in)</label>
+          <input type="number" id="c_d" value="15.25">
+        </div>
+        <div class="input-group">
+          <label>As — Steel Area (in²)</label>
+          <input type="number" id="c_As" value="2.64" step="0.01">
+        </div>
+        <div class="input-group">
+          <label>M — Bending Moment (k·ft)</label>
+          <input type="number" id="c_M" value="200">
+        </div>
+        <div class="input-group">
+          <label>f'c — Concrete Strength (psi)</label>
+          <input type="number" id="c_fc" value="4000">
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcWSD()">ANALYZE SECTION</button>
+
+      <div id="wsdResults" style="display:none; margin-top:24px;">
+        <div class="results-grid">
+          <div class="result-item"><div class="r-label">ρ (rho)</div><div class="r-value" id="r_rho">—</div></div>
+          <div class="result-item"><div class="r-label">n</div><div class="r-value" id="r_n2">—</div></div>
+          <div class="result-item"><div class="r-label">ρn</div><div class="r-value" id="r_rn">—</div></div>
+          <div class="result-item"><div class="r-label">k</div><div class="r-value" id="r_k">—</div></div>
+          <div class="result-item"><div class="r-label">j</div><div class="r-value" id="r_j">—</div></div>
+          <div class="result-item"><div class="r-label">kd (in)</div><div class="r-value" id="r_kd">—</div></div>
+          <div class="result-item"><div class="r-label">fs — Steel Stress</div><div class="r-value" id="r_fs">—</div></div>
+          <div class="result-item"><div class="r-label">fc — Conc. Stress</div><div class="r-value" id="r_fc2">—</div></div>
+        </div>
+        <div id="stressCheck" class="result-highlight" style="margin-top:16px;"></div>
+        <canvas id="stressDiagramCanvas" width="600" height="160" style="width:100%;margin-top:16px;border:1px solid var(--border);border-radius:3px;background:var(--bg3);"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORKED PROBLEM TAB -->
+  <div class="tab-panel" id="tab-worked">
+    <div class="worked-problem">
+      <div class="wp-header">
+        <span class="wp-badge">Q.1.A</span>
+        <span class="wp-title">Simply Supported Beam — Find all stresses</span>
+      </div>
+      <div class="wp-body">
+        <div class="wp-given">
+          <h4>GIVEN</h4>
+          <table>
+            <tr><td>Beam span:</td><td>L = 20 ft, simply supported</td></tr>
+            <tr><td>Load:</td><td>w = 4 k/ft (uniform)</td></tr>
+            <tr><td>Width:</td><td>b = 12"</td></tr>
+            <tr><td>Total height:</td><td>h = 18"</td></tr>
+            <tr><td>Steel:</td><td>6 #6 bars</td></tr>
+            <tr><td>Concrete:</td><td>f'c = 4,000 psi</td></tr>
+            <tr><td>Steel:</td><td>fy = 60 ksi</td></tr>
+          </table>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-content">
+              <h4>Compute section properties</h4>
+              <p>Steel area and effective depth:</p>
+              <div class="step-eq">As = 6 × 0.44 = 2.64 in²</div>
+              <div class="step-eq">d = h − cover − stirrup − ½bar = 18 − 1.5 − 0 − 6/8 − 0.5 = 15.25"</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-content">
+              <h4>Compute reinforcement ratio and modular ratio</h4>
+              <div class="step-eq">ρ = As/(bd) = 2.64/(12 × 15.25) = 0.0144</div>
+              <div class="step-eq">n = Es/Ec = 29×10⁶ / (57,000√4000) = 8.0</div>
+              <div class="step-eq">ρn = 0.0144 × 8 = 0.115</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-content">
+              <h4>Find k and j</h4>
+              <div class="step-eq">k = √(ρn)² + 2ρn − ρn = √(0.115² + 0.230) − 0.115 = 0.378</div>
+              <div class="step-eq">j = 1 − k/3 = 1 − 0.378/3 = 0.874</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-content">
+              <h4>Maximum bending moment</h4>
+              <div class="step-eq">M = wL²/8 = 4 × 20² / 8 = 200 k·ft = 2,400 k·in</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-content">
+              <h4>Steel stress fs</h4>
+              <div class="step-eq">fs = M / (As·j·d) = 2400 / (2.64 × 0.874 × 15.25)</div>
+              <div class="result-highlight">fs = 68.2 ksi</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-content">
+              <h4>Concrete stress fc</h4>
+              <div class="step-eq">fc = 2M / (k·j·b·d²) = 2×2400 / (0.378 × 0.874 × 12 × 15.25²)</div>
+              <div class="result-highlight">fc = 5.2 ksi = 5,200 psi</div>
+            </div>
+          </div>
+        </div>
+        <div class="info-box">
+          <strong>Interpretation:</strong> Steel stress is 68.2 ksi, which exceeds fy = 60 ksi — the beam as designed would have the steel yielding! This indicates the section needs to be redesigned (larger beam or more steel) for safe WSD. This is exactly the scenario that motivates the design problem in Q.1(b).
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: WSD DESIGN -->
+<section class="section" id="wsd-design">
+  <div class="section-number">05 — WORKING STRESS DESIGN (WSD)</div>
+  <h2><em>Designing</em> an RC Beam</h2>
+  <p class="lead">WSD limits stresses to safe fractions of the material strengths. The allowable stresses are set at half of failure — giving a safety factor of 2.</p>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <div class="concept-icon">🔵</div>
+      <h4>Allowable Concrete Stress</h4>
+      <p>In WSD, concrete compression is limited to half its compressive strength to stay in the linear range.</p>
+      <span class="value">fc,allow = ½ f'c</span>
+    </div>
+    <div class="concept-card">
+      <div class="concept-icon">🟡</div>
+      <h4>Allowable Steel Stress</h4>
+      <p>Steel stress is limited to half its yield strength — ensuring we stay well within the elastic range.</p>
+      <span class="value">fs,allow = ½ fy</span>
+    </div>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-label">WSD DESIGN EQUATIONS</div>
+    <p style="font-size:0.9rem; color:var(--dim); margin-bottom:12px;">From the moment equation M = C·jd = T·jd, solving for required bd² and As:</p>
+    \[ bd^2 = \frac{2M}{k \cdot j \cdot f_c} \qquad A_s = \frac{M}{f_s \cdot j \cdot d} \]
+    <div class="eq-note">where fc = ½f'c and fs = ½fy are the allowable stresses</div>
+  </div>
+
+  <div class="worked-problem" style="margin-top:32px;">
+    <div class="wp-header">
+      <span class="wp-badge">Q.1.B</span>
+      <span class="wp-title">Design cross-section for w = 4 k/ft, L = 20 ft</span>
+    </div>
+    <div class="wp-body">
+      <div class="wp-given">
+        <h4>GIVEN</h4>
+        <table>
+          <tr><td>Load:</td><td>w = 4 k/ft, L = 20 ft</td></tr>
+          <tr><td>f'c:</td><td>4,000 psi → fc = ½(4000) = 2,000 psi</td></tr>
+          <tr><td>fy:</td><td>60,000 psi → fs = ½(60,000) = 30,000 psi</td></tr>
+        </table>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-content">
+            <h4>Compute k from allowable stresses</h4>
+            <p>Using the stress ratio method with n = 8:</p>
+            <div class="step-eq">k = n·fc / (n·fc + fs) = 8×2000 / (8×2000 + 30000) = 0.348</div>
+            <div class="step-eq">j = 1 − k/3 = 1 − 0.348/3 = 0.884</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <h4>Maximum moment</h4>
+            <div class="step-eq">M = wL²/8 = 4 × 400 / 8 = 200 k·ft = 2,400,000 lb·in</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <h4>Required bd² (from concrete stress governs)</h4>
+            <div class="step-eq">bd² = 2M / (k·j·fc) = 2×200×1000×12 / (0.348 × 0.884 × 2000)</div>
+            <div class="result-highlight">bd² = 7,801 in³</div>
+            <p style="margin-top:8px; font-size:0.85rem; color:var(--dim)">Try b = 12": d² = 7801/12 = 650 → d = 25.5". Total h ≈ 27–28"</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <h4>Required steel area As</h4>
+            <div class="step-eq">As = M / (fs·j·d) = 200×1000×12 / (30000 × 0.884 × 25.5)</div>
+            <div class="result-highlight">As = 3.55 in²</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-content">
+            <h4>Choose bars</h4>
+            <p>Try #5 bars (A = 0.31 in²): Number = 3.55/0.31 = 11.45 → Use 12 #5 bars</p>
+            <p style="margin-top:6px">Try #6 bars (A = 0.44 in²): Number = 3.55/0.44 = 8.07 → Use 9 #6 bars</p>
+            <div class="result-highlight">Final selection: verify d is consistent, iterate if needed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WSD Design Calculator -->
+  <div class="calc-box" style="margin-top:32px;">
+    <div class="calc-title">WSD BEAM DESIGN — INTERACTIVE CALCULATOR</div>
+    <p style="color:var(--dim); font-size:0.85rem; margin-bottom:20px;">Enter loading and material properties to design a rectangular RC beam using WSD.</p>
+    <div class="input-grid">
+      <div class="input-group">
+        <label>w — Uniform Load (k/ft)</label>
+        <input type="number" id="d_w" value="4" step="0.5">
+      </div>
+      <div class="input-group">
+        <label>L — Span (ft)</label>
+        <input type="number" id="d_L" value="20">
+      </div>
+      <div class="input-group">
+        <label>b — Width (in)</label>
+        <input type="number" id="d_b" value="12">
+      </div>
+      <div class="input-group">
+        <label>f'c — Concrete Strength (psi)</label>
+        <input type="number" id="d_fc" value="4000">
+      </div>
+      <div class="input-group">
+        <label>fy — Steel Yield (psi)</label>
+        <input type="number" id="d_fy" value="60000">
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcWSDDesign()">DESIGN BEAM</button>
+    <div id="designResults" style="display:none; margin-top:24px;">
+      <div class="results-grid">
+        <div class="result-item"><div class="r-label">M (k·ft)</div><div class="r-value" id="d_M">—</div></div>
+        <div class="result-item"><div class="r-label">fc,allow</div><div class="r-value" id="d_fcallow">—</div></div>
+        <div class="result-item"><div class="r-label">fs,allow</div><div class="r-value" id="d_fsallow">—</div></div>
+        <div class="result-item"><div class="r-label">n</div><div class="r-value" id="d_n">—</div></div>
+        <div class="result-item"><div class="r-label">k</div><div class="r-value" id="d_k">—</div></div>
+        <div class="result-item"><div class="r-label">j</div><div class="r-value" id="d_j">—</div></div>
+        <div class="result-item"><div class="r-label">bd² (in³)</div><div class="r-value" id="d_bd2">—</div></div>
+        <div class="result-item"><div class="r-label">d required (in)</div><div class="r-value" id="d_d">—</div></div>
+        <div class="result-item"><div class="r-label">As required (in²)</div><div class="r-value" id="d_As">—</div></div>
+      </div>
+      <div id="barRecommendation" class="result-highlight" style="margin-top:16px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="section" id="summary">
+  <div class="section-number">06 — CHAPTER SUMMARY</div>
+  <h2>Key Equations to <em>Remember</em></h2>
+
+  <div class="concept-grid">
+    <div class="eq-box" style="margin:0">
+      <div class="eq-label">MATERIAL</div>
+      \( E_c = 57{,}000\sqrt{f'_c} \) (psi)<br>
+      \( n = E_s / E_c \)<br>
+      \( f_r = 7.5\sqrt{f'_c} \) (psi)
+    </div>
+    <div class="eq-box" style="margin:0">
+      <div class="eq-label">CRACKED SECTION</div>
+      \( \rho = A_s / (bd) \)<br>
+      \( k = \sqrt{(\rho n)^2 + 2\rho n} - \rho n \)<br>
+      \( j = 1 - k/3 \)
+    </div>
+    <div class="eq-box" style="margin:0">
+      <div class="eq-label">STRESSES</div>
+      \( f_s = M / (A_s \cdot jd) \)<br>
+      \( f_c = 2M / (k \cdot j \cdot b \cdot d^2) \)
+    </div>
+    <div class="eq-box" style="margin:0">
+      <div class="eq-label">WSD DESIGN</div>
+      \( f_{c,allow} = \tfrac{1}{2}f'_c \)<br>
+      \( f_{s,allow} = \tfrac{1}{2}f_y \)<br>
+      \( A_s = M / (f_s \cdot jd) \)
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-left">
+    <a href="/">∑ Mathify</a> — CEE335 Reinforced Concrete Design<br>
+    Chapter 1: Working Stress Design · mathify.us
+  </div>
+  <div style="font-family:'IBM Plex Mono';font-size:0.72rem;color:var(--muted)">
+    Free for students everywhere
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// BEAM ANIMATION
+// ============================================================
+const beamCanvas = document.getElementById('beamCanvas');
+const bCtx = beamCanvas.getContext('2d');
+const loadSlider = document.getElementById('loadSlider');
+const loadDisplay = document.getElementById('loadDisplay');
+const stageBadge = document.getElementById('stageBadge');
+
+function drawBeam(loadPct) {
+  const W = beamCanvas.width, H = beamCanvas.height;
+  bCtx.clearRect(0, 0, W, H);
+
+  const pad = 60, beamTop = 50, beamH = 80, beamL = W - 2*pad;
+  const deflection = (loadPct/100) * 22;
+
+  // --- Background grid lines ---
+  bCtx.strokeStyle = 'rgba(30,45,69,0.5)';
+  bCtx.lineWidth = 0.5;
+  for (let x = pad; x <= W-pad; x += 60) {
+    bCtx.beginPath(); bCtx.moveTo(x, 30); bCtx.lineTo(x, H-20); bCtx.stroke();
+  }
+
+  // --- Load arrows ---
+  const numArrows = 12;
+  bCtx.strokeStyle = '#f59e0b';
+  bCtx.fillStyle = '#f59e0b';
+  bCtx.lineWidth = 1.5;
+  for (let i = 0; i < numArrows; i++) {
+    const x = pad + (beamL / (numArrows-1)) * i;
+    const arrowH = 18 * (loadPct/100);
+    if (arrowH > 2) {
+      bCtx.beginPath();
+      bCtx.moveTo(x, beamTop - 4);
+      bCtx.lineTo(x, beamTop - 4 - arrowH);
+      bCtx.stroke();
+      bCtx.beginPath();
+      bCtx.moveTo(x-4, beamTop - 4);
+      bCtx.lineTo(x, beamTop);
+      bCtx.lineTo(x+4, beamTop - 4);
+      bCtx.fill();
+    }
+  }
+
+  // Load label
+  if (loadPct > 0) {
+    bCtx.fillStyle = '#f59e0b';
+    bCtx.font = '12px IBM Plex Mono';
+    bCtx.textAlign = 'center';
+    bCtx.fillText(`w = ${(loadPct/25).toFixed(1)} k/ft`, W/2, beamTop - 26);
+  }
+
+  // --- Beam outline ---
+  bCtx.save();
+  bCtx.beginPath();
+  bCtx.moveTo(pad, beamTop);
+  // Top edge
+  for (let x = 0; x <= beamL; x += 2) {
+    const xp = pad + x;
+    const y = beamTop + deflection * Math.sin(Math.PI * x / beamL) * 0.1;
+    x === 0 ? bCtx.moveTo(xp, y) : bCtx.lineTo(xp, y);
+  }
+  // Right side
+  bCtx.lineTo(W-pad, beamTop + beamH + deflection * 0.08);
+  // Bottom edge (curved due to deflection)
+  for (let x = beamL; x >= 0; x -= 2) {
+    const xp = pad + x;
+    const def = deflection * Math.sin(Math.PI * x / beamL);
+    bCtx.lineTo(xp, beamTop + beamH + def);
+  }
+  bCtx.closePath();
+
+  // Determine stage and color
+  let stage = 1;
+  if (loadPct > 30 && loadPct <= 70) stage = 2;
+  if (loadPct > 70) stage = 3;
+
+  const beamFill = loadPct <= 30 ? 'rgba(17,24,39,0.9)' :
+                   loadPct <= 70 ? 'rgba(17,24,39,0.9)' : 'rgba(30,10,10,0.9)';
+  bCtx.fillStyle = beamFill;
+  bCtx.fill();
+  bCtx.strokeStyle = stage === 1 ? '#38bdf8' : stage === 2 ? '#f59e0b' : '#f87171';
+  bCtx.lineWidth = 2;
+  bCtx.stroke();
+  bCtx.restore();
+
+  // --- Stress distribution diagram on right side ---
+  const sdX = W - pad - 140, sdW = 90, sdY = beamTop + 5, sdH = beamH - 10;
+  const neutralY = sdY + sdH * (1 - (stage === 1 ? 0.5 : 0.38));
+
+  // Draw stress diagram
+  bCtx.save();
+  // Compression zone (triangle, top)
+  const compPeak = sdW * 0.7 * (loadPct/100);
+  bCtx.beginPath();
+  bCtx.moveTo(sdX + sdW/2, sdY);
+  bCtx.lineTo(sdX + sdW/2 + compPeak, sdY);
+  bCtx.lineTo(sdX + sdW/2, neutralY);
+  bCtx.closePath();
+  bCtx.fillStyle = 'rgba(248,113,113,0.25)';
+  bCtx.fill();
+  bCtx.strokeStyle = '#f87171';
+  bCtx.lineWidth = 1.5;
+  bCtx.stroke();
+
+  if (stage === 1) {
+    // Tension in concrete (triangle, bottom)
+    const tensPeak = sdW * 0.35 * (loadPct/100);
+    bCtx.beginPath();
+    bCtx.moveTo(sdX + sdW/2, neutralY);
+    bCtx.lineTo(sdX + sdW/2 + tensPeak, sdY + sdH);
+    bCtx.lineTo(sdX + sdW/2, sdY + sdH);
+    bCtx.closePath();
+    bCtx.fillStyle = 'rgba(56,189,248,0.2)';
+    bCtx.fill();
+    bCtx.strokeStyle = '#38bdf8';
+    bCtx.stroke();
+  } else {
+    // Steel tension bar
+    const steelStress = sdW * 0.65 * (loadPct/100);
+    bCtx.beginPath();
+    bCtx.moveTo(sdX + sdW/2, sdY + sdH - 8);
+    bCtx.lineTo(sdX + sdW/2 + steelStress, sdY + sdH - 8);
+    bCtx.strokeStyle = '#f59e0b';
+    bCtx.lineWidth = 3;
+    bCtx.stroke();
+    bCtx.fillStyle = '#f59e0b';
+    bCtx.font = '9px IBM Plex Mono';
+    bCtx.fillText('T (steel)', sdX + sdW/2 + 4, sdY + sdH + 2);
+  }
+
+  // Neutral axis line
+  bCtx.beginPath();
+  bCtx.moveTo(sdX + sdW/2 - 10, neutralY);
+  bCtx.lineTo(sdX + sdW/2 + 80, neutralY);
+  bCtx.strokeStyle = '#64748b';
+  bCtx.lineWidth = 0.8;
+  bCtx.setLineDash([4,3]);
+  bCtx.stroke();
+  bCtx.setLineDash([]);
+
+  // Labels
+  bCtx.fillStyle = '#94a3b8';
+  bCtx.font = '9px IBM Plex Mono';
+  bCtx.textAlign = 'left';
+  bCtx.fillText('COMPRESSION', sdX + sdW/2 - 8, sdY - 4);
+  bCtx.fillStyle = '#f87171';
+  bCtx.fillText('fc', sdX + sdW/2 + compPeak + 4, sdY + 8);
+
+  bCtx.restore();
+
+  // --- Crack lines in tension zone ---
+  if (stage >= 2) {
+    const crackColor = stage === 3 ? '#f87171' : 'rgba(248,113,113,0.5)';
+    bCtx.strokeStyle = crackColor;
+    bCtx.lineWidth = 1;
+    const numCracks = stage === 3 ? 8 : 4;
+    for (let i = 0; i < numCracks; i++) {
+      const cx = pad + beamL * (0.15 + 0.7 * i/numCracks) + beamL * 0.07;
+      const def = deflection * Math.sin(Math.PI * (cx-pad) / beamL);
+      const crackTop = beamTop + beamH * 0.5 + def * 0.3;
+      const crackBot = beamTop + beamH * 0.9 + def;
+      bCtx.beginPath();
+      bCtx.moveTo(cx, crackTop);
+      bCtx.lineTo(cx + 4, crackBot);
+      bCtx.stroke();
+    }
+  }
+
+  // --- Supports ---
+  bCtx.fillStyle = '#1e2d45';
+  bCtx.strokeStyle = '#38bdf8';
+  bCtx.lineWidth = 1.5;
+  // Left pin
+  bCtx.beginPath();
+  bCtx.moveTo(pad, beamTop + beamH);
+  bCtx.lineTo(pad - 12, beamTop + beamH + 20);
+  bCtx.lineTo(pad + 12, beamTop + beamH + 20);
+  bCtx.closePath();
+  bCtx.fill(); bCtx.stroke();
+  // Right roller
+  bCtx.beginPath();
+  bCtx.moveTo(W-pad, beamTop + beamH + deflection * 0.05);
+  bCtx.lineTo(W-pad - 12, beamTop + beamH + deflection * 0.05 + 20);
+  bCtx.lineTo(W-pad + 12, beamTop + beamH + deflection * 0.05 + 20);
+  bCtx.closePath();
+  bCtx.fill(); bCtx.stroke();
+  bCtx.beginPath();
+  bCtx.arc(W-pad, beamTop + beamH + deflection * 0.05 + 24, 4, 0, Math.PI*2);
+  bCtx.fillStyle = '#38bdf8';
+  bCtx.fill();
+
+  // Stage label
+  bCtx.fillStyle = stage === 1 ? '#34d399' : stage === 2 ? '#f59e0b' : '#f87171';
+  bCtx.font = '11px IBM Plex Mono';
+  bCtx.textAlign = 'left';
+  bCtx.fillText(
+    stage === 1 ? 'Stage I: Uncracked' : stage === 2 ? 'Stage II: Cracked (WSD range)' : 'Stage III: Near Failure',
+    pad, H - 8
+  );
+}
+
+loadSlider.addEventListener('input', function() {
+  const v = parseInt(this.value);
+  loadDisplay.textContent = (v/25).toFixed(1) + ' k/ft';
+  let stage = 1;
+  if (v > 30 && v <= 70) stage = 2;
+  if (v > 70) stage = 3;
+  stageBadge.textContent = stage === 1 ? 'I — UNCRACKED' : stage === 2 ? 'II — CRACKED (WSD)' : 'III — NEAR FAILURE';
+  stageBadge.className = 'stage-badge stage-' + stage;
+  drawBeam(v);
+});
+drawBeam(0);
+
+// Auto-animate on load
+setTimeout(() => {
+  let v = 0;
+  const anim = setInterval(() => {
+    v += 1;
+    loadSlider.value = v;
+    loadDisplay.textContent = (v/25).toFixed(1) + ' k/ft';
+    let stage = 1;
+    if (v > 30 && v <= 70) stage = 2;
+    if (v > 70) stage = 3;
+    stageBadge.textContent = stage === 1 ? 'I — UNCRACKED' : stage === 2 ? 'II — CRACKED (WSD)' : 'III — NEAR FAILURE';
+    stageBadge.className = 'stage-badge stage-' + stage;
+    drawBeam(v);
+    if (v >= 55) { clearInterval(anim); }
+  }, 30);
+}, 800);
+
+// ============================================================
+// STRESS-STRAIN CURVES
+// ============================================================
+function drawConcreteSSCurve() {
+  const canvas = document.getElementById('concreteSSCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 50, r: 20, t: 20, b: 40 };
+  const cW = W - pad.l - pad.r, cH = H - pad.t - pad.b;
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#0d1320';
+  ctx.fillRect(0, 0, W, H);
+
+  // Axes
+  ctx.strokeStyle = '#1e2d45';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + cH);
+  ctx.lineTo(pad.l + cW, pad.t + cH);
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#64748b';
+  ctx.font = '10px IBM Plex Mono';
+  ctx.textAlign = 'center';
+  ctx.fillText('Strain ε', pad.l + cW/2, H - 4);
+  ctx.save();
+  ctx.translate(14, pad.t + cH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('Stress (psi)', 0, 0);
+  ctx.restore();
+
+  // Concrete curve (parabolic-ish)
+  const maxStrain = 0.003;
+  const fc = 4000; // example
+
+  ctx.strokeStyle = '#f87171';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i <= 100; i++) {
+    const e = (i/100) * maxStrain * 1.1;
+    const eu = 0.003;
+    let stress;
+    if (e <= eu) {
+      stress = fc * (2*(e/eu) - (e/eu)**2);
+    } else {
+      stress = fc * Math.max(0, 1 - 2*(e-eu)/eu);
+    }
+    const x = pad.l + (e / (maxStrain*1.1)) * cW;
+    const y = pad.t + cH - (stress/fc) * cH * 0.85;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // WSD range highlight
+  ctx.strokeStyle = '#f59e0b';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([4,3]);
+  const halfStrain = 0.001;
+  ctx.beginPath();
+  for (let i = 0; i <= 40; i++) {
+    const e = (i/40) * halfStrain;
+    const stress = fc * (2*(e/0.003) - (e/0.003)**2);
+    const x = pad.l + (e / (maxStrain*1.1)) * cW;
+    const y = pad.t + cH - (stress/fc) * cH * 0.85;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // f'c line
+  ctx.strokeStyle = 'rgba(248,113,113,0.3)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t + cH * 0.15);
+  ctx.lineTo(pad.l + cW, pad.t + cH * 0.15);
+  ctx.stroke();
+  ctx.fillStyle = '#f87171';
+  ctx.font = '10px IBM Plex Mono';
+  ctx.textAlign = 'left';
+  ctx.fillText("f'c", pad.l + 4, pad.t + cH * 0.15 - 3);
+
+  // ½f'c line
+  ctx.strokeStyle = 'rgba(245,158,11,0.3)';
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t + cH * 0.57);
+  ctx.lineTo(pad.l + cW * 0.4, pad.t + cH * 0.57);
+  ctx.stroke();
+  ctx.fillStyle = '#f59e0b';
+  ctx.fillText("½f'c (WSD limit)", pad.l + 4, pad.t + cH * 0.57 - 3);
+
+  // ε=0.003 marker
+  ctx.fillStyle = '#64748b';
+  ctx.textAlign = 'center';
+  ctx.fillText('0.003', pad.l + (0.003/(maxStrain*1.1)) * cW, H - 24);
+}
+
+function drawSteelSSCurve() {
+  const canvas = document.getElementById('steelSSCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 50, r: 20, t: 20, b: 40 };
+  const cW = W - pad.l - pad.r, cH = H - pad.t - pad.b;
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#0d1320';
+  ctx.fillRect(0, 0, W, H);
+
+  // Axes
+  ctx.strokeStyle = '#1e2d45';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + cH);
+  ctx.lineTo(pad.l + cW, pad.t + cH);
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#64748b';
+  ctx.font = '10px IBM Plex Mono';
+  ctx.textAlign = 'center';
+  ctx.fillText('Strain ε', pad.l + cW/2, H - 4);
+  ctx.save();
+  ctx.translate(14, pad.t + cH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('Stress (ksi)', 0, 0);
+  ctx.restore();
+
+  const fy = 60, Es = 29000;
+  const ey = fy/Es; // ~0.00207
+  const maxStrain = 0.01;
+
+  // WSD range
+  const wsdStrain = ey/2;
+  ctx.fillStyle = 'rgba(245,158,11,0.05)';
+  ctx.fillRect(pad.l, pad.t, (wsdStrain/maxStrain)*cW, cH);
+
+  // Steel curve
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  // Elastic portion
+  ctx.moveTo(pad.l, pad.t + cH);
+  const yieldX = pad.l + (ey/maxStrain) * cW;
+  const yieldY = pad.t + cH * 0.15;
+  ctx.lineTo(yieldX, yieldY);
+  // Plastic plateau
+  ctx.lineTo(pad.l + cW, yieldY);
+  ctx.stroke();
+
+  // fy line
+  ctx.strokeStyle = 'rgba(56,189,248,0.3)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.moveTo(pad.l, yieldY);
+  ctx.lineTo(pad.l + cW, yieldY);
+  ctx.stroke();
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = '10px IBM Plex Mono';
+  ctx.textAlign = 'left';
+  ctx.fillText('fy = 60 ksi', pad.l + 4, yieldY - 3);
+
+  // ½fy line
+  ctx.strokeStyle = 'rgba(245,158,11,0.4)';
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t + cH * 0.575);
+  ctx.lineTo(pad.l + cW * 0.45, pad.t + cH * 0.575);
+  ctx.stroke();
+  ctx.fillStyle = '#f59e0b';
+  ctx.fillText('½fy (WSD limit)', pad.l + 4, pad.t + cH * 0.575 - 3);
+
+  // εy marker
+  ctx.fillStyle = '#64748b';
+  ctx.textAlign = 'center';
+  ctx.fillText('εy', yieldX, H - 24);
+}
+
+drawConcreteSSCurve();
+drawSteelSSCurve();
+
+// ============================================================
+// n CALCULATOR
+// ============================================================
+function calcN() {
+  const fc = parseFloat(document.getElementById('fc_n').value);
+  const Ec = 57000 * Math.sqrt(fc);
+  const Es = 29e6;
+  const n = Math.round(Es / Ec);
+  const fr = 7.5 * Math.sqrt(fc);
+
+  document.getElementById('r_Ec').textContent = (Ec/1e6).toFixed(3) + ' × 10⁶';
+  document.getElementById('r_n').textContent = n;
+  document.getElementById('r_fr').textContent = fr.toFixed(0) + ' psi';
+  document.getElementById('nResults').style.display = 'grid';
+}
+
+// ============================================================
+// WSD ANALYSIS CALCULATOR
+// ============================================================
+function calcWSD() {
+  const b = parseFloat(document.getElementById('c_b').value);
+  const d = parseFloat(document.getElementById('c_d').value);
+  const As = parseFloat(document.getElementById('c_As').value);
+  const M_kft = parseFloat(document.getElementById('c_M').value);
+  const fc_prime = parseFloat(document.getElementById('c_fc').value);
+
+  const M = M_kft * 12000; // lb·in
+  const Ec = 57000 * Math.sqrt(fc_prime);
+  const n = Math.round(29e6 / Ec);
+  const rho = As / (b * d);
+  const rn = rho * n;
+  const k = Math.sqrt(rn*rn + 2*rn) - rn;
+  const j = 1 - k/3;
+  const kd = k * d;
+  const fs = (M / (As * j * d)) / 1000; // ksi
+  const fc = (2*M / (k * j * b * d * d)) / 1000; // ksi
+
+  document.getElementById('r_rho').textContent = rho.toFixed(4);
+  document.getElementById('r_n2').textContent = n;
+  document.getElementById('r_rn').textContent = rn.toFixed(3);
+  document.getElementById('r_k').textContent = k.toFixed(3);
+  document.getElementById('r_j').textContent = j.toFixed(3);
+  document.getElementById('r_kd').textContent = kd.toFixed(2) + '"';
+  document.getElementById('r_fs').textContent = fs.toFixed(1) + ' ksi';
+  document.getElementById('r_fc2').textContent = fc.toFixed(2) + ' ksi';
+
+  const fs_allow = 30; // ksi
+  const fc_allow = fc_prime/2/1000; // ksi
+  let msg = '';
+  const fsOK = fs <= fs_allow;
+  const fcOK = fc <= fc_allow;
+  if (fsOK && fcOK) {
+    msg = `✓ SAFE — fs = ${fs.toFixed(1)} ksi ≤ ${fs_allow} ksi allowed | fc = ${fc.toFixed(2)} ksi ≤ ${fc_allow.toFixed(2)} ksi allowed`;
+  } else {
+    msg = `✗ OVERSTRESSED — `;
+    if (!fsOK) msg += `Steel: ${fs.toFixed(1)} ksi > ${fs_allow} ksi `;
+    if (!fcOK) msg += `Concrete: ${fc.toFixed(2)} ksi > ${fc_allow.toFixed(2)} ksi`;
+    msg += ' → Section needs redesign';
+  }
+  document.getElementById('stressCheck').textContent = msg;
+  document.getElementById('stressCheck').style.color = (fsOK && fcOK) ? '#34d399' : '#f87171';
+  document.getElementById('stressCheck').style.borderColor = (fsOK && fcOK) ? 'rgba(52,211,153,0.3)' : 'rgba(248,113,113,0.3)';
+  document.getElementById('stressCheck').style.background = (fsOK && fcOK) ? 'rgba(52,211,153,0.06)' : 'rgba(248,113,113,0.06)';
+
+  document.getElementById('wsdResults').style.display = 'block';
+  drawStressDiagram(k, kd, d, fc, fs);
+  MathJax.typeset();
+}
+
+function drawStressDiagram(k, kd, d, fc, fs) {
+  const canvas = document.getElementById('stressDiagramCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const secW = 80, secH = H - 30;
+  const secX = 60, secY = 10;
+  const neutralY = secY + secH * k;
+
+  // --- Cross section ---
+  ctx.fillStyle = '#0d1320';
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 1.5;
+  ctx.fillRect(secX, secY, secW, secH);
+  ctx.strokeRect(secX, secY, secW, secH);
+
+  // Tension crack lines
+  ctx.strokeStyle = 'rgba(248,113,113,0.4)';
+  ctx.lineWidth = 0.8;
+  for (let i = 0; i < 5; i++) {
+    const cx = secX + secW * 0.1 + secW * 0.8 * (i/4);
+    ctx.beginPath();
+    ctx.moveTo(cx, neutralY + 4);
+    ctx.lineTo(cx + 3, neutralY + (secH - neutralY + secY) * 0.7);
+    ctx.stroke();
+  }
+
+  // Steel bars
+  const steelY = secY + secH * 0.88;
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath();
+    ctx.arc(secX + secW*0.2 + secW*0.3*i, steelY, 5, 0, Math.PI*2);
+    ctx.fillStyle = '#f59e0b';
+    ctx.fill();
+  }
+
+  // Neutral axis line
+  ctx.setLineDash([4,3]);
+  ctx.strokeStyle = '#64748b';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(secX - 10, neutralY);
+  ctx.lineTo(secX + secW + 10, neutralY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // --- Stress diagram ---
+  const diagX = secX + secW + 30;
+  const scale = (secH * 0.8) / Math.max(fc, 10);
+
+  // Compression triangle
+  ctx.beginPath();
+  ctx.moveTo(diagX, secY);
+  ctx.lineTo(diagX + fc * scale * 2, secY);
+  ctx.lineTo(diagX, neutralY);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(248,113,113,0.2)';
+  ctx.fill();
+  ctx.strokeStyle = '#f87171';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(diagX, secY);
+  ctx.lineTo(diagX + fc * scale * 2, secY);
+  ctx.lineTo(diagX, neutralY);
+  ctx.stroke();
+
+  // Steel tension bar
+  const fsScale = (secH * 0.4) / Math.max(fs, 10);
+  ctx.strokeStyle = '#f59e0b';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(diagX, steelY);
+  ctx.lineTo(diagX + fs * fsScale * 0.5, steelY);
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#f87171';
+  ctx.font = '10px IBM Plex Mono';
+  ctx.textAlign = 'left';
+  ctx.fillText(`fc = ${fc.toFixed(2)} ksi`, diagX + fc*scale*2 + 4, secY + 10);
+
+  ctx.fillStyle = '#f59e0b';
+  ctx.fillText(`fs = ${fs.toFixed(1)} ksi`, diagX + fs*fsScale*0.5 + 4, steelY + 4);
+
+  ctx.fillStyle = '#64748b';
+  ctx.fillText('kd', secX - 28, neutralY + 4);
+  ctx.fillText('d', secX - 28, steelY + 4);
+
+  // Dimension lines
+  ctx.strokeStyle = '#64748b';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.moveTo(secX - 20, secY);
+  ctx.lineTo(secX - 20, steelY);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(secX - 24, secY); ctx.lineTo(secX-16, secY);
+  ctx.moveTo(secX - 24, steelY); ctx.lineTo(secX-16, steelY);
+  ctx.stroke();
+}
+
+// ============================================================
+// WSD DESIGN CALCULATOR
+// ============================================================
+function calcWSDDesign() {
+  const w = parseFloat(document.getElementById('d_w').value);
+  const L = parseFloat(document.getElementById('d_L').value);
+  const b = parseFloat(document.getElementById('d_b').value);
+  const fc_prime = parseFloat(document.getElementById('d_fc').value);
+  const fy = parseFloat(document.getElementById('d_fy').value);
+
+  const fc_allow = fc_prime / 2;
+  const fs_allow = fy / 2;
+  const Ec = 57000 * Math.sqrt(fc_prime);
+  const n = Math.round(29e6 / Ec);
+
+  const M_kft = w * L * L / 8;
+  const M_lbin = M_kft * 12000;
+
+  const k = (n * fc_allow) / (n * fc_allow + fs_allow);
+  const j = 1 - k/3;
+
+  const bd2 = 2 * M_lbin / (k * j * fc_allow);
+  const d_req = Math.sqrt(bd2 / b);
+  const As_req = M_lbin / (fs_allow * j * d_req);
+
+  document.getElementById('d_M').textContent = M_kft.toFixed(1);
+  document.getElementById('d_fcallow').textContent = (fc_allow/1000).toFixed(2) + ' ksi';
+  document.getElementById('d_fsallow').textContent = (fs_allow/1000).toFixed(1) + ' ksi';
+  document.getElementById('d_n').textContent = n;
+  document.getElementById('d_k').textContent = k.toFixed(3);
+  document.getElementById('d_j').textContent = j.toFixed(3);
+  document.getElementById('d_bd2').textContent = bd2.toFixed(0);
+  document.getElementById('d_d').textContent = d_req.toFixed(1) + '"';
+  document.getElementById('d_As').textContent = As_req.toFixed(2) + ' in²';
+
+  // Bar recommendations
+  const bars = [
+    {num:3, area:0.11, name:'#3'}, {num:4, area:0.20, name:'#4'},
+    {num:5, area:0.31, name:'#5'}, {num:6, area:0.44, name:'#6'},
+    {num:7, area:0.60, name:'#7'}, {num:8, area:0.79, name:'#8'}
+  ];
+  let recs = 'Bar options: ';
+  bars.forEach(bar => {
+    const n_bars = Math.ceil(As_req / bar.area);
+    if (n_bars >= 2 && n_bars <= 16) {
+      recs += `${n_bars} ${bar.name} bars (${(n_bars*bar.area).toFixed(2)} in²)  |  `;
+    }
+  });
+  document.getElementById('barRecommendation').textContent = recs.slice(0,-5);
+  document.getElementById('designResults').style.display = 'block';
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  btn.classList.add('active');
+  if (tabId === 'calculator') setTimeout(() => MathJax.typeset(), 50);
+}
+
+// ============================================================
+// MATHJAX RE-RENDER on tab switch
+// ============================================================
+window.addEventListener('load', () => {
+  MathJax.typesetPromise();
+});
+</script>
+</body>
+</html>
