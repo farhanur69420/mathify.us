@@ -549,7 +549,7 @@ function toggleTheme() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const newTheme = isDark ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('mathify-theme', newTheme);
+  try { localStorage.setItem('mathify-theme', newTheme); } catch(e) {}
   updateThemeBtn(newTheme);
 }
 
@@ -562,7 +562,8 @@ function updateThemeBtn(theme) {
 }
 
 (function() {
-  const saved = localStorage.getItem('mathify-theme');
+  let saved = null;
+  try { saved = localStorage.getItem('mathify-theme'); } catch(e) {}
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const theme = saved || (prefersDark ? 'dark' : 'light');
   if (theme === 'dark') {
