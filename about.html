@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Mathify</title>
+<meta name="description" content="About Mathify — a free, open resource for math and civil engineering students and professionals everywhere.">
+<meta name="theme-color" content="#1a3a5c">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0d0d0d; --paper:#f5f0e8; --steel:#2c3e50; --rust:#c0392b; --blueprint:#1a3a5c; --grid:#d4cfc4; --accent:#e67e22; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.06) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;background:rgba(245,240,232,0.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);flex-wrap:wrap;gap:0.5rem;}
+  .nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+  .nav-links{display:flex;gap:2rem;list-style:none;flex-wrap:wrap;}
+  .nav-links a{font-family:'Space Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);text-decoration:none;transition:color 0.2s;}
+  .nav-links a:hover,.nav-links a.active{color:var(--rust);}
+  .page-hero{position:relative;z-index:1;padding:10rem 4rem 5rem;max-width:860px;}
+  .page-eyebrow{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--rust);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.8rem;}
+  .page-eyebrow::before{content:'';display:block;width:30px;height:1px;background:var(--rust);flex-shrink:0;}
+  .page-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:900;line-height:1.08;color:var(--blueprint);margin-bottom:1.5rem;}
+  .page-lead{font-size:1.1rem;font-weight:300;line-height:1.8;color:var(--steel);max-width:620px;}
+  section{position:relative;z-index:1;padding:5rem 4rem;}
+  .section-header{display:flex;align-items:baseline;gap:1.5rem;margin-bottom:3rem;}
+  .section-num{font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--rust);letter-spacing:0.1em;white-space:nowrap;}
+  .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:700;color:var(--blueprint);}
+  .mission{background:white;border-top:3px solid var(--blueprint);}
+  .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+  .mission-text p{font-size:1rem;line-height:1.85;color:var(--steel);margin-bottom:1.2rem;}
+  .mission-sidebar{display:flex;flex-direction:column;gap:1.5px;}
+  .sidebar-card{background:var(--paper);border:1px solid var(--grid);padding:1.8rem;}
+  .sidebar-card:first-child{border-top:3px solid var(--accent);}
+  .sc-label{font-family:'Space Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--rust);margin-bottom:0.5rem;}
+  .sc-value{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--blueprint);line-height:1.4;}
+  .values{background:var(--blueprint);}
+  .values .section-title{color:white;}
+  .values .section-num{color:var(--accent);}
+  .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;}
+  .value-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:2.2rem;transition:background 0.2s;position:relative;overflow:hidden;}
+  .value-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+  .value-card:hover{background:rgba(255,255,255,0.08);}
+  .value-card:hover::after{transform:scaleX(1);}
+  .value-icon{font-size:1.8rem;margin-bottom:1rem;}
+  .value-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:0.6rem;}
+  .value-desc{font-size:0.87rem;line-height:1.7;color:rgba(245,240,232,0.7);}
+  .stats{background:var(--paper);}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+  .stat-box{padding:2.5rem 2rem;background:white;border:1px solid var(--grid);text-align:center;transition:box-shadow 0.2s,transform 0.2s;}
+  .stat-box:hover{box-shadow:5px 5px 0 var(--blueprint);transform:translate(-2px,-2px);}
+  .stat-num{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:900;color:var(--blueprint);line-height:1;}
+  .stat-label{font-family:'Space Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--steel);margin-top:0.5rem;}
+  .builder{background:var(--ink);color:var(--paper);}
+  .builder .section-title{color:var(--paper);}
+  .builder .section-num{color:var(--accent);}
+  .builder-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+  .builder-text p{font-size:1rem;line-height:1.85;color:rgba(245,240,232,0.8);margin-bottom:1.2rem;}
+  .callout-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-left:3px solid var(--accent);padding:2rem;}
+  .callout-quote{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:400;font-style:italic;line-height:1.65;color:rgba(245,240,232,0.9);}
+  .callout-attr{font-family:'Space Mono',monospace;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-top:1rem;}
+  .languages{background:white;border-top:1px solid var(--grid);}
+  .lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--grid);}
+  .lang-card{background:white;padding:1.8rem 1.5rem;text-align:center;transition:background 0.2s;}
+  .lang-card:hover{background:var(--paper);}
+  .lang-script{font-size:1.8rem;margin-bottom:0.6rem;line-height:1;}
+  .lang-name{font-family:'Space Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);margin-bottom:0.3rem;}
+  .lang-native{font-size:0.9rem;color:var(--blueprint);font-weight:500;}
+  footer{position:relative;z-index:1;padding:2rem 4rem;border-top:1px solid var(--grid);display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;color:#999;flex-wrap:wrap;gap:0.5rem;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  .page-hero>*{opacity:0;animation:fadeUp 0.6s ease forwards;}
+  .page-eyebrow{animation-delay:0.1s;}.page-title{animation-delay:0.25s;}.page-lead{animation-delay:0.4s;}
+  @media(max-width:960px){nav{padding:0.8rem 1.5rem;}.page-hero{padding:8rem 1.5rem 4rem;}section{padding:4rem 1.5rem;}.mission-grid{grid-template-columns:1fr;gap:2.5rem;}.stats-grid{grid-template-columns:1fr 1fr;}.builder-grid{grid-template-columns:1fr;gap:2.5rem;}footer{flex-direction:column;text-align:center;}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">∑ Mathify</a>
+  <ul class="nav-links">
+    <li><a href="index.html#pages">Pages</a></li>
+    <li><a href="index.html#topics">Topics</a></li>
+    <li><a href="index.html#formulas">Formulas</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-eyebrow">About</div>
+  <h1 class="page-title">Built for the<br>curious mind.</h1>
+  <p class="page-lead">Mathify is a free, open resource where mathematics and civil engineering meet — built for students, engineers, and self-learners everywhere.</p>
+</div>
+
+<section class="mission">
+  <div class="section-header">
+    <span class="section-num">01 —</span>
+    <h2 class="section-title">The Mission</h2>
+  </div>
+  <div class="mission-grid">
+    <div class="mission-text">
+      <p>Mathify was created with one simple belief: the gap between understanding a concept and applying it in the real world should be as small as possible. Too often, students encounter engineering mathematics in fragments — a formula here, a derivation there — with no clear bridge between the equation on the board and the structure it describes.</p>
+      <p>This site is that bridge. From high school calculus to reinforced concrete design, every topic is presented with context, clarity, and intuition — not just symbols and steps.</p>
+      <p>Whether you're preparing for an exam, working through a design problem, or just curious about how the built world is calculated — this is the place to learn, revisit, and go deeper.</p>
+      <p>All content is free, permanently. No accounts. No paywalls. No ads. Just learning.</p>
+    </div>
+    <div class="mission-sidebar">
+      <div class="sidebar-card">
+        <div class="sc-label">Founded</div>
+        <div class="sc-value">2024 — as a personal study resource</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sc-label">Audience</div>
+        <div class="sc-value">High school students, university undergrads, civil engineers, self-learners</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sc-label">Languages</div>
+        <div class="sc-value">English, हिंदी, العربية, Español, Français, বাংলা, 中文</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sc-label">License</div>
+        <div class="sc-value">Free for all — personal and educational use</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="values">
+  <div class="section-header">
+    <span class="section-num">02 —</span>
+    <h2 class="section-title">What We Stand For</h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-icon">🎯</div>
+      <div class="value-name">Clarity Over Complexity</div>
+      <p class="value-desc">Every explanation starts with intuition, not notation. Equations follow understanding — not the other way around.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">🌍</div>
+      <div class="value-name">Accessible to Everyone</div>
+      <p class="value-desc">Engineering education should not depend on where you were born or what you can afford. Mathify is free, multilingual, and built for the world.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">🔗</div>
+      <div class="value-name">Theory Meets Practice</div>
+      <p class="value-desc">Every formula is connected to something real — a beam, a channel, a column, a foundation. Engineering is applied mathematics.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">⚙️</div>
+      <div class="value-name">Always Improving</div>
+      <p class="value-desc">New content, tools, worked examples, and language support are added continuously. The site grows as the need grows.</p>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="section-header">
+    <span class="section-num">03 —</span>
+    <h2 class="section-title">By the Numbers</h2>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="stat-num">7</div><div class="stat-label">Topic Areas</div></div>
+    <div class="stat-box"><div class="stat-num">7</div><div class="stat-label">Key Formulas</div></div>
+    <div class="stat-box"><div class="stat-num">7</div><div class="stat-label">Languages</div></div>
+    <div class="stat-box"><div class="stat-num">∞</div><div class="stat-label">Things to Learn</div></div>
+  </div>
+</section>
+
+<section class="builder">
+  <div class="section-header">
+    <span class="section-num">04 —</span>
+    <h2 class="section-title">The Builder</h2>
+  </div>
+  <div class="builder-grid">
+    <div class="builder-text">
+      <p>Mathify is built and maintained by Farhan — a civil engineering student at NSU (North South University), developing the site as part of a broader initiative called FarMath: building tools that mirror real engineering workflows and make advanced concepts genuinely accessible.</p>
+      <p>The goal is to build interactive simulators, calculation tools, and deep-dive guides across every major civil engineering subject — from structural analysis to hydraulics to geotechnical design.</p>
+      <p>If you have suggestions, corrections, or want to contribute content or translations, the project is open for collaboration.</p>
+    </div>
+    <div class="callout-box">
+      <div class="callout-quote">"The best engineering education doesn't just teach you how to calculate — it teaches you how to think. Mathify exists to build that intuition, one concept at a time."</div>
+      <div class="callout-attr">— Farhan, Builder of Mathify</div>
+    </div>
+  </div>
+</section>
+
+<section class="languages">
+  <div class="section-header">
+    <span class="section-num">05 —</span>
+    <h2 class="section-title">7 Languages</h2>
+  </div>
+  <div class="lang-grid">
+    <div class="lang-card"><div class="lang-script">🇬🇧</div><div class="lang-name">EN</div><div class="lang-native">English</div></div>
+    <div class="lang-card"><div class="lang-script">🇮🇳</div><div class="lang-name">HI</div><div class="lang-native">हिंदी</div></div>
+    <div class="lang-card"><div class="lang-script">🌙</div><div class="lang-name">AR</div><div class="lang-native">العربية</div></div>
+    <div class="lang-card"><div class="lang-script">🇪🇸</div><div class="lang-name">ES</div><div class="lang-native">Español</div></div>
+    <div class="lang-card"><div class="lang-script">🇫🇷</div><div class="lang-name">FR</div><div class="lang-native">Français</div></div>
+    <div class="lang-card"><div class="lang-script">🇧🇩</div><div class="lang-name">BN</div><div class="lang-native">বাংলা</div></div>
+    <div class="lang-card"><div class="lang-script">🇨🇳</div><div class="lang-name">ZH</div><div class="lang-native">中文</div></div>
+  </div>
+</section>
+
+<footer>
+  <span>∑ Mathify — mathify.us</span>
+  <span>Free for students and engineers everywhere · 7 languages</span>
+</footer>
+</body>
+</html>
