@@ -645,11 +645,11 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(–gol
   <p class="lead">Every term in every formula comes from a physical observation. We'll build each equation from first principles. No memorization — just understanding.</p>
 
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('theory','math-tabs')">01 — The Setup</button>
-    <button class="tab-btn" onclick="switchTab('neutral','math-tabs')">02 — Neutral Axis</button>
-    <button class="tab-btn" onclick="switchTab('kj','math-tabs')">03 — k &amp; j Method</button>
-    <button class="tab-btn" onclick="switchTab('stresses','math-tabs')">04 — Stresses</button>
-    <button class="tab-btn" onclick="switchTab('design','math-tabs')">05 — Design</button>
+    <button class="tab-btn active" onclick="switchTab(this,'theory','math-tabs')">01 — The Setup</button>
+    <button class="tab-btn" onclick="switchTab(this,'neutral','math-tabs')">02 — Neutral Axis</button>
+    <button class="tab-btn" onclick="switchTab(this,'kj','math-tabs')">03 — k &amp; j Method</button>
+    <button class="tab-btn" onclick="switchTab(this,'stresses','math-tabs')">04 — Stresses</button>
+    <button class="tab-btn" onclick="switchTab(this,'design','math-tabs')">05 — Design</button>
   </div>
   <div id="math-tabs">
 
@@ -935,8 +935,8 @@ Check: 3.0 > 2.77 ✅ → <strong style="color:var(--green);">SAFE</strong></div
   <p class="lead">Plug in your beam values. The calculator shows k, j, actual stresses, and whether the beam is safe — all updated in real time with a live visual.</p>
 
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('calc-analysis','calc-tabs')">Analysis</button>
-    <button class="tab-btn" onclick="switchTab('calc-design','calc-tabs')">Design</button>
+    <button class="tab-btn active" onclick="switchTab(this,'calc-analysis','calc-tabs')">Analysis</button>
+    <button class="tab-btn" onclick="switchTab(this,'calc-design','calc-tabs')">Design</button>
   </div>
   <div id="calc-tabs">
 
@@ -1018,13 +1018,16 @@ const dpr = window.devicePixelRatio || 1;
 function setupCanvas(id) {
   const canvas = C(id);
   if (!canvas) return null;
-  const rect = canvas.getBoundingClientRect();
-  const W = canvas.parentElement.clientWidth;
-  const H = parseInt(canvas.getAttribute('height'));
+  let W = canvas.parentElement.clientWidth;
+  if (W <= 0) W = canvas.closest('section, .section, body')
+    ? (canvas.closest('section, .section') || document.body).clientWidth * 0.9
+    : window.innerWidth * 0.85;
+  if (W <= 0) return null;
+  const H = parseInt(canvas.getAttribute('height')) || 260;
   canvas.style.width = '100%';
   canvas.style.height = H + 'px';
-  canvas.width = W * dpr;
-  canvas.height = H * dpr;
+  canvas.width = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
   const ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
   ctx._w = W; ctx._h = H;
@@ -1047,14 +1050,15 @@ sr.forEach(el => obs.observe(el));
 // ═══════════════════════════════════════════════
 // TABS
 // ═══════════════════════════════════════════════
-function switchTab(tabId, containerId) {
+function switchTab(el, tabId, containerId) {
   const container = C(containerId);
   container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   container.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   C('tab-' + tabId).classList.add('active');
-  event.target.classList.add('active');
-  // Re-render canvases after tab switch
-  setTimeout(() => { initAllCanvases(); }, 50);
+  el.classList.add('active');
+  // Reset all tab-specific canvases so they re-setup with correct dimensions
+  theoryCtx = naCtx = kjCtx = stressCheckCtx = analysisCtx = designCtx = null;
+  setTimeout(initAllCanvases, 60);
 }
 
 function toggleReveal(hd) {
@@ -2175,7 +2179,71 @@ function drawKJ() {
   if (!kjCtx) return;
   const ctx = kjCtx, W = ctx._w, H = ctx._h;
   ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#0d1320'; ctx.fillRect(0, 0, W, H);
-  drawTheory();
+
+  const k = 0.38, j = 1 - k / 3;
+  const panH = H * 0.72, panY = H * 0.14;
+
+  // Left: cross-section with force resultants
+  const p1x = W * 0.06, p1w = 58, p1h = panH;
+  const naY = panY + p1h * k;
+  const cgrd = ctx.createLinearGradient(0, panY, 0, naY);
+  cgrd.addColorStop(0, 'rgba(248,113,113,0.55)'); cgrd.addColorStop(1, 'rgba(248,113,113,0.05)');
+  ctx.fillStyle = cgrd; ctx.fillRect(p1x, panY, p1w, p1h * k);
+  ctx.fillStyle = 'rgba(56,189,248,0.05)'; ctx.fillRect(p1x, naY, p1w, p1h * (1 - k));
+  ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.5; ctx.strokeRect(p1x, panY, p1w, p1h);
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(p1x - 6, naY); ctx.lineTo(p1x + p1w + 6, naY);
+  ctx.strokeStyle = '#64748b'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+  [-11, 0, 11].forEach(dx => {
+    ctx.beginPath(); ctx.arc(p1x + p1w / 2 + dx, panY + p1h * 0.88, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#38bdf8'; ctx.fill();
+  });
+
+  // Compression resultant C arrow (downward at kd/3 from top)
+  const cY = panY + p1h * k / 3;
+  const cX = p1x + p1w + 22;
+  ctx.beginPath(); ctx.moveTo(cX, cY - 16); ctx.lineTo(cX, cY);
+  ctx.strokeStyle = '#f87171'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cX - 5, cY); ctx.lineTo(cX, cY + 6); ctx.lineTo(cX + 5, cY);
+  ctx.fillStyle = '#f87171'; ctx.fill();
+  ctx.font = '10px IBM Plex Mono'; ctx.fillStyle = '#f87171'; ctx.textAlign = 'left';
+  ctx.fillText('C = ½·fc·kd·b', cX + 8, cY + 4);
+
+  // Tension resultant T arrow (upward at steel level)
+  const tY = panY + p1h * 0.88;
+  ctx.beginPath(); ctx.moveTo(cX, tY + 16); ctx.lineTo(cX, tY);
+  ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cX - 5, tY); ctx.lineTo(cX, tY - 6); ctx.lineTo(cX + 5, tY);
+  ctx.fillStyle = '#38bdf8'; ctx.fill();
+  ctx.fillStyle = '#38bdf8'; ctx.fillText('T = As·fs', cX + 8, tY + 4);
+
+  // jd bracket
+  const brkX = cX - 14;
+  ctx.beginPath();
+  ctx.moveTo(brkX, cY); ctx.lineTo(brkX, tY);
+  ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(brkX - 4, cY); ctx.lineTo(brkX + 4, cY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(brkX - 4, tY); ctx.lineTo(brkX + 4, tY); ctx.stroke();
+  ctx.font = '11px IBM Plex Mono'; ctx.fillStyle = '#f59e0b'; ctx.textAlign = 'center';
+  ctx.fillText('jd', brkX - 14, (cY + tY) / 2 + 4);
+
+  // Right: equations
+  const eqX = W * 0.62;
+  const eqs = [
+    { label: 'M = C × jd = T × jd', col: '#a78bfa' },
+    { label: 'fs = M / (As·j·d)', col: '#38bdf8' },
+    { label: 'fc = 2M / (k·j·b·d²)', col: '#f87171' },
+    { label: 'k = ' + k.toFixed(2) + ', j = ' + j.toFixed(3), col: '#f59e0b' },
+  ];
+  eqs.forEach((eq, i) => {
+    ctx.font = '12px IBM Plex Mono'; ctx.fillStyle = eq.col; ctx.textAlign = 'left';
+    ctx.fillText(eq.label, eqX, H * 0.22 + i * 32);
+  });
+
+  ctx.font = '10px IBM Plex Mono'; ctx.fillStyle = '#64748b'; ctx.textAlign = 'left';
+  ctx.fillText('kd', p1x + p1w + 4, naY + 3);
+  ctx.fillText('d', p1x + p1w + 4, panY + p1h * 0.88);
+  ctx.fillText('b', p1x + p1w / 2 - 4, panY + p1h + 14);
 }
 
 // ═══════════════════════════════════════════════
@@ -2414,26 +2482,23 @@ function runDesign() {
 // INIT ALL CANVASES
 // ═══════════════════════════════════════════════
 function initAllCanvases() {
-  drawHeroBeam();
-  animateMaterial();
-  drawStressStrain(null, null);
-  drawMix();
-  drawLoads();
-  drawCross();
-  drawStages();
-  drawTheory();
-  drawNA();
-  drawStressCheck();
-  runAnalysis();
+  const draws = [
+    drawHeroBeam, animateMaterial, () => drawStressStrain(null, null),
+    drawMix, drawLoads, drawCross, drawStages,
+    drawTheory, drawNA, drawKJ, drawStressCheck, runAnalysis
+  ];
+  draws.forEach(fn => { try { fn(); } catch(e) { console.warn('Canvas draw error:', fn.name, e); } });
 }
 
 window.addEventListener('load', () => {
-  setTimeout(initAllCanvases, 100);
+  // Give layout time to settle, then init canvases
+  requestAnimationFrame(() => setTimeout(initAllCanvases, 80));
 });
 
 window.addEventListener('resize', () => {
   heroCtx = ssCtx = mixCtx = loadsCtx = crossCtx = stagesCtx = theoryCtx = naCtx = kjCtx = stressCheckCtx = analysisCtx = designCtx = null;
-  setTimeout(initAllCanvases, 50);
+  clearTimeout(window._resizeTimer);
+  window._resizeTimer = setTimeout(initAllCanvases, 100);
 });
 </script>
 
