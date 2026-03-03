@@ -5,128 +5,252 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mathify — Math & Civil Engineering</title>
-<meta name="description" content="Math and civil engineering resources for students and engineers worldwide — from basics to advanced learning.">
+<meta name="description" content="Math and civil engineering resources — from basics to advanced. Free for students and engineers everywhere.">
 <meta property="og:title" content="Mathify — Math & Civil Engineering">
-<meta property="og:description" content="From basics to far-advanced learning. For students and engineers everywhere.">
 <meta property="og:url" content="https://mathify.us">
 <meta name="theme-color" content="#1a3a5c">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script>
-  MathJax = {
-    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-    svg: { fontCache: 'global' }
-  };
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}};
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 <style>
-  :root {
-    --ink: #0d0d0d;
-    --paper: #f5f0e8;
-    --steel: #2c3e50;
-    --rust: #c0392b;
-    --blueprint: #1a3a5c;
-    --grid: #d4cfc4;
-    --accent: #e67e22;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--paper); color: var(--ink); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
-  body.rtl { direction: rtl; text-align: right; }
-  body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(26,58,92,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(26,58,92,0.06) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; background: rgba(245,240,232,0.93); backdrop-filter: blur(8px); border-bottom: 1px solid var(--grid); flex-wrap: wrap; gap: 0.5rem; }
-  .nav-logo { font-family: 'Space Mono', monospace; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--blueprint); text-transform: uppercase; text-decoration: none; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
-  .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--steel); text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--rust); }
-  .lang-switcher { display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: center; }
-  .lang-btn { font-family: 'Space Mono', monospace; font-size: 0.65rem; padding: 0.2rem 0.5rem; border: 1px solid var(--grid); background: transparent; color: var(--steel); cursor: pointer; transition: all 0.2s; }
-  .lang-btn:hover, .lang-btn.active { background: var(--blueprint); color: var(--paper); border-color: var(--blueprint); }
-  .hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 8rem 4rem 4rem; z-index: 1; overflow: hidden; }
-  .hero-text { max-width: 560px; }
-  .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.8rem; }
-  .hero-eyebrow::before { content: ''; display: block; width: 30px; height: 1px; background: var(--rust); flex-shrink: 0; }
-  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 5.5vw, 5.5rem); font-weight: 900; line-height: 1.05; color: var(--blueprint); margin-bottom: 1.5rem; }
-  .hero-title span { color: var(--rust); font-style: italic; }
-  .hero-sub { font-size: 1.05rem; font-weight: 300; line-height: 1.75; color: var(--steel); max-width: 460px; margin-bottom: 2rem; }
-  .hero-audience { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
-  .audience-tag { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--blueprint); color: var(--blueprint); }
-  .hero-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .hero-cta { display: inline-flex; align-items: center; gap: 0.8rem; background: var(--blueprint); color: var(--paper); padding: 1rem 2rem; font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.2s; }
-  .hero-cta:hover { background: var(--rust); transform: translateY(-2px); }
-  .hero-cta::after { content: '→'; }
-  .hero-cta.secondary { background: transparent; color: var(--blueprint); border: 1px solid var(--blueprint); }
-  .hero-cta.secondary:hover { background: var(--blueprint); color: var(--paper); }
-  .hero-cta.secondary::after { content: ''; }
-  .hero-visual { display: flex; justify-content: center; align-items: center; }
-  .blueprint-frame { position: relative; width: 400px; height: 400px; border: 2px solid var(--blueprint); }
-  .blueprint-frame::before { content: ''; position: absolute; inset: 10px; border: 1px solid rgba(26,58,92,0.3); }
-  .blueprint-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .blueprint-label { position: absolute; font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--blueprint); opacity: 0.6; }
-  .blueprint-label.top { top: 5px; left: 50%; transform: translateX(-50%); }
-  .blueprint-label.bottom { bottom: 5px; left: 50%; transform: translateX(-50%); }
-  .blueprint-label.left { left: 5px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
-  .blueprint-label.right { right: 5px; top: 50%; transform: translateY(-50%) rotate(90deg); }
-  section { position: relative; z-index: 1; padding: 6rem 4rem; }
-  .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 3.5rem; }
-  .section-num { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--rust); letter-spacing: 0.1em; white-space: nowrap; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 700; color: var(--blueprint); }
-  .quicklinks { background: white; border-top: 3px solid var(--blueprint); }
-  .quicklinks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
-  .qlink-card { display: block; text-decoration: none; border: 1px solid var(--grid); padding: 1.8rem; transition: box-shadow 0.2s, transform 0.2s; background: var(--paper); }
-  .qlink-card:hover { box-shadow: 5px 5px 0 var(--blueprint); transform: translate(-2px, -2px); }
-  .qlink-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
-  .qlink-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--blueprint); margin-bottom: 0.4rem; }
-  .qlink-desc { font-size: 0.82rem; color: #666; line-height: 1.5; }
-  /* RC card special style */
-  .qlink-card.rc-featured { border: 2px solid var(--blueprint); background: var(--blueprint); color: var(--paper); }
-  .qlink-card.rc-featured .qlink-name { color: var(--paper); }
-  .qlink-card.rc-featured .qlink-desc { color: rgba(245,240,232,0.75); }
-  .qlink-card.rc-featured:hover { box-shadow: 5px 5px 0 var(--rust); background: #1e4a7a; }
-  .topics { background: var(--blueprint); color: var(--paper); }
-  .topics .section-title { color: var(--paper); }
-  .topics .section-num { color: var(--accent); }
-  .topics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 2px; }
-  .topic-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 2.2rem; transition: background 0.2s, transform 0.2s; position: relative; overflow: hidden; text-decoration: none; display: block; color: inherit; }
-  .topic-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
-  .topic-card:hover { background: rgba(255,255,255,0.09); transform: translateY(-3px); }
-  .topic-card:hover::after { transform: scaleX(1); }
-  .topic-card.rc-card { background: rgba(230,126,34,0.1); border: 1px solid rgba(230,126,34,0.3); }
-  .topic-card.rc-card::after { background: #e67e22; }
-  .topic-level { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
-  .topic-icon { font-size: 1.8rem; margin-bottom: 1rem; }
-  .topic-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 0.7rem; }
-  .topic-desc { font-size: 0.87rem; line-height: 1.7; color: rgba(245,240,232,0.7); margin-bottom: 1rem; }
-  .topic-tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 0.2rem 0.5rem; }
-  .topic-cta { display: inline-block; margin-top: 1rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: #f59e0b; text-decoration: none; border-bottom: 1px solid rgba(245,158,11,0.4); padding-bottom: 1px; }
-  .formulas-section { background: var(--paper); }
-  .formulas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; }
-  .formula-card { border: 1px solid var(--grid); padding: 1.8rem; background: white; transition: box-shadow 0.2s, transform 0.2s; }
-  .formula-card:hover { box-shadow: 5px 5px 0 var(--blueprint); transform: translate(-2px, -2px); }
-  .formula-category { font-family: 'Space Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--rust); margin-bottom: 0.6rem; }
-  .formula-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--blueprint); margin-bottom: 0.8rem; }
-  .formula-expr { font-size: 1rem; background: var(--paper); padding: 0.8rem 1rem; border-left: 3px solid var(--accent); margin-bottom: 0.8rem; overflow-x: auto; min-height: 3rem; display: flex; align-items: center; }
-  .formula-desc { font-size: 0.83rem; line-height: 1.65; color: #555; }
-  .about-section { background: var(--ink); color: var(--paper); display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-  .about-section .section-title { color: var(--paper); }
-  .about-section .section-num { color: var(--accent); }
-  .about-text { font-size: 1rem; line-height: 1.85; color: rgba(245,240,232,0.82); }
-  .about-text p + p { margin-top: 1.1rem; }
-  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-  .stat-box { padding: 1.8rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; color: var(--accent); line-height: 1; }
-  .stat-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(245,240,232,0.45); margin-top: 0.4rem; }
-  footer { position: relative; z-index: 1; padding: 2rem 4rem; border-top: 1px solid var(--grid); display: flex; justify-content: space-between; align-items: center; font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.05em; color: #999; flex-wrap: wrap; gap: 0.5rem; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes drawLine { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
-  .hero-text > * { opacity: 0; animation: fadeUp 0.65s ease forwards; }
-  .hero-eyebrow { animation-delay: 0.1s; }
-  .hero-title { animation-delay: 0.25s; }
-  .hero-sub { animation-delay: 0.4s; }
-  .hero-audience { animation-delay: 0.5s; }
-  .hero-btns { animation-delay: 0.6s; }
-  .animated-line { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawLine 2.8s ease forwards; animation-delay: 0.6s; }
-  @media (max-width: 960px) { nav { padding: 0.8rem 1.5rem; } .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; } .hero-visual { display: none; } section { padding: 4rem 1.5rem; } .about-section { grid-template-columns: 1fr; gap: 3rem; } footer { flex-direction: column; text-align: center; } }
+/* ═══ THEME VARIABLES ═══ */
+:root {
+  --ink:#0d0d0d; --paper:#f5f0e8; --steel:#2c3e50;
+  --rust:#c0392b; --blueprint:#1a3a5c; --grid:#d4cfc4;
+  --accent:#e67e22; --white:#ffffff;
+  --card-bg:#ffffff; --nav-bg:rgba(245,240,232,0.93);
+  --muted:#666; --section-alt:#f8f4ec;
+  --search-bg:#ffffff; --search-border:#c0b8ac;
+  --result-hover:#f0ebe0; --tag-bg:#eff6ff;
+  --shadow:0 4px 24px rgba(26,58,92,0.10);
+  --transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+[data-theme="dark"] {
+  --ink:#e2e8f0; --paper:#07090f; --steel:#94a3b8;
+  --rust:#f87171; --blueprint:#38bdf8; --grid:#1e2d45;
+  --accent:#f59e0b; --white:#0d1320;
+  --card-bg:#0d1320; --nav-bg:rgba(7,9,15,0.93);
+  --muted:#64748b; --section-alt:#0a0e18;
+  --search-bg:#0d1320; --search-border:#1e2d45;
+  --result-hover:#111827; --tag-bg:#0f172a;
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+}
+
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { background:var(–paper); color:var(–ink); font-family:‘DM Sans’,sans-serif; overflow-x:hidden; transition:var(–transition); }
+body::before { content:’’; position:fixed; inset:0; background-image:linear-gradient(rgba(26,58,92,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.05) 1px,transparent 1px); background-size:40px 40px; pointer-events:none; z-index:0; }
+[data-theme=“dark”] body::before { background-image:linear-gradient(rgba(30,45,69,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(30,45,69,0.3) 1px,transparent 1px); }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify-content:space-between; align-items:center; padding:1rem 3rem; background:var(–nav-bg); backdrop-filter:blur(8px); border-bottom:1px solid var(–grid); flex-wrap:wrap; gap:0.5rem; transition:var(–transition); }
+.nav-logo { font-family:‘Space Mono’,monospace; font-size:0.85rem; letter-spacing:0.1em; color:var(–blueprint); text-transform:uppercase; text-decoration:none; }
+.nav-links { display:flex; gap:2rem; list-style:none; flex-wrap:wrap; }
+.nav-links a { font-family:‘Space Mono’,monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(–steel); text-decoration:none; transition:color 0.2s; }
+.nav-links a:hover { color:var(–rust); }
+.nav-right { display:flex; align-items:center; gap:0.7rem; flex-wrap:wrap; }
+.lang-switcher { display:flex; gap:0.3rem; flex-wrap:wrap; align-items:center; }
+.lang-btn { font-family:‘Space Mono’,monospace; font-size:0.65rem; padding:0.2rem 0.5rem; border:1px solid var(–grid); background:transparent; color:var(–steel); cursor:pointer; transition:all 0.2s; }
+.lang-btn:hover, .lang-btn.active { background:var(–blueprint); color:var(–paper); border-color:var(–blueprint); }
+
+/* THEME TOGGLE */
+.theme-toggle { background:none; border:1px solid var(–grid); border-radius:20px; padding:0.25rem 0.6rem; cursor:pointer; font-size:0.82rem; color:var(–steel); transition:all 0.2s; display:flex; align-items:center; gap:0.35rem; font-family:‘Space Mono’,monospace; letter-spacing:0.04em; }
+.theme-toggle:hover { border-color:var(–blueprint); color:var(–blueprint); }
+.theme-toggle .toggle-icon { font-size:0.95rem; transition:transform 0.3s; }
+[data-theme=“dark”] .theme-toggle .toggle-icon { transform:rotate(180deg); }
+
+/* ═══════════════════════
+SEARCH ENGINE
+═══════════════════════ */
+.search-section { position:relative; z-index:10; max-width:700px; margin:0 auto; padding:0 1.5rem; }
+
+.search-wrapper { position:relative; }
+
+.search-box {
+width:100%;
+background:var(–search-bg);
+border:2px solid var(–search-border);
+border-radius:6px;
+padding:0.9rem 1.2rem 0.9rem 3.2rem;
+font-family:‘DM Sans’,sans-serif;
+font-size:1.05rem;
+color:var(–ink);
+outline:none;
+transition:border-color 0.2s, box-shadow 0.2s;
+box-shadow:var(–shadow);
+}
+.search-box::placeholder { color:var(–muted); }
+.search-box:focus { border-color:var(–blueprint); box-shadow:0 0 0 3px rgba(26,58,92,0.12); }
+[data-theme=“dark”] .search-box:focus { box-shadow:0 0 0 3px rgba(56,189,248,0.15); }
+
+.search-icon {
+position:absolute; left:1rem; top:50%; transform:translateY(-50%);
+color:var(–muted); font-size:1.1rem; pointer-events:none;
+}
+.search-shortcut {
+position:absolute; right:1rem; top:50%; transform:translateY(-50%);
+font-family:‘Space Mono’,monospace; font-size:0.62rem; color:var(–muted);
+background:var(–section-alt); border:1px solid var(–grid);
+padding:2px 6px; border-radius:3px; pointer-events:none;
+}
+
+/* RESULTS DROPDOWN */
+.search-results {
+position:absolute; top:calc(100% + 8px); left:0; right:0;
+background:var(–search-bg); border:1px solid var(–grid);
+border-radius:6px; box-shadow:var(–shadow);
+max-height:500px; overflow-y:auto;
+display:none; z-index:999;
+}
+.search-results.open { display:block; }
+
+.results-empty { padding:2rem 1.5rem; text-align:center; color:var(–muted); font-size:0.9rem; }
+.results-empty .empty-title { font-weight:600; color:var(–steel); margin-bottom:0.3rem; }
+.results-empty .empty-sub { font-size:0.82rem; }
+
+.results-group { padding:0.5rem 0; border-bottom:1px solid var(–grid); }
+.results-group:last-child { border-bottom:none; }
+.results-group-label {
+font-family:‘Space Mono’,monospace; font-size:0.6rem; text-transform:uppercase;
+letter-spacing:0.12em; color:var(–muted); padding:0.4rem 1.2rem 0.2rem;
+}
+
+.result-item {
+display:flex; align-items:flex-start; gap:0.9rem;
+padding:0.7rem 1.2rem; cursor:pointer; transition:background 0.15s;
+text-decoration:none; color:inherit;
+}
+.result-item:hover, .result-item.focused { background:var(–result-hover); }
+.result-icon { font-size:1.2rem; flex-shrink:0; margin-top:1px; }
+.result-body { flex:1; min-width:0; }
+.result-title { font-size:0.92rem; font-weight:500; color:var(–ink); margin-bottom:2px; line-height:1.3; }
+.result-title mark { background:rgba(230,126,34,0.2); color:var(–rust); border-radius:2px; padding:0 1px; font-style:normal; }
+[data-theme=“dark”] .result-title mark { background:rgba(245,158,11,0.2); color:var(–accent); }
+.result-desc { font-size:0.78rem; color:var(–muted); line-height:1.4; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.result-tag { display:inline-block; font-family:‘Space Mono’,monospace; font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; padding:1px 6px; border-radius:2px; background:var(–tag-bg); color:var(–blueprint); margin-left:0.5rem; white-space:nowrap; }
+[data-theme=“dark”] .result-tag { background:rgba(56,189,248,0.1); color:var(–blueprint); }
+.result-right { flex-shrink:0; font-family:‘Space Mono’,monospace; font-size:0.62rem; color:var(–muted); margin-top:3px; }
+.result-arrow { color:var(–accent); font-size:0.9rem; }
+
+.search-hint { padding:0.5rem 1.2rem 0.7rem; font-family:‘Space Mono’,monospace; font-size:0.6rem; color:var(–muted); border-top:1px solid var(–grid); display:flex; gap:1.2rem; flex-wrap:wrap; }
+.hint-key { background:var(–section-alt); border:1px solid var(–grid); padding:1px 5px; border-radius:2px; }
+
+/* HERO */
+.hero { position:relative; min-height:100vh; display:grid; grid-template-columns:1fr 1fr; align-items:center; padding:8rem 4rem 4rem; z-index:1; overflow:hidden; }
+.hero-text { max-width:560px; }
+.hero-eyebrow { font-family:‘Space Mono’,monospace; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:var(–rust); margin-bottom:1.2rem; display:flex; align-items:center; gap:0.8rem; }
+.hero-eyebrow::before { content:’’; display:block; width:30px; height:1px; background:var(–rust); flex-shrink:0; }
+.hero-title { font-family:‘Playfair Display’,serif; font-size:clamp(2.8rem,5.5vw,5.5rem); font-weight:900; line-height:1.05; color:var(–blueprint); margin-bottom:1.5rem; }
+.hero-title span { color:var(–rust); font-style:italic; }
+.hero-sub { font-size:1.05rem; font-weight:300; line-height:1.75; color:var(–steel); max-width:460px; margin-bottom:1.8rem; }
+.hero-audience { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.8rem; }
+.audience-tag { font-family:‘Space Mono’,monospace; font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.3rem 0.8rem; border:1px solid var(–blueprint); color:var(–blueprint); }
+.hero-btns { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.5rem; }
+.hero-cta { display:inline-flex; align-items:center; gap:0.8rem; background:var(–blueprint); color:var(–paper); padding:1rem 2rem; font-family:‘Space Mono’,monospace; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; transition:background 0.2s,transform 0.2s; }
+.hero-cta:hover { background:var(–rust); transform:translateY(-2px); }
+.hero-cta::after { content:‘→’; }
+.hero-cta.secondary { background:transparent; color:var(–blueprint); border:1px solid var(–blueprint); }
+.hero-cta.secondary:hover { background:var(–blueprint); color:var(–paper); }
+.hero-cta.secondary::after { content:’’; }
+
+/* HERO VISUAL */
+.hero-visual { display:flex; justify-content:center; align-items:center; }
+.blueprint-frame { position:relative; width:400px; height:400px; border:2px solid var(–blueprint); }
+.blueprint-frame::before { content:’’; position:absolute; inset:10px; border:1px solid rgba(26,58,92,0.3); }
+.blueprint-svg { position:absolute; inset:0; width:100%; height:100%; }
+.blueprint-label { position:absolute; font-family:‘Space Mono’,monospace; font-size:0.58rem; color:var(–blueprint); opacity:0.6; }
+.blueprint-label.top { top:5px; left:50%; transform:translateX(-50%); }
+.blueprint-label.bottom { bottom:5px; left:50%; transform:translateX(-50%); }
+.blueprint-label.left { left:5px; top:50%; transform:translateY(-50%) rotate(-90deg); }
+.blueprint-label.right { right:5px; top:50%; transform:translateY(-50%) rotate(90deg); }
+
+/* SECTIONS */
+section { position:relative; z-index:1; padding:6rem 4rem; transition:var(–transition); }
+.section-header { display:flex; align-items:baseline; gap:1.5rem; margin-bottom:3.5rem; }
+.section-num { font-family:‘Space Mono’,monospace; font-size:0.75rem; color:var(–rust); letter-spacing:0.1em; white-space:nowrap; }
+.section-title { font-family:‘Playfair Display’,serif; font-size:clamp(1.8rem,3vw,2.8rem); font-weight:700; color:var(–blueprint); }
+
+/* QUICKLINKS */
+.quicklinks { background:var(–card-bg); border-top:3px solid var(–blueprint); }
+.quicklinks-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; }
+.qlink-card { display:block; text-decoration:none; border:1px solid var(–grid); padding:1.8rem; transition:box-shadow 0.2s,transform 0.2s; background:var(–section-alt); }
+.qlink-card:hover { box-shadow:5px 5px 0 var(–blueprint); transform:translate(-2px,-2px); }
+.qlink-icon { font-size:1.8rem; margin-bottom:0.8rem; }
+.qlink-name { font-family:‘Playfair Display’,serif; font-size:1.1rem; font-weight:700; color:var(–blueprint); margin-bottom:0.4rem; }
+.qlink-desc { font-size:0.82rem; color:var(–muted); line-height:1.5; }
+.qlink-card.rc-featured { border:2px solid var(–blueprint); background:var(–blueprint); color:var(–paper); }
+.qlink-card.rc-featured .qlink-name { color:var(–paper); }
+.qlink-card.rc-featured .qlink-desc { color:rgba(245,240,232,0.75); }
+.qlink-card.rc-featured:hover { box-shadow:5px 5px 0 var(–rust); }
+
+/* TOPICS */
+.topics { background:var(–blueprint); color:var(–paper); }
+.topics .section-title { color:var(–paper); }
+.topics .section-num { color:var(–accent); }
+.topics-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:2px; }
+.topic-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:2.2rem; transition:background 0.2s,transform 0.2s; position:relative; overflow:hidden; text-decoration:none; display:block; color:inherit; }
+.topic-card::after { content:’’; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(–accent); transform:scaleX(0); transform-origin:left; transition:transform 0.3s; }
+.topic-card:hover { background:rgba(255,255,255,0.09); transform:translateY(-3px); }
+.topic-card:hover::after { transform:scaleX(1); }
+.topic-card.rc-card { background:rgba(230,126,34,0.1); border:1px solid rgba(230,126,34,0.3); }
+.topic-card.rc-card::after { background:#e67e22; }
+.topic-level { font-family:‘Space Mono’,monospace; font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; color:var(–accent); margin-bottom:0.6rem; }
+.topic-icon { font-size:1.8rem; margin-bottom:1rem; }
+.topic-name { font-family:‘Playfair Display’,serif; font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:0.7rem; }
+.topic-desc { font-size:0.87rem; line-height:1.7; color:rgba(245,240,232,0.7); margin-bottom:1rem; }
+.topic-tag { display:inline-block; font-family:‘Space Mono’,monospace; font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; color:var(–accent); border:1px solid var(–accent); padding:0.2rem 0.5rem; }
+.topic-cta { display:inline-block; margin-top:1rem; font-family:‘Space Mono’,monospace; font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; color:#f59e0b; text-decoration:none; border-bottom:1px solid rgba(245,158,11,0.4); padding-bottom:1px; }
+
+/* FORMULAS */
+.formulas-section { background:var(–section-alt); }
+.formulas-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.5rem; }
+.formula-card { border:1px solid var(–grid); padding:1.8rem; background:var(–card-bg); transition:box-shadow 0.2s,transform 0.2s; }
+.formula-card:hover { box-shadow:5px 5px 0 var(–blueprint); transform:translate(-2px,-2px); }
+.formula-category { font-family:‘Space Mono’,monospace; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.12em; color:var(–rust); margin-bottom:0.6rem; }
+.formula-name { font-family:‘Playfair Display’,serif; font-size:1.15rem; font-weight:700; color:var(–blueprint); margin-bottom:0.8rem; }
+.formula-expr { font-size:1rem; background:var(–paper); padding:0.8rem 1rem; border-left:3px solid var(–accent); margin-bottom:0.8rem; overflow-x:auto; min-height:3rem; display:flex; align-items:center; }
+.formula-desc { font-size:0.83rem; line-height:1.65; color:var(–muted); }
+
+/* ABOUT */
+.about-section { background:var(–ink); color:var(–paper); display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
+[data-theme=“dark”] .about-section { background:#050709; }
+.about-section .section-title { color:var(–paper); }
+.about-section .section-num { color:var(–accent); }
+.about-text { font-size:1rem; line-height:1.85; color:rgba(245,240,232,0.82); }
+.about-text p+p { margin-top:1.1rem; }
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+.stat-box { padding:1.8rem; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); }
+.stat-num { font-family:‘Playfair Display’,serif; font-size:2.8rem; font-weight:900; color:var(–accent); line-height:1; }
+.stat-label { font-family:‘Space Mono’,monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:rgba(245,240,232,0.45); margin-top:0.4rem; }
+
+footer { position:relative; z-index:1; display:flex; justify-content:space-between; align-items:center; padding:2rem 4rem; border-top:1px solid var(–grid); font-family:‘Space Mono’,monospace; font-size:0.7rem; color:var(–muted); flex-wrap:wrap; gap:0.5rem; background:var(–paper); transition:var(–transition); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);} }
+@keyframes drawLine { from{stroke-dashoffset:1000;}to{stroke-dashoffset:0;} }
+.hero-text>*{opacity:0;animation:fadeUp 0.65s ease forwards;}
+.hero-eyebrow{animation-delay:0.1s;} .hero-title{animation-delay:0.25s;}
+.hero-sub{animation-delay:0.4s;} .hero-audience{animation-delay:0.5s;}
+.search-section{opacity:0;animation:fadeUp 0.65s ease 0.55s forwards;}
+.hero-btns{animation-delay:0.65s;}
+.animated-line{stroke-dasharray:1000;stroke-dashoffset:1000;animation:drawLine 2.8s ease forwards;animation-delay:0.6s;}
+
+/* RTL */
+body.rtl{direction:rtl;text-align:right;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+nav{padding:0.8rem 1.5rem;}
+.hero{grid-template-columns:1fr;padding:7rem 1.5rem 3rem;}
+.hero-visual{display:none;}
+section{padding:4rem 1.5rem;}
+.about-section{grid-template-columns:1fr;gap:3rem;}
+footer{flex-direction:column;text-align:center;padding:2rem 1.5rem;}
+.search-section{padding:0 0;}
+}
 </style>
+
 </head>
 <body>
 
@@ -138,16 +262,24 @@
     <li><a href="#formulas" data-i18n="nav_formulas">Formulas</a></li>
     <li><a href="#about" data-i18n="nav_about">About</a></li>
   </ul>
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('hi')">हि</button>
-    <button class="lang-btn" onclick="setLang('ar')">ع</button>
-    <button class="lang-btn" onclick="setLang('es')">ES</button>
-    <button class="lang-btn" onclick="setLang('fr')">FR</button>
-    <button class="lang-btn" onclick="setLang('bn')">বা</button>
-    <button class="lang-btn" onclick="setLang('zh')">中</button>
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">
+      <span class="toggle-icon">☀️</span>
+      <span class="toggle-label">Light</span>
+    </button>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('hi')">हि</button>
+      <button class="lang-btn" onclick="setLang('ar')">ع</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('bn')">বা</button>
+      <button class="lang-btn" onclick="setLang('zh')">中</button>
+    </div>
   </div>
 </nav>
+
+<!-- HERO -->
 
 <section class="hero">
   <div class="hero-text">
@@ -162,11 +294,35 @@
       <span class="audience-tag" data-i18n="aud_eng">Engineers</span>
       <span class="audience-tag" data-i18n="aud_self">Self-Learners</span>
     </div>
-    <div class="hero-btns">
-      <a href="#topics" class="hero-cta" data-i18n="hero_cta">Explore Topics</a>
-      <a href="#formulas" class="hero-cta secondary" data-i18n="hero_cta2">View Formulas</a>
+
+```
+<!-- ═══ SEARCH ENGINE ═══ -->
+<div class="search-section" style="margin-bottom:1.5rem;">
+  <div class="search-wrapper">
+    <span class="search-icon">🔍</span>
+    <input
+      type="text"
+      class="search-box"
+      id="mainSearch"
+      placeholder="Search anything — beam, WSD, calculus, Bernoulli..."
+      autocomplete="off"
+      spellcheck="false"
+    >
+    <span class="search-shortcut" id="searchShortcut">/ to focus</span>
+    <div class="search-results" id="searchResults">
+      <!-- populated by JS -->
     </div>
   </div>
+</div>
+
+<div class="hero-btns">
+  <a href="#topics" class="hero-cta" data-i18n="hero_cta">Explore Topics</a>
+  <a href="#formulas" class="hero-cta secondary" data-i18n="hero_cta2">View Formulas</a>
+</div>
+```
+
+  </div>
+
   <div class="hero-visual">
     <div class="blueprint-frame">
       <span class="blueprint-label top">ELEVATION — A</span>
@@ -174,23 +330,23 @@
       <span class="blueprint-label left">SECTION</span>
       <span class="blueprint-label right">REV 01</span>
       <svg class="blueprint-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#1a3a5c" opacity="0.4">
+        <g stroke="var(--blueprint)" opacity="0.4">
           <line x1="40" y1="40" x2="360" y2="40" stroke-dasharray="4 4" stroke-width="0.5"/>
           <line x1="40" y1="360" x2="360" y2="360" stroke-dasharray="4 4" stroke-width="0.5"/>
           <line x1="40" y1="40" x2="40" y2="360" stroke-dasharray="4 4" stroke-width="0.5"/>
           <line x1="360" y1="40" x2="360" y2="360" stroke-dasharray="4 4" stroke-width="0.5"/>
         </g>
-        <line class="animated-line" x1="55" y1="255" x2="345" y2="255" stroke="#1a3a5c" stroke-width="3"/>
-        <polyline class="animated-line" points="55,255 55,155 345,155 345,255" stroke="#1a3a5c" stroke-width="2" fill="none" style="animation-delay:0.9s"/>
-        <line class="animated-line" x1="55" y1="255" x2="113" y2="155" stroke="#c0392b" stroke-width="1.5" style="animation-delay:1.2s"/>
-        <line class="animated-line" x1="113" y1="155" x2="171" y2="255" stroke="#1a3a5c" stroke-width="1.5" style="animation-delay:1.4s"/>
-        <line class="animated-line" x1="171" y1="255" x2="229" y2="155" stroke="#c0392b" stroke-width="1.5" style="animation-delay:1.6s"/>
-        <line class="animated-line" x1="229" y1="155" x2="287" y2="255" stroke="#1a3a5c" stroke-width="1.5" style="animation-delay:1.8s"/>
-        <line class="animated-line" x1="287" y1="255" x2="345" y2="155" stroke="#c0392b" stroke-width="1.5" style="animation-delay:2.0s"/>
-        <line class="animated-line" x1="113" y1="155" x2="113" y2="255" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.2s"/>
-        <line class="animated-line" x1="171" y1="155" x2="171" y2="255" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.3s"/>
-        <line class="animated-line" x1="229" y1="155" x2="229" y2="255" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.4s"/>
-        <line class="animated-line" x1="287" y1="155" x2="287" y2="255" stroke="#1a3a5c" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.5s"/>
+        <line class="animated-line" x1="55" y1="255" x2="345" y2="255" stroke="var(--blueprint)" stroke-width="3"/>
+        <polyline class="animated-line" points="55,255 55,155 345,155 345,255" stroke="var(--blueprint)" stroke-width="2" fill="none" style="animation-delay:0.9s"/>
+        <line class="animated-line" x1="55" y1="255" x2="113" y2="155" stroke="var(--rust)" stroke-width="1.5" style="animation-delay:1.2s"/>
+        <line class="animated-line" x1="113" y1="155" x2="171" y2="255" stroke="var(--blueprint)" stroke-width="1.5" style="animation-delay:1.4s"/>
+        <line class="animated-line" x1="171" y1="255" x2="229" y2="155" stroke="var(--rust)" stroke-width="1.5" style="animation-delay:1.6s"/>
+        <line class="animated-line" x1="229" y1="155" x2="287" y2="255" stroke="var(--blueprint)" stroke-width="1.5" style="animation-delay:1.8s"/>
+        <line class="animated-line" x1="287" y1="255" x2="345" y2="155" stroke="var(--rust)" stroke-width="1.5" style="animation-delay:2.0s"/>
+        <line class="animated-line" x1="113" y1="155" x2="113" y2="255" stroke="var(--blueprint)" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.2s"/>
+        <line class="animated-line" x1="171" y1="155" x2="171" y2="255" stroke="var(--blueprint)" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.3s"/>
+        <line class="animated-line" x1="229" y1="155" x2="229" y2="255" stroke="var(--blueprint)" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.4s"/>
+        <line class="animated-line" x1="287" y1="155" x2="287" y2="255" stroke="var(--blueprint)" stroke-width="1" stroke-dasharray="4 3" style="animation-delay:2.5s"/>
         <rect class="animated-line" x="45" y="255" width="20" height="55" fill="rgba(26,58,92,0.12)" style="animation-delay:2.6s"/>
         <rect class="animated-line" x="335" y="255" width="20" height="55" fill="rgba(26,58,92,0.12)" style="animation-delay:2.6s"/>
         <line x1="55" y1="330" x2="345" y2="330" stroke="#e67e22" stroke-width="1"/>
@@ -198,12 +354,14 @@
         <line x1="345" y1="325" x2="345" y2="335" stroke="#e67e22" stroke-width="1"/>
         <text x="200" y="348" font-family="Space Mono" font-size="8" fill="#e67e22" text-anchor="middle">L = SPAN</text>
         <text x="200" y="142" font-family="Space Mono" font-size="8" fill="#c0392b" text-anchor="middle">σ = M·y / I</text>
-        <circle cx="55" cy="255" r="4" fill="#1a3a5c"/>
-        <circle cx="345" cy="255" r="4" fill="#1a3a5c"/>
+        <circle cx="55" cy="255" r="4" fill="var(--blueprint)"/>
+        <circle cx="345" cy="255" r="4" fill="var(--blueprint)"/>
       </svg>
     </div>
   </div>
 </section>
+
+<!-- PAGES -->
 
 <section class="quicklinks" id="pages">
   <div class="section-header">
@@ -238,6 +396,8 @@
     </a>
   </div>
 </section>
+
+<!-- TOPICS -->
 
 <section class="topics" id="topics">
   <div class="section-header">
@@ -284,19 +444,21 @@
       <div class="topic-level" data-i18n="level_uni">University → Professional</div>
       <div class="topic-icon">🌍</div>
       <div class="topic-name" data-i18n="topic6">Geotechnical Basics</div>
-      <p class="topic-desc" data-i18n="topic6_desc">Soil mechanics, bearing capacity, and how the ground beneath a structure behaves under load — from equations to intuition.</p>
+      <p class="topic-desc" data-i18n="topic6_desc">Soil mechanics, bearing capacity, and how the ground beneath a structure behaves under load.</p>
       <span class="topic-tag">Civil Engineering</span>
     </div>
     <a href="rc-chapter1.html" class="topic-card rc-card">
       <div class="topic-level">University → Professional · LIVE NOW</div>
       <div class="topic-icon">🏛️</div>
       <div class="topic-name">Reinforced Concrete Design</div>
-      <p class="topic-desc">Working Stress Design, cracked section analysis, k &amp; j method, beam design — interactive simulations from CEE335. Covers Lectures 1–6+: materials, mix design, loads, beam geometry, three stages of loading, and WSD analysis.</p>
+      <p class="topic-desc">Working Stress Design, cracked section analysis, k &amp; j method, beam design — interactive simulations. Covers Lectures 1–6+.</p>
       <span class="topic-tag">Civil Engineering</span>
       <a href="rc-chapter1.html" class="topic-cta">Open Chapter 1 →</a>
     </a>
   </div>
 </section>
+
+<!-- FORMULAS -->
 
 <section class="formulas-section" id="formulas">
   <div class="section-header">
@@ -340,10 +502,10 @@
       <div class="formula-expr">\( q_u = cN_c + qN_q + \tfrac{1}{2}\gamma B N_\gamma \)</div>
       <p class="formula-desc" data-i18n="f6_desc">The ultimate bearing capacity of shallow foundations in soil, combining cohesion, surcharge, and soil weight contributions.</p>
     </div>
-    <div class="formula-card" style="border-color: #1a3a5c; border-width: 2px;">
-      <div class="formula-category" style="color: var(--blueprint);">Reinforced Concrete (RC Design)</div>
+    <div class="formula-card" style="border-color:var(--blueprint);border-width:2px;">
+      <div class="formula-category" style="color:var(--blueprint);">Reinforced Concrete (RC Design)</div>
       <div class="formula-name">Cracked Section k &amp; j</div>
-      <div class="formula-expr" style="flex-direction: column; gap: 0.4rem;">
+      <div class="formula-expr" style="flex-direction:column;gap:0.4rem;">
         <span>\( k = \sqrt{(\rho n)^2 + 2\rho n} - \rho n \)</span>
         <span style="font-size:0.85rem;">\( j = 1 - k/3 \)</span>
       </div>
@@ -351,6 +513,8 @@
     </div>
   </div>
 </section>
+
+<!-- ABOUT -->
 
 <section class="about-section" id="about">
   <div>
@@ -378,14 +542,294 @@
 </footer>
 
 <script>
+// ═══════════════════════════════════════════════════════
+// DARK / LIGHT MODE
+// ═══════════════════════════════════════════════════════
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('mathify-theme', newTheme);
+  updateThemeBtn(newTheme);
+}
+
+function updateThemeBtn(theme) {
+  const btn = document.querySelector('.theme-toggle');
+  if (!btn) return;
+  const isDark = theme === 'dark';
+  btn.querySelector('.toggle-icon').textContent = isDark ? '🌙' : '☀️';
+  btn.querySelector('.toggle-label').textContent = isDark ? 'Dark' : 'Light';
+}
+
+(function() {
+  const saved = localStorage.getItem('mathify-theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = saved || (prefersDark ? 'dark' : 'light');
+  if (theme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+  document.addEventListener('DOMContentLoaded', () => updateThemeBtn(theme));
+})();
+
+// ═══════════════════════════════════════════════════════
+// SEARCH ENGINE — FULL INDEX
+// ═══════════════════════════════════════════════════════
+const SEARCH_INDEX = [
+  // ── RC DESIGN — MAIN SECTIONS ──
+  { id:'rc-why', title:'Why Reinforced Concrete?', desc:'Concrete vs steel — compression, tension, bond, teamwork. The fundamental case for RC.', url:'rc-chapter1.html#why-rc', icon:'🏛️', cat:'RC Design', tags:['concrete','steel','tension','compression','bond','rc','rebar','why','reinforced'] },
+  { id:'rc-materials', title:'Material Properties — Concrete & Steel', desc:'Stress-strain curves, f\'c, fy, Ec, Es, modular ratio n. Interactive curves.', url:'rc-chapter1.html#materials', icon:'📊', cat:'RC Design', tags:['material','stress strain','concrete','steel','fc','fy','elastic','modulus','youngs','ec','es','modular ratio','n'] },
+  { id:'rc-mix', title:'Mix Design & Unit Weights', desc:'w/c ratio, 1:1.5:3 mix, 28-day strength, coarse aggregate, admixtures.', url:'rc-chapter1.html#mix-design', icon:'🧱', cat:'RC Design', tags:['mix','design','concrete mix','water cement','wc ratio','aggregate','cement','sand','28 day','unit weight','150 pcf','admixture','workability'] },
+  { id:'rc-loads', title:'Loads & ACI Safety', desc:'Dead load, live load, environmental — and the ACI philosophy φMn ≥ Mu.', url:'rc-chapter1.html#loads', icon:'⚖️', cat:'RC Design', tags:['loads','dead load','live load','dl','ll','aci','safety','phi','moment','factored','mu','wu','load combination','bnbc','environmental','wind','seismic'] },
+  { id:'rc-beam', title:'Beam Geometry & Cover', desc:'Effective depth d, bar sizes, cover requirements, reinforcement ratio ρ.', url:'rc-chapter1.html#beam-anatomy', icon:'📐', cat:'RC Design', tags:['beam','geometry','depth','cover','d','rho','reinforcement ratio','bar size','#6','#8','stirrup','width','b','h','effective depth','cross section'] },
+  { id:'rc-stages', title:'Three Stages of Loading', desc:'Stage I (uncracked), Stage II (cracked elastic / WSD), Stage III (ultimate / failure).', url:'rc-chapter1.html#three-stages', icon:'📈', cat:'RC Design', tags:['three stages','stage 1','stage 2','stage 3','uncracked','cracked','elastic','ultimate','wsd','usd','failure','loading','fr','modulus of rupture'] },
+  { id:'rc-kj', title:'k & j Method — Neutral Axis', desc:'k = √[(ρn)²+2ρn]−ρn and j = 1−k/3. Cracked section geometry.', url:'rc-chapter1.html#the-math', icon:'🔢', cat:'RC Design', tags:['k','j','kj','neutral axis','cracked section','rho','n','wsd','elastic','formula','derivation','k and j','kd','jd','lever arm'] },
+  { id:'rc-wsd-stress', title:'WSD Stress Formulas', desc:'fs = M/(As·j·d) for steel, fc = 2M/(k·j·b·d²) for concrete.', url:'rc-chapter1.html#the-math', icon:'📐', cat:'RC Design', tags:['wsd','working stress','fs','fc','stress','formula','steel stress','concrete stress','allowable','safe','check','analysis'] },
+  { id:'rc-allowable', title:'Allowable Stresses (WSD)', desc:'fc,allow = 0.45f\'c and fs,allow = 0.5fy — safety factor = 2.', url:'rc-chapter1.html#the-math', icon:'✅', cat:'RC Design', tags:['allowable stress','fc allow','fs allow','safety factor','wsd','0.45','0.5','fy','fc'] },
+  { id:'rc-calc', title:'WSD Interactive Calculator', desc:'Enter b, d, As, f\'c, fy, M → instant stress check with visual diagram.', url:'rc-chapter1.html#calculator', icon:'🧮', cat:'RC Design', tags:['calculator','wsd','interactive','analysis','design','beam','compute','solve','k','j','stress check'] },
+  { id:'rc-design', title:'WSD Beam Design', desc:'Find required bd² and As from loads. Design from scratch.', url:'rc-chapter1.html#calculator', icon:'🏗️', cat:'RC Design', tags:['design','bd2','as required','beam design','from scratch','dimension','wsd design','section','size'] },
+  { id:'rc-wp0', title:'Worked Problem Q.0 — Cracked Section Check', desc:'Uncracked transformed section → check if f_ct > fr → section is cracked.', url:'rc-chapter1.html#the-math', icon:'📝', cat:'RC Design', tags:['worked problem','q0','transformed section','cracked','fr','fct','moment of inertia','ybar','neutral axis','uncracked'] },
+  { id:'rc-wp1', title:'Worked Problem Q.1 — WSD Analysis & Design', desc:'6-#6 bars, w=4 k/ft, L=20 ft. Analysis fails → redesign for safety.', url:'rc-chapter1.html#the-math', icon:'📝', cat:'RC Design', tags:['worked problem','q1','analysis','design','4 k/ft','20 ft','6 bars','kj','fail','unsafe','redesign'] },
+  { id:'rc-stressstrain', title:'Stress-Strain Curves (Interactive)', desc:'Hover over concrete and steel curves. See f\'c peak, yield plateau, failure.', url:'rc-chapter1.html#materials', icon:'📊', cat:'RC Design', tags:['stress strain','curve','concrete','steel','yield','elastic','plastic','nonlinear','graph','fc','fy'] },
+
+  // ── TOPICS ──
+  { id:'t-calc', title:'Calculus & Analysis', desc:'Derivatives, integrals, differential equations and their physical applications.', url:'#topics', icon:'∫', cat:'Topic', tags:['calculus','derivatives','integrals','differential equations','math','analysis','limits','series'] },
+  { id:'t-linalg', title:'Linear Algebra', desc:'Matrices, vectors, eigenvalues — backbone of structural analysis.', url:'#topics', icon:'⊕', cat:'Topic', tags:['linear algebra','matrix','matrices','vectors','eigenvalues','transformations','dot product'] },
+  { id:'t-struct', title:'Structural Engineering', desc:'Beams, trusses, frames, stress and strain — how structures carry load.', url:'#topics', icon:'🏗️', cat:'Topic', tags:['structural','engineering','beam','truss','frame','stress','strain','load','structural analysis','supports','reactions','shear','moment'] },
+  { id:'t-fluid', title:'Fluid Mechanics', desc:'Hydraulics, pipe flow, open channels, drainage and water systems.', url:'#topics', icon:'💧', cat:'Topic', tags:['fluid','mechanics','hydraulics','pipe','flow','channel','water','bernoulli','pressure','velocity','drainage'] },
+  { id:'t-geo', title:'Geometry & Surveying', desc:'Coordinate systems, trigonometry, land surveying, mapping.', url:'#topics', icon:'📐', cat:'Topic', tags:['geometry','surveying','trigonometry','coordinates','mapping','angle','land'] },
+  { id:'t-geotech', title:'Geotechnical Basics', desc:'Soil mechanics, bearing capacity, foundations.', url:'#topics', icon:'🌍', cat:'Topic', tags:['geotechnical','soil','bearing capacity','foundation','terzaghi','mechanics','soil mechanics'] },
+  { id:'t-rc', title:'Reinforced Concrete Design', desc:'WSD, cracked section, k & j method — interactive Chapter 1 live now.', url:'rc-chapter1.html', icon:'🏛️', cat:'Topic', tags:['reinforced concrete','rc','wsd','beam','design','chapter 1','live'] },
+
+  // ── FORMULAS ──
+  { id:'f-bending', title:'Bending Stress — σ = My/I', desc:'Stress at any point in a beam cross-section. M = moment, y = distance from NA, I = moment of inertia.', url:'#formulas', icon:'📐', cat:'Formula', tags:['bending stress','sigma','m y i','my/i','moment','inertia','neutral axis','flexure','beam stress'] },
+  { id:'f-bernoulli', title:"Bernoulli's Equation", desc:'P + ½ρv² + ρgh = const. Energy conservation in fluid flow.', url:'#formulas', icon:'💧', cat:'Formula', tags:['bernoulli','pressure','velocity','height','fluid','energy','conservation','flow','pipe','venturi'] },
+  { id:'f-euler-id', title:"Euler's Identity — e^iπ + 1 = 0", desc:'The most beautiful equation. Links e, i, π, 1, 0.', url:'#formulas', icon:'✨', cat:'Formula', tags:['euler','identity','e i pi','eipi','complex','beautiful','math','constants'] },
+  { id:'f-buckling', title:"Euler's Buckling Load — Pcr", desc:'Pcr = π²EI/(KL)². Critical load for column buckling.', url:'#formulas', icon:'🏗️', cat:'Formula', tags:['buckling','euler','column','critical load','pcr','ei','kl','slender','instability','compression'] },
+  { id:'f-taylor', title:'Taylor Series', desc:'f(x) = Σ f⁽ⁿ⁾(a)/n! (x−a)ⁿ. Polynomial approximation of any smooth function.', url:'#formulas', icon:'∑', cat:'Formula', tags:['taylor','series','polynomial','approximation','function','expansion','numerical','maclaurin'] },
+  { id:'f-terzaghi', title:'Terzaghi Bearing Capacity', desc:'qu = cNc + qNq + ½γBNγ. Shallow foundation capacity.', url:'#formulas', icon:'🌍', cat:'Formula', tags:['terzaghi','bearing capacity','soil','foundation','qu','nc','nq','cohesion','surcharge','shallow'] },
+  { id:'f-kj', title:'k & j — RC Cracked Section', desc:'k = √[(ρn)²+2ρn]−ρn and j = 1−k/3.', url:'#formulas', icon:'🏛️', cat:'Formula', tags:['k','j','kj','cracked','rc','neutral axis','wsd','rho','n','modular ratio','formula'] },
+
+  // ── PAGES ──
+  { id:'p-civil', title:'Civil Tools', desc:'Engineering calculators and tools for civil and structural work.', url:'civil-tools.html', icon:'🏗️', cat:'Page', tags:['civil','tools','calculator','engineering','structural'] },
+  { id:'p-notes', title:'Study Notes', desc:'Concise notes on math and engineering for quick revision.', url:'study-notes.html', icon:'📖', cat:'Page', tags:['notes','study','revision','quick','reference','summary'] },
+  { id:'p-about', title:'About Mathify', desc:'The mission: free math and engineering education for everyone.', url:'about.html', icon:'👤', cat:'Page', tags:['about','mathify','mission','free','education'] },
+  { id:'p-status', title:'Site Status', desc:"What's being built and what's coming next.", url:'status.html', icon:'📊', cat:'Page', tags:['status','roadmap','coming soon','update','progress','what next'] },
+];
+
+// ─── FUZZY MATCH ENGINE ───────────────────────────────
+function levenshtein(a, b) {
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  const dp = Array.from({ length: a.length + 1 }, (_, i) =>
+    Array.from({ length: b.length + 1 }, (_, j) => i === 0 ? j : j === 0 ? i : 0)
+  );
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] = a[i-1] === b[j-1]
+        ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function scoreItem(item, query) {
+  const q = query.toLowerCase().trim();
+  if (!q) return -1;
+  const qWords = q.split(/\s+/);
+  let score = 0;
+
+  const titleLower = item.title.toLowerCase();
+  const descLower = item.desc.toLowerCase();
+  const allTags = item.tags.join(' ');
+
+  // Exact substring match (strongest)
+  if (titleLower.includes(q)) score += 100;
+  if (descLower.includes(q)) score += 40;
+  if (allTags.includes(q)) score += 70;
+
+  // Word-by-word matching
+  qWords.forEach(word => {
+    if (word.length < 2) return;
+    if (titleLower.includes(word)) score += 30;
+    if (allTags.includes(word)) score += 25;
+    if (descLower.includes(word)) score += 10;
+
+    // Fuzzy match on tags (typo correction)
+    item.tags.forEach(tag => {
+      const tagWords = tag.split(' ');
+      tagWords.forEach(tw => {
+        if (tw.length >= 3 && word.length >= 3) {
+          const dist = levenshtein(word, tw);
+          const maxLen = Math.max(word.length, tw.length);
+          if (dist === 0) score += 20;
+          else if (dist === 1 && maxLen >= 4) score += 15;
+          else if (dist === 2 && maxLen >= 6) score += 8;
+        }
+      });
+    });
+
+    // Fuzzy on title words
+    titleLower.split(/\s+/).forEach(tw => {
+      if (tw.length >= 3 && word.length >= 3) {
+        const dist = levenshtein(word, tw);
+        if (dist === 1 && Math.max(word.length, tw.length) >= 4) score += 20;
+        if (dist === 2 && Math.max(word.length, tw.length) >= 6) score += 8;
+      }
+    });
+  });
+
+  return score;
+}
+
+function highlightMatch(text, query) {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  try {
+    return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+  } catch { return text; }
+}
+
+function runSearch(query) {
+  const resultsEl = document.getElementById('searchResults');
+  if (!query || query.trim().length < 1) {
+    resultsEl.classList.remove('open');
+    return;
+  }
+
+  const scored = SEARCH_INDEX.map(item => ({ item, score: scoreItem(item, query) }))
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 12);
+
+  if (scored.length === 0) {
+    resultsEl.innerHTML = `
+      <div class="results-empty">
+        <div class="empty-title">No results for "${query}"</div>
+        <div class="empty-sub">Try: beam, wsd, calculus, neutral axis, stress strain, bernoulli...</div>
+      </div>
+      <div class="search-hint">
+        <span><span class="hint-key">↑↓</span> navigate</span>
+        <span><span class="hint-key">↵</span> open</span>
+        <span><span class="hint-key">Esc</span> close</span>
+      </div>`;
+    resultsEl.classList.add('open');
+    return;
+  }
+
+  // Group by category
+  const groups = {};
+  scored.forEach(({ item }) => {
+    if (!groups[item.cat]) groups[item.cat] = [];
+    groups[item.cat].push(item);
+  });
+
+  const catOrder = ['RC Design', 'Formula', 'Topic', 'Page'];
+  let html = '';
+
+  catOrder.forEach(cat => {
+    if (!groups[cat]) return;
+    html += `<div class="results-group"><div class="results-group-label">${cat}</div>`;
+    groups[cat].forEach(item => {
+      html += `
+        <a class="result-item" href="${item.url}" data-url="${item.url}">
+          <span class="result-icon">${item.icon}</span>
+          <div class="result-body">
+            <div class="result-title">${highlightMatch(item.title, query)}<span class="result-tag">${item.cat}</span></div>
+            <div class="result-desc">${item.desc}</div>
+          </div>
+          <span class="result-arrow">→</span>
+        </a>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `<div class="search-hint">
+    <span><span class="hint-key">↑↓</span> navigate</span>
+    <span><span class="hint-key">↵</span> open</span>
+    <span><span class="hint-key">Esc</span> close</span>
+  </div>`;
+
+  resultsEl.innerHTML = html;
+  resultsEl.classList.add('open');
+  focusedIdx = -1;
+}
+
+// ─── KEYBOARD NAVIGATION ───────────────────────────────
+let focusedIdx = -1;
+let searchDebounce = null;
+
+const searchInput = document.getElementById('mainSearch');
+const resultsEl = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', e => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => runSearch(e.target.value), 120);
+});
+
+searchInput.addEventListener('keydown', e => {
+  const items = resultsEl.querySelectorAll('.result-item');
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    focusedIdx = Math.min(focusedIdx + 1, items.length - 1);
+    updateFocus(items);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    focusedIdx = Math.max(focusedIdx - 1, -1);
+    updateFocus(items);
+    if (focusedIdx === -1) searchInput.focus();
+  } else if (e.key === 'Enter') {
+    if (focusedIdx >= 0 && items[focusedIdx]) {
+      items[focusedIdx].click();
+    } else if (items.length > 0) {
+      items[0].click();
+    }
+  } else if (e.key === 'Escape') {
+    resultsEl.classList.remove('open');
+    searchInput.blur();
+  }
+});
+
+function updateFocus(items) {
+  items.forEach((it, i) => it.classList.toggle('focused', i === focusedIdx));
+  if (focusedIdx >= 0 && items[focusedIdx]) {
+    items[focusedIdx].scrollIntoView({ block: 'nearest' });
+  }
+}
+
+// Close on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrapper')) {
+    resultsEl.classList.remove('open');
+    focusedIdx = -1;
+  }
+});
+
+// "/" key to focus search
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== searchInput) {
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  }
+});
+
+// ─── SHOW SHORTCUT BASED ON DEVICE ───────────────────
+if (/Mac/.test(navigator.platform)) {
+  document.getElementById('searchShortcut').textContent = '/ to search';
+}
+
+// ═══════════════════════════════════════════════════════
+// TRANSLATIONS
+// ═══════════════════════════════════════════════════════
 const T = {
   en: { nav_pages:"Pages",nav_topics:"Topics",nav_formulas:"Formulas",nav_about:"About", hero_eyebrow:"Math · Civil Engineering · For Everyone", hero_title_line1:"Where Numbers<br>Meet ",hero_title_span:"Structure", hero_sub:"From basics to far-advanced learning — exploring the mathematics behind the built world. Free for students and engineers everywhere.", aud_hs:"High School",aud_uni:"University",aud_eng:"Engineers",aud_self:"Self-Learners", hero_cta:"Explore Topics",hero_cta2:"View Formulas", pages_title:"Explore the Site", page_civil:"Civil Tools",page_civil_desc:"Engineering calculators and tools for civil and structural work.", page_notes:"Study Notes",page_notes_desc:"Concise notes on math and engineering topics for quick revision.", page_about:"About",page_about_desc:"Learn more about Mathify and its mission to make learning accessible.", page_status:"Status",page_status_desc:"Track what's being built and what's coming next on Mathify.", topics_title:"Topics Covered", level_hs:"High School → University",level_uni:"University → Professional",level_all:"All Levels", topic1:"Calculus & Analysis",topic1_desc:"Derivatives, integrals, differential equations, and their applications to real-world physical systems.", topic2:"Linear Algebra",topic2_desc:"Matrices, vectors, transformations, and eigenvalues — the backbone of structural analysis.", topic3:"Structural Engineering",topic3_desc:"Beams, trusses, frames, stress and strain — how structures carry load.", topic4:"Fluid Mechanics",topic4_desc:"Hydraulics, pipe flow, open channels, and the mathematics of fluids in motion.", topic5:"Geometry & Surveying",topic5_desc:"Trigonometry applied to surveying and the math behind mapping the physical world.", topic6:"Geotechnical Basics",topic6_desc:"Soil mechanics, bearing capacity, and how the ground behaves under load.", formulas_title:"Essential Formulas", f1:"Bending Stress",f1_desc:"Bending stress at distance y from the neutral axis, where M is the bending moment.", f2:"Bernoulli's Equation",f2_desc:"Energy conservation along a streamline in ideal fluid flow.", f3:"Euler's Identity",f3_desc:"The most beautiful equation — connecting five fundamental constants.", f4:"Euler's Buckling Load",f4_desc:"Critical compressive load at which a slender column will buckle.", f5:"Taylor Series",f5_desc:"Approximating any smooth function as an infinite polynomial.", f6:"Terzaghi Bearing Capacity",f6_desc:"Ultimate bearing capacity of shallow foundations in soil.", about_title:"About Mathify", about1:"Mathify is a free, open resource for anyone curious about the mathematics behind the built world — from a high school student to a professional engineer.", about2:"New topics, worked examples, interactive tools, and deep dives are added regularly. The goal is clarity over complexity.", about3:"Available in 7 languages. Built for the world.", stat1:"Topic Areas",stat2:"Key Formulas",stat3:"Languages",stat4:"Things to Learn", footer:"Free for students and engineers everywhere · 7 languages" },
-  hi: { nav_pages:"पृष्ठ",nav_topics:"विषय",nav_formulas:"सूत्र",nav_about:"परिचय", hero_eyebrow:"गणित · सिविल इंजीनियरिंग · सभी के लिए", hero_title_line1:"जहाँ संख्याएँ<br>मिलती हैं ",hero_title_span:"संरचना से", hero_sub:"मूल बातों से उन्नत शिक्षा तक — निर्मित दुनिया के गणित की खोज। दुनिया भर के छात्रों और इंजीनियरों के लिए निःशुल्क।", aud_hs:"हाई स्कूल",aud_uni:"विश्वविद्यालय",aud_eng:"इंजीनियर",aud_self:"स्व-अध्ययन", hero_cta:"विषय देखें",hero_cta2:"सूत्र देखें", pages_title:"साइट का अन्वेषण करें", page_civil:"सिविल टूल्स",page_civil_desc:"सिविल और संरचनात्मक कार्य के लिए इंजीनियरिंग कैलकुलेटर।", page_notes:"अध्ययन नोट्स",page_notes_desc:"त्वरित संशोधन के लिए संक्षिप्त नोट्स।", page_about:"परिचय",page_about_desc:"Mathify और इसके मिशन के बारे में अधिक जानें।", page_status:"स्थिति",page_status_desc:"Mathify पर क्या बन रहा है और आगे क्या आ रहा है।", topics_title:"कवर किए गए विषय", level_hs:"हाई स्कूल → विश्वविद्यालय",level_uni:"विश्वविद्यालय → पेशेवर",level_all:"सभी स्तर", topic1:"कलन और विश्लेषण",topic1_desc:"अवकलन, समाकलन, अवकल समीकरण और उनके अनुप्रयोग।", topic2:"रैखिक बीजगणित",topic2_desc:"आव्यूह, सदिश, रूपांतरण और eigenvalues।", topic3:"संरचनात्मक इंजीनियरिंग",topic3_desc:"बीम, ट्रस, फ्रेम और तनाव विश्लेषण।", topic4:"तरल यांत्रिकी",topic4_desc:"हाइड्रोलिक्स, पाइप प्रवाह और खुली नहरें।", topic5:"ज्यामिति और सर्वेक्षण",topic5_desc:"भूमि सर्वेक्षण पर लागू त्रिकोणमिति।", topic6:"भू-तकनीकी मूल बातें",topic6_desc:"मृदा यांत्रिकी और वहन क्षमता।", formulas_title:"आवश्यक सूत्र", f1:"नमन प्रतिबल",f1_desc:"तटस्थ अक्ष से y दूरी पर बीम में नमन प्रतिबल।", f2:"बर्नौली का समीकरण",f2_desc:"आदर्श द्रव प्रवाह में ऊर्जा संरक्षण।", f3:"ऑयलर की पहचान",f3_desc:"गणित का सबसे सुंदर समीकरण।", f4:"ऑयलर का बकलिंग भार",f4_desc:"वह क्रांतिक भार जिस पर पतला स्तंभ बक्ल होता है।", f5:"टेलर श्रेणी",f5_desc:"किसी भी फ़ंक्शन को अनंत बहुपद के रूप में अनुमानित करना।", f6:"तेर्ज़ाघी वहन क्षमता",f6_desc:"मिट्टी में उथली नींव की अंतिम वहन क्षमता।", about_title:"Mathify के बारे में", about1:"Mathify एक निःशुल्क संसाधन है।", about2:"नए विषय, उदाहरण और इंटरैक्टिव टूल नियमित रूप से जोड़े जाते हैं।", about3:"7 भाषाओं में उपलब्ध।", stat1:"विषय क्षेत्र",stat2:"मुख्य सूत्र",stat3:"भाषाएँ",stat4:"सीखने योग्य", footer:"दुनिया भर के छात्रों और इंजीनियरों के लिए निःशुल्क · 7 भाषाएँ" },
-  ar: { nav_pages:"الصفحات",nav_topics:"المواضيع",nav_formulas:"المعادلات",nav_about:"عن الموقع", hero_eyebrow:"رياضيات · هندسة مدنية · للجميع", hero_title_line1:"حيث تلتقي الأرقام<br>بـ",hero_title_span:"الهياكل", hero_sub:"من الأساسيات إلى التعلم المتقدم. مجاني للطلاب والمهندسين في كل مكان.", aud_hs:"الثانوية",aud_uni:"الجامعة",aud_eng:"المهندسون",aud_self:"التعلم الذاتي", hero_cta:"استكشف المواضيع",hero_cta2:"عرض المعادلات", pages_title:"استكشف الموقع", page_civil:"أدوات مدنية",page_civil_desc:"حاسبات هندسية.", page_notes:"ملاحظات الدراسة",page_notes_desc:"ملاحظات موجزة للمراجعة السريعة.", page_about:"عن الموقع",page_about_desc:"تعرف على Mathify.", page_status:"الحالة",page_status_desc:"تتبع ما يُبنى.", topics_title:"المواضيع المشمولة", level_hs:"ثانوي ← جامعي",level_uni:"جامعي ← احترافي",level_all:"جميع المستويات", topic1:"حساب التفاضل والتكامل",topic1_desc:"المشتقات والتكاملات.", topic2:"الجبر الخطي",topic2_desc:"المصفوفات والمتجهات.", topic3:"الهندسة الإنشائية",topic3_desc:"الكمرات والجمالونات.", topic4:"ميكانيكا الموائع",topic4_desc:"الهيدروليك وجريان الأنابيب.", topic5:"الهندسة والمساحة",topic5_desc:"المثلثات المطبقة على المساحة.", topic6:"أساسيات الجيوتقنية",topic6_desc:"ميكانيكا التربة.", formulas_title:"المعادلات الأساسية", f1:"إجهاد الانحناء",f1_desc:"إجهاد الانحناء.", f2:"معادلة برنولي",f2_desc:"الطاقة على طول خط تدفق.", f3:"هوية أويلر",f3_desc:"المعادلة الأجمل.", f4:"حمل انبعاج أويلر",f4_desc:"الحمل الحرج.", f5:"متسلسلة تايلور",f5_desc:"تقريب أي دالة.", f6:"قدرة تحمل تيرزاغي",f6_desc:"القدرة القصوى للأساسات.", about_title:"عن Mathify", about1:"Mathify مورد مجاني للجميع.", about2:"تُضاف مواضيع جديدة بانتظام.", about3:"متاح بـ7 لغات.", stat1:"مجالات",stat2:"معادلات",stat3:"لغات",stat4:"أشياء", footer:"مجاني · 7 لغات" },
-  es: { nav_pages:"Páginas",nav_topics:"Temas",nav_formulas:"Fórmulas",nav_about:"Acerca de", hero_eyebrow:"Matemáticas · Ingeniería Civil · Para Todos", hero_title_line1:"Donde los Números<br>se Encuentran con ",hero_title_span:"la Estructura", hero_sub:"Desde lo básico hasta el aprendizaje avanzado. Gratis para estudiantes e ingenieros.", aud_hs:"Secundaria",aud_uni:"Universidad",aud_eng:"Ingenieros",aud_self:"Autodidactas", hero_cta:"Explorar Temas",hero_cta2:"Ver Fórmulas", pages_title:"Explorar el Sitio", page_civil:"Herramientas Civiles",page_civil_desc:"Calculadoras de ingeniería.", page_notes:"Apuntes",page_notes_desc:"Notas concisas.", page_about:"Acerca de",page_about_desc:"Sobre Mathify.", page_status:"Estado",page_status_desc:"Seguimiento.", topics_title:"Temas Cubiertos", level_hs:"Secundaria → Universidad",level_uni:"Universidad → Profesional",level_all:"Todos los Niveles", topic1:"Cálculo",topic1_desc:"Derivadas e integrales.", topic2:"Álgebra Lineal",topic2_desc:"Matrices y vectores.", topic3:"Ingeniería Estructural",topic3_desc:"Vigas y marcos.", topic4:"Mecánica de Fluidos",topic4_desc:"Hidráulica.", topic5:"Geometría",topic5_desc:"Trigonometría aplicada.", topic6:"Geotecnia",topic6_desc:"Mecánica del suelo.", formulas_title:"Fórmulas Esenciales", f1:"Tensión de Flexión",f1_desc:"Tensión de flexión en una viga.", f2:"Bernoulli",f2_desc:"Conservación de energía.", f3:"Identidad de Euler",f3_desc:"La ecuación más bella.", f4:"Pandeo de Euler",f4_desc:"Carga crítica de pandeo.", f5:"Serie de Taylor",f5_desc:"Aproximación polinomial.", f6:"Capacidad Terzaghi",f6_desc:"Capacidad portante.", about_title:"Acerca de Mathify", about1:"Recurso gratuito.", about2:"Contenido actualizado regularmente.", about3:"7 idiomas.", stat1:"Áreas",stat2:"Fórmulas",stat3:"Idiomas",stat4:"Temas", footer:"Gratis · 7 idiomas" },
-  fr: { nav_pages:"Pages",nav_topics:"Sujets",nav_formulas:"Formules",nav_about:"À propos", hero_eyebrow:"Mathématiques · Génie Civil · Pour Tous", hero_title_line1:"Là où les Chiffres<br>Rencontrent la ",hero_title_span:"Structure", hero_sub:"Des bases à l'apprentissage avancé. Gratuit pour les étudiants et ingénieurs.", aud_hs:"Lycée",aud_uni:"Université",aud_eng:"Ingénieurs",aud_self:"Autodidactes", hero_cta:"Explorer",hero_cta2:"Formules", pages_title:"Explorer le Site", page_civil:"Outils Civils",page_civil_desc:"Calculatrices.", page_notes:"Notes",page_notes_desc:"Notes concises.", page_about:"À propos",page_about_desc:"À propos de Mathify.", page_status:"Statut",page_status_desc:"Suivi.", topics_title:"Sujets Couverts", level_hs:"Lycée → Université",level_uni:"Université → Professionnel",level_all:"Tous Niveaux", topic1:"Calcul",topic1_desc:"Dérivées et intégrales.", topic2:"Algèbre Linéaire",topic2_desc:"Matrices et vecteurs.", topic3:"Génie Structurel",topic3_desc:"Poutres et treillis.", topic4:"Mécanique des Fluides",topic4_desc:"Hydraulique.", topic5:"Géométrie",topic5_desc:"Trigonométrie appliquée.", topic6:"Géotechnique",topic6_desc:"Mécanique des sols.", formulas_title:"Formules Essentielles", f1:"Contrainte de Flexion",f1_desc:"Contrainte dans une poutre.", f2:"Bernoulli",f2_desc:"Conservation d'énergie.", f3:"Identité d'Euler",f3_desc:"La plus belle équation.", f4:"Flambement",f4_desc:"Charge critique.", f5:"Série de Taylor",f5_desc:"Approximation polynomiale.", f6:"Terzaghi",f6_desc:"Capacité portante.", about_title:"À Propos de Mathify", about1:"Ressource gratuite.", about2:"Contenu mis à jour régulièrement.", about3:"7 langues.", stat1:"Domaines",stat2:"Formules",stat3:"Langues",stat4:"Sujets", footer:"Gratuit · 7 langues" },
-  bn: { nav_pages:"পাতা",nav_topics:"বিষয়",nav_formulas:"সূত্র",nav_about:"পরিচিতি", hero_eyebrow:"গণিত · সিভিল ইঞ্জিনিয়ারিং · সবার জন্য", hero_title_line1:"যেখানে সংখ্যা<br>মেলে ",hero_title_span:"কাঠামোর সাথে", hero_sub:"মৌলিক থেকে উন্নত শিক্ষা। সারা বিশ্বের শিক্ষার্থীদের জন্য বিনামূল্যে।", aud_hs:"উচ্চ মাধ্যমিক",aud_uni:"বিশ্ববিদ্যালয়",aud_eng:"প্রকৌশলী",aud_self:"স্ব-শিক্ষার্থী", hero_cta:"বিষয় দেখুন",hero_cta2:"সূত্র দেখুন", pages_title:"সাইট অন্বেষণ করুন", page_civil:"সিভিল টুলস",page_civil_desc:"ক্যালকুলেটর।", page_notes:"নোট",page_notes_desc:"সংক্ষিপ্ত নোট।", page_about:"পরিচিতি",page_about_desc:"Mathify সম্পর্কে।", page_status:"অবস্থা",page_status_desc:"আপডেট।", topics_title:"বিষয়সমূহ", level_hs:"উচ্চ মাধ্যমিক → বিশ্ববিদ্যালয়",level_uni:"বিশ্ববিদ্যালয় → পেশাদার",level_all:"সব স্তর", topic1:"ক্যালকুলাস",topic1_desc:"অবকলন ও সমাকলন।", topic2:"রৈখিক বীজগণিত",topic2_desc:"ম্যাট্রিক্স ও ভেক্টর।", topic3:"স্ট্রাকচারাল",topic3_desc:"বিম ও ট্রাস।", topic4:"তরল বলবিদ্যা",topic4_desc:"হাইড্রোলিক্স।", topic5:"জ্যামিতি",topic5_desc:"ত্রিকোণমিতি।", topic6:"জিওটেকনিক্যাল",topic6_desc:"মৃত্তিকা বলবিদ্যা।", formulas_title:"সূত্রসমূহ", f1:"বাঁকন পীড়ন",f1_desc:"বিমে বাঁকন পীড়ন।", f2:"বার্নুলি",f2_desc:"শক্তি সংরক্ষণ।", f3:"অয়লার",f3_desc:"সুন্দর সমীকরণ।", f4:"বাকলিং",f4_desc:"সংকট লোড।", f5:"টেলর",f5_desc:"অনন্ত বহুপদী।", f6:"তেরজাঘি",f6_desc:"বহন ক্ষমতা।", about_title:"Mathify সম্পর্কে", about1:"বিনামূল্যের সম্পদ।", about2:"নিয়মিত আপডেট।", about3:"৭টি ভাষা।", stat1:"বিষয় এলাকা",stat2:"সূত্র",stat3:"ভাষা",stat4:"শেখার বিষয়", footer:"বিনামূল্যে · ৭টি ভাষা" },
-  zh: { nav_pages:"页面",nav_topics:"主题",nav_formulas:"公式",nav_about:"关于", hero_eyebrow:"数学 · 土木工程 · 面向所有人", hero_title_line1:"数字与",hero_title_span:"结构的相遇", hero_sub:"从基础到高级学习。免费为全球学生和工程师提供。", aud_hs:"高中",aud_uni:"大学",aud_eng:"工程师",aud_self:"自学者", hero_cta:"探索主题",hero_cta2:"查看公式", pages_title:"探索网站", page_civil:"土木工具",page_civil_desc:"土木工程计算器。", page_notes:"学习笔记",page_notes_desc:"简明复习笔记。", page_about:"关于",page_about_desc:"了解Mathify。", page_status:"状态",page_status_desc:"跟踪进度。", topics_title:"涵盖主题", level_hs:"高中 → 大学",level_uni:"大学 → 专业",level_all:"所有级别", topic1:"微积分",topic1_desc:"导数与积分。", topic2:"线性代数",topic2_desc:"矩阵与向量。", topic3:"结构工程",topic3_desc:"梁与桁架。", topic4:"流体力学",topic4_desc:"水力学。", topic5:"几何与测量",topic5_desc:"三角学应用。", topic6:"岩土基础",topic6_desc:"土力学。", formulas_title:"基本公式", f1:"弯曲应力",f1_desc:"梁的弯曲应力。", f2:"伯努利方程",f2_desc:"能量守恒。", f3:"欧拉恒等式",f3_desc:"最美丽的方程。", f4:"欧拉临界载荷",f4_desc:"临界屈曲载荷。", f5:"泰勒级数",f5_desc:"函数近似。", f6:"太沙基承载力",f6_desc:"极限承载力。", about_title:"关于Mathify", about1:"免费资源。", about2:"定期更新。", about3:"支持7种语言。", stat1:"主题",stat2:"公式",stat3:"语言",stat4:"内容", footer:"免费 · 7种语言" }
+  hi: { nav_pages:"पृष्ठ",nav_topics:"विषय",nav_formulas:"सूत्र",nav_about:"परिचय", hero_eyebrow:"गणित · सिविल इंजीनियरिंग · सभी के लिए", hero_title_line1:"जहाँ संख्याएँ<br>मिलती हैं ",hero_title_span:"संरचना से", hero_sub:"मूल बातों से उन्नत शिक्षा तक। दुनिया भर के छात्रों के लिए निःशुल्क।", aud_hs:"हाई स्कूल",aud_uni:"विश्वविद्यालय",aud_eng:"इंजीनियर",aud_self:"स्व-अध्ययन", hero_cta:"विषय देखें",hero_cta2:"सूत्र देखें", pages_title:"साइट का अन्वेषण", page_civil:"सिविल टूल्स",page_civil_desc:"इंजीनियरिंग कैलकुलेटर।", page_notes:"अध्ययन नोट्स",page_notes_desc:"संक्षिप्त नोट्स।", page_about:"परिचय",page_about_desc:"Mathify के बारे में।", page_status:"स्थिति",page_status_desc:"अपडेट।", topics_title:"विषय", level_hs:"हाई स्कूल → विश्वविद्यालय",level_uni:"विश्वविद्यालय → पेशेवर",level_all:"सभी स्तर", topic1:"कलन",topic1_desc:"अवकलन और समाकलन।", topic2:"रैखिक बीजगणित",topic2_desc:"आव्यूह और सदिश।", topic3:"संरचनात्मक इंजीनियरिंग",topic3_desc:"बीम और ट्रस।", topic4:"तरल यांत्रिकी",topic4_desc:"हाइड्रोलिक्स।", topic5:"ज्यामिति",topic5_desc:"सर्वेक्षण त्रिकोणमिति।", topic6:"भू-तकनीकी",topic6_desc:"मृदा यांत्रिकी।", formulas_title:"सूत्र", f1:"नमन प्रतिबल",f1_desc:"बीम में नमन प्रतिबल।", f2:"बर्नौली",f2_desc:"ऊर्जा संरक्षण।", f3:"ऑयलर",f3_desc:"सुंदर समीकरण।", f4:"बकलिंग",f4_desc:"क्रांतिक भार।", f5:"टेलर श्रेणी",f5_desc:"अनंत बहुपदी।", f6:"तेर्ज़ाघी",f6_desc:"वहन क्षमता।", about_title:"Mathify के बारे में", about1:"निःशुल्क संसाधन।", about2:"नियमित अपडेट।", about3:"7 भाषाएँ।", stat1:"विषय",stat2:"सूत्र",stat3:"भाषाएँ",stat4:"सीखने योग्य", footer:"निःशुल्क · 7 भाषाएँ" },
+  ar: { nav_pages:"الصفحات",nav_topics:"المواضيع",nav_formulas:"المعادلات",nav_about:"عن الموقع", hero_eyebrow:"رياضيات · هندسة مدنية · للجميع", hero_title_line1:"حيث تلتقي الأرقام بـ",hero_title_span:"الهياكل", hero_sub:"من الأساسيات إلى التعلم المتقدم. مجاني للجميع.", aud_hs:"الثانوية",aud_uni:"الجامعة",aud_eng:"المهندسون",aud_self:"التعلم الذاتي", hero_cta:"استكشف",hero_cta2:"المعادلات", pages_title:"استكشف", page_civil:"أدوات",page_civil_desc:"حاسبات.", page_notes:"ملاحظات",page_notes_desc:"ملاحظات موجزة.", page_about:"عن",page_about_desc:"عن Mathify.", page_status:"الحالة",page_status_desc:"التقدم.", topics_title:"المواضيع", level_hs:"ثانوي ← جامعي",level_uni:"جامعي ← احترافي",level_all:"الجميع", topic1:"تفاضل وتكامل",topic1_desc:"المشتقات.", topic2:"جبر خطي",topic2_desc:"المصفوفات.", topic3:"هندسة إنشائية",topic3_desc:"الكمرات.", topic4:"ميكانيكا الموائع",topic4_desc:"الهيدروليك.", topic5:"هندسة ومساحة",topic5_desc:"المثلثات.", topic6:"جيوتقنية",topic6_desc:"التربة.", formulas_title:"المعادلات", f1:"إجهاد الانحناء",f1_desc:"إجهاد.", f2:"برنولي",f2_desc:"الطاقة.", f3:"أويلر",f3_desc:"الجمال.", f4:"انبعاج",f4_desc:"الحمل.", f5:"تايلور",f5_desc:"تقريب.", f6:"تيرزاغي",f6_desc:"القدرة.", about_title:"عن Mathify", about1:"مورد مجاني.", about2:"تحديثات.", about3:"7 لغات.", stat1:"مجالات",stat2:"معادلات",stat3:"لغات",stat4:"أشياء", footer:"مجاني · 7 لغات" },
+  es: { nav_pages:"Páginas",nav_topics:"Temas",nav_formulas:"Fórmulas",nav_about:"Acerca de", hero_eyebrow:"Matemáticas · Ingeniería Civil · Para Todos", hero_title_line1:"Donde los Números<br>se Encuentran con ",hero_title_span:"la Estructura", hero_sub:"Desde lo básico hasta lo avanzado. Gratis para todos.", aud_hs:"Secundaria",aud_uni:"Universidad",aud_eng:"Ingenieros",aud_self:"Autodidactas", hero_cta:"Explorar",hero_cta2:"Fórmulas", pages_title:"Explorar", page_civil:"Herramientas",page_civil_desc:"Calculadoras.", page_notes:"Apuntes",page_notes_desc:"Notas.", page_about:"Acerca",page_about_desc:"Sobre Mathify.", page_status:"Estado",page_status_desc:"Progreso.", topics_title:"Temas", level_hs:"Secundaria → Universidad",level_uni:"Universidad → Profesional",level_all:"Todos", topic1:"Cálculo",topic1_desc:"Derivadas.", topic2:"Álgebra Lineal",topic2_desc:"Matrices.", topic3:"Ingeniería Estructural",topic3_desc:"Vigas.", topic4:"Mecánica de Fluidos",topic4_desc:"Hidráulica.", topic5:"Geometría",topic5_desc:"Trigonometría.", topic6:"Geotecnia",topic6_desc:"Suelos.", formulas_title:"Fórmulas", f1:"Tensión de Flexión",f1_desc:"Tensión.", f2:"Bernoulli",f2_desc:"Energía.", f3:"Identidad de Euler",f3_desc:"Belleza.", f4:"Pandeo",f4_desc:"Carga crítica.", f5:"Taylor",f5_desc:"Aproximación.", f6:"Terzaghi",f6_desc:"Capacidad.", about_title:"Acerca de Mathify", about1:"Recurso gratuito.", about2:"Actualizado.", about3:"7 idiomas.", stat1:"Áreas",stat2:"Fórmulas",stat3:"Idiomas",stat4:"Temas", footer:"Gratis · 7 idiomas" },
+  fr: { nav_pages:"Pages",nav_topics:"Sujets",nav_formulas:"Formules",nav_about:"À propos", hero_eyebrow:"Mathématiques · Génie Civil · Pour Tous", hero_title_line1:"Là où les Chiffres<br>Rencontrent la ",hero_title_span:"Structure", hero_sub:"Des bases à l'avancé. Gratuit pour tous.", aud_hs:"Lycée",aud_uni:"Université",aud_eng:"Ingénieurs",aud_self:"Autodidactes", hero_cta:"Explorer",hero_cta2:"Formules", pages_title:"Explorer", page_civil:"Outils",page_civil_desc:"Calculatrices.", page_notes:"Notes",page_notes_desc:"Résumés.", page_about:"À propos",page_about_desc:"Sur Mathify.", page_status:"Statut",page_status_desc:"Suivi.", topics_title:"Sujets", level_hs:"Lycée → Université",level_uni:"Université → Professionnel",level_all:"Tous", topic1:"Calcul",topic1_desc:"Dérivées.", topic2:"Algèbre",topic2_desc:"Matrices.", topic3:"Génie Structurel",topic3_desc:"Poutres.", topic4:"Fluides",topic4_desc:"Hydraulique.", topic5:"Géométrie",topic5_desc:"Trigonométrie.", topic6:"Géotechnique",topic6_desc:"Sols.", formulas_title:"Formules", f1:"Flexion",f1_desc:"Contrainte.", f2:"Bernoulli",f2_desc:"Énergie.", f3:"Euler",f3_desc:"Identité.", f4:"Flambement",f4_desc:"Charge.", f5:"Taylor",f5_desc:"Approx.", f6:"Terzaghi",f6_desc:"Capacité.", about_title:"À Propos", about1:"Gratuit.", about2:"Mis à jour.", about3:"7 langues.", stat1:"Domaines",stat2:"Formules",stat3:"Langues",stat4:"Sujets", footer:"Gratuit · 7 langues" },
+  bn: { nav_pages:"পাতা",nav_topics:"বিষয়",nav_formulas:"সূত্র",nav_about:"পরিচিতি", hero_eyebrow:"গণিত · সিভিল ইঞ্জিনিয়ারিং · সবার জন্য", hero_title_line1:"যেখানে সংখ্যা<br>মেলে ",hero_title_span:"কাঠামোর সাথে", hero_sub:"মৌলিক থেকে উন্নত শিক্ষা। বিনামূল্যে।", aud_hs:"উচ্চ মাধ্যমিক",aud_uni:"বিশ্ববিদ্যালয়",aud_eng:"প্রকৌশলী",aud_self:"স্ব-শিক্ষার্থী", hero_cta:"বিষয় দেখুন",hero_cta2:"সূত্র দেখুন", pages_title:"অন্বেষণ", page_civil:"সিভিল টুলস",page_civil_desc:"ক্যালকুলেটর।", page_notes:"নোট",page_notes_desc:"সংক্ষিপ্ত নোট।", page_about:"পরিচিতি",page_about_desc:"Mathify সম্পর্কে।", page_status:"অবস্থা",page_status_desc:"আপডেট।", topics_title:"বিষয়সমূহ", level_hs:"উচ্চ মাধ্যমিক → বিশ্ববিদ্যালয়",level_uni:"বিশ্ববিদ্যালয় → পেশাদার",level_all:"সব স্তর", topic1:"ক্যালকুলাস",topic1_desc:"অবকলন।", topic2:"রৈখিক বীজগণিত",topic2_desc:"ম্যাট্রিক্স।", topic3:"স্ট্রাকচারাল",topic3_desc:"বিম।", topic4:"তরল বলবিদ্যা",topic4_desc:"হাইড্রোলিক্স।", topic5:"জ্যামিতি",topic5_desc:"ত্রিকোণমিতি।", topic6:"জিওটেকনিক্যাল",topic6_desc:"মৃত্তিকা।", formulas_title:"সূত্রসমূহ", f1:"বাঁকন পীড়ন",f1_desc:"বিমে পীড়ন।", f2:"বার্নুলি",f2_desc:"শক্তি।", f3:"অয়লার",f3_desc:"সমীকরণ।", f4:"বাকলিং",f4_desc:"লোড।", f5:"টেলর",f5_desc:"অনুক্রম।", f6:"তেরজাঘি",f6_desc:"ক্ষমতা।", about_title:"Mathify সম্পর্কে", about1:"বিনামূল্যের সম্পদ।", about2:"নিয়মিত আপডেট।", about3:"৭টি ভাষা।", stat1:"বিষয়",stat2:"সূত্র",stat3:"ভাষা",stat4:"শেখার বিষয়", footer:"বিনামূল্যে · ৭টি ভাষা" },
+  zh: { nav_pages:"页面",nav_topics:"主题",nav_formulas:"公式",nav_about:"关于", hero_eyebrow:"数学 · 土木工程 · 面向所有人", hero_title_line1:"数字与",hero_title_span:"结构的相遇", hero_sub:"从基础到高级。免费。", aud_hs:"高中",aud_uni:"大学",aud_eng:"工程师",aud_self:"自学者", hero_cta:"探索",hero_cta2:"公式", pages_title:"探索", page_civil:"工具",page_civil_desc:"计算器。", page_notes:"笔记",page_notes_desc:"简明笔记。", page_about:"关于",page_about_desc:"了解Mathify。", page_status:"状态",page_status_desc:"进度。", topics_title:"主题", level_hs:"高中→大学",level_uni:"大学→专业",level_all:"所有", topic1:"微积分",topic1_desc:"导数。", topic2:"线性代数",topic2_desc:"矩阵。", topic3:"结构工程",topic3_desc:"梁。", topic4:"流体",topic4_desc:"水力学。", topic5:"几何",topic5_desc:"三角。", topic6:"岩土",topic6_desc:"土力学。", formulas_title:"公式", f1:"弯曲应力",f1_desc:"弯曲。", f2:"伯努利",f2_desc:"能量。", f3:"欧拉",f3_desc:"恒等式。", f4:"屈曲",f4_desc:"临界。", f5:"泰勒",f5_desc:"近似。", f6:"太沙基",f6_desc:"承载力。", about_title:"关于Mathify", about1:"免费。", about2:"更新。", about3:"7种语言。", stat1:"主题",stat2:"公式",stat3:"语言",stat4:"内容", footer:"免费·7语言" }
 };
 
 function setLang(lang) {
@@ -394,8 +838,13 @@ function setLang(lang) {
   const isRTL = lang === 'ar';
   document.body.classList.toggle('rtl', isRTL);
   document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
-  document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (t[key] !== undefined) el.innerHTML = t[key]; });
-  document.querySelectorAll('.lang-btn').forEach(btn => { btn.classList.toggle('active', btn.getAttribute('onclick') === `setLang('${lang}')`); });
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick') === `setLang('${lang}')`);
+  });
 }
 </script>
 
