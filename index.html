@@ -129,6 +129,13 @@ body.bn .ib-label{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;te
 .formula-label{font-family:'Space Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:0.5rem;}
 body.bn .formula-label{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.75rem;}
 
+/* ─── FOOTER ─── */
+footer{position:relative;z-index:1;padding:2rem 4rem;border-top:1px solid var(--grid);display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;color:#999;flex-wrap:wrap;gap:0.5rem;}
+.visitor-counter{display:flex;align-items:center;gap:0.5rem;font-family:'Space Mono',monospace;font-size:0.68rem;color:#999;letter-spacing:0.05em;}
+.visitor-count{display:inline-flex;align-items:center;gap:0.35rem;padding:0.25rem 0.6rem;border:1px solid var(--grid);border-radius:4px;background:rgba(255,255,255,0.03);}
+.visitor-dot{width:6px;height:6px;border-radius:50%;background:#4caf50;display:inline-block;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
 /* SIMULATION */
 .sim-container{background:var(--paper2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:2rem 0;}
 .sim-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;}
@@ -401,6 +408,33 @@ body.bn .los-table th{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:
   <div class="civil-lesson-body" id="trafficBody"></div>
 </div>
 
+<!-- ─── ABOUT ─── -->
+<section class="about-section" id="about">
+  <div>
+    <div class="section-header">
+      <span class="section-num">03 —</span>
+      <h2 class="section-title" data-i18n="about_title">About Mathify</h2>
+    </div>
+    <div class="about-text">
+      <p data-i18n="about1">Mathify is a free, open resource for anyone curious about the mathematics behind the built world.</p>
+      <p data-i18n="about2">New topics, worked examples, interactive tools, and deep dives are added regularly.</p>
+      <p data-i18n="about3">Available in 7 languages. Built for the world.</p>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="stat-num">7</div><div class="stat-label" data-i18n="stat1">Topic Areas</div></div>
+    <div class="stat-box"><div class="stat-num">7</div><div class="stat-label" data-i18n="stat2">Key Formulas</div></div>
+    <div class="stat-box"><div class="stat-num">7</div><div class="stat-label" data-i18n="stat3">Languages</div></div>
+    <div class="stat-box"><div class="stat-num">∞</div><div class="stat-label" data-i18n="stat4">Things to Learn</div></div>
+  </div>
+</section>
+
+<footer>
+  <span>∑ Mathify — mathify.us</span>
+  <span class="visitor-counter"><span class="visitor-count"><span class="visitor-dot"></span><span id="visitorCount">0</span></span> visits</span>
+  <span data-i18n="footer">Free for students and engineers everywhere · 7 languages</span>
+</footer>
+
 <script>
 /* =======================================================================
    LANGUAGE SYSTEM
@@ -507,6 +541,25 @@ function toggleLang(){
     if(active.id==='traffic-lesson') renderTraffic();
   }
 }
+
+/* ═══════════════════════════════════════
+   VISITOR COUNTER
+═══════════════════════════════════════ */
+(function(){
+  const KEY='mathify-visit-count';
+  const LAST_VISIT_KEY='mathify-last-visit';
+  let count=parseInt(localStorage.getItem(KEY))||0;
+  const lastVisit=localStorage.getItem(LAST_VISIT_KEY);
+  const today=new Date().toDateString();
+  if(lastVisit!==today){
+    count++;
+    localStorage.setItem(KEY,count);
+    localStorage.setItem(LAST_VISIT_KEY,today);
+  }
+  const el=document.getElementById('visitorCount');
+  if(el) el.textContent=count.toLocaleString();
+})();
+</script>
 
 function applyTranslations(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{
