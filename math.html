@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathematics — Class 9 to 12 Guide | Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;transition:background 0.3s,color 0.3s;line-height:1.7;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
+.theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
+
+/* ─── LAYOUT ─── */
+.page{display:flex;min-height:100vh;padding-top:3.8rem;position:relative;z-index:1;}
+.sidebar{position:sticky;top:3.8rem;width:260px;height:calc(100vh - 3.8rem);overflow-y:auto;border-right:1px solid var(--grid);padding:1.5rem 0;flex-shrink:0;background:var(--paper);}
+.sidebar h3{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:0.8rem 1.5rem 0.4rem;margin-top:0.5rem;}
+.sidebar h3:first-child{margin-top:0;}
+.sidebar a{display:block;padding:0.45rem 1.5rem;font-size:0.85rem;color:var(--steel);text-decoration:none;border-left:3px solid transparent;transition:all 0.15s;}
+.sidebar a:hover,.sidebar a.active{color:var(--blueprint);border-left-color:var(--blueprint);background:rgba(96,165,250,0.06);}
+.content{flex:1;max-width:900px;padding:2.5rem 3rem 4rem;overflow-x:hidden;}
+
+/* ─── CLASS TABS ─── */
+.class-tabs{display:flex;gap:0;border:2px solid var(--card-border);border-radius:8px;overflow:hidden;margin-bottom:2.5rem;}
+.class-tab{flex:1;padding:0.9rem;text-align:center;font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;background:transparent;border:none;color:var(--steel);transition:all 0.2s;}
+.class-tab:hover{background:rgba(96,165,250,0.08);}
+.class-tab.active{background:var(--blueprint);color:#fff;}
+
+/* ─── TOPIC SECTIONS ─── */
+.topic-section{display:none;animation:fadeIn 0.4s ease;}
+.topic-section.active{display:block;}
+.topic-header{margin-bottom:2rem;}
+.topic-header h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--blueprint);margin-bottom:0.5rem;}
+.topic-header p{color:var(--steel);font-size:1rem;}
+
+h2.section-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--blueprint);margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--grid);}
+h3.sub-title{font-family:'DM Sans',sans-serif;font-size:1.15rem;font-weight:600;color:var(--ink);margin:1.8rem 0 0.8rem;}
+
+/* ─── CONCEPT BOX ─── */
+.concept{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:1.5rem;margin:1.2rem 0;}
+.concept-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem;}
+.concept h4{font-size:1.05rem;font-weight:600;color:var(--blueprint);margin-bottom:0.5rem;}
+
+/* ─── FORMULA BOX ─── */
+.formula-box{background:var(--code-bg);border-left:4px solid var(--accent);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;overflow-x:auto;font-size:1.05rem;}
+
+/* ─── EXAMPLE / PROBLEM ─── */
+.example{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;margin:1.5rem 0;overflow:hidden;}
+.example-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:rgba(96,165,250,0.08);cursor:pointer;user-select:none;}
+[data-theme="dark"] .example-header{background:rgba(96,165,250,0.05);}
+.example-header h4{font-size:0.95rem;color:var(--blueprint);font-weight:600;}
+.example-toggle{font-size:1.2rem;color:var(--blueprint);transition:transform 0.3s;}
+.example-toggle.open{transform:rotate(180deg);}
+.example-body{padding:1.5rem;display:none;border-top:1px solid var(--card-border);}
+.example-body.open{display:block;animation:fadeIn 0.3s ease;}
+.step{display:flex;gap:0.8rem;margin:0.7rem 0;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:0.7rem;background:var(--blueprint);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step-text{flex:1;}
+
+/* ─── TIP / NOTE ─── */
+.tip{background:rgba(22,163,74,0.08);border-left:4px solid var(--success);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem;}
+.tip strong{color:var(--success);}
+.note{background:rgba(96,165,250,0.08);border-left:4px solid var(--blueprint);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem;}
+
+/* ─── SIMULATION ─── */
+.sim-container{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:1.5rem;margin:1.5rem 0;text-align:center;}
+.sim-container canvas{max-width:100%;border-radius:6px;background:#0f172a;}
+.sim-controls{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:1rem;}
+.sim-controls label{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--steel);}
+.sim-controls input[type="range"]{width:140px;}
+.sim-btn{font-family:'Space Mono',monospace;font-size:0.72rem;padding:0.4rem 1rem;border:1px solid var(--blueprint);background:transparent;color:var(--blueprint);border-radius:4px;cursor:pointer;transition:all 0.2s;}
+.sim-btn:hover{background:var(--blueprint);color:#fff;}
+
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .content{padding:2rem 1.5rem;}
+  nav{padding:0.85rem 1.2rem;}
+}
+@media(max-width:600px){
+  .class-tabs{flex-wrap:wrap;}
+  .class-tab{min-width:45%;}
+  .content{padding:1.5rem 1rem;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">&larr; Mathify</a>
+  <button class="theme-toggle" id="themeToggle">&#9728;&#65039;</button>
+</nav>
+
+<div class="page">
+<!-- ─── SIDEBAR ─── -->
+<aside class="sidebar" id="sidebar"></aside>
+
+<!-- ─── CONTENT ─── -->
+<main class="content">
+  <div class="topic-header">
+    <h1>Mathematics Guide</h1>
+    <p>From Class 9 to 12 &mdash; everything you need, explained simply.</p>
+  </div>
+
+  <!-- CLASS TABS -->
+  <div class="class-tabs">
+    <button class="class-tab active" onclick="showClass(9)">Class 9</button>
+    <button class="class-tab" onclick="showClass(10)">Class 10</button>
+    <button class="class-tab" onclick="showClass(11)">Class 11</button>
+    <button class="class-tab" onclick="showClass(12)">Class 12</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CLASS 9                                     -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="topic-section active" id="class9">
+
+    <h2 class="section-title" id="c9-number-systems">1. Number Systems</h2>
+    <div class="concept">
+      <div class="concept-label">Core Idea</div>
+      <h4>What are Real Numbers?</h4>
+      <p>Every number you've ever used falls into the <strong>real number</strong> family. Here's how they're organized:</p>
+      <ul style="margin:0.8rem 0 0 1.2rem;">
+        <li><strong>Natural Numbers (N):</strong> 1, 2, 3, 4, ... (counting numbers)</li>
+        <li><strong>Whole Numbers (W):</strong> 0, 1, 2, 3, ... (natural + zero)</li>
+        <li><strong>Integers (Z):</strong> ..., -2, -1, 0, 1, 2, ... (whole + negatives)</li>
+        <li><strong>Rational Numbers (Q):</strong> Any number written as $\frac{p}{q}$ where $q \neq 0$. Examples: $\frac{3}{4}$, $0.5$, $-7$</li>
+        <li><strong>Irrational Numbers:</strong> Numbers that <em>cannot</em> be written as fractions. Examples: $\sqrt{2}$, $\pi$, $e$</li>
+      </ul>
+    </div>
+
+    <div class="tip"><strong>Think of it like this:</strong> Rational numbers have decimal expansions that either terminate ($0.25$) or repeat ($0.333...$). Irrational numbers go on forever without repeating ($3.14159...$).</div>
+
+    <div class="concept">
+      <div class="concept-label">Key Rule</div>
+      <h4>Rationalizing the Denominator</h4>
+      <p>To remove a square root from the bottom of a fraction, multiply top and bottom by the conjugate:</p>
+      <div class="formula-box">$$\frac{1}{\sqrt{a} + \sqrt{b}} = \frac{\sqrt{a} - \sqrt{b}}{a - b}$$</div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Problem: Rationalize $\frac{1}{\sqrt{5} + \sqrt{3}}$</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><div class="step-text">Multiply numerator and denominator by the conjugate $(\sqrt{5} - \sqrt{3})$</div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-text">$$\frac{1}{\sqrt{5}+\sqrt{3}} \times \frac{\sqrt{5}-\sqrt{3}}{\sqrt{5}-\sqrt{3}} = \frac{\sqrt{5}-\sqrt{3}}{(\sqrt{5})^2 - (\sqrt{3})^2}$$</div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-text">Simplify: $\frac{\sqrt{5}-\sqrt{3}}{5-3} = \frac{\sqrt{5}-\sqrt{3}}{2}$</div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c9-polynomials">2. Polynomials</h2>
+    <div class="concept">
+      <div class="concept-label">Definition</div>
+      <h4>What is a Polynomial?</h4>
+      <p>An expression with variables and coefficients using only addition, subtraction, multiplication, and non-negative integer exponents.</p>
+      <div class="formula-box">$$p(x) = a_n x^n + a_{n-1} x^{n-1} + \cdots + a_1 x + a_0$$</div>
+      <p style="margin-top:0.5rem;"><strong>Degree</strong> = highest power of $x$. A polynomial of degree 1 is <em>linear</em>, degree 2 is <em>quadratic</em>, degree 3 is <em>cubic</em>.</p>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Essential Identity</div>
+      <h4>Algebraic Identities You Must Know</h4>
+      <div class="formula-box">
+        $$(a+b)^2 = a^2 + 2ab + b^2$$
+        $$(a-b)^2 = a^2 - 2ab + b^2$$
+        $$(a+b)(a-b) = a^2 - b^2$$
+        $$(a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$$
+      </div>
+    </div>
+
+    <div class="tip"><strong>Remainder Theorem:</strong> When $p(x)$ is divided by $(x - a)$, the remainder is $p(a)$. If $p(a) = 0$, then $(x-a)$ is a factor!</div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Problem: Factorize $x^3 - 3x^2 - 9x - 5$</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><div class="step-text">Try $x = -1$: $p(-1) = -1 - 3 + 9 - 5 = 0$ &check; So $(x+1)$ is a factor.</div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-text">Divide: $x^3 - 3x^2 - 9x - 5 = (x+1)(x^2 - 4x - 5)$</div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-text">Factor the quadratic: $x^2 - 4x - 5 = (x-5)(x+1)$</div></div>
+        <div class="step"><span class="step-num">4</span><div class="step-text">Answer: $(x+1)^2(x-5)$</div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c9-coordinate">3. Coordinate Geometry</h2>
+    <div class="concept">
+      <div class="concept-label">The Basics</div>
+      <h4>The Cartesian Plane</h4>
+      <p>Two perpendicular number lines (x-axis and y-axis) divide the plane into 4 <strong>quadrants</strong>. Every point is located by an ordered pair $(x, y)$.</p>
+    </div>
+
+    <div class="sim-container">
+      <canvas id="coordCanvas" width="400" height="400"></canvas>
+      <div class="sim-controls">
+        <label>X: <input type="range" id="coordX" min="-5" max="5" value="3" step="1"><span id="coordXVal">3</span></label>
+        <label>Y: <input type="range" id="coordY" min="-5" max="5" value="2" step="1"><span id="coordYVal">2</span></label>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">Move the sliders to plot any point on the Cartesian plane.</p>
+    </div>
+
+    <h2 class="section-title" id="c9-linear">4. Linear Equations in Two Variables</h2>
+    <div class="concept">
+      <div class="concept-label">Core Concept</div>
+      <h4>Standard Form</h4>
+      <p>A linear equation in two variables has the form:</p>
+      <div class="formula-box">$$ax + by + c = 0$$</div>
+      <p>where $a$, $b$, $c$ are real numbers and $a$, $b$ are not both zero. The graph is always a <strong>straight line</strong>.</p>
+    </div>
+
+    <h2 class="section-title" id="c9-triangles">5. Triangles</h2>
+    <div class="concept">
+      <div class="concept-label">Key Properties</div>
+      <h4>Triangle Angle Sum</h4>
+      <p>The sum of all angles in a triangle is always $180°$.</p>
+      <div class="formula-box">$$\angle A + \angle B + \angle C = 180°$$</div>
+    </div>
+    <div class="concept">
+      <div class="concept-label">Congruence Rules</div>
+      <h4>When are two triangles congruent?</h4>
+      <ul style="margin:0.5rem 0 0 1.2rem;">
+        <li><strong>SSS</strong> &mdash; All three sides are equal</li>
+        <li><strong>SAS</strong> &mdash; Two sides and the included angle are equal</li>
+        <li><strong>ASA</strong> &mdash; Two angles and the included side are equal</li>
+        <li><strong>AAS</strong> &mdash; Two angles and a non-included side are equal</li>
+        <li><strong>RHS</strong> &mdash; Right angle, hypotenuse, and one side are equal</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title" id="c9-herons">6. Heron's Formula</h2>
+    <div class="concept">
+      <div class="concept-label">Formula</div>
+      <h4>Area of Any Triangle</h4>
+      <p>When you know all three sides $a$, $b$, $c$:</p>
+      <div class="formula-box">$$s = \frac{a+b+c}{2} \qquad \text{Area} = \sqrt{s(s-a)(s-b)(s-c)}$$</div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Problem: Find the area of a triangle with sides 7, 8, and 9</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><div class="step-text">$s = \frac{7+8+9}{2} = 12$</div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-text">Area $= \sqrt{12(12-7)(12-8)(12-9)} = \sqrt{12 \times 5 \times 4 \times 3}$</div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-text">$= \sqrt{720} = 12\sqrt{5} \approx 26.83$ square units</div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c9-stats">7. Statistics</h2>
+    <div class="concept">
+      <div class="concept-label">Measures of Central Tendency</div>
+      <h4>Mean, Median, Mode</h4>
+      <div class="formula-box">
+        $$\text{Mean} = \bar{x} = \frac{\sum x_i}{n}$$
+        $$\text{Median} = \text{Middle value when data is sorted}$$
+        $$\text{Mode} = \text{Most frequently occurring value}$$
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c9-probability">8. Probability</h2>
+    <div class="concept">
+      <div class="concept-label">Basic Definition</div>
+      <h4>Probability of an Event</h4>
+      <div class="formula-box">$$P(E) = \frac{\text{Number of favorable outcomes}}{\text{Total number of outcomes}}$$</div>
+      <p style="margin-top:0.5rem;">Probability always lies between 0 and 1: $0 \leq P(E) \leq 1$</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CLASS 10                                    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="topic-section" id="class10">
+
+    <h2 class="section-title" id="c10-real-numbers">1. Real Numbers</h2>
+    <div class="concept">
+      <div class="concept-label">Fundamental Theorem</div>
+      <h4>Euclid's Division Lemma</h4>
+      <p>For any two positive integers $a$ and $b$, there exist unique integers $q$ and $r$ such that:</p>
+      <div class="formula-box">$$a = bq + r \qquad \text{where } 0 \leq r < b$$</div>
+      <p style="margin-top:0.5rem;">This is the basis for finding <strong>HCF</strong> using the Euclidean algorithm.</p>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Problem: Find HCF of 135 and 225</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><div class="step-text">$225 = 135 \times 1 + 90$</div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-text">$135 = 90 \times 1 + 45$</div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-text">$90 = 45 \times 2 + 0$</div></div>
+        <div class="step"><span class="step-num">4</span><div class="step-text">Remainder is 0, so <strong>HCF = 45</strong></div></div>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Fundamental Theorem of Arithmetic</div>
+      <h4>Unique Prime Factorization</h4>
+      <p>Every integer greater than 1 can be expressed as a product of primes in exactly one way (ignoring order).</p>
+      <div class="formula-box">$$\text{LCM}(a,b) \times \text{HCF}(a,b) = a \times b$$</div>
+    </div>
+
+    <h2 class="section-title" id="c10-quadratic">2. Quadratic Equations</h2>
+    <div class="concept">
+      <div class="concept-label">The Most Important Formula</div>
+      <h4>Quadratic Formula</h4>
+      <p>For $ax^2 + bx + c = 0$:</p>
+      <div class="formula-box">$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</div>
+      <p style="margin-top:0.6rem;">The <strong>discriminant</strong> $D = b^2 - 4ac$ tells you what kind of roots you get:</p>
+      <ul style="margin:0.5rem 0 0 1.2rem;">
+        <li>$D > 0$ &rarr; Two distinct real roots</li>
+        <li>$D = 0$ &rarr; Two equal real roots</li>
+        <li>$D < 0$ &rarr; No real roots</li>
+      </ul>
+    </div>
+
+    <div class="sim-container">
+      <canvas id="quadCanvas" width="500" height="300"></canvas>
+      <div class="sim-controls">
+        <label>a: <input type="range" id="qa" min="-3" max="3" value="1" step="0.5"><span id="qaVal">1</span></label>
+        <label>b: <input type="range" id="qb" min="-6" max="6" value="-2" step="0.5"><span id="qbVal">-2</span></label>
+        <label>c: <input type="range" id="qc" min="-5" max="5" value="-3" step="0.5"><span id="qcVal">-3</span></label>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;" id="quadInfo">Adjust a, b, c to see how the parabola changes and where it crosses the x-axis.</p>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Problem: Solve $2x^2 - 7x + 3 = 0$</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><div class="step-text">Here $a=2$, $b=-7$, $c=3$</div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-text">$D = (-7)^2 - 4(2)(3) = 49 - 24 = 25$</div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-text">$x = \frac{7 \pm \sqrt{25}}{4} = \frac{7 \pm 5}{4}$</div></div>
+        <div class="step"><span class="step-num">4</span><div class="step-text">$x = \frac{12}{4} = 3$ or $x = \frac{2}{4} = \frac{1}{2}$</div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c10-ap">3. Arithmetic Progressions (AP)</h2>
+    <div class="concept">
+      <div class="concept-label">Formulas</div>
+      <h4>AP Essentials</h4>
+      <p>An AP is a sequence where the difference between consecutive terms is constant ($d$).</p>
+      <div class="formula-box">
+        $$a_n = a + (n-1)d \qquad \text{(nth term)}$$
+        $$S_n = \frac{n}{2}[2a + (n-1)d] \qquad \text{(sum of n terms)}$$
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Problem: Find the sum of first 20 terms of AP: 5, 8, 11, ...</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><div class="step-text">$a = 5$, $d = 8 - 5 = 3$, $n = 20$</div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-text">$S_{20} = \frac{20}{2}[2(5) + (20-1)(3)]$</div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-text">$= 10[10 + 57] = 10 \times 67 = 670$</div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c10-similar-tri">4. Similar Triangles</h2>
+    <div class="concept">
+      <div class="concept-label">BPT (Thales' Theorem)</div>
+      <h4>Basic Proportionality Theorem</h4>
+      <p>If a line is drawn parallel to one side of a triangle, it divides the other two sides proportionally:</p>
+      <div class="formula-box">$$\text{If } DE \parallel BC, \text{ then } \frac{AD}{DB} = \frac{AE}{EC}$$</div>
+    </div>
+    <div class="concept">
+      <div class="concept-label">Similarity Criteria</div>
+      <h4>AA, SSS, SAS Similarity</h4>
+      <ul style="margin:0.5rem 0 0 1.2rem;">
+        <li><strong>AA:</strong> Two angles of one triangle equal two angles of another</li>
+        <li><strong>SSS:</strong> All three pairs of sides are proportional</li>
+        <li><strong>SAS:</strong> Two pairs of sides proportional + included angle equal</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title" id="c10-trig">5. Trigonometry</h2>
+    <div class="concept">
+      <div class="concept-label">The Big Three</div>
+      <h4>Trigonometric Ratios</h4>
+      <p>In a right triangle with angle $\theta$:</p>
+      <div class="formula-box">
+        $$\sin\theta = \frac{\text{Opposite}}{\text{Hypotenuse}} \qquad \cos\theta = \frac{\text{Adjacent}}{\text{Hypotenuse}} \qquad \tan\theta = \frac{\text{Opposite}}{\text{Adjacent}}$$
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Must Memorize</div>
+      <h4>Standard Values</h4>
+      <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;margin:0.5rem 0;font-size:0.9rem;">
+        <tr style="background:var(--code-bg);"><th style="padding:0.5rem;border:1px solid var(--card-border);">$\theta$</th><th style="padding:0.5rem;border:1px solid var(--card-border);">$0°$</th><th style="padding:0.5rem;border:1px solid var(--card-border);">$30°$</th><th style="padding:0.5rem;border:1px solid var(--card-border);">$45°$</th><th style="padding:0.5rem;border:1px solid var(--card-border);">$60°$</th><th style="padding:0.5rem;border:1px solid var(--card-border);">$90°$</th></tr>
+        <tr><td style="padding:0.5rem;border:1px solid var(--card-border);font-weight:600;">$\sin\theta$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$0$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$\frac{1}{2}$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$\frac{1}{\sqrt{2}}$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$\frac{\sqrt{3}}{2}$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$1$</td></tr>
+        <tr><td style="padding:0.5rem;border:1px solid var(--card-border);font-weight:600;">$\cos\theta$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$1$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$\frac{\sqrt{3}}{2}$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$\frac{1}{\sqrt{2}}$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$\frac{1}{2}$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$0$</td></tr>
+        <tr><td style="padding:0.5rem;border:1px solid var(--card-border);font-weight:600;">$\tan\theta$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$0$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$\frac{1}{\sqrt{3}}$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$1$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$\sqrt{3}$</td><td style="padding:0.5rem;border:1px solid var(--card-border);">$\infty$</td></tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Identity</div>
+      <h4>Pythagorean Trigonometric Identity</h4>
+      <div class="formula-box">$$\sin^2\theta + \cos^2\theta = 1$$</div>
+    </div>
+
+    <h2 class="section-title" id="c10-circles">6. Circles</h2>
+    <div class="concept">
+      <div class="concept-label">Key Theorem</div>
+      <h4>Tangent to a Circle</h4>
+      <p>A tangent to a circle is <strong>perpendicular</strong> to the radius at the point of contact.</p>
+      <p style="margin-top:0.5rem;">If two tangents are drawn from an external point, they are <strong>equal in length</strong>.</p>
+    </div>
+
+    <h2 class="section-title" id="c10-mensuration">7. Surface Area & Volume</h2>
+    <div class="concept">
+      <div class="concept-label">Formulas</div>
+      <h4>3D Shapes</h4>
+      <div class="formula-box">
+        $$\text{Cylinder: } V = \pi r^2 h, \quad SA = 2\pi r(r+h)$$
+        $$\text{Cone: } V = \frac{1}{3}\pi r^2 h, \quad SA = \pi r(r+l)$$
+        $$\text{Sphere: } V = \frac{4}{3}\pi r^3, \quad SA = 4\pi r^2$$
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CLASS 11                                    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="topic-section" id="class11">
+
+    <h2 class="section-title" id="c11-sets">1. Sets</h2>
+    <div class="concept">
+      <div class="concept-label">Foundation</div>
+      <h4>Set Operations</h4>
+      <p>A <strong>set</strong> is a well-defined collection of distinct objects.</p>
+      <div class="formula-box">
+        $$A \cup B = \{x : x \in A \text{ or } x \in B\} \quad \text{(Union)}$$
+        $$A \cap B = \{x : x \in A \text{ and } x \in B\} \quad \text{(Intersection)}$$
+        $$A - B = \{x : x \in A \text{ and } x \notin B\} \quad \text{(Difference)}$$
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Important Formula</div>
+      <h4>Cardinality</h4>
+      <div class="formula-box">$$n(A \cup B) = n(A) + n(B) - n(A \cap B)$$</div>
+    </div>
+
+    <h2 class="section-title" id="c11-functions">2. Relations & Functions</h2>
+    <div class="concept">
+      <div class="concept-label">Core Concept</div>
+      <h4>What is a Function?</h4>
+      <p>A function $f: A \rightarrow B$ is a rule that assigns <strong>exactly one</strong> element in $B$ to every element of $A$.</p>
+      <ul style="margin:0.5rem 0 0 1.2rem;">
+        <li><strong>Domain:</strong> The set of all input values</li>
+        <li><strong>Range:</strong> The set of all output values</li>
+        <li><strong>Codomain:</strong> The set $B$ (range $\subseteq$ codomain)</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title" id="c11-trig">3. Trigonometric Functions</h2>
+    <div class="concept">
+      <div class="concept-label">Extended Identities</div>
+      <h4>Compound Angle Formulas</h4>
+      <div class="formula-box">
+        $$\sin(A+B) = \sin A \cos B + \cos A \sin B$$
+        $$\cos(A+B) = \cos A \cos B - \sin A \sin B$$
+        $$\tan(A+B) = \frac{\tan A + \tan B}{1 - \tan A \tan B}$$
+      </div>
+    </div>
+
+    <div class="note"><strong>Radian Measure:</strong> $180° = \pi$ radians. To convert: multiply degrees by $\frac{\pi}{180}$.</div>
+
+    <h2 class="section-title" id="c11-complex">4. Complex Numbers</h2>
+    <div class="concept">
+      <div class="concept-label">New Number</div>
+      <h4>The Imaginary Unit</h4>
+      <p>We define $i = \sqrt{-1}$, so $i^2 = -1$. A <strong>complex number</strong> is $z = a + bi$.</p>
+      <div class="formula-box">
+        $$|z| = \sqrt{a^2 + b^2} \qquad \text{(modulus)}$$
+        $$\bar{z} = a - bi \qquad \text{(conjugate)}$$
+        $$z \cdot \bar{z} = |z|^2 = a^2 + b^2$$
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c11-inequalities">5. Linear Inequalities</h2>
+    <div class="concept">
+      <div class="concept-label">Rules</div>
+      <h4>Solving Inequalities</h4>
+      <p>Same rules as equations, with <strong>one critical difference</strong>:</p>
+      <div class="tip"><strong>When you multiply or divide by a negative number, FLIP the inequality sign!</strong></div>
+      <div class="formula-box">$$\text{If } -2x > 6, \text{ then } x < -3$$</div>
+    </div>
+
+    <h2 class="section-title" id="c11-pnc">6. Permutations & Combinations</h2>
+    <div class="concept">
+      <div class="concept-label">Counting</div>
+      <h4>When Order Matters vs. When It Doesn't</h4>
+      <div class="formula-box">
+        $$^nP_r = \frac{n!}{(n-r)!} \quad \text{(order matters)}$$
+        $$^nC_r = \frac{n!}{r!(n-r)!} \quad \text{(order doesn't matter)}$$
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Problem: How many 3-letter words from A, B, C, D, E (no repetition)?</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><div class="step-text">Order matters (ABC $\neq$ BAC), so this is a permutation.</div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-text">$^5P_3 = \frac{5!}{(5-3)!} = \frac{120}{2} = 60$</div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c11-binomial">7. Binomial Theorem</h2>
+    <div class="concept">
+      <div class="concept-label">Expansion</div>
+      <h4>Binomial Theorem</h4>
+      <div class="formula-box">$$(a+b)^n = \sum_{k=0}^{n} \binom{n}{k} a^{n-k} b^k$$</div>
+      <p style="margin-top:0.5rem;">General term: $T_{r+1} = \binom{n}{r} a^{n-r} b^r$</p>
+    </div>
+
+    <h2 class="section-title" id="c11-sequences">8. Sequences & Series</h2>
+    <div class="concept">
+      <div class="concept-label">Geometric Progression</div>
+      <h4>GP Formulas</h4>
+      <div class="formula-box">
+        $$a_n = ar^{n-1} \qquad S_n = \frac{a(r^n - 1)}{r - 1} \text{ (if } r \neq 1\text{)}$$
+        $$S_\infty = \frac{a}{1-r} \text{ (if } |r| < 1\text{)}$$
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c11-straight">9. Straight Lines</h2>
+    <div class="concept">
+      <div class="concept-label">Forms</div>
+      <h4>Equation of a Line</h4>
+      <div class="formula-box">
+        $$y - y_1 = m(x - x_1) \quad \text{(point-slope)}$$
+        $$y = mx + c \quad \text{(slope-intercept)}$$
+        $$\frac{x}{a} + \frac{y}{b} = 1 \quad \text{(intercept form)}$$
+      </div>
+      <p style="margin-top:0.5rem;"><strong>Distance</strong> from point $(x_1, y_1)$ to line $ax + by + c = 0$:</p>
+      <div class="formula-box">$$d = \frac{|ax_1 + by_1 + c|}{\sqrt{a^2 + b^2}}$$</div>
+    </div>
+
+    <h2 class="section-title" id="c11-limits">10. Limits & Derivatives</h2>
+    <div class="concept">
+      <div class="concept-label">The Gateway to Calculus</div>
+      <h4>What is a Limit?</h4>
+      <p>$\lim_{x \to a} f(x) = L$ means as $x$ gets closer and closer to $a$, $f(x)$ gets closer to $L$.</p>
+      <div class="formula-box">
+        $$\lim_{x \to a} \frac{x^n - a^n}{x - a} = na^{n-1}$$
+        $$\lim_{x \to 0} \frac{\sin x}{x} = 1$$
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Derivative</div>
+      <h4>First Principles</h4>
+      <div class="formula-box">$$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$</div>
+      <p style="margin-top:0.5rem;">Quick rules: $(x^n)' = nx^{n-1}$, $(\sin x)' = \cos x$, $(\cos x)' = -\sin x$</p>
+    </div>
+
+    <h2 class="section-title" id="c11-stats">11. Statistics</h2>
+    <div class="concept">
+      <div class="concept-label">Measures of Dispersion</div>
+      <h4>Variance & Standard Deviation</h4>
+      <div class="formula-box">
+        $$\sigma^2 = \frac{\sum (x_i - \bar{x})^2}{n} \qquad \sigma = \sqrt{\sigma^2}$$
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c11-prob">12. Probability</h2>
+    <div class="concept">
+      <div class="concept-label">Set-Based Probability</div>
+      <h4>Addition Rule</h4>
+      <div class="formula-box">$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$</div>
+      <p style="margin-top:0.5rem;">For mutually exclusive events: $P(A \cap B) = 0$, so $P(A \cup B) = P(A) + P(B)$.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CLASS 12                                    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="topic-section" id="class12">
+
+    <h2 class="section-title" id="c12-relations">1. Relations & Functions</h2>
+    <div class="concept">
+      <div class="concept-label">Types of Relations</div>
+      <h4>Reflexive, Symmetric, Transitive</h4>
+      <ul style="margin:0.5rem 0 0 1.2rem;">
+        <li><strong>Reflexive:</strong> $(a, a) \in R$ for all $a$</li>
+        <li><strong>Symmetric:</strong> If $(a,b) \in R$, then $(b,a) \in R$</li>
+        <li><strong>Transitive:</strong> If $(a,b) \in R$ and $(b,c) \in R$, then $(a,c) \in R$</li>
+        <li><strong>Equivalence:</strong> All three of the above</li>
+      </ul>
+    </div>
+    <div class="concept">
+      <div class="concept-label">Types of Functions</div>
+      <h4>One-One & Onto</h4>
+      <ul style="margin:0.5rem 0 0 1.2rem;">
+        <li><strong>One-One (Injective):</strong> Different inputs &rarr; different outputs</li>
+        <li><strong>Onto (Surjective):</strong> Every element in codomain has a preimage</li>
+        <li><strong>Bijective:</strong> Both one-one and onto (invertible)</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title" id="c12-inverse-trig">2. Inverse Trigonometric Functions</h2>
+    <div class="concept">
+      <div class="concept-label">Key Properties</div>
+      <h4>Domains & Ranges</h4>
+      <div class="formula-box">
+        $$\sin^{-1}x : [-1,1] \to \left[-\frac{\pi}{2}, \frac{\pi}{2}\right]$$
+        $$\cos^{-1}x : [-1,1] \to [0, \pi]$$
+        $$\tan^{-1}x : \mathbb{R} \to \left(-\frac{\pi}{2}, \frac{\pi}{2}\right)$$
+      </div>
+      <p style="margin-top:0.5rem;">Key identity: $\sin^{-1}x + \cos^{-1}x = \frac{\pi}{2}$</p>
+    </div>
+
+    <h2 class="section-title" id="c12-matrices">3. Matrices & Determinants</h2>
+    <div class="concept">
+      <div class="concept-label">Determinant</div>
+      <h4>2x2 and 3x3 Determinants</h4>
+      <div class="formula-box">
+        $$\begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc$$
+      </div>
+      <p style="margin-top:0.5rem;">A matrix is invertible only if its determinant is non-zero.</p>
+      <div class="formula-box">$$A^{-1} = \frac{1}{|A|} \text{adj}(A)$$</div>
+    </div>
+
+    <h2 class="section-title" id="c12-continuity">4. Continuity & Differentiability</h2>
+    <div class="concept">
+      <div class="concept-label">Definition</div>
+      <h4>Continuity at a Point</h4>
+      <p>$f(x)$ is continuous at $x = a$ if:</p>
+      <div class="formula-box">$$\lim_{x \to a^-} f(x) = \lim_{x \to a^+} f(x) = f(a)$$</div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Chain Rule</div>
+      <h4>Differentiating Composite Functions</h4>
+      <div class="formula-box">$$\frac{d}{dx}[f(g(x))] = f'(g(x)) \cdot g'(x)$$</div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Derivatives to Remember</div>
+      <h4>Common Derivatives</h4>
+      <div class="formula-box">
+        $$\frac{d}{dx}(e^x) = e^x \qquad \frac{d}{dx}(\ln x) = \frac{1}{x}$$
+        $$\frac{d}{dx}(\tan x) = \sec^2 x \qquad \frac{d}{dx}(\sec x) = \sec x \tan x$$
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c12-integration">5. Integrals</h2>
+    <div class="concept">
+      <div class="concept-label">The Reverse of Differentiation</div>
+      <h4>Basic Integration Rules</h4>
+      <div class="formula-box">
+        $$\int x^n dx = \frac{x^{n+1}}{n+1} + C \quad (n \neq -1)$$
+        $$\int \frac{1}{x} dx = \ln|x| + C$$
+        $$\int e^x dx = e^x + C$$
+        $$\int \sin x\, dx = -\cos x + C$$
+        $$\int \cos x\, dx = \sin x + C$$
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Techniques</div>
+      <h4>Integration by Parts</h4>
+      <div class="formula-box">$$\int u\, dv = uv - \int v\, du$$</div>
+      <div class="tip"><strong>LIATE Rule</strong> for choosing $u$: Logarithmic > Inverse trig > Algebraic > Trig > Exponential</div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Problem: Evaluate $\int x e^x dx$</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><div class="step-text">Let $u = x$ (algebraic), $dv = e^x dx$ (exponential). By LIATE, $x$ comes first.</div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-text">$du = dx$, $v = e^x$</div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-text">$\int xe^x dx = xe^x - \int e^x dx = xe^x - e^x + C$</div></div>
+        <div class="step"><span class="step-num">4</span><div class="step-text">$= e^x(x - 1) + C$</div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="c12-definite">6. Definite Integrals</h2>
+    <div class="concept">
+      <div class="concept-label">Fundamental Theorem</div>
+      <h4>Evaluating Definite Integrals</h4>
+      <div class="formula-box">$$\int_a^b f(x)\,dx = F(b) - F(a) \quad \text{where } F'(x) = f(x)$$</div>
+    </div>
+
+    <h2 class="section-title" id="c12-diffeq">7. Differential Equations</h2>
+    <div class="concept">
+      <div class="concept-label">Separable Equations</div>
+      <h4>Variable Separable Method</h4>
+      <p>If you can write the equation as $f(y)\,dy = g(x)\,dx$, just integrate both sides!</p>
+      <div class="formula-box">$$\frac{dy}{dx} = \frac{g(x)}{h(y)} \implies \int h(y)\,dy = \int g(x)\,dx + C$$</div>
+    </div>
+
+    <h2 class="section-title" id="c12-vectors">8. Vectors</h2>
+    <div class="concept">
+      <div class="concept-label">Operations</div>
+      <h4>Dot Product & Cross Product</h4>
+      <div class="formula-box">
+        $$\vec{a} \cdot \vec{b} = |\vec{a}||\vec{b}|\cos\theta = a_1b_1 + a_2b_2 + a_3b_3$$
+        $$|\vec{a} \times \vec{b}| = |\vec{a}||\vec{b}|\sin\theta$$
+      </div>
+      <p style="margin-top:0.5rem;">Dot product gives a <strong>scalar</strong> (used to find angles). Cross product gives a <strong>vector</strong> (used to find area).</p>
+    </div>
+
+    <h2 class="section-title" id="c12-3d">9. 3D Geometry</h2>
+    <div class="concept">
+      <div class="concept-label">Lines & Planes</div>
+      <h4>Equations</h4>
+      <div class="formula-box">
+        $$\text{Line: } \frac{x-x_1}{a} = \frac{y-y_1}{b} = \frac{z-z_1}{c}$$
+        $$\text{Plane: } ax + by + cz = d$$
+      </div>
+      <p style="margin-top:0.5rem;">Distance from point $(x_0,y_0,z_0)$ to plane $ax+by+cz=d$:</p>
+      <div class="formula-box">$$D = \frac{|ax_0+by_0+cz_0-d|}{\sqrt{a^2+b^2+c^2}}$$</div>
+    </div>
+
+    <h2 class="section-title" id="c12-lpp">10. Linear Programming</h2>
+    <div class="concept">
+      <div class="concept-label">Method</div>
+      <h4>Graphical Method</h4>
+      <ol style="margin:0.5rem 0 0 1.2rem;">
+        <li>Write objective function: maximize/minimize $Z = ax + by$</li>
+        <li>Graph all constraints as inequalities</li>
+        <li>Find the feasible region (intersection of all constraints)</li>
+        <li>Evaluate $Z$ at each corner point of the feasible region</li>
+        <li>The corner point giving max/min $Z$ is your answer</li>
+      </ol>
+    </div>
+
+    <h2 class="section-title" id="c12-probability">11. Probability (Bayes' Theorem)</h2>
+    <div class="concept">
+      <div class="concept-label">Conditional Probability</div>
+      <h4>Bayes' Theorem</h4>
+      <div class="formula-box">$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$</div>
+      <p style="margin-top:0.5rem;">This lets you "reverse" conditional probabilities. Used extensively in real-world decision making.</p>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Problem: A factory has 2 machines. Machine A produces 60% of items (5% defective), Machine B produces 40% (3% defective). If an item is defective, what's the probability it came from Machine A?</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <div class="step"><span class="step-num">1</span><div class="step-text">$P(A) = 0.6$, $P(B) = 0.4$, $P(D|A) = 0.05$, $P(D|B) = 0.03$</div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-text">$P(D) = P(D|A)P(A) + P(D|B)P(B) = 0.05(0.6) + 0.03(0.4) = 0.042$</div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-text">$P(A|D) = \frac{P(D|A) \cdot P(A)}{P(D)} = \frac{0.05 \times 0.6}{0.042} = \frac{0.03}{0.042} \approx 0.714$</div></div>
+        <div class="step"><span class="step-num">4</span><div class="step-text">There's about a <strong>71.4%</strong> chance the defective item came from Machine A.</div></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+/* ─── THEME ─── */
+const toggleBtn=document.getElementById('themeToggle');const root=document.documentElement;
+function setTheme(t){root.setAttribute('data-theme',t);toggleBtn.textContent=t==='dark'?'\u2600\uFE0F':'\uD83C\uDF19';localStorage.setItem('mathify-theme',t);}
+const saved=localStorage.getItem('mathify-theme');setTheme(saved||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+toggleBtn.addEventListener('click',()=>{setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});
+
+/* ─── CLASS TABS ─── */
+function showClass(n){
+  document.querySelectorAll('.topic-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.class-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('class'+n).classList.add('active');
+  document.querySelectorAll('.class-tab')[n-9].classList.add('active');
+  buildSidebar(n);
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(typeof MathJax!=='undefined'&&MathJax.typeset) MathJax.typeset();
+}
+
+/* ─── SIDEBAR ─── */
+const sidebarData = {
+  9: [
+    {id:'c9-number-systems',label:'1. Number Systems'},
+    {id:'c9-polynomials',label:'2. Polynomials'},
+    {id:'c9-coordinate',label:'3. Coordinate Geometry'},
+    {id:'c9-linear',label:'4. Linear Equations'},
+    {id:'c9-triangles',label:'5. Triangles'},
+    {id:'c9-herons',label:"6. Heron's Formula"},
+    {id:'c9-stats',label:'7. Statistics'},
+    {id:'c9-probability',label:'8. Probability'}
+  ],
+  10: [
+    {id:'c10-real-numbers',label:'1. Real Numbers'},
+    {id:'c10-quadratic',label:'2. Quadratic Equations'},
+    {id:'c10-ap',label:'3. Arithmetic Progressions'},
+    {id:'c10-similar-tri',label:'4. Similar Triangles'},
+    {id:'c10-trig',label:'5. Trigonometry'},
+    {id:'c10-circles',label:'6. Circles'},
+    {id:'c10-mensuration',label:'7. Surface Area & Volume'}
+  ],
+  11: [
+    {id:'c11-sets',label:'1. Sets'},
+    {id:'c11-functions',label:'2. Relations & Functions'},
+    {id:'c11-trig',label:'3. Trigonometric Functions'},
+    {id:'c11-complex',label:'4. Complex Numbers'},
+    {id:'c11-inequalities',label:'5. Linear Inequalities'},
+    {id:'c11-pnc',label:'6. Permutations & Combinations'},
+    {id:'c11-binomial',label:'7. Binomial Theorem'},
+    {id:'c11-sequences',label:'8. Sequences & Series'},
+    {id:'c11-straight',label:'9. Straight Lines'},
+    {id:'c11-limits',label:'10. Limits & Derivatives'},
+    {id:'c11-stats',label:'11. Statistics'},
+    {id:'c11-prob',label:'12. Probability'}
+  ],
+  12: [
+    {id:'c12-relations',label:'1. Relations & Functions'},
+    {id:'c12-inverse-trig',label:'2. Inverse Trig Functions'},
+    {id:'c12-matrices',label:'3. Matrices & Determinants'},
+    {id:'c12-continuity',label:'4. Continuity & Differentiability'},
+    {id:'c12-integration',label:'5. Integrals'},
+    {id:'c12-definite',label:'6. Definite Integrals'},
+    {id:'c12-diffeq',label:'7. Differential Equations'},
+    {id:'c12-vectors',label:'8. Vectors'},
+    {id:'c12-3d',label:'9. 3D Geometry'},
+    {id:'c12-lpp',label:'10. Linear Programming'},
+    {id:'c12-probability',label:'11. Probability (Bayes)'}
+  ]
+};
+
+function buildSidebar(n){
+  const sb=document.getElementById('sidebar');
+  let html=`<h3>Class ${n}</h3>`;
+  sidebarData[n].forEach(item=>{
+    html+=`<a href="#${item.id}">${item.label}</a>`;
+  });
+  sb.innerHTML=html;
+}
+buildSidebar(9);
+
+/* ─── TOGGLE EXAMPLES ─── */
+function toggleExample(header){
+  const body=header.nextElementSibling;
+  const arrow=header.querySelector('.example-toggle');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+/* ─── COORDINATE GEOMETRY SIMULATION ─── */
+function drawCoordPlane(){
+  const canvas=document.getElementById('coordCanvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const w=canvas.width, h=canvas.height;
+  const cx=w/2, cy=h/2;
+  const scale=35;
+  const px=parseInt(document.getElementById('coordX').value);
+  const py=parseInt(document.getElementById('coordY').value);
+  document.getElementById('coordXVal').textContent=px;
+  document.getElementById('coordYVal').textContent=py;
+
+  ctx.clearRect(0,0,w,h);
+  // Grid
+  ctx.strokeStyle='rgba(96,165,250,0.1)';ctx.lineWidth=1;
+  for(let i=-5;i<=5;i++){
+    ctx.beginPath();ctx.moveTo(cx+i*scale,0);ctx.lineTo(cx+i*scale,h);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,cy-i*scale);ctx.lineTo(w,cy-i*scale);ctx.stroke();
+  }
+  // Axes
+  ctx.strokeStyle='rgba(96,165,250,0.5)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(w,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,h);ctx.stroke();
+  // Labels
+  ctx.fillStyle='rgba(96,165,250,0.6)';ctx.font='11px Space Mono';ctx.textAlign='center';
+  for(let i=-5;i<=5;i++){
+    if(i===0) continue;
+    ctx.fillText(i,cx+i*scale,cy+16);
+    ctx.fillText(i,cx-18,cy-i*scale+4);
+  }
+  ctx.fillText('O',cx-12,cy+16);
+  // Point
+  const ptX=cx+px*scale, ptY=cy-py*scale;
+  // Dashed lines
+  ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(245,158,11,0.5)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(ptX,cy);ctx.lineTo(ptX,ptY);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,ptY);ctx.lineTo(ptX,ptY);ctx.stroke();
+  ctx.setLineDash([]);
+  // Point dot
+  ctx.beginPath();ctx.arc(ptX,ptY,6,0,Math.PI*2);ctx.fillStyle='#f59e0b';ctx.fill();
+  ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+  // Label
+  ctx.fillStyle='#f59e0b';ctx.font='bold 13px DM Sans';ctx.textAlign='left';
+  ctx.fillText(`(${px}, ${py})`,ptX+10,ptY-10);
+}
+document.getElementById('coordX')?.addEventListener('input',drawCoordPlane);
+document.getElementById('coordY')?.addEventListener('input',drawCoordPlane);
+setTimeout(drawCoordPlane,200);
+
+/* ─── QUADRATIC SIMULATION ─── */
+function drawQuadratic(){
+  const canvas=document.getElementById('quadCanvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const w=canvas.width, h=canvas.height;
+  const a=parseFloat(document.getElementById('qa').value);
+  const b=parseFloat(document.getElementById('qb').value);
+  const c=parseFloat(document.getElementById('qc').value);
+  document.getElementById('qaVal').textContent=a;
+  document.getElementById('qbVal').textContent=b;
+  document.getElementById('qcVal').textContent=c;
+
+  const cx=w/2, cy=h*0.65;
+  const scaleX=30, scaleY=20;
+
+  ctx.clearRect(0,0,w,h);
+  // Grid
+  ctx.strokeStyle='rgba(96,165,250,0.08)';ctx.lineWidth=1;
+  for(let i=0;i<w;i+=scaleX){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,h);ctx.stroke();}
+  for(let i=0;i<h;i+=scaleY){ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(w,i);ctx.stroke();}
+  // Axes
+  ctx.strokeStyle='rgba(96,165,250,0.4)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(w,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,h);ctx.stroke();
+  // Curve
+  if(a!==0){
+    ctx.beginPath();ctx.strokeStyle='#f59e0b';ctx.lineWidth=2.5;
+    for(let px=0;px<=w;px++){
+      const x=(px-cx)/scaleX;
+      const y=a*x*x+b*x+c;
+      const py=cy-y*scaleY;
+      if(px===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+  }
+  // Roots
+  const D=b*b-4*a*c;
+  const info=document.getElementById('quadInfo');
+  if(a===0){
+    info.textContent='a = 0: not a quadratic equation.';
+  } else if(D>0){
+    const r1=(-b+Math.sqrt(D))/(2*a), r2=(-b-Math.sqrt(D))/(2*a);
+    info.textContent=`D = ${D.toFixed(1)} > 0: Two real roots at x = ${r1.toFixed(2)} and x = ${r2.toFixed(2)}`;
+    [r1,r2].forEach(r=>{
+      const rx=cx+r*scaleX;
+      ctx.beginPath();ctx.arc(rx,cy,5,0,Math.PI*2);ctx.fillStyle='#4ade80';ctx.fill();
+    });
+  } else if(D===0){
+    const r=-b/(2*a);
+    info.textContent=`D = 0: One repeated root at x = ${r.toFixed(2)}`;
+    ctx.beginPath();ctx.arc(cx+r*scaleX,cy,5,0,Math.PI*2);ctx.fillStyle='#4ade80';ctx.fill();
+  } else {
+    info.textContent=`D = ${D.toFixed(1)} < 0: No real roots (parabola doesn't cross x-axis)`;
+  }
+}
+['qa','qb','qc'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',drawQuadratic);
+});
+setTimeout(drawQuadratic,300);
+</script>
+</body>
+</html>

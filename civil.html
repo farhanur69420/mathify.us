@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civil Engineering — RC Design & Traffic Engineering | Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;transition:background 0.3s,color 0.3s;line-height:1.7;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
+.theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
+
+.container{max-width:900px;margin:0 auto;padding:5.5rem 2rem 4rem;position:relative;z-index:1;}
+
+/* ─── HERO ─── */
+.hero{text-align:center;margin-bottom:3rem;animation:fadeUp 0.5s ease;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:var(--blueprint);margin-bottom:0.8rem;}
+.hero p{font-size:1.05rem;color:var(--steel);max-width:600px;margin:0 auto;}
+
+/* ─── COURSE CARDS ─── */
+.courses{display:flex;flex-direction:column;gap:2.5rem;margin-bottom:3rem;}
+.course-card{background:var(--card-bg);border:2px solid var(--card-border);border-radius:14px;overflow:hidden;transition:all 0.3s;animation:fadeUp 0.5s ease;}
+.course-card:hover{border-color:var(--blueprint);box-shadow:0 8px 32px rgba(0,0,0,0.1);}
+[data-theme="dark"] .course-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+.course-header{padding:2rem 2rem 1.5rem;display:flex;gap:1.5rem;align-items:flex-start;}
+.course-icon{font-size:2.5rem;flex-shrink:0;margin-top:0.2rem;}
+.course-info{flex:1;}
+.course-info h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--blueprint);margin-bottom:0.3rem;}
+.course-badge{display:inline-block;font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border-radius:3px;font-weight:700;margin-left:0.5rem;vertical-align:middle;}
+.badge-live{background:var(--success);color:#fff;}
+.course-info p{color:var(--steel);font-size:0.95rem;line-height:1.6;}
+
+/* ─── TOPIC LIST ─── */
+.topics-list{border-top:1px solid var(--card-border);padding:0 2rem 1.5rem;}
+.topics-list h3{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:1rem 0 0.6rem;margin:0;}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.6rem;}
+.topic-item{display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.8rem;border-radius:6px;font-size:0.88rem;color:var(--ink);background:var(--paper);transition:background 0.15s;}
+.topic-item:hover{background:rgba(96,165,250,0.08);}
+.topic-num{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);font-weight:700;width:20px;text-align:center;flex-shrink:0;}
+
+/* ─── CTA BUTTON ─── */
+.course-cta{display:block;padding:1rem 2rem;border-top:1px solid var(--card-border);text-align:center;font-family:'Space Mono',monospace;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--blueprint);text-decoration:none;transition:all 0.2s;background:transparent;}
+.course-cta:hover{background:var(--blueprint);color:#fff;}
+
+/* ─── WHAT YOU'LL LEARN ─── */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin:2rem 0;}
+.feature{text-align:center;padding:1.5rem;border:1px solid var(--card-border);border-radius:10px;background:var(--card-bg);}
+.feature-icon{font-size:1.8rem;margin-bottom:0.6rem;}
+.feature h4{font-size:0.9rem;color:var(--blueprint);margin-bottom:0.3rem;}
+.feature p{font-size:0.8rem;color:var(--text-muted);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:600px){nav{padding:0.85rem 1.2rem;}.container{padding:4.5rem 1rem 2rem;}.course-header{flex-direction:column;gap:0.8rem;}.topic-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">&larr; Mathify</a>
+  <button class="theme-toggle" id="themeToggle">&#9728;&#65039;</button>
+</nav>
+
+<div class="container">
+  <div class="hero">
+    <h1>Civil Engineering</h1>
+    <p>Focused, simplified lecture guides with simulations, solved problems, and visual explanations. No fluff.</p>
+  </div>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">&#9881;</div>
+      <h4>Interactive Simulations</h4>
+      <p>Visual demos for beams, stress, and traffic signals</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">&#128221;</div>
+      <h4>Step-by-Step Solutions</h4>
+      <p>Problems solved clearly, one step at a time</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">&#127916;</div>
+      <h4>Videos & Animations</h4>
+      <p>Embedded videos and animated concepts</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">&#128218;</div>
+      <h4>Formula Sheets</h4>
+      <p>All essential formulas in one place</p>
+    </div>
+  </div>
+
+  <div class="courses">
+
+    <!-- ─── RC DESIGN ─── -->
+    <div class="course-card" style="animation-delay:0.1s;">
+      <div class="course-header">
+        <div class="course-icon">&#127963;</div>
+        <div class="course-info">
+          <h2>RC Design <span class="course-badge badge-live">LIVE</span></h2>
+          <p>Reinforced Concrete Design (CEE 335). Covers Working Stress Design, cracked section analysis, the k &amp; j method, beam geometry, and design from scratch. Interactive simulations and 3 fully worked problems.</p>
+        </div>
+      </div>
+      <div class="topics-list">
+        <h3>Key Topics Covered</h3>
+        <div class="topic-grid">
+          <div class="topic-item"><span class="topic-num">01</span>Why Reinforced Concrete</div>
+          <div class="topic-item"><span class="topic-num">02</span>Mix Design & Unit Weights</div>
+          <div class="topic-item"><span class="topic-num">03</span>Loads & Safety Factors</div>
+          <div class="topic-item"><span class="topic-num">04</span>Beam Geometry & Cover</div>
+          <div class="topic-item"><span class="topic-num">05</span>Three Stages of Loading</div>
+          <div class="topic-item"><span class="topic-num">06</span>Transformed Section Method</div>
+          <div class="topic-item"><span class="topic-num">07</span>WSD Analysis (k & j)</div>
+          <div class="topic-item"><span class="topic-num">08</span>WSD Design Procedure</div>
+          <div class="topic-item"><span class="topic-num">09</span>Worked Problems (3)</div>
+          <div class="topic-item"><span class="topic-num">10</span>Formula Sheet</div>
+        </div>
+      </div>
+      <a href="rc-chapter1.html" class="course-cta">Open RC Design Guide &rarr;</a>
+    </div>
+
+    <!-- ─── TRAFFIC ENGINEERING ─── -->
+    <div class="course-card" style="animation-delay:0.2s;">
+      <div class="course-header">
+        <div class="course-icon">&#128678;</div>
+        <div class="course-info">
+          <h2>Traffic Engineering <span class="course-badge badge-live">LIVE</span></h2>
+          <p>Traffic Analysis &amp; Design (CEE 350). Signal timing, level of service, trip generation, gravity model, mode split. Animated traffic signals, live simulations, and 20+ practice problems with solutions.</p>
+        </div>
+      </div>
+      <div class="topics-list">
+        <h3>Key Topics Covered</h3>
+        <div class="topic-grid">
+          <div class="topic-item"><span class="topic-num">01</span>Traffic Engineering Basics</div>
+          <div class="topic-item"><span class="topic-num">02</span>Road Classification</div>
+          <div class="topic-item"><span class="topic-num">03</span>Flow, Density & Speed</div>
+          <div class="topic-item"><span class="topic-num">04</span>Intersection Types</div>
+          <div class="topic-item"><span class="topic-num">05</span>Signal Phasing & Timing</div>
+          <div class="topic-item"><span class="topic-num">06</span>Green Splits & Offsets</div>
+          <div class="topic-item"><span class="topic-num">07</span>Saturation Flow Rate</div>
+          <div class="topic-item"><span class="topic-num">08</span>Lane Capacity</div>
+          <div class="topic-item"><span class="topic-num">09</span>Delay & Level of Service</div>
+          <div class="topic-item"><span class="topic-num">10</span>Trip Generation</div>
+          <div class="topic-item"><span class="topic-num">11</span>Trip Distribution</div>
+          <div class="topic-item"><span class="topic-num">12</span>Mode Split</div>
+          <div class="topic-item"><span class="topic-num">13</span>Practice Problems (20+)</div>
+          <div class="topic-item"><span class="topic-num">14</span>Formula Sheet</div>
+        </div>
+      </div>
+      <a href="cee350-traffic-analysis.html" class="course-cta">Open Traffic Engineering Guide &rarr;</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const toggleBtn=document.getElementById('themeToggle');const root=document.documentElement;
+function setTheme(t){root.setAttribute('data-theme',t);toggleBtn.textContent=t==='dark'?'\u2600\uFE0F':'\uD83C\uDF19';localStorage.setItem('mathify-theme',t);}
+const saved=localStorage.getItem('mathify-theme');setTheme(saved||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+toggleBtn.addEventListener('click',()=>{setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});
+</script>
+</body>
+</html>
