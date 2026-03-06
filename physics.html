@@ -3,34 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Physics — Coming Soon | Mathify</title>
+<title>Physics — Class 11 &amp; 12 Guide | Mathify</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 <style>
-[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;}
-[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;}
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background 0.3s,color 0.3s;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;transition:background 0.3s,color 0.3s;line-height:1.7;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);}
 .nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
 .theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
 .theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
 
-.coming-soon{position:relative;z-index:1;text-align:center;padding:2rem;max-width:600px;animation:fadeUp 0.6s ease forwards;}
-.cs-icon{font-size:5rem;margin-bottom:1.5rem;display:block;}
-.cs-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--blueprint);margin-bottom:1rem;}
-.cs-sub{font-size:1.1rem;color:var(--steel);line-height:1.8;margin-bottom:2rem;}
-.cs-topics{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-bottom:2.5rem;}
-.cs-tag{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.9rem;border:1px solid var(--blueprint);color:var(--blueprint);border-radius:4px;}
-.cs-back{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--blueprint);text-decoration:none;padding:0.8rem 1.8rem;border:2px solid var(--blueprint);border-radius:6px;transition:all 0.2s;}
-.cs-back:hover{background:var(--blueprint);color:#fff;}
-.orbit{margin:2rem auto;width:180px;height:180px;position:relative;}
-.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:var(--accent);border-radius:50%;box-shadow:0 0 30px rgba(245,158,11,0.4);}
-.orbit-ring{position:absolute;inset:0;border:1.5px dashed var(--grid);border-radius:50%;animation:spin 12s linear infinite;}
-.orbit-dot{position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:10px;height:10px;background:var(--blueprint);border-radius:50%;}
-@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-@media(max-width:600px){nav{padding:0.85rem 1.2rem;}.coming-soon{padding:1rem;}}
+/* ─── LAYOUT ─── */
+.page{display:flex;min-height:100vh;padding-top:3.8rem;position:relative;z-index:1;}
+.sidebar{position:sticky;top:3.8rem;width:260px;height:calc(100vh - 3.8rem);overflow-y:auto;border-right:1px solid var(--grid);padding:1.5rem 0;flex-shrink:0;background:var(--paper);}
+.sidebar h3{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:0.8rem 1.5rem 0.4rem;margin-top:0.5rem;}
+.sidebar h3:first-child{margin-top:0;}
+.sidebar a{display:block;padding:0.45rem 1.5rem;font-size:0.85rem;color:var(--steel);text-decoration:none;border-left:3px solid transparent;transition:all 0.15s;}
+.sidebar a:hover,.sidebar a.active{color:var(--blueprint);border-left-color:var(--blueprint);background:rgba(96,165,250,0.06);}
+.content{flex:1;max-width:900px;padding:2.5rem 3rem 4rem;overflow-x:hidden;}
+
+/* ─── CLASS TABS ─── */
+.class-tabs{display:flex;gap:0;border:2px solid var(--card-border);border-radius:8px;overflow:hidden;margin-bottom:2.5rem;}
+.class-tab{flex:1;padding:0.9rem;text-align:center;font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;background:transparent;border:none;color:var(--steel);transition:all 0.2s;}
+.class-tab:hover{background:rgba(96,165,250,0.08);}
+.class-tab.active{background:var(--blueprint);color:#fff;}
+
+/* ─── TOPIC SECTIONS ─── */
+.topic-section{display:none;animation:fadeIn 0.4s ease;}
+.topic-section.active{display:block;}
+.topic-header{margin-bottom:2rem;}
+.topic-header h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--blueprint);margin-bottom:0.5rem;}
+.topic-header p{color:var(--steel);font-size:1rem;}
+
+h2.section-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--blueprint);margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--grid);}
+h3.sub-title{font-family:'DM Sans',sans-serif;font-size:1.15rem;font-weight:600;color:var(--ink);margin:1.8rem 0 0.8rem;}
+
+/* ─── CONCEPT BOX ─── */
+.concept{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:1.5rem;margin:1.2rem 0;}
+.concept-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem;}
+.concept h4{font-size:1.05rem;font-weight:600;color:var(--blueprint);margin-bottom:0.5rem;}
+
+/* ─── FORMULA BOX ─── */
+.formula-box{background:var(--code-bg);border-left:4px solid var(--accent);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;overflow-x:auto;font-size:1.05rem;}
+
+/* ─── EXAMPLE / PROBLEM ─── */
+.example{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;margin:1.5rem 0;overflow:hidden;}
+.example-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:rgba(96,165,250,0.08);cursor:pointer;user-select:none;}
+[data-theme="dark"] .example-header{background:rgba(96,165,250,0.05);}
+.example-header h4{font-size:0.95rem;color:var(--blueprint);font-weight:600;}
+.example-toggle{font-size:1.2rem;color:var(--blueprint);transition:transform 0.3s;}
+.example-toggle.open{transform:rotate(180deg);}
+.example-body{padding:1.5rem;display:none;border-top:1px solid var(--card-border);}
+.example-body.open{display:block;animation:fadeIn 0.3s ease;}
+.step{display:flex;gap:0.8rem;margin:0.7rem 0;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:0.7rem;background:var(--blueprint);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step-text{flex:1;}
+
+/* ─── TIP / NOTE ─── */
+.tip{background:rgba(22,163,74,0.08);border-left:4px solid var(--success);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem;}
+.tip strong{color:var(--success);}
+.note{background:rgba(96,165,250,0.08);border-left:4px solid var(--blueprint);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem;}
+.warn{background:rgba(245,158,11,0.08);border-left:4px solid var(--accent);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem;}
+.warn strong{color:var(--accent);}
+
+/* ─── SIMULATION ─── */
+.sim-container{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:1.5rem;margin:1.5rem 0;text-align:center;}
+.sim-container canvas{max-width:100%;border-radius:6px;background:#0f172a;}
+.sim-container h4{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;}
+.sim-controls{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:1rem;}
+.sim-controls label{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--steel);}
+.sim-controls input[type="range"]{width:140px;}
+.sim-btn{font-family:'Space Mono',monospace;font-size:0.72rem;padding:0.4rem 1rem;border:1px solid var(--blueprint);background:transparent;color:var(--blueprint);border-radius:4px;cursor:pointer;transition:all 0.2s;}
+.sim-btn:hover{background:var(--blueprint);color:#fff;}
+.sim-info{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--accent);margin-top:0.5rem;}
+
+/* ─── FORMULA TABLE ─── */
+.formula-table{width:100%;border-collapse:collapse;margin:1.2rem 0;}
+.formula-table th{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;background:var(--code-bg);color:var(--steel);padding:0.6rem 1rem;text-align:left;border-bottom:2px solid var(--grid);}
+.formula-table td{padding:0.7rem 1rem;border-bottom:1px solid var(--grid);font-size:0.9rem;vertical-align:top;}
+.formula-table tr:last-child td{border-bottom:none;}
+.formula-table tr:hover td{background:rgba(96,165,250,0.04);}
+
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .content{padding:2rem 1.5rem;}
+  nav{padding:0.85rem 1.2rem;}
+}
+@media(max-width:600px){
+  .class-tabs{flex-wrap:wrap;}
+  .class-tab{min-width:45%;}
+  .content{padding:1.5rem 1rem;}
+}
 </style>
 </head>
 <body>
@@ -39,29 +110,969 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   <button class="theme-toggle" id="themeToggle">&#9728;&#65039;</button>
 </nav>
 
-<div class="coming-soon">
-  <div class="orbit">
-    <div class="orbit-center"></div>
-    <div class="orbit-ring"><div class="orbit-dot"></div></div>
+<div class="page">
+<!-- ─── SIDEBAR ─── -->
+<aside class="sidebar" id="sidebar"></aside>
+
+<!-- ─── CONTENT ─── -->
+<main class="content">
+  <div class="topic-header">
+    <h1>Physics Guide</h1>
+    <p>Class 11 &amp; 12 &mdash; mechanics, electricity, waves, optics, and modern physics, explained with simulations and solved problems.</p>
   </div>
-  <h1 class="cs-title">Physics is Coming Soon</h1>
-  <p class="cs-sub">We're building interactive physics guides covering mechanics, thermodynamics, waves, optics, electricity, and modern physics. Everything explained visually with simulations and step-by-step problem solving.</p>
-  <div class="cs-topics">
-    <span class="cs-tag">Mechanics</span>
-    <span class="cs-tag">Thermodynamics</span>
-    <span class="cs-tag">Waves & Optics</span>
-    <span class="cs-tag">Electricity</span>
-    <span class="cs-tag">Magnetism</span>
-    <span class="cs-tag">Modern Physics</span>
+
+  <!-- CLASS TABS -->
+  <div class="class-tabs">
+    <button class="class-tab active" onclick="showClass(11)">Class 11</button>
+    <button class="class-tab" onclick="showClass(12)">Class 12</button>
   </div>
-  <a href="index.html" class="cs-back">&larr; Back to Home</a>
-</div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CLASS 11                                    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="topic-section active" id="class11">
+
+    <!-- 1. KINEMATICS -->
+    <h2 class="section-title" id="c11-kinematics">1. Kinematics</h2>
+    <div class="concept">
+      <div class="concept-label">Core Idea</div>
+      <h4>Describing Motion</h4>
+      <p>Kinematics is the study of motion <em>without</em> asking why it happens. Three key quantities describe any motion:</p>
+      <ul style="margin:0.8rem 0 0 1.2rem;">
+        <li><strong>Displacement ($s$):</strong> Change in position (vector — direction matters)</li>
+        <li><strong>Velocity ($v$):</strong> Rate of change of displacement</li>
+        <li><strong>Acceleration ($a$):</strong> Rate of change of velocity</li>
+      </ul>
+    </div>
+
+    <h3 class="sub-title">Equations of Uniformly Accelerated Motion</h3>
+    <p>When acceleration is <em>constant</em>, these four equations fully describe the motion:</p>
+    <div class="formula-box">
+      $$v = u + at$$
+      $$s = ut + \tfrac{1}{2}at^2$$
+      $$v^2 = u^2 + 2as$$
+      $$s = \tfrac{1}{2}(u + v)\,t$$
+    </div>
+    <p style="font-size:0.88rem;color:var(--steel);margin-top:0.4rem;">Where $u$ = initial velocity, $v$ = final velocity, $a$ = acceleration, $s$ = displacement, $t$ = time.</p>
+
+    <div class="tip"><strong>Memory trick:</strong> "SUVAT" — name the five variables and pick the equation that contains the four you know/want, leaving out the one you don't need.</div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 1 — Car braking to rest</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>A car moving at 72 km/h applies brakes and stops in 50 m. Find the deceleration.</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Convert speed: $u = 72 \times \frac{1000}{3600} = 20\ \text{m/s}$, $v = 0$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Use $v^2 = u^2 + 2as$: $\;0 = 400 + 2a(50)$</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Solve: $a = \dfrac{-400}{100} = -4\ \text{m/s}^2$</div></div>
+        <div class="tip" style="margin-top:0.8rem;"><strong>Answer:</strong> Deceleration = $4\ \text{m/s}^2$. The negative sign confirms the car is slowing down.</div>
+      </div>
+    </div>
+
+    <h3 class="sub-title">Projectile Motion</h3>
+    <div class="concept">
+      <div class="concept-label">Key Insight</div>
+      <h4>Horizontal and Vertical are Independent</h4>
+      <p>A projectile has <strong>constant horizontal velocity</strong> ($a_x = 0$) and <strong>constant downward acceleration</strong> ($a_y = -g$) simultaneously. Treat them separately.</p>
+      <div class="formula-box">
+        $$x = u\cos\theta \cdot t \qquad y = u\sin\theta \cdot t - \tfrac{1}{2}g\,t^2$$
+        $$\text{Range}\ R = \frac{u^2\sin 2\theta}{g} \qquad \text{Max Height}\ H = \frac{u^2\sin^2\theta}{2g}$$
+        $$\text{Time of flight}\ T = \frac{2u\sin\theta}{g}$$
+      </div>
+    </div>
+
+    <div class="sim-container">
+      <h4>Projectile Motion Simulator</h4>
+      <canvas id="projectileCanvas" width="640" height="320"></canvas>
+      <div class="sim-controls">
+        <label>Speed: <input type="range" id="projSpeed" min="10" max="50" value="30"> <span id="projSpeedVal">30</span> m/s</label>
+        <label>Angle: <input type="range" id="projAngle" min="5" max="85" value="45"> <span id="projAngleVal">45</span>&deg;</label>
+        <button class="sim-btn" onclick="launchProjectile()">Launch</button>
+        <button class="sim-btn" onclick="resetProjectile()">Reset</button>
+      </div>
+      <div class="sim-info" id="projInfo">Set speed &amp; angle, then click Launch.</div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 2 — Ball thrown at 30°</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>A ball is projected at $30\ \text{m/s}$ at $30°$ to the horizontal. Find the range and max height. ($g = 10\ \text{m/s}^2$)</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Components: $u_x = 30\cos 30° = 15\sqrt{3}\ \text{m/s}$, $u_y = 30\sin 30° = 15\ \text{m/s}$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Max height: $H = \dfrac{u_y^2}{2g} = \dfrac{225}{20} = 11.25\ \text{m}$</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Range: $R = \dfrac{u^2\sin 60°}{g} = \dfrac{900\times\frac{\sqrt{3}}{2}}{10} = 45\sqrt{3} \approx 77.9\ \text{m}$</div></div>
+      </div>
+    </div>
+
+    <!-- 2. LAWS OF MOTION -->
+    <h2 class="section-title" id="c11-laws-of-motion">2. Laws of Motion</h2>
+    <div class="concept">
+      <div class="concept-label">Newton's Laws</div>
+      <h4>Three Fundamental Laws</h4>
+      <ul style="margin:0.8rem 0 0 1.2rem;">
+        <li><strong>First Law (Inertia):</strong> A body remains at rest or in uniform motion unless acted upon by an external force.</li>
+        <li><strong>Second Law:</strong> $\vec{F} = m\vec{a}$. The net force equals mass times acceleration.</li>
+        <li><strong>Third Law:</strong> For every action, there is an equal and opposite reaction. Forces always come in pairs.</li>
+      </ul>
+    </div>
+    <div class="formula-box">
+      $$\vec{F}_{net} = m\vec{a} \qquad \text{Impulse} = \vec{F}\,\Delta t = \Delta\vec{p}$$
+      $$\text{Friction:}\quad f_s \leq \mu_s N \qquad f_k = \mu_k N$$
+    </div>
+    <div class="tip"><strong>Free Body Diagram (FBD) Strategy:</strong> Isolate the object, draw every force acting <em>on</em> it (not forces it exerts), choose a convenient coordinate system, then apply $\Sigma F = ma$ along each axis.</div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 3 — Block on inclined plane</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>A 5 kg block rests on a 37° incline. Coefficient of static friction $\mu_s = 0.75$. Is the block stationary? ($g = 10\ \text{m/s}^2$)</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Weight components: Along incline: $mg\sin 37° = 5\times 10\times 0.6 = 30\ \text{N}$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Normal force: $N = mg\cos 37° = 5\times 10\times 0.8 = 40\ \text{N}$</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Max static friction: $f_{s,max} = \mu_s N = 0.75\times 40 = 30\ \text{N}$</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Since $f_{s,max} = 30\ \text{N} \geq 30\ \text{N}$ (gravity component), the block is <strong>just on the verge of slipping</strong> — it remains stationary.</div></div>
+      </div>
+    </div>
+
+    <!-- 3. WORK, ENERGY & POWER -->
+    <h2 class="section-title" id="c11-work-energy">3. Work, Energy &amp; Power</h2>
+    <div class="concept">
+      <div class="concept-label">Definition</div>
+      <h4>Work Done by a Force</h4>
+      <p>Work is done when a force causes displacement. Only the component of force <em>along</em> the displacement does work.</p>
+      <div class="formula-box">
+        $$W = \vec{F}\cdot\vec{s} = Fs\cos\theta$$
+        $$\text{Kinetic Energy:}\quad KE = \tfrac{1}{2}mv^2$$
+        $$\text{Work-Energy Theorem:}\quad W_{net} = \Delta KE$$
+        $$\text{Power:}\quad P = \frac{W}{t} = \vec{F}\cdot\vec{v}$$
+      </div>
+    </div>
+
+    <h3 class="sub-title">Conservative Forces &amp; Potential Energy</h3>
+    <div class="concept">
+      <div class="concept-label">Energy Conservation</div>
+      <h4>Mechanical Energy is Conserved</h4>
+      <p>For conservative forces (gravity, spring), the total mechanical energy $E = KE + PE$ remains constant.</p>
+      <div class="formula-box">
+        $$PE_{gravity} = mgh \qquad PE_{spring} = \tfrac{1}{2}kx^2$$
+        $$KE_1 + PE_1 = KE_2 + PE_2$$
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 4 — Ball dropped from height</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>A 2 kg ball is dropped from 20 m height. Find its velocity just before hitting the ground. ($g = 10\ \text{m/s}^2$)</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Initial state: $KE_1 = 0$ (at rest), $PE_1 = mgh = 2\times10\times20 = 400\ \text{J}$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Final state: $PE_2 = 0$ (ground level), $KE_2 = \frac{1}{2}\times2\times v^2 = v^2$</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Conservation: $400 = v^2 \Rightarrow v = 20\ \text{m/s}$</div></div>
+      </div>
+    </div>
+
+    <!-- 4. GRAVITATION -->
+    <h2 class="section-title" id="c11-gravitation">4. Gravitation</h2>
+    <div class="concept">
+      <div class="concept-label">Newton's Law of Gravitation</div>
+      <h4>Universal Gravitational Force</h4>
+      <p>Every mass attracts every other mass. The force is proportional to the product of masses and inversely proportional to the square of the distance between them.</p>
+      <div class="formula-box">
+        $$F = G\frac{m_1 m_2}{r^2} \qquad G = 6.674\times10^{-11}\ \text{N\,m}^2\text{kg}^{-2}$$
+        $$g = \frac{GM_E}{R_E^2} \approx 9.8\ \text{m/s}^2$$
+      </div>
+    </div>
+
+    <h3 class="sub-title">Orbital Motion &amp; Escape Velocity</h3>
+    <div class="formula-box">
+      $$v_{orbit} = \sqrt{\frac{GM}{r}} \qquad T^2 = \frac{4\pi^2}{GM}\,r^3\ \text{(Kepler's 3rd Law)}$$
+      $$v_{escape} = \sqrt{\frac{2GM}{R}} = \sqrt{2gR} \approx 11.2\ \text{km/s (Earth)}$$
+    </div>
+
+    <div class="note">Escape velocity is the minimum speed needed to escape a planet's gravity <em>without further propulsion</em>. It does <em>not</em> depend on the mass or direction of the object.</div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 5 — Orbital period of a satellite</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>A satellite orbits Earth at 400 km above the surface. Find its orbital period. ($R_E = 6400\ \text{km}$, $g = 9.8\ \text{m/s}^2$)</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Orbital radius: $r = 6400 + 400 = 6800\ \text{km} = 6.8\times10^6\ \text{m}$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Use $T^2 = \dfrac{4\pi^2 r^3}{GM_E}$ and $GM_E = gR_E^2 = 9.8\times(6.4\times10^6)^2 = 4.014\times10^{14}\ \text{m}^3\text{s}^{-2}$</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">$T = 2\pi\sqrt{\dfrac{r^3}{GM_E}} = 2\pi\sqrt{\dfrac{(6.8\times10^6)^3}{4.014\times10^{14}}} \approx 5559\ \text{s} \approx 92.7\ \text{min}$</div></div>
+      </div>
+    </div>
+
+    <!-- 5. OSCILLATIONS & WAVES -->
+    <h2 class="section-title" id="c11-waves">5. Oscillations &amp; Waves</h2>
+    <div class="concept">
+      <div class="concept-label">Simple Harmonic Motion</div>
+      <h4>SHM — Restoring Force Proportional to Displacement</h4>
+      <p>Any system where the restoring force obeys $F = -kx$ exhibits Simple Harmonic Motion.</p>
+      <div class="formula-box">
+        $$x(t) = A\cos(\omega t + \phi) \qquad \omega = \sqrt{\frac{k}{m}} = \frac{2\pi}{T}$$
+        $$T_{spring} = 2\pi\sqrt{\frac{m}{k}} \qquad T_{pendulum} = 2\pi\sqrt{\frac{L}{g}}$$
+        $$v_{max} = A\omega \qquad a_{max} = A\omega^2$$
+      </div>
+    </div>
+
+    <div class="sim-container">
+      <h4>Simple Pendulum Simulator</h4>
+      <canvas id="pendulumCanvas" width="400" height="300"></canvas>
+      <div class="sim-controls">
+        <label>Length: <input type="range" id="pendLen" min="50" max="250" value="150"> <span id="pendLenVal">1.5</span> m</label>
+        <label>Amplitude: <input type="range" id="pendAmp" min="5" max="40" value="20"> <span id="pendAmpVal">20</span>&deg;</label>
+        <button class="sim-btn" id="pendBtn" onclick="togglePendulum()">Start</button>
+      </div>
+      <div class="sim-info" id="pendInfo">Period: — s</div>
+    </div>
+
+    <h3 class="sub-title">Wave Properties</h3>
+    <div class="concept">
+      <div class="concept-label">Key Relationships</div>
+      <h4>Wave Speed, Frequency, Wavelength</h4>
+      <div class="formula-box">
+        $$v = f\lambda \qquad f = \frac{1}{T} \qquad k = \frac{2\pi}{\lambda}$$
+        $$y(x,t) = A\sin(kx - \omega t) \quad \text{(travelling wave)}$$
+        $$v_{sound} = \sqrt{\frac{\gamma P}{\rho}} \approx 340\ \text{m/s in air at 20°C}$$
+      </div>
+    </div>
+
+    <table class="formula-table">
+      <thead><tr><th>Wave Type</th><th>Description</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Transverse</td><td>Particles vibrate perpendicular to wave travel</td><td>Light, water waves</td></tr>
+        <tr><td>Longitudinal</td><td>Particles vibrate parallel to wave travel</td><td>Sound waves</td></tr>
+        <tr><td>Standing Wave</td><td>Superposition of two opposite-direction waves</td><td>Guitar string vibration</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 6. THERMODYNAMICS -->
+    <h2 class="section-title" id="c11-thermodynamics">6. Thermodynamics</h2>
+    <div class="concept">
+      <div class="concept-label">Laws of Thermodynamics</div>
+      <h4>Four Fundamental Laws</h4>
+      <ul style="margin:0.8rem 0 0 1.2rem;">
+        <li><strong>Zeroth Law:</strong> If A is in thermal equilibrium with B, and B with C, then A is in equilibrium with C. (Defines temperature.)</li>
+        <li><strong>First Law:</strong> $\Delta U = Q - W$. Energy is conserved; heat added = increase in internal energy + work done by system.</li>
+        <li><strong>Second Law:</strong> Heat cannot spontaneously flow from a colder body to a hotter body. Entropy of an isolated system never decreases.</li>
+        <li><strong>Third Law:</strong> Entropy approaches a constant minimum as temperature approaches absolute zero.</li>
+      </ul>
+    </div>
+
+    <h3 class="sub-title">Thermodynamic Processes</h3>
+    <table class="formula-table">
+      <thead><tr><th>Process</th><th>Condition</th><th>Work Done</th><th>$\Delta U$</th></tr></thead>
+      <tbody>
+        <tr><td>Isothermal</td><td>$T = \text{const}$</td><td>$nRT\ln\dfrac{V_2}{V_1}$</td><td>$0$</td></tr>
+        <tr><td>Adiabatic</td><td>$Q = 0$</td><td>$\dfrac{P_1V_1 - P_2V_2}{\gamma-1}$</td><td>$-W$</td></tr>
+        <tr><td>Isobaric</td><td>$P = \text{const}$</td><td>$P\Delta V$</td><td>$Q - P\Delta V$</td></tr>
+        <tr><td>Isochoric</td><td>$V = \text{const}$</td><td>$0$</td><td>$Q$</td></tr>
+      </tbody>
+    </table>
+
+    <div class="formula-box">
+      $$\text{Carnot Efficiency:}\quad \eta = 1 - \frac{T_L}{T_H} \qquad \text{(temperatures in Kelvin)}$$
+      $$PV = nRT \qquad \text{(Ideal Gas Law)}$$
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 6 — Carnot Engine efficiency</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>A Carnot engine operates between $727°C$ and $27°C$. Find its efficiency and the work done if it absorbs 1000 J per cycle.</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Convert: $T_H = 727 + 273 = 1000\ \text{K}$, $T_L = 27 + 273 = 300\ \text{K}$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Efficiency: $\eta = 1 - \dfrac{300}{1000} = 1 - 0.3 = 0.7 = 70\%$</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Work per cycle: $W = \eta \times Q_H = 0.7\times1000 = 700\ \text{J}$</div></div>
+      </div>
+    </div>
+
+  </div><!-- end class11 -->
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CLASS 12                                    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="topic-section" id="class12">
+
+    <!-- 1. ELECTROSTATICS -->
+    <h2 class="section-title" id="c12-electrostatics">1. Electrostatics</h2>
+    <div class="concept">
+      <div class="concept-label">Coulomb's Law</div>
+      <h4>Force Between Two Point Charges</h4>
+      <p>The electrostatic force between two charges is proportional to the product of the charges and inversely proportional to the square of the separation.</p>
+      <div class="formula-box">
+        $$F = k_e\frac{q_1 q_2}{r^2} \qquad k_e = \frac{1}{4\pi\epsilon_0} = 9\times10^9\ \text{N\,m}^2\text{C}^{-2}$$
+        $$\epsilon_0 = 8.854\times10^{-12}\ \text{F/m}$$
+      </div>
+    </div>
+
+    <h3 class="sub-title">Electric Field &amp; Potential</h3>
+    <div class="formula-box">
+      $$\vec{E} = \frac{\vec{F}}{q_0} = k_e\frac{q}{r^2}\hat{r}$$
+      $$V = k_e\frac{q}{r} \qquad E = -\frac{dV}{dr}$$
+      $$U = k_e\frac{q_1 q_2}{r} \qquad W = q(V_A - V_B)$$
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Gauss's Law</div>
+      <h4>Electric Flux &amp; Enclosed Charge</h4>
+      <p>The total electric flux through any closed surface equals the enclosed charge divided by $\epsilon_0$.</p>
+      <div class="formula-box">
+        $$\oint \vec{E}\cdot d\vec{A} = \frac{Q_{enc}}{\epsilon_0}$$
+      </div>
+      <p>Use Gauss's Law to find $E$ for symmetric charge distributions:</p>
+      <ul style="margin:0.6rem 0 0 1.2rem;">
+        <li>Point charge: $E = \dfrac{kq}{r^2}$</li>
+        <li>Infinite line charge (linear density $\lambda$): $E = \dfrac{\lambda}{2\pi\epsilon_0 r}$</li>
+        <li>Infinite plane (surface density $\sigma$): $E = \dfrac{\sigma}{2\epsilon_0}$</li>
+      </ul>
+    </div>
+
+    <h3 class="sub-title">Capacitors</h3>
+    <div class="formula-box">
+      $$C = \frac{Q}{V} \qquad C_{parallel} = \epsilon_0\frac{A}{d}$$
+      $$C_{series}: \frac{1}{C_{eq}} = \sum\frac{1}{C_i} \qquad C_{parallel}: C_{eq} = \sum C_i$$
+      $$U = \frac{1}{2}CV^2 = \frac{Q^2}{2C} = \frac{QV}{2}$$
+    </div>
+
+    <div class="sim-container">
+      <h4>Electric Field Lines Visualizer</h4>
+      <canvas id="efieldCanvas" width="500" height="320"></canvas>
+      <div class="sim-controls">
+        <button class="sim-btn" onclick="drawEField('+','+')">+ + Charges</button>
+        <button class="sim-btn" onclick="drawEField('+','-')">+ &minus; Charges</button>
+        <button class="sim-btn" onclick="drawEField('single','')">Single Charge</button>
+      </div>
+      <div class="sim-info">Click a configuration to visualize electric field lines.</div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 1 — Force between two charges</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>Two charges $q_1 = +3\ \mu\text{C}$ and $q_2 = -4\ \mu\text{C}$ are placed 0.2 m apart. Find the force.</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">$F = k_e\dfrac{|q_1||q_2|}{r^2} = 9\times10^9\times\dfrac{3\times10^{-6}\times4\times10^{-6}}{(0.2)^2}$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">$F = 9\times10^9\times\dfrac{12\times10^{-12}}{0.04} = 9\times10^9\times3\times10^{-10} = 2.7\ \text{N}$</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Since charges are opposite, the force is <strong>attractive</strong>.</div></div>
+      </div>
+    </div>
+
+    <!-- 2. CURRENT ELECTRICITY -->
+    <h2 class="section-title" id="c12-current-electricity">2. Current Electricity</h2>
+    <div class="concept">
+      <div class="concept-label">Ohm's Law &amp; Resistance</div>
+      <h4>V = IR</h4>
+      <p>Current through a conductor is proportional to the potential difference across it (for ohmic materials).</p>
+      <div class="formula-box">
+        $$I = \frac{Q}{t} \qquad V = IR \qquad R = \rho\frac{L}{A}$$
+        $$P = VI = I^2R = \frac{V^2}{R}$$
+      </div>
+    </div>
+
+    <h3 class="sub-title">Kirchhoff's Laws</h3>
+    <div class="concept">
+      <div class="concept-label">Circuit Analysis</div>
+      <h4>KCL and KVL</h4>
+      <ul style="margin:0.8rem 0 0 1.2rem;">
+        <li><strong>KCL (Junction Rule):</strong> $\sum I_{in} = \sum I_{out}$ — Charge is conserved at every junction.</li>
+        <li><strong>KVL (Loop Rule):</strong> $\sum V = 0$ — The algebraic sum of potential differences around any closed loop is zero.</li>
+      </ul>
+    </div>
+
+    <div class="formula-box">
+      $$R_{series} = R_1 + R_2 + \cdots \qquad \frac{1}{R_{parallel}} = \frac{1}{R_1} + \frac{1}{R_2} + \cdots$$
+      $$\text{EMF:}\quad \varepsilon = I(R + r) \qquad V_{terminal} = \varepsilon - Ir$$
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 2 — Resistors in a mixed circuit</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>Two resistors $R_1 = 6\ \Omega$ and $R_2 = 3\ \Omega$ are in parallel, and this combination is in series with $R_3 = 4\ \Omega$. Battery EMF = 10 V, internal resistance = 1 Ω. Find total current.</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Parallel combination: $R_{12} = \dfrac{6\times3}{6+3} = 2\ \Omega$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Total external resistance: $R_{ext} = R_{12} + R_3 = 2 + 4 = 6\ \Omega$</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Total current: $I = \dfrac{\varepsilon}{R_{ext}+r} = \dfrac{10}{6+1} = \dfrac{10}{7} \approx 1.43\ \text{A}$</div></div>
+      </div>
+    </div>
+
+    <!-- 3. MAGNETIC EFFECTS -->
+    <h2 class="section-title" id="c12-magnetism">3. Magnetic Effects of Current</h2>
+    <div class="concept">
+      <div class="concept-label">Biot-Savart &amp; Ampere's Law</div>
+      <h4>Magnetic Field from Currents</h4>
+      <div class="formula-box">
+        $$d\vec{B} = \frac{\mu_0}{4\pi}\frac{I\,d\vec{l}\times\hat{r}}{r^2} \qquad \mu_0 = 4\pi\times10^{-7}\ \text{T\,m/A}$$
+        $$\oint \vec{B}\cdot d\vec{l} = \mu_0 I_{enc} \quad \text{(Ampere's Law)}$$
+      </div>
+    </div>
+
+    <h3 class="sub-title">Common Magnetic Field Formulas</h3>
+    <table class="formula-table">
+      <thead><tr><th>Configuration</th><th>Magnetic Field</th></tr></thead>
+      <tbody>
+        <tr><td>Long straight wire (distance $r$)</td><td>$B = \dfrac{\mu_0 I}{2\pi r}$</td></tr>
+        <tr><td>Circular loop (centre, radius $R$)</td><td>$B = \dfrac{\mu_0 I}{2R}$</td></tr>
+        <tr><td>Solenoid (n turns/m, inside)</td><td>$B = \mu_0 nI$</td></tr>
+        <tr><td>Toroid (N turns, radius $r$)</td><td>$B = \dfrac{\mu_0 NI}{2\pi r}$</td></tr>
+      </tbody>
+    </table>
+
+    <div class="concept">
+      <div class="concept-label">Force on a Charge &amp; Current</div>
+      <h4>Lorentz Force Law</h4>
+      <div class="formula-box">
+        $$\vec{F} = q(\vec{E} + \vec{v}\times\vec{B}) \qquad F_{wire} = I\vec{L}\times\vec{B}$$
+        $$\text{Cyclotron radius:}\quad r = \frac{mv}{qB}$$
+      </div>
+    </div>
+
+    <!-- 4. ELECTROMAGNETIC INDUCTION -->
+    <h2 class="section-title" id="c12-emi">4. Electromagnetic Induction</h2>
+    <div class="concept">
+      <div class="concept-label">Faraday's &amp; Lenz's Laws</div>
+      <h4>Induced EMF from Changing Flux</h4>
+      <div class="formula-box">
+        $$\Phi_B = \vec{B}\cdot\vec{A} = BA\cos\theta$$
+        $$\varepsilon = -\frac{d\Phi_B}{dt} = -N\frac{d\Phi}{dt} \quad \text{(Faraday's Law)}$$
+        $$\varepsilon_{motional} = Bvl \qquad \varepsilon_{self} = -L\frac{dI}{dt}$$
+        $$U_L = \frac{1}{2}LI^2 \qquad L_{solenoid} = \mu_0 n^2 V$$
+      </div>
+    </div>
+
+    <div class="note"><strong>Lenz's Law:</strong> The induced current always flows in a direction that opposes the change in flux that caused it — a direct consequence of energy conservation.</div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 3 — EMF in a moving rod</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>A rod of length 0.5 m moves at 4 m/s perpendicular to a magnetic field of 0.2 T. Find the induced EMF.</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">$\varepsilon = Bvl = 0.2\times4\times0.5 = 0.4\ \text{V}$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">If the rod has resistance $R = 2\ \Omega$, the induced current $I = \varepsilon/R = 0.2\ \text{A}$.</div></div>
+      </div>
+    </div>
+
+    <!-- 5. OPTICS -->
+    <h2 class="section-title" id="c12-optics">5. Optics</h2>
+    <h3 class="sub-title">Ray Optics</h3>
+    <div class="concept">
+      <div class="concept-label">Mirror &amp; Lens Formulas</div>
+      <h4>Sign Convention: distances measured from the optical centre / pole</h4>
+      <div class="formula-box">
+        $$\frac{1}{v} + \frac{1}{u} = \frac{1}{f} \qquad m = -\frac{v}{u} = \frac{h_i}{h_o}$$
+        $$\text{Mirror: } f = \frac{R}{2} \qquad \text{Lens Maker's: } \frac{1}{f} = (n-1)\left(\frac{1}{R_1}-\frac{1}{R_2}\right)$$
+      </div>
+    </div>
+
+    <div class="concept">
+      <div class="concept-label">Refraction &amp; Total Internal Reflection</div>
+      <h4>Snell's Law</h4>
+      <div class="formula-box">
+        $$n_1\sin\theta_1 = n_2\sin\theta_2$$
+        $$n = \frac{c}{v} \qquad \sin\theta_c = \frac{n_2}{n_1} \quad (n_1 > n_2)$$
+      </div>
+    </div>
+
+    <div class="sim-container">
+      <h4>Refraction Simulator</h4>
+      <canvas id="refractionCanvas" width="500" height="300"></canvas>
+      <div class="sim-controls">
+        <label>Incident angle: <input type="range" id="inciAngle" min="5" max="85" value="40" oninput="drawRefraction()"> <span id="inciAngleVal">40</span>&deg;</label>
+        <label>n&#8322;: <input type="range" id="n2Val" min="10" max="25" value="15" oninput="drawRefraction()"> <span id="n2Display">1.5</span></label>
+      </div>
+      <div class="sim-info" id="refrInfo"></div>
+    </div>
+
+    <h3 class="sub-title">Wave Optics</h3>
+    <div class="concept">
+      <div class="concept-label">Interference &amp; Diffraction</div>
+      <h4>Young's Double-Slit Experiment (YDSE)</h4>
+      <div class="formula-box">
+        $$\text{Bright fringes: } d\sin\theta = m\lambda \quad (m = 0,\pm1,\pm2,\ldots)$$
+        $$\text{Dark fringes: } d\sin\theta = (m+\tfrac{1}{2})\lambda$$
+        $$\text{Fringe width: } \beta = \frac{\lambda D}{d}$$
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 4 — Fringe width in YDSE</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>In a YDSE, slit separation $d = 0.5\ \text{mm}$, screen distance $D = 1\ \text{m}$, wavelength $\lambda = 600\ \text{nm}$. Find fringe width.</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">$\beta = \dfrac{\lambda D}{d} = \dfrac{600\times10^{-9}\times1}{0.5\times10^{-3}}$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">$\beta = \dfrac{6\times10^{-7}}{5\times10^{-4}} = 1.2\times10^{-3}\ \text{m} = 1.2\ \text{mm}$</div></div>
+      </div>
+    </div>
+
+    <!-- 6. MODERN PHYSICS -->
+    <h2 class="section-title" id="c12-modern-physics">6. Modern Physics</h2>
+    <div class="concept">
+      <div class="concept-label">Dual Nature of Matter &amp; Radiation</div>
+      <h4>Wave-Particle Duality</h4>
+      <ul style="margin:0.8rem 0 0 1.2rem;">
+        <li><strong>Photon energy:</strong> $E = hf = \dfrac{hc}{\lambda}$, where $h = 6.626\times10^{-34}\ \text{J\,s}$</li>
+        <li><strong>Photoelectric effect:</strong> $KE_{max} = hf - \phi$ (work function $\phi$)</li>
+        <li><strong>de Broglie wavelength:</strong> $\lambda = \dfrac{h}{p} = \dfrac{h}{mv}$</li>
+        <li><strong>Heisenberg Uncertainty:</strong> $\Delta x\,\Delta p \geq \dfrac{h}{4\pi}$</li>
+      </ul>
+    </div>
+
+    <h3 class="sub-title">Atomic Structure — Bohr Model</h3>
+    <div class="formula-box">
+      $$r_n = \frac{n^2 a_0}{Z} \qquad a_0 = 0.529\ \text{Å} \quad \text{(Bohr radius)}$$
+      $$E_n = -\frac{13.6\,Z^2}{n^2}\ \text{eV} \qquad \frac{1}{\lambda} = RZ^2\left(\frac{1}{n_1^2}-\frac{1}{n_2^2}\right)$$
+    </div>
+    <p style="font-size:0.88rem;color:var(--steel);">$R = 1.097\times10^7\ \text{m}^{-1}$ (Rydberg constant). Spectral series: Lyman ($n_1=1$), Balmer ($n_1=2$), Paschen ($n_1=3$).</p>
+
+    <h3 class="sub-title">Nuclear Physics</h3>
+    <div class="concept">
+      <div class="concept-label">Radioactivity &amp; Nuclear Energy</div>
+      <h4>Decay Law &amp; Mass-Energy Equivalence</h4>
+      <div class="formula-box">
+        $$N(t) = N_0 e^{-\lambda t} \qquad t_{1/2} = \frac{\ln 2}{\lambda} = \frac{0.693}{\lambda}$$
+        $$E = mc^2 \qquad \text{Binding Energy} = \Delta m\cdot c^2$$
+        $$\text{Q-value} = (m_{reactants} - m_{products})\cdot c^2$$
+      </div>
+    </div>
+
+    <table class="formula-table">
+      <thead><tr><th>Radiation</th><th>Symbol</th><th>Charge</th><th>Penetration</th></tr></thead>
+      <tbody>
+        <tr><td>Alpha ($\alpha$)</td><td>$^4_2\text{He}$</td><td>+2</td><td>Stopped by paper</td></tr>
+        <tr><td>Beta ($\beta^-$)</td><td>$e^-$</td><td>-1</td><td>Few mm of aluminium</td></tr>
+        <tr><td>Gamma ($\gamma$)</td><td>$h\nu$</td><td>0</td><td>Thick lead / concrete</td></tr>
+      </tbody>
+    </table>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 5 — Radioactive decay</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>A radioactive sample has a half-life of 5 years. How much of an 80 g sample remains after 20 years?</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Number of half-lives: $n = \dfrac{20}{5} = 4$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">$N = N_0\left(\dfrac{1}{2}\right)^n = 80\times\left(\dfrac{1}{2}\right)^4 = 80\times\dfrac{1}{16} = 5\ \text{g}$</div></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="example-header" onclick="toggleExample(this)">
+        <h4>Example 6 — Photoelectric effect</h4>
+        <span class="example-toggle">&#9660;</span>
+      </div>
+      <div class="example-body">
+        <p>Light of wavelength 300 nm falls on a metal with work function 2 eV. Find the maximum kinetic energy of ejected electrons. ($h = 6.63\times10^{-34}\ \text{J\,s}$, $c = 3\times10^8\ \text{m/s}$)</p>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Photon energy: $E = \dfrac{hc}{\lambda} = \dfrac{6.63\times10^{-34}\times3\times10^8}{300\times10^{-9}} = 6.63\times10^{-19}\ \text{J} = 4.14\ \text{eV}$</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">$KE_{max} = E - \phi = 4.14 - 2 = 2.14\ \text{eV}$</div></div>
+      </div>
+    </div>
+
+  </div><!-- end class12 -->
+
+</main>
+</div><!-- end .page -->
 
 <script>
-const toggleBtn=document.getElementById('themeToggle');const root=document.documentElement;
-function setTheme(t){root.setAttribute('data-theme',t);toggleBtn.textContent=t==='dark'?'\u2600\uFE0F':'\uD83C\uDF19';localStorage.setItem('mathify-theme',t);}
-const saved=localStorage.getItem('mathify-theme');setTheme(saved||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
-toggleBtn.addEventListener('click',()=>{setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});
+/* ─── THEME ─── */
+const toggleBtn = document.getElementById('themeToggle');
+const root = document.documentElement;
+function setTheme(t) {
+  root.setAttribute('data-theme', t);
+  toggleBtn.textContent = t === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19';
+  localStorage.setItem('mathify-theme', t);
+}
+const saved = localStorage.getItem('mathify-theme');
+setTheme(saved || (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'));
+toggleBtn.addEventListener('click', () => {
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+
+/* ─── CLASS TABS ─── */
+function showClass(n) {
+  document.querySelectorAll('.topic-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.class-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('class' + n).classList.add('active');
+  document.querySelectorAll('.class-tab')[n === 11 ? 0 : 1].classList.add('active');
+  buildSidebar();
+}
+
+/* ─── SIDEBAR ─── */
+function buildSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const active = document.querySelector('.topic-section.active');
+  if (!active) return;
+  const headings = active.querySelectorAll('h2.section-title');
+  let html = '<h3>Topics</h3>';
+  headings.forEach(h => {
+    html += `<a href="#${h.id}" onclick="highlightSidebarLink(this)">${h.textContent}</a>`;
+  });
+  sidebar.innerHTML = html;
+}
+function highlightSidebarLink(el) {
+  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+buildSidebar();
+
+/* ─── EXAMPLES ─── */
+function toggleExample(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.example-toggle');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+/* ─── PROJECTILE SIM ─── */
+let projAnimId = null;
+const projCanvas = document.getElementById('projectileCanvas');
+const projCtx = projCanvas.getContext('2d');
+const projSpeedEl = document.getElementById('projSpeed');
+const projAngleEl = document.getElementById('projAngle');
+document.getElementById('projSpeed').oninput = () => document.getElementById('projSpeedVal').textContent = projSpeedEl.value;
+document.getElementById('projAngle').oninput = () => document.getElementById('projAngleVal').textContent = projAngleEl.value;
+
+function resetProjectile() {
+  if (projAnimId) cancelAnimationFrame(projAnimId);
+  projAnimId = null;
+  projCtx.clearRect(0, 0, projCanvas.width, projCanvas.height);
+  drawProjGround();
+  document.getElementById('projInfo').textContent = 'Set speed & angle, then click Launch.';
+}
+
+function drawProjGround() {
+  projCtx.strokeStyle = '#334155';
+  projCtx.lineWidth = 1;
+  projCtx.beginPath();
+  projCtx.moveTo(0, projCanvas.height - 20);
+  projCtx.lineTo(projCanvas.width, projCanvas.height - 20);
+  projCtx.stroke();
+}
+
+function launchProjectile() {
+  if (projAnimId) cancelAnimationFrame(projAnimId);
+  const u = parseFloat(projSpeedEl.value);
+  const theta = parseFloat(projAngleEl.value) * Math.PI / 180;
+  const g = 9.8;
+  const scale = 3.5;
+  const ox = 30, oy = projCanvas.height - 20;
+
+  const R = u * u * Math.sin(2 * theta) / g;
+  const H = u * u * Math.sin(theta) * Math.sin(theta) / (2 * g);
+  const T = 2 * u * Math.sin(theta) / g;
+  document.getElementById('projInfo').textContent =
+    `Range: ${R.toFixed(1)} m | Max Height: ${H.toFixed(1)} m | Flight time: ${T.toFixed(2)} s`;
+
+  projCtx.clearRect(0, 0, projCanvas.width, projCanvas.height);
+  drawProjGround();
+
+  let t = 0;
+  const dt = 0.03;
+  const trail = [];
+
+  function step() {
+    const x = u * Math.cos(theta) * t;
+    const y = u * Math.sin(theta) * t - 0.5 * g * t * t;
+    const cx = ox + x * scale;
+    const cy = oy - y * scale;
+
+    trail.push([cx, cy]);
+    projCtx.clearRect(0, 0, projCanvas.width, projCanvas.height);
+    drawProjGround();
+
+    // Trail
+    projCtx.beginPath();
+    projCtx.strokeStyle = '#f59e0b55';
+    projCtx.lineWidth = 2;
+    trail.forEach(([tx, ty], i) => i === 0 ? projCtx.moveTo(tx, ty) : projCtx.lineTo(tx, ty));
+    projCtx.stroke();
+
+    // Ball
+    projCtx.beginPath();
+    projCtx.arc(cx, cy, 7, 0, 2 * Math.PI);
+    projCtx.fillStyle = '#f59e0b';
+    projCtx.fill();
+
+    t += dt;
+    if (y >= 0 && cx < projCanvas.width + 20) {
+      projAnimId = requestAnimationFrame(step);
+    } else {
+      projAnimId = null;
+    }
+  }
+  step();
+}
+resetProjectile();
+
+/* ─── PENDULUM SIM ─── */
+const pendCanvas = document.getElementById('pendulumCanvas');
+const pendCtx = pendCanvas.getContext('2d');
+let pendRunning = false;
+let pendAnimId = null;
+let pendAngle, pendOmega;
+const g = 9.8;
+
+function getPendParams() {
+  const L = parseFloat(document.getElementById('pendLen').value) / 100;
+  const A = parseFloat(document.getElementById('pendAmp').value) * Math.PI / 180;
+  return { L, A };
+}
+
+document.getElementById('pendLen').oninput = () => {
+  const L = parseFloat(document.getElementById('pendLen').value) / 100;
+  document.getElementById('pendLenVal').textContent = L.toFixed(2);
+  updatePendInfo();
+};
+document.getElementById('pendAmp').oninput = () => {
+  document.getElementById('pendAmpVal').textContent = document.getElementById('pendAmp').value;
+};
+
+function updatePendInfo() {
+  const { L } = getPendParams();
+  const T = 2 * Math.PI * Math.sqrt(L / g);
+  document.getElementById('pendInfo').textContent = `Period: ${T.toFixed(3)} s`;
+}
+
+function togglePendulum() {
+  const btn = document.getElementById('pendBtn');
+  if (pendRunning) {
+    cancelAnimationFrame(pendAnimId);
+    pendRunning = false;
+    btn.textContent = 'Start';
+  } else {
+    const { L, A } = getPendParams();
+    pendAngle = A;
+    pendOmega = 0;
+    pendRunning = true;
+    btn.textContent = 'Stop';
+    animatePendulum(L);
+  }
+}
+
+function animatePendulum(L) {
+  const cx = pendCanvas.width / 2;
+  const cy = 30;
+  const pxPerM = 120;
+  const dt = 0.025;
+
+  pendAngle += pendOmega * dt;
+  pendOmega += -(g / L) * Math.sin(pendAngle) * dt;
+  pendOmega *= 0.9997; // tiny damping
+
+  const bx = cx + Math.sin(pendAngle) * L * pxPerM;
+  const by = cy + Math.cos(pendAngle) * L * pxPerM;
+
+  pendCtx.clearRect(0, 0, pendCanvas.width, pendCanvas.height);
+
+  // Pivot
+  pendCtx.beginPath();
+  pendCtx.arc(cx, cy, 5, 0, 2 * Math.PI);
+  pendCtx.fillStyle = '#94a3b8';
+  pendCtx.fill();
+
+  // Rod
+  pendCtx.beginPath();
+  pendCtx.moveTo(cx, cy);
+  pendCtx.lineTo(bx, by);
+  pendCtx.strokeStyle = '#60a5fa';
+  pendCtx.lineWidth = 2;
+  pendCtx.stroke();
+
+  // Bob
+  pendCtx.beginPath();
+  pendCtx.arc(bx, by, 14, 0, 2 * Math.PI);
+  pendCtx.fillStyle = '#f59e0b';
+  pendCtx.fill();
+
+  updatePendInfo();
+  if (pendRunning) pendAnimId = requestAnimationFrame(() => animatePendulum(L));
+}
+updatePendInfo();
+
+/* ─── ELECTRIC FIELD SIM ─── */
+const efCanvas = document.getElementById('efieldCanvas');
+const efCtx = efCanvas.getContext('2d');
+drawEField('+', '-');
+
+function drawEField(c1, c2) {
+  const w = efCanvas.width, h = efCanvas.height;
+  efCtx.clearRect(0, 0, w, h);
+  efCtx.fillStyle = '#0f172a';
+  efCtx.fillRect(0, 0, w, h);
+
+  let charges = [];
+  if (c2 === '') {
+    charges = [{ x: w / 2, y: h / 2, q: 1 }];
+  } else {
+    charges = [
+      { x: w / 3, y: h / 2, q: 1 },
+      { x: 2 * w / 3, y: h / 2, q: c2 === '+' ? 1 : -1 }
+    ];
+  }
+
+  // Draw field lines from each positive charge
+  const numLines = 16;
+  charges.forEach(ch => {
+    if (ch.q < 0) return;
+    for (let i = 0; i < numLines; i++) {
+      const angle = (2 * Math.PI * i) / numLines;
+      traceLine(efCtx, charges, ch.x + 14 * Math.cos(angle), ch.y + 14 * Math.sin(angle), w, h);
+    }
+  });
+
+  // Draw charge circles
+  charges.forEach(ch => {
+    efCtx.beginPath();
+    efCtx.arc(ch.x, ch.y, 12, 0, 2 * Math.PI);
+    efCtx.fillStyle = ch.q > 0 ? '#ef4444' : '#60a5fa';
+    efCtx.fill();
+    efCtx.fillStyle = '#fff';
+    efCtx.font = 'bold 16px sans-serif';
+    efCtx.textAlign = 'center';
+    efCtx.textBaseline = 'middle';
+    efCtx.fillText(ch.q > 0 ? '+' : '−', ch.x, ch.y);
+  });
+}
+
+function traceLine(ctx, charges, startX, startY, w, h) {
+  let x = startX, y = startY;
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.strokeStyle = 'rgba(245,158,11,0.6)';
+  ctx.lineWidth = 1;
+
+  for (let step = 0; step < 600; step++) {
+    let fx = 0, fy = 0;
+    charges.forEach(ch => {
+      const dx = x - ch.x, dy = y - ch.y;
+      const r2 = dx * dx + dy * dy;
+      if (r2 < 1) return;
+      const r = Math.sqrt(r2);
+      fx += ch.q * dx / (r2 * r);
+      fy += ch.q * dy / (r2 * r);
+    });
+    const mag = Math.sqrt(fx * fx + fy * fy);
+    if (mag < 1e-8) break;
+    const ds = 3;
+    x += (fx / mag) * ds;
+    y += (fy / mag) * ds;
+    if (x < 0 || x > w || y < 0 || y > h) break;
+
+    // Stop near negative charge
+    let nearNeg = false;
+    charges.forEach(ch => {
+      if (ch.q < 0 && (x - ch.x) ** 2 + (y - ch.y) ** 2 < 200) nearNeg = true;
+    });
+    if (nearNeg) break;
+
+    ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+}
+
+/* ─── REFRACTION SIM ─── */
+const refCanvas = document.getElementById('refractionCanvas');
+const refCtx = refCanvas.getContext('2d');
+
+function drawRefraction() {
+  const w = refCanvas.width, h = refCanvas.height;
+  const mid = h / 2;
+  const theta1 = parseFloat(document.getElementById('inciAngle').value);
+  const n1 = 1.0;
+  const n2 = parseFloat(document.getElementById('n2Val').value) / 10;
+  document.getElementById('inciAngleVal').textContent = theta1;
+  document.getElementById('n2Display').textContent = n2.toFixed(1);
+
+  refCtx.clearRect(0, 0, w, h);
+  refCtx.fillStyle = '#0f172a';
+  refCtx.fillRect(0, 0, w, h);
+
+  // Interface
+  refCtx.fillStyle = 'rgba(96,165,250,0.1)';
+  refCtx.fillRect(0, mid, w, h - mid);
+  refCtx.strokeStyle = '#334155';
+  refCtx.lineWidth = 1;
+  refCtx.beginPath();
+  refCtx.moveTo(0, mid);
+  refCtx.lineTo(w, mid);
+  refCtx.stroke();
+
+  // Labels
+  refCtx.fillStyle = '#64748b';
+  refCtx.font = '12px Space Mono, monospace';
+  refCtx.fillText(`n₁ = ${n1.toFixed(1)} (air)`, 10, mid - 10);
+  refCtx.fillText(`n₂ = ${n2.toFixed(1)}`, 10, mid + 20);
+
+  // Normal
+  refCtx.strokeStyle = '#334155';
+  refCtx.setLineDash([5, 5]);
+  refCtx.beginPath();
+  refCtx.moveTo(w / 2, mid - 120);
+  refCtx.lineTo(w / 2, mid + 120);
+  refCtx.stroke();
+  refCtx.setLineDash([]);
+
+  const t1Rad = theta1 * Math.PI / 180;
+  const sinT2 = (n1 * Math.sin(t1Rad)) / n2;
+
+  // Incident ray
+  const ix = w / 2 - Math.sin(t1Rad) * 120;
+  const iy = mid - Math.cos(t1Rad) * 120;
+  refCtx.strokeStyle = '#f59e0b';
+  refCtx.lineWidth = 2;
+  refCtx.beginPath();
+  refCtx.moveTo(ix, iy);
+  refCtx.lineTo(w / 2, mid);
+  refCtx.stroke();
+  refCtx.fillStyle = '#f59e0b';
+  refCtx.font = '11px sans-serif';
+  refCtx.fillText(`θ₁=${theta1}°`, ix + 5, iy + 15);
+
+  if (sinT2 <= 1) {
+    const t2Rad = Math.asin(sinT2);
+    const t2Deg = (t2Rad * 180 / Math.PI).toFixed(1);
+    const rx = w / 2 + Math.sin(t2Rad) * 110;
+    const ry = mid + Math.cos(t2Rad) * 110;
+    refCtx.strokeStyle = '#60a5fa';
+    refCtx.beginPath();
+    refCtx.moveTo(w / 2, mid);
+    refCtx.lineTo(rx, ry);
+    refCtx.stroke();
+    refCtx.fillStyle = '#60a5fa';
+    refCtx.fillText(`θ₂=${t2Deg}°`, rx - 55, ry - 5);
+    document.getElementById('refrInfo').textContent =
+      `Refracted angle: ${t2Deg}° | Snell: ${n1}×sin(${theta1}°) = ${n2}×sin(${t2Deg}°)`;
+  } else {
+    // TIR
+    const critAngle = (Math.asin(n2 / n1) * 180 / Math.PI).toFixed(1);
+    const rx = w / 2 + Math.sin(t1Rad) * 110;
+    const ry = mid - Math.cos(t1Rad) * 110;
+    refCtx.strokeStyle = '#ef4444';
+    refCtx.beginPath();
+    refCtx.moveTo(w / 2, mid);
+    refCtx.lineTo(rx, ry);
+    refCtx.stroke();
+    document.getElementById('refrInfo').textContent =
+      `Total Internal Reflection! Critical angle = ${critAngle}°`;
+  }
+}
+drawRefraction();
 </script>
 </body>
 </html>
