@@ -543,21 +543,38 @@ function toggleLang(){
 }
 
 /* ═══════════════════════════════════════
-   VISITOR COUNTER
+   VISITOR COUNTER (dynamic via API)
 ═══════════════════════════════════════ */
 (function(){
-  const KEY='mathify-visit-count';
-  const LAST_VISIT_KEY='mathify-last-visit';
-  let count=parseInt(localStorage.getItem(KEY))||0;
-  const lastVisit=localStorage.getItem(LAST_VISIT_KEY);
-  const today=new Date().toDateString();
-  if(lastVisit!==today){
-    count++;
-    localStorage.setItem(KEY,count);
-    localStorage.setItem(LAST_VISIT_KEY,today);
-  }
   const el=document.getElementById('visitorCount');
-  if(el) el.textContent=count.toLocaleString();
+  if(!el) return;
+  const API='https://visitor.6developer.com/visit';
+  const domain='mathify.us';
+
+  // Record visit and get total count
+  fetch(API,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      domain:domain,
+      timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,
+      page_path:location.pathname,
+      page_title:document.title,
+      referrer:document.referrer
+    })
+  })
+  .then(r=>r.json())
+  .then(data=>{
+    if(data&&typeof data.totalCount==='number'){
+      el.textContent=data.totalCount.toLocaleString();
+      localStorage.setItem('mathify-visit-count',data.totalCount);
+    }
+  })
+  .catch(()=>{
+    // Fallback to cached count if API is unreachable
+    const cached=localStorage.getItem('mathify-visit-count');
+    if(cached) el.textContent=parseInt(cached).toLocaleString();
+  });
 })();
 </script>
 
