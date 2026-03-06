@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics — Coming Soon | Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background 0.3s,color 0.3s;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
+.theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
+
+.coming-soon{position:relative;z-index:1;text-align:center;padding:2rem;max-width:600px;animation:fadeUp 0.6s ease forwards;}
+.cs-icon{font-size:5rem;margin-bottom:1.5rem;display:block;}
+.cs-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--blueprint);margin-bottom:1rem;}
+.cs-sub{font-size:1.1rem;color:var(--steel);line-height:1.8;margin-bottom:2rem;}
+.cs-topics{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-bottom:2.5rem;}
+.cs-tag{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.9rem;border:1px solid var(--blueprint);color:var(--blueprint);border-radius:4px;}
+.cs-back{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--blueprint);text-decoration:none;padding:0.8rem 1.8rem;border:2px solid var(--blueprint);border-radius:6px;transition:all 0.2s;}
+.cs-back:hover{background:var(--blueprint);color:#fff;}
+.orbit{margin:2rem auto;width:180px;height:180px;position:relative;}
+.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:var(--accent);border-radius:50%;box-shadow:0 0 30px rgba(245,158,11,0.4);}
+.orbit-ring{position:absolute;inset:0;border:1.5px dashed var(--grid);border-radius:50%;animation:spin 12s linear infinite;}
+.orbit-dot{position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:10px;height:10px;background:var(--blueprint);border-radius:50%;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:600px){nav{padding:0.85rem 1.2rem;}.coming-soon{padding:1rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">&larr; Mathify</a>
+  <button class="theme-toggle" id="themeToggle">&#9728;&#65039;</button>
+</nav>
+
+<div class="coming-soon">
+  <div class="orbit">
+    <div class="orbit-center"></div>
+    <div class="orbit-ring"><div class="orbit-dot"></div></div>
+  </div>
+  <h1 class="cs-title">Physics is Coming Soon</h1>
+  <p class="cs-sub">We're building interactive physics guides covering mechanics, thermodynamics, waves, optics, electricity, and modern physics. Everything explained visually with simulations and step-by-step problem solving.</p>
+  <div class="cs-topics">
+    <span class="cs-tag">Mechanics</span>
+    <span class="cs-tag">Thermodynamics</span>
+    <span class="cs-tag">Waves & Optics</span>
+    <span class="cs-tag">Electricity</span>
+    <span class="cs-tag">Magnetism</span>
+    <span class="cs-tag">Modern Physics</span>
+  </div>
+  <a href="index.html" class="cs-back">&larr; Back to Home</a>
+</div>
+
+<script>
+const toggleBtn=document.getElementById('themeToggle');const root=document.documentElement;
+function setTheme(t){root.setAttribute('data-theme',t);toggleBtn.textContent=t==='dark'?'\u2600\uFE0F':'\uD83C\uDF19';localStorage.setItem('mathify-theme',t);}
+const saved=localStorage.getItem('mathify-theme');setTheme(saved||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+toggleBtn.addEventListener('click',()=>{setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});
+</script>
+</body>
+</html>

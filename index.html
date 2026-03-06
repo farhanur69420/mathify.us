@@ -1,1555 +1,286 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mathify — Learn Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'},startup:{typeset:false}};</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<title>Mathify — Learn Math, Physics & Civil Engineering</title>
+<meta name="description" content="Your personal learning assistant for Math, Physics, and Civil Engineering. Interactive guides, simulations, and step-by-step solutions.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--steel:#94a3b8;
-  --rust:#f87171;--blueprint:#60a5fa;--accent:#f59e0b;
-  --card:#161b22;--border:#1e293b;--muted:#475569;
-  --green:#34d399;--purple:#a78bfa;
+/* ─── THEME TOKENS ─── */
+[data-theme="light"] {
+  --ink: #0d0d0d;
+  --paper: #f5f0e8;
+  --paper2: #ffffff;
+  --steel: #2c3e50;
+  --rust: #c0392b;
+  --blueprint: #1a3a5c;
+  --grid: #d4cfc4;
+  --accent: #e67e22;
+  --nav-bg: rgba(245,240,232,0.93);
+  --card-bg: #ffffff;
+  --card-border: #d4cfc4;
+  --toggle-bg: #1a3a5c;
+  --toggle-icon: #f5f0e8;
+  --chat-user: #e8f0fe;
+  --chat-bot: #ffffff;
+  --chat-bot-border: #d4cfc4;
+  --text-muted: #666;
 }
+[data-theme="dark"] {
+  --ink: #e2e8f0;
+  --paper: #0d1117;
+  --paper2: #161b22;
+  --steel: #94a3b8;
+  --rust: #f87171;
+  --blueprint: #60a5fa;
+  --grid: #1e293b;
+  --accent: #f59e0b;
+  --nav-bg: rgba(13,17,23,0.93);
+  --card-bg: #161b22;
+  --card-border: #1e293b;
+  --toggle-bg: #f59e0b;
+  --toggle-icon: #0d1117;
+  --chat-user: #1e293b;
+  --chat-bot: #161b22;
+  --chat-bot-border: #1e293b;
+  --text-muted: #64748b;
+}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;min-height:100vh;}
-body.bn{font-family:'Noto Sans Bengali','DM Sans',sans-serif;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(96,165,250,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;transition:background 0.3s,color 0.3s;min-height:100vh;display:flex;flex-direction:column;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+[data-theme="dark"] body::before{background-image:linear-gradient(rgba(96,165,250,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,0.04) 1px,transparent 1px);}
 
-/* LANG BUTTON */
-#langBtn{position:fixed;top:14px;right:16px;z-index:9999;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.9rem;background:rgba(13,17,23,0.9);border:1px solid var(--blueprint);color:var(--blueprint);cursor:pointer;transition:all 0.2s;border-radius:3px;backdrop-filter:blur(8px);}
-#langBtn:hover{background:var(--blueprint);color:var(--paper);}
-body.bn #langBtn{font-family:'Noto Sans Bengali','DM Sans',sans-serif;font-size:0.75rem;letter-spacing:0;}
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);transition:background 0.3s;}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+.nav-right{display:flex;align-items:center;gap:0.6rem;}
+.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
+.theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
+.nav-links{display:flex;gap:1.2rem;list-style:none;align-items:center;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--rust);}
 
-/* SCREENS */
-.screen{display:none;position:relative;z-index:1;min-height:100vh;}
-.screen.active{display:flex;flex-direction:column;}
+/* ─── CHAT CONTAINER ─── */
+.chat-wrapper{flex:1;display:flex;flex-direction:column;max-width:800px;width:100%;margin:0 auto;padding:5.5rem 1.5rem 2rem;position:relative;z-index:1;}
+.chat-messages{flex:1;display:flex;flex-direction:column;gap:1.2rem;padding-bottom:2rem;}
 
-/* WELCOME */
-#welcome{align-items:center;justify-content:center;padding:2rem;}
-.welcome-inner{max-width:700px;width:100%;text-align:center;}
-.w-logo{font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.2em;color:var(--blueprint);text-transform:uppercase;margin-bottom:3rem;opacity:0;animation:fadeUp 0.5s ease forwards 0.2s;}
-.w-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1rem;opacity:0;animation:fadeUp 0.5s ease forwards 0.4s;}
-body.bn .w-title{font-family:'Noto Sans Bengali',serif;}
-.w-title span{color:var(--accent);font-style:italic;}
-.w-sub{font-size:1.05rem;color:var(--steel);margin-bottom:3rem;opacity:0;animation:fadeUp 0.5s ease forwards 0.6s;}
-.chat-bubble{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem 2rem;margin-bottom:2rem;text-align:left;opacity:0;animation:fadeUp 0.5s ease forwards 0.8s;}
-.chat-header{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.8rem;}
-.chat-avatar{width:36px;height:36px;background:var(--blueprint);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:0.75rem;color:#fff;flex-shrink:0;}
-.chat-name{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--blueprint);text-transform:uppercase;letter-spacing:0.08em;}
-.chat-msg{font-size:1.05rem;color:var(--ink);line-height:1.6;}
-.typing-cursor{display:inline-block;width:2px;height:1.1em;background:var(--blueprint);vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
-.subject-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;opacity:0;animation:fadeUp 0.5s ease forwards 1.2s;}
-.sub-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.8rem 1.2rem;cursor:pointer;transition:all 0.25s;text-align:center;position:relative;overflow:hidden;}
-.sub-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.25s;}
-.sub-card.math::before{background:linear-gradient(135deg,rgba(96,165,250,0.15),rgba(167,139,250,0.1));}
-.sub-card.physics::before{background:linear-gradient(135deg,rgba(52,211,153,0.1),rgba(96,165,250,0.08));}
-.sub-card.civil::before{background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(248,113,113,0.1));}
-.sub-card:hover::before{opacity:1;}
-.sub-card:hover{transform:translateY(-4px);}
-.sub-card.math:hover{border-color:#a78bfa;}
-.sub-card.physics:hover{border-color:var(--green);}
-.sub-card.civil:hover{border-color:var(--accent);}
-.sub-icon{font-size:2.5rem;margin-bottom:0.8rem;display:block;}
-.sub-label{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:0.4rem;}
-body.bn .sub-label{font-family:'Noto Sans Bengali',sans-serif;}
-.sub-desc{font-size:0.8rem;color:var(--steel);font-family:'Space Mono',monospace;}
-body.bn .sub-desc{font-family:'Noto Sans Bengali',sans-serif;font-size:0.85rem;}
+/* ─── CHAT BUBBLES ─── */
+.msg{display:flex;gap:0.8rem;align-items:flex-start;animation:fadeUp 0.4s ease forwards;opacity:0;}
+.msg.bot{flex-direction:row;}
+.msg.user{flex-direction:row-reverse;}
+.msg-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.msg.bot .msg-avatar{background:var(--blueprint);color:#fff;}
+.msg.user .msg-avatar{background:var(--accent);color:#fff;}
+.msg-body{max-width:85%;padding:1rem 1.3rem;border-radius:16px;line-height:1.7;font-size:0.95rem;}
+.msg.bot .msg-body{background:var(--chat-bot);border:1px solid var(--chat-bot-border);border-top-left-radius:4px;color:var(--ink);}
+.msg.user .msg-body{background:var(--blueprint);color:#fff;border-top-right-radius:4px;}
 
-/* NAV BAR */
-.top-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;gap:1rem;padding:0.9rem 2rem;background:rgba(13,17,23,0.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);}
-.nav-back{font-family:'Space Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);cursor:pointer;transition:color 0.2s;background:none;border:none;}
-body.bn .nav-back{font-family:'Noto Sans Bengali',sans-serif;font-size:0.8rem;letter-spacing:0;text-transform:none;}
-.nav-back:hover{color:var(--blueprint);}
-.nav-brand{font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.12em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
-.nav-title{font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--steel);margin-left:auto;margin-right:80px;}
-body.bn .nav-title{font-family:'Noto Sans Bengali',sans-serif;}
+/* ─── OPTION CARDS ─── */
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:0.5rem;animation:fadeUp 0.5s ease forwards;opacity:0;animation-delay:0.2s;}
+.opt-card{position:relative;display:flex;flex-direction:column;padding:1.8rem;border:2px solid var(--card-border);border-radius:12px;background:var(--card-bg);cursor:pointer;transition:all 0.25s;text-decoration:none;color:var(--ink);overflow:hidden;}
+.opt-card:hover{border-color:var(--blueprint);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.12);}
+[data-theme="dark"] .opt-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.opt-icon{font-size:2.2rem;margin-bottom:0.8rem;}
+.opt-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--blueprint);margin-bottom:0.4rem;}
+.opt-desc{font-size:0.85rem;color:var(--text-muted);line-height:1.6;}
+.opt-badge{position:absolute;top:12px;right:12px;font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;padding:2px 8px;border-radius:3px;text-transform:uppercase;font-weight:700;}
+.opt-badge.live{background:#16a34a;color:#fff;}
+.opt-badge.soon{background:var(--accent);color:#fff;}
+.opt-badge.new{background:var(--rust);color:#fff;}
 
-/* MATH HUB */
-#math-hub{padding-top:70px;}
-.hub-hero{padding:4rem 3rem 2rem;max-width:1100px;margin:0 auto;}
-.hub-eyebrow{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--purple);margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem;}
-.hub-eyebrow::before{content:'';width:24px;height:1px;background:var(--purple);}
-.hub-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3.2rem);font-weight:900;color:#fff;margin-bottom:0.8rem;}
-body.bn .hub-title{font-family:'Noto Sans Bengali',sans-serif;font-weight:700;}
-.hub-sub{color:var(--steel);font-size:1rem;max-width:600px;line-height:1.7;}
-.grade-tabs{display:flex;gap:0.4rem;padding:0 3rem;max-width:1100px;margin:0 auto 2rem;flex-wrap:wrap;}
-.grade-tab{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 1rem;border:1px solid var(--border);background:transparent;color:var(--steel);cursor:pointer;transition:all 0.2s;}
-body.bn .grade-tab{font-family:'Noto Sans Bengali',sans-serif;font-size:0.78rem;letter-spacing:0;text-transform:none;}
-.grade-tab:hover,.grade-tab.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+/* ─── TYPING INDICATOR ─── */
+.typing{display:flex;gap:4px;padding:0.8rem 1.2rem;align-items:center;}
+.typing span{width:7px;height:7px;border-radius:50%;background:var(--steel);animation:typingBounce 1.2s infinite;}
+.typing span:nth-child(2){animation-delay:0.2s;}
+.typing span:nth-child(3){animation-delay:0.4s;}
 
-/* TOPIC CARDS */
-.topics-container{padding:0 3rem 4rem;max-width:1100px;margin:0 auto;}
-.topics-section{margin-bottom:3rem;}
-.topics-section-title{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
-body.bn .topics-section-title{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.78rem;}
-.topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;}
-.topic-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
-.topic-card:hover{transform:translateY(-3px);border-color:var(--purple);box-shadow:0 8px 30px rgba(167,139,250,0.15);}
-.topic-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--purple);transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
-.topic-card:hover::after{transform:scaleX(1);}
-.tc-grade{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);margin-bottom:0.5rem;}
-body.bn .tc-grade{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.72rem;}
-.tc-icon{font-size:1.6rem;margin-bottom:0.6rem;}
-.tc-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.4rem;}
-body.bn .tc-title{font-family:'Noto Sans Bengali',sans-serif;font-weight:600;}
-.tc-desc{font-size:0.8rem;color:var(--steel);line-height:1.5;}
-.tc-arrow{position:absolute;top:1.2rem;right:1.2rem;color:var(--purple);opacity:0;transition:opacity 0.2s;}
-.topic-card:hover .tc-arrow{opacity:1;}
+/* ─── FOOTER ─── */
+footer{position:relative;z-index:1;padding:1.5rem 2.5rem;border-top:1px solid var(--grid);display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;color:#999;flex-wrap:wrap;gap:0.5rem;}
+.visitor-counter{display:flex;align-items:center;gap:0.5rem;}
+.visitor-count{display:inline-flex;align-items:center;gap:0.35rem;padding:0.25rem 0.6rem;border:1px solid var(--grid);border-radius:4px;background:rgba(255,255,255,0.03);}
+.visitor-dot{width:6px;height:6px;border-radius:50%;background:#4caf50;display:inline-block;animation:pulse 2s ease-in-out infinite;}
 
-/* LESSON */
-#lesson{padding-top:70px;}
-.lesson-body{max-width:960px;margin:0 auto;padding:3rem 2rem 6rem;}
-.lesson-header{margin-bottom:3rem;}
-.lesson-grade{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple);margin-bottom:0.8rem;}
-body.bn .lesson-grade{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.78rem;}
-.lesson-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:#fff;margin-bottom:1rem;}
-body.bn .lesson-title{font-family:'Noto Sans Bengali',sans-serif;font-weight:700;}
-.lesson-intro{font-size:1.05rem;color:var(--steel);line-height:1.8;max-width:720px;}
-.lesson-section{margin-bottom:3.5rem;}
-.ls-heading{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--blueprint);margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem;}
-body.bn .ls-heading{font-family:'Noto Sans Bengali',sans-serif;font-weight:600;font-size:1.2rem;}
-.ls-heading::before{content:'';width:4px;height:1.2em;background:var(--blueprint);display:block;border-radius:2px;}
-.ls-text{font-size:0.97rem;line-height:1.85;color:var(--ink);margin-bottom:1.2rem;}
-.ls-text strong{color:#fff;}
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
 
-/* INTUITION BOX */
-.intuition-box{background:rgba(96,165,250,0.07);border:1px solid rgba(96,165,250,0.2);border-radius:10px;padding:1.5rem;margin:1.5rem 0;}
-.ib-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--blueprint);margin-bottom:0.7rem;}
-body.bn .ib-label{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.78rem;}
-.ib-text{font-size:0.95rem;line-height:1.8;color:var(--ink);}
-
-/* FORMULA */
-.formula-block{background:var(--paper2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:1.2rem 1.5rem;margin:1.2rem 0;font-size:1.05rem;overflow-x:auto;line-height:1.8;}
-.formula-label{font-family:'Space Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:0.5rem;}
-body.bn .formula-label{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.75rem;}
-
-/* SIMULATION */
-.sim-container{background:var(--paper2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:2rem 0;}
-.sim-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;}
-.sim-title{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--blueprint);}
-body.bn .sim-title{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.82rem;}
-.sim-body{padding:1.5rem;}
-canvas{display:block;width:100%;border-radius:6px;}
-.sim-controls{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1rem;}
-.sim-btn{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 1rem;border:1px solid var(--border);background:transparent;color:var(--steel);cursor:pointer;border-radius:4px;transition:all 0.2s;}
-body.bn .sim-btn{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.78rem;}
-.sim-btn:hover,.sim-btn.active{background:var(--blueprint);color:#fff;border-color:var(--blueprint);}
-.sim-slider-group{display:flex;align-items:center;gap:0.8rem;margin-top:0.8rem;flex-wrap:wrap;}
-.sim-slider-label{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--steel);min-width:70px;}
-input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(--border);outline:none;flex:1;min-width:100px;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--blueprint);cursor:pointer;}
-.sim-value{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--blueprint);min-width:50px;text-align:right;}
-.diagram-label{text-align:center;font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);margin-top:0.5rem;letter-spacing:0.05em;}
-body.bn .diagram-label{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;font-size:0.75rem;}
-
-/* WORKED EXAMPLE */
-.example-box{background:var(--paper2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:2rem 0;}
-.example-header{background:rgba(245,158,11,0.1);border-bottom:1px solid var(--border);padding:0.9rem 1.5rem;}
-.example-title{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);}
-body.bn .example-title{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.82rem;}
-.example-body{padding:1.5rem;}
-.example-problem{font-size:1rem;color:#fff;margin-bottom:1.2rem;font-weight:500;}
-.solution-steps{display:flex;flex-direction:column;gap:0.8rem;}
-.step{display:flex;gap:1rem;align-items:flex-start;}
-.step-num{width:26px;height:26px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);flex-shrink:0;margin-top:1px;}
-.step-content{font-size:0.92rem;color:var(--ink);line-height:1.7;}
-.step-content .math-val{color:var(--blueprint);font-style:italic;}
-
-/* PRACTICE */
-.practice-section{background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);border-radius:10px;padding:1.5rem;margin:2rem 0;}
-.ps-header{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:1.2rem;}
-body.bn .ps-header{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.8rem;}
-.practice-problem{margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid rgba(52,211,153,0.1);}
-.practice-problem:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.pp-q{font-size:0.95rem;color:var(--ink);margin-bottom:0.6rem;}
-.pp-toggle{font-family:'Space Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);cursor:pointer;border:none;background:none;}
-body.bn .pp-toggle{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.8rem;}
-.pp-answer{display:none;margin-top:0.8rem;background:rgba(52,211,153,0.08);border-radius:6px;padding:0.8rem 1rem;font-size:0.9rem;color:var(--ink);line-height:1.7;}
-.pp-answer.show{display:block;}
-
-/* KEY CONCEPTS */
-.key-concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.8rem;margin:1.5rem 0;}
-.kc-item{background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:1rem;transition:border-color 0.2s;}
-.kc-item:hover{border-color:var(--purple);}
-.kc-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.3rem;}
-body.bn .kc-title{font-family:'Noto Sans Bengali',sans-serif;font-weight:600;}
-.kc-text{font-size:0.8rem;color:var(--steel);line-height:1.5;}
-
-/* INFO GRID */
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;}
-.info-box{background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:1.2rem;}
-.info-box .ib-icon{font-size:1.3rem;margin-bottom:0.5rem;}
-.info-box h5{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;}
-.info-box p{font-size:0.85rem;color:var(--steel);line-height:1.6;}
-
-/* PHYSICS */
-#physics{align-items:center;justify-content:center;padding:2rem;padding-top:90px;}
-.coming-soon{text-align:center;max-width:500px;margin:0 auto;}
-.cs-icon{font-size:5rem;margin-bottom:2rem;display:block;animation:float 3s ease-in-out infinite;}
-@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
-.cs-title{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:1rem;}
-body.bn .cs-title{font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:2rem;}
-.cs-sub{color:var(--steel);font-size:1rem;line-height:1.7;margin-bottom:2rem;}
-.cs-badge{display:inline-block;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.5rem 1.2rem;border:1px solid var(--green);color:var(--green);}
-body.bn .cs-badge{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.8rem;}
-
-/* CIVIL */
-#civil{padding-top:70px;}
-.civil-hero{padding:4rem 3rem 2rem;max-width:1100px;margin:0 auto;}
-.civil-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;padding:0 3rem 4rem;max-width:1100px;margin:0 auto;}
-.civil-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2.5rem;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;}
-.civil-card.rc{border-left:3px solid var(--accent);}
-.civil-card.traffic{border-left:3px solid var(--rust);}
-.civil-card:hover{transform:translateY(-4px);}
-.civil-card.rc:hover{box-shadow:0 12px 40px rgba(245,158,11,0.15);}
-.civil-card.traffic:hover{box-shadow:0 12px 40px rgba(248,113,113,0.15);}
-.cc-icon{font-size:2.5rem;margin-bottom:1.2rem;display:block;}
-.cc-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:0.5rem;}
-body.bn .cc-title{font-family:'Noto Sans Bengali',sans-serif;font-weight:600;font-size:1.2rem;}
-.cc-sub{font-size:0.85rem;color:var(--steel);line-height:1.6;margin-bottom:1.2rem;}
-.cc-topics{display:flex;flex-wrap:wrap;gap:0.4rem;}
-.cc-tag{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--border);color:var(--muted);}
-.cc-arrow{position:absolute;bottom:1.5rem;right:1.5rem;font-size:1.2rem;color:var(--accent);transition:transform 0.2s;}
-.civil-card:hover .cc-arrow{transform:translateX(4px);}
-
-/* CIVIL LESSON */
-#rc-lesson,#traffic-lesson{padding-top:70px;}
-.civil-lesson-body{max-width:960px;margin:0 auto;padding:3rem 2rem 6rem;}
-.topic-tabs{display:flex;gap:0.4rem;margin-bottom:3rem;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:1rem;}
-.ttab{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.9rem;border:1px solid transparent;color:var(--steel);cursor:pointer;transition:all 0.2s;border-radius:4px;}
-body.bn .ttab{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.78rem;}
-.ttab:hover{color:var(--ink);}
-.ttab.active{background:var(--accent);color:var(--paper);border-color:var(--accent);}
-.civil-topic{display:none;}
-.civil-topic.active{display:block;}
-
-/* TRIG TABLE */
-.trig-table-wrap{overflow-x:auto;margin:1rem 0;}
-.trig-table{width:100%;border-collapse:collapse;font-family:'Space Mono',monospace;font-size:0.78rem;}
-.trig-table th{padding:0.6rem 1rem;border:1px solid var(--border);color:var(--purple);background:rgba(167,139,250,0.1);}
-.trig-table td{padding:0.6rem 1rem;border:1px solid var(--border);color:var(--steel);text-align:center;}
-.trig-table td:first-child{color:var(--ink);}
-
-/* LOS TABLE */
-.los-table-wrap{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:1.5rem 0;}
-.los-table{width:100%;border-collapse:collapse;}
-.los-table thead tr{background:rgba(248,113,113,0.1);}
-.los-table th{padding:0.8rem 1rem;text-align:left;font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--rust);border-bottom:1px solid var(--border);}
-body.bn .los-table th{font-family:'Noto Sans Bengali',sans-serif;letter-spacing:0;text-transform:none;font-size:0.78rem;}
-.los-table td{padding:0.8rem 1rem;font-size:0.85rem;color:var(--steel);border-bottom:1px solid var(--border);}
-.los-table tr:last-child td{border-bottom:none;}
-
-/* RESULT GRID */
-.result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-top:1rem;}
-.result-cell{background:var(--paper2);border:1px solid var(--border);border-radius:6px;padding:0.8rem;text-align:center;}
-.result-cell .rc-label{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);margin-bottom:0.2rem;}
-.result-cell .rc-val{font-family:'Playfair Display',serif;font-size:1.3rem;}
-
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-  .subject-grid{grid-template-columns:1fr;}
-  .hub-hero,.topics-container{padding-left:1.5rem;padding-right:1.5rem;}
-  .grade-tabs{padding:0 1.5rem;}
-  .civil-cards{grid-template-columns:1fr;padding-left:1.5rem;padding-right:1.5rem;}
-  .info-grid{grid-template-columns:1fr;}
-  .result-grid{grid-template-columns:1fr 1fr;}
-  .lesson-body,.civil-lesson-body{padding:2rem 1rem 4rem;}
+/* ─── RESPONSIVE ─── */
+@media(max-width:600px){
+  nav{padding:0.85rem 1.2rem;}
+  .chat-wrapper{padding:5rem 1rem 1.5rem;}
+  .options{grid-template-columns:1fr;}
+  .opt-card{padding:1.3rem;}
+  footer{padding:1rem 1.2rem;flex-direction:column;text-align:center;}
+  .nav-links{display:none;}
 }
 </style>
 </head>
 <body>
 
-<button id="langBtn" onclick="toggleLang()">বাংলা</button>
-
-<!-- WELCOME -->
-<div id="welcome" class="screen active">
-  <div class="welcome-inner">
-    <div class="w-logo" data-i18n="tagline">∑ Mathify · Learn Hub</div>
-    <h1 class="w-title" data-i18n-html="heroTitle">Ready to <span>learn</span><br>something new?</h1>
-    <p class="w-sub" data-i18n="heroSub">Interactive lessons, simulations & worked examples — built for understanding, not memorizing.</p>
-    <div class="chat-bubble">
-      <div class="chat-header">
-        <div class="chat-avatar">∑</div>
-        <span class="chat-name" data-i18n="aiName">Mathify AI</span>
-      </div>
-      <div class="chat-msg">
-        <span data-i18n="chatGreeting">Hi! </span><span id="typedText"></span><span class="typing-cursor" id="typeCursor" style="display:none;"></span>
-      </div>
-    </div>
-    <div class="subject-grid">
-      <div class="sub-card math" onclick="showMath()">
-        <span class="sub-icon">📐</span>
-        <div class="sub-label" data-i18n="mathLabel">Mathematics</div>
-        <div class="sub-desc" data-i18n="mathDesc">Class 9 – 12</div>
-      </div>
-      <div class="sub-card physics" onclick="showPhysics()">
-        <span class="sub-icon">⚡</span>
-        <div class="sub-label" data-i18n="physicsLabel">Physics</div>
-        <div class="sub-desc" data-i18n="physicsDesc">Coming Soon</div>
-      </div>
-      <div class="sub-card civil" onclick="showCivil()">
-        <span class="sub-icon">🏗️</span>
-        <div class="sub-label" data-i18n="civilLabel">Civil Engineering</div>
-        <div class="sub-desc" data-i18n="civilDesc">RC Design · Traffic</div>
-      </div>
+<nav>
+  <a href="index.html" class="nav-logo">Mathify</a>
+  <div style="display:flex;align-items:center;gap:1.5rem;">
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="status.html">Status</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">&#9728;&#65039;</button>
     </div>
   </div>
+</nav>
+
+<div class="chat-wrapper">
+  <div class="chat-messages" id="chat"></div>
 </div>
 
-<!-- MATH HUB -->
-<div id="math-hub" class="screen">
-  <nav class="top-nav">
-    <button class="nav-back" onclick="goHome()" data-i18n="back">← Back</button>
-    <a class="nav-brand" href="#">∑ Mathify</a>
-    <span class="nav-title" data-i18n="mathNavTitle">Mathematics · Class 9–12</span>
-  </nav>
-  <div class="hub-hero">
-    <div class="hub-eyebrow" data-i18n="mathEyebrow">Mathematics</div>
-    <h1 class="hub-title" data-i18n="mathHubTitle">Class 9 to 12 — From foundations to mastery.</h1>
-    <p class="hub-sub" data-i18n="mathHubSub">Every concept explained with intuition first, then formulas, then practice.</p>
-  </div>
-  <div class="grade-tabs">
-    <button class="grade-tab active" onclick="filterGrade('all',this)" data-i18n="allGrades">All Grades</button>
-    <button class="grade-tab" onclick="filterGrade('9',this)" data-i18n="grade9">Grade 9</button>
-    <button class="grade-tab" onclick="filterGrade('10',this)" data-i18n="grade10">Grade 10</button>
-    <button class="grade-tab" onclick="filterGrade('11',this)" data-i18n="grade11">Grade 11</button>
-    <button class="grade-tab" onclick="filterGrade('12',this)" data-i18n="grade12">Grade 12</button>
-  </div>
-  <div class="topics-container" id="topicsContainer"></div>
-</div>
-
-<!-- LESSON -->
-<div id="lesson" class="screen">
-  <nav class="top-nav">
-    <button class="nav-back" onclick="goMath()" data-i18n="backLessons">← Lessons</button>
-    <a class="nav-brand" href="#">∑ Mathify</a>
-    <span class="nav-title" id="lessonNavTitle">Lesson</span>
-  </nav>
-  <div class="lesson-body" id="lessonBody"></div>
-</div>
-
-<!-- PHYSICS -->
-<div id="physics" class="screen">
-  <nav class="top-nav">
-    <button class="nav-back" onclick="goHome()" data-i18n="back">← Back</button>
-    <a class="nav-brand" href="#">∑ Mathify</a>
-  </nav>
-  <div class="coming-soon">
-    <span class="cs-icon">⚡</span>
-    <h2 class="cs-title" data-i18n-html="physicsComingSoon">Physics is<br>coming soon.</h2>
-    <p class="cs-sub" data-i18n="physicsComingDesc">We're building interactive simulations for mechanics, waves, thermodynamics, and more.</p>
-    <span class="cs-badge" data-i18n="inDevelopment">In Development</span>
-  </div>
-</div>
-
-<!-- CIVIL HUB -->
-<div id="civil" class="screen">
-  <nav class="top-nav">
-    <button class="nav-back" onclick="goHome()" data-i18n="back">← Back</button>
-    <a class="nav-brand" href="#">∑ Mathify</a>
-    <span class="nav-title" data-i18n="civilLabel">Civil Engineering</span>
-  </nav>
-  <div class="civil-hero">
-    <div class="hub-eyebrow" style="color:var(--accent);" data-i18n="civilLabel">Civil Engineering</div>
-    <h1 class="hub-title" data-i18n-html="civilHubTitle">Core concepts,<br>explained simply.</h1>
-    <p class="hub-sub" data-i18n="civilHubSub">No textbook walls of text. Intuition first, then the math — with diagrams and simulations throughout.</p>
-  </div>
-  <div class="civil-cards">
-    <div class="civil-card rc" onclick="showRC()">
-      <span class="cc-icon">🏛️</span>
-      <div class="cc-title" data-i18n="rcTitle">Reinforced Concrete Design</div>
-      <div class="cc-sub" data-i18n="rcSub">Why RC works, how it behaves under load, and the WSD method for beam design.</div>
-      <div class="cc-topics"><span class="cc-tag">Materials</span><span class="cc-tag">Stress–Strain</span><span class="cc-tag">WSD / k & j</span><span class="cc-tag">Beam Design</span></div>
-      <span class="cc-arrow">→</span>
-    </div>
-    <div class="civil-card traffic" onclick="showTraffic()">
-      <span class="cc-icon">🚦</span>
-      <div class="cc-title" data-i18n="trafficTitle">Traffic Analysis & Design</div>
-      <div class="cc-sub" data-i18n="trafficSub">Signal timing, Level of Service, flow models, and how roads are designed to move people.</div>
-      <div class="cc-topics"><span class="cc-tag">LOS</span><span class="cc-tag">Signal Timing</span><span class="cc-tag">Flow Models</span><span class="cc-tag">Mode Split</span></div>
-      <span class="cc-arrow" style="color:var(--rust);">→</span>
-    </div>
-  </div>
-</div>
-
-<!-- RC LESSON -->
-<div id="rc-lesson" class="screen">
-  <nav class="top-nav">
-    <button class="nav-back" onclick="showCivil()" data-i18n="backCivil">← Civil</button>
-    <a class="nav-brand" href="#">∑ Mathify</a>
-    <span class="nav-title" data-i18n="rcTitle">RC Design</span>
-  </nav>
-  <div class="civil-lesson-body" id="rcBody"></div>
-</div>
-
-<!-- TRAFFIC LESSON -->
-<div id="traffic-lesson" class="screen">
-  <nav class="top-nav">
-    <button class="nav-back" onclick="showCivil()" data-i18n="backCivil">← Civil</button>
-    <a class="nav-brand" href="#">∑ Mathify</a>
-    <span class="nav-title" data-i18n="trafficTitle">Traffic Analysis</span>
-  </nav>
-  <div class="civil-lesson-body" id="trafficBody"></div>
-</div>
+<footer>
+  <span>Mathify &mdash; mathify.us</span>
+  <span class="visitor-counter"><span class="visitor-count"><span class="visitor-dot"></span><span id="visitorCount">0</span></span> visits</span>
+  <span>Free for students everywhere</span>
+</footer>
 
 <script>
-/* =======================================================================
-   LANGUAGE SYSTEM
-======================================================================= */
-let lang = 'en';
+const chat = document.getElementById('chat');
+let msgDelay = 0;
 
-const S = {
-  en: {
-    tagline:'∑ Mathify · Learn Hub',
-    heroTitle:'Ready to <span>learn</span><br>something new?',
-    heroSub:'Interactive lessons, simulations & worked examples — built for understanding, not memorizing.',
-    aiName:'Mathify AI',
-    chatGreeting:'Hi! I\'m your learning guide. ',
-    chatMsg1:'What would you like to learn today?',
-    chatMsg2:'Choose a subject below to get started!',
-    chatMsg3:'Every expert was once a beginner.',
-    mathLabel:'Mathematics',mathDesc:'Class 9 – 12',
-    physicsLabel:'Physics',physicsDesc:'Coming Soon',
-    civilLabel:'Civil Engineering',civilDesc:'RC Design · Traffic',
-    back:'← Back',backLessons:'← Lessons',backCivil:'← Civil',
-    mathEyebrow:'Mathematics',mathNavTitle:'Mathematics · Class 9–12',
-    mathHubTitle:'Class 9 to 12 — From foundations to mastery.',
-    mathHubSub:'Every concept explained with intuition first, then formulas, then practice. Pick any topic and start learning.',
-    allGrades:'All Grades',grade9:'Grade 9',grade10:'Grade 10',grade11:'Grade 11',grade12:'Grade 12',
-    algebraSec:'Algebra & Numbers',geomSec:'Geometry & Coordinate Geometry',
-    trigSec:'Trigonometry',calcSec:'Calculus (Grade 11–12)',statsSec:'Statistics & Probability',
-    showAnswer:'Show Answer ▾',hideAnswer:'Hide Answer ▴',
-    workedExample:'✏️ Worked Example',practiceProblems:'📝 Practice Problems',
-    intuitionFirst:'💡 Intuition First',liveSim:'🔬 Interactive Simulation',
-    backToTopics:'← Back to Topics',comingSoonLesson:'This lesson is being built. Check back soon!',
-    physicsComingSoon:'Physics is<br>coming soon.',
-    physicsComingDesc:'We\'re building interactive simulations for mechanics, waves, thermodynamics, and more.',
-    inDevelopment:'In Development',
-    civilHubTitle:'Core concepts,<br>explained simply.',
-    civilHubSub:'No textbook walls of text. Intuition first, then the math — with diagrams and simulations throughout.',
-    rcTitle:'Reinforced Concrete Design',
-    rcSub:'Why RC works, how it behaves under load, and the WSD method for beam design.',
-    trafficTitle:'Traffic Analysis & Design',
-    trafficSub:'Signal timing, Level of Service, flow models, and how roads are designed to move people.',
-    dragBeam:'Drag the load slider to see how compression (blue) and tension (red) change.',
-    concVsSteel:'Concrete (blue) vs Steel (orange) — note the difference in behavior.',
-    rollBtn:'Roll 100 Dice',rollInfo:'Total: {n} rolls. Expected each: {e}',
-    clickToRoll:'Click "Roll 100 Dice" to run simulation',
-    both:'Both',concreteOnly:'Concrete Only',steelOnly:'Steel Only',
-    stage1Btn:'Stage 1: Uncracked',stage2Btn:'Stage 2: Cracked',stage3Btn:'Stage 3: Failure',
-    pauseBtn:'⏸ Pause',playBtn:'▶ Play',
+function addBot(html, delay) {
+  delay = delay || msgDelay;
+  setTimeout(() => {
+    // Remove any typing indicator
+    const ti = chat.querySelector('.typing-wrap');
+    if (ti) ti.remove();
+    const div = document.createElement('div');
+    div.className = 'msg bot';
+    div.innerHTML = `<div class="msg-avatar">&#8721;</div><div class="msg-body">${html}</div>`;
+    chat.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, delay);
+  msgDelay = delay + 100;
+}
+
+function addUser(text, delay) {
+  delay = delay || msgDelay;
+  setTimeout(() => {
+    const div = document.createElement('div');
+    div.className = 'msg user';
+    div.innerHTML = `<div class="msg-avatar">You</div><div class="msg-body">${text}</div>`;
+    chat.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, delay);
+  msgDelay = delay + 100;
+}
+
+function showTyping(delay) {
+  delay = delay || msgDelay;
+  setTimeout(() => {
+    const div = document.createElement('div');
+    div.className = 'msg bot typing-wrap';
+    div.innerHTML = `<div class="msg-avatar">&#8721;</div><div class="msg-body"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    chat.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, delay);
+  msgDelay = delay + 100;
+}
+
+function addOptions(cards, delay) {
+  delay = delay || msgDelay;
+  setTimeout(() => {
+    const div = document.createElement('div');
+    div.className = 'options';
+    div.innerHTML = cards.map(c => `
+      <a href="${c.href}" class="opt-card" ${c.onclick ? `onclick="${c.onclick}"` : ''}>
+        ${c.badge ? `<span class="opt-badge ${c.badgeClass || ''}">${c.badge}</span>` : ''}
+        <div class="opt-icon">${c.icon}</div>
+        <div class="opt-title">${c.title}</div>
+        <div class="opt-desc">${c.desc}</div>
+      </a>
+    `).join('');
+    chat.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, delay);
+  msgDelay = delay + 100;
+}
+
+// ─── START CONVERSATION ───
+addBot("Hey there! Welcome to <strong>Mathify</strong> &#128075;", 300);
+showTyping(1200);
+addBot("I'm your learning assistant. I can help you with <strong>Math</strong>, <strong>Physics</strong>, and <strong>Civil Engineering</strong>.", 2000);
+showTyping(2800);
+addBot("What would you like to learn today?", 3500);
+addOptions([
+  {
+    icon: '&#128202;',
+    title: 'Mathematics',
+    desc: 'Complete guides for Class 9 through 12. Step-by-step problems, visual explanations, and interactive simulations.',
+    href: 'math.html',
+    badge: 'LIVE',
+    badgeClass: 'live'
   },
-  bn: {
-    tagline:'∑ Mathify · শিক্ষা কেন্দ্র',
-    heroTitle:'আজকে কী <span>শিখবে</span>?',
-    heroSub:'Interactive lesson, simulation ও worked example — মুখস্থ নয়, বোঝার জন্য।',
-    aiName:'Mathify AI',
-    chatGreeting:'হ্যালো! আমি তোমার শিক্ষা গাইড। ',
-    chatMsg1:'আজকে কী শিখতে চাও?',
-    chatMsg2:'নিচের বিষয় থেকে একটি বেছে নাও!',
-    chatMsg3:'প্রতিটি বিশেষজ্ঞ একদিন শিক্ষার্থী ছিল।',
-    mathLabel:'গণিত',mathDesc:'শ্রেণি ৯ – ১২',
-    physicsLabel:'পদার্থবিজ্ঞান',physicsDesc:'শীঘ্রই আসছে',
-    civilLabel:'Civil Engineering',civilDesc:'RC Design · Traffic',
-    back:'← পেছনে',backLessons:'← পাঠ তালিকা',backCivil:'← Civil',
-    mathEyebrow:'গণিত',mathNavTitle:'গণিত · শ্রেণি ৯–১২',
-    mathHubTitle:'শ্রেণি ৯ থেকে ১২ — ভিত্তি থেকে দক্ষতা।',
-    mathHubSub:'প্রতিটি ধারণা প্রথমে intuition দিয়ে, তারপর formula, তারপর অনুশীলন। যেকোনো topic বেছে শুরু করো।',
-    allGrades:'সব শ্রেণি',grade9:'শ্রেণি ৯',grade10:'শ্রেণি ১০',grade11:'শ্রেণি ১১',grade12:'শ্রেণি ১২',
-    algebraSec:'Algebra ও সংখ্যা',geomSec:'জ্যামিতি ও Coordinate Geometry',
-    trigSec:'Trigonometry',calcSec:'Calculus (শ্রেণি ১১–১২)',statsSec:'Statistics ও Probability',
-    showAnswer:'উত্তর দেখাও ▾',hideAnswer:'উত্তর লুকাও ▴',
-    workedExample:'✏️ সমাধান উদাহরণ',practiceProblems:'📝 অনুশীলন সমস্যা',
-    intuitionFirst:'💡 Intuition প্রথমে',liveSim:'🔬 Interactive Simulation',
-    backToTopics:'← Topic তালিকায় ফিরে যাও',comingSoonLesson:'এই পাঠটি তৈরি হচ্ছে। শীঘ্রই আসছে!',
-    physicsComingSoon:'পদার্থবিজ্ঞান<br>শীঘ্রই আসছে।',
-    physicsComingDesc:'Mechanics, wave, thermodynamics এবং আরও অনেক কিছুর interactive simulation তৈরি হচ্ছে।',
-    inDevelopment:'তৈরি হচ্ছে',
-    civilHubTitle:'মূল ধারণাসমূহ,<br>সহজভাবে বোঝানো।',
-    civilHubSub:'Textbook-এর মতো দীর্ঘ লেখা নয়। প্রথমে intuition, তারপর math — সর্বত্র diagram ও simulation।',
-    rcTitle:'Reinforced Concrete Design',
-    rcSub:'RC কেন কাজ করে, load-এ এটি কীভাবে আচরণ করে, এবং beam design-এর জন্য WSD method।',
-    trafficTitle:'Traffic Analysis & Design',
-    trafficSub:'Signal timing, Level of Service, flow model, এবং মানুষ চলাচলের জন্য রাস্তা কীভাবে design করা হয়।',
-    dragBeam:'Load slider টানো — compression (নীল) ও tension (লাল) কীভাবে পরিবর্তন হয় দেখো।',
-    concVsSteel:'Concrete (নীল) বনাম Steel (কমলা) — আচরণের পার্থক্য লক্ষ্য করো।',
-    rollBtn:'১০০টি Dice গড়াও',rollInfo:'মোট: {n} roll। প্রতিটির প্রত্যাশিত: {e}',
-    clickToRoll:'"১০০টি Dice গড়াও" বাটনে ক্লিক করো',
-    both:'উভয়',concreteOnly:'শুধু Concrete',steelOnly:'শুধু Steel',
-    stage1Btn:'Stage 1: Uncracked',stage2Btn:'Stage 2: Cracked',stage3Btn:'Stage 3: Failure',
-    pauseBtn:'⏸ বিরতি',playBtn:'▶ চালাও',
-  }
-};
-
-function t(k){return S[lang][k]||S.en[k]||k;}
-
-function toggleLang(){
-  lang = lang==='en'?'bn':'en';
-  document.body.classList.toggle('bn', lang==='bn');
-  document.getElementById('langBtn').textContent = lang==='en'?'বাংলা':'English';
-  document.documentElement.lang = lang==='bn'?'bn':'en';
-  applyTranslations();
-  // Re-render dynamic screens if active
-  const active = document.querySelector('.screen.active');
-  if(active){
-    if(active.id==='math-hub') renderTopics();
-    if(active.id==='lesson' && currentLesson) openLesson(currentLesson);
-    if(active.id==='rc-lesson') renderRC();
-    if(active.id==='traffic-lesson') renderTraffic();
-  }
-}
-
-function applyTranslations(){
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const k=el.getAttribute('data-i18n');
-    el.textContent=t(k);
-  });
-  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
-    const k=el.getAttribute('data-i18n-html');
-    el.innerHTML=t(k);
-  });
-}
-
-/* =======================================================================
-   SCREEN ROUTING
-======================================================================= */
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  const el=document.getElementById(id);
-  if(el){el.classList.add('active');window.scrollTo(0,0);}
-}
-function goHome(){showScreen('welcome');}
-function showMath(){renderTopics();showScreen('math-hub');}
-function goMath(){showScreen('math-hub');}
-function showPhysics(){showScreen('physics');}
-function showCivil(){showScreen('civil');}
-function showRC(){renderRC();showScreen('rc-lesson');setTimeout(()=>{drawBeam(50);drawSSCurve('both',null);drawStages(1);updateWSD();},250);}
-function showTraffic(){renderTraffic();showScreen('traffic-lesson');setTimeout(()=>{updateTrafficSim();drawSignal();},250);}
-
-/* =======================================================================
-   TYPING ANIMATION
-======================================================================= */
-let mIdx=0,typeTimer=null;
-function typeMessage(){
-  const msgs=[t('chatMsg1'),t('chatMsg2'),t('chatMsg3')];
-  const el=document.getElementById('typedText');
-  const cursor=document.getElementById('typeCursor');
-  if(!el)return;
-  const msg=msgs[mIdx%msgs.length];
-  cursor.style.display='inline-block';
-  let i=0;el.textContent='';
-  const ti=setInterval(()=>{
-    if(i<msg.length){el.textContent+=msg[i++];}
-    else{clearInterval(ti);typeTimer=setTimeout(()=>eraseMessage(),2400);}
-  },50);
-}
-function eraseMessage(){
-  const el=document.getElementById('typedText');
-  if(!el)return;
-  let i=el.textContent.length;
-  const ti=setInterval(()=>{
-    if(i>0){el.textContent=el.textContent.slice(0,-1);i--;}
-    else{clearInterval(ti);mIdx++;typeTimer=setTimeout(typeMessage,400);}
-  },35);
-}
-setTimeout(typeMessage,1600);
-
-/* =======================================================================
-   GRADE FILTER
-======================================================================= */
-function filterGrade(g,btn){
-  document.querySelectorAll('.grade-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.topic-card').forEach(c=>{
-    c.style.display=(g==='all'||c.dataset.grade===g)?'':'none';
-  });
-}
-
-/* =======================================================================
-   TOPIC DATA
-======================================================================= */
-const TOPIC_SECTIONS=[
-  {key:'algebraSec',topics:[
-    {id:'polynomials',grade:'9',icon:'🔢',title:{en:'Polynomials',bn:'Polynomial'},desc:{en:'What they are, how to factor them, and the Remainder Theorem.',bn:'এগুলো কী, কীভাবে factor করতে হয়, এবং Remainder Theorem।'}},
-    {id:'linear-equations',grade:'9',icon:'📏',title:{en:'Linear Equations',bn:'Linear সমীকরণ'},desc:{en:'Solving equations in one & two variables with real-world meaning.',bn:'এক ও দুই variable-এর সমীকরণ সমাধান — বাস্তব জীবনের অর্থসহ।'}},
-    {id:'quadratics',grade:'10',icon:'∪',title:{en:'Quadratic Equations',bn:'Quadratic সমীকরণ'},desc:{en:'Factoring, the quadratic formula, and parabola intuition.',bn:'Factoring, quadratic formula, এবং parabola-র intuition।'}},
-    {id:'complex-numbers',grade:'11',icon:'𝑖',title:{en:'Complex Numbers',bn:'Complex সংখ্যা'},desc:{en:'Why √−1 exists and how to work with imaginary numbers.',bn:'√−1 কেন আছে এবং imaginary সংখ্যা নিয়ে কাজ করার উপায়।'}},
-    {id:'sequences',grade:'11',icon:'🔁',title:{en:'Sequences & Series',bn:'Sequence ও Series'},desc:{en:'Arithmetic & geometric progressions, sum formulas.',bn:'Arithmetic ও geometric progression, যোগফলের formula।'}},
-  ]},
-  {key:'geomSec',topics:[
-    {id:'triangles',grade:'9',icon:'△',title:{en:'Triangles',bn:'ত্রিভুজ'},desc:{en:'Congruence, similarity, and the Pythagoras theorem.',bn:'সর্বসমতা, সাদৃশ্য, এবং Pythagoras theorem।'}},
-    {id:'circles',grade:'10',icon:'○',title:{en:'Circles',bn:'বৃত্ত'},desc:{en:'Tangents, chords, angles, and arc lengths explained visually.',bn:'Tangent, chord, কোণ, এবং arc-এর দৈর্ঘ্য — চিত্রসহ।'}},
-    {id:'coordinate',grade:'10',icon:'📍',title:{en:'Coordinate Geometry',bn:'Coordinate Geometry'},desc:{en:'Distance, midpoint, and slope — geometry meets algebra.',bn:'দূরত্ব, মধ্যবিন্দু, এবং slope — জ্যামিতি ও algebra একসাথে।'}},
-    {id:'straight-lines',grade:'11',icon:'📐',title:{en:'Straight Lines',bn:'সরলরেখা'},desc:{en:'Various forms, slope, angle between lines, distance from point.',bn:'বিভিন্ন রূপ, slope, রেখার মধ্যে কোণ, বিন্দু থেকে দূরত্ব।'}},
-  ]},
-  {key:'trigSec',topics:[
-    {id:'trig-intro',grade:'10',icon:'🌊',title:{en:'Intro to Trigonometry',bn:'Trigonometry পরিচয়'},desc:{en:'Sin, cos, tan from a right triangle — with unit circle simulation.',bn:'Right triangle থেকে sin, cos, tan — unit circle simulation সহ।'}},
-    {id:'trig-identities',grade:'11',icon:'≡',title:{en:'Trig Identities',bn:'Trig Identity'},desc:{en:'Proving identities, compound angles, double-angle formulas.',bn:'Identity প্রমাণ, compound angle, double-angle formula।'}},
-  ]},
-  {key:'calcSec',topics:[
-    {id:'limits',grade:'11',icon:'→',title:{en:'Limits & Continuity',bn:'Limit ও Continuity'},desc:{en:'What does a function approach? The foundation of calculus.',bn:'একটি function কোথায় যাচ্ছে? Calculus-এর ভিত্তি।'}},
-    {id:'derivatives',grade:'12',icon:'d/dx',title:{en:'Derivatives',bn:'Derivative'},desc:{en:'Rate of change, slope of a curve, and differentiation rules.',bn:'পরিবর্তনের হার, curve-এর slope, এবং differentiation নিয়ম।'}},
-    {id:'integrals',grade:'12',icon:'∫',title:{en:'Integration',bn:'Integration'},desc:{en:'Area under a curve, anti-derivatives, and the Fundamental Theorem.',bn:'Curve-এর নিচের ক্ষেত্রফল, anti-derivative, এবং Fundamental Theorem।'}},
-    {id:'applications-calc',grade:'12',icon:'📈',title:{en:'Applications of Calculus',bn:'Calculus-এর প্রয়োগ'},desc:{en:'Maxima, minima, rate problems — calculus in the real world.',bn:'Maxima, minima, হার সমস্যা — বাস্তব জীবনে calculus।'}},
-  ]},
-  {key:'statsSec',topics:[
-    {id:'statistics-basic',grade:'9',icon:'📊',title:{en:'Statistics Basics',bn:'Statistics মূলসূত্র'},desc:{en:'Mean, median, mode, and how to read data.',bn:'Mean, median, mode, এবং data পড়ার উপায়।'}},
-    {id:'probability',grade:'10',icon:'🎲',title:{en:'Probability',bn:'সম্ভাবনা'},desc:{en:'Events, sample space, and the rules of chance — with simulations.',bn:'Event, sample space, এবং সম্ভাবনার নিয়ম — simulation সহ।'}},
-  ]},
-];
-
-function renderTopics(){
-  const container=document.getElementById('topicsContainer');
-  let html='';
-  TOPIC_SECTIONS.forEach(sec=>{
-    html+=`<div class="topics-section"><div class="topics-section-title">${t(sec.key)}</div><div class="topics-grid">`;
-    sec.topics.forEach(tp=>{
-      const gradeLabel = lang==='bn' ? `শ্রেণি ${tp.grade}` : `Grade ${tp.grade}`;
-      html+=`<div class="topic-card" data-grade="${tp.grade}" onclick="openLesson('${tp.id}')">
-        <div class="tc-grade">${gradeLabel}</div>
-        <div class="tc-icon">${tp.icon}</div>
-        <div class="tc-title">${tp.title[lang]||tp.title.en}</div>
-        <div class="tc-desc">${tp.desc[lang]||tp.desc.en}</div>
-        <span class="tc-arrow">→</span>
-      </div>`;
-    });
-    html+='</div></div>';
-  });
-  container.innerHTML=html;
-}
-
-/* =======================================================================
-   BILINGUAL LESSON DATA
-======================================================================= */
-function txt(obj){return typeof obj==='string'?obj:(obj[lang]||obj.en||'');}
-
-const LESSONS={
-  quadratics:{
-    grade:{en:'Grade 10 · Algebra',bn:'শ্রেণি ১০ · Algebra'},
-    title:{en:'Quadratic Equations',bn:'Quadratic সমীকরণ'},
-    intro:{en:'A quadratic is any equation of the form ax² + bx + c = 0. The graph is a parabola — the shape of a thrown ball, a satellite dish, or a suspension bridge cable.',
-           bn:'Quadratic হলো ax² + bx + c = 0 আকারের যেকোনো সমীকরণ। Graph হলো একটি parabola — ছোড়া বলের আকৃতি, satellite dish, বা suspension bridge cable-এর মতো।'},
-    sections:[
-      {type:'text',heading:{en:'What makes it quadratic?',bn:'এটি quadratic কেন?'},
-       text:{en:'The key is the <strong>x²</strong> term. Linear equations give straight lines — one solution. Quadratics curve — usually two solutions (where the parabola crosses the x-axis), sometimes zero, sometimes one.',
-             bn:'মূল বিষয় হলো <strong>x²</strong> পদ। Linear সমীকরণ সরলরেখা তৈরি করে — একটি solution। Quadratic বক্ররেখা তৈরি করে — সাধারণত দুটি solution (যেখানে parabola x-axis কাটে), কখনো শূন্য, কখনো একটি।'},
-       intuition:{en:'Think of throwing a ball upward. Height follows a quadratic equation in time. The ball rises, peaks, then falls — the two times when height = 0 are the two solutions (it left and it landed).',
-                  bn:'ভাবো একটি বল উপরে ছুড়ে দিলে। উচ্চতা সময়ের quadratic equation মেনে চলে। বল উঠে, সর্বোচ্চে পৌঁছায়, আবার পড়ে — height = 0 হওয়ার দুটি সময় হলো দুটি solution।'}},
-      {type:'steps',heading:{en:'Three Ways to Solve',bn:'সমাধানের তিনটি উপায়'},
-       steps:[
-         {title:{en:'Method 1: Factoring',bn:'পদ্ধতি ১: Factoring'},
-          detail:{en:'If x² + 5x + 6 = 0, find two numbers that multiply to 6 and add to 5 → 2 and 3. So (x+2)(x+3)=0 → x = −2 or x = −3.',
-                  bn:'যদি x² + 5x + 6 = 0 হয়, এমন দুটি সংখ্যা খোঁজো যাদের গুণফল 6 এবং যোগফল 5 → 2 এবং 3। তাহলে (x+2)(x+3)=0 → x = −2 অথবা x = −3।'}},
-         {title:{en:'Method 2: Completing the Square',bn:'পদ্ধতি ২: Completing the Square'},
-          detail:{en:'x²+4x−5=0 → x²+4x=5 → (x+2)²=9 → x+2=±3 → x=1 or x=−5.',
-                  bn:'x²+4x−5=0 → x²+4x=5 → (x+2)²=9 → x+2=±3 → x=1 অথবা x=−5।'}},
-         {title:{en:'Method 3: Quadratic Formula',bn:'পদ্ধতি ৩: Quadratic Formula'},
-          detail:{en:'x = [−b ± √(b²−4ac)] / 2a. Works for ANY quadratic. Discriminant b²−4ac: >0 two real roots, =0 one root, <0 no real roots.',
-                  bn:'x = [−b ± √(b²−4ac)] / 2a। যেকোনো quadratic-এর জন্য কাজ করে। Discriminant b²−4ac: >0 দুটি real root, =0 একটি root, <0 কোনো real root নেই।'}},
-       ]},
-      {type:'canvas',heading:{en:'Interactive Parabola',bn:'Interactive Parabola'},canvasId:'quadCanvas',
-       controls:[
-         {label:'a',id:'aSlider',min:'-30',max:'30',val:'10',step:'1',disp:'aVal'},
-         {label:'b',id:'bSlider',min:'-50',max:'50',val:'0',step:'5',disp:'bVal'},
-         {label:'c',id:'cSlider',min:'-100',max:'100',val:'-20',step:'5',disp:'cVal'},
-       ]},
-      {type:'example',heading:{en:'Worked Example',bn:'সমাধান উদাহরণ'},
-       problem:{en:'Solve 2x² − 5x − 3 = 0',bn:'সমাধান করো: 2x² − 5x − 3 = 0'},
-       steps:[
-         {en:'Identify: a=2, b=−5, c=−3',bn:'চিহ্নিত করো: a=2, b=−5, c=−3'},
-         {en:'Discriminant: b²−4ac = 25+24 = 49 → √49 = 7',bn:'Discriminant: b²−4ac = 25+24 = 49 → √49 = 7'},
-         {en:'x = (5 ± 7)/4',bn:'x = (5 ± 7)/4'},
-         {en:'x₁ = (5+7)/4 = 3',bn:'x₁ = (5+7)/4 = 3'},
-         {en:'x₂ = (5−7)/4 = −0.5',bn:'x₂ = (5−7)/4 = −0.5'},
-       ]},
-      {type:'practice',heading:{en:'Practice',bn:'অনুশীলন'},
-       problems:[
-         {q:{en:'Solve x² − 7x + 12 = 0',bn:'সমাধান করো: x² − 7x + 12 = 0'},a:{en:'Factor: (x−3)(x−4)=0 → x=3 or x=4',bn:'Factor: (x−3)(x−4)=0 → x=3 অথবা x=4'}},
-         {q:{en:'Solve 3x² + 2x − 1 = 0',bn:'সমাধান করো: 3x² + 2x − 1 = 0'},a:{en:'Quadratic formula: x=[−2±√16]/6 → x=1/3 or x=−1',bn:'Quadratic formula: x=[−2±√16]/6 → x=1/3 অথবা x=−1'}},
-         {q:{en:'For what k does x²+kx+9=0 have exactly one solution?',bn:'k-এর কোন মান-এর জন্য x²+kx+9=0 সমীকরণের ঠিক একটি solution আছে?'},a:{en:'Discriminant=0: k²−36=0 → k=±6',bn:'Discriminant=0: k²−36=0 → k=±6'}},
-       ]},
-    ]
+  {
+    icon: '&#9883;',
+    title: 'Physics',
+    desc: 'Mechanics, thermodynamics, waves, optics, and modern physics. Visual and intuitive.',
+    href: 'physics.html',
+    badge: 'COMING SOON',
+    badgeClass: 'soon'
   },
-  derivatives:{
-    grade:{en:'Grade 12 · Calculus',bn:'শ্রেণি ১২ · Calculus'},
-    title:{en:'Derivatives',bn:'Derivative'},
-    intro:{en:'A derivative measures how fast something is changing at any instant. The slope of a curve at a point. The speedometer reading of a moving object.',
-           bn:'Derivative হলো কোনো কিছু কত দ্রুত পরিবর্তন হচ্ছে তার পরিমাপ। Curve-এর কোনো বিন্দুতে slope। চলমান বস্তুর speedometer-এর পাঠ।'},
-    sections:[
-      {type:'text',heading:{en:'What is a derivative?',bn:'Derivative কী?'},
-       text:{en:'The slope of a <strong>straight line</strong> is constant: rise/run. But curves have <strong>different slopes at every point</strong>. A derivative gives you the exact slope at any specific point — by taking the limit of the rise/run as the run shrinks to zero.',
-             bn:'<strong>সরলরেখার</strong> slope সর্বত্র একই: rise/run। কিন্তু বক্ররেখার <strong>প্রতিটি বিন্দুতে slope আলাদা</strong>। Derivative হলো যেকোনো নির্দিষ্ট বিন্দুতে সঠিক slope — run শূন্যের দিকে কমিয়ে rise/run-এর limit নিয়ে।'},
-       intuition:{en:'You\'re driving a car. The speedometer shows instantaneous speed — the derivative of your position. Average speed over an hour is a regular ratio. But the speedometer at this exact moment? That\'s the derivative.',
-                  bn:'ভাবো তুমি গাড়ি চালাচ্ছো। Speedometer দেখায় instantaneous speed — তোমার position-এর derivative। এক ঘণ্টার গড় গতিবেগ হলো সাধারণ অনুপাত। কিন্তু এই মুহূর্তের speedometer? সেটাই derivative।'}},
-      {type:'formula',heading:{en:'The Definition',bn:'সংজ্ঞা'},
-       formula:"f'(x) = lim(h→0) [f(x+h) − f(x)] / h",label:{en:'Limit Definition of Derivative',bn:'Derivative-এর Limit সংজ্ঞা'}},
-      {type:'steps',heading:{en:'Differentiation Rules',bn:'Differentiation-এর নিয়মসমূহ'},
-       steps:[
-         {title:{en:'Power Rule',bn:'Power Rule'},detail:{en:'d/dx [xⁿ] = n·xⁿ⁻¹. Example: d/dx [x³] = 3x²',bn:'d/dx [xⁿ] = n·xⁿ⁻¹। উদাহরণ: d/dx [x³] = 3x²'}},
-         {title:{en:'Sum/Difference Rule',bn:'Sum/Difference Rule'},detail:{en:"d/dx [f±g] = f'±g'",bn:"d/dx [f±g] = f'±g'"}},
-         {title:{en:'Product Rule',bn:'Product Rule'},detail:{en:"d/dx [f·g] = f'g + fg'",bn:"d/dx [f·g] = f'g + fg'"}},
-         {title:{en:'Chain Rule',bn:'Chain Rule'},detail:{en:"d/dx [f(g(x))] = f'(g(x))·g'(x). Example: d/dx [sin(x²)] = cos(x²)·2x",bn:"d/dx [f(g(x))] = f'(g(x))·g'(x)। উদাহরণ: d/dx [sin(x²)] = cos(x²)·2x"}},
-       ]},
-      {type:'canvas',heading:{en:'Slope of a Curve — Live',bn:'Curve-এর Slope — Live'},canvasId:'derivCanvas',
-       controls:[{label:'x',id:'xSlider',min:'-30',max:'30',val:'5',step:'1',disp:'xVal'}]},
-      {type:'example',heading:{en:'Worked Example',bn:'সমাধান উদাহরণ'},
-       problem:{en:"Find f'(x) if f(x) = 3x⁴ − 2x² + 5x − 7",bn:"f'(x) বের করো যদি f(x) = 3x⁴ − 2x² + 5x − 7 হয়"},
-       steps:[
-         {en:'Apply power rule term by term',bn:'প্রতিটি পদে power rule প্রয়োগ করো'},
-         {en:'d/dx[3x⁴] = 12x³',bn:'d/dx[3x⁴] = 12x³'},
-         {en:'d/dx[−2x²] = −4x',bn:'d/dx[−2x²] = −4x'},
-         {en:'d/dx[5x] = 5  and  d/dx[−7] = 0',bn:'d/dx[5x] = 5  এবং  d/dx[−7] = 0'},
-         {en:"f'(x) = 12x³ − 4x + 5",bn:"f'(x) = 12x³ − 4x + 5"},
-       ]},
-      {type:'practice',heading:{en:'Practice',bn:'অনুশীলন'},
-       problems:[
-         {q:{en:'Differentiate f(x) = x⁵ − 3x³ + 2x',bn:'Differentiate করো: f(x) = x⁵ − 3x³ + 2x'},a:{en:"f'(x) = 5x⁴ − 9x² + 2",bn:"f'(x) = 5x⁴ − 9x² + 2"}},
-         {q:{en:'Find dy/dx if y = (2x+1)³',bn:'dy/dx বের করো যদি y = (2x+1)³ হয়'},a:{en:'Chain rule: dy/dx = 3(2x+1)²·2 = 6(2x+1)²',bn:'Chain rule: dy/dx = 3(2x+1)²·2 = 6(2x+1)²'}},
-         {q:{en:'At what x does f(x) = x³ − 3x have a horizontal tangent?',bn:'কোন x-এ f(x) = x³ − 3x-এর tangent অনুভূমিক?'},a:{en:"f'(x)=3x²−3=0 → x=±1",bn:"f'(x)=3x²−3=0 → x=±1"}},
-       ]},
-    ]
-  },
-  'trig-intro':{
-    grade:{en:'Grade 10 · Trigonometry',bn:'শ্রেণি ১০ · Trigonometry'},
-    title:{en:'Introduction to Trigonometry',bn:'Trigonometry পরিচয়'},
-    intro:{en:'Trigonometry is the mathematics of right triangles and circles. It appears in waves, pendulums, engineering, music, and almost everywhere in nature.',
-           bn:'Trigonometry হলো right triangle ও বৃত্তের গণিত। Wave, pendulum, engineering, সংগীত এবং প্রকৃতির প্রায় সর্বত্র এটি দেখা যায়।'},
-    sections:[
-      {type:'text',heading:{en:'SOH-CAH-TOA',bn:'SOH-CAH-TOA'},
-       text:{en:'In a right triangle with angle θ: <strong>Sine</strong> = opposite/hypotenuse, <strong>Cosine</strong> = adjacent/hypotenuse, <strong>Tangent</strong> = opposite/adjacent.',
-             bn:'θ কোণবিশিষ্ট right triangle-এ: <strong>Sine</strong> = বিপরীত/অতিভুজ, <strong>Cosine</strong> = সন্নিহিত/অতিভুজ, <strong>Tangent</strong> = বিপরীত/সন্নিহিত।'},
-       intuition:{en:'Think of a ladder leaning against a wall. The angle it makes with the ground is θ. Sin θ tells you how high up the wall you reach per unit ladder length. Cos θ tells you how far the base is from the wall per unit of ladder length.',
-                  bn:'ভাবো একটি মই দেয়ালে হেলান দিয়ে আছে। মাটির সাথে যে কোণ তৈরি হয় সেটি θ। Sin θ বলে, মইয়ের প্রতি একক দৈর্ঘ্যে দেয়ালে কতটুকু উচ্চতায় পৌঁছাবে। Cos θ বলে, মইয়ের গোড়া দেয়াল থেকে কতটুকু দূরে।'}},
-      {type:'canvas',heading:{en:'Unit Circle — Live Animation',bn:'Unit Circle — Live Animation'},canvasId:'trigCanvas',
-       controls:[{label:'θ',id:'thetaSlider',min:'0',max:'360',val:'45',step:'1',disp:'thetaVal'}]},
-      {type:'trig-table'},
-      {type:'example',heading:{en:'Worked Example',bn:'সমাধান উদাহরণ'},
-       problem:{en:'A 5m ladder leans against a wall at 60° to the ground. How high does it reach?',bn:'একটি 5m মই 60° কোণে দেয়ালে হেলান দিয়ে আছে। এটি কত উচ্চতায় পৌঁছায়?'},
-       steps:[
-         {en:'We want the height: opposite side to 60°',bn:'উচ্চতা চাই: 60°-এর বিপরীত বাহু'},
-         {en:'sin(60°) = height/5',bn:'sin(60°) = উচ্চতা/5'},
-         {en:'height = 5 × sin(60°) = 5 × (√3/2)',bn:'উচ্চতা = 5 × sin(60°) = 5 × (√3/2)'},
-         {en:'height = 5√3/2 ≈ 4.33 m',bn:'উচ্চতা = 5√3/2 ≈ 4.33 m'},
-       ]},
-      {type:'practice',heading:{en:'Practice',bn:'অনুশীলন'},
-       problems:[
-         {q:{en:'Find all sides if one angle is 30° and hypotenuse = 10.',bn:'যদি একটি কোণ 30° এবং অতিভুজ = 10 হয়, সব বাহু বের করো।'},a:{en:'Opp=10 sin30°=5; Adj=10 cos30°=5√3≈8.66',bn:'বিপরীত=10 sin30°=5; সন্নিহিত=10 cos30°=5√3≈8.66'}},
-         {q:{en:'A tree casts a 12m shadow when sun is at 40° elevation. Find height.',bn:'সূর্য 40° উচ্চতায় থাকলে একটি গাছ 12m ছায়া ফেলে। গাছের উচ্চতা বের করো।'},a:{en:'tan(40°)=height/12 → height≈10.07m',bn:'tan(40°)=উচ্চতা/12 → উচ্চতা≈10.07m'}},
-       ]},
-    ]
-  },
-  probability:{
-    grade:{en:'Grade 10 · Statistics',bn:'শ্রেণি ১০ · Statistics'},
-    title:{en:'Probability',bn:'সম্ভাবনা'},
-    intro:{en:'Probability is the mathematics of uncertainty. It tells us how likely events are — from simple coin flips to medical test accuracy to the chance of rain tomorrow.',
-           bn:'Probability হলো অনিশ্চয়তার গণিত। এটি আমাদের বলে ঘটনা কতটা সম্ভব — সাধারণ coin flip থেকে চিকিৎসা পরীক্ষার নির্ভুলতা এবং আগামীকাল বৃষ্টির সম্ভাবনা পর্যন্ত।'},
-    sections:[
-      {type:'text',heading:{en:'Basic Definitions',bn:'মূল সংজ্ঞাসমূহ'},
-       text:{en:'<strong>Sample space S</strong>: all possible outcomes. <strong>Event A</strong>: a subset of outcomes. <strong>P(A)</strong> = favourable outcomes / total outcomes (for equally likely outcomes).',
-             bn:'<strong>Sample space S</strong>: সমস্ত সম্ভাব্য ফলাফল। <strong>Event A</strong>: ফলাফলের একটি উপসেট। <strong>P(A)</strong> = অনুকূল ফলাফল / মোট ফলাফল (সমান সম্ভাবনার ক্ষেত্রে)।'},
-       intuition:{en:'Rolling a die: S={1,2,3,4,5,6}. Event "getting an even number" = {2,4,6}. P(even) = 3/6 = 1/2. Simple!',
-                  bn:'Dice গড়ানো: S={1,2,3,4,5,6}। Event "জোড় সংখ্যা পাওয়া" = {2,4,6}। P(জোড়) = 3/6 = 1/2। সহজ!'}},
-      {type:'steps',heading:{en:'Key Rules',bn:'মূল নিয়মসমূহ'},
-       steps:[
-         {title:{en:'Addition Rule',bn:'Addition Rule'},detail:{en:'P(A or B) = P(A)+P(B)−P(A and B). If mutually exclusive: P(A or B)=P(A)+P(B)',bn:'P(A বা B) = P(A)+P(B)−P(A এবং B)। Mutually exclusive হলে: P(A বা B)=P(A)+P(B)'}},
-         {title:{en:'Multiplication Rule',bn:'Multiplication Rule'},detail:{en:'P(A and B) = P(A)×P(B|A). If independent: P(A and B)=P(A)×P(B)',bn:'P(A এবং B) = P(A)×P(B|A)। Independent হলে: P(A এবং B)=P(A)×P(B)'}},
-         {title:{en:'Complement Rule',bn:'Complement Rule'},detail:{en:'P(not A) = 1−P(A). Very useful for "at least one" problems.',bn:'P(A নয়) = 1−P(A)। "কমপক্ষে একটি" সমস্যার জন্য খুবই কার্যকর।'}},
-       ]},
-      {type:'prob-sim'},
-      {type:'example',heading:{en:'Worked Example',bn:'সমাধান উদাহরণ'},
-       problem:{en:'A bag has 3 red, 4 blue, 2 green balls. Find P(not blue) and P(red or green).',bn:'একটি থলিতে 3টি লাল, 4টি নীল, 2টি সবুজ বল আছে। P(নীল নয়) এবং P(লাল বা সবুজ) বের করো।'},
-       steps:[
-         {en:'Total = 3+4+2 = 9',bn:'মোট = 3+4+2 = 9'},
-         {en:'P(blue) = 4/9',bn:'P(নীল) = 4/9'},
-         {en:'P(not blue) = 1−4/9 = 5/9',bn:'P(নীল নয়) = 1−4/9 = 5/9'},
-         {en:'P(red or green) = 3/9 + 2/9 = 5/9 ✓',bn:'P(লাল বা সবুজ) = 3/9 + 2/9 = 5/9 ✓'},
-       ]},
-      {type:'practice',heading:{en:'Practice',bn:'অনুশীলন'},
-       problems:[
-         {q:{en:'A card is drawn from a 52-card deck. Find P(king or red).',bn:'52-পাতার একটি তাসের প্যাকেট থেকে একটি তাস তোলা হলো। P(king বা লাল) বের করো।'},a:{en:'4/52 + 26/52 − 2/52 = 28/52 = 7/13',bn:'4/52 + 26/52 − 2/52 = 28/52 = 7/13'}},
-         {q:{en:'P(A)=0.4, P(B)=0.3, independent. Find P(A∩B) and P(A∪B).',bn:'P(A)=0.4, P(B)=0.3, independent। P(A∩B) এবং P(A∪B) বের করো।'},a:{en:'P(A∩B)=0.12; P(A∪B)=0.58',bn:'P(A∩B)=0.12; P(A∪B)=0.58'}},
-       ]},
-    ]
-  },
-};
-
-let currentLesson=null;
-
-function openLesson(id){
-  currentLesson=id;
-  const data=LESSONS[id];
-  if(!data){
-    document.getElementById('lessonNavTitle').textContent=id.replace(/-/g,' ');
-    document.getElementById('lessonBody').innerHTML=`
-      <div class="lesson-header">
-        <div class="lesson-grade">${t('mathEyebrow')}</div>
-        <h1 class="lesson-title">${id.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</h1>
-        <p class="lesson-intro">${t('comingSoonLesson')}</p>
-      </div>
-      <div style="text-align:center;padding:4rem 0;">
-        <span style="font-size:3rem;display:block;margin-bottom:1rem;">🚧</span>
-        <button onclick="goMath()" class="sim-btn">${t('backToTopics')}</button>
-      </div>`;
-    showScreen('lesson');return;
+  {
+    icon: '&#127959;',
+    title: 'Civil Engineering',
+    desc: 'RC Design & Traffic Engineering. Focused lectures with simulations, videos, and practice problems.',
+    href: 'civil.html',
+    badge: 'LIVE',
+    badgeClass: 'live'
   }
-  document.getElementById('lessonNavTitle').textContent=txt(data.title);
-  let html=`<div class="lesson-header">
-    <div class="lesson-grade">${txt(data.grade)}</div>
-    <h1 class="lesson-title">${txt(data.title)}</h1>
-    <p class="lesson-intro">${txt(data.intro)}</p>
-  </div>`;
-  data.sections.forEach(sec=>{ html+=renderSection(sec); });
-  document.getElementById('lessonBody').innerHTML=html;
-  showScreen('lesson');
-  setTimeout(()=>{
-    if(id==='quadratics') drawParabola();
-    if(id==='derivatives') drawDerivative();
-    if(id==='trig-intro') drawUnitCircle();
-    if(id==='probability') drawProbSim();
-  },120);
+], 4200);
+
+/* ─── DARK / LIGHT MODE ─── */
+const toggleBtn = document.getElementById('themeToggle');
+const root = document.documentElement;
+function setTheme(t) {
+  root.setAttribute('data-theme', t);
+  toggleBtn.textContent = t === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19';
+  localStorage.setItem('mathify-theme', t);
 }
+const saved = localStorage.getItem('mathify-theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+setTheme(saved || (prefersDark ? 'dark' : 'light'));
+toggleBtn.addEventListener('click', () => {
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
 
-function renderSection(sec){
-  let h=`<div class="lesson-section">`;
-  if(sec.heading) h+=`<div class="ls-heading">${txt(sec.heading)}</div>`;
-  if(sec.type==='text'||!sec.type){
-    if(sec.text) h+=`<p class="ls-text">${txt(sec.text)}</p>`;
-    if(sec.intuition) h+=`<div class="intuition-box"><div class="ib-label">${t('intuitionFirst')}</div><div class="ib-text">${txt(sec.intuition)}</div></div>`;
-  }
-  if(sec.type==='formula'){
-    h+=`<div class="formula-block"><div class="formula-label">${txt(sec.label||{en:'Formula',bn:'Formula'})}</div>${sec.formula}</div>`;
-  }
-  if(sec.type==='steps'){
-    h+=`<div class="key-concepts">`;
-    sec.steps.forEach(s=>h+=`<div class="kc-item"><div class="kc-title">${txt(s.title)}</div><div class="kc-text">${txt(s.detail)}</div></div>`);
-    h+=`</div>`;
-  }
-  if(sec.type==='canvas'){
-    h+=`<div class="sim-container"><div class="sim-header"><span class="sim-title">${t('liveSim')}</span></div><div class="sim-body"><canvas id="${sec.canvasId}" height="220"></canvas>`;
-    if(sec.controls) sec.controls.forEach(c=>{
-      h+=`<div class="sim-slider-group"><span class="sim-slider-label">${c.label}</span>
-      <input type="range" id="${c.id}" min="${c.min}" max="${c.max}" value="${c.val}" step="${c.step||1}" oninput="onLessonSlider()">
-      <span class="sim-value" id="${c.disp}">${c.val}</span></div>`;
-    });
-    h+=`</div></div>`;
-  }
-  if(sec.type==='example'){
-    h+=`<div class="example-box"><div class="example-header"><span class="example-title">${t('workedExample')}</span></div><div class="example-body">
-    <div class="example-problem">${txt(sec.problem)}</div><div class="solution-steps">`;
-    sec.steps.forEach((s,i)=>h+=`<div class="step"><div class="step-num">${i+1}</div><div class="step-content">${txt(s)}</div></div>`);
-    h+=`</div></div></div>`;
-  }
-  if(sec.type==='practice'){
-    h+=`<div class="practice-section"><div class="ps-header">${t('practiceProblems')}</div>`;
-    sec.problems.forEach((p,i)=>{
-      h+=`<div class="practice-problem">
-        <div class="pp-q"><strong>${lang==='bn'?'প্র':'P'}${i+1}.</strong> ${txt(p.q)}</div>
-        <button class="pp-toggle" onclick="toggleAnswer(this)">${t('showAnswer')}</button>
-        <div class="pp-answer">${txt(p.a)}</div>
-      </div>`;
-    });
-    h+=`</div>`;
-  }
-  if(sec.type==='trig-table'){
-    h+=`<div class="trig-table-wrap"><table class="trig-table">
-    <tr><th>θ</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th></tr>
-    <tr><td>sin θ</td><td>0</td><td>1/2</td><td>√2/2</td><td>√3/2</td><td>1</td></tr>
-    <tr><td>cos θ</td><td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td></tr>
-    <tr><td>tan θ</td><td>0</td><td>1/√3</td><td>1</td><td>√3</td><td>∞</td></tr>
-    </table></div>`;
-  }
-  if(sec.type==='prob-sim'){
-    h+=`<div class="sim-container"><div class="sim-header"><span class="sim-title">🎲 ${lang==='bn'?'Dice Roll Simulation':'Dice Roll Simulation'}</span></div>
-    <div class="sim-body"><canvas id="probCanvas" height="200"></canvas>
-    <div class="sim-controls"><button class="sim-btn" id="rollBtn" onclick="rollDice(100)">${t('rollBtn')}</button></div>
-    </div></div>`;
-  }
-  h+=`</div>`;return h;
-}
-
-function onLessonSlider(){
-  if(document.getElementById('quadCanvas')) drawParabola();
-  if(document.getElementById('derivCanvas')) drawDerivative();
-  if(document.getElementById('thetaSlider')){
-    const v=document.getElementById('thetaSlider').value;
-    document.getElementById('thetaVal').textContent=v+'°';
-    drawUnitCircle();
-  }
-}
-
-function toggleAnswer(btn){
-  const ans=btn.nextElementSibling;
-  ans.classList.toggle('show');
-  btn.textContent=ans.classList.contains('show')?t('hideAnswer'):t('showAnswer');
-}
-
-/* =======================================================================
-   CANVAS HELPERS
-======================================================================= */
-function getCtx(id,h){
-  const c=document.getElementById(id);if(!c)return null;
-  c.width=c.offsetWidth||800;if(h)c.height=h;
-  return c.getContext('2d');
-}
-function dark(ctx,w,h){ctx.fillStyle='#161b22';ctx.fillRect(0,0,w,h);}
-
-/* --- PARABOLA --- */
-function drawParabola(){
-  const a=parseFloat(document.getElementById('aSlider')?.value||10)/10;
-  const b=parseFloat(document.getElementById('bSlider')?.value||0)/10;
-  const cv=parseFloat(document.getElementById('cSlider')?.value||-20)/10;
-  if(document.getElementById('aVal'))document.getElementById('aVal').textContent=a.toFixed(1);
-  if(document.getElementById('bVal'))document.getElementById('bVal').textContent=b.toFixed(1);
-  if(document.getElementById('cVal'))document.getElementById('cVal').textContent=cv.toFixed(1);
-  const ctx=getCtx('quadCanvas',220);if(!ctx)return;
-  const c=document.getElementById('quadCanvas');
-  const w=c.width;dark(ctx,w,220);
-  const cx=w/2,cy=110,sc=18;
-  ctx.strokeStyle='#334155';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(w,cy);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,220);ctx.stroke();
-  ctx.strokeStyle='rgba(51,65,85,0.3)';ctx.lineWidth=0.5;
-  for(let i=-10;i<=10;i++){if(!i)continue;
-    ctx.beginPath();ctx.moveTo(cx+i*sc,0);ctx.lineTo(cx+i*sc,220);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(0,cy+i*sc);ctx.lineTo(w,cy+i*sc);ctx.stroke();}
-  ctx.strokeStyle='#a78bfa';ctx.lineWidth=2.5;ctx.beginPath();let st=false;
-  for(let px=0;px<w;px++){
-    const x=(px-cx)/sc;const y=a*x*x+b*x+cv;const py=cy-y*sc;
-    if(py>=-50&&py<=270){if(!st){ctx.moveTo(px,py);st=true;}else ctx.lineTo(px,py);}else st=false;}
-  ctx.stroke();
-  const disc=b*b-4*a*cv;
-  if(disc>=0&&a!==0){
-    const r1=(-b+Math.sqrt(disc))/(2*a),r2=(-b-Math.sqrt(disc))/(2*a);
-    [r1,r2].forEach(r=>{ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.arc(cx+r*sc,cy,5,0,Math.PI*2);ctx.fill();});
-    ctx.fillStyle='#f59e0b';ctx.font='10px Space Mono';ctx.textAlign='center';
-    ctx.fillText('x='+r1.toFixed(2),cx+r1*sc,cy-12);
-    if(Math.abs(r1-r2)>0.1)ctx.fillText('x='+r2.toFixed(2),cx+r2*sc,cy-12);}
-  ctx.fillStyle='#94a3b8';ctx.font='12px DM Sans';ctx.textAlign='left';
-  ctx.fillText(`f(x) = ${a}x² ${b>=0?'+':''}${b}x ${cv>=0?'+':''}${cv}`,10,20);
-  ctx.fillStyle=disc<0?'#f87171':'#34d399';
-  ctx.fillText(disc<0?(lang==='bn'?'কোনো real root নেই (Δ<0)':'No real roots (Δ<0)'):`Δ = ${disc.toFixed(1)}`,10,40);
-}
-
-/* --- DERIVATIVE --- */
-function drawDerivative(){
-  const xp=parseFloat(document.getElementById('xSlider')?.value||5)/5;
-  if(document.getElementById('xVal'))document.getElementById('xVal').textContent=xp.toFixed(1);
-  const ctx=getCtx('derivCanvas',220);if(!ctx)return;
-  const c=document.getElementById('derivCanvas');
-  const w=c.width;dark(ctx,w,220);
-  const cx=w/2,cy=110,sc=20;
-  ctx.strokeStyle='#334155';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(w,cy);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,220);ctx.stroke();
-  const f=x=>x*x*x-3*x,fp=x=>3*x*x-3;
-  ctx.strokeStyle='#60a5fa';ctx.lineWidth=2;ctx.beginPath();
-  for(let px=0;px<w;px++){const x=(px-cx)/sc;const py=cy-f(x)*sc;if(py>-50&&py<270){if(px===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}}
-  ctx.stroke();
-  const slope=fp(xp),y0=f(xp);
-  ctx.strokeStyle='#f59e0b';ctx.lineWidth=1.5;
-  ctx.beginPath();
-  ctx.moveTo(cx-5*sc,cy-(y0+slope*(-5-xp))*sc);
-  ctx.lineTo(cx+5*sc,cy-(y0+slope*(5-xp))*sc);
-  ctx.stroke();
-  ctx.fillStyle='#f87171';ctx.beginPath();ctx.arc(cx+xp*sc,cy-y0*sc,6,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#e2e8f0';ctx.font='12px DM Sans';ctx.textAlign='left';
-  ctx.fillText('f(x) = x³ − 3x',10,20);
-  ctx.fillStyle='#f59e0b';
-  ctx.fillText(`x=${xp.toFixed(1)}: slope = ${slope.toFixed(2)}`,10,40);
-}
-
-/* --- UNIT CIRCLE --- */
-function drawUnitCircle(){
-  const theta=parseFloat(document.getElementById('thetaSlider')?.value||45);
-  if(document.getElementById('thetaVal'))document.getElementById('thetaVal').textContent=theta+'°';
-  const ctx=getCtx('trigCanvas',220);if(!ctx)return;
-  const c=document.getElementById('trigCanvas');
-  const w=c.width;dark(ctx,w,220);
-  const cx=w/2,cy=110,r=90;
-  ctx.strokeStyle='#334155';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(cx-r-20,cy);ctx.lineTo(cx+r+20,cy);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(cx,cy-r-20);ctx.lineTo(cx,cy+r+20);ctx.stroke();
-  ctx.strokeStyle='#1e3a5f';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
-  const rad=theta*Math.PI/180;
-  const px=cx+r*Math.cos(rad),py=cy-r*Math.sin(rad);
-  ctx.fillStyle='rgba(167,139,250,0.1)';
-  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,cy);ctx.lineTo(px,py);ctx.closePath();ctx.fill();
-  ctx.strokeStyle='#a78bfa';ctx.lineWidth=2;
-  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
-  ctx.strokeStyle='#34d399';ctx.lineWidth=2;
-  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,cy);ctx.stroke();
-  ctx.strokeStyle='#f87171';ctx.lineWidth=2;
-  ctx.beginPath();ctx.moveTo(px,cy);ctx.lineTo(px,py);ctx.stroke();
-  ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.arc(px,py,7,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle='rgba(245,158,11,0.6)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.arc(cx,cy,30,0,-rad,rad>0);ctx.stroke();
-  ctx.font='12px DM Sans';ctx.textAlign='left';
-  ctx.fillStyle='#f87171';ctx.fillText('sin θ = '+Math.sin(rad).toFixed(3),10,20);
-  ctx.fillStyle='#34d399';ctx.fillText('cos θ = '+Math.cos(rad).toFixed(3),10,40);
-  ctx.fillStyle='#f59e0b';ctx.fillText('tan θ = '+(Math.abs(Math.cos(rad))<0.01?'∞':Math.tan(rad).toFixed(3)),10,60);
-  ctx.fillStyle='#94a3b8';ctx.fillText('θ = '+theta+'°',10,80);
-  // axis labels
-  ctx.fillStyle='#334155';ctx.font='10px Space Mono';ctx.textAlign='center';
-  ctx.fillText('1',cx+r+10,cy+14);ctx.fillText('-1',cx-r-12,cy+14);
-  ctx.fillStyle='#334155';ctx.fillText('1',cx+8,cy-r-8);ctx.fillText('-1',cx+8,cy+r+14);
-}
-
-/* --- PROBABILITY SIM --- */
-let rollCounts={1:0,2:0,3:0,4:0,5:0,6:0},totalRolls=0;
-function drawProbSim(){
-  const ctx=getCtx('probCanvas',200);if(!ctx)return;
-  const c=document.getElementById('probCanvas');
-  const w=c.width;dark(ctx,w,200);
-  if(totalRolls===0){
-    ctx.fillStyle='#475569';ctx.font='14px DM Sans';ctx.textAlign='center';
-    ctx.fillText(t('clickToRoll'),w/2,100);return;
-  }
-  const bw=(w-80)/6,maxC=Math.max(...Object.values(rollCounts));
-  for(let i=1;i<=6;i++){
-    const h=(rollCounts[i]/maxC)*150;
-    const x=40+(i-1)*bw;
-    ctx.fillStyle=`hsl(${i*50+180},60%,55%)`;
-    ctx.fillRect(x,185-h,bw-8,h);
-    ctx.fillStyle='#94a3b8';ctx.font='11px Space Mono';ctx.textAlign='center';
-    ctx.fillText(i,x+bw/2-4,198);
-    ctx.fillStyle='#e2e8f0';ctx.font='10px Space Mono';
-    ctx.fillText(rollCounts[i],x+bw/2-4,180-h);
-  }
-  ctx.fillStyle='#475569';ctx.font='11px DM Sans';ctx.textAlign='left';
-  const info=t('rollInfo').replace('{n}',totalRolls).replace('{e}',Math.round(totalRolls/6));
-  ctx.fillText(info,10,20);
-}
-function rollDice(n){for(let i=0;i<n;i++){const r=Math.floor(Math.random()*6)+1;rollCounts[r]++;totalRolls++;}drawProbSim();}
-
-/* =======================================================================
-   RC LESSON
-======================================================================= */
-const RC = {
-  tabs: [
-    {id:'why-rc',label:{en:'Why RC?',bn:'RC কেন?'}},
-    {id:'materials',label:{en:'Materials',bn:'Materials'}},
-    {id:'loading',label:{en:'3 Stages',bn:'৩টি Stage'}},
-    {id:'wsd',label:{en:'WSD Method',bn:'WSD পদ্ধতি'}},
-    {id:'beam-design',label:{en:'Beam Design',bn:'Beam Design'}},
-  ],
-  content: {
-    'why-rc':{
-      heading:{en:'The Big Idea',bn:'মূল ধারণা'},
-      text:{en:'Imagine trying to build a bridge using only chalk. Chalk can take a lot of squeezing (compression) but snap it and it breaks instantly — it has no <strong>tensile strength</strong>. Plain concrete is the same. Steel, on the other hand, handles tension brilliantly. <strong>Reinforced concrete combines both</strong>: concrete handles compression, steel handles tension.',
-            bn:'ভাবো শুধু চক দিয়ে একটি সেতু বানাতে হবে। চক চাপ (compression) সহ্য করতে পারে, কিন্তু টান দিলেই ভেঙে যায় — এর কোনো <strong>tensile strength</strong> নেই। Plain concrete-ও একইরকম। অন্যদিকে, steel tension সামলায় দুর্দান্তভাবে। <strong>Reinforced concrete দুটোকে একত্রিত করে</strong>: concrete compression সামলায়, steel tension সামলায়।'},
-      intuition:{en:'When you bend a beam, the top gets squeezed (compressed) and the bottom gets stretched (tensioned). Concrete handles the top. Steel bars at the bottom handle the tension. That\'s the whole idea.',
-                 bn:'যখন একটি beam বাঁকাও, উপরের অংশ চাপে (compressed) এবং নিচের অংশ টানে (tensioned) পড়ে। Concrete উপরের অংশ সামলায়। নিচের steel bar টানের কাজ করে। এটাই সম্পূর্ণ ধারণা।'},
-      sim:'beam',
-      infoGrid:[
-        {icon:'🧱',title:'Concrete',text:{en:"Compressive strength f'c = 3,000–6,000 psi. Cheap, moldable, fire-resistant. Essentially zero tensile strength.",bn:"Compressive strength f'c = 3,000–6,000 psi। সস্তা, ঢালাইযোগ্য, অগ্নি-প্রতিরোধী। Tensile strength প্রায় শূন্য।"}},
-        {icon:'🔩',title:'Steel Rebar',text:{en:'Yield strength fy = 40,000–60,000 psi. Handles tension brilliantly. Perfect bond with concrete is assumed.',bn:'Yield strength fy = 40,000–60,000 psi। Tension চমৎকারভাবে সামলায়। Concrete-এর সাথে নিখুঁত bond ধরে নেওয়া হয়।'}},
-      ],
-      example:{
-        title:{en:'Why does concrete crack without steel?',bn:'Steel ছাড়া concrete কেন ফাটে?'},
-        problem:{en:'A plain concrete beam under a central load — where and why does it crack?',bn:'মাঝখানে load দেওয়া plain concrete beam — কোথায় এবং কেন ফাটে?'},
-        steps:[
-          {en:'A load pushes <strong>down</strong> at the center of the beam.',bn:'Load beam-এর মাঝখানে <strong>নিচের দিকে</strong> চাপ দেয়।'},
-          {en:'The beam <strong>bends</strong>. Top fibers: compressed. Bottom fibers: stretched (tensioned).',bn:'Beam <strong>বাঁকে</strong>। উপরের fiber: compressed। নিচের fiber: stretched (tensioned)।'},
-          {en:'Concrete tensile strength ≈ only 10–15% of its compressive strength. Bottom cracks almost immediately.',bn:'Concrete-এর tensile strength ≈ মাত্র compressive strength-এর 10–15%। নিচ প্রায় সাথে সাথেই ফাটে।'},
-          {en:'<strong>Solution:</strong> Steel bars near the bottom carry the tension. Beam survives.',bn:'<strong>সমাধান:</strong> নিচের দিকে steel bar tension বহন করে। Beam টিকে থাকে।'},
-        ]
-      }
-    },
-    'materials':{
-      heading:{en:'Concrete & Steel Properties',bn:'Concrete ও Steel-এর বৈশিষ্ট্য'},
-      text:{en:'Concrete is a mix of cement, water, fine aggregate (sand), and coarse aggregate (gravel). The <strong>water-cement ratio</strong> is the single most important parameter — lower w/c = stronger concrete.',
-            bn:'Concrete হলো cement, পানি, fine aggregate (বালি), এবং coarse aggregate (পাথরকুচি)-র মিশ্রণ। <strong>Water-cement ratio</strong> সবচেয়ে গুরুত্বপূর্ণ parameter — w/c কম = শক্তিশালী concrete।'},
-      formula:{label:{en:'Key Formulas',bn:'মূল Formula'},
-               text:"Compressive strength: f'c — tested on 6\"×12\" cylinders at 28 days<br>Modulus of elasticity: <strong>Ec = 57,000√f'c</strong> (psi) — ACI 318<br>Modular ratio: <strong>n = Es / Ec</strong>  where Es = 29,000,000 psi"},
-      sim:'ss-curve',
-      text2:{en:'Rebar has a beautifully simple stress-strain curve: <strong>linear elastic</strong> until yield, then it flows (yields) at constant stress — called <em>elastic-perfectly plastic</em> behavior.',
-             bn:'Rebar-এর stress-strain curve অত্যন্ত সরল: yield পর্যন্ত <strong>linear elastic</strong>, তারপর স্থির stress-এ প্রবাহিত হয় (yield করে) — এটিকে <em>elastic-perfectly plastic</em> আচরণ বলে।'},
-    },
-    'loading':{
-      heading:{en:'Three Stages of Loading',bn:'Loading-এর তিনটি Stage'},
-      text:{en:'As load increases on an RC beam, it passes through three distinct stages. Understanding these stages is the entire foundation of RC design.',
-            bn:'RC beam-এ load বাড়ার সাথে সাথে এটি তিনটি স্বতন্ত্র stage-এর মধ্য দিয়ে যায়। এই stage-গুলো বোঝাই RC design-এর সম্পূর্ণ ভিত্তি।'},
-      sim:'stages',
-      concepts:[
-        {title:{en:'Stage 1 — Uncracked',bn:'Stage 1 — Uncracked'},text:{en:'Load is low. Entire section (concrete + steel) resists bending. Stress is linear everywhere.',bn:'Load কম। সম্পূর্ণ section (concrete + steel) bending প্রতিরোধ করে। সর্বত্র stress linear।'}},
-        {title:{en:'Stage 2 — Cracked',bn:'Stage 2 — Cracked'},text:{en:'Tensile stress exceeds concrete\'s limit. Cracks form at bottom. ONLY steel resists tension now. Neutral axis shifts up. This is the WSD design stage.',bn:'Tensile stress concrete-এর সীমা অতিক্রম করে। নিচে ফাটল তৈরি হয়। এখন শুধু steel tension প্রতিরোধ করে। Neutral axis উপরে সরে যায়। এটিই WSD design stage।'}},
-        {title:{en:'Stage 3 — Failure',bn:'Stage 3 — Failure'},text:{en:'Either steel yields (ductile, preferred) or concrete crushes (brittle, avoided). Under-reinforced beams give warning by yielding steel first.',bn:'হয় steel yield করে (ductile, পছন্দের) অথবা concrete crush করে (brittle, এড়ানো হয়)। Under-reinforced beam steel yield করে আগে সতর্কতা দেয়।'}},
-      ],
-      intuition:{en:'WSD assumes the beam is always at Stage 2 — cracked but elastic. We keep stresses below allowed values so we never reach failure. Think of it as a big safety buffer between "working load" and "collapse."',
-                 bn:'WSD ধরে নেয় beam সবসময় Stage 2-এ আছে — ফাটলযুক্ত কিন্তু elastic। Stress অনুমোদিত মানের নিচে রাখা হয় যাতে কখনো failure না আসে। "Working load" এবং "collapse"-এর মধ্যে একটি বড় safety buffer হিসেবে ভাবো।'},
-    },
-    'wsd':{
-      heading:{en:'The k and j Method',bn:'k এবং j পদ্ধতি'},
-      text:{en:'For a cracked, elastic RC beam, we need to find where the neutral axis is (k) and how far apart the compression and tension forces act (j). These two dimensionless ratios unlock all WSD calculations.',
-            bn:'Cracked, elastic RC beam-এর জন্য neutral axis কোথায় (k) এবং compression ও tension force কতটা দূরে (j) তা বের করতে হবে। এই দুটি dimensionless ratio সব WSD calculation-এর চাবিকাঠি।'},
-      intuition:{en:'<strong>k</strong> = fraction of beam depth to the neutral axis from the top (k=0.35 means NA is 35% down). <strong>j</strong> = fraction of depth for the moment arm between compression and tension forces. Higher j = more efficient beam.',
-                 bn:'<strong>k</strong> = উপর থেকে neutral axis পর্যন্ত beam depth-এর ভগ্নাংশ (k=0.35 মানে NA 35% নিচে)। <strong>j</strong> = compression ও tension force-এর moment arm-এর depth ভগ্নাংশ। j বেশি = বেশি efficient beam।'},
-      sim:'wsd',
-      example:{
-        title:{en:'Worked Example — WSD Analysis',bn:'সমাধান উদাহরণ — WSD Analysis'},
-        problem:{en:"A singly reinforced beam: b=12\", d=21.5\", As=3.0 in², f'c=3000 psi, n=9. Find k, j, and stresses under M=120 kip·ft.",bn:"Singly reinforced beam: b=12\", d=21.5\", As=3.0 in², f'c=3000 psi, n=9। M=120 kip·ft-এ k, j এবং stress বের করো।"},
-        steps:[
-          {en:'ρ = As/(bd) = 3.0/(12×21.5) = 0.01163',bn:'ρ = As/(bd) = 3.0/(12×21.5) = 0.01163'},
-          {en:'ρn = 0.01163×9 = 0.1047',bn:'ρn = 0.01163×9 = 0.1047'},
-          {en:'k = √[(ρn)²+2ρn]−ρn = √0.2204−0.1047 = 0.365',bn:'k = √[(ρn)²+2ρn]−ρn = √0.2204−0.1047 = 0.365'},
-          {en:'j = 1−k/3 = 1−0.365/3 = 0.878',bn:'j = 1−k/3 = 1−0.365/3 = 0.878'},
-          {en:'fs = M/(As·j·d) = 1,440,000/(3.0×0.878×21.5) = 25,441 psi',bn:'fs = M/(As·j·d) = 1,440,000/(3.0×0.878×21.5) = 25,441 psi'},
-          {en:'fc = 2M/(k·j·b·d²) = 2,880,000/1,775 = 1,623 psi',bn:'fc = 2M/(k·j·b·d²) = 2,880,000/1,775 = 1,623 psi'},
-        ]
-      },
-      formula:{label:{en:'WSD Formulas',bn:'WSD Formula সমূহ'},
-               text:'ρ = As/(b·d) &nbsp; (reinforcement ratio)<br><br>k = √[(ρn)²+2ρn] − ρn<br><br>j = 1 − k/3<br><br>fc = 2M/(k·j·b·d²) &nbsp; &nbsp; fs = M/(As·j·d)'},
-    },
-    'beam-design':{
-      heading:{en:'Designing a Beam from Scratch',bn:'শূন্য থেকে Beam Design'},
-      text:{en:'Analysis asks: "given this beam, what are the stresses?" Design asks: "given the load, what beam do I need?" The process is reversed — we choose balanced design as a starting point.',
-            bn:'Analysis জিজ্ঞেস করে: "এই beam-এ stress কত?" Design জিজ্ঞেস করে: "এই load-এর জন্য কোন beam দরকার?" প্রক্রিয়াটি উল্টো — শুরুতে balanced design বেছে নেওয়া হয়।'},
-      intuition:{en:'A <strong>balanced design</strong> reaches the allowable concrete AND steel stresses simultaneously — the most efficient use of both materials. In practice, slightly under-reinforced designs are preferred since steel failure gives warning.',
-                 bn:'<strong>Balanced design</strong>-এ concrete এবং steel উভয়ের allowable stress একসাথে পৌঁছায় — উভয় material-এর সর্বোচ্চ দক্ষ ব্যবহার। বাস্তবে, সামান্য under-reinforced design পছন্দ করা হয় কারণ steel failure সতর্কতা দেয়।'},
-      formula:{label:{en:'Design Formulas',bn:'Design Formula সমূহ'},
-               text:'k_b = n·fc,allow / (n·fc,allow + fs,allow)<br><br>j_b = 1 − k_b/3<br><br>R_b = ½ fc,allow · k_b · j_b<br><br>Required bd² = M / R_b<br><br>Required As = M / (fs,allow · j · d)'},
-      example:{
-        title:{en:'Full Design Example',bn:'সম্পূর্ণ Design উদাহরণ'},
-        problem:{en:"Design a beam for M=200 kip·ft. f'c=3000 psi, fy=60,000 psi. Allowables: fc=1350 psi, fs=24,000 psi, n=9.",bn:"M=200 kip·ft-এর জন্য beam design করো। f'c=3000 psi, fy=60,000 psi। Allowable: fc=1350 psi, fs=24,000 psi, n=9।"},
-        steps:[
-          {en:'k_b = (9×1350)/(9×1350+24000) = 0.336',bn:'k_b = (9×1350)/(9×1350+24000) = 0.336'},
-          {en:'j_b = 1−0.336/3 = 0.888',bn:'j_b = 1−0.336/3 = 0.888'},
-          {en:'R_b = ½(1350)(0.336)(0.888) = 201.8 psi',bn:'R_b = ½(1350)(0.336)(0.888) = 201.8 psi'},
-          {en:'bd² = M/R_b = (200×12,000)/201.8 = 11,892 in³',bn:'bd² = M/R_b = (200×12,000)/201.8 = 11,892 in³'},
-          {en:'Try b=14": d²=11892/14=849 → d=29.1" ≈ 30"',bn:'b=14" ধরি: d²=11892/14=849 → d=29.1" ≈ 30"'},
-          {en:'As = M/(fs·j·d) = 2,400,000/(24,000×0.888×30) = 3.75 in²',bn:'As = M/(fs·j·d) = 2,400,000/(24,000×0.888×30) = 3.75 in²'},
-          {en:'Use 4×#9 bars (4.00 in²) ✓',bn:'4×#9 bar ব্যবহার করো (4.00 in²) ✓'},
-        ]
-      },
-      practice:{
-        problems:[
-          {q:{en:'A beam: b=10", d=18", As=2.5 in², n=9. Find k and j.',bn:'Beam: b=10", d=18", As=2.5 in², n=9। k এবং j বের করো।'},a:{en:'ρ=0.01389, ρn=0.1250, k=0.381, j=0.873',bn:'ρ=0.01389, ρn=0.1250, k=0.381, j=0.873'}},
-          {q:{en:'For above beam, find fs and fc if M=80 kip·ft.',bn:'উপরের beam-এ M=80 kip·ft হলে fs এবং fc বের করো।'},a:{en:'fs=24,436 psi; fc=1,782 psi',bn:'fs=24,436 psi; fc=1,782 psi'}},
-        ]
-      }
-    },
-  }
-};
-
-function renderRC(){
-  const body=document.getElementById('rcBody');
-  let h=`<div class="lesson-header">
-    <div class="lesson-grade" style="color:var(--accent);">${lang==='bn'?'Civil Engineering · CEE335':'Civil Engineering · CEE335'}</div>
-    <h1 class="lesson-title">${t('rcTitle')}</h1>
-    <p class="lesson-intro">${lang==='bn'?'Concrete compression-এ শক্তিশালী কিন্তু tension-এ ভঙ্গুর। Steel এর উল্টো। একসাথে তারা পৃথিবীর অন্যতম বহুমুখী structural material তৈরি করে।':'Concrete is strong in compression but brittle in tension. Steel is the opposite. Together they form one of the most versatile structural materials ever invented.'}</p>
-  </div>
-  <div class="topic-tabs" id="rcTabs">`;
-  RC.tabs.forEach((tab,i)=>{
-    h+=`<button class="ttab ${i===0?'active':''}" onclick="showRCTab('${tab.id}',this)">${txt(tab.label)}</button>`;
+/* ─── VISITOR COUNTER ─── */
+(function(){
+  const el = document.getElementById('visitorCount');
+  if (!el) return;
+  fetch('https://visitor.6developer.com/visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      domain: 'mathify.us',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      page_path: location.pathname,
+      page_title: document.title,
+      referrer: document.referrer
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data && typeof data.totalCount === 'number') {
+      el.textContent = data.totalCount.toLocaleString();
+      localStorage.setItem('mathify-visit-count', data.totalCount);
+    }
+  })
+  .catch(() => {
+    const cached = localStorage.getItem('mathify-visit-count');
+    if (cached) el.textContent = parseInt(cached).toLocaleString();
   });
-  h+=`</div>`;
-  RC.tabs.forEach((tab,i)=>{
-    h+=`<div class="civil-topic ${i===0?'active':''}" id="rct-${tab.id}">${buildRCTab(tab.id)}</div>`;
-  });
-  body.innerHTML=h;
-}
-
-function buildRCTab(id){
-  const d=RC.content[id];if(!d)return '';
-  let h=`<div class="lesson-section"><div class="ls-heading">${txt(d.heading)}</div>`;
-  if(d.text) h+=`<p class="ls-text">${txt(d.text)}</p>`;
-  if(d.intuition) h+=`<div class="intuition-box"><div class="ib-label">${t('intuitionFirst')}</div><div class="ib-text">${txt(d.intuition)}</div></div>`;
-  if(d.sim==='beam'){
-    h+=`<div class="sim-container"><div class="sim-header"><span class="sim-title">🔬 ${lang==='bn'?'Live Simulation — Beam Bending Stress':'Live Simulation — Beam Bending Stress'}</span></div>
-    <div class="sim-body"><canvas id="beamCanvas" height="200"></canvas>
-    <div class="diagram-label">${t('dragBeam')}</div>
-    <div class="sim-slider-group"><span class="sim-slider-label">Load ↓</span>
-    <input type="range" id="loadSlider" min="0" max="100" value="50" oninput="drawBeam(this.value)">
-    <span class="sim-value" id="loadVal">50%</span></div></div></div>`;
-  }
-  if(d.infoGrid){
-    h+=`<div class="info-grid">`;
-    d.infoGrid.forEach(b=>{h+=`<div class="info-box"><div class="ib-icon">${b.icon}</div><h5>${b.title}</h5><p>${txt(b.text)}</p></div>`;});
-    h+=`</div>`;
-  }
-  if(d.sim==='ss-curve'){
-    h+=`<div class="sim-container"><div class="sim-header"><span class="sim-title">📈 ${lang==='bn'?'Stress-Strain Curve':'Stress-Strain Curve'}</span></div>
-    <div class="sim-body"><canvas id="stressStrainCanvas" height="260"></canvas>
-    <div class="diagram-label">${t('concVsSteel')}</div>
-    <div class="sim-controls">
-      <button class="sim-btn active" onclick="drawSSCurve('both',this)">${t('both')}</button>
-      <button class="sim-btn" onclick="drawSSCurve('concrete',this)">${t('concreteOnly')}</button>
-      <button class="sim-btn" onclick="drawSSCurve('steel',this)">${t('steelOnly')}</button>
-    </div></div></div>`;
-    if(d.text2) h+=`<p class="ls-text" style="margin-top:1.5rem;">${txt(d.text2)}</p>`;
-  }
-  if(d.sim==='stages'){
-    h+=`<div class="sim-container"><div class="sim-header"><span class="sim-title">⚡ ${lang==='bn'?'3টি Stage — Interactive':'3 Stages of Loading — Interactive'}</span></div>
-    <div class="sim-body"><canvas id="stagesCanvas" height="220"></canvas>
-    <div class="sim-controls">
-      <button class="sim-btn active" onclick="showStage(1,this)">${t('stage1Btn')}</button>
-      <button class="sim-btn" onclick="showStage(2,this)">${t('stage2Btn')}</button>
-      <button class="sim-btn" onclick="showStage(3,this)">${t('stage3Btn')}</button>
-    </div></div></div>`;
-  }
-  if(d.concepts){
-    h+=`<div class="key-concepts">`;
-    d.concepts.forEach(c=>h+=`<div class="kc-item"><div class="kc-title">${txt(c.title)}</div><div class="kc-text">${txt(c.text)}</div></div>`);
-    h+=`</div>`;
-  }
-  if(d.formula) h+=`<div class="formula-block"><div class="formula-label">${txt(d.formula.label)}</div>${d.formula.text}</div>`;
-  if(d.sim==='wsd'){
-    h+=`<div class="sim-container"><div class="sim-header"><span class="sim-title">🔬 ${lang==='bn'?'Live k & j Calculator':'Live k & j Calculator'}</span></div>
-    <div class="sim-body"><canvas id="wsdCanvas" height="240"></canvas>
-    <div class="sim-slider-group"><span class="sim-slider-label">ρ</span>
-    <input type="range" id="rhoSlider" min="1" max="30" value="12" oninput="updateWSD()">
-    <span class="sim-value" id="rhoVal">0.012</span></div>
-    <div class="sim-slider-group"><span class="sim-slider-label">n</span>
-    <input type="range" id="nSlider" min="6" max="12" value="9" oninput="updateWSD()">
-    <span class="sim-value" id="nVal">9</span></div>
-    <div class="result-grid">
-      <div class="result-cell"><div class="rc-label">k</div><div class="rc-val" id="kResult" style="color:var(--blueprint);">—</div></div>
-      <div class="result-cell"><div class="rc-label">j</div><div class="rc-val" id="jResult" style="color:var(--accent);">—</div></div>
-      <div class="result-cell"><div class="rc-label">ρn</div><div class="rc-val" id="rhoNResult" style="color:var(--rust);">—</div></div>
-    </div></div></div>`;
-  }
-  if(d.example){
-    h+=`<div class="example-box"><div class="example-header"><span class="example-title">${t('workedExample')} — ${txt(d.example.title)}</span></div>
-    <div class="example-body"><div class="example-problem">${txt(d.example.problem)}</div><div class="solution-steps">`;
-    d.example.steps.forEach((s,i)=>h+=`<div class="step"><div class="step-num">${i+1}</div><div class="step-content">${txt(s)}</div></div>`);
-    h+=`</div></div></div>`;
-  }
-  if(d.practice){
-    h+=`<div class="practice-section"><div class="ps-header">${t('practiceProblems')}</div>`;
-    d.practice.problems.forEach((p,i)=>{
-      h+=`<div class="practice-problem">
-        <div class="pp-q"><strong>${lang==='bn'?'প্র':'P'}${i+1}.</strong> ${txt(p.q)}</div>
-        <button class="pp-toggle" onclick="toggleAnswer(this)">${t('showAnswer')}</button>
-        <div class="pp-answer">${txt(p.a)}</div>
-      </div>`;
-    });
-    h+=`</div>`;
-  }
-  h+=`</div>`;return h;
-}
-
-function showRCTab(id,btn){
-  document.querySelectorAll('#rcTabs .ttab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('[id^="rct-"]').forEach(t=>t.classList.remove('active'));
-  document.getElementById('rct-'+id).classList.add('active');
-  setTimeout(()=>{
-    if(id==='why-rc') drawBeam(50);
-    if(id==='materials'){drawSSCurve('both',null);}
-    if(id==='loading') drawStages(1);
-    if(id==='wsd') updateWSD();
-  },120);
-}
-
-/* =======================================================================
-   RC SIMULATIONS
-======================================================================= */
-function drawBeam(load){
-  const v=document.getElementById('loadSlider')?document.getElementById('loadSlider').value:load||50;
-  const pct=parseFloat(v)/100;
-  if(document.getElementById('loadVal'))document.getElementById('loadVal').textContent=Math.round(pct*100)+'%';
-  const ctx=getCtx('beamCanvas',200);if(!ctx)return;
-  const c=document.getElementById('beamCanvas');
-  const w=c.width;dark(ctx,w,200);
-  const bx=40,by=60,bw=w-80,bh=70,sag=pct*30;
-  const grad=ctx.createLinearGradient(0,by,0,by+bh);
-  grad.addColorStop(0,`rgba(96,165,250,${0.3+pct*0.5})`);
-  grad.addColorStop(1,`rgba(248,113,113,${0.3+pct*0.5})`);
-  ctx.fillStyle=grad;
-  ctx.beginPath();ctx.moveTo(bx,by);
-  ctx.bezierCurveTo(bx+bw/3,by+sag,bx+2*bw/3,by+sag,bx+bw,by);
-  ctx.lineTo(bx+bw,by+bh);
-  ctx.bezierCurveTo(bx+2*bw/3,by+bh-sag,bx+bw/3,by+bh-sag,bx,by+bh);
-  ctx.closePath();ctx.fill();
-  ctx.font='600 11px DM Sans';ctx.textAlign='center';
-  ctx.fillStyle=`rgba(96,165,250,${0.7+pct*0.3})`;
-  ctx.fillText(lang==='bn'?'COMPRESSION (concrete সামলায়)':'COMPRESSION (concrete handles this)',w/2,by-10);
-  ctx.fillStyle=`rgba(248,113,113,${0.7+pct*0.3})`;
-  ctx.fillText(lang==='bn'?'TENSION (steel সামলায়)':'TENSION (steel handles this)',w/2,by+bh+22);
-  ctx.fillStyle='#f59e0b';
-  [bx+bw*0.15,bx+bw*0.3,bx+bw*0.5,bx+bw*0.7,bx+bw*0.85].forEach(x=>{
-    ctx.beginPath();ctx.arc(x,by+bh-10+sag*0.8,5,0,Math.PI*2);ctx.fill();
-  });
-  ctx.font='500 10px Space Mono';ctx.fillStyle='#f59e0b';
-  ctx.fillText('Steel rebar →',bx+bw*0.5+90,by+bh-6+sag*0.8);
-  if(pct>0.05){
-    [bx+bw*0.25,bx+bw*0.5,bx+bw*0.75].forEach(x=>{
-      ctx.strokeStyle='#f87171';ctx.lineWidth=2;
-      ctx.beginPath();ctx.moveTo(x,by-38);ctx.lineTo(x,by-8);ctx.stroke();
-      ctx.fillStyle='#f87171';
-      ctx.beginPath();ctx.moveTo(x,by-8);ctx.lineTo(x-5,by-18);ctx.lineTo(x+5,by-18);ctx.closePath();ctx.fill();
-    });
-    ctx.fillStyle='#f87171';ctx.font='600 11px DM Sans';ctx.textAlign='center';
-    ctx.fillText(lang==='bn'?'প্রযুক্ত Load':'Applied Load',w/2,by-48);
-  }
-}
-
-let ssMode='both';
-function drawSSCurve(mode,btn){
-  ssMode=mode;
-  if(btn){document.querySelectorAll('#rct-materials .sim-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
-  const ctx=getCtx('stressStrainCanvas',260);if(!ctx)return;
-  const c=document.getElementById('stressStrainCanvas');
-  const w=c.width;dark(ctx,w,260);
-  const mx=60,my=20,mw=w-80,mh=200;
-  ctx.strokeStyle='#334155';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(mx,my);ctx.lineTo(mx,my+mh);ctx.lineTo(mx+mw,my+mh);ctx.stroke();
-  ctx.fillStyle='#475569';ctx.font='11px Space Mono';ctx.textAlign='center';
-  ctx.fillText('Strain ε',mx+mw/2,my+mh+20);
-  ctx.save();ctx.translate(mx-35,my+mh/2);ctx.rotate(-Math.PI/2);ctx.fillText('Stress f',0,0);ctx.restore();
-  ctx.strokeStyle='rgba(51,65,85,0.4)';ctx.lineWidth=0.5;
-  for(let i=1;i<5;i++){
-    ctx.beginPath();ctx.moveTo(mx+i*mw/5,my);ctx.lineTo(mx+i*mw/5,my+mh);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(mx,my+i*mh/4);ctx.lineTo(mx+mw,my+i*mh/4);ctx.stroke();}
-  if(mode==='both'||mode==='concrete'){
-    ctx.strokeStyle='#60a5fa';ctx.lineWidth=2.5;ctx.beginPath();
-    for(let i=1;i<=100;i++){
-      const x=i/100,y=x<=0.5?x*2:(1-(x-0.5)*1.8);
-      const px=mx+x*mw*0.5,py=my+mh-Math.max(0,y)*mh*0.85;
-      if(i===1)ctx.moveTo(px,py);else ctx.lineTo(px,py);}
-    ctx.stroke();
-    ctx.fillStyle='#60a5fa';ctx.font='11px DM Sans';ctx.textAlign='left';
-    ctx.fillText(lang==='bn'?'Concrete (ε≈0.003-এ crush করে)':'Concrete (crushes at ε≈0.003)',mx+10,my+20);}
-  if(mode==='both'||mode==='steel'){
-    ctx.strokeStyle='#f59e0b';ctx.lineWidth=2.5;ctx.beginPath();
-    const sy=0.35;
-    for(let i=1;i<=100;i++){
-      const x=i/100,py2=x<=sy?(my+mh-x/sy*mh*0.65):(my+mh*0.35),px2=mx+x*mw*0.6;
-      if(i===1)ctx.moveTo(px2,py2);else ctx.lineTo(px2,py2);}
-    ctx.stroke();
-    ctx.fillStyle='#f59e0b';ctx.font='11px DM Sans';ctx.textAlign='left';
-    ctx.fillText(lang==='bn'?'Steel (yield করে তারপর ধরে রাখে)':'Steel (yields then holds)',mx+10,my+50);
-    const yx=mx+sy*mw*0.6;
-    ctx.strokeStyle='rgba(245,158,11,0.3)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
-    ctx.beginPath();ctx.moveTo(yx,my);ctx.lineTo(yx,my+mh);ctx.stroke();ctx.setLineDash([]);
-    ctx.fillStyle='rgba(245,158,11,0.7)';ctx.font='10px Space Mono';ctx.textAlign='center';
-    ctx.fillText('yield',yx,my+mh+16);}
-}
-
-function showStage(n,btn){
-  if(btn){document.querySelectorAll('#rct-loading .sim-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
-  drawStages(n);
-}
-function drawStages(stage){
-  const ctx=getCtx('stagesCanvas',220);if(!ctx)return;
-  const c=document.getElementById('stagesCanvas');
-  const w=c.width;dark(ctx,w,220);
-  const bw=180,bh=100,bx=(w-bw)/2,by=50;
-  ctx.fillStyle=['#1e3a5f','#1e3a5f','#7f1d1d'][stage-1];
-  ctx.strokeStyle='#60a5fa';ctx.lineWidth=2;
-  ctx.fillRect(bx,by,bw,bh);ctx.strokeRect(bx,by,bw,bh);
-  const naFrac=[0.5,0.38,0.30][stage-1];
-  const naY=by+naFrac*bh;
-  ctx.strokeStyle='#f59e0b';ctx.lineWidth=1.5;ctx.setLineDash([6,3]);
-  ctx.beginPath();ctx.moveTo(bx-20,naY);ctx.lineTo(bx+bw+20,naY);ctx.stroke();ctx.setLineDash([]);
-  ctx.fillStyle='#f59e0b';ctx.font='10px Space Mono';ctx.textAlign='left';
-  ctx.fillText('N.A.',bx+bw+5,naY+4);
-  const cg=ctx.createLinearGradient(0,by,0,naY);
-  cg.addColorStop(0,'rgba(96,165,250,0.6)');cg.addColorStop(1,'rgba(96,165,250,0.05)');
-  ctx.fillStyle=cg;ctx.fillRect(bx+2,by+2,bw-4,naY-by-2);
-  if(stage>=2){
-    ctx.fillStyle='rgba(248,113,113,0.07)';ctx.fillRect(bx+2,naY,bw-4,by+bh-naY-2);
-    for(let i=0;i<5;i++){
-      const cx2=bx+30+i*25;
-      ctx.strokeStyle='rgba(248,113,113,0.7)';ctx.lineWidth=1;
-      ctx.beginPath();ctx.moveTo(cx2,by+bh);ctx.lineTo(cx2+5,naY+15);ctx.stroke();}}
-  ctx.fillStyle='#f59e0b';
-  [bx+20,bx+60,bx+100,bx+140,bx+170].forEach(sx=>{
-    ctx.beginPath();ctx.arc(sx,by+bh-12,5,0,Math.PI*2);ctx.fill();});
-  const labels=lang==='bn'
-    ?['Stage 1: Uncracked — সম্পূর্ণ section কাজ করে','Stage 2: Cracked — steel tension বহন করে','Stage 3: Failure — crush হওয়ার কাছাকাছি']
-    :['Stage 1: Uncracked — full section works','Stage 2: Cracked — steel carries tension','Stage 3: Failure — approaching crushing'];
-  ctx.fillStyle='#e2e8f0';ctx.font='12px DM Sans';ctx.textAlign='center';
-  ctx.fillText(labels[stage-1],w/2,by+bh+35);
-}
-
-function updateWSD(){
-  const rho=parseFloat(document.getElementById('rhoSlider').value)/1000;
-  const n=parseFloat(document.getElementById('nSlider').value);
-  document.getElementById('rhoVal').textContent=rho.toFixed(3);
-  document.getElementById('nVal').textContent=n;
-  const rhoN=rho*n,k=Math.sqrt(rhoN*rhoN+2*rhoN)-rhoN,j=1-k/3;
-  document.getElementById('kResult').textContent=k.toFixed(3);
-  document.getElementById('jResult').textContent=j.toFixed(3);
-  document.getElementById('rhoNResult').textContent=rhoN.toFixed(3);
-  const ctx=getCtx('wsdCanvas',240);if(!ctx)return;
-  const c=document.getElementById('wsdCanvas');
-  const w=c.width;dark(ctx,w,240);
-  const bw=120,bh=180,bx=60,by=30;
-  ctx.fillStyle='#1e293b';ctx.fillRect(bx,by,bw,bh);
-  ctx.strokeStyle='#475569';ctx.lineWidth=1.5;ctx.strokeRect(bx,by,bw,bh);
-  const naY=by+k*bh;
-  ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;ctx.setLineDash([5,3]);
-  ctx.beginPath();ctx.moveTo(bx-10,naY);ctx.lineTo(bx+bw+10,naY);ctx.stroke();ctx.setLineDash([]);
-  const cg=ctx.createLinearGradient(0,by,0,naY);
-  cg.addColorStop(0,'rgba(96,165,250,0.5)');cg.addColorStop(1,'rgba(96,165,250,0)');
-  ctx.fillStyle=cg;ctx.fillRect(bx+2,by+2,bw-4,naY-by-2);
-  ctx.fillStyle='#f59e0b';
-  [bx+15,bx+45,bx+75,bx+105].forEach(sx=>{ctx.beginPath();ctx.arc(sx,by+bh-15,7,0,Math.PI*2);ctx.fill();});
-  ctx.strokeStyle='#f59e0b';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(bx+bw+30,by);ctx.lineTo(bx+bw+30,naY);ctx.stroke();
-  ctx.fillStyle='#f59e0b';ctx.font='11px Space Mono';ctx.textAlign='left';
-  ctx.fillText('kd',bx+bw+35,(by+naY)/2+4);
-  const jy=by+bh-15;
-  ctx.strokeStyle='#34d399';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(bx+bw+50,naY+10);ctx.lineTo(bx+bw+50,jy);ctx.stroke();
-  ctx.fillStyle='#34d399';ctx.fillText('jd',bx+bw+55,(naY+jy)/2+4);
-  const stx=bx+bw+80;
-  ctx.fillStyle='rgba(96,165,250,0.15)';ctx.strokeStyle='#60a5fa';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(stx,by);ctx.lineTo(stx+30,by);ctx.lineTo(stx,naY);ctx.closePath();ctx.fill();ctx.stroke();
-  ctx.fillStyle='rgba(248,113,113,0.15)';ctx.strokeStyle='#f87171';
-  ctx.beginPath();ctx.moveTo(stx,naY);ctx.lineTo(stx+35,jy);ctx.lineTo(stx,jy);ctx.closePath();ctx.fill();ctx.stroke();
-  ctx.fillStyle='#e2e8f0';ctx.font='600 13px DM Sans';ctx.textAlign='center';
-  ctx.fillText('k = '+k.toFixed(3),bx+bw/2,by+bh+25);
-}
-
-/* =======================================================================
-   TRAFFIC LESSON
-======================================================================= */
-const TRAFFIC_TABS=[
-  {id:'flow',label:{en:'Traffic Flow',bn:'Traffic Flow'}},
-  {id:'los',label:{en:'LOS',bn:'LOS'}},
-  {id:'signals',label:{en:'Signal Timing',bn:'Signal Timing'}},
-  {id:'models',label:{en:'Demand Models',bn:'Demand Models'}},
-];
-
-function renderTraffic(){
-  const body=document.getElementById('trafficBody');
-  let h=`<div class="lesson-header">
-    <div class="lesson-grade" style="color:var(--rust);">${lang==='bn'?'Civil Engineering · CEE350':'Civil Engineering · CEE350'}</div>
-    <h1 class="lesson-title">${t('trafficTitle')}</h1>
-    <p class="lesson-intro">${lang==='bn'?'Engineers কীভাবে রাস্তা, signal, এবং intersection design করেন মানুষকে যতটা সম্ভব দক্ষতার সাথে চলাচল করাতে? সবকিছু flow, capacity, এবং সময়ের উপর নির্ভর করে।':'How do engineers design roads, signals, and intersections to move people as efficiently as possible? It all comes down to flow, capacity, and time.'}</p>
-  </div>
-  <div class="topic-tabs" id="trafficTabs">`;
-  TRAFFIC_TABS.forEach((tab,i)=>{
-    h+=`<button class="ttab ${i===0?'active':''}" onclick="showTrafficTab('${tab.id}',this)">${txt(tab.label)}</button>`;
-  });
-  h+=`</div>`;
-  TRAFFIC_TABS.forEach((tab,i)=>{
-    h+=`<div class="civil-topic ${i===0?'active':''}" id="trt-${tab.id}">${buildTrafficTab(tab.id)}</div>`;
-  });
-  body.innerHTML=h;
-}
-
-function buildTrafficTab(id){
-  let h='';
-  if(id==='flow'){
-    h+=`<div class="lesson-section"><div class="ls-heading">${lang==='bn'?'মূল সমীকরণ: q = k × u':'The Fundamental Equation: q = k × u'}</div>
-    <div class="key-concepts">
-      <div class="kc-item"><div class="kc-title">q — Flow (veh/hr)</div><div class="kc-text">${lang==='bn'?'প্রতি ঘণ্টায় একটি বিন্দু দিয়ে কতটি যানবাহন যায়। Pipe-এ পানির flow rate-এর মতো।':'How many vehicles pass a point per hour. Like water flow rate in a pipe.'}</div></div>
-      <div class="kc-item"><div class="kc-title">k — Density (veh/mi)</div><div class="kc-text">${lang==='bn'?'রাস্তা কতটা ভিড়াক্রান্ত — প্রতি মাইল রাস্তায় যানবাহনের সংখ্যা।':'How packed the road is — vehicles per mile of roadway.'}</div></div>
-      <div class="kc-item"><div class="kc-title">u — Speed (mph)</div><div class="kc-text">${lang==='bn'?'যানবাহনের গড় গতিবেগ।':'Average speed of vehicles at a given point and time.'}</div></div>
-    </div>
-    <div class="formula-block"><div class="formula-label">${lang==='bn'?'Traffic Flow-এর মূল সমীকরণ':'Fundamental Equation of Traffic Flow'}</div>
-    q = k × u &nbsp; (Flow = Density × Speed)<br><br>
-    Jam density k<sub>j</sub>: flow=0, speed=0<br>
-    Max flow: u<sub>opt</sub> = u<sub>f</sub>/2 (Greenshields model)
-    </div>
-    <div class="sim-container"><div class="sim-header"><span class="sim-title">🚗 ${lang==='bn'?'Flow-Density-Speed Simulation':'Flow-Density-Speed Simulation'}</span></div>
-    <div class="sim-body"><canvas id="trafficCanvas" height="240"></canvas>
-    <div class="sim-slider-group"><span class="sim-slider-label">Density k</span>
-    <input type="range" id="densitySlider" min="0" max="120" value="40" oninput="updateTrafficSim()">
-    <span class="sim-value" id="densityVal">40 veh/mi</span></div>
-    <div class="result-grid" style="margin-top:1rem;">
-      <div class="result-cell"><div class="rc-label">Flow q</div><div class="rc-val" id="trafficQ" style="color:var(--rust);font-size:1.1rem;">—</div></div>
-      <div class="result-cell"><div class="rc-label">Speed u</div><div class="rc-val" id="trafficU" style="color:var(--green);font-size:1.1rem;">—</div></div>
-      <div class="result-cell"><div class="rc-label">${lang==='bn'?'অবস্থা':'Condition'}</div><div class="rc-val" id="trafficCond" style="color:var(--blueprint);font-size:0.8rem;font-family:'Space Mono',monospace;">—</div></div>
-    </div></div></div></div>`;
-  }
-  if(id==='los'){
-    h+=`<div class="lesson-section"><div class="ls-heading">${lang==='bn'?'Level of Service (LOS)':'Level of Service (LOS)'}</div>
-    <p class="ls-text">${lang==='bn'?'LOS হলো একটি letter grade (A থেকে F) যা বলে রাস্তা বা intersection কতটা ভালো কাজ করছে। Traffic-এর জন্য school report card-এর মতো।':'LOS is a letter grade (A through F) describing how well a road or intersection is operating. Think of it as a school report card for traffic.'}</p>
-    <div class="intuition-box"><div class="ib-label">${t('intuitionFirst')}</div><div class="ib-text">${lang==='bn'?'LOS A = ফাঁকা highway, পূর্ণ স্বাধীনতা। LOS F = bumper-to-bumper যানজট। Engineers LOS C বা D-এর জন্য design করেন।':'LOS A = empty highway, perfect freedom. LOS F = bumper-to-bumper gridlock. Engineers design for LOS C or D.'}</div></div>
-    <div class="los-table-wrap"><table class="los-table">
-    <thead><tr><th>LOS</th><th>V/C Ratio</th><th>${lang==='bn'?'বিবরণ':'Description'}</th></tr></thead>
-    <tbody>
-    <tr><td style="color:var(--green);font-family:'Space Mono',monospace;font-weight:700;">A</td><td style="font-family:'Space Mono',monospace;">≤ 0.60</td><td>${lang==='bn'?'Free flow, কোনো congestion নেই। চালকরা নিজেদের গতি বেছে নিতে পারে।':'Free flow, no congestion, drivers choose own speeds.'}</td></tr>
-    <tr><td style="color:#a3e635;font-family:'Space Mono',monospace;font-weight:700;">B</td><td style="font-family:'Space Mono',monospace;">≤ 0.70</td><td>${lang==='bn'?'Stable flow, সামান্য interaction, স্বাচ্ছন্দ্যজনক।':'Stable flow, minor traffic interactions, comfortable.'}</td></tr>
-    <tr><td style="color:var(--accent);font-family:'Space Mono',monospace;font-weight:700;">C</td><td style="font-family:'Space Mono',monospace;">≤ 0.80</td><td>${lang==='bn'?'Stable কিন্তু চালকরা অন্য গাড়ি লক্ষ্য করতে শুরু করে। সাধারণ design standard।':'Stable but drivers notice other vehicles. Typical design standard.'}</td></tr>
-    <tr><td style="color:#fb923c;font-family:'Space Mono',monospace;font-weight:700;">D</td><td style="font-family:'Space Mono',monospace;">≤ 0.90</td><td>${lang==='bn'?'High density, speed কমতে শুরু করে।':'High density, speed begins to drop, some delay acceptable.'}</td></tr>
-    <tr><td style="color:var(--rust);font-family:'Space Mono',monospace;font-weight:700;">E</td><td style="font-family:'Space Mono',monospace;">≤ 1.00</td><td>${lang==='bn'?'Capacity-তে বা কাছাকাছি। যেকোনো ঘটনা breakdown ঘটাতে পারে।':'At or near capacity. Any incident causes breakdown.'}</td></tr>
-    <tr><td style="color:#ef4444;font-family:'Space Mono',monospace;font-weight:700;">F</td><td style="font-family:'Space Mono',monospace;">> 1.00</td><td>${lang==='bn'?'Forced flow, breakdown। Demand capacity-কে ছাড়িয়ে গেছে। Queue তৈরি হয়।':'Forced flow, breakdown. Demand exceeds capacity. Queues form.'}</td></tr>
-    </tbody></table></div></div>`;
-  }
-  if(id==='signals'){
-    h+=`<div class="lesson-section"><div class="ls-heading">${lang==='bn'?'Signal Timing-এর মূল বিষয়':'Signal Timing Basics'}</div>
-    <div class="key-concepts">
-      <div class="kc-item"><div class="kc-title">Cycle Length C</div><div class="kc-text">${lang==='bn'?'সমস্ত phase সম্পন্ন হতে মোট সময়। সাধারণত 60–120 সেকেন্ড।':'Total time for all phases. Typically 60–120 seconds.'}</div></div>
-      <div class="kc-item"><div class="kc-title">Green Time G</div><div class="kc-text">${lang==='bn'?'প্রতিটি phase-এ যানবাহন যাওয়ার জন্য বরাদ্দ সময়।':'Time allocated to each phase for vehicles to pass.'}</div></div>
-      <div class="kc-item"><div class="kc-title">Lost Time L</div><div class="kc-text">${lang==='bn'?'Phase শুরু/শেষে হারানো সময়। সাধারণত 3–4 সেকেন্ড/phase।':'Time lost at phase start/end. Typically 3–4 sec/phase.'}</div></div>
-      <div class="kc-item"><div class="kc-title">Saturation Flow s</div><div class="kc-text">${lang==='bn'?'Signal সবসময় green থাকলে সর্বোচ্চ flow rate (~1800 veh/hr/lane)।':'Max flow if light were always green (~1800 veh/hr/lane).'}</div></div>
-    </div>
-    <div class="formula-block"><div class="formula-label">${lang==='bn'?'Webster\'s Optimal Cycle Length':'Webster\'s Optimal Cycle Length'}</div>
-    C<sub>o</sub> = (1.5L + 5) / (1 − Σy<sub>i</sub>)<br><br>
-    y<sub>i</sub> = q<sub>i</sub>/s<sub>i</sub> &nbsp; (volume-to-saturation ratio)<br>
-    L = total lost time = n × ℓ
-    </div>
-    <div class="sim-container"><div class="sim-header"><span class="sim-title">🚦 ${lang==='bn'?'Signal Cycle Animation':'Signal Cycle Animation'}</span></div>
-    <div class="sim-body"><canvas id="signalCanvas" height="180"></canvas>
-    <div class="sim-controls">
-      <button class="sim-btn active" id="signalPlayBtn" onclick="toggleSignal()">${t('pauseBtn')}</button>
-    </div></div></div>
-    <div class="example-box"><div class="example-header"><span class="example-title">${t('workedExample')}</span></div>
-    <div class="example-body">
-    <div class="example-problem">${lang==='bn'?'2-phase signal: Phase 1 critical volume = 800 vph, Phase 2 = 600 vph। Saturation flow = 1800 vph/lane। Lost time = 4s/phase। Optimal cycle length এবং green split বের করো।':'2-phase signal: Phase 1 = 800 vph, Phase 2 = 600 vph. Saturation flow = 1800 vph/lane. Lost time = 4s/phase. Find optimal cycle length and green splits.'}</div>
-    <div class="solution-steps">
-      <div class="step"><div class="step-num">1</div><div class="step-content">y₁ = 800/1800 = 0.444 &nbsp; y₂ = 600/1800 = 0.333</div></div>
-      <div class="step"><div class="step-num">2</div><div class="step-content">Σy = 0.777 &nbsp; L = 2×4 = 8s</div></div>
-      <div class="step"><div class="step-num">3</div><div class="step-content">C<sub>o</sub> = (1.5×8+5)/(1−0.777) = 17/0.223 = <span class="math-val">76.2s</span> → ${lang==='bn'?'ব্যবহার করো':'Use'} 80s</div></div>
-      <div class="step"><div class="step-num">4</div><div class="step-content">G<sub>eff</sub> = 80−8 = 72s</div></div>
-      <div class="step"><div class="step-num">5</div><div class="step-content">G₁ = 72×(0.444/0.777) = <span class="math-val">41s</span> &nbsp; G₂ = 72×(0.333/0.777) = <span class="math-val">31s</span></div></div>
-    </div></div></div></div>`;
-  }
-  if(id==='models'){
-    h+=`<div class="lesson-section"><div class="ls-heading">${lang==='bn'?'4-Step Travel Demand Model':'4-Step Travel Demand Model'}</div>
-    <p class="ls-text">${lang==='bn'?'রাস্তা তৈরির আগে, engineers predict করেন কতজন মানুষ এটি ব্যবহার করবে। 4-step model হলো মানক পদ্ধতি — ক্রমানুসারে প্রয়োগ করা হয়, প্রতিটি step পরেরটিকে input দেয়।':'Before building a road, engineers predict how many people will use it. The 4-step model is the standard tool — applied in sequence.'}</p>
-    <div class="key-concepts">
-      <div class="kc-item"><div class="kc-title">${lang==='bn'?'Step 1 — Trip Generation':'Step 1 — Trip Generation'}</div><div class="kc-text">${lang==='bn'?'প্রতিটি zone কতটি trip তৈরি করে ও আকর্ষণ করে? Land use, population, employment-এর উপর নির্ভর করে।':'How many trips does each zone produce and attract? Based on land use, population, employment.'}</div></div>
-      <div class="kc-item"><div class="kc-title">${lang==='bn'?'Step 2 — Trip Distribution':'Step 2 — Trip Distribution'}</div><div class="kc-text">${lang==='bn'?'কোন zone কোন zone-এর trip আকর্ষণ করে? Gravity model: কাছাকাছি বড় zone-এর মধ্যে বেশি trip।':'Which zones attract which trips? Gravity model: more trips between large nearby zones.'}</div></div>
-      <div class="kc-item"><div class="kc-title">${lang==='bn'?'Step 3 — Mode Split':'Step 3 — Mode Split'}</div><div class="kc-text">${lang==='bn'?'মানুষ কীভাবে যাতায়াত করে? গাড়ি, bus, বাইক, হেঁটে? Logit model utility (খরচ, সময়) ব্যবহার করে।':'How do people travel? Car, transit, bike, walk? Logit model uses utility (cost, time).'}</div></div>
-      <div class="kc-item"><div class="kc-title">${lang==='bn'?'Step 4 — Network Assignment':'Step 4 — Network Assignment'}</div><div class="kc-text">${lang==='bn'?'প্রতিটি trip কোন route নেয়? User equilibrium: কোনো চালক route পরিবর্তন করে travel time কমাতে পারে না।':'Which route does each trip take? User equilibrium: no driver can reduce time by switching routes.'}</div></div>
-    </div>
-    <div class="formula-block"><div class="formula-label">Gravity Model (Trip Distribution)</div>
-    T<sub>ij</sub> = P<sub>i</sub>·A<sub>j</sub>·F<sub>ij</sub> / Σ(A<sub>j</sub>·F<sub>ij</sub>) &nbsp; where F<sub>ij</sub> = 1/t<sub>ij</sub>²
-    </div>
-    <div class="formula-block"><div class="formula-label">Logit Mode Split Model</div>
-    P(mode m) = e^(U_m) / Σe^(U_k) &nbsp;&nbsp; U = β₀ + β₁·(time) + β₂·(cost) + ...
-    </div>
-    <div class="practice-section"><div class="ps-header">${t('practiceProblems')}</div>
-      <div class="practice-problem">
-        <div class="pp-q"><strong>${lang==='bn'?'প্র':'P'}1.</strong> ${lang==='bn'?'3-phase signal: y₁=0.35, y₂=0.40, y₃=0.20, lost time=3s/phase। Optimal C বের করো।':'3-phase signal: y₁=0.35, y₂=0.40, y₃=0.20, lost time=3s/phase. Find optimal C.'}</div>
-        <button class="pp-toggle" onclick="toggleAnswer(this)">${t('showAnswer')}</button>
-        <div class="pp-answer">L=9s | Σy=0.95 | C<sub>o</sub>=(13.5+5)/0.05 = <strong>370s</strong> ${lang==='bn'?'(খুব বেশি — intersection near capacity)':'(Very high — intersection near capacity)'}</div>
-      </div>
-      <div class="practice-problem">
-        <div class="pp-q"><strong>${lang==='bn'?'প্র':'P'}2.</strong> ${lang==='bn'?'U_car=−1.20, U_transit=−2.04। গাড়ি বেছে নেওয়ার probability বের করো।':'U_car=−1.20, U_transit=−2.04. Find probability of choosing car.'}</div>
-        <button class="pp-toggle" onclick="toggleAnswer(this)">${t('showAnswer')}</button>
-        <div class="pp-answer">P(car) = e^(−1.20)/(e^(−1.20)+e^(−2.04)) = 0.301/0.431 = <strong>69.8%</strong></div>
-      </div>
-    </div></div>`;
-  }
-  return h;
-}
-
-function showTrafficTab(id,btn){
-  document.querySelectorAll('#trafficTabs .ttab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('[id^="trt-"]').forEach(t=>t.classList.remove('active'));
-  document.getElementById('trt-'+id).classList.add('active');
-  setTimeout(()=>{
-    if(id==='flow') updateTrafficSim();
-    if(id==='signals') drawSignal();
-  },120);
-}
-
-/* =======================================
+})();
+</script>
+</body>
+</html>
