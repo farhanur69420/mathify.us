@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pythagoras Theorem | Class 8 | Mathify</title>
+<meta name="description" content="Discover Pythagoras Theorem through animated visual proofs, interactive right triangles, and Singapore Math word problems.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;transition:background 0.3s,color 0.3s;line-height:1.7;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
+.theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
+
+.page{display:flex;min-height:100vh;padding-top:3.8rem;position:relative;z-index:1;}
+.sidebar{position:sticky;top:3.8rem;width:260px;height:calc(100vh - 3.8rem);overflow-y:auto;border-right:1px solid var(--grid);padding:1.5rem 0;flex-shrink:0;background:var(--paper);}
+.sidebar h3{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:0.8rem 1.5rem 0.4rem;margin-top:0.5rem;}
+.sidebar a{display:block;padding:0.45rem 1.5rem;font-size:0.85rem;color:var(--steel);text-decoration:none;border-left:3px solid transparent;transition:all 0.15s;}
+.sidebar a:hover,.sidebar a.active{color:var(--blueprint);border-left-color:var(--blueprint);background:rgba(96,165,250,0.06);}
+.sidebar .chapter-active{color:var(--blueprint);border-left-color:var(--accent);background:rgba(245,158,11,0.08);}
+
+.content{flex:1;max-width:900px;padding:2.5rem 3rem 4rem;overflow-x:hidden;}
+
+/* breadcrumb */
+.breadcrumb{font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.5rem;}
+.breadcrumb a{color:var(--text-muted);text-decoration:none;}
+.breadcrumb a:hover{color:var(--blueprint);}
+
+/* progress */
+.chapter-progress{display:flex;align-items:center;gap:0.8rem;margin-bottom:2rem;}
+.progress-dots{display:flex;gap:6px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--grid);}
+.dot.done{background:var(--success);}
+.dot.current{background:var(--accent);transform:scale(1.3);}
+.progress-label{font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--text-muted);}
+
+.topic-header{margin-bottom:2rem;animation:fadeUp 0.5s ease both;}
+.topic-header h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;color:var(--blueprint);margin-bottom:0.5rem;}
+.topic-header p{color:var(--steel);font-size:1rem;}
+
+h2.section-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--blueprint);margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--grid);}
+h3.sub-title{font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:600;color:var(--ink);margin:1.8rem 0 0.8rem;}
+
+.concept{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:1.5rem;margin:1.2rem 0;animation:fadeUp 0.4s ease both;}
+.concept-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem;}
+.concept h4{font-size:1.05rem;font-weight:600;color:var(--blueprint);margin-bottom:0.5rem;}
+
+.formula-box{background:var(--code-bg);border-left:4px solid var(--accent);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;overflow-x:auto;font-size:1.1rem;}
+.big-formula{text-align:center;padding:1.5rem;font-size:1.4rem;}
+
+.example{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;margin:1.5rem 0;overflow:hidden;}
+.example-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:rgba(96,165,250,0.08);cursor:pointer;user-select:none;}
+.example-header h4{font-size:0.95rem;color:var(--blueprint);font-weight:600;}
+.example-toggle{font-size:1.2rem;color:var(--blueprint);transition:transform 0.3s;}
+.example-toggle.open{transform:rotate(180deg);}
+.example-body{padding:1.5rem;display:none;border-top:1px solid var(--card-border);}
+.example-body.open{display:block;animation:fadeIn 0.3s ease;}
+.step{display:flex;gap:0.8rem;margin:0.7rem 0;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:0.7rem;background:var(--blueprint);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step-text{flex:1;}
+
+.tip{background:rgba(74,222,128,0.08);border-left:4px solid var(--success);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.92rem;}
+.tip strong{color:var(--success);}
+.note{background:rgba(96,165,250,0.08);border-left:4px solid var(--blueprint);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.92rem;}
+.warn{background:rgba(239,68,68,0.08);border-left:4px solid var(--rust);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.92rem;}
+
+/* ─── BAR MODEL ─── */
+.bar-model{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:1.2rem;margin:1rem 0;}
+.bar-model-label{font-family:'Space Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:0.8rem;}
+
+/* ─── SIMULATION ─── */
+.sim-container{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:1.5rem;margin:1.5rem 0;text-align:center;}
+.sim-title{font-family:'Space Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:1rem;}
+.sim-container canvas{max-width:100%;border-radius:8px;display:block;margin:0 auto;}
+.sim-controls{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:1rem;}
+.sim-controls label{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--steel);}
+.sim-controls input[type="range"]{width:140px;accent-color:var(--blueprint);}
+.sim-btn{font-family:'Space Mono',monospace;font-size:0.72rem;padding:0.5rem 1.2rem;border:1px solid var(--blueprint);background:transparent;color:var(--blueprint);border-radius:6px;cursor:pointer;transition:all 0.2s;}
+.sim-btn:hover,.sim-btn.active{background:var(--blueprint);color:#fff;}
+.sim-output{font-family:'Space Mono',monospace;font-size:0.9rem;color:var(--accent);margin-top:0.8rem;min-height:1.5em;}
+
+/* ─── TRIPLES GRID ─── */
+.triples-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.8rem;margin:1rem 0;}
+.triple-card{background:var(--code-bg);border:1px solid var(--card-border);border-radius:8px;padding:0.8rem;text-align:center;}
+.triple-card .nums{font-family:'Space Mono',monospace;font-size:0.9rem;color:var(--blueprint);font-weight:700;}
+.triple-card .check{font-size:0.75rem;color:var(--success);margin-top:0.3rem;}
+
+/* ─── QUIZ ─── */
+.quiz-section{background:var(--card-bg);border:2px solid var(--card-border);border-radius:16px;padding:2rem;margin:2rem 0;}
+.quiz-section h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--blueprint);margin-bottom:1.5rem;}
+.quiz-q{margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--card-border);}
+.quiz-q:last-of-type{border-bottom:none;}
+.quiz-q p{font-weight:500;margin-bottom:0.8rem;}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;}
+.quiz-opt{padding:0.6rem 1rem;border:1px solid var(--card-border);border-radius:8px;cursor:pointer;font-size:0.9rem;background:var(--paper);color:var(--ink);transition:all 0.2s;text-align:left;}
+.quiz-opt:hover{border-color:var(--blueprint);background:rgba(96,165,250,0.08);}
+.quiz-opt.correct{background:rgba(74,222,128,0.15);border-color:var(--success);color:var(--success);}
+.quiz-opt.wrong{background:rgba(239,68,68,0.12);border-color:var(--rust);color:var(--rust);}
+.quiz-feedback{font-size:0.85rem;margin-top:0.5rem;min-height:1.4em;font-style:italic;}
+.quiz-score{text-align:center;padding:1.5rem;display:none;}
+.quiz-score h4{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--blueprint);}
+.quiz-score p{color:var(--steel);margin-top:0.4rem;}
+.quiz-btn{font-family:'Space Mono',monospace;font-size:0.75rem;padding:0.7rem 1.5rem;background:var(--blueprint);color:#fff;border:none;border-radius:8px;cursor:pointer;margin-top:1rem;transition:opacity 0.2s;}
+.quiz-btn:hover{opacity:0.85;}
+
+/* ─── NAV BUTTONS ─── */
+.chapter-nav{display:flex;justify-content:space-between;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--grid);}
+.ch-nav-btn{display:flex;align-items:center;gap:0.5rem;text-decoration:none;padding:0.8rem 1.2rem;border:1px solid var(--card-border);border-radius:10px;color:var(--steel);font-size:0.9rem;transition:all 0.2s;}
+.ch-nav-btn:hover{border-color:var(--blueprint);color:var(--blueprint);}
+.ch-nav-btn span{font-family:'Space Mono',monospace;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+
+@media(max-width:900px){.sidebar{display:none;}.content{padding:2rem 1.5rem;}nav{padding:0.85rem 1.2rem;}}
+@media(max-width:500px){.quiz-options{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../../lessons/index.html" class="nav-logo">&larr; Mathify</a>
+  <button class="theme-toggle" id="themeToggle">&#9728;&#65039;</button>
+</nav>
+
+<div class="page">
+<!-- ─── SIDEBAR ─── -->
+<aside class="sidebar">
+  <h3>Class 8</h3>
+  <a href="ch1-rational-numbers.html">Ch 1 · Rational Numbers</a>
+  <a href="ch2-linear-equations.html">Ch 2 · Simultaneous Equations</a>
+  <a href="ch3-pythagoras.html" class="chapter-active">Ch 3 · Pythagoras Theorem</a>
+  <a href="ch4-quadrilaterals.html">Ch 4 · Quadrilaterals</a>
+  <a href="ch5-mensuration.html">Ch 5 · Mensuration</a>
+  <h3>Other Classes</h3>
+  <a href="../class-7/ch1-integers.html">Class 7</a>
+  <a href="../index.html">All Lessons</a>
+  <a href="../../math.html">Class 9–12</a>
+</aside>
+
+<!-- ─── CONTENT ─── -->
+<main class="content">
+  <div class="breadcrumb">
+    <a href="../../index.html">Mathify</a> &rsaquo;
+    <a href="../index.html">Lessons</a> &rsaquo;
+    Class 8 &rsaquo; Pythagoras Theorem
+  </div>
+
+  <div class="chapter-progress">
+    <div class="progress-dots">
+      <div class="dot done"></div>
+      <div class="dot done"></div>
+      <div class="dot current"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <span class="progress-label">Chapter 3 of 5</span>
+  </div>
+
+  <div class="topic-header">
+    <h1>&#9651; Pythagoras Theorem</h1>
+    <p>One of the most beautiful truths in mathematics — discovered 2,500 years ago and used every day in engineering, navigation, and architecture.</p>
+  </div>
+
+  <!-- ─── INTUITION FIRST ─── -->
+  <h2 class="section-title">1. The Big Idea — Before Any Formula</h2>
+  <div class="concept">
+    <div class="concept-label">Intuition First</div>
+    <h4>Why Does c² = a² + b² Work?</h4>
+    <p>Imagine drawing a right triangle. Now draw a square on each side. The Pythagoras Theorem says something remarkable:</p>
+    <p style="margin-top:0.8rem;"><strong>The area of the biggest square equals the combined area of the two smaller squares.</strong></p>
+    <p style="margin-top:0.6rem;">That's it. That's the whole theorem. Click "Animate Proof" below to <em>see</em> it happen.</p>
+  </div>
+
+  <!-- ─── VISUAL PROOF ANIMATION ─── -->
+  <div class="sim-container">
+    <div class="sim-title">&#127775; Animated Visual Proof — Pythagoras</div>
+    <canvas id="pythagorasCanvas" width="500" height="400"></canvas>
+    <div class="sim-controls">
+      <label>Side a: <input type="range" id="sideA" min="50" max="120" value="80"> <span id="sideAVal">80</span></label>
+      <label>Side b: <input type="range" id="sideB" min="50" max="120" value="60"> <span id="sideBVal">60</span></label>
+    </div>
+    <div class="sim-controls" style="margin-top:0.5rem;">
+      <button class="sim-btn active" id="btnProof" onclick="setMode('proof')">Visual Proof</button>
+      <button class="sim-btn" id="btnTriangle" onclick="setMode('triangle')">Triangle Explorer</button>
+      <button class="sim-btn" id="btnAnimate" onclick="animateProof()">&#9654; Animate</button>
+    </div>
+    <div class="sim-output" id="simOutput">a² + b² = c² &nbsp;&#8594;&nbsp; <span id="calcOutput">6400 + 3600 = 10000 → c = 100</span></div>
+  </div>
+
+  <div class="formula-box big-formula">
+    $$c^2 = a^2 + b^2$$
+    <div style="font-size:0.85rem;margin-top:0.5rem;font-family:'DM Sans',sans-serif;opacity:0.7;">where <em>c</em> is the hypotenuse (longest side, opposite the right angle)</div>
+  </div>
+
+  <div class="tip"><strong>Key Rule:</strong> The hypotenuse is ALWAYS the side opposite the right angle. It is ALWAYS the longest side. You cannot apply Pythagoras without a right angle!</div>
+
+  <!-- ─── WORKED EXAMPLES ─── -->
+  <h2 class="section-title">2. Finding the Missing Side</h2>
+
+  <div class="concept">
+    <div class="concept-label">Two Types of Problems</div>
+    <h4>Type 1: Find the Hypotenuse (c)</h4>
+    <p>When you know both shorter sides (a and b), use: $c = \sqrt{a^2 + b^2}$</p>
+    <h4 style="margin-top:1rem;">Type 2: Find a Shorter Side (a or b)</h4>
+    <p>When you know c and one other side, rearrange: $a = \sqrt{c^2 - b^2}$</p>
+  </div>
+
+  <div class="example">
+    <div class="example-header" onclick="toggleExample(this)">
+      <h4>&#128296; Example 1: Ladder Problem — Find the Hypotenuse</h4>
+      <span class="example-toggle">&#9660;</span>
+    </div>
+    <div class="example-body">
+      <p style="margin-bottom:1rem;"><strong>Problem:</strong> A ladder leans against a wall. Its foot is 5m from the base of the wall, and reaches a height of 12m up the wall. How long is the ladder?</p>
+      <div class="step"><span class="step-num">1</span><div class="step-text"><strong>Draw and label:</strong> Right triangle with legs a = 5m, b = 12m. Find hypotenuse c (the ladder).</div></div>
+      <div class="step"><span class="step-num">2</span><div class="step-text"><strong>Write the formula:</strong> $c^2 = a^2 + b^2 = 5^2 + 12^2$</div></div>
+      <div class="step"><span class="step-num">3</span><div class="step-text"><strong>Calculate:</strong> $c^2 = 25 + 144 = 169$</div></div>
+      <div class="step"><span class="step-num">4</span><div class="step-text"><strong>Take the square root:</strong> $c = \sqrt{169} = 13\text{ m}$</div></div>
+      <div class="tip" style="margin-top:1rem;"><strong>Answer:</strong> The ladder is <strong>13 metres</strong> long. Notice 5-12-13 is a Pythagorean triple!</div>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="example-header" onclick="toggleExample(this)">
+      <h4>&#128296; Example 2: Find the Shorter Side</h4>
+      <span class="example-toggle">&#9660;</span>
+    </div>
+    <div class="example-body">
+      <p style="margin-bottom:1rem;"><strong>Problem:</strong> A ship sails 26km from port, ending up 10km east of the port. How far north did it travel?</p>
+      <div class="step"><span class="step-num">1</span><div class="step-text"><strong>Identify:</strong> Hypotenuse c = 26km (total journey). One leg (east) b = 10km. Find north distance a.</div></div>
+      <div class="step"><span class="step-num">2</span><div class="step-text"><strong>Rearrange:</strong> $a^2 = c^2 - b^2 = 26^2 - 10^2$</div></div>
+      <div class="step"><span class="step-num">3</span><div class="step-text"><strong>Calculate:</strong> $a^2 = 676 - 100 = 576$</div></div>
+      <div class="step"><span class="step-num">4</span><div class="step-text"><strong>Answer:</strong> $a = \sqrt{576} = 24\text{ km}$ north</div></div>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="example-header" onclick="toggleExample(this)">
+      <h4>&#128296; Example 3: Singapore Math Multi-Step Challenge</h4>
+      <span class="example-toggle">&#9660;</span>
+    </div>
+    <div class="example-body">
+      <p style="margin-bottom:1rem;"><strong>Problem:</strong> A rectangular field is 40m long and 30m wide. A farmer wants to fence diagonally across the field and also around the perimeter. Find: (a) the diagonal length, (b) the total fencing needed for both the diagonal and full perimeter, (c) the cost at $8 per metre.</p>
+
+      <div class="bar-model">
+        <div class="bar-model-label">&#9632; Model Drawing</div>
+        <svg width="280" height="160" viewBox="0 0 280 160" style="max-width:100%;">
+          <rect x="20" y="20" width="200" height="120" fill="none" stroke="#60a5fa" stroke-width="2" rx="3"/>
+          <line x1="20" y1="140" x2="220" y2="20" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="6,3"/>
+          <text x="110" y="155" font-family="monospace" font-size="12" fill="#94a3b8" text-anchor="middle">40m</text>
+          <text x="232" y="85" font-family="monospace" font-size="12" fill="#94a3b8">30m</text>
+          <text x="90" y="100" font-family="monospace" font-size="13" fill="#f59e0b" transform="rotate(-31,90,100)">d = ?</text>
+          <rect x="20" y="120" width="12" height="12" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <div class="step"><span class="step-num">1</span><div class="step-text"><strong>Part (a) — Diagonal:</strong> $d^2 = 40^2 + 30^2 = 1600 + 900 = 2500$, so $d = 50\text{ m}$</div></div>
+      <div class="step"><span class="step-num">2</span><div class="step-text"><strong>Part (b) — Perimeter:</strong> $P = 2(40 + 30) = 140\text{ m}$. Total fencing = $140 + 50 = 190\text{ m}$</div></div>
+      <div class="step"><span class="step-num">3</span><div class="step-text"><strong>Part (c) — Cost:</strong> $190 \times \$8 = \$1520$</div></div>
+      <div class="tip" style="margin-top:0.8rem;"><strong>Answer:</strong> Diagonal = 50m, Total fencing = 190m, Cost = <strong>$1,520</strong></div>
+    </div>
+  </div>
+
+  <!-- ─── PYTHAGOREAN TRIPLES ─── -->
+  <h2 class="section-title">3. Pythagorean Triples — Your Calculator Shortcuts</h2>
+  <div class="concept">
+    <div class="concept-label">Shortcut</div>
+    <h4>Whole-Number Solutions You Must Memorize</h4>
+    <p>These sets of 3 whole numbers always satisfy $a^2 + b^2 = c^2$. Recognizing them saves enormous time in exams!</p>
+  </div>
+
+  <div class="triples-grid">
+    <div class="triple-card">
+      <div class="nums">3 · 4 · 5</div>
+      <div class="check">9 + 16 = 25 ✓</div>
+    </div>
+    <div class="triple-card">
+      <div class="nums">5 · 12 · 13</div>
+      <div class="check">25 + 144 = 169 ✓</div>
+    </div>
+    <div class="triple-card">
+      <div class="nums">8 · 15 · 17</div>
+      <div class="check">64 + 225 = 289 ✓</div>
+    </div>
+    <div class="triple-card">
+      <div class="nums">7 · 24 · 25</div>
+      <div class="check">49 + 576 = 625 ✓</div>
+    </div>
+    <div class="triple-card">
+      <div class="nums">6 · 8 · 10</div>
+      <div class="check">3-4-5 scaled ✓</div>
+    </div>
+    <div class="triple-card">
+      <div class="nums">9 · 40 · 41</div>
+      <div class="check">81 + 1600 = 1681 ✓</div>
+    </div>
+  </div>
+
+  <div class="note"><strong>Scaling Rule:</strong> Any multiple of a Pythagorean triple is also a triple! So 3-4-5 becomes 6-8-10, 9-12-15, 30-40-50, etc.</div>
+
+  <!-- ─── CONVERSE ─── -->
+  <h2 class="section-title">4. The Converse — Is This Triangle Right-Angled?</h2>
+  <div class="concept">
+    <div class="concept-label">Converse Theorem</div>
+    <h4>Testing Right Angles</h4>
+    <p>If $a^2 + b^2 = c^2$, then the triangle <strong>IS</strong> right-angled at the angle opposite c.</p>
+    <p style="margin-top:0.5rem;">If $a^2 + b^2 \neq c^2$, then the triangle is <strong>NOT</strong> right-angled.</p>
+  </div>
+
+  <!-- ─── INTERACTIVE TRIANGLE TESTER ─── -->
+  <div class="sim-container">
+    <div class="sim-title">&#9651; Triangle Right-Angle Tester</div>
+    <div style="display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;padding:1rem;">
+      <label style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--steel);">a = <input type="number" id="ta" value="3" min="1" max="100" style="width:60px;padding:0.3rem;background:var(--code-bg);border:1px solid var(--card-border);color:var(--ink);border-radius:4px;font-family:inherit;"></label>
+      <label style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--steel);">b = <input type="number" id="tb" value="4" min="1" max="100" style="width:60px;padding:0.3rem;background:var(--code-bg);border:1px solid var(--card-border);color:var(--ink);border-radius:4px;font-family:inherit;"></label>
+      <label style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--steel);">c = <input type="number" id="tc" value="5" min="1" max="100" style="width:60px;padding:0.3rem;background:var(--code-bg);border:1px solid var(--card-border);color:var(--ink);border-radius:4px;font-family:inherit;"></label>
+      <button class="sim-btn" onclick="testRightAngle()">Test Triangle</button>
+    </div>
+    <div id="rightAngleResult" class="sim-output" style="font-size:1rem;padding:0.5rem;min-height:2em;"></div>
+  </div>
+
+  <!-- ─── WORD PROBLEMS ─── -->
+  <h2 class="section-title">5. Singapore Math Challenge Problems</h2>
+
+  <div class="note">
+    <strong>Strategy:</strong> For every word problem — (1) Draw a diagram, (2) Label all known values, (3) Identify the right angle, (4) Write the formula, (5) Solve step by step.
+  </div>
+
+  <div class="example">
+    <div class="example-header" onclick="toggleExample(this)">
+      <h4>&#127942; Challenge 1: Two Paths</h4>
+      <span class="example-toggle">&#9660;</span>
+    </div>
+    <div class="example-body">
+      <p><strong>Problem:</strong> From school, Ahmed walks 9km north, then 12km east to reach the library. His friend Sarah takes the straight road directly from school to library. How much shorter is Sarah's route?</p>
+      <div class="step"><span class="step-num">1</span><div class="step-text"><strong>Visualize:</strong> North + East = right angle! Ahmed's path forms the two legs.</div></div>
+      <div class="step"><span class="step-num">2</span><div class="step-text">$d^2 = 9^2 + 12^2 = 81 + 144 = 225$, so $d = 15$ km</div></div>
+      <div class="step"><span class="step-num">3</span><div class="step-text">Ahmed's total = $9 + 12 = 21$ km. Sarah's = 15 km.</div></div>
+      <div class="tip"><strong>Answer:</strong> Sarah's route is $21 - 15 = \mathbf{6\text{ km shorter}}$</div>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="example-header" onclick="toggleExample(this)">
+      <h4>&#127942; Challenge 2: TV Screen Diagonal</h4>
+      <span class="example-toggle">&#9660;</span>
+    </div>
+    <div class="example-body">
+      <p><strong>Problem:</strong> A TV screen has a diagonal of 50 inches. The width is 40 inches. Find (a) the height, (b) the area of the screen, (c) if a frame adds 2 inches to each side, the new outer dimensions.</p>
+      <div class="step"><span class="step-num">1</span><div class="step-text">$h^2 = 50^2 - 40^2 = 2500 - 1600 = 900$, so height $= 30$ inches</div></div>
+      <div class="step"><span class="step-num">2</span><div class="step-text">Area $= 40 \times 30 = 1200$ square inches</div></div>
+      <div class="step"><span class="step-num">3</span><div class="step-text">Frame adds 2 on each side: outer width $= 44$ in, outer height $= 34$ in</div></div>
+      <div class="tip"><strong>Answers:</strong> Height = 30 in, Area = 1200 in², Outer size = 44 × 34 in</div>
+    </div>
+  </div>
+
+  <!-- ─── QUIZ ─── -->
+  <h2 class="section-title">6. Test Yourself</h2>
+  <div class="quiz-section">
+    <h3>&#127919; Quick Quiz — Pythagoras</h3>
+
+    <div class="quiz-q" id="q1">
+      <p>1. A right triangle has legs of 6cm and 8cm. What is the hypotenuse?</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">12 cm</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',true)">10 cm</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">14 cm</button>
+        <button class="quiz-opt" onclick="answer(this,'q1',false)">100 cm</button>
+      </div>
+      <div class="quiz-feedback" id="q1-fb"></div>
+    </div>
+
+    <div class="quiz-q" id="q2">
+      <p>2. The hypotenuse is 17cm and one leg is 8cm. Find the other leg.</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">9 cm</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">225 cm</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',true)">15 cm</button>
+        <button class="quiz-opt" onclick="answer(this,'q2',false)">289 cm</button>
+      </div>
+      <div class="quiz-feedback" id="q2-fb"></div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <p>3. Which set of sides forms a right triangle?</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">4, 6, 8</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',true)">7, 24, 25</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">5, 10, 13</button>
+        <button class="quiz-opt" onclick="answer(this,'q3',false)">3, 4, 6</button>
+      </div>
+      <div class="quiz-feedback" id="q3-fb"></div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <p>4. A square has a diagonal of $10\sqrt{2}$ cm. What is the side length?</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">5 cm</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',true)">10 cm</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">$5\sqrt{2}$ cm</button>
+        <button class="quiz-opt" onclick="answer(this,'q4',false)">$10\sqrt{3}$ cm</button>
+      </div>
+      <div class="quiz-feedback" id="q4-fb"></div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <p>5. A 26m wire runs from the top of a 24m pole to a point on the ground. How far is that point from the base of the pole?</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">2 m</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">8 m</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',true)">10 m</button>
+        <button class="quiz-opt" onclick="answer(this,'q5',false)">50 m</button>
+      </div>
+      <div class="quiz-feedback" id="q5-fb"></div>
+    </div>
+
+    <div class="quiz-score" id="quiz-score">
+      <h4 id="score-title">&#127881;</h4>
+      <p id="score-msg"></p>
+      <button class="quiz-btn" onclick="resetQuiz()">Try Again</button>
+    </div>
+  </div>
+
+  <!-- ─── CHAPTER NAV ─── -->
+  <div class="chapter-nav">
+    <a href="ch2-linear-equations.html" class="ch-nav-btn">
+      <span>&#8592;</span>
+      <div><span>Previous</span><br>Ch 2: Simultaneous Equations</div>
+    </a>
+    <a href="ch4-quadrilaterals.html" class="ch-nav-btn">
+      <div style="text-align:right;"><span>Next</span><br>Ch 4: Quadrilaterals</div>
+      <span>&#8594;</span>
+    </a>
+  </div>
+</main>
+</div>
+
+<script>
+// ─── THEME ───
+const html = document.documentElement;
+const btn = document.getElementById('themeToggle');
+const saved = localStorage.getItem('theme') || 'dark';
+html.setAttribute('data-theme', saved);
+btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+btn.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  draw();
+});
+
+// ─── EXAMPLE TOGGLE ───
+function toggleExample(header) {
+  const body = header.nextElementSibling;
+  const icon = header.querySelector('.example-toggle');
+  const open = body.classList.toggle('open');
+  icon.classList.toggle('open', open);
+}
+
+// ─── CANVAS SETUP ───
+const canvas = document.getElementById('pythagorasCanvas');
+const ctx = canvas.getContext('2d');
+let mode = 'proof';
+let animProgress = 0;
+let animating = false;
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.sim-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn' + m.charAt(0).toUpperCase() + m.slice(1)).classList.add('active');
+  draw();
+}
+
+function getDims() {
+  const a = parseInt(document.getElementById('sideA').value);
+  const b = parseInt(document.getElementById('sideB').value);
+  return { a, b, c: Math.sqrt(a*a + b*b) };
+}
+
+function getColors() {
+  const dark = html.getAttribute('data-theme') === 'dark';
+  return {
+    bg: dark ? '#0d1117' : '#f8f5f0',
+    text: dark ? '#e2e8f0' : '#0d0d0d',
+    muted: dark ? '#64748b' : '#888',
+    blue: '#3b82f6',
+    orange: '#f59e0b',
+    green: '#4ade80',
+    red: '#f87171',
+    border: dark ? '#1e293b' : '#d4cfc4'
+  };
+}
+
+function draw() {
+  if (mode === 'proof') drawProof(animProgress);
+  else drawTriangleExplorer();
+}
+
+function drawProof(progress = 1) {
+  const { a, b, c } = getDims();
+  const C = getColors();
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = C.bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Scale factor
+  const scale = Math.min((W * 0.35) / Math.max(a, b), 2.5);
+  const sa = a * scale, sb = b * scale, sc = c * scale;
+
+  // Place right angle at bottom-left of center-ish area
+  const ox = W/2 - sb/2 + 20;
+  const oy = H/2 + sa/2 - 10;
+
+  // Draw the right triangle
+  ctx.fillStyle = 'rgba(96,165,250,0.15)';
+  ctx.beginPath();
+  ctx.moveTo(ox, oy);
+  ctx.lineTo(ox + sb, oy);
+  ctx.lineTo(ox, oy - sa);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = C.blue;
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Right angle marker
+  const rm = 12;
+  ctx.strokeStyle = C.muted;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(ox + rm, oy);
+  ctx.lineTo(ox + rm, oy - rm);
+  ctx.lineTo(ox, oy - rm);
+  ctx.stroke();
+
+  // Label sides
+  ctx.fillStyle = C.text;
+  ctx.font = 'bold 14px "DM Sans", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('a', ox - 18, oy - sa/2);
+  ctx.fillText('b', ox + sb/2, oy + 18);
+  ctx.fillText('c', ox + sb/2 + 10, oy - sa/2 - 5);
+
+  // Square on side a (left) — red
+  const alphaA = Math.min(progress * 2, 1);
+  ctx.globalAlpha = alphaA;
+  ctx.fillStyle = 'rgba(248,113,113,0.2)';
+  ctx.fillRect(ox - sa, oy - sa, sa, sa);
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(ox - sa, oy - sa, sa, sa);
+  ctx.fillStyle = '#ef4444';
+  ctx.font = 'bold 14px "DM Sans", sans-serif';
+  ctx.fillText('a²', ox - sa/2, oy - sa/2);
+  ctx.globalAlpha = 1;
+
+  // Square on side b (bottom) — orange
+  const alphaB = Math.min(Math.max((progress - 0.3) * 2, 0), 1);
+  ctx.globalAlpha = alphaB;
+  ctx.fillStyle = 'rgba(245,158,11,0.2)';
+  ctx.fillRect(ox, oy, sb, sb);
+  ctx.strokeStyle = '#f59e0b';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(ox, oy, sb, sb);
+  ctx.fillStyle = '#f59e0b';
+  ctx.fillText('b²', ox + sb/2, oy + sb/2 + 5);
+  ctx.globalAlpha = 1;
+
+  // Square on hypotenuse c — green (rotated)
+  const alphaC = Math.min(Math.max((progress - 0.6) * 2.5, 0), 1);
+  ctx.globalAlpha = alphaC;
+  const angle = Math.atan2(sa, sb);
+  ctx.save();
+  ctx.translate(ox + sb, oy - sa);
+  ctx.rotate(-(Math.PI/2 - angle));
+  ctx.fillStyle = 'rgba(74,222,128,0.2)';
+  ctx.fillRect(0, 0, sc, sc);
+  ctx.strokeStyle = '#4ade80';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(0, 0, sc, sc);
+  ctx.fillStyle = '#4ade80';
+  ctx.textAlign = 'center';
+  ctx.fillText('c²', sc/2, sc/2 + 5);
+  ctx.restore();
+  ctx.globalAlpha = 1;
+
+  // Equation at top
+  ctx.fillStyle = C.text;
+  ctx.font = 'bold 16px "Space Mono", monospace';
+  ctx.textAlign = 'center';
+  const aVal = Math.round(a * a), bVal = Math.round(b * b), cVal = Math.round(c * c);
+  if(progress < 0.5) ctx.fillText('a² + b² = c²', W/2, 30);
+  else ctx.fillText(`${aVal} + ${bVal} = ${cVal} ✓`, W/2, 30);
+
+  // Update info
+  document.getElementById('calcOutput').textContent =
+    `${aVal} + ${bVal} = ${Math.round(c*c)} → c ≈ ${c.toFixed(2)}`;
+}
+
+function drawTriangleExplorer() {
+  const { a, b, c } = getDims();
+  const C = getColors();
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = C.bg;
+  ctx.fillRect(0, 0, W, H);
+
+  const scale = Math.min((W * 0.5) / Math.max(a, b, c), 3);
+  const sa = a * scale, sb = b * scale;
+  const ox = W/2 - sb/2, oy = H/2 + sa/2;
+
+  // Fill triangle
+  ctx.fillStyle = 'rgba(96,165,250,0.12)';
+  ctx.beginPath();
+  ctx.moveTo(ox, oy);
+  ctx.lineTo(ox + sb, oy);
+  ctx.lineTo(ox, oy - sa);
+  ctx.closePath();
+  ctx.fill();
+
+  // Gradient stroke for hypotenuse
+  const grad = ctx.createLinearGradient(ox + sb, oy, ox, oy - sa);
+  grad.addColorStop(0, '#f59e0b');
+  grad.addColorStop(1, '#f59e0b');
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(ox + sb, oy);
+  ctx.lineTo(ox, oy - sa);
+  ctx.stroke();
+
+  // Other sides
+  ctx.strokeStyle = C.blue;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(ox, oy);
+  ctx.lineTo(ox + sb, oy);
+  ctx.moveTo(ox, oy);
+  ctx.lineTo(ox, oy - sa);
+  ctx.stroke();
+
+  // Right angle
+  const rm = 14;
+  ctx.strokeStyle = C.muted;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(ox + rm, oy);
+  ctx.lineTo(ox + rm, oy - rm);
+  ctx.lineTo(ox, oy - rm);
+  ctx.stroke();
+
+  // Labels
+  ctx.font = 'bold 15px "DM Sans", sans-serif';
+  ctx.fillStyle = C.blue;
+  ctx.textAlign = 'center';
+  ctx.fillText(`a = ${a}`, ox - 30, oy - sa/2);
+  ctx.fillText(`b = ${b}`, ox + sb/2, oy + 22);
+  ctx.fillStyle = '#f59e0b';
+  ctx.fillText(`c = ${c.toFixed(1)}`, ox + sb/2 + 15, oy - sa/2 - 5);
+
+  ctx.fillStyle = C.text;
+  ctx.font = 'bold 15px "Space Mono", monospace';
+  ctx.fillText(`${a}² + ${b}² = ${Math.round(c*c)}`, W/2, H - 20);
+}
+
+function animateProof() {
+  animProgress = 0;
+  animating = true;
+  function step() {
+    animProgress = Math.min(animProgress + 0.018, 1);
+    drawProof(animProgress);
+    if(animProgress < 1) requestAnimationFrame(step);
+    else animating = false;
+  }
+  requestAnimationFrame(step);
+}
+
+// Slider events
+['sideA','sideB'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function(){
+    document.getElementById(id + 'Val').textContent = this.value;
+    draw();
+  });
+});
+
+// Initial draw
+draw();
+
+// ─── RIGHT ANGLE TESTER ───
+function testRightAngle() {
+  const a = parseFloat(document.getElementById('ta').value);
+  const b = parseFloat(document.getElementById('tb').value);
+  const c = parseFloat(document.getElementById('tc').value);
+  const sides = [a, b, c].sort((x, y) => x - y);
+  const [s1, s2, s3] = sides;
+  const lhs = Math.round((s1*s1 + s2*s2) * 1000) / 1000;
+  const rhs = Math.round(s3 * s3 * 1000) / 1000;
+  const res = document.getElementById('rightAngleResult');
+  if(lhs === rhs) {
+    res.innerHTML = `<span style="color:var(--success)">✓ Yes! ${s1}² + ${s2}² = ${s3}² (${lhs} = ${rhs}) — Right-angled triangle!</span>`;
+  } else {
+    res.innerHTML = `<span style="color:var(--rust)">✗ No. ${s1}² + ${s2}² = ${lhs} ≠ ${rhs} = ${s3}² — Not a right triangle</span>`;
+  }
+}
+
+// ─── QUIZ ───
+let scores = {};
+let answered = {};
+const total = 5;
+
+const explanations = {
+  q1: '6² + 8² = 36 + 64 = 100, so c = √100 = 10. This is the 6-8-10 triple (3-4-5 doubled)!',
+  q2: 'a² = 17² - 8² = 289 - 64 = 225, so a = 15. This is the 8-15-17 Pythagorean triple!',
+  q3: '7² + 24² = 49 + 576 = 625 = 25² ✓. This is one of the famous Pythagorean triples.',
+  q4: 'If diagonal d = 10√2 and side = s, then s² + s² = d², so 2s² = 200, s² = 100, s = 10.',
+  q5: 'a² = 26² - 24² = 676 - 576 = 100, so a = 10. This is the 10-24-26 (5-12-13 doubled) triple!'
+};
+
+function answer(btn, qId, correct) {
+  if(answered[qId]) return;
+  answered[qId] = true;
+  if(correct) scores[qId] = 1;
+
+  const opts = btn.closest('.quiz-q').querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if(!correct) {
+    opts.forEach(o => { if(o.onclick.toString().includes('true')) o.classList.add('correct'); });
+  }
+
+  const fb = document.getElementById(qId + '-fb');
+  fb.style.color = correct ? 'var(--success)' : 'var(--rust)';
+  fb.textContent = (correct ? '✓ Correct! ' : '✗ Not quite. ') + explanations[qId];
+
+  if(Object.keys(answered).length === total) showScore();
+}
+
+function showScore() {
+  const s = Object.values(scores).reduce((a, b) => a + b, 0);
+  const el = document.getElementById('quiz-score');
+  el.style.display = 'block';
+  document.getElementById('score-title').textContent =
+    s === 5 ? '🏆 Perfect Score! 5/5' : s >= 3 ? `👍 Good Job! ${s}/5` : `📚 Keep Practising: ${s}/5`;
+  document.getElementById('score-msg').textContent =
+    s === 5 ? 'Brilliant! You mastered Pythagoras Theorem!' :
+    s >= 3 ? 'Good effort! Review the triples section and try again.' :
+    'No worries — go back through the examples, then retry.';
+}
+
+function resetQuiz() {
+  scores = {}; answered = {};
+  document.querySelectorAll('.quiz-opt').forEach(o => {
+    o.disabled = false;
+    o.classList.remove('correct','wrong');
+  });
+  document.querySelectorAll('.quiz-feedback').forEach(f => f.textContent = '');
+  document.getElementById('quiz-score').style.display = 'none';
+}
+</script>
+</body>
+</html>

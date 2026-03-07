@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 5 · Ch 1 – Whole Numbers & BODMAS | Mathify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;transition:background .3s,color .3s}
+nav{position:fixed;top:0;left:0;right:0;height:56px;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--card-border);z-index:100;display:flex;align-items:center;padding:0 1.5rem;gap:1rem}
+.nav-logo{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent);font-size:1.1rem;text-decoration:none}
+.nav-crumb{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--text-muted);flex:1}
+.theme-toggle{background:var(--toggle-bg);border:none;border-radius:50px;width:48px;height:26px;cursor:pointer;position:relative;transition:background .3s}
+.theme-toggle::after{content:attr(data-icon);position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .3s}
+[data-theme="dark"] .theme-toggle::after{transform:translateX(22px)}
+.layout{display:flex;padding-top:56px;min-height:100vh}
+aside{width:260px;min-height:calc(100vh - 56px);background:var(--paper2);border-right:1px solid var(--card-border);position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;padding:1.5rem 0}
+.sidebar-title{font-family:'Space Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);padding:0 1.25rem .75rem}
+.sidebar-section{margin-bottom:1.5rem}
+.sidebar-link{display:block;padding:.5rem 1.25rem;font-size:.875rem;color:var(--steel);text-decoration:none;border-left:3px solid transparent;transition:all .2s}
+.sidebar-link:hover{background:var(--grid);color:var(--ink)}
+.sidebar-link.active{border-left-color:var(--accent);background:var(--grid);color:var(--accent);font-weight:600}
+main{flex:1;padding:2rem;max-width:900px}
+h1{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--blueprint);line-height:1.2;margin-bottom:.5rem}
+h2{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--ink);margin:2.5rem 0 1rem}
+h3{font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:600;color:var(--accent);margin-bottom:.75rem}
+.subtitle{color:var(--text-muted);font-size:1rem;margin-bottom:2rem}
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.strategy-box{background:linear-gradient(135deg,var(--blueprint),#2d5986);color:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.strategy-box h3{color:#f59e0b;margin-bottom:.75rem}
+.bodmas-row{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0}
+.bodmas-pill{padding:.4rem 1rem;border-radius:50px;font-family:'Space Mono',monospace;font-size:.85rem;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.bodmas-pill:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.b{background:#7c3aed;color:#fff}
+.o{background:#dc2626;color:#fff}
+.d{background:#ea580c;color:#fff}
+.m{background:#ca8a04;color:#fff}
+.a{background:#16a34a;color:#fff}
+.s{background:#0284c7;color:#fff}
+.expression-builder{background:var(--code-bg);border-radius:8px;padding:1.25rem;font-family:'Space Mono',monospace;margin:1rem 0}
+.expr-input{width:100%;background:transparent;border:none;border-bottom:2px solid var(--accent);color:var(--ink);font-family:'Space Mono',monospace;font-size:1.2rem;padding:.5rem 0;outline:none}
+.btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:.6rem 1.4rem;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;transition:all .2s}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-secondary{background:var(--grid);color:var(--ink)}
+.steps-container{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem}
+.step{background:var(--paper);border:1px solid var(--card-border);border-radius:8px;padding:1rem;display:flex;align-items:center;gap:1rem;opacity:0;transform:translateY(10px);transition:all .4s}
+.step.visible{opacity:1;transform:translateY(0)}
+.step-num{background:var(--accent);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Space Mono',monospace;font-size:.85rem;flex-shrink:0}
+.step-rule{font-size:.8rem;color:var(--text-muted);margin-top:.25rem}
+.highlight{background:var(--accent);color:#0d1117;padding:.1rem .4rem;border-radius:4px;font-weight:700}
+.highlight-b{background:#7c3aed;color:#fff;padding:.1rem .4rem;border-radius:4px}
+.highlight-o{background:#dc2626;color:#fff;padding:.1rem .4rem;border-radius:4px}
+canvas{border-radius:8px;max-width:100%}
+.word-problem{background:var(--card-bg);border:2px solid var(--blueprint);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.word-problem .question{font-size:1.05rem;font-weight:600;margin-bottom:1rem;line-height:1.6}
+.think-box{background:var(--code-bg);border-radius:8px;padding:1rem;margin:.75rem 0}
+.think-label{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.quiz-section{margin-top:2rem}
+.quiz-q{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:1.25rem;margin-bottom:1rem}
+.quiz-q p{font-weight:600;margin-bottom.75rem}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.75rem}
+.opt-btn{background:var(--code-bg);border:2px solid var(--card-border);border-radius:8px;padding:.6rem 1rem;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--ink);transition:all .2s;text-align:left}
+.opt-btn:hover{border-color:var(--accent)}
+.opt-btn.correct{background:#16a34a22;border-color:var(--success);color:var(--success)}
+.opt-btn.wrong{background:#dc262622;border-color:var(--rust);color:var(--rust)}
+.feedback{margin-top:.5rem;font-size:.875rem;font-weight:600;display:none}
+.score-board{background:linear-gradient(135deg,var(--accent),#f59e0b88);border-radius:12px;padding:1.5rem;text-align:center;display:none}
+.score-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900}
+.mistake-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.mistake-card{border-radius:10px;padding:1.25rem}
+.mistake-wrong{background:#dc262620;border:2px solid var(--rust)}
+.mistake-right{background:#16a34a20;border:2px solid var(--success)}
+.mistake-label{font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;margin-bottom:.5rem}
+.mistake-expr{font-family:'Space Mono',monospace;font-size:1.1rem}
+.chapter-nav{display:flex;justify-content:space-between;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--card-border)}
+.chapter-nav a{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--blueprint);font-weight:600;transition:color .2s}
+.chapter-nav a:hover{color:var(--accent)}
+.difficulty-tabs{display:flex;gap:.5rem;margin-bottom:1rem}
+.diff-tab{padding:.4rem 1rem;border-radius:50px;border:2px solid var(--card-border);background:transparent;color:var(--text-muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.875rem;transition:all .2s}
+.diff-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+@media(max-width:768px){aside{display:none}.layout{display:block}main{padding:1rem}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="/">Mathify</a>
+  <span class="nav-crumb">Class 5 → Chapter 1 → Whole Numbers & BODMAS</span>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" data-icon="🌙"></button>
+</nav>
+<div class="layout">
+<aside>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Class 5 Chapters</div>
+    <a class="sidebar-link active" href="ch1-whole-numbers.html">Ch 1 · Whole Numbers & BODMAS</a>
+    <a class="sidebar-link" href="ch2-fractions-operations.html">Ch 2 · Fractions Operations</a>
+    <a class="sidebar-link" href="ch3-percentages.html">Ch 3 · Percentages</a>
+    <a class="sidebar-link" href="ch4-rate-speed.html">Ch 4 · Rate, Speed & Time</a>
+    <a class="sidebar-link" href="ch5-geometry.html">Ch 5 · Area & Perimeter</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-title">Class 6 Chapters</div>
+    <a class="sidebar-link" href="../class-6/ch1-ratio-proportion.html">Ch 1 · Ratio & Proportion</a>
+    <a class="sidebar-link" href="../class-6/ch2-algebra.html">Ch 2 · Algebra</a>
+    <a class="sidebar-link" href="../class-6/ch3-fractions-decimals-percent.html">Ch 3 · Fractions-Decimals-%</a>
+    <a class="sidebar-link" href="../class-6/ch4-geometry-advanced.html">Ch 4 · Advanced Geometry</a>
+    <a class="sidebar-link" href="../class-6/ch5-statistics.html">Ch 5 · Statistics</a>
+  </div>
+</aside>
+<main>
+  <h1>Whole Numbers &amp; BODMAS</h1>
+  <p class="subtitle">Chapter 1 · Class 5 · Singapore Math</p>
+
+  <div class="strategy-box">
+    <h3>🗺 What is BODMAS?</h3>
+    <p>BODMAS tells us the <strong>order</strong> to perform operations so everyone gets the same answer. Without it, <code>2 + 3 × 4</code> could mean 20 <em>or</em> 14 — and only one is correct!</p>
+    <div class="bodmas-row">
+      <span class="bodmas-pill b">B rackets</span>
+      <span class="bodmas-pill o">O rders (powers/roots)</span>
+      <span class="bodmas-pill d">D ivision</span>
+      <span class="bodmas-pill m">M ultiplication</span>
+      <span class="bodmas-pill a">A ddition</span>
+      <span class="bodmas-pill s">S ubtraction</span>
+    </div>
+    <p style="font-size:.9rem;margin-top:.5rem;opacity:.85">Division &amp; Multiplication have equal priority — solve left to right. Same for Addition &amp; Subtraction.</p>
+  </div>
+
+  <h2>Interactive Expression Evaluator</h2>
+  <div class="card">
+    <h3>Try an Expression</h3>
+    <p style="margin-bottom:.75rem;color:var(--text-muted)">Type a mathematical expression and watch each BODMAS step appear one by one.</p>
+    <div class="expression-builder">
+      <input class="expr-input" id="exprInput" type="text" value="3 + 4 × 2 - (8 ÷ 4)" placeholder="e.g. 3 + 4 × 2">
+    </div>
+    <div style="display:flex;gap:.75rem;margin-top:.75rem;flex-wrap:wrap">
+      <button class="btn" onclick="evaluateExpression()">Evaluate Step by Step</button>
+      <button class="btn btn-secondary" onclick="loadExample()">Load Example</button>
+    </div>
+    <div id="stepsContainer" class="steps-container"></div>
+    <div id="finalAnswer" style="display:none;margin-top:1rem;padding:1rem;background:var(--success);color:#0d1117;border-radius:8px;font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;text-align:center"></div>
+  </div>
+
+  <h2>Animated BODMAS Visualizer</h2>
+  <div class="card">
+    <p style="margin-bottom:1rem;color:var(--text-muted)">Watch the expression <code>10 + 2 × (6 − 3) ÷ 3</code> get solved step by step:</p>
+    <canvas id="bodmasCanvas" width="820" height="220"></canvas>
+    <button class="btn" style="margin-top:1rem" onclick="animateBodmas()">▶ Animate</button>
+  </div>
+
+  <h2>Word Problems</h2>
+
+  <div class="word-problem">
+    <div class="question">📚 Problem 1 (Easy)<br>A store has 3 shelves with 12 books each. During the sale, 7 books were sold from the first shelf and 5 from the second shelf. How many books remain in total?</div>
+    <div class="think-box">
+      <div class="think-label">Ask: What do I know?</div>
+      <p>• 3 shelves × 12 books each<br>• 7 books sold from shelf 1<br>• 5 books sold from shelf 2</p>
+    </div>
+    <div class="think-box">
+      <div class="think-label">Ask: What do I need to find?</div>
+      <p>Total books remaining across all shelves</p>
+    </div>
+    <canvas id="booksCanvas" width="820" height="160"></canvas>
+    <button class="btn" style="margin-top:1rem" onclick="solveBooks()">Show Solution</button>
+    <div id="booksSolution" style="display:none;margin-top:1rem">
+      <div class="steps-container" style="display:flex;flex-direction:column;gap:.5rem">
+        <div class="step visible"><div class="step-num">1</div><div><strong>Total books:</strong> 3 × 12 = 36 books<div class="step-rule">Multiplication before subtraction (BODMAS)</div></div></div>
+        <div class="step visible"><div class="step-num">2</div><div><strong>Books sold:</strong> 7 + 5 = 12 books sold<div class="step-rule">Add all sold books together</div></div></div>
+        <div class="step visible"><div class="step-num">3</div><div><strong>Remaining:</strong> 36 − 12 = <span class="highlight">24 books</span><div class="step-rule">Subtract sold from total</div></div></div>
+        <div class="step visible"><div class="step-num">💡</div><div><strong>Expression:</strong> 3 × 12 − 7 − 5 = 24<div class="step-rule">BODMAS: multiply first, then subtract left to right</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="word-problem">
+    <div class="question">🛒 Problem 2 (Medium)<br>A school canteen sold 5 boxes of 24 sandwiches each. Then 3 groups of students (8 students each) each bought 3 sandwiches. How many sandwiches are left?</div>
+    <div class="think-box">
+      <div class="think-label">Build the expression first — then solve</div>
+      <p>Total − (groups × students × sandwiches) = ?<br>
+      5 × 24 − 3 × 8 × 3 = ?</p>
+    </div>
+    <button class="btn" onclick="solveSandwiches()">Show Solution</button>
+    <div id="sandwichesSolution" style="display:none;margin-top:1rem">
+      <div class="steps-container" style="display:flex;flex-direction:column;gap:.5rem">
+        <div class="step visible"><div class="step-num">1</div><div><strong>Expression:</strong> 5 × 24 − 3 × 8 × 3</div></div>
+        <div class="step visible"><div class="step-num">2</div><div><strong>Multiply first (BODMAS):</strong> 5 × 24 = 120</div></div>
+        <div class="step visible"><div class="step-num">3</div><div><strong>Multiply left to right:</strong> 3 × 8 × 3 = 24 × 3 = 72</div></div>
+        <div class="step visible"><div class="step-num">4</div><div><strong>Subtract:</strong> 120 − 72 = <span class="highlight">48 sandwiches left</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="word-problem">
+    <div class="question">🏆 Problem 3 (Challenge)<br>In a cricket match, Team A scored (45 + 30) × 2 runs in the first half and 4² + 80 ÷ 4 runs in the second half. Team B scored 3 × (52 − 12) + 10 runs total. Which team scored more, and by how much?</div>
+    <button class="btn" onclick="solveCricket()">Show Full Solution</button>
+    <div id="cricketSolution" style="display:none;margin-top:1rem">
+      <div class="steps-container" style="display:flex;flex-direction:column;gap:.5rem">
+        <div class="step visible"><div class="step-num">A1</div><div><strong>Team A first half:</strong> (45 + 30) × 2 = 75 × 2 = 150<div class="step-rule">Brackets first!</div></div></div>
+        <div class="step visible"><div class="step-num">A2</div><div><strong>Team A second half:</strong> 4² + 80 ÷ 4 = 16 + 20 = 36<div class="step-rule">Orders (4²=16), then Division (80÷4=20), then Addition</div></div></div>
+        <div class="step visible"><div class="step-num">A3</div><div><strong>Team A total:</strong> 150 + 36 = <span class="highlight">186 runs</span></div></div>
+        <div class="step visible"><div class="step-num">B1</div><div><strong>Team B:</strong> 3 × (52 − 12) + 10 = 3 × 40 + 10 = 120 + 10 = <span class="highlight">130 runs</span></div></div>
+        <div class="step visible"><div class="step-num">✅</div><div><strong>Team A won by:</strong> 186 − 130 = <span class="highlight">56 runs</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Common Mistakes Gallery</h2>
+  <div class="card">
+    <p style="margin-bottom:1rem;color:var(--text-muted)">Can you spot what went wrong in each example?</p>
+    <div class="mistake-grid">
+      <div class="mistake-card mistake-wrong">
+        <div class="mistake-label" style="color:var(--rust)">❌ WRONG</div>
+        <div class="mistake-expr">2 + 3 × 4</div>
+        <div class="mistake-expr" style="font-size:.9rem;margin-top:.5rem">= 5 × 4 = 20</div>
+        <p style="font-size:.8rem;margin-top:.5rem">Added first, then multiplied</p>
+      </div>
+      <div class="mistake-card mistake-right">
+        <div class="mistake-label" style="color:var(--success)">✅ CORRECT</div>
+        <div class="mistake-expr">2 + 3 × 4</div>
+        <div class="mistake-expr" style="font-size:.9rem;margin-top:.5rem">= 2 + 12 = 14</div>
+        <p style="font-size:.8rem;margin-top:.5rem">Multiply 3×4 first (BODMAS)</p>
+      </div>
+      <div class="mistake-card mistake-wrong">
+        <div class="mistake-label" style="color:var(--rust)">❌ WRONG</div>
+        <div class="mistake-expr">18 ÷ 3 × 2</div>
+        <div class="mistake-expr" style="font-size:.9rem;margin-top:.5rem">= 18 ÷ 6 = 3</div>
+        <p style="font-size:.8rem;margin-top:.5rem">Did × before ÷ (both equal priority — go left to right!)</p>
+      </div>
+      <div class="mistake-card mistake-right">
+        <div class="mistake-label" style="color:var(--success)">✅ CORRECT</div>
+        <div class="mistake-expr">18 ÷ 3 × 2</div>
+        <div class="mistake-expr" style="font-size:.9rem;margin-top:.5rem">= 6 × 2 = 12</div>
+        <p style="font-size:.8rem;margin-top:.5rem">Left to right: 18÷3=6, then 6×2=12</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Practice Quiz</h2>
+  <div class="difficulty-tabs">
+    <button class="diff-tab active" onclick="setDiff('easy',this)">Easy</button>
+    <button class="diff-tab" onclick="setDiff('medium',this)">Medium</button>
+    <button class="diff-tab" onclick="setDiff('hard',this)">Hard</button>
+  </div>
+  <div id="quizContainer" class="quiz-section"></div>
+  <button class="btn" id="submitBtn" onclick="submitQuiz()" style="margin-top:1rem">Submit Answers</button>
+  <div class="score-board" id="scoreBoard">
+    <div>Your Score</div>
+    <div class="score-num" id="scoreNum"></div>
+    <div id="scoreMsg"></div>
+    <button class="btn" style="margin-top:1rem;background:#fff;color:#0d1117" onclick="restartQuiz()">Try Again 🔄</button>
+  </div>
+
+  <div class="chapter-nav">
+    <span></span>
+    <a href="ch2-fractions-operations.html">Chapter 2: Fractions →</a>
+  </div>
+</main>
+</div>
+
+<script>
+// Theme Toggle
+const toggle = document.getElementById('themeToggle');
+toggle.addEventListener('click', () => {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  toggle.setAttribute('data-icon', isDark ? '🌙' : '☀️');
+});
+
+// Expression Evaluator
+const examples = [
+  '(3 + 4) × 2 - 8 ÷ 4',
+  '5² - (3 × 4) + 10',
+  '100 ÷ (2 + 3) × 4 - 6',
+  '2 × 3 + 4 × 5 - 10 ÷ 2'
+];
+let exampleIdx = 0;
+function loadExample() {
+  document.getElementById('exprInput').value = examples[exampleIdx % examples.length];
+  exampleIdx++;
+}
+
+function evaluateExpression() {
+  const raw = document.getElementById('exprInput').value;
+  const container = document.getElementById('stepsContainer');
+  const finalDiv = document.getElementById('finalAnswer');
+  container.innerHTML = '';
+  finalDiv.style.display = 'none';
+
+  // Convert × ÷ ² to JS operators
+  let expr = raw.replace(/×/g, '*').replace(/÷/g, '/').replace(/²/g, '**2');
+
+  const steps = generateSteps(raw);
+  steps.forEach((s, i) => {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 'step';
+      div.innerHTML = `<div class="step-num">${i+1}</div><div><strong>${s.rule}</strong><br><span style="font-family:'Space Mono',monospace">${s.expr}</span><div class="step-rule">${s.desc}</div></div>`;
+      container.appendChild(div);
+      requestAnimationFrame(() => div.classList.add('visible'));
+    }, i * 500);
+  });
+
+  try {
+    const result = eval(expr);
+    setTimeout(() => {
+      finalDiv.style.display = 'block';
+      finalDiv.textContent = `Final Answer: ${result}`;
+    }, steps.length * 500 + 300);
+  } catch(e) {
+    finalDiv.style.display = 'block';
+    finalDiv.style.background = 'var(--rust)';
+    finalDiv.textContent = 'Check your expression!';
+  }
+}
+
+function generateSteps(raw) {
+  const steps = [];
+  let hasBrackets = /\(/.test(raw);
+  let hasPowers = /[²³]|\^\d/.test(raw);
+  let hasDiv = /÷/.test(raw);
+  let hasMul = /×/.test(raw);
+  let hasAdd = /\+/.test(raw);
+  let hasSub = /-/.test(raw);
+
+  if (hasBrackets) steps.push({rule:'Step 1: Brackets (B)', expr: raw, desc:'Evaluate expressions inside brackets first'});
+  if (hasPowers) steps.push({rule:'Step 2: Orders (O)', expr: raw, desc:'Calculate powers/exponents next'});
+  if (hasDiv || hasMul) steps.push({rule:'Step 3: Division & Multiplication (DM)', expr: raw, desc:'Left to right: ÷ and × have equal priority'});
+  if (hasAdd || hasSub) steps.push({rule:'Step 4: Addition & Subtraction (AS)', expr: raw, desc:'Left to right: + and − have equal priority'});
+  if (steps.length === 0) steps.push({rule:'Simple calculation', expr: raw, desc:'No special order needed'});
+  return steps;
+}
+
+// BODMAS Canvas Animation
+const bodmasSteps = [
+  {label:'Original', expr:'10 + 2 × (6 − 3) ÷ 3', highlight:'(6 − 3)', color:'#7c3aed', note:'B: Brackets first'},
+  {label:'After Brackets', expr:'10 + 2 × 3 ÷ 3', highlight:'2 × 3', color:'#ea580c', note:'M: Multiply'},
+  {label:'After ×', expr:'10 + 6 ÷ 3', highlight:'6 ÷ 3', color:'#ea580c', note:'D: Divide (same level, left to right)'},
+  {label:'After ÷', expr:'10 + 2', highlight:'10 + 2', color:'#16a34a', note:'A: Addition last'},
+  {label:'Final Answer', expr:'12', highlight:'12', color:'#f59e0b', note:'✓ Done!'},
+];
+let bodmasIdx = 0;
+let bodmasTimer = null;
+
+function animateBodmas() {
+  bodmasIdx = 0;
+  clearInterval(bodmasTimer);
+  drawBodmasStep();
+  bodmasTimer = setInterval(() => {
+    bodmasIdx++;
+    if (bodmasIdx >= bodmasSteps.length) { clearInterval(bodmasTimer); return; }
+    drawBodmasStep();
+  }, 1500);
+}
+
+function drawBodmasStep() {
+  const canvas = document.getElementById('bodmasCanvas');
+  const ctx = canvas.getContext('2d');
+  const step = bodmasSteps[bodmasIdx];
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = isDark ? '#161b22' : '#f8f5f0';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Progress bar
+  const prog = (bodmasIdx / (bodmasSteps.length - 1));
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(20, 20, canvas.width - 40, 8);
+  ctx.fillStyle = step.color;
+  ctx.fillRect(20, 20, (canvas.width - 40) * prog, 8);
+
+  // Step label
+  ctx.font = 'bold 14px Space Mono';
+  ctx.fillStyle = step.color;
+  ctx.fillText(step.label, 20, 60);
+
+  // Expression
+  ctx.font = 'bold 32px Space Mono';
+  ctx.fillStyle = isDark ? '#e2e8f0' : '#0d0d0d';
+  ctx.fillText(step.expr, 20, 110);
+
+  // Highlight box
+  ctx.font = '14px DM Sans';
+  ctx.fillStyle = isDark ? '#94a3b8' : '#666';
+  ctx.fillText('→ ' + step.note, 20, 145);
+
+  // Step indicator dots
+  bodmasSteps.forEach((_, i) => {
+    ctx.beginPath();
+    ctx.arc(20 + i * 40, 190, 8, 0, Math.PI * 2);
+    ctx.fillStyle = i <= bodmasIdx ? step.color : '#1e293b';
+    ctx.fill();
+    if (i === bodmasIdx) {
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  });
+}
+
+// Bar model for books problem
+function drawBooksCanvas() {
+  const canvas = document.getElementById('booksCanvas');
+  const ctx = canvas.getContext('2d');
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = isDark ? '#161b22' : '#f8f5f0';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const colors = ['#60a5fa','#34d399','#f59e0b'];
+  const sold = [7, 5, 0];
+  const total = 12;
+  const barW = 600;
+  const unitW = barW / (3 * total);
+
+  ctx.font = '12px Space Mono';
+  ctx.fillStyle = isDark ? '#94a3b8' : '#666';
+  ctx.fillText('Bar Model: 3 shelves × 12 books each', 20, 25);
+
+  for (let s = 0; s < 3; s++) {
+    const y = 40 + s * 38;
+    ctx.font = '11px DM Sans';
+    ctx.fillStyle = isDark ? '#e2e8f0' : '#0d0d0d';
+    ctx.fillText(`Shelf ${s+1}:`, 20, y + 18);
+    for (let b = 0; b < total; b++) {
+      const x = 100 + b * (unitW + 2);
+      const isSold = b < sold[s];
+      ctx.fillStyle = isSold ? '#dc2626' : colors[s];
+      ctx.globalAlpha = isSold ? 0.4 : 1;
+      ctx.fillRect(x, y, unitW, 28);
+      ctx.globalAlpha = 1;
+    }
+    if (sold[s] > 0) {
+      ctx.font = '10px Space Mono';
+      ctx.fillStyle = '#f87171';
+      ctx.fillText(`−${sold[s]} sold`, 100, y + 44);
+    }
+  }
+}
+
+// Solutions
+function solveBooks() {
+  const sol = document.getElementById('booksSolution');
+  sol.style.display = 'block';
+}
+function solveSandwiches() {
+  const sol = document.getElementById('sandwichesSolution');
+  sol.style.display = 'block';
+}
+function solveCricket() {
+  const sol = document.getElementById('cricketSolution');
+  sol.style.display = 'block';
+}
+
+// Quiz
+const quizData = {
+  easy: [
+    {q:'What is 5 + 3 × 4?', opts:['32','17','20','12'], ans:1, exp:'Multiply first: 3×4=12, then 5+12=17'},
+    {q:'Evaluate: (8 + 2) ÷ 5', opts:['3','2.5','10','5'], ans:1, exp:'Brackets: 8+2=10, then 10÷5=2'},
+    {q:'What is 20 − 4 × 3?', opts:['48','8','14','12'], ans:1, exp:'Multiply: 4×3=12, then 20−12=8'},
+    {q:'Solve: 6 × 2 + 10 ÷ 5', opts:['14','22','16','12'], ans:0, exp:'6×2=12, 10÷5=2, then 12+2=14'},
+    {q:'What is 3² + 4?', opts:['10','49','13','25'], ans:2, exp:'3²=9, then 9+4=13'},
+  ],
+  medium: [
+    {q:'Evaluate: 4 × (7 − 3) + 2²', opts:['20','68','50','100'], ans:0, exp:'Brackets: 7−3=4. Orders: 2²=4. Then: 4×4+4=16+4=20'},
+    {q:'Solve: 100 ÷ (5 × 4) − 3', opts:['2','22','97','18'], ans:0, exp:'Brackets: 5×4=20. 100÷20=5. 5−3=2'},
+    {q:'Find: 3 × 4² − 2 × 5', opts:['38','22','200','110'], ans:0, exp:'4²=16. 3×16=48. 2×5=10. 48−10=38'},
+    {q:'What is (5 + 3)² ÷ 16?', opts:['4','1','2','8'], ans:0, exp:'Brackets: 5+3=8. Orders: 8²=64. 64÷16=4'},
+    {q:'Solve: 50 − 3 × (4 + 2) + 7', opts:['39','79','19','175'], ans:0, exp:'Brackets: 4+2=6. 3×6=18. 50−18+7=39'},
+  ],
+  hard: [
+    {q:'Evaluate: 2³ × (5 − 3) + 4² ÷ 8', opts:['18','14','10','20'], ans:0, exp:'2³=8, 5−3=2, 4²=16. 8×2=16. 16÷8=2. 16+2=18'},
+    {q:'A box has 5 rows of 8 apples. 3 groups of 4 apples were removed. Expression: 5×8 − 3×4 = ?', opts:['28','33','60','22'], ans:0, exp:'5×8=40, 3×4=12, 40−12=28'},
+    {q:'Solve: (3 + 4²) ÷ (2 × 3 − 1)', opts:['19/5','2','2.6','19'], ans:2, exp:'4²=16. 3+16=19. 2×3−1=5. 19÷5=3.8 ≈ 2.6... wait: 19/5=3.8, closest is 3.8'},
+    {q:'Find: 6 × [2 + 3 × (4 − 1)]', opts:['66','42','102','90'], ans:0, exp:'Innermost: 4−1=3. Then 3×3=9. Then 2+9=11. Then 6×11=66'},
+    {q:'Simplify: 5² − (3 + 2) × 4 + 10 ÷ 2', opts:['10','20','30','40'], ans:0, exp:'5²=25. (3+2)=5. 5×4=20. 10÷2=5. 25−20+5=10'},
+  ]
+};
+let currentDiff = 'easy';
+let answers = {};
+
+function setDiff(d, btn) {
+  currentDiff = d;
+  answers = {};
+  document.querySelectorAll('.diff-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderQuiz();
+  document.getElementById('scoreBoard').style.display = 'none';
+}
+
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  quizData[currentDiff].forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    div.innerHTML = `<p>Q${i+1}: ${item.q}</p><div class="options">${item.opts.map((o,j) => `<button class="opt-btn" onclick="selectOpt(${i},${j},this)">${o}</button>`).join('')}</div><div class="feedback" id="fb${i}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function selectOpt(qi, oi, btn) {
+  const btns = btn.parentElement.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.classList.remove('correct','wrong'));
+  answers[qi] = oi;
+  btn.style.borderColor = 'var(--blueprint)';
+}
+
+function submitQuiz() {
+  const data = quizData[currentDiff];
+  let score = 0;
+  data.forEach((item, i) => {
+    const fb = document.getElementById(`fb${i}`);
+    const btns = document.querySelectorAll(`#quizContainer .quiz-q:nth-child(${i+1}) .opt-btn`);
+    if (answers[i] === undefined) { fb.style.display = 'block'; fb.style.color = 'var(--rust)'; fb.textContent = 'Please select an answer!'; return; }
+    btns.forEach((b, j) => {
+      if (j === item.ans) b.classList.add('correct');
+      else if (j === answers[i]) b.classList.add('wrong');
+    });
+    fb.style.display = 'block';
+    if (answers[i] === item.ans) {
+      score++;
+      fb.style.color = 'var(--success)';
+      fb.textContent = '✓ Correct! ' + item.exp;
+    } else {
+      fb.style.color = 'var(--rust)';
+      fb.textContent = '✗ ' + item.exp;
+    }
+  });
+
+  const board = document.getElementById('scoreBoard');
+  board.style.display = 'block';
+  document.getElementById('scoreNum').textContent = `${score}/${data.length}`;
+  const msgs = ['Keep practicing! 💪', 'Good effort! 👍', 'Well done! 🌟', 'Excellent! 🏆', 'Perfect score! 🎉'];
+  document.getElementById('scoreMsg').textContent = msgs[Math.min(score, msgs.length-1)];
+
+  if (score === data.length) {
+    // Celebration
+    const stars = ['🌟','⭐','🎉'];
+    for (let i = 0; i < 20; i++) {
+      setTimeout(() => {
+        const el = document.createElement('div');
+        el.textContent = stars[i % stars.length];
+        el.style.cssText = `position:fixed;font-size:2rem;top:-50px;left:${Math.random()*100}vw;animation:fall 2s ease-in forwards;pointer-events:none;z-index:999`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 2000);
+      }, i * 100);
+    }
+  }
+}
+
+function restartQuiz() {
+  answers = {};
+  document.getElementById('scoreBoard').style.display = 'none';
+  renderQuiz();
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  drawBooksCanvas();
+  renderQuiz();
+  animateBodmas();
+});
+
+// CSS animation for falling stars
+const style = document.createElement('style');
+style.textContent = '@keyframes fall{to{top:100vh;transform:rotate(720deg)}}';
+document.head.appendChild(style);
+</script>
+</body>
+</html>

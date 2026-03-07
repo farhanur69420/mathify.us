@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Lessons — Singapore Method | Mathify</title>
+<meta name="description" content="Interactive math lessons for Classes 1-8 using the Singapore Math method — bar models, multi-step word problems, and intuitive visual learning.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;transition:background 0.3s,color 0.3s;line-height:1.7;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;gap:1.5rem;align-items:center;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--steel);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--blueprint);}
+.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
+.theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
+
+.hero{padding:7rem 2.5rem 4rem;max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.breadcrumb{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.5rem;}
+.breadcrumb a{color:var(--text-muted);text-decoration:none;transition:color 0.2s;}
+.breadcrumb a:hover{color:var(--blueprint);}
+.hero-badge{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:inline-block;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.15;color:var(--blueprint);margin-bottom:1.2rem;}
+.hero p{font-size:1.1rem;color:var(--steel);max-width:620px;margin-bottom:2rem;}
+.singapore-badge{display:inline-flex;align-items:center;gap:0.6rem;background:var(--card-bg);border:1px solid var(--card-border);border-radius:50px;padding:0.5rem 1.2rem;font-size:0.85rem;color:var(--steel);}
+.singapore-badge span{font-size:1.2rem;}
+
+/* ─── METHOD SHOWCASE ─── */
+.method-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;max-width:1100px;margin:0 auto 4rem;padding:0 2.5rem;position:relative;z-index:1;}
+.method-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:1.5rem;animation:fadeUp 0.6s ease both;}
+.method-card:nth-child(2){animation-delay:0.1s;}
+.method-card:nth-child(3){animation-delay:0.2s;}
+.method-card:nth-child(4){animation-delay:0.3s;}
+.method-icon{font-size:2rem;margin-bottom:0.8rem;}
+.method-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--blueprint);margin-bottom:0.4rem;}
+.method-card p{font-size:0.88rem;color:var(--steel);}
+
+/* ─── CLASS GRID ─── */
+.section-header{max-width:1100px;margin:0 auto 1.5rem;padding:0 2.5rem;position:relative;z-index:1;}
+.section-header h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--blueprint);}
+.section-header p{color:var(--steel);margin-top:0.3rem;}
+
+.classes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;max-width:1100px;margin:0 auto 5rem;padding:0 2.5rem;position:relative;z-index:1;}
+
+.class-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;animation:fadeUp 0.5s ease both;text-decoration:none;display:block;}
+.class-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,0.15);}
+[data-theme="dark"] .class-card:hover{box-shadow:0 12px 36px rgba(0,0,0,0.4);}
+.class-card-header{padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--card-border);}
+.class-number{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem;}
+.class-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--blueprint);margin-bottom:0.3rem;}
+.class-card .age-tag{font-size:0.8rem;color:var(--text-muted);}
+.class-card-body{padding:1rem 1.5rem 1.5rem;}
+.chapter-list{list-style:none;}
+.chapter-list li{padding:0.35rem 0;font-size:0.88rem;color:var(--steel);border-bottom:1px solid var(--card-border);display:flex;align-items:center;gap:0.5rem;}
+.chapter-list li:last-child{border-bottom:none;}
+.chapter-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.class-footer{padding:1rem 1.5rem;background:rgba(96,165,250,0.05);border-top:1px solid var(--card-border);font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--blueprint);text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;justify-content:space-between;}
+
+/* Color accents per class level */
+.class-1 .class-number,.class-1 .class-footer{color:#f472b6;}
+.class-2 .class-number,.class-2 .class-footer{color:#fb923c;}
+.class-3 .class-number,.class-3 .class-footer{color:#facc15;}
+.class-4 .class-number,.class-4 .class-footer{color:#4ade80;}
+.class-5 .class-number,.class-5 .class-footer{color:#34d399;}
+.class-6 .class-number,.class-6 .class-footer{color:#22d3ee;}
+.class-7 .class-number,.class-7 .class-footer{color:#818cf8;}
+.class-8 .class-number,.class-8 .class-footer{color:#a78bfa;}
+
+/* Chapter list dots match class color */
+.class-1 .chapter-list li::before{background:#f472b6;}
+.class-2 .chapter-list li::before{background:#fb923c;}
+.class-3 .chapter-list li::before{background:#facc15;}
+.class-4 .chapter-list li::before{background:#4ade80;}
+.class-5 .chapter-list li::before{background:#34d399;}
+.class-6 .chapter-list li::before{background:#22d3ee;}
+.class-7 .chapter-list li::before{background:#818cf8;}
+.class-8 .chapter-list li::before{background:#a78bfa;}
+
+/* ─── BAR MODEL DEMO ─── */
+.bar-demo{max-width:1100px;margin:0 auto 4rem;padding:0 2.5rem;position:relative;z-index:1;}
+.bar-demo-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;}
+.bar-demo-text h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--blueprint);margin-bottom:0.8rem;}
+.bar-demo-text p{color:var(--steel);font-size:0.95rem;margin-bottom:1rem;}
+.bar-demo-problem{background:var(--code-bg);border-left:4px solid var(--accent);padding:1rem;border-radius:0 8px 8px 0;font-style:italic;color:var(--ink);}
+#barDemoCanvas{width:100%;border-radius:8px;}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.class-card:nth-child(1){animation-delay:0.05s;}
+.class-card:nth-child(2){animation-delay:0.10s;}
+.class-card:nth-child(3){animation-delay:0.15s;}
+.class-card:nth-child(4){animation-delay:0.20s;}
+.class-card:nth-child(5){animation-delay:0.25s;}
+.class-card:nth-child(6){animation-delay:0.30s;}
+.class-card:nth-child(7){animation-delay:0.35s;}
+.class-card:nth-child(8){animation-delay:0.40s;}
+
+@media(max-width:800px){
+  .bar-demo-card{grid-template-columns:1fr;}
+  nav{padding:0.85rem 1.2rem;}
+  .hero,.method-grid,.classes-grid,.section-header,.bar-demo{padding-left:1.2rem;padding-right:1.2rem;}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="nav-logo">&larr; Mathify</a>
+  <div class="nav-links">
+    <a href="../math.html">Class 9-12</a>
+    <a href="../notes/index.html">Notes</a>
+    <a href="../math-tools/index.html">Tools</a>
+  </div>
+  <button class="theme-toggle" id="themeToggle">&#9728;&#65039;</button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="breadcrumb"><a href="../index.html">Mathify</a> / Lessons</div>
+  <div class="hero-badge">&#128218; Singapore Math Method</div>
+  <h1>Math Lessons<br>Made Alive</h1>
+  <p>Interactive lessons for Classes 1–8, built on the world-famous Singapore Math approach — bar models, multi-step reasoning, and intuition-first teaching.</p>
+  <div class="singapore-badge"><span>&#127480;&#127468;</span> Inspired by Singapore's #1-ranked math curriculum</div>
+</section>
+
+<!-- ─── METHOD CARDS ─── -->
+<div class="method-grid">
+  <div class="method-card">
+    <div class="method-icon">&#128210;</div>
+    <h3>Bar Model Method</h3>
+    <p>Visualize problems with colored bars before writing a single equation. See the math, then solve it.</p>
+  </div>
+  <div class="method-card">
+    <div class="method-icon">&#129504;</div>
+    <h3>Multi-Step Thinking</h3>
+    <p>Every problem teaches logical reasoning — break it down, find the connections, build the solution.</p>
+  </div>
+  <div class="method-card">
+    <div class="method-icon">&#127919;</div>
+    <h3>Concrete → Pictorial → Abstract</h3>
+    <p>Start with real objects, then draw pictures, then write symbols. Learn with understanding, not memorization.</p>
+  </div>
+  <div class="method-card">
+    <div class="method-icon">&#9889;</div>
+    <h3>Challenge Problems</h3>
+    <p>Every chapter ends with Singapore-style challenging word problems that make you think deeply.</p>
+  </div>
+</div>
+
+<!-- ─── BAR MODEL DEMO ─── -->
+<div class="bar-demo">
+  <div class="bar-demo-card">
+    <div class="bar-demo-text">
+      <h3>What is a Bar Model?</h3>
+      <p>A bar model is a picture that helps you "see" a math problem before solving it. Used in Singapore schools since the 1980s — it's why Singapore ranks #1 in global math tests.</p>
+      <div class="bar-demo-problem">
+        "Sarah has 3 times as many stickers as Tom. Together they have 48 stickers. How many does Sarah have?"
+      </div>
+      <p style="margin-top:1rem;font-size:0.88rem;color:var(--text-muted);">The bar model below makes this instantly clear — no algebra needed!</p>
+    </div>
+    <canvas id="barDemoCanvas" width="400" height="220"></canvas>
+  </div>
+</div>
+
+<!-- ─── CLASSES GRID ─── -->
+<div class="section-header">
+  <h2>Choose Your Class</h2>
+  <p>Each class has 5 interactive chapters with visual explanations, word problems, and quizzes.</p>
+</div>
+
+<div class="classes-grid">
+  <!-- Class 1 -->
+  <a href="class-1/ch1-counting-numbers.html" class="class-card class-1">
+    <div class="class-card-header">
+      <div class="class-number">&#11088; Class 1 &mdash; Age 6-7</div>
+      <h3>Numbers & Basic Operations</h3>
+      <div class="age-tag">Foundation level</div>
+    </div>
+    <div class="class-card-body">
+      <ul class="chapter-list">
+        <li>Counting & Numbers 1–20</li>
+        <li>Number Bonds</li>
+        <li>Addition within 20</li>
+        <li>Subtraction within 20</li>
+        <li>Shapes & Patterns</li>
+      </ul>
+    </div>
+    <div class="class-footer"><span>5 chapters</span><span>&#8594; Start Learning</span></div>
+  </a>
+
+  <!-- Class 2 -->
+  <a href="class-2/ch1-place-value.html" class="class-card class-2">
+    <div class="class-card-header">
+      <div class="class-number">&#9733; Class 2 &mdash; Age 7-8</div>
+      <h3>Place Value & Multiplication</h3>
+      <div class="age-tag">Early primary</div>
+    </div>
+    <div class="class-card-body">
+      <ul class="chapter-list">
+        <li>Place Value to 100</li>
+        <li>2-Digit Addition & Subtraction</li>
+        <li>Multiplication Tables</li>
+        <li>Introduction to Fractions</li>
+        <li>Measurement</li>
+      </ul>
+    </div>
+    <div class="class-footer"><span>5 chapters</span><span>&#8594; Start Learning</span></div>
+  </a>
+
+  <!-- Class 3 -->
+  <a href="class-3/ch1-numbers-1000.html" class="class-card class-3">
+    <div class="class-card-header">
+      <div class="class-number">&#9651; Class 3 &mdash; Age 8-9</div>
+      <h3>Multiplication, Division & Fractions</h3>
+      <div class="age-tag">Primary level</div>
+    </div>
+    <div class="class-card-body">
+      <ul class="chapter-list">
+        <li>Numbers to 1,000</li>
+        <li>Multiplication & Division</li>
+        <li>Fractions</li>
+        <li>Area & Perimeter</li>
+        <li>Time & Money</li>
+      </ul>
+    </div>
+    <div class="class-footer"><span>5 chapters</span><span>&#8594; Start Learning</span></div>
+  </a>
+
+  <!-- Class 4 -->
+  <a href="class-4/ch1-whole-numbers.html" class="class-card class-4">
+    <div class="class-card-header">
+      <div class="class-number">&#9670; Class 4 &mdash; Age 9-10</div>
+      <h3>Decimals, Angles & Symmetry</h3>
+      <div class="age-tag">Upper primary</div>
+    </div>
+    <div class="class-card-body">
+      <ul class="chapter-list">
+        <li>Factors & Multiples</li>
+        <li>Mixed Numbers & Fractions</li>
+        <li>Decimals</li>
+        <li>Angles & Measurement</li>
+        <li>Symmetry & Tessellation</li>
+      </ul>
+    </div>
+    <div class="class-footer"><span>5 chapters</span><span>&#8594; Start Learning</span></div>
+  </a>
+
+  <!-- Class 5 -->
+  <a href="class-5/ch1-whole-numbers.html" class="class-card class-5">
+    <div class="class-card-header">
+      <div class="class-number">&#9632; Class 5 &mdash; Age 10-11</div>
+      <h3>Percentages, Speed & Geometry</h3>
+      <div class="age-tag">Upper primary</div>
+    </div>
+    <div class="class-card-body">
+      <ul class="chapter-list">
+        <li>Order of Operations (BODMAS)</li>
+        <li>Fractions — All Operations</li>
+        <li>Percentages</li>
+        <li>Rate, Speed & Distance</li>
+        <li>Composite Shapes</li>
+      </ul>
+    </div>
+    <div class="class-footer"><span>5 chapters</span><span>&#8594; Start Learning</span></div>
+  </a>
+
+  <!-- Class 6 -->
+  <a href="class-6/ch1-ratio-proportion.html" class="class-card class-6">
+    <div class="class-card-header">
+      <div class="class-number">&#9679; Class 6 &mdash; Age 11-12</div>
+      <h3>Ratio, Algebra & Statistics</h3>
+      <div class="age-tag">Upper primary / Pre-secondary</div>
+    </div>
+    <div class="class-card-body">
+      <ul class="chapter-list">
+        <li>Ratio & Proportion</li>
+        <li>Algebra — Expressions & Equations</li>
+        <li>Fractions, Decimals & Percentages</li>
+        <li>Angles in Polygons & Circles</li>
+        <li>Data Analysis</li>
+      </ul>
+    </div>
+    <div class="class-footer"><span>5 chapters</span><span>&#8594; Start Learning</span></div>
+  </a>
+
+  <!-- Class 7 -->
+  <a href="class-7/ch1-integers.html" class="class-card class-7">
+    <div class="class-card-header">
+      <div class="class-number">&#9724; Class 7 &mdash; Age 12-13</div>
+      <h3>Integers, Equations & Geometry</h3>
+      <div class="age-tag">Secondary level</div>
+    </div>
+    <div class="class-card-body">
+      <ul class="chapter-list">
+        <li>Integers & Rational Numbers</li>
+        <li>Linear Equations</li>
+        <li>Lines & Angles</li>
+        <li>Triangles & Congruence</li>
+        <li>Data & Probability</li>
+      </ul>
+    </div>
+    <div class="class-footer"><span>5 chapters</span><span>&#8594; Start Learning</span></div>
+  </a>
+
+  <!-- Class 8 -->
+  <a href="class-8/ch1-rational-numbers.html" class="class-card class-8">
+    <div class="class-card-header">
+      <div class="class-number">&#9733; Class 8 &mdash; Age 13-14</div>
+      <h3>Pythagoras, Volumes & Simultaneous Equations</h3>
+      <div class="age-tag">Secondary level</div>
+    </div>
+    <div class="class-card-body">
+      <ul class="chapter-list">
+        <li>Rational Numbers & Finance</li>
+        <li>Simultaneous Equations</li>
+        <li>Pythagoras Theorem</li>
+        <li>Quadrilaterals</li>
+        <li>Mensuration — 3D Solids</li>
+      </ul>
+    </div>
+    <div class="class-footer"><span>5 chapters</span><span>&#8594; Start Learning</span></div>
+  </a>
+</div>
+
+<script>
+// ─── THEME TOGGLE ───
+const html = document.documentElement;
+const btn = document.getElementById('themeToggle');
+const saved = localStorage.getItem('theme') || 'dark';
+html.setAttribute('data-theme', saved);
+btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+btn.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  drawBarModel();
+});
+
+// ─── BAR MODEL DEMO ───
+function drawBarModel() {
+  const canvas = document.getElementById('barDemoCanvas');
+  const ctx = canvas.getContext('2d');
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  const W = canvas.width, H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Background
+  ctx.fillStyle = isDark ? '#0d1117' : '#f8f5f0';
+  ctx.fillRect(0, 0, W, H);
+
+  const textColor = isDark ? '#e2e8f0' : '#0d0d0d';
+  const mutedColor = isDark ? '#64748b' : '#666';
+  const labelColor = isDark ? '#60a5fa' : '#1a3a5c';
+
+  // Title
+  ctx.fillStyle = labelColor;
+  ctx.font = 'bold 13px "Space Mono", monospace';
+  ctx.fillText('BAR MODEL SOLUTION', 20, 30);
+
+  // Tom's bar (1 unit)
+  const unitW = 60;
+  const barH = 36;
+  const startX = 20;
+
+  // Tom label
+  ctx.fillStyle = textColor;
+  ctx.font = '13px "DM Sans", sans-serif';
+  ctx.fillText('Tom:', startX, 68);
+
+  // Tom's bar (1 unit = ?)
+  ctx.fillStyle = '#3b82f6';
+  ctx.beginPath();
+  ctx.roundRect(80, 52, unitW, barH, 6);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 13px "DM Sans", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('?', 80 + unitW/2, 76);
+  ctx.textAlign = 'left';
+
+  // Sarah label
+  ctx.fillStyle = textColor;
+  ctx.font = '13px "DM Sans", sans-serif';
+  ctx.fillText('Sarah:', startX, 120);
+
+  // Sarah's bars (3 units)
+  const colors = ['#f59e0b','#f97316','#ef4444'];
+  for(let i = 0; i < 3; i++){
+    ctx.fillStyle = colors[i];
+    ctx.beginPath();
+    ctx.roundRect(80 + i * (unitW + 4), 104, unitW, barH, 6);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 13px "DM Sans", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('?', 80 + i * (unitW + 4) + unitW/2, 128);
+    ctx.textAlign = 'left';
+  }
+
+  // Brace showing total
+  ctx.strokeStyle = isDark ? '#4ade80' : '#16a34a';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(80, 150);
+  ctx.lineTo(80 + 3*unitW + 2*4, 150);
+  ctx.stroke();
+  ctx.fillStyle = isDark ? '#4ade80' : '#16a34a';
+  ctx.font = 'bold 14px "DM Sans", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('48 total', 80 + (3*unitW + 2*4)/2, 170);
+  ctx.textAlign = 'left';
+
+  // Solution hint
+  ctx.fillStyle = mutedColor;
+  ctx.font = '12px "DM Sans", sans-serif';
+  ctx.fillText('4 units = 48  →  1 unit = 12', 20, 200);
+  ctx.fillStyle = isDark ? '#f59e0b' : '#e67e22';
+  ctx.font = 'bold 13px "DM Sans", sans-serif';
+  ctx.fillText('Sarah = 3 units = 36 stickers ✓', 20, 218);
+}
+
+drawBarModel();
+</script>
+</body>
+</html>
