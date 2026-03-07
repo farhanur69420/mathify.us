@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -49,19 +50,19 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;transition:background 0.3s,color 0.3s;min-height:100vh;display:flex;flex-direction:column;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-[data-theme="dark"] body::before{background-image:linear-gradient(rgba(96,165,250,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,0.04) 1px,transparent 1px);}
+body{background:var(–paper);color:var(–ink);font-family:‘DM Sans’,sans-serif;overflow-x:hidden;transition:background 0.3s,color 0.3s;min-height:100vh;display:flex;flex-direction:column;}
+body::before{content:’’;position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+[data-theme=“dark”] body::before{background-image:linear-gradient(rgba(96,165,250,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,0.04) 1px,transparent 1px);}
 
 /* ─── NAV ─── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);transition:background 0.3s;}
-.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(–nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(–grid);transition:background 0.3s;}
+.nav-logo{font-family:‘Space Mono’,monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(–blueprint);text-transform:uppercase;text-decoration:none;}
 .nav-right{display:flex;align-items:center;gap:0.6rem;}
-.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
+.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(–toggle-bg);border:none;color:var(–toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
 .theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
 .nav-links{display:flex;gap:1.2rem;list-style:none;align-items:center;}
-.nav-links a{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);text-decoration:none;transition:color 0.2s;}
-.nav-links a:hover{color:var(--rust);}
+.nav-links a{font-family:‘Space Mono’,monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(–steel);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(–rust);}
 
 /* ─── CHAT CONTAINER ─── */
 .chat-wrapper{flex:1;display:flex;flex-direction:column;max-width:800px;width:100%;margin:0 auto;padding:5.5rem 1.5rem 2rem;position:relative;z-index:1;}
@@ -72,35 +73,35 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .msg.bot{flex-direction:row;}
 .msg.user{flex-direction:row-reverse;}
 .msg-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
-.msg.bot .msg-avatar{background:var(--blueprint);color:#fff;}
-.msg.user .msg-avatar{background:var(--accent);color:#fff;}
+.msg.bot .msg-avatar{background:var(–blueprint);color:#fff;}
+.msg.user .msg-avatar{background:var(–accent);color:#fff;}
 .msg-body{max-width:85%;padding:1rem 1.3rem;border-radius:16px;line-height:1.7;font-size:0.95rem;}
-.msg.bot .msg-body{background:var(--chat-bot);border:1px solid var(--chat-bot-border);border-top-left-radius:4px;color:var(--ink);}
-.msg.user .msg-body{background:var(--blueprint);color:#fff;border-top-right-radius:4px;}
+.msg.bot .msg-body{background:var(–chat-bot);border:1px solid var(–chat-bot-border);border-top-left-radius:4px;color:var(–ink);}
+.msg.user .msg-body{background:var(–blueprint);color:#fff;border-top-right-radius:4px;}
 
 /* ─── OPTION CARDS ─── */
 .options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:0.5rem;animation:fadeUp 0.5s ease forwards;opacity:0;animation-delay:0.2s;}
-.opt-card{position:relative;display:flex;flex-direction:column;padding:1.8rem;border:2px solid var(--card-border);border-radius:12px;background:var(--card-bg);cursor:pointer;transition:all 0.25s;text-decoration:none;color:var(--ink);overflow:hidden;}
-.opt-card:hover{border-color:var(--blueprint);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.12);}
-[data-theme="dark"] .opt-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.opt-card{position:relative;display:flex;flex-direction:column;padding:1.8rem;border:2px solid var(–card-border);border-radius:12px;background:var(–card-bg);cursor:pointer;transition:all 0.25s;text-decoration:none;color:var(–ink);overflow:hidden;}
+.opt-card:hover{border-color:var(–blueprint);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.12);}
+[data-theme=“dark”] .opt-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.4);}
 .opt-icon{font-size:2.2rem;margin-bottom:0.8rem;}
-.opt-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--blueprint);margin-bottom:0.4rem;}
-.opt-desc{font-size:0.85rem;color:var(--text-muted);line-height:1.6;}
-.opt-badge{position:absolute;top:12px;right:12px;font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;padding:2px 8px;border-radius:3px;text-transform:uppercase;font-weight:700;}
+.opt-title{font-family:‘Playfair Display’,serif;font-size:1.3rem;font-weight:700;color:var(–blueprint);margin-bottom:0.4rem;}
+.opt-desc{font-size:0.85rem;color:var(–text-muted);line-height:1.6;}
+.opt-badge{position:absolute;top:12px;right:12px;font-family:‘Space Mono’,monospace;font-size:0.55rem;letter-spacing:0.1em;padding:2px 8px;border-radius:3px;text-transform:uppercase;font-weight:700;}
 .opt-badge.live{background:#16a34a;color:#fff;}
-.opt-badge.soon{background:var(--accent);color:#fff;}
-.opt-badge.new{background:var(--rust);color:#fff;}
+.opt-badge.soon{background:var(–accent);color:#fff;}
+.opt-badge.new{background:var(–rust);color:#fff;}
 
 /* ─── TYPING INDICATOR ─── */
 .typing{display:flex;gap:4px;padding:0.8rem 1.2rem;align-items:center;}
-.typing span{width:7px;height:7px;border-radius:50%;background:var(--steel);animation:typingBounce 1.2s infinite;}
+.typing span{width:7px;height:7px;border-radius:50%;background:var(–steel);animation:typingBounce 1.2s infinite;}
 .typing span:nth-child(2){animation-delay:0.2s;}
 .typing span:nth-child(3){animation-delay:0.4s;}
 
 /* ─── FOOTER ─── */
-footer{position:relative;z-index:1;padding:1.5rem 2.5rem;border-top:1px solid var(--grid);display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;color:#999;flex-wrap:wrap;gap:0.5rem;}
+footer{position:relative;z-index:1;padding:1.5rem 2.5rem;border-top:1px solid var(–grid);display:flex;justify-content:space-between;align-items:center;font-family:‘Space Mono’,monospace;font-size:0.68rem;letter-spacing:0.05em;color:#999;flex-wrap:wrap;gap:0.5rem;}
 .visitor-counter{display:flex;align-items:center;gap:0.5rem;}
-.visitor-count{display:inline-flex;align-items:center;gap:0.35rem;padding:0.25rem 0.6rem;border:1px solid var(--grid);border-radius:4px;background:rgba(255,255,255,0.03);}
+.visitor-count{display:inline-flex;align-items:center;gap:0.35rem;padding:0.25rem 0.6rem;border:1px solid var(–grid);border-radius:4px;background:rgba(255,255,255,0.03);}
 .visitor-dot{width:6px;height:6px;border-radius:50%;background:#4caf50;display:inline-block;animation:pulse 2s ease-in-out infinite;}
 
 /* ─── ANIMATIONS ─── */
@@ -110,14 +111,15 @@ footer{position:relative;z-index:1;padding:1.5rem 2.5rem;border-top:1px solid va
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:600px){
-  nav{padding:0.85rem 1.2rem;}
-  .chat-wrapper{padding:5rem 1rem 1.5rem;}
-  .options{grid-template-columns:1fr;}
-  .opt-card{padding:1.3rem;}
-  footer{padding:1rem 1.2rem;flex-direction:column;text-align:center;}
-  .nav-links{display:none;}
+nav{padding:0.85rem 1.2rem;}
+.chat-wrapper{padding:5rem 1rem 1.5rem;}
+.options{grid-template-columns:1fr;}
+.opt-card{padding:1.3rem;}
+footer{padding:1rem 1.2rem;flex-direction:column;text-align:center;}
+.nav-links{display:none;}
 }
 </style>
+
 </head>
 <body>
 
@@ -151,24 +153,11 @@ let msgDelay = 0;
 function addBot(html, delay) {
   delay = delay || msgDelay;
   setTimeout(() => {
-    // Remove any typing indicator
     const ti = chat.querySelector('.typing-wrap');
     if (ti) ti.remove();
     const div = document.createElement('div');
     div.className = 'msg bot';
     div.innerHTML = `<div class="msg-avatar">&#8721;</div><div class="msg-body">${html}</div>`;
-    chat.appendChild(div);
-    div.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, delay);
-  msgDelay = delay + 100;
-}
-
-function addUser(text, delay) {
-  delay = delay || msgDelay;
-  setTimeout(() => {
-    const div = document.createElement('div');
-    div.className = 'msg user';
-    div.innerHTML = `<div class="msg-avatar">You</div><div class="msg-body">${text}</div>`;
     chat.appendChild(div);
     div.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, delay);
@@ -226,8 +215,8 @@ addOptions([
     title: 'Physics',
     desc: 'Mechanics, thermodynamics, waves, optics, and modern physics. Visual and intuitive.',
     href: 'physics.html',
-    badge: 'COMING SOON',
-    badgeClass: 'soon'
+    badge: 'LIVE',
+    badgeClass: 'live'
   },
   {
     icon: '&#127959;',
@@ -282,5 +271,6 @@ toggleBtn.addEventListener('click', () => {
   });
 })();
 </script>
+
 </body>
 </html>
