@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time & Money | Class 3 | Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);transition:background 0.3s,color 0.3s;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;height:60px;background:var(--nav-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--card-border);display:flex;align-items:center;padding:0 24px;gap:16px;z-index:100;}
+.nav-brand{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent);font-size:1.1rem;text-decoration:none;}
+.nav-class{font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--text-muted);background:var(--grid);padding:3px 10px;border-radius:20px;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+.theme-toggle{background:var(--toggle-bg);border:none;color:var(--toggle-icon);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+.layout{display:flex;margin-top:60px;min-height:calc(100vh - 60px);}
+aside{width:260px;background:var(--paper2);border-right:1px solid var(--card-border);padding:24px 0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;flex-shrink:0;}
+.sidebar-title{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--text-muted);padding:0 20px 12px;text-transform:uppercase;letter-spacing:1px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;text-decoration:none;color:var(--ink);font-size:0.875rem;transition:all 0.2s;border-left:3px solid transparent;}
+.nav-item:hover{background:var(--grid);color:var(--accent);}
+.nav-item.active{background:var(--grid);border-left-color:var(--accent);color:var(--accent);font-weight:500;}
+.nav-item .ch-num{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--text-muted);min-width:28px;}
+main{flex:1;padding:40px 32px;max-width:900px;}
+.progress-bar{height:4px;background:var(--grid);border-radius:2px;margin-bottom:32px;}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;width:100%;transition:width 0.5s;}
+.chapter-header{margin-bottom:40px;animation:fadeUp 0.6s ease;}
+.chapter-tag{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+h1{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;line-height:1.2;margin-bottom:12px;}
+.chapter-desc{color:var(--text-muted);font-size:1rem;line-height:1.6;max-width:600px;}
+.section{margin-bottom:48px;animation:fadeUp 0.6s ease both;}
+.section:nth-child(2){animation-delay:0.1s;}
+.section:nth-child(3){animation-delay:0.2s;}
+.section:nth-child(4){animation-delay:0.3s;}
+h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+h2::before{content:'';display:inline-block;width:4px;height:24px;background:var(--accent);border-radius:2px;}
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:24px;margin-bottom:20px;}
+.quiz-section{background:var(--code-bg);border-radius:12px;padding:24px;margin-top:16px;}
+.quiz-q{font-size:1rem;font-weight:500;margin-bottom:16px;line-height:1.5;}
+.quiz-options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.quiz-btn{background:var(--card-bg);border:2px solid var(--card-border);border-radius:8px;padding:12px 16px;cursor:pointer;font-size:0.95rem;color:var(--ink);transition:all 0.2s;text-align:left;}
+.quiz-btn:hover{border-color:var(--accent);background:var(--grid);}
+.quiz-btn.correct{background:#16a34a22;border-color:var(--success);color:var(--success);}
+.quiz-btn.wrong{background:#c0392b22;border-color:var(--rust);color:var(--rust);}
+.feedback{margin-top:12px;padding:12px;border-radius:8px;font-weight:500;display:none;}
+.feedback.show{display:block;}
+.feedback.correct{background:#16a34a22;color:var(--success);}
+.feedback.wrong{background:#c0392b22;color:var(--rust);}
+.word-problem{background:linear-gradient(135deg,#1a3a5c22,#60a5fa11);border:1px solid var(--blueprint);border-radius:12px;padding:24px;position:relative;overflow:hidden;}
+.word-problem::before{content:'WORD PROBLEM';font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--blueprint);position:absolute;top:12px;right:16px;letter-spacing:2px;}
+.word-problem p{line-height:1.8;margin-bottom:12px;}
+.collapsible-btn{background:var(--grid);border:1px solid var(--card-border);color:var(--ink);padding:10px 16px;border-radius:8px;cursor:pointer;font-size:0.875rem;width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;margin-top:12px;transition:all 0.2s;}
+.collapsible-btn:hover{border-color:var(--accent);}
+.collapsible-content{display:none;padding:16px 0;}
+.collapsible-content.open{display:block;}
+.step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+.step-num{background:var(--accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:0.75rem;flex-shrink:0;margin-top:2px;}
+.check-btn{background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;margin-top:12px;transition:all 0.2s;}
+.check-btn:hover{opacity:0.9;transform:translateY(-1px);}
+.next-prev{display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--card-border);}
+.nav-link{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text-muted);font-size:0.875rem;padding:10px 16px;border:1px solid var(--card-border);border-radius:8px;transition:all 0.2s;}
+.nav-link:hover{color:var(--accent);border-color:var(--accent);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.highlight{color:var(--accent);font-weight:700;}
+.clock-container{display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap;margin:20px 0;}
+.time-controls{display:flex;flex-direction:column;gap:12px;}
+.time-input-group{display:flex;align-items:center;gap:10px;}
+.time-input-group label{font-family:'Space Mono',monospace;font-size:0.85rem;color:var(--text-muted);min-width:60px;}
+input[type="number"]{background:var(--code-bg);border:2px solid var(--card-border);color:var(--ink);padding:8px 12px;border-radius:6px;font-family:'Space Mono',monospace;font-size:1rem;width:70px;outline:none;transition:border-color 0.2s;}
+input[type="number"]:focus{border-color:var(--accent);}
+.time-display{font-family:'Space Mono',monospace;font-size:2rem;color:var(--accent);text-align:center;margin-top:8px;}
+.money-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;margin:16px 0;}
+.coin-card{background:var(--code-bg);border:1px solid var(--card-border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.coin-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.coin-card.selected{border-color:var(--accent);background:var(--grid);}
+.coin-value{font-family:'Space Mono',monospace;font-size:0.9rem;color:var(--accent);margin-top:6px;}
+.coin-count{font-size:0.8rem;color:var(--text-muted);}
+.total-display{background:var(--grid);border-radius:8px;padding:16px;margin-top:12px;font-family:'Space Mono',monospace;font-size:1.1rem;text-align:center;color:var(--accent);}
+.time-table{width:100%;border-collapse:collapse;margin:12px 0;}
+.time-table th{background:var(--grid);padding:10px 14px;text-align:left;font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;}
+.time-table td{padding:10px 14px;border-bottom:1px solid var(--card-border);font-size:0.9rem;}
+.time-table tr:last-child td{border-bottom:none;}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../../index.html" class="nav-brand">Mathify</a>
+  <span class="nav-class">Class 3</span>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+  </div>
+</nav>
+<div class="layout">
+  <aside>
+    <div class="sidebar-title">Class 3 Chapters</div>
+    <a href="ch1-numbers-1000.html" class="nav-item"><span class="ch-num">Ch 1</span>Numbers to 1000</a>
+    <a href="ch2-multiplication-division.html" class="nav-item"><span class="ch-num">Ch 2</span>Multiplication & Division</a>
+    <a href="ch3-fractions.html" class="nav-item"><span class="ch-num">Ch 3</span>Fractions</a>
+    <a href="ch4-area-perimeter.html" class="nav-item"><span class="ch-num">Ch 4</span>Area & Perimeter</a>
+    <a href="ch5-time-money.html" class="nav-item active"><span class="ch-num">Ch 5</span>Time & Money</a>
+  </aside>
+  <main>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <div class="chapter-header">
+      <div class="chapter-tag">Chapter 5 · Class 3</div>
+      <h1>Time &amp; Money</h1>
+      <p class="chapter-desc">Master telling time to the nearest minute, calculating durations, and working with money — adding, subtracting, and making change.</p>
+    </div>
+
+    <!-- TIME: READING CLOCKS -->
+    <div class="section">
+      <h2>Reading Time — Interactive Clock</h2>
+      <div class="card">
+        <p style="color:var(--text-muted);margin-bottom:16px;">Set the hours and minutes to see the clock update in real time.</p>
+        <div class="clock-container">
+          <canvas id="clockCanvas" width="200" height="200"></canvas>
+          <div class="time-controls">
+            <div class="time-input-group">
+              <label>Hours:</label>
+              <input type="number" id="clockH" min="1" max="12" value="3">
+            </div>
+            <div class="time-input-group">
+              <label>Minutes:</label>
+              <input type="number" id="clockM" min="0" max="59" value="25">
+            </div>
+            <div class="time-display" id="timeDisplay">3:25</div>
+            <button class="check-btn" onclick="updateClock()">Update Clock</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIME UNITS -->
+    <div class="section">
+      <h2>Time Conversion Table</h2>
+      <div class="card">
+        <table class="time-table">
+          <tr><th>Unit</th><th>Equals</th><th>Example</th></tr>
+          <tr><td>1 minute</td><td>60 seconds</td><td>A quick song</td></tr>
+          <tr><td>1 hour</td><td>60 minutes</td><td>A school period</td></tr>
+          <tr><td>1 day</td><td>24 hours</td><td>Morning to midnight</td></tr>
+          <tr><td>1 week</td><td>7 days</td><td>Mon to Sun</td></tr>
+          <tr><td>1 month</td><td>28–31 days</td><td>January = 31 days</td></tr>
+          <tr><td>1 year</td><td>12 months / 365 days</td><td>Jan to Dec</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ELAPSED TIME -->
+    <div class="section">
+      <h2>Elapsed Time Calculator</h2>
+      <div class="card">
+        <p style="color:var(--text-muted);margin-bottom:16px;">Find how much time has passed between a start time and end time.</p>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end;">
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px;">Start Time</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <input type="number" id="startH" value="9" min="0" max="23" style="width:60px;">
+              <span style="font-family:'Space Mono',monospace;">:</span>
+              <input type="number" id="startM" value="15" min="0" max="59" style="width:60px;">
+            </div>
+          </div>
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px;">End Time</div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <input type="number" id="endH" value="11" min="0" max="23" style="width:60px;">
+              <span style="font-family:'Space Mono',monospace;">:</span>
+              <input type="number" id="endM" value="45" min="0" max="59" style="width:60px;">
+            </div>
+          </div>
+          <button class="check-btn" onclick="calcElapsed()">Calculate</button>
+        </div>
+        <div class="total-display" id="elapsedResult" style="margin-top:16px;">Elapsed: 2 hours 30 minutes</div>
+      </div>
+    </div>
+
+    <!-- MONEY -->
+    <div class="section">
+      <h2>Counting Money</h2>
+      <div class="card">
+        <p style="color:var(--text-muted);margin-bottom:16px;">Click on coins/notes to add them to your total. Click again to remove.</p>
+        <div class="money-grid" id="moneyGrid">
+          <div class="coin-card" data-val="100" onclick="toggleCoin(this)"><div style="font-size:1.5rem;">💵</div><div class="coin-value">₹100</div><div class="coin-count" id="cnt100">×0</div></div>
+          <div class="coin-card" data-val="50" onclick="toggleCoin(this)"><div style="font-size:1.5rem;">💴</div><div class="coin-value">₹50</div><div class="coin-count" id="cnt50">×0</div></div>
+          <div class="coin-card" data-val="20" onclick="toggleCoin(this)"><div style="font-size:1.5rem;">💵</div><div class="coin-value">₹20</div><div class="coin-count" id="cnt20">×0</div></div>
+          <div class="coin-card" data-val="10" onclick="toggleCoin(this)"><div style="font-size:1.5rem;">🪙</div><div class="coin-value">₹10</div><div class="coin-count" id="cnt10">×0</div></div>
+          <div class="coin-card" data-val="5" onclick="toggleCoin(this)"><div style="font-size:1.5rem;">🪙</div><div class="coin-value">₹5</div><div class="coin-count" id="cnt5">×0</div></div>
+          <div class="coin-card" data-val="2" onclick="toggleCoin(this)"><div style="font-size:1.5rem;">🪙</div><div class="coin-value">₹2</div><div class="coin-count" id="cnt2">×0</div></div>
+          <div class="coin-card" data-val="1" onclick="toggleCoin(this)"><div style="font-size:1.5rem;">🪙</div><div class="coin-value">₹1</div><div class="coin-count" id="cnt1">×0</div></div>
+        </div>
+        <button class="check-btn" onclick="resetCoins()" style="background:var(--grid);color:var(--ink);border:1px solid var(--card-border);">Reset</button>
+        <div class="total-display" id="moneyTotal">Total: ₹0</div>
+      </div>
+    </div>
+
+    <!-- WORD PROBLEM -->
+    <div class="section">
+      <h2>Word Problem — Bar Model</h2>
+      <div class="word-problem">
+        <p>Ravi went to the market with ₹500. He bought a notebook for ₹45, a pen for ₹18, and a lunch box for ₹120. How much money did he spend in total? How much money did he have left?</p>
+        <button class="collapsible-btn" onclick="toggleSolution('sol1')">
+          <span>💡 Show Solution</span><span id="sol1Arrow">▼</span>
+        </button>
+        <div class="collapsible-content" id="sol1">
+          <div class="step"><div class="step-num">1</div><div>Total spent = ₹45 + ₹18 + ₹120 = <strong style="color:var(--accent);">₹183</strong></div></div>
+          <div class="step"><div class="step-num">2</div><div>Money left = ₹500 − ₹183 = <strong style="color:#4ade80;">₹317</strong></div></div>
+          <p style="margin-top:12px;color:var(--text-muted);">Ravi spent ₹183 and had ₹317 left.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="section">
+      <h2>Quick Quiz</h2>
+      <div class="quiz-section">
+        <div class="quiz-q">A movie starts at 2:15 PM and ends at 4:45 PM. How long is the movie?</div>
+        <div class="quiz-options">
+          <button class="quiz-btn" onclick="checkAns(this, false)">2 hours 15 minutes</button>
+          <button class="quiz-btn" onclick="checkAns(this, true)">2 hours 30 minutes</button>
+          <button class="quiz-btn" onclick="checkAns(this, false)">2 hours 45 minutes</button>
+          <button class="quiz-btn" onclick="checkAns(this, false)">3 hours</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
+
+    <div class="next-prev">
+      <a href="ch4-area-perimeter.html" class="nav-link">← Ch 4: Area & Perimeter</a>
+      <a href="../index.html" class="nav-link">All Classes →</a>
+    </div>
+  </main>
+</div>
+
+<script>
+// Theme toggle
+const html = document.documentElement;
+const btn = document.getElementById('themeToggle');
+const saved = localStorage.getItem('theme') || 'dark';
+html.setAttribute('data-theme', saved);
+btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+btn.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  drawClock(+document.getElementById('clockH').value, +document.getElementById('clockM').value);
+});
+
+// Clock drawing
+function drawClock(h, m) {
+  const canvas = document.getElementById('clockCanvas');
+  const ctx = canvas.getContext('2d');
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  const cx = 100, cy = 100, r = 90;
+  ctx.clearRect(0,0,200,200);
+  // Face
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI);
+  ctx.fillStyle = isDark ? '#161b22' : '#fff'; ctx.fill();
+  ctx.strokeStyle = isDark ? '#f59e0b' : '#e67e22'; ctx.lineWidth = 3; ctx.stroke();
+  // Hour marks
+  for(let i=0;i<12;i++){
+    const a = (i/12)*2*Math.PI - Math.PI/2;
+    const inner = i%3===0 ? r-18 : r-10;
+    ctx.beginPath();
+    ctx.moveTo(cx+Math.cos(a)*inner, cy+Math.sin(a)*inner);
+    ctx.lineTo(cx+Math.cos(a)*(r-4), cy+Math.sin(a)*(r-4));
+    ctx.strokeStyle = isDark ? '#94a3b8' : '#2c3e50';
+    ctx.lineWidth = i%3===0 ? 2.5 : 1.5; ctx.stroke();
+  }
+  // Numbers
+  ctx.font = 'bold 12px "Space Mono",monospace';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = isDark ? '#e2e8f0' : '#0d0d0d';
+  [12,1,2,3,4,5,6,7,8,9,10,11].forEach((n,i)=>{
+    const a = (i/12)*2*Math.PI - Math.PI/2;
+    ctx.fillText(n, cx+Math.cos(a)*(r-28), cy+Math.sin(a)*(r-28));
+  });
+  // Hour hand
+  const ha = ((h%12 + m/60)/12)*2*Math.PI - Math.PI/2;
+  ctx.beginPath(); ctx.moveTo(cx,cy);
+  ctx.lineTo(cx+Math.cos(ha)*52, cy+Math.sin(ha)*52);
+  ctx.strokeStyle = isDark ? '#e2e8f0' : '#0d0d0d'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.stroke();
+  // Minute hand
+  const ma = (m/60)*2*Math.PI - Math.PI/2;
+  ctx.beginPath(); ctx.moveTo(cx,cy);
+  ctx.lineTo(cx+Math.cos(ma)*72, cy+Math.sin(ma)*72);
+  ctx.strokeStyle = isDark ? '#f59e0b' : '#e67e22'; ctx.lineWidth = 3; ctx.stroke();
+  // Center dot
+  ctx.beginPath(); ctx.arc(cx,cy,5,0,2*Math.PI);
+  ctx.fillStyle = isDark ? '#f59e0b' : '#e67e22'; ctx.fill();
+}
+
+function updateClock() {
+  const h = +document.getElementById('clockH').value;
+  const m = +document.getElementById('clockM').value;
+  const mStr = m < 10 ? '0'+m : m;
+  document.getElementById('timeDisplay').textContent = h + ':' + mStr;
+  drawClock(h, m);
+}
+drawClock(3, 25);
+
+// Elapsed time
+function calcElapsed() {
+  const sh = +document.getElementById('startH').value;
+  const sm = +document.getElementById('startM').value;
+  const eh = +document.getElementById('endH').value;
+  const em = +document.getElementById('endM').value;
+  let totalMins = (eh*60+em) - (sh*60+sm);
+  if(totalMins < 0) totalMins += 24*60;
+  const hours = Math.floor(totalMins/60);
+  const mins = totalMins%60;
+  document.getElementById('elapsedResult').textContent =
+    'Elapsed: ' + hours + ' hour' + (hours!==1?'s':'') + ' ' + mins + ' minute' + (mins!==1?'s':'');
+}
+
+// Money counter
+const counts = {};
+function toggleCoin(el) {
+  const val = el.dataset.val;
+  counts[val] = (counts[val] || 0) + 1;
+  document.getElementById('cnt'+val).textContent = '×' + counts[val];
+  updateTotal();
+}
+function resetCoins() {
+  Object.keys(counts).forEach(k => counts[k] = 0);
+  document.querySelectorAll('.coin-count').forEach(el => el.textContent = '×0');
+  updateTotal();
+}
+function updateTotal() {
+  let total = 0;
+  Object.keys(counts).forEach(k => total += (counts[k]||0)*+k);
+  document.getElementById('moneyTotal').textContent = 'Total: ₹' + total;
+}
+
+// Collapsible
+function toggleSolution(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+  document.getElementById(id+'Arrow').textContent = el.classList.contains('open') ? '▲' : '▼';
+}
+
+// Quiz
+function checkAns(btn, correct) {
+  const btns = document.querySelectorAll('.quiz-btn');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('feedback');
+  if(correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✓ Correct! From 2:15 to 4:45 = 2 hours 30 minutes';
+    fb.className = 'feedback correct show';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = '✗ Not quite. Count: 2:15 → 4:15 = 2 hours, then +30 min = 2 hours 30 minutes';
+    fb.className = 'feedback wrong show';
+    btns.forEach(b => { if(b.onclick.toString().includes('true')) b.classList.add('correct'); });
+  }
+}
+</script>
+</body>
+</html>

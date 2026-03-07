@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 1: Integers & Rational Numbers — Class 7 | Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;transition:background .3s,color .3s;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--card-border);padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{font-family:'Space Mono',monospace;font-size:.95rem;color:var(--blueprint);text-decoration:none;font-weight:700;}
+.nav-brand span{color:var(--accent);}
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.theme-btn{background:var(--toggle-bg);border:none;color:var(--toggle-icon);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+.theme-btn:hover{transform:scale(1.1);}
+
+.layout{display:flex;margin-top:56px;min-height:calc(100vh - 56px);}
+
+aside{width:260px;flex-shrink:0;background:var(--paper2);border-right:1px solid var(--card-border);padding:1.5rem 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+.sidebar-class{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;padding:.5rem 1.25rem;margin-top:.5rem;}
+.sidebar-link{display:block;padding:.55rem 1.25rem;font-size:.88rem;color:var(--steel);text-decoration:none;transition:background .2s,color .2s;border-left:3px solid transparent;}
+.sidebar-link:hover{background:var(--grid);color:var(--ink);}
+.sidebar-link.active{background:var(--grid);color:var(--accent);border-left-color:var(--accent);font-weight:600;}
+
+main{flex:1;padding:2rem 2.5rem;max-width:900px;}
+.breadcrumb{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--text-muted);margin-bottom:1.5rem;}
+.breadcrumb a{color:var(--blueprint);text-decoration:none;}
+.breadcrumb a:hover{text-decoration:underline;}
+
+.chapter-header{margin-bottom:2rem;}
+.chapter-tag{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.4rem;}
+h1{font-family:'Playfair Display',serif;font-size:2.4rem;line-height:1.2;margin-bottom:.75rem;}
+.chapter-desc{font-size:1.05rem;color:var(--steel);max-width:680px;}
+
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:1.5rem;margin-bottom:1.75rem;}
+.card h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:1rem;color:var(--ink);}
+.card h3{font-family:'DM Sans',sans-serif;font-weight:600;font-size:1.05rem;margin:1rem 0 .5rem;color:var(--blueprint);}
+
+.pro-tip{background:linear-gradient(135deg,rgba(246,173,85,.08),rgba(246,173,85,.02));border:1px solid var(--accent);border-radius:10px;padding:1.25rem 1.5rem;margin:1.5rem 0;}
+.pro-tip .label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;}
+
+canvas{display:block;border-radius:8px;background:var(--code-bg);max-width:100%;}
+
+.sim-controls{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.75rem;align-items:center;}
+.btn{font-family:'Space Mono',monospace;font-size:.78rem;padding:.5rem 1rem;border-radius:6px;border:none;cursor:pointer;transition:all .2s;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{opacity:.85;}
+.btn-secondary{background:var(--card-border);color:var(--ink);}
+.btn-secondary:hover{background:var(--grid);}
+.btn-sm{padding:.35rem .7rem;font-size:.72rem;}
+
+input[type=range]{accent-color:var(--accent);cursor:pointer;}
+input[type=number]{background:var(--code-bg);border:1px solid var(--card-border);color:var(--ink);padding:.4rem .6rem;border-radius:6px;font-family:'Space Mono',monospace;font-size:.85rem;width:80px;}
+select{background:var(--code-bg);border:1px solid var(--card-border);color:var(--ink);padding:.4rem .6rem;border-radius:6px;font-size:.85rem;}
+
+.math-block{background:var(--code-bg);border-radius:8px;padding:1rem 1.25rem;margin:.75rem 0;font-size:1.05rem;}
+.math-step{display:flex;align-items:flex-start;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--grid);}
+.math-step:last-child{border-bottom:none;}
+.step-num{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);min-width:24px;margin-top:.3rem;}
+.step-desc{font-size:.9rem;color:var(--steel);}
+
+.bar-model{display:flex;gap:2px;margin:.75rem 0;flex-wrap:wrap;}
+.bar-unit{height:36px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.72rem;border-radius:4px;color:#fff;font-weight:700;}
+
+.quiz-section{margin-top:1rem;}
+.quiz-q{background:var(--code-bg);border-radius:8px;padding:1rem;margin:.75rem 0;}
+.quiz-q .q-text{font-weight:500;margin-bottom:.75rem;}
+.quiz-opts{display:flex;flex-direction:column;gap:.4rem;}
+.quiz-opt{background:var(--card-bg);border:1px solid var(--card-border);border-radius:6px;padding:.5rem .85rem;cursor:pointer;font-size:.9rem;transition:all .2s;text-align:left;}
+.quiz-opt:hover{border-color:var(--accent);}
+.quiz-opt.correct{border-color:var(--success);background:rgba(74,222,128,.1);color:var(--success);}
+.quiz-opt.wrong{border-color:var(--rust);background:rgba(248,113,113,.1);color:var(--rust);}
+.explanation{margin-top:.5rem;font-size:.85rem;color:var(--steel);padding:.5rem .75rem;background:var(--grid);border-radius:6px;display:none;}
+.explanation.show{display:block;}
+.score-board{font-family:'Space Mono',monospace;font-size:.9rem;padding:.75rem;background:var(--code-bg);border-radius:8px;margin-top:1rem;}
+
+.number-line-labels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--text-muted);margin-top:.25rem;padding:0 10px;}
+
+table{width:100%;border-collapse:collapse;margin:.75rem 0;}
+th{background:var(--grid);font-family:'Space Mono',monospace;font-size:.8rem;padding:.5rem .75rem;text-align:left;}
+td{padding:.5rem .75rem;border-bottom:1px solid var(--grid);font-size:.9rem;}
+
+.highlight{color:var(--accent);font-weight:600;}
+.definition{border-left:3px solid var(--blueprint);padding-left:1rem;margin:.75rem 0;font-style:italic;color:var(--steel);}
+
+.word-problem{background:linear-gradient(135deg,rgba(96,165,250,.06),rgba(96,165,250,.02));border:1px solid rgba(96,165,250,.2);border-radius:10px;padding:1.25rem;}
+.word-problem .scenario{font-style:italic;margin-bottom:.75rem;font-size:.95rem;}
+.solution-steps{margin-top:.75rem;}
+.solution-step{display:flex;gap:.75rem;margin:.5rem 0;font-size:.9rem;}
+.solution-step .num{font-family:'Space Mono',monospace;color:var(--accent);min-width:20px;}
+
+@media(max-width:768px){aside{display:none;}main{padding:1.25rem 1rem;max-width:100%;}h1{font-size:1.8rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/index.html" class="nav-brand">Mathify<span>.us</span></a>
+  <div class="nav-right">
+    <span style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--text-muted);">Class 7 — Ch 1</span>
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀</button>
+  </div>
+</nav>
+
+<div class="layout">
+<aside>
+  <div class="sidebar-class">Class 7 Chapters</div>
+  <a href="ch1-integers.html" class="sidebar-link active">1. Integers & Rational Nos.</a>
+  <a href="ch2-linear-equations.html" class="sidebar-link">2. Linear Equations</a>
+  <a href="ch3-lines-angles.html" class="sidebar-link">3. Lines & Angles</a>
+  <a href="ch4-triangles.html" class="sidebar-link">4. Triangles</a>
+  <a href="ch5-data-handling.html" class="sidebar-link">5. Data Handling</a>
+  <div class="sidebar-class" style="margin-top:1rem;">Class 8 Chapters</div>
+  <a href="../class-8/ch1-rational-numbers.html" class="sidebar-link">1. Rational Numbers</a>
+  <a href="../class-8/ch2-linear-equations.html" class="sidebar-link">2. Linear Equations (2V)</a>
+  <a href="../class-8/ch3-pythagoras.html" class="sidebar-link">3. Pythagoras Theorem</a>
+  <a href="../class-8/ch4-quadrilaterals.html" class="sidebar-link">4. Quadrilaterals</a>
+  <a href="../class-8/ch5-mensuration.html" class="sidebar-link">5. Mensuration</a>
+</aside>
+
+<main>
+  <div class="breadcrumb">
+    <a href="/index.html">Home</a> › <a href="#">Class 7</a> › Chapter 1
+  </div>
+
+  <div class="chapter-header">
+    <div class="chapter-tag">Class 7 · Chapter 1</div>
+    <h1>Integers &amp; Rational Numbers</h1>
+    <p class="chapter-desc">From below-zero temperatures to fractions on a number line — master the complete number system and build intuition for operations in the real world.</p>
+  </div>
+
+  <!-- Section 1: Number Line Visualizer -->
+  <div class="card">
+    <h2>Interactive Number Line</h2>
+    <p style="font-size:.9rem;color:var(--steel);margin-bottom:1rem;">Drag the slider to move the pointer. Explore integers from −20 to +20.</p>
+    <canvas id="numLineCanvas" width="820" height="90"></canvas>
+    <div class="sim-controls" style="margin-top:.75rem;">
+      <label style="font-family:'Space Mono',monospace;font-size:.8rem;">Value: <strong id="nlValue">0</strong></label>
+      <input type="range" id="nlSlider" min="-20" max="20" value="0" style="flex:1;" oninput="updateNumberLine()">
+      <button class="btn btn-secondary btn-sm" onclick="animateNumberLine()">Animate</button>
+    </div>
+    <div class="math-block" style="margin-top:.75rem;">
+      <p id="nlDesc" style="font-size:.95rem;">The integer <strong>0</strong> is neither positive nor negative. It is the origin.</p>
+    </div>
+  </div>
+
+  <!-- Section 2: Absolute Value -->
+  <div class="card">
+    <h2>Absolute Value Visualizer</h2>
+    <div class="definition">The <strong>absolute value</strong> of a number $|x|$ is its distance from zero on the number line, always non-negative.</div>
+    <canvas id="absCanvas" width="820" height="100"></canvas>
+    <div class="sim-controls" style="margin-top:.75rem;">
+      <label style="font-size:.85rem;">Enter integer:</label>
+      <input type="number" id="absInput" value="-7" oninput="drawAbsValue()">
+      <span id="absResult" style="font-family:'Space Mono',monospace;font-size:1rem;color:var(--accent);">$|-7| = 7$</span>
+    </div>
+    <div class="pro-tip">
+      <div class="label">Pro Tip — Exam Strategy</div>
+      $|a - b|$ is the <strong>distance</strong> between $a$ and $b$ on the number line. This is tested frequently. For example: $|3 - (-4)| = |3 + 4| = 7$.
+    </div>
+  </div>
+
+  <!-- Section 3: Integer Operations Thermometer -->
+  <div class="card">
+    <h2>Integer Operations — Thermometer Model</h2>
+    <p style="font-size:.9rem;color:var(--steel);margin-bottom:1rem;">Temperature is a perfect metaphor for integers. Enter an operation to see the thermometer update.</p>
+    <div style="display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap;">
+      <canvas id="thermoCanvas" width="120" height="340"></canvas>
+      <div style="flex:1;min-width:200px;">
+        <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;">
+          <label style="font-size:.85rem;font-family:'Space Mono',monospace;">Start:</label>
+          <input type="number" id="t1" value="20" style="width:65px;" oninput="updateThermo()">
+          <select id="tOp" onchange="updateThermo()">
+            <option value="+">+ (rises)</option>
+            <option value="-">− (drops)</option>
+          </select>
+          <input type="number" id="t2" value="35" style="width:65px;" oninput="updateThermo()">
+          <span style="font-family:'Space Mono',monospace;font-size:.85rem;">=</span>
+          <span id="tResult" style="font-family:'Space Mono',monospace;font-size:1.1rem;color:var(--accent);font-weight:700;">-15°C</span>
+        </div>
+        <div id="thermoExplanation" class="math-block"></div>
+        <div style="margin-top:1rem;">
+          <h3>Rules for Integer Operations</h3>
+          <table>
+            <thead><tr><th>Operation</th><th>Rule</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td>$(+) + (+)$</td><td>Add, keep positive</td><td>$5 + 3 = 8$</td></tr>
+              <tr><td>$(-) + (-)$</td><td>Add, keep negative</td><td>$-5 + (-3) = -8$</td></tr>
+              <tr><td>$(+) + (-)$</td><td>Subtract, take sign of larger $|n|$</td><td>$5 + (-8) = -3$</td></tr>
+              <tr><td>$(+) \times (-)$</td><td>Product is negative</td><td>$4 \times (-3) = -12$</td></tr>
+              <tr><td>$(-) \times (-)$</td><td>Product is positive</td><td>$-4 \times -3 = 12$</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Rational Numbers -->
+  <div class="card">
+    <h2>Rational Numbers</h2>
+    <div class="definition">A <strong>rational number</strong> is any number of the form $\dfrac{p}{q}$ where $p, q \in \mathbb{Z}$ and $q \neq 0$.</div>
+    <p style="font-size:.9rem;color:var(--steel);margin:.75rem 0;">Rational numbers include all integers, fractions, terminating decimals, and recurring decimals.</p>
+
+    <h3>Ordering Rational Numbers</h3>
+    <p style="font-size:.9rem;color:var(--steel);margin-bottom:.75rem;">To compare $\frac{a}{b}$ and $\frac{c}{d}$: convert to common denominator, then compare numerators.</p>
+    <canvas id="ratioCanvas" width="820" height="80"></canvas>
+    <div class="sim-controls" style="margin-top:.75rem;flex-wrap:wrap;gap:1rem;">
+      <div style="display:flex;align-items:center;gap:.4rem;">
+        <input type="number" id="rNum1" value="-3" style="width:55px;"> /
+        <input type="number" id="rDen1" value="4" style="width:55px;">
+      </div>
+      <div style="display:flex;align-items:center;gap:.4rem;">
+        <input type="number" id="rNum2" value="2" style="width:55px;"> /
+        <input type="number" id="rDen2" value="-5" style="width:55px;">
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="compareRationals()">Compare</button>
+      <span id="ratioResult" style="font-family:'Space Mono',monospace;font-size:.9rem;color:var(--accent);"></span>
+    </div>
+    <div id="ratioSteps" class="math-block" style="display:none;"></div>
+
+    <h3>Properties of Rational Numbers</h3>
+    <table>
+      <thead><tr><th>Property</th><th>Addition</th><th>Multiplication</th></tr></thead>
+      <tbody>
+        <tr><td>Closure</td><td>$\frac{a}{b} + \frac{c}{d} \in \mathbb{Q}$</td><td>$\frac{a}{b} \times \frac{c}{d} \in \mathbb{Q}$</td></tr>
+        <tr><td>Commutativity</td><td>$\frac{a}{b} + \frac{c}{d} = \frac{c}{d} + \frac{a}{b}$</td><td>$\frac{a}{b} \times \frac{c}{d} = \frac{c}{d} \times \frac{a}{b}$</td></tr>
+        <tr><td>Associativity</td><td>$(x+y)+z = x+(y+z)$</td><td>$(xy)z = x(yz)$</td></tr>
+        <tr><td>Distributivity</td><td colspan="2">$x(y+z) = xy + xz$</td></tr>
+        <tr><td>Identity</td><td>$x + 0 = x$</td><td>$x \times 1 = x$</td></tr>
+        <tr><td>Inverse</td><td>$x + (-x) = 0$</td><td>$x \times \frac{1}{x} = 1, x \neq 0$</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 5: Word Problems -->
+  <div class="card">
+    <h2>Word Problems</h2>
+
+    <div class="word-problem">
+      <div class="scenario">A submarine is at an elevation of $-40$ m (below sea level). It rises $15$ m, then descends $8$ m, then rises $5$ m. What is its final elevation?</div>
+      <div class="solution-steps">
+        <div class="solution-step"><span class="num">1.</span><span>Starting position: $-40$ m</span></div>
+        <div class="solution-step"><span class="num">2.</span><span>After rising 15 m: $-40 + 15 = -25$ m</span></div>
+        <div class="solution-step"><span class="num">3.</span><span>After descending 8 m: $-25 + (-8) = -33$ m</span></div>
+        <div class="solution-step"><span class="num">4.</span><span>After rising 5 m: $-33 + 5 = -28$ m</span></div>
+      </div>
+      <div class="math-block">Final elevation: $\mathbf{-28 \text{ m}}$</div>
+      <div class="bar-model">
+        <div class="bar-unit" style="width:160px;background:#c0392b;">−40 m (start)</div>
+        <div class="bar-unit" style="width:60px;background:#16a34a;">+15</div>
+        <div class="bar-unit" style="width:32px;background:#c0392b;">−8</div>
+        <div class="bar-unit" style="width:20px;background:#16a34a;">+5</div>
+      </div>
+    </div>
+
+    <div class="word-problem" style="margin-top:1rem;">
+      <div class="scenario">The temperature in Shimla at noon was $8°C$. By midnight it fell by $14°C$. By 6 AM the next morning, it fell another $3°C$. Express each temperature as a rational number and find the range.</div>
+      <div class="solution-steps">
+        <div class="solution-step"><span class="num">1.</span><span>Noon temperature: $8°C$</span></div>
+        <div class="solution-step"><span class="num">2.</span><span>Midnight: $8 + (-14) = -6°C$</span></div>
+        <div class="solution-step"><span class="num">3.</span><span>6 AM: $-6 + (-3) = -9°C$</span></div>
+        <div class="solution-step"><span class="num">4.</span><span>Range $= 8 - (-9) = 8 + 9 = 17°C$</span></div>
+      </div>
+    </div>
+
+    <div class="word-problem" style="margin-top:1rem;">
+      <div class="scenario">A trader gains $\frac{3}{4}$ of a rupee on each kg of rice and loses $\frac{1}{6}$ of a rupee on each kg of wheat. He sells 24 kg of rice and 36 kg of wheat. What is his total profit or loss?</div>
+      <div class="solution-steps">
+        <div class="solution-step"><span class="num">1.</span><span>Gain on rice: $24 \times \frac{3}{4} = 6 \times 3 = \text{₹}18$</span></div>
+        <div class="solution-step"><span class="num">2.</span><span>Loss on wheat: $36 \times \frac{1}{6} = 6 \times 1 = \text{₹}6$</span></div>
+        <div class="solution-step"><span class="num">3.</span><span>Net = $18 - 6 = \text{₹}12$ profit</span></div>
+      </div>
+      <div class="math-block">$\text{Net profit} = 24 \times \dfrac{3}{4} - 36 \times \dfrac{1}{6} = 18 - 6 = \mathbf{₹12}$</div>
+    </div>
+  </div>
+
+  <!-- Section 6: Challenge Problems -->
+  <div class="card">
+    <h2>Challenge: Comparing Rational Expressions</h2>
+    <p style="font-size:.9rem;color:var(--steel);margin-bottom:1rem;">For each pair, determine which is greater without using decimals.</p>
+
+    <div class="math-block">
+      <p><strong>Problem 1:</strong> Compare $\dfrac{-7}{8}$ and $\dfrac{-5}{6}$</p>
+      <div class="math-step"><span class="step-num">1.</span><div>LCM of 8 and 6 is 24. So $\dfrac{-7}{8} = \dfrac{-21}{24}$ and $\dfrac{-5}{6} = \dfrac{-20}{24}$</div></div>
+      <div class="math-step"><span class="step-num">2.</span><div>Since $-20 > -21$, we have $\dfrac{-5}{6} > \dfrac{-7}{8}$</div></div>
+      <div class="math-step"><span class="step-num">3.</span><div><strong>Key insight:</strong> Among negative fractions, the one with smaller absolute value is <em>greater</em>.</div></div>
+    </div>
+
+    <div class="math-block">
+      <p><strong>Problem 2:</strong> Arrange in ascending order: $\dfrac{3}{-4},\ \dfrac{-5}{8},\ \dfrac{-7}{12},\ \dfrac{1}{-2}$</p>
+      <div class="math-step"><span class="step-num">1.</span><div>Convert all to standard form (negative numerator): $\dfrac{-3}{4},\ \dfrac{-5}{8},\ \dfrac{-7}{12},\ \dfrac{-1}{2}$</div></div>
+      <div class="math-step"><span class="step-num">2.</span><div>LCM of 4, 8, 12, 2 is 24. Convert: $\dfrac{-18}{24},\ \dfrac{-15}{24},\ \dfrac{-14}{24},\ \dfrac{-12}{24}$</div></div>
+      <div class="math-step"><span class="step-num">3.</span><div>Ascending: $-18 < -15 < -14 < -12$, so answer is: $\dfrac{3}{-4} < \dfrac{-5}{8} < \dfrac{-7}{12} < \dfrac{1}{-2}$</div></div>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="card">
+    <h2>Quiz — Test Your Understanding</h2>
+    <div class="quiz-section" id="quizContainer"></div>
+    <div class="score-board" id="scoreBoard" style="display:none;"></div>
+    <div class="sim-controls" style="margin-top:.75rem;">
+      <button class="btn btn-primary" onclick="submitQuiz()">Submit Quiz</button>
+      <button class="btn btn-secondary" onclick="resetQuiz()">Reset</button>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// Theme Toggle
+function toggleTheme(){
+  const t = document.documentElement.getAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme', t==='dark'?'light':'dark');
+  setTimeout(()=>{ drawAll(); }, 50);
+}
+
+// ========= Number Line =========
+const nlCanvas = document.getElementById('numLineCanvas');
+const nlCtx = nlCanvas.getContext('2d');
+
+function getThemeColors(){
+  const s = getComputedStyle(document.documentElement);
+  return {
+    ink: s.getPropertyValue('--ink').trim(),
+    grid: s.getPropertyValue('--grid').trim(),
+    accent: s.getPropertyValue('--accent').trim(),
+    blueprint: s.getPropertyValue('--blueprint').trim(),
+    steel: s.getPropertyValue('--steel').trim(),
+    codeBg: s.getPropertyValue('--code-bg').trim(),
+    rust: s.getPropertyValue('--rust').trim(),
+    success: s.getPropertyValue('--success').trim()
+  };
+}
+
+function drawNumberLine(val){
+  const W = nlCanvas.width, H = nlCanvas.height;
+  const c = getThemeColors();
+  nlCtx.clearRect(0,0,W,H);
+  nlCtx.fillStyle = c.codeBg;
+  nlCtx.fillRect(0,0,W,H);
+
+  const pad = 30, lineY = H/2;
+  const range = 20;
+  const step = (W - pad*2) / (range*2);
+
+  // Grid
+  for(let i=-range;i<=range;i++){
+    const x = pad + (i+range)*step;
+    nlCtx.beginPath();
+    nlCtx.strokeStyle = c.grid;
+    nlCtx.lineWidth = 1;
+    nlCtx.moveTo(x, lineY - (i%5===0?15:8));
+    nlCtx.lineTo(x, lineY + (i%5===0?15:8));
+    nlCtx.stroke();
+    if(i%5===0){
+      nlCtx.fillStyle = c.steel;
+      nlCtx.font = '11px Space Mono, monospace';
+      nlCtx.textAlign = 'center';
+      nlCtx.fillText(i, x, lineY+28);
+    }
+  }
+
+  // Main line
+  nlCtx.beginPath();
+  nlCtx.strokeStyle = c.steel;
+  nlCtx.lineWidth = 2;
+  nlCtx.moveTo(pad, lineY);
+  nlCtx.lineTo(W-pad, lineY);
+  nlCtx.stroke();
+
+  // Zero marker
+  const zeroX = pad + range*step;
+  nlCtx.beginPath();
+  nlCtx.fillStyle = c.blueprint;
+  nlCtx.arc(zeroX, lineY, 4, 0, Math.PI*2);
+  nlCtx.fill();
+
+  // Value marker
+  const valX = pad + (val+range)*step;
+  nlCtx.beginPath();
+  nlCtx.fillStyle = val < 0 ? c.rust : val > 0 ? c.success : c.accent;
+  nlCtx.arc(valX, lineY, 10, 0, Math.PI*2);
+  nlCtx.fill();
+  nlCtx.fillStyle = '#fff';
+  nlCtx.font = 'bold 11px Space Mono, monospace';
+  nlCtx.textAlign = 'center';
+  nlCtx.textBaseline = 'middle';
+  nlCtx.fillText(val, valX, lineY);
+  nlCtx.textBaseline = 'alphabetic';
+
+  // Absolute value bracket
+  if(val !== 0){
+    const x1 = Math.min(zeroX, valX), x2 = Math.max(zeroX, valX);
+    nlCtx.beginPath();
+    nlCtx.strokeStyle = c.accent;
+    nlCtx.setLineDash([4,3]);
+    nlCtx.lineWidth = 2;
+    nlCtx.moveTo(x1, lineY-20);
+    nlCtx.lineTo(x2, lineY-20);
+    nlCtx.stroke();
+    nlCtx.setLineDash([]);
+    nlCtx.fillStyle = c.accent;
+    nlCtx.font = '11px Space Mono, monospace';
+    nlCtx.textAlign = 'center';
+    nlCtx.fillText('|'+val+'| = '+Math.abs(val), (x1+x2)/2, lineY-25);
+  }
+}
+
+function updateNumberLine(){
+  const val = parseInt(document.getElementById('nlSlider').value);
+  document.getElementById('nlValue').textContent = val;
+  drawNumberLine(val);
+  const desc = document.getElementById('nlDesc');
+  if(val < 0) desc.innerHTML = `The integer <strong>${val}</strong> is <span style="color:var(--rust)">negative</span>. It lies to the left of zero. $|${val}| = ${Math.abs(val)}$`;
+  else if(val > 0) desc.innerHTML = `The integer <strong>${val}</strong> is <span style="color:var(--success)">positive</span>. It lies to the right of zero. $|${val}| = ${val}$`;
+  else desc.innerHTML = `The integer <strong>0</strong> is neither positive nor negative. It is the origin.`;
+  if(window.MathJax) MathJax.typesetPromise([desc]);
+}
+
+let nlAnimId = null;
+function animateNumberLine(){
+  let v = -20;
+  clearInterval(nlAnimId);
+  nlAnimId = setInterval(()=>{
+    document.getElementById('nlSlider').value = v;
+    updateNumberLine();
+    v++;
+    if(v > 20) clearInterval(nlAnimId);
+  }, 80);
+}
+
+// ========= Absolute Value Canvas =========
+const absCanvas = document.getElementById('absCanvas');
+const absCtx = absCanvas.getContext('2d');
+
+function drawAbsValue(){
+  const inp = parseInt(document.getElementById('absInput').value)||0;
+  const W = absCanvas.width, H = absCanvas.height;
+  const c = getThemeColors();
+  absCtx.clearRect(0,0,W,H);
+  absCtx.fillStyle = c.codeBg;
+  absCtx.fillRect(0,0,W,H);
+
+  const pad = 40, lineY = H/2+10, range = 20;
+  const step = (W-pad*2)/(range*2);
+
+  absCtx.beginPath();
+  absCtx.strokeStyle = c.steel;
+  absCtx.lineWidth = 2;
+  absCtx.moveTo(pad, lineY);
+  absCtx.lineTo(W-pad, lineY);
+  absCtx.stroke();
+
+  for(let i=-range;i<=range;i+=5){
+    const x = pad+(i+range)*step;
+    absCtx.beginPath();
+    absCtx.strokeStyle = c.grid;
+    absCtx.lineWidth = 1;
+    absCtx.moveTo(x, lineY-8);
+    absCtx.lineTo(x, lineY+8);
+    absCtx.stroke();
+    absCtx.fillStyle = c.steel;
+    absCtx.font = '11px Space Mono, monospace';
+    absCtx.textAlign='center';
+    absCtx.fillText(i, x, lineY+22);
+  }
+
+  const zeroX = pad+range*step;
+  const clamped = Math.max(-range, Math.min(range, inp));
+  const valX = pad+(clamped+range)*step;
+
+  // Arrow from zero to val
+  const col = inp < 0 ? c.rust : inp >= 0 ? c.success : c.accent;
+  absCtx.beginPath();
+  absCtx.strokeStyle = col;
+  absCtx.lineWidth = 3;
+  absCtx.moveTo(zeroX, lineY-5);
+  absCtx.lineTo(valX, lineY-5);
+  absCtx.stroke();
+
+  absCtx.beginPath();
+  absCtx.fillStyle = col;
+  absCtx.arc(valX, lineY-5, 6, 0, Math.PI*2);
+  absCtx.fill();
+
+  const resEl = document.getElementById('absResult');
+  resEl.textContent = '|' + inp + '| = ' + Math.abs(inp);
+  resEl.innerHTML = `$|${inp}| = ${Math.abs(inp)}$`;
+  if(window.MathJax) MathJax.typesetPromise([resEl]);
+}
+
+// ========= Thermometer =========
+const thermoCanvas = document.getElementById('thermoCanvas');
+const thermoCtx = thermoCanvas.getContext('2d');
+
+function updateThermo(){
+  const t1 = parseFloat(document.getElementById('t1').value)||0;
+  const t2 = parseFloat(document.getElementById('t2').value)||0;
+  const op = document.getElementById('tOp').value;
+  const result = op==='+' ? t1+t2 : t1-t2;
+  document.getElementById('tResult').textContent = result + '°C';
+  drawThermo(t1, result);
+  const exp = document.getElementById('thermoExplanation');
+  exp.innerHTML = `<strong>Calculation:</strong> ${t1} ${op} ${t2} = <strong>${result}°C</strong><br>
+  <span style="font-size:.85rem;color:var(--steel);">${result < 0 ? 'Below freezing point (0°C)' : result === 0 ? 'At freezing point' : 'Above freezing point'}</span>`;
+}
+
+function drawThermo(start, result){
+  const c = getThemeColors();
+  const W=120, H=340;
+  thermoCtx.clearRect(0,0,W,H);
+  thermoCtx.fillStyle = c.codeBg;
+  thermoCtx.fillRect(0,0,W,H);
+
+  const minT=-60, maxT=60, range=maxT-minT;
+  const bulbY = H-30, bulbR=18;
+  const tubeX=W/2, tubeW=16, tubeTop=20, tubeBot=bulbY-bulbR+5;
+  const tubeH = tubeBot-tubeTop;
+
+  // Tube outline
+  thermoCtx.beginPath();
+  thermoCtx.strokeStyle = c.grid;
+  thermoCtx.lineWidth = 2;
+  thermoCtx.roundRect(tubeX-tubeW/2, tubeTop, tubeW, tubeH, 8);
+  thermoCtx.stroke();
+
+  // Mercury level
+  const clamped = Math.max(minT, Math.min(maxT, result));
+  const mercH = ((clamped-minT)/range)*tubeH;
+  const mercY = tubeBot - mercH;
+  const mercColor = result < 0 ? c.blueprint : result > 30 ? c.rust : c.success;
+  thermoCtx.beginPath();
+  thermoCtx.fillStyle = mercColor;
+  thermoCtx.fillRect(tubeX-tubeW/2+2, mercY, tubeW-4, tubeH-mercH+mercH);
+  thermoCtx.fillRect(tubeX-tubeW/2+2, mercY, tubeW-4, tubeH-(mercY-tubeTop));
+
+  // Bulb
+  thermoCtx.beginPath();
+  thermoCtx.fillStyle = mercColor;
+  thermoCtx.arc(tubeX, bulbY, bulbR, 0, Math.PI*2);
+  thermoCtx.fill();
+
+  // Scale
+  for(let t=minT;t<=maxT;t+=10){
+    const y = tubeBot - ((t-minT)/range)*tubeH;
+    thermoCtx.beginPath();
+    thermoCtx.strokeStyle = c.steel;
+    thermoCtx.lineWidth = 1;
+    thermoCtx.moveTo(tubeX+tubeW/2, y);
+    thermoCtx.lineTo(tubeX+tubeW/2+8, y);
+    thermoCtx.stroke();
+    thermoCtx.fillStyle = t===0 ? c.accent : c.steel;
+    thermoCtx.font = t===0 ? 'bold 10px Space Mono' : '10px Space Mono';
+    thermoCtx.textAlign='left';
+    thermoCtx.fillText(t+'°', tubeX+tubeW/2+12, y+4);
+  }
+
+  // Marker for result
+  const markY = tubeBot - ((clamped-minT)/range)*tubeH;
+  thermoCtx.beginPath();
+  thermoCtx.fillStyle = c.accent;
+  thermoCtx.arc(tubeX, markY, 4, 0, Math.PI*2);
+  thermoCtx.fill();
+}
+
+// ========= Rational Number Comparison =========
+const ratioCanvas = document.getElementById('ratioCanvas');
+const ratioCtx = ratioCanvas.getContext('2d');
+
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a;}
+function lcm(a,b){return Math.abs(a*b)/gcd(a,b);}
+
+function compareRationals(){
+  let n1=parseInt(document.getElementById('rNum1').value)||0;
+  let d1=parseInt(document.getElementById('rDen1').value)||1;
+  let n2=parseInt(document.getElementById('rNum2').value)||0;
+  let d2=parseInt(document.getElementById('rDen2').value)||1;
+  // Standardize: negative denominator
+  if(d1<0){n1=-n1;d1=-d1;}
+  if(d2<0){n2=-n2;d2=-d2;}
+  const l = lcm(d1,d2);
+  const en1 = n1*(l/d1), en2 = n2*(l/d2);
+  const result = document.getElementById('ratioResult');
+  const steps = document.getElementById('ratioSteps');
+  let sym = en1<en2?'<':en1>en2?'>':'=';
+  result.textContent = `${n1}/${d1} ${sym} ${n2}/${d2}`;
+
+  steps.style.display='block';
+  steps.innerHTML = `
+    <div class="math-step"><span class="step-num">1.</span><div>LCM of $${d1}$ and $${d2}$ is $${l}$</div></div>
+    <div class="math-step"><span class="step-num">2.</span><div>$\\dfrac{${n1}}{${d1}} = \\dfrac{${en1}}{${l}}$ &emsp; and &emsp; $\\dfrac{${n2}}{${d2}} = \\dfrac{${en2}}{${l}}$</div></div>
+    <div class="math-step"><span class="step-num">3.</span><div>Since $${en1} ${sym} ${en2}$, we conclude: $\\dfrac{${n1}}{${d1}} ${sym} \\dfrac{${n2}}{${d2}}$</div></div>
+  `;
+  if(window.MathJax) MathJax.typesetPromise([steps, result]);
+  drawRatioLine(n1/d1, n2/d2);
+}
+
+function drawRatioLine(v1, v2){
+  const W=ratioCanvas.width, H=ratioCanvas.height;
+  const c = getThemeColors();
+  ratioCtx.clearRect(0,0,W,H);
+  ratioCtx.fillStyle=c.codeBg;
+  ratioCtx.fillRect(0,0,W,H);
+  const pad=60, lineY=H/2+5;
+  const minV=Math.min(-2,v1,v2)-0.5, maxV=Math.max(2,v1,v2)+0.5;
+  const toX = v => pad + ((v-minV)/(maxV-minV))*(W-pad*2);
+
+  ratioCtx.beginPath();
+  ratioCtx.strokeStyle=c.steel;
+  ratioCtx.lineWidth=2;
+  ratioCtx.moveTo(pad, lineY);
+  ratioCtx.lineTo(W-pad, lineY);
+  ratioCtx.stroke();
+
+  // Zero
+  const zx = toX(0);
+  ratioCtx.beginPath();
+  ratioCtx.strokeStyle=c.grid;
+  ratioCtx.lineWidth=1;
+  ratioCtx.moveTo(zx, lineY-12);
+  ratioCtx.lineTo(zx, lineY+12);
+  ratioCtx.stroke();
+  ratioCtx.fillStyle=c.steel;
+  ratioCtx.font='11px Space Mono';
+  ratioCtx.textAlign='center';
+  ratioCtx.fillText('0', zx, lineY+24);
+
+  // v1
+  const x1=toX(v1);
+  ratioCtx.beginPath();
+  ratioCtx.fillStyle=c.accent;
+  ratioCtx.arc(x1, lineY, 8, 0, Math.PI*2);
+  ratioCtx.fill();
+  ratioCtx.fillStyle='#fff';
+  ratioCtx.font='bold 9px Space Mono';
+  ratioCtx.fillText('A', x1, lineY+3);
+  ratioCtx.fillStyle=c.accent;
+  ratioCtx.fillText(v1.toFixed(3), x1, lineY-14);
+
+  // v2
+  const x2=toX(v2);
+  ratioCtx.beginPath();
+  ratioCtx.fillStyle=c.rust;
+  ratioCtx.arc(x2, lineY, 8, 0, Math.PI*2);
+  ratioCtx.fill();
+  ratioCtx.fillStyle='#fff';
+  ratioCtx.font='bold 9px Space Mono';
+  ratioCtx.fillText('B', x2, lineY+3);
+  ratioCtx.fillStyle=c.rust;
+  ratioCtx.fillText(v2.toFixed(3), x2, lineY-14);
+}
+
+// ========= QUIZ =========
+const quizData = [
+  {q:"What is $(-8) + (-5)$?", opts:["13","-13","3","-3"], ans:1, exp:"Both numbers are negative, so we add their absolute values and keep the negative sign: $8 + 5 = 13$, so the answer is $-13$."},
+  {q:"Which is greater: $\\frac{-3}{4}$ or $\\frac{-5}{8}$?", opts:["$\\frac{-3}{4}$","$\\frac{-5}{8}$","They are equal","Cannot determine"], ans:1, exp:"Convert to common denominator 8: $\\frac{-3}{4} = \\frac{-6}{8}$. Since $-5 > -6$, we have $\\frac{-5}{8} > \\frac{-3}{4}$."},
+  {q:"What is $|{-15}| - |{-9}|$?", opts:["−6","6","24","−24"], ans:1, exp:"$|-15| = 15$ and $|-9| = 9$. So $15 - 9 = 6$."},
+  {q:"The product $(-3) \\times (-4) \\times (-2)$ equals:", opts:["24","−24","12","−12"], ans:1, exp:"$(-3)\\times(-4) = 12$, then $12 \\times (-2) = -24$. Product of three negatives is negative."},
+  {q:"A number is $\\frac{2}{3}$ more than $\\frac{-5}{6}$. Find the number.", opts:["$\\frac{-1}{6}$","$\\frac{1}{6}$","$\\frac{-3}{2}$","$\\frac{3}{2}$"], ans:1, exp:"$\\frac{-5}{6} + \\frac{2}{3} = \\frac{-5}{6} + \\frac{4}{6} = \\frac{-1}{6}$"},
+  {q:"Arrange in ascending order: $\\frac{1}{2},\\ -1,\\ \\frac{-3}{4},\\ 0$", opts:["$-1 < \\frac{-3}{4} < 0 < \\frac{1}{2}$","$\\frac{1}{2} < 0 < \\frac{-3}{4} < -1$","$0 < \\frac{-3}{4} < -1 < \\frac{1}{2}$","$-1 < 0 < \\frac{-3}{4} < \\frac{1}{2}$"], ans:0, exp:"On the number line from left to right: $-1, -0.75, 0, 0.5$. So $-1 < \\frac{-3}{4} < 0 < \\frac{1}{2}$."},
+];
+let score = 0, answered = 0;
+
+function buildQuiz(){
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  quizData.forEach((q,qi)=>{
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    div.innerHTML = `<div class="q-text">Q${qi+1}. ${q.q}</div>
+    <div class="quiz-opts">
+      ${q.opts.map((o,oi)=>`<button class="quiz-opt" data-qi="${qi}" data-oi="${oi}" onclick="selectOpt(this,${qi},${oi})">${o}</button>`).join('')}
+    </div>
+    <div class="explanation" id="exp-${qi}">${q.exp}</div>`;
+    container.appendChild(div);
+  });
+  if(window.MathJax) MathJax.typesetPromise([container]);
+}
+
+function selectOpt(btn, qi, oi){
+  const opts = document.querySelectorAll(`[data-qi="${qi}"]`);
+  opts.forEach(o=>{ o.disabled=false; o.classList.remove('correct','wrong'); });
+  opts[oi].classList.add(oi===quizData[qi].ans?'correct':'wrong');
+  if(oi!==quizData[qi].ans) opts[quizData[qi].ans].classList.add('correct');
+  opts.forEach(o=>o.disabled=true);
+}
+
+function submitQuiz(){
+  let s=0, total=quizData.length;
+  quizData.forEach((_,qi)=>{
+    const correct = document.querySelector(`[data-qi="${qi}"].correct`);
+    if(correct) s++;
+    document.getElementById('exp-'+qi).classList.add('show');
+  });
+  const board = document.getElementById('scoreBoard');
+  board.style.display='block';
+  board.innerHTML = `Score: ${s} / ${total} &nbsp;|&nbsp; ${Math.round(s/total*100)}% &nbsp;|&nbsp; ${s===total?'🎉 Perfect!':s>=total*0.6?'Good effort!':'Keep practising!'}`;
+  if(window.MathJax) MathJax.typesetPromise([document.getElementById('quizContainer')]);
+}
+
+function resetQuiz(){
+  document.getElementById('scoreBoard').style.display='none';
+  buildQuiz();
+}
+
+function drawAll(){
+  updateNumberLine();
+  drawAbsValue();
+  updateThermo();
+  drawRatioLine(-0.75, 0.4);
+}
+
+window.addEventListener('load',()=>{
+  buildQuiz();
+  drawAll();
+  setTimeout(()=>{ if(window.MathJax) MathJax.typesetPromise([document.body]); },500);
+});
+</script>
+</body>
+</html>

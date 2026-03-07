@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Counting &amp; Numbers 1–20 | Class 1 | Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;overflow-x:hidden;transition:background .3s,color .3s;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;opacity:.25;pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--grid);border-radius:3px;}
+
+nav{position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--card-border);padding:10px 24px;display:flex;align-items:center;justify-content:space-between;z-index:200;gap:8px;}
+.nlogo{font-family:'Space Mono',monospace;font-size:.85rem;color:var(--accent);text-decoration:none;font-weight:700;}
+.nlinks{display:flex;gap:12px;list-style:none;align-items:center;}
+.nlinks a{color:var(--steel);text-decoration:none;font-size:.75rem;font-family:'Space Mono',monospace;transition:color .2s;}
+.nlinks a:hover{color:var(--accent);}
+.breadcrumb{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:var(--blueprint);text-decoration:none;}
+.breadcrumb a:hover{color:var(--accent);}
+.tbtn{width:34px;height:34px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+.tbtn:hover{transform:rotate(20deg) scale(1.1);}
+
+.page{display:grid;grid-template-columns:260px 1fr;max-width:1200px;margin:0 auto;position:relative;z-index:1;min-height:100vh;}
+
+.sidebar{position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;padding:24px 16px;border-right:1px solid var(--card-border);}
+.sidebar-title{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;padding-left:8px;}
+.sidebar nav{position:static;background:none;backdrop-filter:none;border:none;padding:0;display:block;}
+.sidebar ul{list-style:none;}
+.sidebar li{margin-bottom:2px;}
+.sidebar a{display:block;font-size:.78rem;color:var(--steel);text-decoration:none;padding:5px 10px;border-radius:4px;border-left:2px solid transparent;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.sidebar a:hover,.sidebar a.active{color:var(--accent);background:rgba(230,126,34,.08);border-left-color:var(--accent);}
+.sidebar .section-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;padding:12px 10px 4px;margin-top:8px;}
+.progress-section{padding:12px 10px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:6px;margin-bottom:16px;}
+.progress-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--text-muted);margin-bottom:6px;}
+.progress-bar{height:6px;background:var(--grid);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .5s;}
+
+.content{padding:32px 40px 80px;max-width:900px;}
+
+.chapter-header{margin-bottom:36px;animation:fadeSlideUp .6s ease both;}
+.chapter-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);border:1px solid rgba(230,126,34,.3);background:rgba(230,126,34,.08);padding:4px 12px;border-radius:3px;margin-bottom:14px;letter-spacing:.1em;}
+.chapter-header h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;line-height:1.15;margin-bottom:12px;}
+.chapter-header h1 .emoji{font-size:2rem;vertical-align:middle;margin-right:10px;}
+.chapter-desc{font-size:1rem;color:var(--steel);max-width:620px;line-height:1.75;}
+
+.concept{background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:24px;margin-bottom:20px;animation:fadeSlideUp .6s ease both;}
+.concept-label{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.concept h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:10px;}
+.concept p{color:var(--steel);font-size:.95rem;line-height:1.7;}
+
+.formula-box{background:var(--code-bg);border:1px solid var(--blueprint);border-left:4px solid var(--blueprint);border-radius:6px;padding:16px 20px;margin:16px 0;font-family:'Space Mono',monospace;font-size:.9rem;color:var(--blueprint);}
+
+.example{background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;margin-bottom:16px;overflow:hidden;animation:fadeSlideUp .7s ease both;}
+.example-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(26,58,92,.08);border-bottom:1px solid var(--card-border);cursor:pointer;user-select:none;}
+[data-theme="dark"] .example-header{background:rgba(96,165,250,.06);}
+.example-header h3{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--blueprint);}
+.example-header .toggle-icon{font-size:1rem;transition:transform .3s;color:var(--accent);}
+.example-header.open .toggle-icon{transform:rotate(180deg);}
+.example-body{padding:20px;display:none;}
+.example-body.open{display:block;}
+
+.step{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-family:'Space Mono',monospace;font-size:.7rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;}
+.step-text{font-size:.92rem;color:var(--ink);padding-top:4px;line-height:1.6;}
+
+.tip{background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.25);border-radius:6px;padding:12px 16px;margin:12px 0;font-size:.88rem;color:var(--success);}
+[data-theme="dark"] .tip{background:rgba(74,222,128,.06);border-color:rgba(74,222,128,.2);}
+.note{background:rgba(230,126,34,.07);border:1px solid rgba(230,126,34,.25);border-radius:6px;padding:12px 16px;margin:12px 0;font-size:.88rem;color:var(--accent);}
+
+.sim-container{background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:20px;margin-bottom:20px;animation:fadeSlideUp .8s ease both;}
+.sim-container h3{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:6px;}
+.sim-container p{font-size:.85rem;color:var(--text-muted);margin-bottom:14px;}
+.sim-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.sim-btn{font-family:'Space Mono',monospace;font-size:.75rem;padding:8px 16px;border-radius:5px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--ink);cursor:pointer;transition:all .2s;}
+.sim-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+.sim-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.sim-btn.primary:hover{background:var(--blueprint);border-color:var(--blueprint);}
+
+canvas{border-radius:6px;display:block;}
+
+.quiz-section{background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:24px;margin-bottom:20px;animation:fadeSlideUp .9s ease both;}
+.quiz-section h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:6px;}
+.quiz-section p{font-size:.88rem;color:var(--text-muted);margin-bottom:20px;}
+.quiz-question{background:var(--paper2);border:1px solid var(--card-border);border-radius:6px;padding:16px;margin-bottom:14px;}
+[data-theme="dark"] .quiz-question{background:rgba(255,255,255,.02);}
+.quiz-question p{font-size:.95rem;color:var(--ink);margin-bottom:12px;font-weight:500;}
+.quiz-options{display:flex;gap:8px;flex-wrap:wrap;}
+.quiz-opt{font-family:'Space Mono',monospace;font-size:.8rem;padding:8px 18px;border-radius:20px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--ink);cursor:pointer;transition:all .2s;}
+.quiz-opt:hover{border-color:var(--accent);color:var(--accent);}
+.quiz-opt.correct{background:#16a34a;color:#fff;border-color:#16a34a;animation:pulse .4s ease;}
+.quiz-opt.wrong{background:#c0392b;color:#fff;border-color:#c0392b;animation:shake .4s ease;}
+.quiz-feedback{font-size:.85rem;margin-top:8px;min-height:20px;font-weight:500;}
+.quiz-feedback.correct{color:var(--success);}
+.quiz-feedback.wrong{color:var(--rust);}
+.quiz-score{font-family:'Space Mono',monospace;font-size:.85rem;padding:12px 16px;background:var(--code-bg);border-radius:6px;margin-top:14px;display:none;}
+
+.numbers-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0;}
+.num-cell{width:100%;aspect-ratio:1;border-radius:8px;background:var(--card-bg);border:2px solid var(--card-border);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.num-cell.filled{background:var(--accent);color:#fff;border-color:var(--accent);}
+.num-cell.missing{background:rgba(230,126,34,.1);border:2px dashed var(--accent);color:var(--accent);}
+.num-cell.missing:hover{background:rgba(230,126,34,.2);}
+
+.word-problem{background:linear-gradient(135deg,rgba(26,58,92,.08),rgba(230,126,34,.06));border:1px solid var(--blueprint);border-radius:8px;padding:20px;margin-bottom:16px;}
+[data-theme="dark"] .word-problem{background:linear-gradient(135deg,rgba(96,165,250,.06),rgba(245,158,11,.05));}
+.word-problem h4{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--blueprint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.word-problem p{font-size:.95rem;line-height:1.75;margin-bottom:12px;}
+.wp-bar{display:flex;gap:4px;margin:10px 0;align-items:center;}
+.wp-bar-block{height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.7rem;color:#fff;font-weight:700;transition:width .5s;}
+
+.section-divider{border:none;border-top:1px solid var(--card-border);margin:32px 0;}
+
+.next-chapter{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;text-decoration:none;transition:all .2s;margin-top:32px;}
+.next-chapter:hover{border-color:var(--accent);background:rgba(230,126,34,.05);}
+.next-chapter .label{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px;}
+.next-chapter .title{font-size:.95rem;color:var(--ink);font-weight:500;}
+.next-chapter .arrow{font-size:1.4rem;color:var(--accent);}
+
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes numberPop{0%{transform:scale(0);opacity:0;}70%{transform:scale(1.2);}100%{transform:scale(1);opacity:1;}}
+
+.animate-1{animation-delay:.1s;}
+.animate-2{animation-delay:.2s;}
+.animate-3{animation-delay:.3s;}
+.animate-4{animation-delay:.4s;}
+.animate-5{animation-delay:.5s;}
+
+.counting-game-area{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;margin:14px 0;}
+.counting-display{font-family:'Space Mono',monospace;font-size:2rem;font-weight:700;color:var(--accent);min-width:60px;text-align:center;animation:bounce 1s ease infinite;}
+.objects-area{min-height:80px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px;background:var(--code-bg);border-radius:8px;flex:1;}
+.obj-item{font-size:1.6rem;cursor:default;animation:numberPop .3s ease both;display:inline-block;}
+
+.number-line-container{overflow-x:auto;padding:10px 0 20px;}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+
+<nav>
+  <a href="/index.html" class="nlogo">Mathify</a>
+  <div class="breadcrumb">
+    <a href="/index.html">Home</a> <span>›</span>
+    <a href="/lessons/class-1/">Class 1</a> <span>›</span>
+    <span>Ch 1: Counting</span>
+  </div>
+  <ul class="nlinks">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/lessons/">Lessons</a></li>
+  </ul>
+  <button class="tbtn" id="themeToggle" title="Toggle theme">☀️</button>
+</nav>
+
+<div class="page">
+  <aside class="sidebar">
+    <div class="progress-section">
+      <div class="progress-label">Chapter 1 of 5</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+    </div>
+    <div class="sidebar-title">Class 1 Chapters</div>
+    <ul>
+      <li><a href="ch1-counting-numbers.html" class="active">Ch 1: Counting &amp; Numbers</a></li>
+      <li><a href="ch2-number-bonds.html">Ch 2: Number Bonds</a></li>
+      <li><a href="ch3-addition.html">Ch 3: Addition</a></li>
+      <li><a href="ch4-subtraction.html">Ch 4: Subtraction</a></li>
+      <li><a href="ch5-shapes.html">Ch 5: Shapes &amp; Patterns</a></li>
+    </ul>
+    <div class="section-label">On This Page</div>
+    <ul>
+      <li><a href="#concept">Core Concept</a></li>
+      <li><a href="#counting-game">Counting Game</a></li>
+      <li><a href="#number-line">Number Line</a></li>
+      <li><a href="#bar-model">Bar Model</a></li>
+      <li><a href="#worked-examples">Worked Examples</a></li>
+      <li><a href="#word-problems">Word Problems</a></li>
+      <li><a href="#missing-numbers">Missing Numbers</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+    <div class="section-label">Other Classes</div>
+    <ul>
+      <li><a href="/lessons/class-2/">Class 2 →</a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+    <div class="chapter-header">
+      <div class="chapter-tag">📚 Class 1 · Chapter 1 · Singapore Math</div>
+      <h1><span class="emoji">🔢</span>Counting &amp; Numbers 1–20</h1>
+      <p class="chapter-desc">Learn to count, read, and write numbers from 1 to 20. We will use fun games, pictures, and bar models to understand how numbers work!</p>
+    </div>
+
+    <div class="concept animate-1" id="concept">
+      <div class="concept-label">Core Concept</div>
+      <h2>What is a Number?</h2>
+      <p>A <strong>number</strong> tells us <em>how many</em> of something there are. When we count objects one by one, we say numbers in order: 1, 2, 3, 4 … all the way to 20!</p>
+      <div class="formula-box">
+        Counting order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → … → 20
+      </div>
+      <p style="margin-top:10px;">Each number is <strong>one more</strong> than the number before it. So 5 is one more than 4, and 10 is one more than 9.</p>
+      <div class="tip">💡 <strong>Singapore Math Tip:</strong> Always count objects by touching each one and saying the number out loud. This helps your brain remember!</div>
+    </div>
+
+    <!-- Interactive Counting Game -->
+    <div class="sim-container animate-2" id="counting-game">
+      <h3>🎮 Interactive Counting Game</h3>
+      <p>Click the button to add apples! Count them as they appear. How many can you add before you reach 20?</p>
+      <div class="counting-game-area">
+        <div>
+          <div style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--text-muted);margin-bottom:4px;">COUNT:</div>
+          <div class="counting-display" id="countDisplay">0</div>
+        </div>
+        <div class="objects-area" id="objectsArea">
+          <span style="color:var(--text-muted);font-size:.85rem;">Click + to add apples!</span>
+        </div>
+      </div>
+      <div class="sim-controls">
+        <button class="sim-btn primary" onclick="addObject()">+ Add Apple 🍎</button>
+        <button class="sim-btn" onclick="resetCount()">🔄 Reset</button>
+        <button class="sim-btn" onclick="changeObject('🌟')">Stars 🌟</button>
+        <button class="sim-btn" onclick="changeObject('🐢')">Turtles 🐢</button>
+        <button class="sim-btn" onclick="changeObject('🦋')">Butterflies 🦋</button>
+      </div>
+    </div>
+
+    <!-- Number Line -->
+    <div class="sim-container animate-3" id="number-line">
+      <h3>📏 Animated Number Line</h3>
+      <p>Click a number on the number line to highlight it and see its position!</p>
+      <div class="number-line-container">
+        <canvas id="numberLineCanvas" width="820" height="100"></canvas>
+      </div>
+      <div class="sim-controls">
+        <button class="sim-btn primary" onclick="animateNumberLine()">▶ Animate</button>
+        <button class="sim-btn" onclick="resetNumberLine()">Reset</button>
+      </div>
+    </div>
+
+    <!-- Bar Model Canvas -->
+    <div class="sim-container animate-4" id="bar-model">
+      <h3>📊 Bar Model: Comparing Numbers</h3>
+      <p>Bar models help us see how big a number is. A longer bar means a bigger number!</p>
+      <canvas id="barModelCanvas" width="820" height="280"></canvas>
+      <div class="sim-controls">
+        <button class="sim-btn primary" onclick="drawBarModel()">Draw Bar Model</button>
+        <button class="sim-btn" onclick="clearBarModel()">Clear</button>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Worked Examples -->
+    <div id="worked-examples">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:16px;">📖 Worked Examples</h2>
+
+      <div class="example animate-1">
+        <div class="example-header" onclick="toggleExample(this)">
+          <h3>Example 1 — Counting a group of objects</h3>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="example-body">
+          <p style="margin-bottom:14px;">Count the stars: ⭐⭐⭐⭐⭐⭐⭐⭐</p>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">Point to each star as you count: one, two, three…</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">Keep counting until you have touched all the stars.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">The last number you say is the total: <strong>8 stars</strong>.</div>
+          </div>
+          <div class="tip">✅ Answer: There are <strong>8</strong> stars.</div>
+        </div>
+      </div>
+
+      <div class="example animate-2">
+        <div class="example-header" onclick="toggleExample(this)">
+          <h3>Example 2 — Which number is bigger?</h3>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="example-body">
+          <p style="margin-bottom:14px;">Which is bigger: <strong>13</strong> or <strong>7</strong>?</p>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">Find both numbers on the number line. 13 comes after 7.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">Numbers further to the RIGHT are always bigger.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">Since 13 is to the right of 7 on the number line, 13 &gt; 7.</div>
+          </div>
+          <div class="tip">✅ Answer: <strong>13 is bigger</strong> than 7.</div>
+        </div>
+      </div>
+
+      <div class="example animate-3">
+        <div class="example-header" onclick="toggleExample(this)">
+          <h3>Example 3 — Writing numbers in order</h3>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="example-body">
+          <p style="margin-bottom:14px;">Put these numbers in order from smallest to biggest: 15, 3, 9, 17, 6</p>
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">Find each number on the number line.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">Numbers on the left are smaller. Pick the leftmost first.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">Order: 3, 6, 9, 15, 17</div>
+          </div>
+          <div class="tip">✅ Answer: <strong>3, 6, 9, 15, 17</strong> (smallest to biggest)</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Word Problems -->
+    <div id="word-problems">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:16px;">📝 Word Problems</h2>
+
+      <div class="word-problem animate-1">
+        <h4>🍎 Problem 1</h4>
+        <p>Sam has <strong>7 apples</strong>. His friend gives him <strong>5 more apples</strong>. How many apples does Sam have in all?</p>
+        <div class="wp-bar" id="wpBar1"></div>
+        <div class="sim-controls">
+          <button class="sim-btn primary" onclick="showBarModel1()">Show Bar Model</button>
+          <button class="sim-btn" onclick="showAnswer1()">Show Answer</button>
+        </div>
+        <div id="answer1" style="display:none;margin-top:10px;" class="tip">✅ Sam starts with 7, then gets 5 more. Count on from 7: 8, 9, 10, 11, 12. <strong>Sam has 12 apples in all.</strong></div>
+      </div>
+
+      <div class="word-problem animate-2">
+        <h4>🐾 Problem 2</h4>
+        <p>There are <strong>12 ducks</strong> in a pond. <strong>4 more ducks</strong> swim in. How many ducks are there now?</p>
+        <div class="wp-bar" id="wpBar2"></div>
+        <div class="sim-controls">
+          <button class="sim-btn primary" onclick="showBarModel2()">Show Bar Model</button>
+          <button class="sim-btn" onclick="showAnswer2()">Show Answer</button>
+        </div>
+        <div id="answer2" style="display:none;margin-top:10px;" class="tip">✅ Start with 12, count on 4 more: 13, 14, 15, 16. <strong>There are 16 ducks.</strong></div>
+      </div>
+
+      <div class="word-problem animate-3">
+        <h4>🎈 Problem 3 (Challenge!)</h4>
+        <p>Mia has some balloons. She gives <strong>3 balloons</strong> to her brother. Now she has <strong>9 balloons</strong> left. How many balloons did Mia start with?</p>
+        <div class="sim-controls">
+          <button class="sim-btn" onclick="showAnswer3()">Show Answer</button>
+        </div>
+        <div id="answer3" style="display:none;margin-top:10px;" class="tip">✅ She has 9 now, and gave away 3. Count forward from 9: the missing part is 3. <strong>Mia started with 12 balloons.</strong> (9 + 3 = 12)</div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Missing Numbers Puzzle -->
+    <div class="sim-container" id="missing-numbers">
+      <h3>🔍 Missing Number Puzzles</h3>
+      <p>Click the orange dashed boxes to fill in the missing numbers!</p>
+      <div class="numbers-grid" id="numbersGrid"></div>
+      <div class="sim-controls">
+        <button class="sim-btn primary" onclick="checkMissingNumbers()">Check My Answers</button>
+        <button class="sim-btn" onclick="resetMissingNumbers()">New Puzzle</button>
+      </div>
+      <div id="puzzleFeedback" style="margin-top:10px;font-size:.9rem;font-weight:500;"></div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Quiz -->
+    <div class="quiz-section" id="quiz">
+      <h2>🧠 Quick Quiz</h2>
+      <p>Test what you have learned! Choose the best answer for each question.</p>
+
+      <div class="quiz-question" id="q1">
+        <p>Q1: What number comes after 14?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQ(1,this,'wrong')">13</button>
+          <button class="quiz-opt" onclick="answerQ(1,this,'correct')">15</button>
+          <button class="quiz-opt" onclick="answerQ(1,this,'wrong')">16</button>
+          <button class="quiz-opt" onclick="answerQ(1,this,'wrong')">12</button>
+        </div>
+        <div class="quiz-feedback" id="fb1"></div>
+      </div>
+
+      <div class="quiz-question" id="q2">
+        <p>Q2: Which number is the biggest? 8, 15, 4, 11</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQ(2,this,'wrong')">8</button>
+          <button class="quiz-opt" onclick="answerQ(2,this,'correct')">15</button>
+          <button class="quiz-opt" onclick="answerQ(2,this,'wrong')">4</button>
+          <button class="quiz-opt" onclick="answerQ(2,this,'wrong')">11</button>
+        </div>
+        <div class="quiz-feedback" id="fb2"></div>
+      </div>
+
+      <div class="quiz-question" id="q3">
+        <p>Q3: How many 🐸 are there? 🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQ(3,this,'wrong')">12</button>
+          <button class="quiz-opt" onclick="answerQ(3,this,'wrong')">14</button>
+          <button class="quiz-opt" onclick="answerQ(3,this,'correct')">13</button>
+          <button class="quiz-opt" onclick="answerQ(3,this,'wrong')">11</button>
+        </div>
+        <div class="quiz-feedback" id="fb3"></div>
+      </div>
+
+      <div class="quiz-question" id="q4">
+        <p>Q4: What number comes BEFORE 10?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQ(4,this,'wrong')">10</button>
+          <button class="quiz-opt" onclick="answerQ(4,this,'wrong')">11</button>
+          <button class="quiz-opt" onclick="answerQ(4,this,'correct')">9</button>
+          <button class="quiz-opt" onclick="answerQ(4,this,'wrong')">8</button>
+        </div>
+        <div class="quiz-feedback" id="fb4"></div>
+      </div>
+
+      <div class="quiz-question" id="q5">
+        <p>Q5: There are 6 🍓 in a bowl. 3 more 🍓 are added. How many 🍓 are there now?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQ(5,this,'wrong')">8</button>
+          <button class="quiz-opt" onclick="answerQ(5,this,'correct')">9</button>
+          <button class="quiz-opt" onclick="answerQ(5,this,'wrong')">10</button>
+          <button class="quiz-opt" onclick="answerQ(5,this,'wrong')">7</button>
+        </div>
+        <div class="quiz-feedback" id="fb5"></div>
+      </div>
+
+      <div class="quiz-score" id="quizScore"></div>
+    </div>
+
+    <a href="ch2-number-bonds.html" class="next-chapter">
+      <div>
+        <div class="label">Next Chapter</div>
+        <div class="title">Ch 2: Number Bonds →</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+  </main>
+</div>
+
+<script>
+// Theme Toggle
+const themeToggle = document.getElementById('themeToggle');
+const html = document.documentElement;
+themeToggle.addEventListener('click', () => {
+  html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  themeToggle.textContent = html.dataset.theme === 'dark' ? '☀️' : '🌙';
+  drawBarModel();
+  drawNumberLine();
+});
+
+// Example Toggle
+function toggleExample(header) {
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+
+// Counting Game
+let count = 0;
+let currentEmoji = '🍎';
+function addObject() {
+  if (count >= 20) {
+    const area = document.getElementById('objectsArea');
+    area.innerHTML += '<span style="color:var(--rust);font-size:.85rem;font-family:Space Mono,monospace"> MAX 20!</span>';
+    return;
+  }
+  count++;
+  const area = document.getElementById('objectsArea');
+  if (count === 1) area.innerHTML = '';
+  const span = document.createElement('span');
+  span.className = 'obj-item';
+  span.style.animationDelay = '0s';
+  span.textContent = currentEmoji;
+  area.appendChild(span);
+  document.getElementById('countDisplay').textContent = count;
+  if (count === 20) {
+    setTimeout(() => launchConfetti(), 300);
+  }
+}
+function changeObject(emoji) {
+  currentEmoji = emoji;
+  resetCount();
+}
+function resetCount() {
+  count = 0;
+  document.getElementById('objectsArea').innerHTML = '<span style="color:var(--text-muted);font-size:.85rem;">Click + to add objects!</span>';
+  document.getElementById('countDisplay').textContent = '0';
+}
+
+// Number Line
+const nlCanvas = document.getElementById('numberLineCanvas');
+const nlCtx = nlCanvas.getContext('2d');
+let nlAnimating = false;
+let nlCurrent = 0;
+function drawNumberLine(highlight = -1) {
+  const isDark = html.dataset.theme === 'dark';
+  nlCtx.clearRect(0, 0, nlCanvas.width, nlCanvas.height);
+  const w = nlCanvas.width, h = nlCanvas.height;
+  const margin = 30, step = (w - 2*margin) / 20;
+  // line
+  nlCtx.strokeStyle = isDark ? '#60a5fa' : '#1a3a5c';
+  nlCtx.lineWidth = 2;
+  nlCtx.beginPath();
+  nlCtx.moveTo(margin, h/2);
+  nlCtx.lineTo(w - margin, h/2);
+  nlCtx.stroke();
+  // ticks and numbers
+  for (let i = 0; i <= 20; i++) {
+    const x = margin + i * step;
+    const isHL = i === highlight;
+    if (isHL) {
+      nlCtx.fillStyle = '#f59e0b';
+      nlCtx.beginPath();
+      nlCtx.arc(x, h/2, 14, 0, Math.PI*2);
+      nlCtx.fill();
+      nlCtx.fillStyle = '#0d1117';
+    } else {
+      nlCtx.strokeStyle = isDark ? '#60a5fa' : '#1a3a5c';
+      nlCtx.lineWidth = 2;
+      nlCtx.beginPath();
+      nlCtx.moveTo(x, h/2 - 8);
+      nlCtx.lineTo(x, h/2 + 8);
+      nlCtx.stroke();
+      nlCtx.fillStyle = isDark ? '#e2e8f0' : '#0d0d0d';
+    }
+    nlCtx.font = `bold ${isHL?'13':'11'}px Space Mono`;
+    nlCtx.textAlign = 'center';
+    nlCtx.textBaseline = 'bottom';
+    nlCtx.fillText(i, x, h - 8);
+    if (isHL) nlCtx.fillStyle = isDark ? '#e2e8f0' : '#0d0d0d';
+  }
+}
+drawNumberLine();
+nlCanvas.addEventListener('click', e => {
+  const rect = nlCanvas.getBoundingClientRect();
+  const x = (e.clientX - rect.left) * (nlCanvas.width / rect.width);
+  const margin = 30, step = (nlCanvas.width - 2*margin) / 20;
+  const num = Math.round((x - margin) / step);
+  if (num >= 0 && num <= 20) drawNumberLine(num);
+});
+function animateNumberLine() {
+  if (nlAnimating) return;
+  nlAnimating = true;
+  let i = 0;
+  const interval = setInterval(() => {
+    drawNumberLine(i);
+    i++;
+    if (i > 20) { clearInterval(interval); nlAnimating = false; }
+  }, 150);
+}
+function resetNumberLine() { nlAnimating = false; drawNumberLine(); }
+
+// Bar Model
+const bmCanvas = document.getElementById('barModelCanvas');
+const bmCtx = bmCanvas.getContext('2d');
+const colors = ['#e74c3c','#e67e22','#f1c40f','#2ecc71','#3498db','#9b59b6','#1abc9c'];
+function drawBarModel() {
+  const isDark = html.dataset.theme === 'dark';
+  bmCtx.clearRect(0, 0, bmCanvas.width, bmCanvas.height);
+  const numbers = [3, 7, 10, 14, 18, 20];
+  const labels = ['3','7','10','14','18','20'];
+  const maxVal = 20;
+  const barH = 32, gap = 10, leftPad = 60, rightPad = 20;
+  const maxBarW = bmCanvas.width - leftPad - rightPad;
+  const totalH = numbers.length * (barH + gap) + 20;
+  bmCtx.font = '13px DM Sans';
+  bmCtx.textBaseline = 'middle';
+  numbers.forEach((n, i) => {
+    const y = 20 + i * (barH + gap);
+    const bw = (n / maxVal) * maxBarW;
+    // label
+    bmCtx.fillStyle = isDark ? '#e2e8f0' : '#0d0d0d';
+    bmCtx.textAlign = 'right';
+    bmCtx.fillText(labels[i], leftPad - 8, y + barH/2);
+    // bar
+    bmCtx.fillStyle = colors[i % colors.length];
+    bmCtx.beginPath();
+    bmCtx.roundRect(leftPad, y, bw, barH, 4);
+    bmCtx.fill();
+    // count inside bar
+    if (bw > 30) {
+      bmCtx.fillStyle = '#fff';
+      bmCtx.textAlign = 'left';
+      bmCtx.font = 'bold 12px Space Mono';
+      bmCtx.fillText(n, leftPad + 8, y + barH/2);
+    }
+    bmCtx.font = '13px DM Sans';
+  });
+  // axis label
+  bmCtx.fillStyle = isDark ? '#64748b' : '#666';
+  bmCtx.textAlign = 'center';
+  bmCtx.font = '11px Space Mono';
+  bmCtx.fillText('← Bar Model: Comparing Numbers (longer bar = bigger number) →', bmCanvas.width/2, totalH + 14);
+}
+function clearBarModel() { bmCtx.clearRect(0, 0, bmCanvas.width, bmCanvas.height); }
+drawBarModel();
+
+// Word Problems Bar Models
+function showBarModel1() {
+  const container = document.getElementById('wpBar1');
+  container.innerHTML = '';
+  const b1 = document.createElement('div');
+  b1.className = 'wp-bar-block';
+  b1.style.cssText = 'width:140px;background:#e67e22;';
+  b1.textContent = 'Sam: 7';
+  const b2 = document.createElement('div');
+  b2.className = 'wp-bar-block';
+  b2.style.cssText = 'width:100px;background:#3498db;';
+  b2.textContent = 'Friend: 5';
+  const label = document.createElement('span');
+  label.style.cssText = 'font-family:Space Mono,monospace;font-size:.7rem;color:var(--accent);';
+  label.textContent = '= ? total';
+  container.appendChild(b1);
+  container.appendChild(b2);
+  container.appendChild(label);
+}
+function showAnswer1() { document.getElementById('answer1').style.display = 'block'; }
+function showBarModel2() {
+  const container = document.getElementById('wpBar2');
+  container.innerHTML = '';
+  const b1 = document.createElement('div');
+  b1.className = 'wp-bar-block';
+  b1.style.cssText = 'width:180px;background:#2ecc71;';
+  b1.textContent = 'Pond: 12';
+  const b2 = document.createElement('div');
+  b2.className = 'wp-bar-block';
+  b2.style.cssText = 'width:60px;background:#9b59b6;';
+  b2.textContent = '+4';
+  container.appendChild(b1);
+  container.appendChild(b2);
+}
+function showAnswer2() { document.getElementById('answer2').style.display = 'block'; }
+function showAnswer3() { document.getElementById('answer3').style.display = 'block'; }
+
+// Missing Numbers Puzzle
+const missingPositions = [2, 5, 8, 11, 15];
+let currentAnswers = {};
+function buildGrid() {
+  const grid = document.getElementById('numbersGrid');
+  grid.innerHTML = '';
+  currentAnswers = {};
+  const missing = [...missingPositions].sort(() => Math.random() - 0.5).slice(0,5);
+  for (let i = 1; i <= 20; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'num-cell';
+    cell.dataset.num = i;
+    if (missing.includes(i)) {
+      cell.classList.add('missing');
+      cell.textContent = '?';
+      cell.dataset.missing = 'true';
+      cell.addEventListener('click', () => fillMissing(cell, i));
+    } else {
+      cell.classList.add('filled');
+      cell.textContent = i;
+    }
+    grid.appendChild(cell);
+  }
+}
+let fillIndex = 0;
+let missingOrder = [];
+function fillMissing(cell, num) {
+  if (cell.textContent !== '?') return;
+  cell.textContent = num;
+  cell.style.background = 'var(--accent)';
+  cell.style.color = '#fff';
+  currentAnswers[num] = true;
+}
+function checkMissingNumbers() {
+  const cells = document.querySelectorAll('.num-cell.missing');
+  let allCorrect = true;
+  cells.forEach(c => {
+    if (c.textContent === '?') allCorrect = false;
+  });
+  const fb = document.getElementById('puzzleFeedback');
+  if (allCorrect) {
+    fb.textContent = '🎉 Amazing! All numbers filled correctly!';
+    fb.style.color = 'var(--success)';
+    launchConfetti();
+  } else {
+    fb.textContent = '💭 Fill in all the missing numbers first!';
+    fb.style.color = 'var(--rust)';
+  }
+}
+function resetMissingNumbers() {
+  document.getElementById('puzzleFeedback').textContent = '';
+  buildGrid();
+}
+buildGrid();
+
+// Auto-fill missing cells sequentially on click anywhere in grid
+document.getElementById('numbersGrid').addEventListener('click', e => {
+  const cell = e.target.closest('.num-cell.missing');
+  if (!cell) return;
+  if (cell.textContent !== '?') return;
+  const num = parseInt(cell.dataset.num);
+  cell.textContent = num;
+  cell.style.background = 'var(--success)';
+  cell.style.color = '#fff';
+});
+
+// Quiz
+let scores = {};
+let quizDone = false;
+function answerQ(qNum, btn, result) {
+  if (scores[qNum] !== undefined) return;
+  scores[qNum] = result === 'correct' ? 1 : 0;
+  const fb = document.getElementById('fb' + qNum);
+  btn.classList.add(result);
+  if (result === 'correct') {
+    fb.textContent = '🎉 Correct! Well done!';
+    fb.className = 'quiz-feedback correct';
+  } else {
+    fb.textContent = '❌ Not quite — try to think again!';
+    fb.className = 'quiz-feedback wrong';
+    // Show correct
+    const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { if (o.onclick.toString().includes("'correct'")) o.classList.add('correct'); });
+  }
+  // Disable all opts for this question
+  btn.parentElement.querySelectorAll('.quiz-opt').forEach(o => o.style.pointerEvents = 'none');
+  // Check if all done
+  if (Object.keys(scores).length === 5 && !quizDone) {
+    quizDone = true;
+    const total = Object.values(scores).reduce((a,b) => a+b, 0);
+    const scoreDiv = document.getElementById('quizScore');
+    scoreDiv.style.display = 'block';
+    scoreDiv.innerHTML = `Your score: <strong>${total}/5</strong> — ${total===5?'🏆 Perfect! Outstanding!':total>=3?'👏 Great effort! Keep going!':'🌱 Good try! Review and try again!'}`;
+    if (total >= 4) launchConfetti();
+  }
+}
+
+// Confetti
+function launchConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const pieces = Array.from({length: 120}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    r: 4 + Math.random() * 8,
+    d: 1 + Math.random() * 3,
+    color: ['#f59e0b','#e74c3c','#3498db','#2ecc71','#9b59b6','#e67e22'][Math.floor(Math.random()*6)],
+    tilt: Math.random() * 360
+  }));
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.tilt * Math.PI/180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r);
+      ctx.restore();
+      p.y += p.d;
+      p.tilt += 2;
+      if (p.y > canvas.height) { p.y = -20; p.x = Math.random()*canvas.width; }
+    });
+    frame++;
+    if (frame < 180) requestAnimationFrame(draw);
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.style.display='none'; }
+  }
+  draw();
+}
+
+// TOC active on scroll
+const sections = document.querySelectorAll('[id]');
+const sidebarLinks = document.querySelectorAll('.sidebar a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+  sidebarLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decimals | Class 4 | Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);transition:background 0.3s,color 0.3s;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;height:60px;background:var(--nav-bg);backdrop-filter:blur(10px);border-bottom:1px solid var(--card-border);display:flex;align-items:center;padding:0 24px;gap:16px;z-index:100;}
+.nav-brand{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent);font-size:1.1rem;text-decoration:none;}
+.nav-class{font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--text-muted);background:var(--grid);padding:3px 10px;border-radius:20px;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+.theme-toggle{background:var(--toggle-bg);border:none;color:var(--toggle-icon);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+.layout{display:flex;margin-top:60px;min-height:calc(100vh - 60px);}
+aside{width:260px;background:var(--paper2);border-right:1px solid var(--card-border);padding:24px 0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;flex-shrink:0;}
+.sidebar-title{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--text-muted);padding:0 20px 12px;text-transform:uppercase;letter-spacing:1px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;text-decoration:none;color:var(--ink);font-size:0.875rem;transition:all 0.2s;border-left:3px solid transparent;}
+.nav-item:hover{background:var(--grid);color:var(--accent);}
+.nav-item.active{background:var(--grid);border-left-color:#4ade80;color:#4ade80;font-weight:500;}
+.nav-item .ch-num{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--text-muted);min-width:28px;}
+main{flex:1;padding:40px 32px;max-width:900px;}
+.progress-bar{height:4px;background:var(--grid);border-radius:2px;margin-bottom:32px;}
+.progress-fill{height:100%;background:#4ade80;border-radius:2px;width:60%;transition:width 0.5s;}
+.chapter-header{margin-bottom:40px;animation:fadeUp 0.6s ease;}
+.chapter-tag{font-family:'Space Mono',monospace;font-size:0.7rem;color:#4ade80;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+h1{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;line-height:1.2;margin-bottom:12px;}
+.chapter-desc{color:var(--text-muted);font-size:1rem;line-height:1.6;max-width:600px;}
+.section{margin-bottom:48px;animation:fadeUp 0.6s ease both;}
+.section:nth-child(2){animation-delay:0.1s;}
+.section:nth-child(3){animation-delay:0.2s;}
+.section:nth-child(4){animation-delay:0.3s;}
+h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+h2::before{content:'';display:inline-block;width:4px;height:24px;background:#4ade80;border-radius:2px;}
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:24px;margin-bottom:20px;}
+.quiz-section{background:var(--code-bg);border-radius:12px;padding:24px;margin-top:16px;}
+.quiz-q{font-size:1rem;font-weight:500;margin-bottom:16px;line-height:1.5;}
+.quiz-options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.quiz-btn{background:var(--card-bg);border:2px solid var(--card-border);border-radius:8px;padding:12px 16px;cursor:pointer;font-size:0.95rem;color:var(--ink);transition:all 0.2s;text-align:left;}
+.quiz-btn:hover{border-color:#4ade80;background:var(--grid);}
+.quiz-btn.correct{background:#16a34a22;border-color:var(--success);color:var(--success);}
+.quiz-btn.wrong{background:#c0392b22;border-color:var(--rust);color:var(--rust);}
+.feedback{margin-top:12px;padding:12px;border-radius:8px;font-weight:500;display:none;}
+.feedback.show{display:block;}
+.feedback.correct{background:#16a34a22;color:var(--success);}
+.feedback.wrong{background:#c0392b22;color:var(--rust);}
+.word-problem{background:linear-gradient(135deg,#1a3a5c22,#4ade8011);border:1px solid #4ade8044;border-radius:12px;padding:24px;position:relative;overflow:hidden;}
+.word-problem::before{content:'WORD PROBLEM';font-family:'Space Mono',monospace;font-size:0.65rem;color:#4ade80;position:absolute;top:12px;right:16px;letter-spacing:2px;}
+.word-problem p{line-height:1.8;margin-bottom:12px;}
+.collapsible-btn{background:var(--grid);border:1px solid var(--card-border);color:var(--ink);padding:10px 16px;border-radius:8px;cursor:pointer;font-size:0.875rem;width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;margin-top:12px;transition:all 0.2s;}
+.collapsible-content{display:none;padding:16px 0;}
+.collapsible-content.open{display:block;}
+.step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+.step-num{background:#4ade80;color:#000;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:0.75rem;flex-shrink:0;margin-top:2px;}
+.check-btn{background:#4ade80;color:#000;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;margin-top:12px;transition:all 0.2s;}
+.check-btn:hover{opacity:0.85;transform:translateY(-1px);}
+.next-prev{display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--card-border);}
+.nav-link{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text-muted);font-size:0.875rem;padding:10px 16px;border:1px solid var(--card-border);border-radius:8px;transition:all 0.2s;}
+.nav-link:hover{color:#4ade80;border-color:#4ade80;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.highlight{color:#4ade80;font-weight:700;}
+.place-value-chart{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0;}
+.pv-col{text-align:center;}
+.pv-label{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;}
+.pv-box{background:var(--code-bg);border:2px solid var(--card-border);border-radius:8px;padding:14px 8px;font-family:'Space Mono',monospace;font-size:1.6rem;font-weight:700;text-align:center;transition:all 0.3s;}
+.pv-box.hundreds{border-color:#60a5fa;color:#60a5fa;}
+.pv-box.tens{border-color:#a78bfa;color:#a78bfa;}
+.pv-box.ones{border-color:#f59e0b;color:#f59e0b;}
+.pv-box.tenths{border-color:#4ade80;color:#4ade80;}
+.pv-box.hundredths{border-color:#34d399;color:#34d399;}
+.dec-point{display:flex;align-items:flex-end;justify-content:center;font-size:2rem;font-weight:900;color:var(--ink);padding-bottom:8px;}
+input[type="number"]{background:var(--code-bg);border:2px solid var(--card-border);color:var(--ink);padding:8px 12px;border-radius:6px;font-family:'Space Mono',monospace;font-size:1rem;width:100px;outline:none;transition:border-color 0.2s;}
+input[type="number"]:focus{border-color:#4ade80;}
+.result-box{background:var(--grid);border-radius:8px;padding:16px;margin-top:12px;font-family:'Space Mono',monospace;font-size:0.9rem;}
+.number-line-wrapper{overflow-x:auto;padding:10px 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../../index.html" class="nav-brand">Mathify</a>
+  <span class="nav-class">Class 4</span>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+  </div>
+</nav>
+<div class="layout">
+  <aside>
+    <div class="sidebar-title">Class 4 Chapters</div>
+    <a href="ch1-whole-numbers.html" class="nav-item"><span class="ch-num">Ch 1</span>Factors & Multiples</a>
+    <a href="ch2-mixed-fractions.html" class="nav-item"><span class="ch-num">Ch 2</span>Mixed Numbers & Fractions</a>
+    <a href="ch3-decimals.html" class="nav-item active"><span class="ch-num">Ch 3</span>Decimals</a>
+    <a href="ch4-angles.html" class="nav-item"><span class="ch-num">Ch 4</span>Angles & Measurement</a>
+    <a href="ch5-symmetry.html" class="nav-item"><span class="ch-num">Ch 5</span>Symmetry & Tessellation</a>
+  </aside>
+  <main>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <div class="chapter-header">
+      <div class="chapter-tag">Chapter 3 · Class 4</div>
+      <h1>Decimals</h1>
+      <p class="chapter-desc">Explore decimal place value (tenths and hundredths), compare and order decimals, convert between fractions and decimals, and add or subtract decimals.</p>
+    </div>
+
+    <!-- PLACE VALUE -->
+    <div class="section">
+      <h2>Decimal Place Value</h2>
+      <div class="card">
+        <p style="color:var(--text-muted);margin-bottom:16px;">Every digit in a decimal has a position. The decimal point separates the whole part from the fractional part.</p>
+        <div class="place-value-chart">
+          <div class="pv-col"><div class="pv-label">Hundreds</div><div class="pv-box hundreds">2</div></div>
+          <div class="pv-col"><div class="pv-label">Tens</div><div class="pv-box tens">5</div></div>
+          <div class="pv-col"><div class="pv-label">Ones</div><div class="pv-box ones">3</div></div>
+          <div class="dec-point">.</div>
+          <div class="pv-col"><div class="pv-label">Tenths</div><div class="pv-box tenths">7</div></div>
+          <div class="pv-col"><div class="pv-label">Hundredths</div><div class="pv-box hundredths">4</div></div>
+        </div>
+        <p style="font-family:'Space Mono',monospace;font-size:1.1rem;text-align:center;margin-top:8px;">253.74 = 200 + 50 + 3 + 7/10 + 4/100</p>
+      </div>
+    </div>
+
+    <!-- DECIMAL EXPLORER -->
+    <div class="section">
+      <h2>Decimal Explorer</h2>
+      <div class="card">
+        <p style="color:var(--text-muted);margin-bottom:16px;">Enter a decimal to break it into place values and convert to a fraction.</p>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+          <input type="number" id="decInput" value="3.75" step="0.01" min="0" max="999.99" style="width:120px;">
+          <button class="check-btn" onclick="exploreDecimal()">Explore</button>
+        </div>
+        <div class="result-box" id="decResult" style="margin-top:12px;"></div>
+        <canvas id="decCanvas" width="420" height="80" style="border-radius:8px;display:block;margin:12px auto;"></canvas>
+      </div>
+    </div>
+
+    <!-- FRACTION ↔ DECIMAL -->
+    <div class="section">
+      <h2>Fraction ↔ Decimal Converter</h2>
+      <div class="card">
+        <p style="margin-bottom:14px;">To convert a fraction to a decimal, <span class="highlight">divide the numerator by the denominator</span>. Common ones to memorise: 1/2 = 0.5, 1/4 = 0.25, 3/4 = 0.75, 1/5 = 0.2.</p>
+        <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-family:'Space Mono',monospace;margin-bottom:4px;">Numerator</div>
+            <input type="number" id="fdN" value="3" min="1" max="100" style="width:80px;">
+          </div>
+          <div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-family:'Space Mono',monospace;margin-bottom:4px;">Denominator</div>
+            <input type="number" id="fdD" value="8" min="1" max="100" style="width:80px;">
+          </div>
+          <button class="check-btn" onclick="fracToDec()">Convert</button>
+        </div>
+        <div class="result-box" id="fdResult" style="margin-top:12px;">3/8 = 3 ÷ 8 = 0.375</div>
+      </div>
+    </div>
+
+    <!-- OPERATIONS -->
+    <div class="section">
+      <h2>Adding & Subtracting Decimals</h2>
+      <div class="card">
+        <p style="margin-bottom:14px;"><span class="highlight">Line up the decimal points!</span> Then add or subtract digit by digit, just like whole numbers.</p>
+        <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+          <input type="number" id="d1" value="4.75" step="0.01" style="width:100px;">
+          <select id="decOp" style="background:var(--code-bg);border:2px solid var(--card-border);color:var(--ink);padding:8px;border-radius:6px;font-family:'Space Mono',monospace;">
+            <option>+</option><option>−</option><option>×</option>
+          </select>
+          <input type="number" id="d2" value="2.38" step="0.01" style="width:100px;">
+          <button class="check-btn" onclick="calcDec()">=</button>
+        </div>
+        <div class="result-box" id="decCalcResult" style="margin-top:12px;"></div>
+      </div>
+    </div>
+
+    <!-- WORD PROBLEM -->
+    <div class="section">
+      <h2>Word Problem — Bar Model</h2>
+      <div class="word-problem">
+        <p>A bottle holds 1.5 litres of water. Rohan drinks 0.75 litres. His sister drinks 0.4 litres. How much water is left in the bottle?</p>
+        <button class="collapsible-btn" onclick="toggleSolution('sol1')">
+          <span>💡 Show Solution</span><span id="sol1Arrow">▼</span>
+        </button>
+        <div class="collapsible-content" id="sol1">
+          <div class="step"><div class="step-num">1</div><div>Total drunk = 0.75 + 0.40 = 1.15 litres</div></div>
+          <div class="step"><div class="step-num">2</div><div>Water left = 1.50 − 1.15 = <strong style="color:#4ade80;">0.35 litres</strong></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="section">
+      <h2>Quick Quiz</h2>
+      <div class="quiz-section">
+        <div class="quiz-q">Which decimal is the largest? 0.9, 0.09, 0.99, 0.909</div>
+        <div class="quiz-options">
+          <button class="quiz-btn" onclick="checkAns(this,false)">0.9</button>
+          <button class="quiz-btn" onclick="checkAns(this,false)">0.09</button>
+          <button class="quiz-btn" onclick="checkAns(this,true)">0.99</button>
+          <button class="quiz-btn" onclick="checkAns(this,false)">0.909</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
+
+    <div class="next-prev">
+      <a href="ch2-mixed-fractions.html" class="nav-link">← Ch 2: Mixed Fractions</a>
+      <a href="ch4-angles.html" class="nav-link">Ch 4: Angles →</a>
+    </div>
+  </main>
+</div>
+
+<script>
+const html = document.documentElement;
+const btn = document.getElementById('themeToggle');
+const saved = localStorage.getItem('theme') || 'dark';
+html.setAttribute('data-theme', saved);
+btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+btn.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  btn.textContent = next === 'dark' ? '☀️' : '🌙';
+});
+
+function exploreDecimal() {
+  const v = +document.getElementById('decInput').value;
+  const whole = Math.floor(v);
+  const dec = (v - whole).toFixed(4);
+  const tenths = Math.floor(dec * 10) % 10;
+  const hundredths = Math.floor(dec * 100) % 10;
+  let txt = `${v} = ${whole} (ones)`;
+  if(tenths) txt += ` + ${tenths}/10 (tenths)`;
+  if(hundredths) txt += ` + ${hundredths}/100 (hundredths)`;
+  document.getElementById('decResult').textContent = txt;
+  drawDecBar(v);
+}
+exploreDecimal();
+
+function drawDecBar(v) {
+  const canvas = document.getElementById('decCanvas');
+  const ctx = canvas.getContext('2d');
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  ctx.clearRect(0,0,420,80);
+  ctx.fillStyle = isDark ? '#0d1117' : '#f8f5f0';
+  ctx.fillRect(0,0,420,80);
+  const max = Math.max(Math.ceil(v), 1);
+  const barH = 30, ox = 20, oy = 25;
+  const totalW = 380;
+  // Background
+  ctx.fillStyle = isDark ? '#1e293b' : '#d4cfc4';
+  ctx.beginPath(); ctx.roundRect(ox, oy, totalW, barH, 6); ctx.fill();
+  // Fill
+  const fillW = Math.min(v/max, 1) * totalW;
+  ctx.fillStyle = '#4ade80';
+  ctx.beginPath(); ctx.roundRect(ox, oy, fillW, barH, 6); ctx.fill();
+  // Label
+  ctx.fillStyle = isDark ? '#e2e8f0' : '#0d0d0d';
+  ctx.font = 'bold 13px "Space Mono",monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(v, ox + fillW/2, oy + barH/2 + 5);
+  ctx.fillStyle = isDark ? '#64748b' : '#666';
+  ctx.font = '11px "Space Mono",monospace';
+  ctx.fillText('0', ox, oy + barH + 14);
+  ctx.fillText(max, ox + totalW, oy + barH + 14);
+}
+
+function fracToDec() {
+  const n = +document.getElementById('fdN').value;
+  const d = +document.getElementById('fdD').value;
+  const res = (n/d).toFixed(6).replace(/\.?0+$/,'');
+  document.getElementById('fdResult').textContent = `${n}/${d} = ${n} ÷ ${d} = ${res}`;
+}
+
+function calcDec() {
+  const d1 = +document.getElementById('d1').value;
+  const d2 = +document.getElementById('d2').value;
+  const op = document.getElementById('decOp').value;
+  let res, sym;
+  if(op==='+'){res=(d1+d2).toFixed(4).replace(/\.?0+$/,'');sym='+';}
+  else if(op==='−'){res=(d1-d2).toFixed(4).replace(/\.?0+$/,'');sym='−';}
+  else{res=(d1*d2).toFixed(4).replace(/\.?0+$/,'');sym='×';}
+  document.getElementById('decCalcResult').textContent = `${d1} ${sym} ${d2} = ${res}`;
+}
+
+function toggleSolution(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+  document.getElementById(id+'Arrow').textContent = el.classList.contains('open')?'▲':'▼';
+}
+
+function checkAns(btn, correct) {
+  document.querySelectorAll('.quiz-btn').forEach(b=>b.disabled=true);
+  const fb = document.getElementById('feedback');
+  if(correct){
+    btn.classList.add('correct');
+    fb.textContent='✓ Correct! 0.99 > 0.909 > 0.9 > 0.09';
+    fb.className='feedback correct show';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent='✗ Not quite. Compare tenths first: 0.99 = 99 hundredths, which is the largest.';
+    fb.className='feedback wrong show';
+    document.querySelectorAll('.quiz-btn').forEach(b=>{if(b.onclick.toString().includes('true'))b.classList.add('correct');});
+  }
+}
+</script>
+</body>
+</html>
