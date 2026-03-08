@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-
-<html lang="en" data-theme="dark">
-<head>
+<html lang="en" data-theme="dark"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mathify — Learn Math, Physics & Civil Engineering</title>
+<title>Mathify — Learn Math, Physics &amp; Civil Engineering</title>
 <meta name="description" content="Your personal learning assistant for Math, Physics, and Civil Engineering. Interactive guides, simulations, and step-by-step solutions.">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Playfair+Display:wght@400;700;900&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <style>
 /* ─── THEME TOKENS ─── */
 [data-theme="light"] {
@@ -192,20 +189,10 @@ footer{padding:1rem 1.2rem;flex-direction:column;text-align:center;}
       <div class="search-input-row">
         <span class="search-icon">
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="9" r="7"/><line x1="16" y1="16" x2="13" y2="13"/>
+            <circle cx="9" cy="9" r="7"></circle><line x1="16" y1="16" x2="13" y2="13"></line>
           </svg>
         </span>
-        <input
-          class="search-input"
-          id="searchInput"
-          type="text"
-          placeholder="Search topics, concepts, chapters…"
-          autocomplete="off"
-          spellcheck="false"
-          aria-label="Search Mathify"
-          aria-autocomplete="list"
-          aria-controls="searchDropdown"
-        />
+        <input class="search-input" id="searchInput" type="text" placeholder="Search topics, concepts, chapters…" autocomplete="off" spellcheck="false" aria-label="Search Mathify" aria-autocomplete="list" aria-controls="searchDropdown">
         <button class="search-clear" id="searchClear" aria-label="Clear search">✕</button>
         <div class="search-kbd">
           <kbd>/</kbd>
@@ -219,9 +206,10 @@ footer{padding:1rem 1.2rem;flex-direction:column;text-align:center;}
     <ul class="nav-links">
       <li><a href="about.html">About</a></li>
       <li><a href="status.html">Status</a></li>
+      <li><a href="explore.html">Explore</a></li>
     </ul>
     <div class="nav-right">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">&#9728;&#65039;</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀️</button>
     </div>
   </div>
 </nav>
@@ -229,12 +217,40 @@ footer{padding:1rem 1.2rem;flex-direction:column;text-align:center;}
 <div class="search-overlay" id="searchOverlay"></div>
 
 <div class="chat-wrapper">
-  <div class="chat-messages" id="chat"></div>
+  <div class="chat-messages" id="chat"><div class="msg bot"><div class="msg-avatar">∑</div><div class="msg-body">Hey there! Welcome to <strong>Mathify</strong> 👋</div></div><div class="msg bot"><div class="msg-avatar">∑</div><div class="msg-body">I'm your learning assistant. I can help you with <strong>Math</strong>, <strong>Physics</strong>, and <strong>Civil Engineering</strong>.</div></div><div class="msg bot"><div class="msg-avatar">∑</div><div class="msg-body">What would you like to learn today? Or use the <strong>search bar above</strong> — press <kbd style="font-family:Space Mono,monospace;font-size:0.75em;padding:1px 5px;background:var(--kbd-bg);border:1px solid var(--kbd-border);border-radius:3px;">/</kbd> to jump right in.</div></div><div class="options">
+      <a href="math.html" class="opt-card">
+        <span class="opt-badge live">LIVE</span>
+        <div class="opt-icon">📊</div>
+        <div class="opt-title">Mathematics</div>
+        <div class="opt-desc">Complete guides for Class 9 through 12. Step-by-step problems, visual explanations, and interactive simulations.</div>
+      </a>
+    
+      <a href="physics.html" class="opt-card">
+        <span class="opt-badge live">LIVE</span>
+        <div class="opt-icon">⚛</div>
+        <div class="opt-title">Physics</div>
+        <div class="opt-desc">Mechanics, thermodynamics, waves, optics, and modern physics. Visual and intuitive.</div>
+      </a>
+    
+      <a href="civil.html" class="opt-card">
+        <span class="opt-badge live">LIVE</span>
+        <div class="opt-icon">🏗</div>
+        <div class="opt-title">Civil Engineering</div>
+        <div class="opt-desc">RC Design &amp; Traffic Engineering. Focused lectures with simulations, videos, and practice problems.</div>
+      </a>
+    </div><div class="msg bot"><div class="msg-avatar">∑</div><div class="msg-body">Also — need a break from equations? Check out something a little different 🎶</div></div><div class="options">
+      <a href="explore.html" class="opt-card">
+        <span class="opt-badge new">NEW</span>
+        <div class="opt-icon">🎶</div>
+        <div class="opt-title">Explore</div>
+        <div class="opt-desc">Techno R&amp;B beats, lo-fi grooves, and ambient soundscapes — curated for study sessions and late-night flow.</div>
+      </a>
+    </div></div>
 </div>
 
 <footer>
-  <span>Mathify &mdash; mathify.us</span>
-  <span class="visitor-counter"><span class="visitor-count"><span class="visitor-dot"></span><span id="visitorCount">0</span></span> visits</span>
+  <span>Mathify — mathify.us</span>
+  <span class="visitor-counter"><span class="visitor-count"><span class="visitor-dot"></span><span id="visitorCount">17</span></span> visits</span>
   <span>Free for students everywhere</span>
 </footer>
 
@@ -249,6 +265,7 @@ const SEARCH_INDEX = [
   { title:'Civil Engineering Hub', meta:'Browse all civil topics', tag:'page', icon:'🏗️', href:'civil.html', category:'Pages', keywords:'civil engineering hub' },
   { title:'About Mathify', meta:'Our mission & story', tag:'page', icon:'💡', href:'about.html', category:'Pages', keywords:'about mathify mission' },
   { title:'Status', meta:'Platform uptime & releases', tag:'page', icon:'📡', href:'status.html', category:'Pages', keywords:'status uptime' },
+  { title:'Explore — Music & Vibes', meta:'Techno R&B beats for studying', tag:'page', icon:'🎶', href:'explore.html', category:'Pages', keywords:'explore music techno rnb lofi beats vibes study' },
 
   /* ── Mathematics ── */
   { title:'Algebra — Polynomials', meta:'Mathematics · Class 9-10', tag:'math', icon:'✏️', href:'math.html#algebra-polynomials', category:'Mathematics', keywords:'algebra polynomials factoring roots quadratic' },
@@ -511,6 +528,19 @@ addOptions([
   }
 ], 4200);
 
+showTyping(5000);
+addBot("Also — need a break from equations? Check out something a little different &#127926;", 5800);
+addOptions([
+  {
+    icon: '&#127926;',
+    title: 'Explore',
+    desc: 'Techno R&B beats, lo-fi grooves, and ambient soundscapes — curated for study sessions and late-night flow.',
+    href: 'explore.html',
+    badge: 'NEW',
+    badgeClass: 'new'
+  }
+], 6600);
+
 /* ─── DARK / LIGHT MODE ─── */
 const toggleBtn = document.getElementById('themeToggle');
 const root = document.documentElement;
@@ -555,5 +585,6 @@ toggleBtn.addEventListener('click', () => {
 })();
 </script>
 
-</body>
-</html>
+
+
+</body></html>
