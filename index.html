@@ -1,270 +1,241 @@
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mathify — Learn Math, Physics &amp; Civil Engineering</title>
 <meta name="description" content="Your personal learning assistant for Math, Physics, and Civil Engineering. Interactive guides, simulations, and step-by-step solutions.">
-<link href="https://fonts.googleapis.com/css2?family=Impact&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ─── RETRO 90s THEME TOKENS ─── */
+/* ═══════════════════════════════════════
+   AUTHENTIC 90s WEBSITE DESIGN
+   ═══════════════════════════════════════ */
+
+html {
+  scroll-behavior: auto; /* 90s don't smooth scroll */
+}
+
+/* ─── THEME TOKENS ─── */
 [data-theme="light"] {
-  --neon-cyan: #00D9FF;
-  --neon-magenta: #FF00FF;
-  --neon-green: #00FF00;
-  --neon-orange: #FF6600;
-  --dark-bg: #FFFFFF;
-  --paper: #F5F5F5;
-  --ink: #000000;
+  --bg-primary: #CCCCCC;
+  --bg-secondary: #DDDDDD;
+  --text-primary: #000000;
   --text-secondary: #333333;
-  --border-color: #CCCCCC;
+  --border-dark: #666666;
+  --border-light: #FFFFFF;
+  --card-bg: #CCCCCC;
 }
+
 [data-theme="dark"] {
-  --neon-cyan: #00D9FF;
-  --neon-magenta: #FF00FF;
-  --neon-green: #00FF00;
-  --neon-orange: #FF6600;
-  --dark-bg: #000000;
-  --paper: #111111;
-  --ink: #FFFFFF;
-  --text-secondary: #CCCCCC;
-  --border-color: #333333;
+  --bg-primary: #666666;
+  --bg-secondary: #555555;
+  --text-primary: #EEEEEE;
+  --text-secondary: #DDDDDD;
+  --border-dark: #333333;
+  --border-light: #999999;
+  --card-bg: #555555;
 }
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--dark-bg);
-  color:var(--ink);
-  font-family:'Impact','Arial Black',sans-serif;
-  overflow-x:hidden;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  transition:background 0.3s,color 0.3s;
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ─── HEADER ─── */
+/* ─── HEADER BANNER ─── */
 header {
-  position: relative;
-  z-index: 50;
-  padding: 2rem 1.5rem;
+  background: var(--bg-secondary);
+  border-bottom: 3px solid var(--border-dark);
+  padding: 2rem 1rem;
   text-align: center;
-  border-bottom: 4px solid var(--neon-cyan);
-  background: var(--paper);
+  border-bottom-style: ridge;
+  border-bottom-width: 3px;
 }
 
 .header-title {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 4rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  color: var(--ink);
-  text-transform: uppercase;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
   margin: 0;
-  text-shadow:
-    0 0 10px var(--neon-cyan),
-    0 0 20px var(--neon-magenta),
-    4px 4px 0 var(--neon-magenta),
-    8px 8px 0 var(--neon-cyan);
-  animation: glowPulse 3s ease-in-out infinite;
+  letter-spacing: 2px;
 }
 
 .header-tagline {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  color: var(--neon-magenta);
-  text-transform: uppercase;
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
   margin-top: 0.5rem;
-  text-shadow: 0 0 8px var(--neon-magenta);
 }
 
-/* ─── NAV BAR ─── */
+/* ─── NAVIGATION BAR ─── */
 nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-bottom: 2px solid var(--border-dark);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  background: var(--paper);
-  border-bottom: 2px solid var(--neon-cyan);
-  gap: 1rem;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.nav-logo {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 1.2rem;
-  letter-spacing: 0.1em;
-  color: var(--neon-cyan);
-  text-transform: uppercase;
-  text-decoration: none;
-  text-shadow: 0 0 8px var(--neon-cyan);
-  font-weight: 900;
-  flex-shrink: 0;
-}
-
-.nav-center {
-  flex: 1;
-  max-width: 400px;
-  position: relative;
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-shrink: 0;
-}
-
-.nav-links {
-  display: flex;
-  gap: 1rem;
-  list-style: none;
-  align-items: center;
-}
-
-.nav-links a {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink);
-  text-decoration: none;
-  border: 2px solid transparent;
-  padding: 0.25rem 0.5rem;
-  transition: all 0.2s;
-}
-
-.nav-links a:hover {
-  color: var(--neon-magenta);
-  border-color: var(--neon-magenta);
-  text-shadow: 0 0 8px var(--neon-magenta);
-}
-
-.theme-toggle {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 1rem;
-  width: 44px;
-  height: 44px;
-  border: 3px solid var(--neon-green);
-  background: var(--dark-bg);
-  color: var(--neon-green);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  transition: all 0.2s;
-  text-shadow: 0 0 8px var(--neon-green);
-  box-shadow: 0 0 10px var(--neon-green);
-}
-
-.theme-toggle:hover {
-  transform: scale(1.15) rotate(10deg);
-  box-shadow: 0 0 20px var(--neon-green), inset 0 0 10px var(--neon-green);
-}
-
-/* ─── SEARCH BAR ─── */
-.search-bar-wrap {
-  position: relative;
-  width: 100%;
-}
-
-.search-input-row {
-  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0;
-  background: var(--dark-bg);
-  border: 3px solid var(--neon-cyan);
-  overflow: hidden;
-  transition: all 0.2s;
-  box-shadow: 0 0 10px var(--neon-cyan);
 }
 
-.search-input-row:focus-within {
-  border-color: var(--neon-magenta);
-  box-shadow: 0 0 20px var(--neon-magenta), inset 0 0 10px rgba(255,0,255,0.1);
-  animation: borderPulse 0.6s ease-in-out;
+nav a, nav button {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+  color: var(--text-primary);
+  text-decoration: none;
+  background: var(--bg-primary);
+  border: 2px outset var(--border-light);
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 0;
 }
 
-.search-icon {
-  padding: 0 0.75rem;
-  color: var(--neon-cyan);
-  font-size: 1rem;
-  flex-shrink: 0;
-  pointer-events: none;
+nav a:active, nav button:active {
+  border-style: inset;
+}
+
+nav a:hover, nav button:hover {
+  background: var(--bg-secondary);
+}
+
+.search-wrapper {
   display: flex;
-  align-items: center;
-  text-shadow: 0 0 8px var(--neon-cyan);
+  gap: 0.3rem;
 }
 
 .search-input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  color: var(--ink);
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.9rem;
-  padding: 0.6rem 0.5rem;
-  outline: none;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+  padding: 0.4rem 0.6rem;
+  border: 2px inset var(--border-dark);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  width: 150px;
 }
 
-.search-input::placeholder {
-  color: var(--text-secondary);
+[data-theme="dark"] .search-input {
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
-.search-kbd {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 0 0.75rem;
-  flex-shrink: 0;
-}
-
-.search-kbd kbd {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.65rem;
-  padding: 3px 6px;
-  background: var(--neon-cyan);
-  border: 2px solid var(--neon-cyan);
-  color: var(--dark-bg);
-  text-transform: uppercase;
-  font-weight: 900;
-  text-shadow: none;
-  box-shadow: 0 0 8px var(--neon-cyan);
-}
-
-.search-clear {
-  background: none;
-  border: none;
+.search-btn {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+  padding: 0.4rem 0.8rem;
+  background: var(--bg-primary);
+  border: 2px outset var(--border-light);
+  color: var(--text-primary);
   cursor: pointer;
-  color: var(--neon-magenta);
-  padding: 0 0.5rem;
-  font-size: 1.2rem;
-  display: none;
-  align-items: center;
-  line-height: 1;
-  transition: all 0.2s;
+  font-weight: bold;
 }
 
-.search-clear.visible {
-  display: flex;
+.search-btn:active {
+  border-style: inset;
 }
 
-.search-clear:hover {
-  text-shadow: 0 0 10px var(--neon-magenta);
-  transform: scale(1.2);
+.theme-toggle {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+  padding: 0.4rem 0.8rem;
+  background: var(--bg-primary);
+  border: 2px outset var(--border-light);
+  color: var(--text-primary);
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.theme-toggle:active {
+  border-style: inset;
+}
+
+/* ─── MAIN CONTENT ─── */
+main {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid var(--border-dark);
+  margin: 2rem 0;
+}
+
+/* ─── CARD GRID ─── */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-dark);
+  padding: 1.5rem;
+  text-align: center;
+  border-style: ridge;
+  border-width: 2px;
+  position: relative;
+}
+
+.card:hover {
+  background: var(--bg-secondary);
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.card-title {
+  font-family: 'Comic Sans MS', cursive;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.card-description {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.card-link {
+  display: inline-block;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0.5rem 1.2rem;
+  background: var(--bg-primary);
+  border: 2px outset var(--border-light);
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 0;
+  text-transform: uppercase;
+}
+
+.card-link:hover {
+  background: var(--bg-secondary);
+}
+
+.card-link:active {
+  border-style: inset;
 }
 
 /* ─── SEARCH DROPDOWN ─── */
@@ -273,447 +244,175 @@ nav {
   top: calc(100% + 6px);
   left: 0;
   right: 0;
-  background: var(--paper);
-  border: 3px solid var(--neon-green);
-  box-shadow: 0 0 20px var(--neon-green);
+  background: var(--card-bg);
+  border: 2px solid var(--border-dark);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
   overflow: hidden;
   z-index: 200;
   max-height: 420px;
   overflow-y: auto;
   display: none;
-  backdrop-filter: blur(12px);
+  border-style: ridge;
 }
 
 .search-dropdown.open {
   display: block;
-  animation: dropIn 0.18s ease;
-}
-
-@keyframes dropIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.search-section-label {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--neon-magenta);
-  padding: 0.6rem 1rem 0.3rem;
-  border-top: 2px solid var(--neon-magenta);
-  text-shadow: 0 0 6px var(--neon-magenta);
-}
-
-.search-section-label:first-child {
-  border-top: none;
 }
 
 .search-result {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.65rem 1rem;
-  cursor: pointer;
+  display: block;
+  padding: 0.6rem 1rem;
   text-decoration: none;
-  color: var(--ink);
-  transition: all 0.15s;
-  border-left: 4px solid transparent;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-dark);
+  cursor: pointer;
+  transition: none;
 }
 
-.search-result:hover,
-.search-result.active {
-  background: var(--dark-bg);
-  border-left-color: var(--neon-cyan);
-  color: var(--neon-cyan);
-  text-shadow: 0 0 8px var(--neon-cyan);
+.search-result:hover {
+  background: var(--border-light);
+  color: var(--text-primary);
 }
 
-.search-result-icon {
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  width: 28px;
-  text-align: center;
+[data-theme="dark"] .search-result:hover {
+  background: var(--border-dark);
 }
 
-.search-result-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.search-result-title {
-  font-size: 0.85rem;
-  font-weight: 900;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: 'Impact', 'Arial Black', sans-serif;
+.search-section-label {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: bold;
   text-transform: uppercase;
-}
-
-.search-result-meta {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.6rem;
   color: var(--text-secondary);
-  margin-top: 1px;
+  padding: 0.6rem 1rem 0.3rem;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-dark);
 }
-
-.search-result-tag {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.55rem;
-  padding: 2px 6px;
-  flex-shrink: 0;
-  text-transform: uppercase;
-  font-weight: 700;
-  border: 1px solid;
-}
-
-.tag-math { background: rgba(0,217,255,0.2); color: var(--neon-cyan); border-color: var(--neon-cyan); }
-.tag-physics { background: rgba(255,0,255,0.2); color: var(--neon-magenta); border-color: var(--neon-magenta); }
-.tag-civil { background: rgba(0,255,0,0.2); color: var(--neon-green); border-color: var(--neon-green); }
-.tag-page { background: rgba(255,102,0,0.2); color: var(--neon-orange); border-color: var(--neon-orange); }
 
 .search-empty {
-  padding: 1.5rem 1rem;
+  padding: 1.5rem;
   text-align: center;
   color: var(--text-secondary);
-  font-size: 0.85rem;
-  font-family: 'Impact', 'Arial Black', sans-serif;
-}
-
-.search-empty span {
-  display: block;
-  font-size: 2rem;
-  margin-bottom: 0.4rem;
+  font-size: 12px;
 }
 
 .search-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.3);
   z-index: 150;
-  backdrop-filter: blur(4px);
 }
 
 .search-overlay.open {
   display: block;
 }
 
-/* ─── MAIN CONTENT ─── */
-.main-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 6rem 1.5rem 2rem;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-/* ─── NAVIGATION CARDS ─── */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  width: 100%;
-  margin: 2rem 0;
-}
-
-.nav-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  border: 4px solid;
-  background: var(--paper);
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--ink);
-  overflow: hidden;
-  transition: all 0.3s;
-  transform-origin: center;
-}
-
-.nav-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--paper);
-  z-index: -1;
-  animation: none;
-}
-
-/* Card color variants */
-.nav-card.cyan {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 15px var(--neon-cyan), inset 0 0 10px rgba(0,217,255,0.1);
-  background: linear-gradient(135deg, var(--paper) 0%, rgba(0,217,255,0.05) 100%);
-  animation: borderPulseCyan 2s ease-in-out infinite;
-}
-
-.nav-card.magenta {
-  border-color: var(--neon-magenta);
-  box-shadow: 0 0 15px var(--neon-magenta), inset 0 0 10px rgba(255,0,255,0.1);
-  background: linear-gradient(135deg, var(--paper) 0%, rgba(255,0,255,0.05) 100%);
-  animation: borderPulseMagenta 2s ease-in-out infinite;
-}
-
-.nav-card.green {
-  border-color: var(--neon-green);
-  box-shadow: 0 0 15px var(--neon-green), inset 0 0 10px rgba(0,255,0,0.1);
-  background: linear-gradient(135deg, var(--paper) 0%, rgba(0,255,0,0.05) 100%);
-  animation: borderPulseGreen 2s ease-in-out infinite;
-}
-
-.nav-card.orange {
-  border-color: var(--neon-orange);
-  box-shadow: 0 0 15px var(--neon-orange), inset 0 0 10px rgba(255,102,0,0.1);
-  background: linear-gradient(135deg, var(--paper) 0%, rgba(255,102,0,0.05) 100%);
-  animation: borderPulseOrange 2s ease-in-out infinite;
-}
-
-.nav-card:hover {
-  transform: scale(1.08) translateY(-8px);
-}
-
-.nav-card.cyan:hover {
-  border-color: var(--neon-magenta);
-  box-shadow: 0 0 25px var(--neon-magenta), inset 0 0 15px rgba(255,0,255,0.2);
-  animation: none;
-}
-
-.nav-card.magenta:hover {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 25px var(--neon-cyan), inset 0 0 15px rgba(0,217,255,0.2);
-  animation: none;
-}
-
-.nav-card.green:hover {
-  border-color: var(--neon-magenta);
-  box-shadow: 0 0 25px var(--neon-magenta), inset 0 0 15px rgba(255,0,255,0.2);
-  animation: none;
-}
-
-.nav-card.orange:hover {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 25px var(--neon-cyan), inset 0 0 15px rgba(0,217,255,0.2);
-  animation: none;
-}
-
-.card-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  animation: iconBounce 2s ease-in-out infinite;
-}
-
-.nav-card:hover .card-icon {
-  animation: iconBounceHover 0.6s ease-in-out;
-}
-
-.card-title {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.nav-card.cyan .card-title {
-  color: var(--neon-cyan);
-  text-shadow: 0 0 10px var(--neon-cyan);
-}
-
-.nav-card.magenta .card-title {
-  color: var(--neon-magenta);
-  text-shadow: 0 0 10px var(--neon-magenta);
-}
-
-.nav-card.green .card-title {
-  color: var(--neon-green);
-  text-shadow: 0 0 10px var(--neon-green);
-}
-
-.nav-card.orange .card-title {
-  color: var(--neon-orange);
-  text-shadow: 0 0 10px var(--neon-orange);
-}
-
-.card-description {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
-}
-
 /* ─── FOOTER ─── */
 footer {
-  position: relative;
-  z-index: 1;
+  background: var(--bg-secondary);
+  border-top: 2px solid var(--border-dark);
   padding: 1.5rem;
-  border-top: 4px solid var(--neon-magenta);
-  background: var(--paper);
   text-align: center;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  color: var(--text-secondary);
+  font-size: 11px;
+  font-family: Verdana, Arial, sans-serif;
 }
 
-.footer-text {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--ink);
-  margin-bottom: 1rem;
-  text-shadow: 0 0 8px var(--neon-magenta);
+footer p {
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
 }
 
 .footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+  margin: 1rem 0;
 }
 
 .footer-links a {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--neon-green);
-  text-decoration: none;
-  border-bottom: 2px solid var(--neon-green);
-  transition: all 0.2s;
-  text-shadow: 0 0 6px var(--neon-green);
+  color: var(--text-primary);
+  text-decoration: underline;
+  margin: 0 0.8rem;
+  font-size: 11px;
 }
 
 .footer-links a:hover {
-  color: var(--neon-cyan);
-  border-bottom-color: var(--neon-cyan);
-  text-shadow: 0 0 10px var(--neon-cyan);
+  color: var(--text-secondary);
 }
 
 .visitor-counter {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: inline-block;
+  background: var(--bg-primary);
+  border: 2px ridge var(--border-dark);
   padding: 0.5rem 1rem;
-  border: 3px solid var(--neon-orange);
-  background: var(--dark-bg);
-  box-shadow: 0 0 12px var(--neon-orange);
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--neon-orange);
-  text-shadow: 0 0 8px var(--neon-orange);
+  margin: 0.5rem 0;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: bold;
 }
 
 .visitor-dot {
+  display: inline-block;
   width: 8px;
   height: 8px;
+  background: #FF0000;
   border-radius: 50%;
-  background: var(--neon-orange);
-  display: inline-block;
-  animation: pulseOrange 1s ease-in-out infinite;
-  box-shadow: 0 0 8px var(--neon-orange);
+  margin-right: 0.3rem;
+  vertical-align: middle;
+  animation: pulse 2s ease-in-out infinite;
 }
 
-/* ─── ANIMATIONS ─── */
-@keyframes glowPulse {
-  0%, 100% { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-magenta), 4px 4px 0 var(--neon-magenta), 8px 8px 0 var(--neon-cyan); }
-  50% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 30px var(--neon-magenta), 4px 4px 0 var(--neon-cyan), 8px 8px 0 var(--neon-magenta); }
-}
-
-@keyframes borderPulseCyan {
-  0%, 100% { box-shadow: 0 0 15px var(--neon-cyan), inset 0 0 10px rgba(0,217,255,0.1); }
-  50% { box-shadow: 0 0 25px var(--neon-cyan), inset 0 0 15px rgba(0,217,255,0.2); }
-}
-
-@keyframes borderPulseMagenta {
-  0%, 100% { box-shadow: 0 0 15px var(--neon-magenta), inset 0 0 10px rgba(255,0,255,0.1); }
-  50% { box-shadow: 0 0 25px var(--neon-magenta), inset 0 0 15px rgba(255,0,255,0.2); }
-}
-
-@keyframes borderPulseGreen {
-  0%, 100% { box-shadow: 0 0 15px var(--neon-green), inset 0 0 10px rgba(0,255,0,0.1); }
-  50% { box-shadow: 0 0 25px var(--neon-green), inset 0 0 15px rgba(0,255,0,0.2); }
-}
-
-@keyframes borderPulseOrange {
-  0%, 100% { box-shadow: 0 0 15px var(--neon-orange), inset 0 0 10px rgba(255,102,0,0.1); }
-  50% { box-shadow: 0 0 25px var(--neon-orange), inset 0 0 15px rgba(255,102,0,0.2); }
-}
-
-@keyframes borderPulse {
-  0%, 100% { box-shadow: 0 0 20px var(--neon-magenta), inset 0 0 10px rgba(255,0,255,0.1); }
-  50% { box-shadow: 0 0 30px var(--neon-magenta), inset 0 0 15px rgba(255,0,255,0.2); }
-}
-
-@keyframes iconBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes iconBounceHover {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.15) rotate(5deg); }
-}
-
-@keyframes pulseOrange {
+@keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
 
 /* ─── RESPONSIVE ─── */
 @media(max-width: 768px) {
-  nav {
-    flex-wrap: wrap;
-    padding: 0.5rem 1rem;
-  }
-
-  .nav-center {
-    order: 3;
-    flex-basis: 100%;
-    max-width: none;
-    margin-top: 0.5rem;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
   .header-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
-  .cards-grid {
+  nav {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  nav a, nav button, .search-btn, .theme-toggle {
+    width: 100%;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .search-input {
+    flex: 1;
+  }
+
+  .cards-container {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-  }
-
-  .main-wrapper {
-    padding: 5rem 1rem 2rem;
-  }
-
-  footer {
-    padding: 1rem;
   }
 }
 
 @media(max-width: 480px) {
   .header-title {
-    font-size: 1.5rem;
-    text-shadow: 0 0 8px var(--neon-cyan), 0 0 12px var(--neon-magenta), 2px 2px 0 var(--neon-magenta);
+    font-size: 1.3rem;
+  }
+
+  .header-tagline {
+    font-size: 0.75rem;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  .cards-container {
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
   }
 
   .card-icon {
@@ -721,95 +420,92 @@ footer {
   }
 
   .card-title {
-    font-size: 1.3rem;
-  }
-
-  .card-description {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
   }
 }
 </style>
-
 </head>
 <body>
 
+<!-- ─── HEADER ─── -->
+<header>
+  <h1 class="header-title">🎓 MATHIFY.US 🎓</h1>
+  <p class="header-tagline">Your Learning Companion Site</p>
+</header>
+
 <!-- ─── NAVIGATION ─── -->
 <nav>
-  <div class="nav-left">
-    <a href="index.html" class="nav-logo">Mathify</a>
+  <a href="index.html">HOME</a>
+  <a href="about.html">ABOUT</a>
+  <a href="status.html">STATUS</a>
+
+  <div class="search-wrapper" id="searchWrap">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search topics..." autocomplete="off" spellcheck="false">
+    <button class="search-btn" id="searchBtn">FIND</button>
   </div>
 
-  <div class="nav-center">
-    <div class="search-bar-wrap" id="searchWrap">
-      <div class="search-input-row">
-        <span class="search-icon">🔍</span>
-        <input class="search-input" id="searchInput" type="text" placeholder="Search topics…" autocomplete="off" spellcheck="false" aria-label="Search Mathify" aria-autocomplete="list" aria-controls="searchDropdown">
-        <button class="search-clear" id="searchClear" aria-label="Clear search">✕</button>
-        <div class="search-kbd">
-          <kbd>/</kbd>
-        </div>
-      </div>
-      <div class="search-dropdown" id="searchDropdown" role="listbox"></div>
-    </div>
-  </div>
-
-  <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="about.html">About</a></li>
-      <li><a href="status.html">Status</a></li>
-    </ul>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
-  </div>
+  <button class="theme-toggle" id="themeToggle">☀️ LIGHT</button>
 </nav>
 
 <div class="search-overlay" id="searchOverlay"></div>
-
-<!-- ─── HEADER ─── -->
-<header>
-  <h1 class="header-title">MATHIFY.US</h1>
-  <p class="header-tagline">RETRO 90s LEARNING HUB</p>
-</header>
+<div class="search-dropdown" id="searchDropdown"></div>
 
 <!-- ─── MAIN CONTENT ─── -->
-<div class="main-wrapper">
-  <div class="cards-grid">
-    <a href="math.html" class="nav-card cyan">
-      <div class="card-icon">📊</div>
-      <h2 class="card-title">Math</h2>
-      <p class="card-description">Complete guides for Class 9–12. Algebra, trigonometry, calculus, and more.</p>
-    </a>
+<main>
+  <hr>
 
-    <a href="physics.html" class="nav-card magenta">
-      <div class="card-icon">⚛️</div>
-      <h2 class="card-title">Physics</h2>
-      <p class="card-description">Mechanics, thermodynamics, waves, optics, and modern physics.</p>
-    </a>
+  <div class="cards-container">
+    <!-- MATH CARD -->
+    <div class="card">
+      <span class="card-icon">📊</span>
+      <h2 class="card-title">MATHEMATICS</h2>
+      <p class="card-description">Complete guides for Class 9–12. Algebra, trigonometry, calculus, statistics, and more.</p>
+      <a href="math.html" class="card-link">→ ENTER</a>
+    </div>
 
-    <a href="civil.html" class="nav-card green">
-      <div class="card-icon">🏗️</div>
-      <h2 class="card-title">Civil</h2>
-      <p class="card-description">RC Design & Traffic Engineering. Lectures, simulations, and problems.</p>
-    </a>
+    <!-- PHYSICS CARD -->
+    <div class="card">
+      <span class="card-icon">⚛️</span>
+      <h2 class="card-title">PHYSICS</h2>
+      <p class="card-description">Mechanics, thermodynamics, waves, optics, electricity, and modern physics.</p>
+      <a href="physics.html" class="card-link">→ ENTER</a>
+    </div>
 
-    <a href="explore.html" class="nav-card orange">
-      <div class="card-icon">🎶</div>
-      <h2 class="card-title">Explore</h2>
-      <p class="card-description">Techno, R&B, lo-fi beats—curated for study sessions and late-night flow.</p>
-    </a>
+    <!-- CIVIL CARD -->
+    <div class="card">
+      <span class="card-icon">🏗️</span>
+      <h2 class="card-title">CIVIL ENGINEERING</h2>
+      <p class="card-description">RC Design and Traffic Engineering. Lectures, simulations, and practice problems.</p>
+      <a href="civil.html" class="card-link">→ ENTER</a>
+    </div>
+
+    <!-- EXPLORE CARD -->
+    <div class="card">
+      <span class="card-icon">🎵</span>
+      <h2 class="card-title">EXPLORE</h2>
+      <p class="card-description">Techno, R&B, lo-fi beats—curated for study sessions and learning vibes.</p>
+      <a href="explore.html" class="card-link">→ ENTER</a>
+    </div>
   </div>
-</div>
+
+  <hr>
+</main>
 
 <!-- ─── FOOTER ─── -->
 <footer>
-  <div class="footer-text">Made with 90s Love</div>
+  <p><strong>Copyright © 1999-2024 MATHIFY.US</strong></p>
+  <p>Free Learning Platform for Students Everywhere</p>
+
   <div class="footer-links">
     <a href="about.html">About</a>
     <a href="status.html">Status</a>
   </div>
+
   <div class="visitor-counter">
-    <span class="visitor-dot"></span>
-    <span id="visitorCount">17</span> visits
+    <span class="visitor-dot"></span> <span id="visitorCount">17</span> VISITS
   </div>
+
+  <p style="margin-top: 1rem; font-size: 10px;">Designed with 90s love | Powered by nostalgia</p>
 </footer>
 
 <script>
@@ -823,7 +519,7 @@ const SEARCH_INDEX = [
   { title:'Civil Engineering Hub', meta:'Browse all civil topics', tag:'page', icon:'🏗️', href:'civil.html', category:'Pages', keywords:'civil engineering hub' },
   { title:'About Mathify', meta:'Our mission & story', tag:'page', icon:'💡', href:'about.html', category:'Pages', keywords:'about mathify mission' },
   { title:'Status', meta:'Platform uptime & releases', tag:'page', icon:'📡', href:'status.html', category:'Pages', keywords:'status uptime' },
-  { title:'Explore — Music & Vibes', meta:'Techno R&B beats for studying', tag:'page', icon:'🎶', href:'explore.html', category:'Pages', keywords:'explore music techno rnb lofi beats vibes study' },
+  { title:'Explore — Music & Vibes', meta:'Study music for learning', tag:'page', icon:'🎶', href:'explore.html', category:'Pages', keywords:'explore music beats vibes study' },
 
   /* ── Mathematics ── */
   { title:'Algebra — Polynomials', meta:'Mathematics · Class 9-10', tag:'math', icon:'✏️', href:'math.html#algebra-polynomials', category:'Mathematics', keywords:'algebra polynomials factoring roots quadratic' },
@@ -888,7 +584,7 @@ const SEARCH_INDEX = [
    SEARCH ENGINE
    ═══════════════════════════════════════ */
 const searchInput  = document.getElementById('searchInput');
-const searchClear  = document.getElementById('searchClear');
+const searchBtn    = document.getElementById('searchBtn');
 const dropdown     = document.getElementById('searchDropdown');
 const overlay      = document.getElementById('searchOverlay');
 let activeIdx = -1;
@@ -906,25 +602,13 @@ function score(item, tokens){
   return s;
 }
 
-function highlight(text, tokens){
-  let out = text;
-  for(const t of tokens){
-    const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
-    out = out.replace(re, '<mark>$1</mark>');
-  }
-  return out;
-}
-
-function tagClass(tag){ return 'tag-'+tag; }
-
 function renderResults(results, tokens){
   if(results.length === 0){
-    dropdown.innerHTML = `<div class="search-empty"><span>🔍</span>No results found. Try a different keyword.</div>`;
+    dropdown.innerHTML = `<div class="search-empty"><strong>No results found</strong><br>Try a different search term.</div>`;
     openDropdown();
     return;
   }
 
-  // Group by category
   const groups = {};
   for(const r of results){
     if(!groups[r.category]) groups[r.category] = [];
@@ -936,13 +620,9 @@ function renderResults(results, tokens){
   for(const [cat, items] of Object.entries(groups)){
     html += `<div class="search-section-label">${cat}</div>`;
     for(const item of items){
-      html += `<a class="search-result" href="${item.href}" role="option" data-idx="${idx}">
-        <span class="search-result-icon">${item.icon}</span>
-        <span class="search-result-content">
-          <span class="search-result-title">${highlight(item.title, tokens)}</span>
-          <span class="search-result-meta">${item.meta}</span>
-        </span>
-        <span class="search-result-tag ${tagClass(item.tag)}">${item.tag}</span>
+      html += `<a class="search-result" href="${item.href}" data-idx="${idx}">
+        <strong>${item.title}</strong><br>
+        <span style="font-size:10px;color:#666;">${item.meta}</span>
       </a>`;
       idx++;
     }
@@ -955,12 +635,6 @@ function renderResults(results, tokens){
 function openDropdown(){ dropdown.classList.add('open'); overlay.classList.add('open'); }
 function closeDropdown(){ dropdown.classList.remove('open'); overlay.classList.remove('open'); activeIdx = -1; }
 
-function setActive(i){
-  currentResults.forEach((r,j)=>r.classList.toggle('active', j===i));
-  if(currentResults[i]) currentResults[i].scrollIntoView({block:'nearest'});
-  activeIdx = i;
-}
-
 function runSearch(q){
   const tokens = tokenize(q);
   if(tokens.length === 0){ closeDropdown(); return; }
@@ -970,51 +644,46 @@ function runSearch(q){
 
 searchInput.addEventListener('input', ()=>{
   const q = searchInput.value.trim();
-  searchClear.classList.toggle('visible', q.length > 0);
   if(q.length < 1){ closeDropdown(); return; }
   runSearch(q);
 });
 
 searchInput.addEventListener('keydown', e=>{
-  if(!dropdown.classList.contains('open')) return;
-  if(e.key==='ArrowDown'){ e.preventDefault(); setActive(Math.min(activeIdx+1, currentResults.length-1)); }
-  else if(e.key==='ArrowUp'){ e.preventDefault(); setActive(Math.max(activeIdx-1, 0)); }
-  else if(e.key==='Enter'){
-    if(activeIdx>=0 && currentResults[activeIdx]){ currentResults[activeIdx].click(); }
-    else if(currentResults.length > 0){ currentResults[0].click(); }
+  if(e.key==='Enter'){
+    const q = searchInput.value.trim();
+    if(q.length > 0) runSearch(q);
   }
   else if(e.key==='Escape'){ closeDropdown(); searchInput.blur(); }
 });
 
-searchClear.addEventListener('click', ()=>{
-  searchInput.value='';
-  searchClear.classList.remove('visible');
-  closeDropdown();
-  searchInput.focus();
+searchBtn.addEventListener('click', ()=>{
+  const q = searchInput.value.trim();
+  if(q.length > 0) runSearch(q);
 });
 
 overlay.addEventListener('click', ()=>{ closeDropdown(); });
 
-// Press "/" to focus search
 document.addEventListener('keydown', e=>{
-  if(e.key==='/' && document.activeElement !== searchInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
+  if(e.key==='/' && document.activeElement !== searchInput && document.activeElement.tagName !== 'INPUT'){
     e.preventDefault();
     searchInput.focus();
-    searchInput.select();
   }
 });
 
 /* ─── DARK / LIGHT MODE ─── */
 const toggleBtn = document.getElementById('themeToggle');
 const root = document.documentElement;
+
 function setTheme(t) {
   root.setAttribute('data-theme', t);
-  toggleBtn.textContent = t === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19';
+  toggleBtn.textContent = t === 'dark' ? '🌙 DARK' : '☀️ LIGHT';
   localStorage.setItem('mathify-theme', t);
 }
+
 const saved = localStorage.getItem('mathify-theme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 setTheme(saved || (prefersDark ? 'dark' : 'light'));
+
 toggleBtn.addEventListener('click', () => {
   setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 });
