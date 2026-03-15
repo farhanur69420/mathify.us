@@ -2,490 +2,583 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Mathify — Learn Math, Physics & Civil Engineering</title>
-  <meta name="description" content="Chat with your learning guide. Explore Math, Physics, Civil Engineering, and more.">
+  <meta name="description" content="Your learning guide for Math, Physics, Civil Engineering, and more.">
   <style>
     /* ═══════════════════════════════════════════════════════════
-       CLAUDE CHATBOT STYLE INTERFACE
+       MATHIFY — CLAUDE iOS STYLE INTERFACE
        ═══════════════════════════════════════════════════════════ */
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; }
 
+    /* ─── TYPOGRAPHY ─── */
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      font-size: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+      font-size: 16px;
       line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow: hidden;
-      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* ─── THEME TOKENS ─── */
+    /* ─── THEME TOKENS — iOS System Colors ─── */
     [data-theme="light"] {
       --bg-primary: #FFFFFF;
-      --bg-secondary: #F5F5F5;
+      --bg-secondary: #F2F2F7;
       --text-primary: #000000;
-      --text-secondary: #565656;
-      --border-color: #D1D5DB;
-      --bot-bg: #F0F0F0;
-      --user-bg: #E7F3FF;
-      --user-text: #0066CC;
-      --button-bg: #0066CC;
-      --button-text: #FFFFFF;
-      --button-hover: #0052A3;
-      --input-bg: #FFFFFF;
-      --input-border: #D1D5DB;
-      --shadow: rgba(0, 0, 0, 0.1);
+      --text-secondary: #8E8E93;
+      --border-color: #C6C6C8;
+      --user-bubble: #E9E9EB;
+      --user-text: #000000;
+      --bot-text: #000000;
+      --card-bg: #FFFFFF;
+      --card-border: #E5E5EA;
+      --input-bg: #F2F2F7;
+      --accent: #6366F1;
+      --accent-2: #8B5CF6;
+      --send-btn: #6366F1;
+      --send-icon: #FFFFFF;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 2px 8px rgba(0,0,0,0.1);
+      --action-btn-bg: #F2F2F7;
+      --action-btn-text: #000000;
+      --action-btn-border: #E5E5EA;
     }
 
     [data-theme="dark"] {
-      --bg-primary: #0D0D0D;
-      --bg-secondary: #1A1A1A;
-      --text-primary: #ECECEC;
-      --text-secondary: #B0B0B0;
-      --border-color: #3F3F3F;
-      --bot-bg: #262626;
-      --user-bg: #1E4976;
-      --user-text: #A8D8FF;
-      --button-bg: #0084FF;
-      --button-text: #FFFFFF;
-      --button-hover: #0066CC;
-      --input-bg: #262626;
-      --input-border: #3F3F3F;
-      --shadow: rgba(0, 0, 0, 0.3);
+      --bg-primary: #000000;
+      --bg-secondary: #1C1C1E;
+      --text-primary: #FFFFFF;
+      --text-secondary: #8E8E93;
+      --border-color: #38383A;
+      --user-bubble: #3A3A3C;
+      --user-text: #FFFFFF;
+      --bot-text: #FFFFFF;
+      --card-bg: #1C1C1E;
+      --card-border: #38383A;
+      --input-bg: #1C1C1E;
+      --accent: #818CF8;
+      --accent-2: #A78BFA;
+      --send-btn: #6366F1;
+      --send-icon: #FFFFFF;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-md: 0 2px 8px rgba(0,0,0,0.4);
+      --action-btn-bg: #2C2C2E;
+      --action-btn-text: #FFFFFF;
+      --action-btn-border: #3A3A3C;
     }
 
     body {
       background: var(--bg-primary);
       color: var(--text-primary);
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    /* ─── LAYOUT ─── */
-    .container {
+    /* ─── APP SHELL ─── */
+    .app {
       display: flex;
       flex-direction: column;
       height: 100vh;
-      width: 100%;
+      height: 100dvh; /* dynamic viewport for mobile */
     }
 
+    /* ─── HEADER ─── */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem;
-      background: var(--bg-secondary);
+      padding: 0.875rem 1.25rem;
+      background: var(--bg-primary);
       border-bottom: 1px solid var(--border-color);
       flex-shrink: 0;
+      transition: background-color 0.25s ease;
     }
 
     .header-brand {
-      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .header-logo {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .header-name {
+      font-size: 1.0625rem;
       font-weight: 600;
+      letter-spacing: -0.01em;
       color: var(--text-primary);
     }
 
     .header-controls {
       display: flex;
-      gap: 0.5rem;
       align-items: center;
+      gap: 0.5rem;
     }
 
-    .theme-toggle {
-      background: var(--bg-primary);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
+    .theme-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
       cursor: pointer;
-      font-size: 1.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.2s, border-color 0.2s;
+      font-size: 1rem;
+      transition: background-color 0.2s;
     }
 
-    .theme-toggle:hover {
-      background: var(--bg-secondary);
-      border-color: var(--text-secondary);
-    }
+    .theme-btn:hover { background: var(--border-color); }
 
     /* ─── MAIN CHAT AREA ─── */
-    .chat-wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .chat-messages {
+    .chat-area {
       flex: 1;
       overflow-y: auto;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      overflow-x: hidden;
+      position: relative;
       scroll-behavior: smooth;
     }
 
-    .chat-messages::-webkit-scrollbar {
-      width: 8px;
-    }
+    .chat-area::-webkit-scrollbar { width: 0px; }
 
-    .chat-messages::-webkit-scrollbar-track {
-      background: var(--bg-primary);
-    }
-
-    .chat-messages::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 4px;
-    }
-
-    .chat-messages::-webkit-scrollbar-thumb:hover {
-      background: var(--text-secondary);
-    }
-
-    /* ─── MESSAGE BUBBLES ─── */
-    .message-group {
+    /* ─── EMPTY STATE ─── */
+    .empty-state {
       display: flex;
-      gap: 0.75rem;
-      animation: messageEnter 0.3s ease forwards;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100%;
+      padding: 2rem 1.25rem;
+      text-align: center;
     }
 
-    @keyframes messageEnter {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .empty-state.hidden { display: none; }
+
+    .logo-large {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1.25rem;
+      animation: logoFloat 3s ease-in-out infinite;
     }
 
-    .message-group.bot {
-      justify-content: flex-start;
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
     }
 
-    .message-group.user {
-      justify-content: flex-end;
+    .empty-title {
+      font-size: 1.625rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
     }
 
-    .message {
-      max-width: 70%;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      word-wrap: break-word;
+    .empty-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 280px;
       line-height: 1.5;
     }
 
-    @media (max-width: 768px) {
-      .message {
-        max-width: 85%;
-      }
+    .suggestion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 400px;
     }
 
-    .message-group.bot .message {
-      background: var(--bot-bg);
+    .suggestion-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.125rem 1rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.375rem;
+      text-align: left;
+      transition: background-color 0.15s, transform 0.1s, box-shadow 0.15s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .suggestion-card:hover {
+      background: var(--bg-secondary);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .suggestion-card:active { transform: translateY(0); }
+
+    .card-icon {
+      font-size: 1.375rem;
+      line-height: 1;
+    }
+
+    .card-label {
+      font-size: 0.875rem;
+      font-weight: 600;
       color: var(--text-primary);
-      border-radius: 12px 12px 12px 4px;
+      line-height: 1.3;
     }
 
-    .message-group.user .message {
-      background: var(--user-bg);
+    .card-desc {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.3;
+    }
+
+    /* ─── MESSAGES LIST ─── */
+    .messages-list {
+      padding: 1.25rem 1.25rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .messages-list.hidden { display: none; }
+
+    /* ─── MESSAGE BUBBLES ─── */
+    .message-row {
+      display: flex;
+      animation: messageIn 0.25s ease forwards;
+    }
+
+    @keyframes messageIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-row.bot { justify-content: flex-start; gap: 0.625rem; }
+    .message-row.user { justify-content: flex-end; }
+
+    /* Bot messages — Claude style: no background, just text with avatar */
+    .bot-avatar {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .message-content {
+      flex: 1;
+      max-width: calc(100% - 44px);
+    }
+
+    .message-row.bot .message-bubble {
+      background: none;
+      color: var(--bot-text);
+      font-size: 15px;
+      line-height: 1.65;
+      padding: 0;
+    }
+
+    /* User messages — pill bubble */
+    .message-row.user .message-bubble {
+      background: var(--user-bubble);
       color: var(--user-text);
-      border-radius: 12px 12px 4px 12px;
+      border-radius: 20px 20px 4px 20px;
+      padding: 0.625rem 1rem;
+      max-width: 75%;
+      font-size: 15px;
+      line-height: 1.5;
     }
 
-    .message a {
-      color: var(--button-bg);
+    .message-bubble a {
+      color: var(--accent);
       text-decoration: none;
-      font-weight: 500;
     }
 
-    .message a:hover {
-      text-decoration: underline;
-    }
+    .message-bubble a:hover { text-decoration: underline; }
 
-    /* ─── BUTTONS (CONTEXTUAL) ─── */
-    .button-group {
+    /* ─── ACTION BUTTONS (in-chat) ─── */
+    .action-btns {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-top: 0.75rem;
+      margin-top: 0.875rem;
     }
 
     .action-btn {
-      padding: 0.6rem 1rem;
-      background: var(--button-bg);
-      color: var(--button-text);
-      border: none;
+      background: var(--action-btn-bg);
+      color: var(--action-btn-text);
+      border: 1px solid var(--action-btn-border);
       border-radius: 20px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      transition: background-color 0.2s, transform 0.1s;
-      white-space: nowrap;
-    }
-
-    .action-btn:hover {
-      background: var(--button-hover);
-      transform: translateY(-1px);
-    }
-
-    .action-btn:active {
-      transform: translateY(0);
-    }
-
-    /* Navigation action buttons (different style) */
-    .nav-btn {
-      background: var(--button-bg);
-      color: var(--button-text);
-      padding: 0.6rem 1rem;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 13px;
-      transition: background-color 0.2s;
-    }
-
-    .nav-btn:hover {
-      background: var(--button-hover);
-    }
-
-    .nav-btn:active {
-      opacity: 0.8;
-    }
-
-    /* ─── USER MESSAGE DISPLAY ─── */
-    .user-action-button {
-      display: inline-block;
-      background: rgba(0, 102, 204, 0.15);
-      color: var(--user-text);
-      padding: 0.5rem 0.8rem;
-      border-radius: 16px;
-      font-size: 13px;
-      border: 1px solid var(--user-bg);
-    }
-
-    /* ─── INPUT AREA ─── */
-    .input-area {
-      padding: 1rem;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-color);
-      flex-shrink: 0;
-    }
-
-    .input-wrapper {
-      display: flex;
-      gap: 0.5rem;
-      max-width: 100%;
-    }
-
-    .input-field {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 8px;
+      padding: 0.5rem 1rem;
       font-size: 14px;
-      color: var(--text-primary);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .input-field::placeholder {
-      color: var(--text-secondary);
-    }
-
-    .input-field:focus {
-      border-color: var(--button-bg);
-    }
-
-    .send-btn {
-      padding: 0.75rem 1.5rem;
-      background: var(--button-bg);
-      color: var(--button-text);
-      border: none;
-      border-radius: 8px;
+      font-weight: 500;
       cursor: pointer;
-      font-weight: 600;
-      font-size: 14px;
-      transition: background-color 0.2s;
+      transition: background-color 0.15s, transform 0.1s;
+      font-family: inherit;
     }
 
-    .send-btn:hover {
-      background: var(--button-hover);
-    }
-
-    .send-btn:active {
-      opacity: 0.8;
-    }
-
-    .send-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* ─── FOOTER ─── */
-    .footer {
-      padding: 0.75rem 1rem;
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-secondary);
-      border-top: 1px solid var(--border-color);
-      background: var(--bg-secondary);
-    }
-
-    .footer a {
-      color: var(--button-bg);
-      text-decoration: none;
-      margin: 0 0.5rem;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
+    .action-btn:hover { background: var(--border-color); transform: translateY(-1px); }
+    .action-btn:active { transform: translateY(0); }
 
     /* ─── TYPING INDICATOR ─── */
-    .typing-indicator {
+    .typing-dots {
       display: flex;
       gap: 4px;
       align-items: center;
+      padding: 4px 0;
     }
 
     .typing-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--text-secondary);
-      animation: typingAnimation 1.4s infinite;
+      animation: dotBounce 1.4s infinite;
     }
 
-    .typing-dot:nth-child(2) {
-      animation-delay: 0.2s;
+    .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes dotBounce {
+      0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(-6px); }
     }
 
-    .typing-dot:nth-child(3) {
-      animation-delay: 0.4s;
+    /* ─── INPUT BAR ─── */
+    .input-bar {
+      padding: 0.75rem 1rem env(safe-area-inset-bottom, 0.75rem);
+      background: var(--bg-primary);
+      flex-shrink: 0;
+      transition: background-color 0.25s ease;
     }
 
-    @keyframes typingAnimation {
-      0%, 60%, 100% {
-        opacity: 0.5;
-        transform: translateY(0);
-      }
-      30% {
-        opacity: 1;
-        transform: translateY(-10px);
-      }
+    .input-pill {
+      display: flex;
+      align-items: center;
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 26px;
+      padding: 0.5rem 0.5rem 0.5rem 1.125rem;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
+
+    .input-pill:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    }
+
+    .message-input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      color: var(--text-primary);
+      font-family: inherit;
+      line-height: 1.4;
+      min-width: 0;
+    }
+
+    .message-input::placeholder { color: var(--text-secondary); }
+
+    .send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--send-btn);
+      color: var(--send-icon);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background-color 0.15s, transform 0.1s, opacity 0.2s;
+    }
+
+    .send-btn:hover { background: var(--accent-2); transform: scale(1.05); }
+    .send-btn:active { transform: scale(0.95); }
+    .send-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+    .send-btn svg { width: 16px; height: 16px; }
 
     /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
-      .message {
-        max-width: 85%;
+    @media (max-width: 480px) {
+      .suggestion-grid {
+        grid-template-columns: 1fr 1fr;
+        max-width: 100%;
       }
 
-      .input-area {
-        padding: 0.75rem;
-      }
+      .empty-title { font-size: 1.375rem; }
+      .empty-subtitle { font-size: 0.9375rem; }
 
-      .input-field, .send-btn {
-        font-size: 16px; /* Prevents iOS zoom on focus */
-      }
+      .message-row.user .message-bubble { max-width: 85%; }
+
+      .header { padding: 0.75rem 1rem; }
+      .messages-list { padding: 1rem 1rem 0.5rem; }
     }
+
+    @media (max-width: 360px) {
+      .suggestion-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── HIDDEN UTILITY ─── */
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- HEADER -->
-    <div class="header">
-      <div class="header-brand">🎓 Mathify</div>
-      <div class="header-controls">
-        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">☀️</button>
+  <div class="app">
+
+    <!-- ═══ HEADER ═══ -->
+    <header class="header">
+      <div class="header-brand">
+        <!-- Mathematical Logo (small, header) -->
+        <svg class="header-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="hLogoGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#6366F1"/>
+              <stop offset="50%" stop-color="#8B5CF6"/>
+              <stop offset="100%" stop-color="#A78BFA"/>
+            </linearGradient>
+          </defs>
+          <rect width="32" height="32" rx="8" fill="url(#hLogoGrad)"/>
+          <!-- Integral sign ∫ -->
+          <text x="16" y="23" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="white">∫</text>
+        </svg>
+        <span class="header-name">Mathify</span>
       </div>
-    </div>
 
-    <!-- CHAT AREA -->
-    <div class="chat-wrapper">
-      <div class="chat-messages" id="chatMessages"></div>
-    </div>
+      <div class="header-controls">
+        <button class="theme-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle dark mode">
+          <span id="themeIcon">☀️</span>
+        </button>
+      </div>
+    </header>
 
-    <!-- INPUT AREA -->
-    <div class="input-area">
-      <div class="input-wrapper">
+    <!-- ═══ CHAT AREA ═══ -->
+    <main class="chat-area" id="chatArea">
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState">
+
+        <!-- Large Mathematical Logo -->
+        <svg class="logo-large" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Mathify logo">
+          <defs>
+            <linearGradient id="lLogoGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#6366F1"/>
+              <stop offset="50%" stop-color="#8B5CF6"/>
+              <stop offset="100%" stop-color="#A78BFA"/>
+            </linearGradient>
+            <linearGradient id="lLogoGrad2" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#4F46E5"/>
+              <stop offset="100%" stop-color="#7C3AED"/>
+            </linearGradient>
+          </defs>
+          <!-- Outer rounded square -->
+          <rect width="80" height="80" rx="20" fill="url(#lLogoGrad)"/>
+          <!-- Subtle inner highlight -->
+          <rect x="1" y="1" width="78" height="38" rx="19" fill="rgba(255,255,255,0.1)"/>
+          <!-- Large integral sign ∫ -->
+          <text x="40" y="56" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="bold" fill="white" opacity="0.95">∫</text>
+          <!-- Small superscript x² decoration -->
+          <text x="57" y="26" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="white" opacity="0.7">x²</text>
+          <!-- Small subscript 0 decoration -->
+          <text x="24" y="66" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="white" opacity="0.7">0</text>
+        </svg>
+
+        <h1 class="empty-title">Mathify</h1>
+        <p class="empty-subtitle">What would you like to learn today?</p>
+
+        <!-- Suggestion Cards -->
+        <div class="suggestion-grid" id="suggestionGrid">
+          <button class="suggestion-card" onclick="handleSuggestion('selectMath', '📊 Mathematics')">
+            <span class="card-icon">📊</span>
+            <span class="card-label">Mathematics</span>
+            <span class="card-desc">Algebra, Calculus, Trigonometry</span>
+          </button>
+          <button class="suggestion-card" onclick="handleSuggestion('selectPhysics', '⚛️ Physics')">
+            <span class="card-icon">⚛️</span>
+            <span class="card-label">Physics</span>
+            <span class="card-desc">Mechanics, Waves, Optics</span>
+          </button>
+          <button class="suggestion-card" onclick="handleSuggestion('selectCivil', '🏗️ Civil Engineering')">
+            <span class="card-icon">🏗️</span>
+            <span class="card-label">Civil Engineering</span>
+            <span class="card-desc">RC Design, Traffic Analysis</span>
+          </button>
+          <button class="suggestion-card" onclick="handleSuggestion('selectExplore', '🎵 Explore')">
+            <span class="card-icon">🎵</span>
+            <span class="card-label">Explore</span>
+            <span class="card-desc">Music & Study Vibes</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages List (hidden initially) -->
+      <div class="messages-list hidden" id="messagesList"></div>
+
+    </main>
+
+    <!-- ═══ INPUT BAR ═══ -->
+    <div class="input-bar">
+      <div class="input-pill">
         <input
-          class="input-field"
+          class="message-input"
           id="messageInput"
           type="text"
-          placeholder="Type your message or click a button above..."
+          placeholder="Ask anything..."
           autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
         >
-        <button class="send-btn" id="sendBtn">Send</button>
+        <button class="send-btn" id="sendBtn" disabled aria-label="Send message">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 13V3M8 3L4 7M8 3L12 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
     </div>
 
-    <!-- FOOTER -->
-    <div class="footer">
-      <div>
-        <a href="about.html">About</a>
-        <a href="status.html">Status</a>
-      </div>
-      <div style="margin-top: 0.5rem;">© 2024 Mathify Learning Platform</div>
-    </div>
   </div>
 
   <script>
     /* ═══════════════════════════════════════════════════════════
-       CLAUDE CHATBOT INTERFACE - CONVERSATION ENGINE
+       MATHIFY — CONVERSATION ENGINE
        ═══════════════════════════════════════════════════════════ */
 
-    const chatMessages = document.getElementById('chatMessages');
+    const chatArea = document.getElementById('chatArea');
+    const emptyState = document.getElementById('emptyState');
+    const messagesList = document.getElementById('messagesList');
     const messageInput = document.getElementById('messageInput');
     const sendBtn = document.getElementById('sendBtn');
-    const themeToggle = document.getElementById('themeToggle');
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = document.getElementById('themeIcon');
     const root = document.documentElement;
 
-    // ─── CONVERSATION STATE ─── //
-    let messages = [];
-    let conversationState = 'greeting';
+    let chatStarted = false;
 
-    // ─── SECTION INFO ─── //
+    // ─── SECTIONS ─── //
     const sections = {
-      math: {
-        name: 'Mathematics',
-        emoji: '📊',
-        description: 'Algebra, Calculus, Trigonometry, Statistics',
-        url: 'math.html'
-      },
-      physics: {
-        name: 'Physics',
-        emoji: '⚛️',
-        description: 'Mechanics, Waves, Optics, Electricity, Modern Physics',
-        url: 'physics.html'
-      },
-      civil: {
-        name: 'Civil Engineering',
-        emoji: '🏗️',
-        description: 'RC Design, Traffic Engineering',
-        url: 'civil.html'
-      },
-      explore: {
-        name: 'Explore',
-        emoji: '🎵',
-        description: 'Music & Study Vibes',
-        url: 'explore.html'
-      }
+      math:    { url: 'math.html' },
+      physics: { url: 'physics.html' },
+      civil:   { url: 'civil.html' },
+      explore: { url: 'explore.html' }
     };
 
     // ─── BOT RESPONSES ─── //
     const botResponses = {
       greeting: {
-        text: "Hi! 👋 I'm here to help you learn. What interests you?",
+        text: "Hi! I'm here to help you learn. What interests you?",
         buttons: [
           { text: '📊 Mathematics', action: 'selectMath' },
           { text: '⚛️ Physics', action: 'selectPhysics' },
@@ -495,235 +588,221 @@
         ]
       },
       moreInfo: {
-        text: "Sure! Here's what we offer:\n\n📊 **Mathematics** - Algebra, Calculus, Trigonometry, Statistics\n⚛️ **Physics** - Mechanics, Waves, Optics, Electricity, Modern Physics\n🏗️ **Civil Engineering** - RC Design, Traffic Engineering\n🎵 **Explore** - Music & Study Vibes for Learning\n\nWhich one sounds good?",
+        text: "Here's what we offer:\n\n📊 Mathematics — Algebra, Calculus, Trigonometry, Statistics\n⚛️ Physics — Mechanics, Waves, Optics, Electricity, Modern Physics\n🏗️ Civil Engineering — RC Design, Traffic Engineering\n🎵 Explore — Music & Study Vibes for learning\n\nWhich one sounds good?",
         buttons: [
-          { text: '📊 Math', action: 'selectMath' },
+          { text: '📊 Mathematics', action: 'selectMath' },
           { text: '⚛️ Physics', action: 'selectPhysics' },
           { text: '🏗️ Civil', action: 'selectCivil' },
-          { text: '🎵 Music', action: 'selectExplore' }
+          { text: '🎵 Explore', action: 'selectExplore' }
         ]
       },
       selectMath: {
-        text: "Great choice! 📊 Let's dive into Mathematics. Ready to explore topics like calculus, algebra, and more?",
+        text: "Great choice! Let's dive into Mathematics. We cover Algebra, Calculus, Trigonometry, Statistics, and more. Ready to explore?",
         buttons: [
-          { text: '✓ Let\'s go!', action: 'navMath', isNav: true },
+          { text: "Let's go →", action: 'navMath', isNav: true },
           { text: 'Tell me more', action: 'moreMath' }
         ]
       },
       moreMath: {
-        text: "We cover:\n• Algebra & Polynomials\n• Trigonometry & Heights/Distances\n• Coordinate Geometry\n• Calculus (Limits, Derivatives, Integration)\n• Statistics & Probability\n• Matrices & Vectors\n\nReady to get started?",
+        text: "We cover:\n• Algebra & Polynomials\n• Trigonometry & Heights/Distances\n• Coordinate Geometry\n• Calculus — Limits, Derivatives, Integration\n• Statistics & Probability\n• Matrices & Vectors\n\nReady to get started?",
         buttons: [
-          { text: '✓ Start now', action: 'navMath', isNav: true },
-          { text: 'Back', action: 'greeting' }
+          { text: 'Start now →', action: 'navMath', isNav: true },
+          { text: '← Back', action: 'greeting' }
         ]
       },
       selectPhysics: {
-        text: "Excellent! ⚛️ Physics is all about understanding how the universe works. Ready to explore?",
+        text: "Excellent! Physics is all about understanding how the universe works — from particles to planets. Ready to explore?",
         buttons: [
-          { text: '✓ Let\'s go!', action: 'navPhysics', isNav: true },
+          { text: "Let's go →", action: 'navPhysics', isNav: true },
           { text: 'Tell me more', action: 'morePhysics' }
         ]
       },
       morePhysics: {
         text: "We cover:\n• Kinematics & Projectile Motion\n• Newton's Laws & Forces\n• Work, Energy & Power\n• Rotational Motion\n• Gravitation & Satellites\n• Waves & Oscillations\n• Electromagnetism\n• Optics & Modern Physics\n\nExcited to learn?",
         buttons: [
-          { text: '✓ Start now', action: 'navPhysics', isNav: true },
-          { text: 'Back', action: 'greeting' }
+          { text: 'Start now →', action: 'navPhysics', isNav: true },
+          { text: '← Back', action: 'greeting' }
         ]
       },
       selectCivil: {
-        text: "Perfect! 🏗️ Civil Engineering covers structural design and infrastructure. Let's dive in!",
+        text: "Civil Engineering covers structural design and infrastructure. Let's build some knowledge!",
         buttons: [
-          { text: '✓ Let\'s go!', action: 'navCivil', isNav: true },
+          { text: "Let's go →", action: 'navCivil', isNav: true },
           { text: 'Tell me more', action: 'moreCivil' }
         ]
       },
       moreCivil: {
         text: "We focus on:\n• Reinforced Concrete Design\n• Beam & Column Design\n• Shear & Torsion\n• Traffic Engineering\n• Structural Analysis\n• Foundation Design\n\nReady to explore structures?",
         buttons: [
-          { text: '✓ Start now', action: 'navCivil', isNav: true },
-          { text: 'Back', action: 'greeting' }
+          { text: 'Start now →', action: 'navCivil', isNav: true },
+          { text: '← Back', action: 'greeting' }
         ]
       },
       selectExplore: {
-        text: "Nice! 🎵 Let's explore music and study vibes. Perfect for keeping focused while learning!",
+        text: "Let's explore music and study vibes — perfect for keeping focused while you learn!",
         buttons: [
-          { text: '✓ Let\'s go!', action: 'navExplore', isNav: true },
+          { text: "Let's go →", action: 'navExplore', isNav: true },
           { text: 'Tell me more', action: 'moreExplore' }
         ]
       },
       moreExplore: {
         text: "Explore features:\n• Techno & Ambient Music\n• R&B & Chill Beats\n• Lo-Fi Hip-Hop\n• Study Playlists\n• Focus & Concentration Tracks\n\nReady to set the mood?",
         buttons: [
-          { text: '✓ Let\'s go!', action: 'navExplore', isNav: true },
-          { text: 'Back', action: 'greeting' }
+          { text: 'Start now →', action: 'navExplore', isNav: true },
+          { text: '← Back', action: 'greeting' }
         ]
       }
     };
 
-    // ─── NAVIGATION ACTIONS ─── //
-    function navigateToSection(sectionKey) {
+    // ─── SHOW CHAT VIEW ─── //
+    function showChatView() {
+      if (!chatStarted) {
+        chatStarted = true;
+        emptyState.classList.add('hidden');
+        messagesList.classList.remove('hidden');
+      }
+    }
+
+    // ─── NAVIGATION ─── //
+    function navigateTo(sectionKey) {
       const section = sections[sectionKey];
       if (section) {
-        setTimeout(() => {
-          window.location.href = section.url;
-        }, 300);
+        setTimeout(() => { window.location.href = section.url; }, 400);
       }
     }
 
-    // ─── MESSAGE RENDERING ─── //
-    function addMessage(role, content, buttons = null) {
-      const messageGroup = document.createElement('div');
-      messageGroup.className = `message-group ${role}`;
+    // ─── SVG AVATAR (small logo for bot messages) ─── //
+    function botAvatarSVG() {
+      return `<svg class="bot-avatar" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="aGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#6366F1"/>
+            <stop offset="100%" stop-color="#8B5CF6"/>
+          </linearGradient>
+        </defs>
+        <rect width="28" height="28" rx="7" fill="url(#aGrad)"/>
+        <text x="14" y="21" text-anchor="middle" font-family="Georgia,serif" font-size="17" font-weight="bold" fill="white">∫</text>
+      </svg>`;
+    }
 
-      if (role === 'bot') {
-        const botAvatar = document.createElement('div');
-        botAvatar.style.fontSize = '1.2rem';
-        botAvatar.textContent = '🤖';
-        messageGroup.appendChild(botAvatar);
-      }
+    // ─── ADD USER MESSAGE ─── //
+    function addUserMessage(text) {
+      const row = document.createElement('div');
+      row.className = 'message-row user';
+      const bubble = document.createElement('div');
+      bubble.className = 'message-bubble';
+      bubble.textContent = text;
+      row.appendChild(bubble);
+      messagesList.appendChild(row);
+      scrollToBottom();
+    }
 
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message';
-      messageDiv.innerHTML = content.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // ─── ADD BOT MESSAGE ─── //
+    function addBotMessage(text, buttons = null) {
+      const row = document.createElement('div');
+      row.className = 'message-row bot';
+      row.innerHTML = botAvatarSVG();
 
-      messageGroup.appendChild(messageDiv);
+      const content = document.createElement('div');
+      content.className = 'message-content';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'message-bubble';
+      bubble.innerHTML = text
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      content.appendChild(bubble);
 
       if (buttons && buttons.length > 0) {
-        const buttonGroup = document.createElement('div');
-        buttonGroup.className = 'button-group';
-
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'action-btns';
         buttons.forEach(btn => {
-          const button = document.createElement('button');
-          button.className = 'action-btn';
-          button.textContent = btn.text;
-          button.onclick = () => handleButtonClick(btn.action, btn.text, btn.isNav);
-          buttonGroup.appendChild(button);
+          const b = document.createElement('button');
+          b.className = 'action-btn';
+          b.textContent = btn.text;
+          b.onclick = () => handleButtonClick(btn.action, btn.text);
+          btnGroup.appendChild(b);
         });
-
-        messageGroup.appendChild(buttonGroup);
+        content.appendChild(btnGroup);
       }
 
-      chatMessages.appendChild(messageGroup);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+      row.appendChild(content);
+      messagesList.appendChild(row);
+      scrollToBottom();
     }
 
-    function addUserMessage(text) {
-      const messageGroup = document.createElement('div');
-      messageGroup.className = 'message-group user';
-
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message';
-      messageDiv.textContent = text;
-
-      messageGroup.appendChild(messageDiv);
-      chatMessages.appendChild(messageGroup);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
+    // ─── TYPING INDICATOR ─── //
     function addTypingIndicator() {
-      const messageGroup = document.createElement('div');
-      messageGroup.className = 'message-group bot';
-      messageGroup.id = 'typingIndicator';
+      const row = document.createElement('div');
+      row.className = 'message-row bot';
+      row.id = 'typingRow';
+      row.innerHTML = botAvatarSVG();
 
-      const botAvatar = document.createElement('div');
-      botAvatar.style.fontSize = '1.2rem';
-      botAvatar.textContent = '🤖';
-      messageGroup.appendChild(botAvatar);
+      const content = document.createElement('div');
+      content.className = 'message-content';
+      content.innerHTML = '<div class="message-bubble"><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
+      row.appendChild(content);
 
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message';
-      messageDiv.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
-
-      messageGroup.appendChild(messageDiv);
-      chatMessages.appendChild(messageGroup);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+      messagesList.appendChild(row);
+      scrollToBottom();
     }
 
     function removeTypingIndicator() {
-      const typingIndicator = document.getElementById('typingIndicator');
-      if (typingIndicator) {
-        typingIndicator.remove();
-      }
+      const el = document.getElementById('typingRow');
+      if (el) el.remove();
+    }
+
+    function scrollToBottom() {
+      chatArea.scrollTop = chatArea.scrollHeight;
     }
 
     // ─── BUTTON HANDLER ─── //
-    function handleButtonClick(action, displayText, isNav = false) {
-      // Add user message
+    function handleButtonClick(action, displayText) {
+      showChatView();
       addUserMessage(displayText);
-      messageInput.value = '';
 
-      // Navigation actions
-      if (action === 'navMath') {
+      // Nav actions
+      const navMap = {
+        navMath: ['math', "Perfect! Taking you to Mathematics now. 🚀"],
+        navPhysics: ['physics', "Awesome! Heading to Physics now. 🚀"],
+        navCivil: ['civil', "Great! Opening Civil Engineering now. 🚀"],
+        navExplore: ['explore', "Let's go! Setting the study vibe. 🎵"]
+      };
+
+      if (navMap[action]) {
+        const [sectionKey, replyText] = navMap[action];
         addTypingIndicator();
         setTimeout(() => {
           removeTypingIndicator();
-          addMessage('bot', "Perfect! You're ready to explore Mathematics. 🚀");
-          navigateToSection('math');
-        }, 800);
-        return;
-      } else if (action === 'navPhysics') {
-        addTypingIndicator();
-        setTimeout(() => {
-          removeTypingIndicator();
-          addMessage('bot', "Awesome! Let's dive into Physics. 🚀");
-          navigateToSection('physics');
-        }, 800);
-        return;
-      } else if (action === 'navCivil') {
-        addTypingIndicator();
-        setTimeout(() => {
-          removeTypingIndicator();
-          addMessage('bot', "Great! Welcome to Civil Engineering. 🚀");
-          navigateToSection('civil');
-        }, 800);
-        return;
-      } else if (action === 'navExplore') {
-        addTypingIndicator();
-        setTimeout(() => {
-          removeTypingIndicator();
-          addMessage('bot', "Let's get you some great study vibes! 🚀");
-          navigateToSection('explore');
-        }, 800);
+          addBotMessage(replyText);
+          navigateTo(sectionKey);
+        }, 700);
         return;
       }
 
-      // Conversation actions
       const response = botResponses[action];
       if (response) {
-        conversationState = action;
         addTypingIndicator();
         setTimeout(() => {
           removeTypingIndicator();
-          addMessage('bot', response.text, response.buttons);
+          addBotMessage(response.text, response.buttons);
         }, 600);
       }
     }
 
-    // ─── NATURAL LANGUAGE PROCESSING ─── //
-    function processUserInput(text) {
+    // ─── SUGGESTION CARD CLICK ─── //
+    function handleSuggestion(action, displayText) {
+      handleButtonClick(action, displayText);
+    }
+
+    // ─── NLP ─── //
+    function processInput(text) {
       const lower = text.toLowerCase();
-
-      // Direct section mentions
-      if (lower.includes('math') || lower.includes('algebra') || lower.includes('calculus') || lower.includes('trigonometry')) {
-        return 'selectMath';
-      }
-      if (lower.includes('physics') || lower.includes('mechanics') || lower.includes('wave') || lower.includes('optics')) {
-        return 'selectPhysics';
-      }
-      if (lower.includes('civil') || lower.includes('engineering') || lower.includes('rc design') || lower.includes('traffic')) {
-        return 'selectCivil';
-      }
-      if (lower.includes('explore') || lower.includes('music') || lower.includes('vibe') || lower.includes('study beat')) {
-        return 'selectExplore';
-      }
-
-      // More info
-      if (lower.includes('more') || lower.includes('what') || lower.includes('tell') || lower.includes('help')) {
-        return 'moreInfo';
-      }
-
-      // Default
+      if (lower.match(/\b(math|algebra|calculus|trig|statistic|equation)\b/)) return 'selectMath';
+      if (lower.match(/\b(physics|mechanic|wave|optic|force|energy|gravity)\b/)) return 'selectPhysics';
+      if (lower.match(/\b(civil|engineer|concrete|traffic|structure|beam|foundation)\b/)) return 'selectCivil';
+      if (lower.match(/\b(explore|music|vibe|beat|lo-fi|chill|study)\b/)) return 'selectExplore';
+      if (lower.match(/\b(more|what|tell|help|info|about)\b/)) return 'moreInfo';
       return null;
     }
 
@@ -732,40 +811,45 @@
       const text = messageInput.value.trim();
       if (!text) return;
 
+      showChatView();
       addUserMessage(text);
       messageInput.value = '';
+      sendBtn.disabled = true;
 
       addTypingIndicator();
       setTimeout(() => {
         removeTypingIndicator();
-
-        const action = processUserInput(text);
+        const action = processInput(text);
         if (action) {
           const response = botResponses[action];
-          if (response) {
-            conversationState = action;
-            addMessage('bot', response.text, response.buttons);
-          }
+          addBotMessage(response.text, response.buttons);
         } else {
-          // Default response for unrecognized input
-          addMessage('bot', "I'm not sure I understand. Let me help you find what you're looking for! What would you like to explore?", botResponses.greeting.buttons);
+          addBotMessage(
+            "I'm not sure I understand — but I'm here to help! What would you like to explore?",
+            botResponses.greeting.buttons
+          );
         }
       }, 600);
     }
 
-    // ─── EVENT LISTENERS ─── //
-    sendBtn.addEventListener('click', sendMessage);
+    // ─── INPUT EVENTS ─── //
+    messageInput.addEventListener('input', () => {
+      sendBtn.disabled = messageInput.value.trim().length === 0;
+    });
+
     messageInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        sendMessage();
+        if (!sendBtn.disabled) sendMessage();
       }
     });
+
+    sendBtn.addEventListener('click', sendMessage);
 
     // ─── THEME TOGGLE ─── //
     function setTheme(theme) {
       root.setAttribute('data-theme', theme);
-      themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+      themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
       localStorage.setItem('mathify-theme', theme);
     }
 
@@ -773,20 +857,11 @@
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
 
-    themeToggle.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme');
-      setTheme(current === 'dark' ? 'light' : 'dark');
+    themeBtn.addEventListener('click', () => {
+      setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     });
 
-    // ─── INITIAL MESSAGE ─── //
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const response = botResponses.greeting;
-        addMessage('bot', response.text, response.buttons);
-      }, 300);
-    });
-
-    // ─── VISITOR COUNTER (Background) ─── //
+    // ─── VISITOR COUNTER ─── //
     (function() {
       fetch('https://visitor.6developer.com/visit', {
         method: 'POST',
