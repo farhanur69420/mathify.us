@@ -1,1052 +1,805 @@
-<html lang="en" data-theme="dark">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mathify — Learn Math, Physics &amp; Civil Engineering</title>
-<meta name="description" content="Your personal learning assistant for Math, Physics, and Civil Engineering. Interactive guides, simulations, and step-by-step solutions.">
-<link href="https://fonts.googleapis.com/css2?family=Impact&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-/* ─── RETRO 90s THEME TOKENS ─── */
-[data-theme="light"] {
-  --neon-cyan: #00D9FF;
-  --neon-magenta: #FF00FF;
-  --neon-green: #00FF00;
-  --neon-orange: #FF6600;
-  --dark-bg: #FFFFFF;
-  --paper: #F5F5F5;
-  --ink: #000000;
-  --text-secondary: #333333;
-  --border-color: #CCCCCC;
-}
-[data-theme="dark"] {
-  --neon-cyan: #00D9FF;
-  --neon-magenta: #FF00FF;
-  --neon-green: #00FF00;
-  --neon-orange: #FF6600;
-  --dark-bg: #000000;
-  --paper: #111111;
-  --ink: #FFFFFF;
-  --text-secondary: #CCCCCC;
-  --border-color: #333333;
-}
-
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--dark-bg);
-  color:var(--ink);
-  font-family:'Impact','Arial Black',sans-serif;
-  overflow-x:hidden;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  transition:background 0.3s,color 0.3s;
-}
-
-/* ─── HEADER ─── */
-header {
-  position: relative;
-  z-index: 50;
-  padding: 2rem 1.5rem;
-  text-align: center;
-  border-bottom: 4px solid var(--neon-cyan);
-  background: var(--paper);
-}
-
-.header-title {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 4rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  color: var(--ink);
-  text-transform: uppercase;
-  margin: 0;
-  text-shadow:
-    0 0 10px var(--neon-cyan),
-    0 0 20px var(--neon-magenta),
-    4px 4px 0 var(--neon-magenta),
-    8px 8px 0 var(--neon-cyan);
-  animation: glowPulse 3s ease-in-out infinite;
-}
-
-.header-tagline {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  color: var(--neon-magenta);
-  text-transform: uppercase;
-  margin-top: 0.5rem;
-  text-shadow: 0 0 8px var(--neon-magenta);
-}
-
-/* ─── NAV BAR ─── */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  background: var(--paper);
-  border-bottom: 2px solid var(--neon-cyan);
-  gap: 1rem;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.nav-logo {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 1.2rem;
-  letter-spacing: 0.1em;
-  color: var(--neon-cyan);
-  text-transform: uppercase;
-  text-decoration: none;
-  text-shadow: 0 0 8px var(--neon-cyan);
-  font-weight: 900;
-  flex-shrink: 0;
-}
-
-.nav-center {
-  flex: 1;
-  max-width: 400px;
-  position: relative;
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-shrink: 0;
-}
-
-.nav-links {
-  display: flex;
-  gap: 1rem;
-  list-style: none;
-  align-items: center;
-}
-
-.nav-links a {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink);
-  text-decoration: none;
-  border: 2px solid transparent;
-  padding: 0.25rem 0.5rem;
-  transition: all 0.2s;
-}
-
-.nav-links a:hover {
-  color: var(--neon-magenta);
-  border-color: var(--neon-magenta);
-  text-shadow: 0 0 8px var(--neon-magenta);
-}
-
-.theme-toggle {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 1rem;
-  width: 44px;
-  height: 44px;
-  border: 3px solid var(--neon-green);
-  background: var(--dark-bg);
-  color: var(--neon-green);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  text-shadow: 0 0 8px var(--neon-green);
-  box-shadow: 0 0 10px var(--neon-green);
-}
-
-.theme-toggle:hover {
-  transform: scale(1.15) rotate(10deg);
-  box-shadow: 0 0 20px var(--neon-green), inset 0 0 10px var(--neon-green);
-}
-
-/* ─── SEARCH BAR ─── */
-.search-bar-wrap {
-  position: relative;
-  width: 100%;
-}
-
-.search-input-row {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  background: var(--dark-bg);
-  border: 3px solid var(--neon-cyan);
-  overflow: hidden;
-  transition: all 0.2s;
-  box-shadow: 0 0 10px var(--neon-cyan);
-}
-
-.search-input-row:focus-within {
-  border-color: var(--neon-magenta);
-  box-shadow: 0 0 20px var(--neon-magenta), inset 0 0 10px rgba(255,0,255,0.1);
-  animation: borderPulse 0.6s ease-in-out;
-}
-
-.search-icon {
-  padding: 0 0.75rem;
-  color: var(--neon-cyan);
-  font-size: 1rem;
-  flex-shrink: 0;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  text-shadow: 0 0 8px var(--neon-cyan);
-}
-
-.search-input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  color: var(--ink);
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.9rem;
-  padding: 0.6rem 0.5rem;
-  outline: none;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.search-input::placeholder {
-  color: var(--text-secondary);
-}
-
-.search-kbd {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 0 0.75rem;
-  flex-shrink: 0;
-}
-
-.search-kbd kbd {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.65rem;
-  padding: 3px 6px;
-  background: var(--neon-cyan);
-  border: 2px solid var(--neon-cyan);
-  color: var(--dark-bg);
-  text-transform: uppercase;
-  font-weight: 900;
-  text-shadow: none;
-  box-shadow: 0 0 8px var(--neon-cyan);
-}
-
-.search-clear {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--neon-magenta);
-  padding: 0 0.5rem;
-  font-size: 1.2rem;
-  display: none;
-  align-items: center;
-  line-height: 1;
-  transition: all 0.2s;
-}
-
-.search-clear.visible {
-  display: flex;
-}
-
-.search-clear:hover {
-  text-shadow: 0 0 10px var(--neon-magenta);
-  transform: scale(1.2);
-}
-
-/* ─── SEARCH DROPDOWN ─── */
-.search-dropdown {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  right: 0;
-  background: var(--paper);
-  border: 3px solid var(--neon-green);
-  box-shadow: 0 0 20px var(--neon-green);
-  overflow: hidden;
-  z-index: 200;
-  max-height: 420px;
-  overflow-y: auto;
-  display: none;
-  backdrop-filter: blur(12px);
-}
-
-.search-dropdown.open {
-  display: block;
-  animation: dropIn 0.18s ease;
-}
-
-@keyframes dropIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.search-section-label {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--neon-magenta);
-  padding: 0.6rem 1rem 0.3rem;
-  border-top: 2px solid var(--neon-magenta);
-  text-shadow: 0 0 6px var(--neon-magenta);
-}
-
-.search-section-label:first-child {
-  border-top: none;
-}
-
-.search-result {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.65rem 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--ink);
-  transition: all 0.15s;
-  border-left: 4px solid transparent;
-}
-
-.search-result:hover,
-.search-result.active {
-  background: var(--dark-bg);
-  border-left-color: var(--neon-cyan);
-  color: var(--neon-cyan);
-  text-shadow: 0 0 8px var(--neon-cyan);
-}
-
-.search-result-icon {
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  width: 28px;
-  text-align: center;
-}
-
-.search-result-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.search-result-title {
-  font-size: 0.85rem;
-  font-weight: 900;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  text-transform: uppercase;
-}
-
-.search-result-meta {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.6rem;
-  color: var(--text-secondary);
-  margin-top: 1px;
-}
-
-.search-result-tag {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.55rem;
-  padding: 2px 6px;
-  flex-shrink: 0;
-  text-transform: uppercase;
-  font-weight: 700;
-  border: 1px solid;
-}
-
-.tag-math { background: rgba(0,217,255,0.2); color: var(--neon-cyan); border-color: var(--neon-cyan); }
-.tag-physics { background: rgba(255,0,255,0.2); color: var(--neon-magenta); border-color: var(--neon-magenta); }
-.tag-civil { background: rgba(0,255,0,0.2); color: var(--neon-green); border-color: var(--neon-green); }
-.tag-page { background: rgba(255,102,0,0.2); color: var(--neon-orange); border-color: var(--neon-orange); }
-
-.search-empty {
-  padding: 1.5rem 1rem;
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  font-family: 'Impact', 'Arial Black', sans-serif;
-}
-
-.search-empty span {
-  display: block;
-  font-size: 2rem;
-  margin-bottom: 0.4rem;
-}
-
-.search-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 150;
-  backdrop-filter: blur(4px);
-}
-
-.search-overlay.open {
-  display: block;
-}
-
-/* ─── MAIN CONTENT ─── */
-.main-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 6rem 1.5rem 2rem;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-/* ─── NAVIGATION CARDS ─── */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  width: 100%;
-  margin: 2rem 0;
-}
-
-.nav-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  border: 4px solid;
-  background: var(--paper);
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--ink);
-  overflow: hidden;
-  transition: all 0.3s;
-  transform-origin: center;
-}
-
-.nav-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--paper);
-  z-index: -1;
-  animation: none;
-}
-
-/* Card color variants */
-.nav-card.cyan {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 15px var(--neon-cyan), inset 0 0 10px rgba(0,217,255,0.1);
-  background: linear-gradient(135deg, var(--paper) 0%, rgba(0,217,255,0.05) 100%);
-  animation: borderPulseCyan 2s ease-in-out infinite;
-}
-
-.nav-card.magenta {
-  border-color: var(--neon-magenta);
-  box-shadow: 0 0 15px var(--neon-magenta), inset 0 0 10px rgba(255,0,255,0.1);
-  background: linear-gradient(135deg, var(--paper) 0%, rgba(255,0,255,0.05) 100%);
-  animation: borderPulseMagenta 2s ease-in-out infinite;
-}
-
-.nav-card.green {
-  border-color: var(--neon-green);
-  box-shadow: 0 0 15px var(--neon-green), inset 0 0 10px rgba(0,255,0,0.1);
-  background: linear-gradient(135deg, var(--paper) 0%, rgba(0,255,0,0.05) 100%);
-  animation: borderPulseGreen 2s ease-in-out infinite;
-}
-
-.nav-card.orange {
-  border-color: var(--neon-orange);
-  box-shadow: 0 0 15px var(--neon-orange), inset 0 0 10px rgba(255,102,0,0.1);
-  background: linear-gradient(135deg, var(--paper) 0%, rgba(255,102,0,0.05) 100%);
-  animation: borderPulseOrange 2s ease-in-out infinite;
-}
-
-.nav-card:hover {
-  transform: scale(1.08) translateY(-8px);
-}
-
-.nav-card.cyan:hover {
-  border-color: var(--neon-magenta);
-  box-shadow: 0 0 25px var(--neon-magenta), inset 0 0 15px rgba(255,0,255,0.2);
-  animation: none;
-}
-
-.nav-card.magenta:hover {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 25px var(--neon-cyan), inset 0 0 15px rgba(0,217,255,0.2);
-  animation: none;
-}
-
-.nav-card.green:hover {
-  border-color: var(--neon-magenta);
-  box-shadow: 0 0 25px var(--neon-magenta), inset 0 0 15px rgba(255,0,255,0.2);
-  animation: none;
-}
-
-.nav-card.orange:hover {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 25px var(--neon-cyan), inset 0 0 15px rgba(0,217,255,0.2);
-  animation: none;
-}
-
-.card-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  animation: iconBounce 2s ease-in-out infinite;
-}
-
-.nav-card:hover .card-icon {
-  animation: iconBounceHover 0.6s ease-in-out;
-}
-
-.card-title {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.nav-card.cyan .card-title {
-  color: var(--neon-cyan);
-  text-shadow: 0 0 10px var(--neon-cyan);
-}
-
-.nav-card.magenta .card-title {
-  color: var(--neon-magenta);
-  text-shadow: 0 0 10px var(--neon-magenta);
-}
-
-.nav-card.green .card-title {
-  color: var(--neon-green);
-  text-shadow: 0 0 10px var(--neon-green);
-}
-
-.nav-card.orange .card-title {
-  color: var(--neon-orange);
-  text-shadow: 0 0 10px var(--neon-orange);
-}
-
-.card-description {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* ─── FOOTER ─── */
-footer {
-  position: relative;
-  z-index: 1;
-  padding: 1.5rem;
-  border-top: 4px solid var(--neon-magenta);
-  background: var(--paper);
-  text-align: center;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  color: var(--text-secondary);
-}
-
-.footer-text {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--ink);
-  margin-bottom: 1rem;
-  text-shadow: 0 0 8px var(--neon-magenta);
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--neon-green);
-  text-decoration: none;
-  border-bottom: 2px solid var(--neon-green);
-  transition: all 0.2s;
-  text-shadow: 0 0 6px var(--neon-green);
-}
-
-.footer-links a:hover {
-  color: var(--neon-cyan);
-  border-bottom-color: var(--neon-cyan);
-  text-shadow: 0 0 10px var(--neon-cyan);
-}
-
-.visitor-counter {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: 3px solid var(--neon-orange);
-  background: var(--dark-bg);
-  box-shadow: 0 0 12px var(--neon-orange);
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--neon-orange);
-  text-shadow: 0 0 8px var(--neon-orange);
-}
-
-.visitor-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--neon-orange);
-  display: inline-block;
-  animation: pulseOrange 1s ease-in-out infinite;
-  box-shadow: 0 0 8px var(--neon-orange);
-}
-
-/* ─── ANIMATIONS ─── */
-@keyframes glowPulse {
-  0%, 100% { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-magenta), 4px 4px 0 var(--neon-magenta), 8px 8px 0 var(--neon-cyan); }
-  50% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 30px var(--neon-magenta), 4px 4px 0 var(--neon-cyan), 8px 8px 0 var(--neon-magenta); }
-}
-
-@keyframes borderPulseCyan {
-  0%, 100% { box-shadow: 0 0 15px var(--neon-cyan), inset 0 0 10px rgba(0,217,255,0.1); }
-  50% { box-shadow: 0 0 25px var(--neon-cyan), inset 0 0 15px rgba(0,217,255,0.2); }
-}
-
-@keyframes borderPulseMagenta {
-  0%, 100% { box-shadow: 0 0 15px var(--neon-magenta), inset 0 0 10px rgba(255,0,255,0.1); }
-  50% { box-shadow: 0 0 25px var(--neon-magenta), inset 0 0 15px rgba(255,0,255,0.2); }
-}
-
-@keyframes borderPulseGreen {
-  0%, 100% { box-shadow: 0 0 15px var(--neon-green), inset 0 0 10px rgba(0,255,0,0.1); }
-  50% { box-shadow: 0 0 25px var(--neon-green), inset 0 0 15px rgba(0,255,0,0.2); }
-}
-
-@keyframes borderPulseOrange {
-  0%, 100% { box-shadow: 0 0 15px var(--neon-orange), inset 0 0 10px rgba(255,102,0,0.1); }
-  50% { box-shadow: 0 0 25px var(--neon-orange), inset 0 0 15px rgba(255,102,0,0.2); }
-}
-
-@keyframes borderPulse {
-  0%, 100% { box-shadow: 0 0 20px var(--neon-magenta), inset 0 0 10px rgba(255,0,255,0.1); }
-  50% { box-shadow: 0 0 30px var(--neon-magenta), inset 0 0 15px rgba(255,0,255,0.2); }
-}
-
-@keyframes iconBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes iconBounceHover {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.15) rotate(5deg); }
-}
-
-@keyframes pulseOrange {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-/* ─── RESPONSIVE ─── */
-@media(max-width: 768px) {
-  nav {
-    flex-wrap: wrap;
-    padding: 0.5rem 1rem;
-  }
-
-  .nav-center {
-    order: 3;
-    flex-basis: 100%;
-    max-width: none;
-    margin-top: 0.5rem;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .header-title {
-    font-size: 2rem;
-  }
-
-  .cards-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .main-wrapper {
-    padding: 5rem 1rem 2rem;
-  }
-
-  footer {
-    padding: 1rem;
-  }
-}
-
-@media(max-width: 480px) {
-  .header-title {
-    font-size: 1.5rem;
-    text-shadow: 0 0 8px var(--neon-cyan), 0 0 12px var(--neon-magenta), 2px 2px 0 var(--neon-magenta);
-  }
-
-  .card-icon {
-    font-size: 2rem;
-  }
-
-  .card-title {
-    font-size: 1.3rem;
-  }
-
-  .card-description {
-    font-size: 0.8rem;
-  }
-}
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mathify — Learn Math, Physics & Civil Engineering</title>
+  <meta name="description" content="Chat with your learning guide. Explore Math, Physics, Civil Engineering, and more.">
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       CLAUDE CHATBOT STYLE INTERFACE
+       ═══════════════════════════════════════════════════════════ */
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ─── THEME TOKENS ─── */
+    [data-theme="light"] {
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F5F5F5;
+      --text-primary: #000000;
+      --text-secondary: #565656;
+      --border-color: #D1D5DB;
+      --bot-bg: #F0F0F0;
+      --user-bg: #E7F3FF;
+      --user-text: #0066CC;
+      --button-bg: #0066CC;
+      --button-text: #FFFFFF;
+      --button-hover: #0052A3;
+      --input-bg: #FFFFFF;
+      --input-border: #D1D5DB;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0D0D0D;
+      --bg-secondary: #1A1A1A;
+      --text-primary: #ECECEC;
+      --text-secondary: #B0B0B0;
+      --border-color: #3F3F3F;
+      --bot-bg: #262626;
+      --user-bg: #1E4976;
+      --user-text: #A8D8FF;
+      --button-bg: #0084FF;
+      --button-text: #FFFFFF;
+      --button-hover: #0066CC;
+      --input-bg: #262626;
+      --input-border: #3F3F3F;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100%;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .header-brand {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .theme-toggle {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--bg-secondary);
+      border-color: var(--text-secondary);
+    }
+
+    /* ─── MAIN CHAT AREA ─── */
+    .chat-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      scroll-behavior: smooth;
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-messages::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb:hover {
+      background: var(--text-secondary);
+    }
+
+    /* ─── MESSAGE BUBBLES ─── */
+    .message-group {
+      display: flex;
+      gap: 0.75rem;
+      animation: messageEnter 0.3s ease forwards;
+    }
+
+    @keyframes messageEnter {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message-group.bot {
+      justify-content: flex-start;
+    }
+
+    .message-group.user {
+      justify-content: flex-end;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      word-wrap: break-word;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .message {
+        max-width: 85%;
+      }
+    }
+
+    .message-group.bot .message {
+      background: var(--bot-bg);
+      color: var(--text-primary);
+      border-radius: 12px 12px 12px 4px;
+    }
+
+    .message-group.user .message {
+      background: var(--user-bg);
+      color: var(--user-text);
+      border-radius: 12px 12px 4px 12px;
+    }
+
+    .message a {
+      color: var(--button-bg);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .message a:hover {
+      text-decoration: underline;
+    }
+
+    /* ─── BUTTONS (CONTEXTUAL) ─── */
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .action-btn {
+      padding: 0.6rem 1rem;
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background-color 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .action-btn:hover {
+      background: var(--button-hover);
+      transform: translateY(-1px);
+    }
+
+    .action-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Navigation action buttons (different style) */
+    .nav-btn {
+      background: var(--button-bg);
+      color: var(--button-text);
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+      transition: background-color 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--button-hover);
+    }
+
+    .nav-btn:active {
+      opacity: 0.8;
+    }
+
+    /* ─── USER MESSAGE DISPLAY ─── */
+    .user-action-button {
+      display: inline-block;
+      background: rgba(0, 102, 204, 0.15);
+      color: var(--user-text);
+      padding: 0.5rem 0.8rem;
+      border-radius: 16px;
+      font-size: 13px;
+      border: 1px solid var(--user-bg);
+    }
+
+    /* ─── INPUT AREA ─── */
+    .input-area {
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 100%;
+    }
+
+    .input-field {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-field::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .input-field:focus {
+      border-color: var(--button-bg);
+    }
+
+    .send-btn {
+      padding: 0.75rem 1.5rem;
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+
+    .send-btn:hover {
+      background: var(--button-hover);
+    }
+
+    .send-btn:active {
+      opacity: 0.8;
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      padding: 0.75rem 1rem;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+    }
+
+    .footer a {
+      color: var(--button-bg);
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ─── TYPING INDICATOR ─── */
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-secondary);
+      animation: typingAnimation 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typingAnimation {
+      0%, 60%, 100% {
+        opacity: 0.5;
+        transform: translateY(0);
+      }
+      30% {
+        opacity: 1;
+        transform: translateY(-10px);
+      }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .message {
+        max-width: 85%;
+      }
+
+      .input-area {
+        padding: 0.75rem;
+      }
+
+      .input-field, .send-btn {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+      }
+    }
+  </style>
 </head>
 <body>
-
-<!-- ─── NAVIGATION ─── -->
-<nav>
-  <div class="nav-left">
-    <a href="index.html" class="nav-logo">Mathify</a>
-  </div>
-
-  <div class="nav-center">
-    <div class="search-bar-wrap" id="searchWrap">
-      <div class="search-input-row">
-        <span class="search-icon">🔍</span>
-        <input class="search-input" id="searchInput" type="text" placeholder="Search topics…" autocomplete="off" spellcheck="false" aria-label="Search Mathify" aria-autocomplete="list" aria-controls="searchDropdown">
-        <button class="search-clear" id="searchClear" aria-label="Clear search">✕</button>
-        <div class="search-kbd">
-          <kbd>/</kbd>
-        </div>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-brand">🎓 Mathify</div>
+      <div class="header-controls">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">☀️</button>
       </div>
-      <div class="search-dropdown" id="searchDropdown" role="listbox"></div>
+    </div>
+
+    <!-- CHAT AREA -->
+    <div class="chat-wrapper">
+      <div class="chat-messages" id="chatMessages"></div>
+    </div>
+
+    <!-- INPUT AREA -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <input
+          class="input-field"
+          id="messageInput"
+          type="text"
+          placeholder="Type your message or click a button above..."
+          autocomplete="off"
+        >
+        <button class="send-btn" id="sendBtn">Send</button>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div>
+        <a href="about.html">About</a>
+        <a href="status.html">Status</a>
+      </div>
+      <div style="margin-top: 0.5rem;">© 2024 Mathify Learning Platform</div>
     </div>
   </div>
 
-  <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="about.html">About</a></li>
-      <li><a href="status.html">Status</a></li>
-    </ul>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
-  </div>
-</nav>
+  <script>
+    /* ═══════════════════════════════════════════════════════════
+       CLAUDE CHATBOT INTERFACE - CONVERSATION ENGINE
+       ═══════════════════════════════════════════════════════════ */
 
-<div class="search-overlay" id="searchOverlay"></div>
+    const chatMessages = document.getElementById('chatMessages');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
 
-<!-- ─── HEADER ─── -->
-<header>
-  <h1 class="header-title">MATHIFY.US</h1>
-  <p class="header-tagline">RETRO 90s LEARNING HUB</p>
-</header>
+    // ─── CONVERSATION STATE ─── //
+    let messages = [];
+    let conversationState = 'greeting';
 
-<!-- ─── MAIN CONTENT ─── -->
-<div class="main-wrapper">
-  <div class="cards-grid">
-    <a href="math.html" class="nav-card cyan">
-      <div class="card-icon">📊</div>
-      <h2 class="card-title">Math</h2>
-      <p class="card-description">Complete guides for Class 9–12. Algebra, trigonometry, calculus, and more.</p>
-    </a>
+    // ─── SECTION INFO ─── //
+    const sections = {
+      math: {
+        name: 'Mathematics',
+        emoji: '📊',
+        description: 'Algebra, Calculus, Trigonometry, Statistics',
+        url: 'math.html'
+      },
+      physics: {
+        name: 'Physics',
+        emoji: '⚛️',
+        description: 'Mechanics, Waves, Optics, Electricity, Modern Physics',
+        url: 'physics.html'
+      },
+      civil: {
+        name: 'Civil Engineering',
+        emoji: '🏗️',
+        description: 'RC Design, Traffic Engineering',
+        url: 'civil.html'
+      },
+      explore: {
+        name: 'Explore',
+        emoji: '🎵',
+        description: 'Music & Study Vibes',
+        url: 'explore.html'
+      }
+    };
 
-    <a href="physics.html" class="nav-card magenta">
-      <div class="card-icon">⚛️</div>
-      <h2 class="card-title">Physics</h2>
-      <p class="card-description">Mechanics, thermodynamics, waves, optics, and modern physics.</p>
-    </a>
+    // ─── BOT RESPONSES ─── //
+    const botResponses = {
+      greeting: {
+        text: "Hi! 👋 I'm here to help you learn. What interests you?",
+        buttons: [
+          { text: '📊 Mathematics', action: 'selectMath' },
+          { text: '⚛️ Physics', action: 'selectPhysics' },
+          { text: '🏗️ Civil Eng.', action: 'selectCivil' },
+          { text: '🎵 Explore', action: 'selectExplore' },
+          { text: 'Tell me more', action: 'moreInfo' }
+        ]
+      },
+      moreInfo: {
+        text: "Sure! Here's what we offer:\n\n📊 **Mathematics** - Algebra, Calculus, Trigonometry, Statistics\n⚛️ **Physics** - Mechanics, Waves, Optics, Electricity, Modern Physics\n🏗️ **Civil Engineering** - RC Design, Traffic Engineering\n🎵 **Explore** - Music & Study Vibes for Learning\n\nWhich one sounds good?",
+        buttons: [
+          { text: '📊 Math', action: 'selectMath' },
+          { text: '⚛️ Physics', action: 'selectPhysics' },
+          { text: '🏗️ Civil', action: 'selectCivil' },
+          { text: '🎵 Music', action: 'selectExplore' }
+        ]
+      },
+      selectMath: {
+        text: "Great choice! 📊 Let's dive into Mathematics. Ready to explore topics like calculus, algebra, and more?",
+        buttons: [
+          { text: '✓ Let\'s go!', action: 'navMath', isNav: true },
+          { text: 'Tell me more', action: 'moreMath' }
+        ]
+      },
+      moreMath: {
+        text: "We cover:\n• Algebra & Polynomials\n• Trigonometry & Heights/Distances\n• Coordinate Geometry\n• Calculus (Limits, Derivatives, Integration)\n• Statistics & Probability\n• Matrices & Vectors\n\nReady to get started?",
+        buttons: [
+          { text: '✓ Start now', action: 'navMath', isNav: true },
+          { text: 'Back', action: 'greeting' }
+        ]
+      },
+      selectPhysics: {
+        text: "Excellent! ⚛️ Physics is all about understanding how the universe works. Ready to explore?",
+        buttons: [
+          { text: '✓ Let\'s go!', action: 'navPhysics', isNav: true },
+          { text: 'Tell me more', action: 'morePhysics' }
+        ]
+      },
+      morePhysics: {
+        text: "We cover:\n• Kinematics & Projectile Motion\n• Newton's Laws & Forces\n• Work, Energy & Power\n• Rotational Motion\n• Gravitation & Satellites\n• Waves & Oscillations\n• Electromagnetism\n• Optics & Modern Physics\n\nExcited to learn?",
+        buttons: [
+          { text: '✓ Start now', action: 'navPhysics', isNav: true },
+          { text: 'Back', action: 'greeting' }
+        ]
+      },
+      selectCivil: {
+        text: "Perfect! 🏗️ Civil Engineering covers structural design and infrastructure. Let's dive in!",
+        buttons: [
+          { text: '✓ Let\'s go!', action: 'navCivil', isNav: true },
+          { text: 'Tell me more', action: 'moreCivil' }
+        ]
+      },
+      moreCivil: {
+        text: "We focus on:\n• Reinforced Concrete Design\n• Beam & Column Design\n• Shear & Torsion\n• Traffic Engineering\n• Structural Analysis\n• Foundation Design\n\nReady to explore structures?",
+        buttons: [
+          { text: '✓ Start now', action: 'navCivil', isNav: true },
+          { text: 'Back', action: 'greeting' }
+        ]
+      },
+      selectExplore: {
+        text: "Nice! 🎵 Let's explore music and study vibes. Perfect for keeping focused while learning!",
+        buttons: [
+          { text: '✓ Let\'s go!', action: 'navExplore', isNav: true },
+          { text: 'Tell me more', action: 'moreExplore' }
+        ]
+      },
+      moreExplore: {
+        text: "Explore features:\n• Techno & Ambient Music\n• R&B & Chill Beats\n• Lo-Fi Hip-Hop\n• Study Playlists\n• Focus & Concentration Tracks\n\nReady to set the mood?",
+        buttons: [
+          { text: '✓ Let\'s go!', action: 'navExplore', isNav: true },
+          { text: 'Back', action: 'greeting' }
+        ]
+      }
+    };
 
-    <a href="civil.html" class="nav-card green">
-      <div class="card-icon">🏗️</div>
-      <h2 class="card-title">Civil</h2>
-      <p class="card-description">RC Design & Traffic Engineering. Lectures, simulations, and problems.</p>
-    </a>
-
-    <a href="explore.html" class="nav-card orange">
-      <div class="card-icon">🎶</div>
-      <h2 class="card-title">Explore</h2>
-      <p class="card-description">Techno, R&B, lo-fi beats—curated for study sessions and late-night flow.</p>
-    </a>
-  </div>
-</div>
-
-<!-- ─── FOOTER ─── -->
-<footer>
-  <div class="footer-text">Made with 90s Love</div>
-  <div class="footer-links">
-    <a href="about.html">About</a>
-    <a href="status.html">Status</a>
-  </div>
-  <div class="visitor-counter">
-    <span class="visitor-dot"></span>
-    <span id="visitorCount">17</span> visits
-  </div>
-</footer>
-
-<script>
-/* ═══════════════════════════════════════
-   SEARCH INDEX — site-wide content map
-   ═══════════════════════════════════════ */
-const SEARCH_INDEX = [
-  /* ── Pages ── */
-  { title:'Mathematics Hub', meta:'Browse all math topics', tag:'page', icon:'📐', href:'math.html', category:'Pages', keywords:'mathematics math hub home' },
-  { title:'Physics Hub', meta:'Browse all physics topics', tag:'page', icon:'⚛️', href:'physics.html', category:'Pages', keywords:'physics hub home' },
-  { title:'Civil Engineering Hub', meta:'Browse all civil topics', tag:'page', icon:'🏗️', href:'civil.html', category:'Pages', keywords:'civil engineering hub' },
-  { title:'About Mathify', meta:'Our mission & story', tag:'page', icon:'💡', href:'about.html', category:'Pages', keywords:'about mathify mission' },
-  { title:'Status', meta:'Platform uptime & releases', tag:'page', icon:'📡', href:'status.html', category:'Pages', keywords:'status uptime' },
-  { title:'Explore — Music & Vibes', meta:'Techno R&B beats for studying', tag:'page', icon:'🎶', href:'explore.html', category:'Pages', keywords:'explore music techno rnb lofi beats vibes study' },
-
-  /* ── Mathematics ── */
-  { title:'Algebra — Polynomials', meta:'Mathematics · Class 9-10', tag:'math', icon:'✏️', href:'math.html#algebra-polynomials', category:'Mathematics', keywords:'algebra polynomials factoring roots quadratic' },
-  { title:'Algebra — Quadratic Equations', meta:'Mathematics · Class 10', tag:'math', icon:'✏️', href:'math.html#quadratic', category:'Mathematics', keywords:'algebra quadratic equations formula discriminant' },
-  { title:'Algebra — Linear Equations', meta:'Mathematics · Class 9', tag:'math', icon:'✏️', href:'math.html#linear', category:'Mathematics', keywords:'linear equations system simultaneous' },
-  { title:'Trigonometry — Ratios & Identities', meta:'Mathematics · Class 10-11', tag:'math', icon:'📐', href:'math.html#trig-ratios', category:'Mathematics', keywords:'trigonometry sin cos tan ratios identities' },
-  { title:'Trigonometry — Heights & Distances', meta:'Mathematics · Class 10', tag:'math', icon:'📐', href:'math.html#heights', category:'Mathematics', keywords:'heights distances application trigonometry' },
-  { title:'Coordinate Geometry', meta:'Mathematics · Class 10-11', tag:'math', icon:'🔢', href:'math.html#coord', category:'Mathematics', keywords:'coordinate geometry distance midpoint slope line circle' },
-  { title:'Calculus — Limits & Continuity', meta:'Mathematics · Class 11-12', tag:'math', icon:'∫', href:'math.html#limits', category:'Mathematics', keywords:'calculus limits continuity differentiable' },
-  { title:'Calculus — Differentiation', meta:'Mathematics · Class 11-12', tag:'math', icon:'∫', href:'math.html#differentiation', category:'Mathematics', keywords:'differentiation derivative rules chain product quotient' },
-  { title:'Calculus — Integration', meta:'Mathematics · Class 12', tag:'math', icon:'∫', href:'math.html#integration', category:'Mathematics', keywords:'integration indefinite definite area under curve' },
-  { title:'Statistics & Probability', meta:'Mathematics · Class 10-12', tag:'math', icon:'📊', href:'math.html#statistics', category:'Mathematics', keywords:'statistics probability mean median mode variance' },
-  { title:'Matrices & Determinants', meta:'Mathematics · Class 12', tag:'math', icon:'🔢', href:'math.html#matrices', category:'Mathematics', keywords:'matrices determinants inverse transpose' },
-  { title:'Vectors & 3D Geometry', meta:'Mathematics · Class 12', tag:'math', icon:'🔺', href:'math.html#vectors', category:'Mathematics', keywords:'vectors 3d geometry dot cross product direction cosines' },
-  { title:'Complex Numbers', meta:'Mathematics · Class 11', tag:'math', icon:'ℂ', href:'math.html#complex', category:'Mathematics', keywords:'complex numbers imaginary real part argument modulus' },
-  { title:'Sequences & Series', meta:'Mathematics · Class 11', tag:'math', icon:'🔢', href:'math.html#sequences', category:'Mathematics', keywords:'sequences series AP GP arithmetic geometric progression' },
-  { title:'Binomial Theorem', meta:'Mathematics · Class 11', tag:'math', icon:'✏️', href:'math.html#binomial', category:'Mathematics', keywords:'binomial theorem expansion coefficients' },
-  { title:'Permutations & Combinations', meta:'Mathematics · Class 11', tag:'math', icon:'🎲', href:'math.html#permcomb', category:'Mathematics', keywords:'permutations combinations factorial counting' },
-  { title:'Sets & Relations', meta:'Mathematics · Class 11', tag:'math', icon:'🔗', href:'math.html#sets', category:'Mathematics', keywords:'sets relations functions union intersection complement' },
-  { title:'Mathematical Reasoning', meta:'Mathematics · Class 11', tag:'math', icon:'💭', href:'math.html#reasoning', category:'Mathematics', keywords:'mathematical reasoning logic statements implications' },
-
-  /* ── Physics ── */
-  { title:'Kinematics — Motion in a Straight Line', meta:'Physics · Class 11', tag:'physics', icon:'🚀', href:'physics.html#kinematics', category:'Physics', keywords:'kinematics motion straight line velocity acceleration' },
-  { title:'Kinematics — Projectile Motion', meta:'Physics · Class 11', tag:'physics', icon:'🚀', href:'physics.html#projectile', category:'Physics', keywords:'projectile motion 2d parabola range height' },
-  { title:'Laws of Motion (Newton)', meta:'Physics · Class 11', tag:'physics', icon:'⚙️', href:'physics.html#newton', category:'Physics', keywords:'newton laws motion force mass inertia friction' },
-  { title:'Work, Energy & Power', meta:'Physics · Class 11', tag:'physics', icon:'⚡', href:'physics.html#energy', category:'Physics', keywords:'work energy power kinetic potential conservation' },
-  { title:'Rotational Motion & Torque', meta:'Physics · Class 11', tag:'physics', icon:'🔄', href:'physics.html#rotation', category:'Physics', keywords:'rotation torque angular momentum moment of inertia' },
-  { title:'Gravitation & Satellites', meta:'Physics · Class 11', tag:'physics', icon:'🌍', href:'physics.html#gravitation', category:'Physics', keywords:'gravitation gravity satellites orbital escape velocity' },
-  { title:'Fluid Mechanics', meta:'Physics · Class 11', tag:'physics', icon:'💧', href:'physics.html#fluids', category:'Physics', keywords:'fluids pressure buoyancy bernoulli viscosity surface tension' },
-  { title:'Thermodynamics', meta:'Physics · Class 11', tag:'physics', icon:'🌡️', href:'physics.html#thermo', category:'Physics', keywords:'thermodynamics heat temperature entropy laws' },
-  { title:'Waves & Oscillations', meta:'Physics · Class 11', tag:'physics', icon:'〰️', href:'physics.html#waves', category:'Physics', keywords:'waves oscillations SHM simple harmonic sound frequency' },
-  { title:'Electrostatics', meta:'Physics · Class 12', tag:'physics', icon:'⚡', href:'physics.html#electrostatics', category:'Physics', keywords:'electrostatics coulomb electric field potential capacitor' },
-  { title:'Current Electricity', meta:'Physics · Class 12', tag:'physics', icon:'🔋', href:'physics.html#electricity', category:'Physics', keywords:'current electricity resistance ohm circuit kirchhoff' },
-  { title:'Magnetism & Magnetic Effects', meta:'Physics · Class 12', tag:'physics', icon:'🧲', href:'physics.html#magnetism', category:'Physics', keywords:'magnetism magnetic field force lorentz biot savart' },
-  { title:'Electromagnetic Induction', meta:'Physics · Class 12', tag:'physics', icon:'🔌', href:'physics.html#emi', category:'Physics', keywords:'electromagnetic induction faraday lenz flux transformer' },
-  { title:'Optics — Ray Optics', meta:'Physics · Class 12', tag:'physics', icon:'🔭', href:'physics.html#ray-optics', category:'Physics', keywords:'optics ray reflection refraction lens mirror snell prism' },
-  { title:'Optics — Wave Optics', meta:'Physics · Class 12', tag:'physics', icon:'🌈', href:'physics.html#wave-optics', category:'Physics', keywords:'wave optics interference diffraction polarization young' },
-  { title:'Modern Physics — Dual Nature', meta:'Physics · Class 12', tag:'physics', icon:'⚛️', href:'physics.html#dual-nature', category:'Physics', keywords:'dual nature photoelectric de broglie wave particle' },
-  { title:'Atoms & Nuclei', meta:'Physics · Class 12', tag:'physics', icon:'⚛️', href:'physics.html#atoms', category:'Physics', keywords:'atoms nuclei bohr model radioactivity decay nuclear' },
-  { title:'Semiconductor Devices', meta:'Physics · Class 12', tag:'physics', icon:'💻', href:'physics.html#semiconductors', category:'Physics', keywords:'semiconductor diode transistor logic gates' },
-
-  /* ── Civil Engineering ── */
-  { title:'RC Design — Chapter 1: Introduction', meta:'Civil Engineering · RC Design', tag:'civil', icon:'🏛️', href:'rc-chapter1.html', category:'Civil Engineering', keywords:'reinforced concrete design introduction materials ACI' },
-  { title:'RC Design — Materials & Properties', meta:'Civil Engineering · RC Design', tag:'civil', icon:'🧱', href:'rc-chapter1.html#materials', category:'Civil Engineering', keywords:'concrete steel rebar materials properties compressive strength' },
-  { title:'RC Design — Stress-Strain Behavior', meta:'Civil Engineering · RC Design', tag:'civil', icon:'📈', href:'rc-chapter1.html#stress-strain', category:'Civil Engineering', keywords:'stress strain behavior elastic plastic concrete steel curve' },
-  { title:'RC Design — ACI Design Philosophy', meta:'Civil Engineering · RC Design', tag:'civil', icon:'📋', href:'rc-chapter1.html#aci', category:'Civil Engineering', keywords:'ACI 318 design philosophy LRFD strength serviceability' },
-  { title:'RC Design — Load Combinations', meta:'Civil Engineering · RC Design', tag:'civil', icon:'⚖️', href:'rc-chapter1.html#loads', category:'Civil Engineering', keywords:'load combinations dead live wind seismic factored unfactored' },
-  { title:'RC Design — Beam Geometry', meta:'Civil Engineering · RC Design', tag:'civil', icon:'📏', href:'rc-chapter1.html#beam-geometry', category:'Civil Engineering', keywords:'beam geometry width depth effective cover section rectangular T' },
-  { title:'RC Design — Reinforcement Ratios', meta:'Civil Engineering · RC Design', tag:'civil', icon:'🔩', href:'rc-chapter1.html#rebar', category:'Civil Engineering', keywords:'reinforcement ratio rho min max balanced bar area' },
-  { title:'RC Design — Flexural Design of Beams', meta:'Civil Engineering · RC Design', tag:'civil', icon:'🏗️', href:'civil.html#flexure', category:'Civil Engineering', keywords:'flexural design beams moment capacity bending' },
-  { title:'RC Design — Shear Design', meta:'Civil Engineering · RC Design', tag:'civil', icon:'✂️', href:'civil.html#shear', category:'Civil Engineering', keywords:'shear design stirrups diagonal tension web reinforcement' },
-  { title:'RC Design — Columns', meta:'Civil Engineering · RC Design', tag:'civil', icon:'🏛️', href:'civil.html#columns', category:'Civil Engineering', keywords:'columns axial load interaction diagram eccentricity ties spiral' },
-  { title:'RC Design — Footings', meta:'Civil Engineering · RC Design', tag:'civil', icon:'🪨', href:'civil.html#footings', category:'Civil Engineering', keywords:'footings foundation bearing soil pressure punching shear' },
-  { title:'Traffic Engineering — Flow Theory', meta:'Civil Engineering · Traffic', tag:'civil', icon:'🚦', href:'civil.html#traffic-flow', category:'Civil Engineering', keywords:'traffic flow theory volume speed density LOS' },
-  { title:'Traffic Engineering — Intersections', meta:'Civil Engineering · Traffic', tag:'civil', icon:'🔀', href:'civil.html#intersections', category:'Civil Engineering', keywords:'intersections signalized unsignalized delay signal timing' },
-  { title:'Traffic Engineering — Highway Design', meta:'Civil Engineering · Traffic', tag:'civil', icon:'🛣️', href:'civil.html#highway', category:'Civil Engineering', keywords:'highway design geometric alignment grade sight distance' },
-  { title:'Structural Analysis — Trusses', meta:'Civil Engineering · Structures', tag:'civil', icon:'🔺', href:'civil.html#trusses', category:'Civil Engineering', keywords:'truss analysis method joints sections statically determinate' },
-  { title:'Structural Analysis — Frames', meta:'Civil Engineering · Structures', tag:'civil', icon:'🏗️', href:'civil.html#frames', category:'Civil Engineering', keywords:'frame analysis portal cantilever moment distribution' },
-];
-
-/* ═══════════════════════════════════════
-   SEARCH ENGINE
-   ═══════════════════════════════════════ */
-const searchInput  = document.getElementById('searchInput');
-const searchClear  = document.getElementById('searchClear');
-const dropdown     = document.getElementById('searchDropdown');
-const overlay      = document.getElementById('searchOverlay');
-let activeIdx = -1;
-let currentResults = [];
-
-function tokenize(str){ return str.toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(Boolean); }
-
-function score(item, tokens){
-  const haystack = (item.title + ' ' + item.meta + ' ' + item.keywords + ' ' + item.category).toLowerCase();
-  let s = 0;
-  for(const t of tokens){
-    if(item.title.toLowerCase().includes(t)) s += 3;
-    else if(haystack.includes(t)) s += 1;
-  }
-  return s;
-}
-
-function highlight(text, tokens){
-  let out = text;
-  for(const t of tokens){
-    const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
-    out = out.replace(re, '<mark>$1</mark>');
-  }
-  return out;
-}
-
-function tagClass(tag){ return 'tag-'+tag; }
-
-function renderResults(results, tokens){
-  if(results.length === 0){
-    dropdown.innerHTML = `<div class="search-empty"><span>🔍</span>No results found. Try a different keyword.</div>`;
-    openDropdown();
-    return;
-  }
-
-  // Group by category
-  const groups = {};
-  for(const r of results){
-    if(!groups[r.category]) groups[r.category] = [];
-    groups[r.category].push(r);
-  }
-
-  let html = '';
-  let idx = 0;
-  for(const [cat, items] of Object.entries(groups)){
-    html += `<div class="search-section-label">${cat}</div>`;
-    for(const item of items){
-      html += `<a class="search-result" href="${item.href}" role="option" data-idx="${idx}">
-        <span class="search-result-icon">${item.icon}</span>
-        <span class="search-result-content">
-          <span class="search-result-title">${highlight(item.title, tokens)}</span>
-          <span class="search-result-meta">${item.meta}</span>
-        </span>
-        <span class="search-result-tag ${tagClass(item.tag)}">${item.tag}</span>
-      </a>`;
-      idx++;
+    // ─── NAVIGATION ACTIONS ─── //
+    function navigateToSection(sectionKey) {
+      const section = sections[sectionKey];
+      if (section) {
+        setTimeout(() => {
+          window.location.href = section.url;
+        }, 300);
+      }
     }
-  }
-  dropdown.innerHTML = html;
-  currentResults = dropdown.querySelectorAll('.search-result');
-  openDropdown();
-}
 
-function openDropdown(){ dropdown.classList.add('open'); overlay.classList.add('open'); }
-function closeDropdown(){ dropdown.classList.remove('open'); overlay.classList.remove('open'); activeIdx = -1; }
+    // ─── MESSAGE RENDERING ─── //
+    function addMessage(role, content, buttons = null) {
+      const messageGroup = document.createElement('div');
+      messageGroup.className = `message-group ${role}`;
 
-function setActive(i){
-  currentResults.forEach((r,j)=>r.classList.toggle('active', j===i));
-  if(currentResults[i]) currentResults[i].scrollIntoView({block:'nearest'});
-  activeIdx = i;
-}
+      if (role === 'bot') {
+        const botAvatar = document.createElement('div');
+        botAvatar.style.fontSize = '1.2rem';
+        botAvatar.textContent = '🤖';
+        messageGroup.appendChild(botAvatar);
+      }
 
-function runSearch(q){
-  const tokens = tokenize(q);
-  if(tokens.length === 0){ closeDropdown(); return; }
-  const scored = SEARCH_INDEX.map(item=>({item, s:score(item,tokens)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s).map(x=>x.item);
-  renderResults(scored.slice(0,12), tokens);
-}
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message';
+      messageDiv.innerHTML = content.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
-searchInput.addEventListener('input', ()=>{
-  const q = searchInput.value.trim();
-  searchClear.classList.toggle('visible', q.length > 0);
-  if(q.length < 1){ closeDropdown(); return; }
-  runSearch(q);
-});
+      messageGroup.appendChild(messageDiv);
 
-searchInput.addEventListener('keydown', e=>{
-  if(!dropdown.classList.contains('open')) return;
-  if(e.key==='ArrowDown'){ e.preventDefault(); setActive(Math.min(activeIdx+1, currentResults.length-1)); }
-  else if(e.key==='ArrowUp'){ e.preventDefault(); setActive(Math.max(activeIdx-1, 0)); }
-  else if(e.key==='Enter'){
-    if(activeIdx>=0 && currentResults[activeIdx]){ currentResults[activeIdx].click(); }
-    else if(currentResults.length > 0){ currentResults[0].click(); }
-  }
-  else if(e.key==='Escape'){ closeDropdown(); searchInput.blur(); }
-});
+      if (buttons && buttons.length > 0) {
+        const buttonGroup = document.createElement('div');
+        buttonGroup.className = 'button-group';
 
-searchClear.addEventListener('click', ()=>{
-  searchInput.value='';
-  searchClear.classList.remove('visible');
-  closeDropdown();
-  searchInput.focus();
-});
+        buttons.forEach(btn => {
+          const button = document.createElement('button');
+          button.className = 'action-btn';
+          button.textContent = btn.text;
+          button.onclick = () => handleButtonClick(btn.action, btn.text, btn.isNav);
+          buttonGroup.appendChild(button);
+        });
 
-overlay.addEventListener('click', ()=>{ closeDropdown(); });
+        messageGroup.appendChild(buttonGroup);
+      }
 
-// Press "/" to focus search
-document.addEventListener('keydown', e=>{
-  if(e.key==='/' && document.activeElement !== searchInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
-    e.preventDefault();
-    searchInput.focus();
-    searchInput.select();
-  }
-});
-
-/* ─── DARK / LIGHT MODE ─── */
-const toggleBtn = document.getElementById('themeToggle');
-const root = document.documentElement;
-function setTheme(t) {
-  root.setAttribute('data-theme', t);
-  toggleBtn.textContent = t === 'dark' ? '\u2600\uFE0F' : '\uD83C\uDF19';
-  localStorage.setItem('mathify-theme', t);
-}
-const saved = localStorage.getItem('mathify-theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-setTheme(saved || (prefersDark ? 'dark' : 'light'));
-toggleBtn.addEventListener('click', () => {
-  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-});
-
-/* ─── VISITOR COUNTER ─── */
-(function(){
-  const el = document.getElementById('visitorCount');
-  if (!el) return;
-  fetch('https://visitor.6developer.com/visit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      domain: 'mathify.us',
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      page_path: location.pathname,
-      page_title: document.title,
-      referrer: document.referrer
-    })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (data && typeof data.totalCount === 'number') {
-      el.textContent = data.totalCount.toLocaleString();
-      localStorage.setItem('mathify-visit-count', data.totalCount);
+      chatMessages.appendChild(messageGroup);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-  })
-  .catch(() => {
-    const cached = localStorage.getItem('mathify-visit-count');
-    if (cached) el.textContent = parseInt(cached).toLocaleString();
-  });
-})();
-</script>
 
+    function addUserMessage(text) {
+      const messageGroup = document.createElement('div');
+      messageGroup.className = 'message-group user';
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message';
+      messageDiv.textContent = text;
+
+      messageGroup.appendChild(messageDiv);
+      chatMessages.appendChild(messageGroup);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function addTypingIndicator() {
+      const messageGroup = document.createElement('div');
+      messageGroup.className = 'message-group bot';
+      messageGroup.id = 'typingIndicator';
+
+      const botAvatar = document.createElement('div');
+      botAvatar.style.fontSize = '1.2rem';
+      botAvatar.textContent = '🤖';
+      messageGroup.appendChild(botAvatar);
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message';
+      messageDiv.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+
+      messageGroup.appendChild(messageDiv);
+      chatMessages.appendChild(messageGroup);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const typingIndicator = document.getElementById('typingIndicator');
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+    }
+
+    // ─── BUTTON HANDLER ─── //
+    function handleButtonClick(action, displayText, isNav = false) {
+      // Add user message
+      addUserMessage(displayText);
+      messageInput.value = '';
+
+      // Navigation actions
+      if (action === 'navMath') {
+        addTypingIndicator();
+        setTimeout(() => {
+          removeTypingIndicator();
+          addMessage('bot', "Perfect! You're ready to explore Mathematics. 🚀");
+          navigateToSection('math');
+        }, 800);
+        return;
+      } else if (action === 'navPhysics') {
+        addTypingIndicator();
+        setTimeout(() => {
+          removeTypingIndicator();
+          addMessage('bot', "Awesome! Let's dive into Physics. 🚀");
+          navigateToSection('physics');
+        }, 800);
+        return;
+      } else if (action === 'navCivil') {
+        addTypingIndicator();
+        setTimeout(() => {
+          removeTypingIndicator();
+          addMessage('bot', "Great! Welcome to Civil Engineering. 🚀");
+          navigateToSection('civil');
+        }, 800);
+        return;
+      } else if (action === 'navExplore') {
+        addTypingIndicator();
+        setTimeout(() => {
+          removeTypingIndicator();
+          addMessage('bot', "Let's get you some great study vibes! 🚀");
+          navigateToSection('explore');
+        }, 800);
+        return;
+      }
+
+      // Conversation actions
+      const response = botResponses[action];
+      if (response) {
+        conversationState = action;
+        addTypingIndicator();
+        setTimeout(() => {
+          removeTypingIndicator();
+          addMessage('bot', response.text, response.buttons);
+        }, 600);
+      }
+    }
+
+    // ─── NATURAL LANGUAGE PROCESSING ─── //
+    function processUserInput(text) {
+      const lower = text.toLowerCase();
+
+      // Direct section mentions
+      if (lower.includes('math') || lower.includes('algebra') || lower.includes('calculus') || lower.includes('trigonometry')) {
+        return 'selectMath';
+      }
+      if (lower.includes('physics') || lower.includes('mechanics') || lower.includes('wave') || lower.includes('optics')) {
+        return 'selectPhysics';
+      }
+      if (lower.includes('civil') || lower.includes('engineering') || lower.includes('rc design') || lower.includes('traffic')) {
+        return 'selectCivil';
+      }
+      if (lower.includes('explore') || lower.includes('music') || lower.includes('vibe') || lower.includes('study beat')) {
+        return 'selectExplore';
+      }
+
+      // More info
+      if (lower.includes('more') || lower.includes('what') || lower.includes('tell') || lower.includes('help')) {
+        return 'moreInfo';
+      }
+
+      // Default
+      return null;
+    }
+
+    // ─── SEND MESSAGE ─── //
+    function sendMessage() {
+      const text = messageInput.value.trim();
+      if (!text) return;
+
+      addUserMessage(text);
+      messageInput.value = '';
+
+      addTypingIndicator();
+      setTimeout(() => {
+        removeTypingIndicator();
+
+        const action = processUserInput(text);
+        if (action) {
+          const response = botResponses[action];
+          if (response) {
+            conversationState = action;
+            addMessage('bot', response.text, response.buttons);
+          }
+        } else {
+          // Default response for unrecognized input
+          addMessage('bot', "I'm not sure I understand. Let me help you find what you're looking for! What would you like to explore?", botResponses.greeting.buttons);
+        }
+      }, 600);
+    }
+
+    // ─── EVENT LISTENERS ─── //
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // ─── THEME TOGGLE ─── //
+    function setTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+      localStorage.setItem('mathify-theme', theme);
+    }
+
+    const savedTheme = localStorage.getItem('mathify-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+
+    themeToggle.addEventListener('click', () => {
+      const current = root.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // ─── INITIAL MESSAGE ─── //
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const response = botResponses.greeting;
+        addMessage('bot', response.text, response.buttons);
+      }, 300);
+    });
+
+    // ─── VISITOR COUNTER (Background) ─── //
+    (function() {
+      fetch('https://visitor.6developer.com/visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          domain: 'mathify.us',
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          page_path: location.pathname,
+          page_title: document.title,
+          referrer: document.referrer
+        })
+      }).catch(() => {});
+    })();
+  </script>
 </body>
 </html>
