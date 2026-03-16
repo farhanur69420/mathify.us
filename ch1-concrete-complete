@@ -1,1 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Chapter 1 — Design of Concrete Structures | Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a26;--border:#2a2a3a;--text:#e8e8f0;--muted:#7a7a9a;--accent:#5b8fff;--a2:#ff6b6b;--a3:#4ecdc4;--a4:#ffd93d;--a5:#ff9944;--gold:#e8b84b;--r:12px;--mono:'Space Mono',monospace;--syne:'Syne',sans-serif}
+[data-theme="light"]{--bg:#f2f2f8;--surface:#fff;--surface2:#eaeaf2;--border:#d0d0e0;--text:#1a1a2e;--muted:#606080}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--syne);background:var(--bg);color:var(--text);line-height:1.75;overflow-x:hidden}
 
+/* PROGRESS */
+.prog-wrap{position:fixed;top:0;left:0;width:100%;height:3px;z-index:300}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--a3));width:0;transition:width .1s}
+
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;backdrop-filter:blur(12px)}
+.logo{font-family:var(--mono);font-weight:700;font-size:1.1rem;color:var(--accent);text-decoration:none}
+.logo span{color:var(--text)}
+.hdr-r{display:flex;align-items:center;gap:1rem}
+.bread{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.bread em{color:var(--accent);font-style:normal}
+.tog{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:.35rem .8rem;cursor:pointer;font-size:.82rem;color:var(--text);font-family:var(--mono);transition:all .2s}
+.tog:hover{border-color:var(--accent);color:var(--accent)}
+
+/* NAV SIDEBAR */
+.side-nav{position:fixed;right:1.2rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.45rem;z-index:100}
+@media(max-width:720px){.side-nav{display:none}}
+.snd{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all .25s;position:relative}
+.snd:hover::after,.snd.active::after{content:attr(data-label);position:absolute;right:16px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.65rem;color:var(--accent);white-space:nowrap;background:var(--surface);border:1px solid var(--border);padding:.2rem .5rem;border-radius:4px;pointer-events:none}
+.snd.active{background:var(--accent);transform:scale(1.35)}
+
+/* HERO */
+.hero{padding:5rem 2rem 2.5rem;max-width:940px;margin:0 auto;text-align:center}
+.chip{display:inline-block;font-family:var(--mono);font-size:.7rem;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:.25rem .8rem;margin-bottom:1.5rem;letter-spacing:.14em;text-transform:uppercase}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;line-height:1.13;margin-bottom:1rem;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.05rem;color:var(--muted);max-width:620px;margin:0 auto 2rem}
+.toc-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.toc-a{font-family:var(--mono);font-size:.72rem;padding:.45rem .9rem;border:1px solid var(--border);border-radius:6px;color:var(--muted);text-decoration:none;transition:all .2s}
+.toc-a:hover{border-color:var(--accent);color:var(--accent)}
+
+/* SECTIONS */
+.sec{max-width:940px;margin:0 auto;padding:4rem 2rem;border-bottom:1px solid var(--border)}
+.sec-lbl{font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.4rem}
+.sec h2{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;margin-bottom:1rem}
+
+/* WHY CARD */
+.why{background:linear-gradient(135deg,rgba(91,143,255,.12),rgba(78,205,196,.07));border:1px solid rgba(91,143,255,.3);border-radius:var(--r);padding:1.4rem 1.8rem;margin:1.4rem 0 2.2rem;position:relative;overflow:hidden}
+.why::before{content:'?';position:absolute;right:1.4rem;top:.8rem;font-size:3.5rem;font-weight:800;color:rgba(91,143,255,.07);font-family:var(--mono)}
+.why-lbl{font-family:var(--mono);font-size:.68rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem}
+.why p{color:var(--text);font-size:1rem}
+
+/* ANALOGY */
+.analogy{background:var(--surface);border-left:3px solid var(--a4);border-radius:0 var(--r) var(--r) 0;padding:1.1rem 1.4rem;margin:1.4rem 0}
+.a-lbl{font-family:var(--mono);font-size:.68rem;color:var(--a4);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.45rem}
+
+/* TABS */
+.tabs{display:flex;gap:.45rem;margin:1.8rem 0 0;flex-wrap:wrap}
+.tab{font-family:var(--mono);font-size:.78rem;padding:.55rem 1.1rem;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .22s}
+.tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab:hover:not(.on){border-color:var(--accent);color:var(--accent)}
+.panel{display:none;animation:fadeUp .3s ease}
+.panel.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* GRID 2 */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.4rem;align-items:start}
+@media(max-width:620px){.g2{grid-template-columns:1fr}}
+
+/* TAGS */
+.tags{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.9rem}
+.tag{font-family:var(--mono);font-size:.68rem;padding:.28rem .65rem;border-radius:4px;border:1px solid}
+.tg{color:var(--a3);border-color:var(--a3)}
+.tr{color:var(--a2);border-color:var(--a2)}
+.tgo{color:var(--gold);border-color:var(--gold)}
+
+/* DIAGRAM BOX */
+.dbox{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;overflow:hidden}
+.dbox svg{width:100%;height:auto}
+.cap{font-family:var(--mono);font-size:.68rem;color:var(--muted);text-align:center;margin-top:.5rem}
+
+/* STRENGTH BARS */
+.bars{margin:2rem 0}
+.bars h3{font-weight:700;margin-bottom:1.1rem}
+.bar-row{display:grid;grid-template-columns:90px 1fr 70px;align-items:center;gap:.9rem;margin-bottom:.75rem}
+.bar-lbl{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.bar-wrap{background:var(--surface2);border-radius:4px;height:26px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-family:var(--mono);font-size:.68rem;color:#fff}
+.bar-val{font-family:var(--mono);font-size:.76rem}
+
+/* CARDS GRID */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.1rem;margin:1.8rem 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;inset:0;border-radius:var(--r);border:2px solid transparent;transition:border-color .22s;pointer-events:none}
+.card:hover::after,.card.on::after{border-color:var(--accent)}
+.card.on{background:var(--surface2)}
+.card-ttl{font-weight:700;margin:.65rem 0 .35rem;font-size:.96rem}
+.card-sub{font-size:.82rem;color:var(--muted)}
+.expand{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;margin-top:.4rem;animation:fadeUp .3s ease}
+.expand.on{display:block}
+.expand h4{font-weight:700;margin-bottom:.65rem;color:var(--accent)}
+.expand p{font-size:.88rem;color:var(--muted);margin-bottom:.45rem}
+
+/* LOAD TYPES */
+.ltypes{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:1rem;margin:1.8rem 0}
+.lcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.15rem;transition:all .22s}
+.lcard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.lico{font-size:1.7rem;margin-bottom:.45rem}
+.lcard h4{font-weight:700;margin-bottom:.35rem;font-size:.93rem}
+.lcard p{font-size:.81rem;color:var(--muted)}
+.ctag{display:inline-block;font-family:var(--mono);font-size:.65rem;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:.18rem .5rem;margin-top:.55rem;color:var(--a3)}
+
+/* BEAM SIM */
+.sim{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;margin:2rem 0}
+.sim h3{font-weight:700;margin-bottom:.9rem}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-bottom:1.4rem}
+.knob{display:flex;flex-direction:column;gap:.35rem}
+.knob label{font-family:var(--mono);font-size:.73rem;color:var(--muted);display:flex;justify-content:space-between}
+.knob label span{color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
+.canvas-bg{background:var(--surface2);border-radius:8px;padding:1rem}
+
+/* FORMULA */
+.fcard{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem 1.5rem;margin:1.4rem 0;font-family:var(--mono)}
+.ftitle{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.45rem}
+.feq{font-size:1.08rem;color:var(--accent);margin:.4rem 0}
+.fleg{font-size:.73rem;color:var(--muted);margin-top:.6rem}
+.fleg span{color:var(--text)}
+
+/* QUIZ */
+.quiz{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;margin:2.5rem 0 .8rem}
+.quiz h3{font-family:var(--mono);font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.9rem}
+.q-q{font-weight:600;font-size:.97rem;margin-bottom:.9rem}
+.q-opts{display:flex;flex-direction:column;gap:.45rem}
+.qo{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem;cursor:pointer;font-size:.88rem;transition:all .2s;text-align:left;color:var(--text);font-family:var(--syne)}
+.qo:hover{border-color:var(--accent)}
+.qo.ok{background:rgba(78,205,196,.14);border-color:var(--a3);color:var(--a3)}
+.qo.no{background:rgba(255,107,107,.14);border-color:var(--a2);color:var(--a2)}
+.qfb{margin-top:.9rem;padding:.7rem 1rem;border-radius:8px;font-size:.88rem;display:none}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(78,205,196,.11);border:1px solid var(--a3);color:var(--a3)}
+.qfb.no{background:rgba(255,107,107,.11);border:1px solid var(--a2);color:var(--a2)}
+
+/* BELL CURVE */
+.bell-wrap{background:var(--surface2);border-radius:var(--r);padding:1.2rem;margin:1.4rem 0}
+
+/* UNCERTAINTY ITEMS */
+.unc-list{display:flex;flex-direction:column;gap:.7rem;margin:1.4rem 0}
+.unc-item{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:.9rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;cursor:pointer;transition:all .22s}
+.unc-item:hover{border-color:var(--accent)}
+.unc-num{font-family:var(--mono);font-size:.75rem;color:var(--accent);font-weight:700}
+.unc-text{font-size:.88rem}
+.unc-sev{font-family:var(--mono);font-size:.68rem;padding:.2rem .55rem;border-radius:4px}
+.sev-h{background:rgba(255,107,107,.15);color:var(--a2);border:1px solid var(--a2)}
+.sev-m{background:rgba(255,153,68,.15);color:var(--a5);border:1px solid var(--a5)}
+.sev-l{background:rgba(78,205,196,.15);color:var(--a3);border:1px solid var(--a3)}
+
+/* PHI TABLE */
+.phi-table{width:100%;border-collapse:collapse;margin:1.4rem 0;font-size:.88rem}
+.phi-table th{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:.7rem 1rem;text-align:left;border-bottom:2px solid var(--border)}
+.phi-table td{padding:.65rem 1rem;border-bottom:1px solid var(--border)}
+.phi-table tr:hover td{background:var(--surface2)}
+.phi-table .phi-val{font-family:var(--mono);color:var(--accent);font-weight:700}
+.phi-bar-cell{width:160px}
+.phi-mini{height:10px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:4px}
+.phi-mini-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--a3))}
+
+/* ORG CHART */
+.org-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin:1.8rem 0}
+.org-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem;text-align:center;transition:all .22s}
+.org-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.org-abbr{font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--accent);margin-bottom:.35rem}
+.org-name{font-size:.82rem;color:var(--muted)}
+.org-role{font-size:.75rem;margin-top:.4rem;color:var(--text)}
+
+/* FACTORED LOAD CALC */
+.calc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin:2rem 0}
+.calc h3{font-weight:700;margin-bottom:1.1rem}
+.calc-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.4rem}
+.cinp{display:flex;flex-direction:column;gap:.35rem}
+.cinp label{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.cinp input[type=number]{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.55rem .8rem;color:var(--text);font-family:var(--mono);font-size:.9rem;width:100%;outline:none;transition:border-color .2s}
+.cinp input[type=number]:focus{border-color:var(--accent)}
+.combos{display:flex;flex-direction:column;gap:.6rem;margin-top:1rem}
+.combo-row{display:grid;grid-template-columns:1fr 90px;align-items:center;gap:1rem;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem}
+.combo-row.gov{border-color:var(--a2);background:rgba(255,107,107,.08)}
+.combo-expr{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.combo-val{font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--accent);text-align:right}
+.combo-row.gov .combo-val{color:var(--a2)}
+.gov-badge{font-family:var(--mono);font-size:.65rem;color:var(--a2);border:1px solid var(--a2);border-radius:4px;padding:.15rem .45rem;margin-left:.5rem}
+
+/* STEP PROCESS */
+.steps{display:flex;flex-direction:column;gap:0;margin:1.8rem 0;position:relative}
+.steps::before{content:'';position:absolute;left:18px;top:0;bottom:0;width:2px;background:var(--border)}
+.step{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.4rem;position:relative}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1}
+.step-body{flex:1;padding-top:.3rem}
+.step-body h4{font-weight:700;margin-bottom:.3rem}
+.step-body p{font-size:.88rem;color:var(--muted)}
+
+/* UTILS */
+.mt1{margin-top:1rem}.mt2{margin-top:2rem}
+.hi{color:var(--accent);font-weight:600}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+strong{color:var(--text)}
+
+/* SUMMARY CARD */
+.summary{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-top:2rem}
+.summary h3{font-weight:700;margin-bottom:1rem;color:var(--accent)}
+.summary p{font-size:.88rem;color:var(--muted);margin-bottom:.55rem}
+.summary p strong{color:var(--text)}
+
+/* FOOTER */
+footer{max-width:940px;margin:0 auto;padding:3rem 2rem;text-align:center}
+footer p{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="prog-wrap"><div class="prog-bar" id="pb"></div></div>
+
+<nav class="side-nav" id="snav">
+  <div class="snd active" data-target="s1" data-label="§1.1 Materials"></div>
+  <div class="snd" data-target="s2" data-label="§1.2 Structural Forms"></div>
+  <div class="snd" data-target="s3" data-label="§1.3 Loads"></div>
+  <div class="snd" data-target="s4" data-label="§1.4 Safety Concepts"></div>
+  <div class="snd" data-target="s5" data-label="§1.5 Design Basis"></div>
+  <div class="snd" data-target="s6" data-label="§1.6 Design Codes"></div>
+  <div class="snd" data-target="s7" data-label="§1.7 ACI Provisions"></div>
+  <div class="snd" data-target="s8" data-label="§1.8 Factored Loads"></div>
+</nav>
+
+<header class="hdr">
+  <a href="/" class="logo">Math<span>ify</span></a>
+  <div class="hdr-r">
+    <div class="bread">Civil → Concrete Design → <em>Ch. 1 All Sections</em></div>
+    <button class="tog" id="togBtn">☀ Light</button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="chip">Design of Concrete Structures · 15th Ed · Chapter 1 — Complete</div>
+  <h1>Introduction to Concrete Structures</h1>
+  <p>All 8 sections — every topic explained with <em>why it matters first</em>, then built up through analogies, interactive visuals, and technical detail.</p>
+  <div class="toc-row">
+    <a class="toc-a" href="#s1">§1.1 Materials</a>
+    <a class="toc-a" href="#s2">§1.2 Forms</a>
+    <a class="toc-a" href="#s3">§1.3 Loads</a>
+    <a class="toc-a" href="#s4">§1.4 Safety</a>
+    <a class="toc-a" href="#s5">§1.5 Design Basis</a>
+    <a class="toc-a" href="#s6">§1.6 Codes</a>
+    <a class="toc-a" href="#s7">§1.7 ACI φ & γ</a>
+    <a class="toc-a" href="#s8">§1.8 Factored Loads</a>
+  </div>
+</div>
+
+<!-- ═══════════════ §1.1 ═══════════════ -->
+<section class="sec" id="s1">
+  <div class="sec-lbl">Section 1.1</div>
+  <h2>Concrete, Reinforced Concrete &amp; Prestressed Concrete</h2>
+
+  <div class="why">
+    <div class="why-lbl">⚡ Why does this matter?</div>
+    <p>Everything you design in this course is made of one of these three materials — or a combination. Their fundamentally different behaviours under stress will dictate <em>every</em> sizing, shape, and reinforcement decision you ever make. Get this wrong conceptually and you'll be guessing your way through the rest of the textbook.</p>
+  </div>
+
+  <div class="analogy">
+    <div class="a-lbl">🧠 Analogy</div>
+    <p>Think of <strong>plain concrete</strong> as a block of blackboard chalk — crushing-strong, snap-brittle. <strong>Reinforced concrete</strong> is that chalk encased in a steel skeleton — now it bends without snapping. <strong>Prestressed concrete</strong> is the chalk pre-squeezed so hard by rubber bands that any tension from bending must first undo that squeeze before cracking can start — this lets you span distances that would be impossible otherwise.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="swTab('plain',this)">Plain Concrete</button>
+    <button class="tab" onclick="swTab('rc',this)">Reinforced Concrete</button>
+    <button class="tab" onclick="swTab('psc',this)">Prestressed Concrete</button>
+  </div>
+
+  <!-- PLAIN -->
+  <div class="panel on" id="plain">
+    <div class="g2">
+      <div>
+        <h3 style="font-weight:700;margin-bottom:.7rem">Plain Concrete</h3>
+        <p class="small muted" style="margin-bottom:.6rem">A carefully proportioned mixture of cement, sand, coarse aggregate, and water. Cement and water react chemically to bind the aggregate into a stone-like mass. Curing conditions (temperature, humidity) critically affect the final strength.</p>
+        <p class="small muted" style="margin-bottom:.6rem"><span class="hi">Great at:</span> Compression — columns, arches, gravity dams. Compressive strength f'c typically 3,000–6,000 psi.</p>
+        <p class="small muted" style="margin-bottom:.6rem"><strong style="color:var(--a2)">Terrible at:</strong> Tension and bending. Tensile strength is only ~8–12% of compressive strength. A plain concrete beam cracks at the tension face under surprisingly light loads.</p>
+        <div class="tags">
+          <span class="tag tg">✓ Fire resistant</span><span class="tag tg">✓ Locally sourced</span>
+          <span class="tag tg">✓ Any shape</span><span class="tag tg">✓ Cheap</span>
+          <span class="tag tr">✗ Brittle in tension</span><span class="tag tr">✗ Cracks easily</span>
+        </div>
+      </div>
+      <div>
+        <div class="dbox">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+            <defs><pattern id="c1" patternUnits="userSpaceOnUse" width="8" height="8"><rect width="8" height="8" fill="#1e1e2e"/><circle cx="2" cy="2" r=".9" fill="#3a3a50"/><circle cx="6" cy="5" r="1.1" fill="#2e2e44"/></pattern></defs>
+            <rect x="20" y="55" width="260" height="70" rx="3" fill="url(#c1)" stroke="#5a5a7a" stroke-width="1.5"/>
+            <line x1="150" y1="18" x2="150" y2="50" stroke="#ff6b6b" stroke-width="2.5"/>
+            <polygon points="150,55 144,44 156,44" fill="#ff6b6b"/>
+            <text x="156" y="35" fill="#ff6b6b" font-size="10" font-family="Space Mono">LOAD</text>
+            <polygon points="50,125 36,148 64,148" fill="#7a7a9a"/>
+            <polygon points="250,125 236,148 264,148" fill="#7a7a9a"/>
+            <line x1="143" y1="90" x2="148" y2="125" stroke="#ff6b6b" stroke-width="1.8" stroke-dasharray="3,2"/>
+            <line x1="148" y1="125" x2="155" y2="108" stroke="#ff6b6b" stroke-width="1.8" stroke-dasharray="3,2"/>
+            <text x="160" y="120" fill="#ff6b6b" font-size="9" font-family="Space Mono">crack!</text>
+            <text x="25" y="182" fill="#ff9944" font-size="9" font-family="Space Mono">Top: COMPRESSION ✓</text>
+            <text x="25" y="196" fill="#ff6b6b" font-size="9" font-family="Space Mono">Bottom: TENSION → FAILS ✗</text>
+          </svg>
+        </div>
+        <p class="cap">Tension forms at the bottom of a loaded beam — plain concrete cracks there immediately.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RC -->
+  <div class="panel" id="rc">
+    <div class="g2">
+      <div>
+        <h3 style="font-weight:700;margin-bottom:.7rem">Reinforced Concrete (RC)</h3>
+        <p class="small muted" style="margin-bottom:.6rem">Deformed steel bars (rebar) are placed in forms before pouring. Once hardened, the two materials act compositely: <em>concrete handles compression, steel handles tension</em>. Two key facts make this work perfectly:</p>
+        <ol style="padding-left:1.3rem;font-size:.88rem;color:var(--muted);margin-bottom:.6rem">
+          <li style="margin-bottom:.3rem">Their thermal expansion coefficients are nearly identical — no cracking from temperature changes.</li>
+          <li>The deformed surface of rebar creates mechanical interlocking — no slip.</li>
+        </ol>
+        <p class="small muted">Grade 60 rebar (60 ksi yield) is the most commonly used. The ACI Code limits usable yield to 100 ksi to control crack widths.</p>
+        <div class="tags">
+          <span class="tag tg">✓ Handles tension &amp; bending</span><span class="tag tg">✓ Ductile — warns before failing</span>
+          <span class="tag tg">✓ Any shape</span><span class="tag tr">✗ Heavy (150 pcf)</span><span class="tag tr">✗ Rebar can corrode</span>
+        </div>
+      </div>
+      <div>
+        <div class="dbox">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+            <defs><pattern id="c2" patternUnits="userSpaceOnUse" width="8" height="8"><rect width="8" height="8" fill="#1e1e2e"/><circle cx="2" cy="2" r=".9" fill="#3a3a50"/><circle cx="6" cy="5" r="1.1" fill="#2e2e44"/></pattern></defs>
+            <rect x="20" y="55" width="260" height="70" rx="3" fill="url(#c2)" stroke="#5a5a7a" stroke-width="1.5"/>
+            <circle cx="58" cy="117" r="5" fill="#4a90d9" stroke="#6ab0f9" stroke-width="1.5"/>
+            <circle cx="98" cy="117" r="5" fill="#4a90d9" stroke="#6ab0f9" stroke-width="1.5"/>
+            <circle cx="150" cy="117" r="5" fill="#4a90d9" stroke="#6ab0f9" stroke-width="1.5"/>
+            <circle cx="202" cy="117" r="5" fill="#4a90d9" stroke="#6ab0f9" stroke-width="1.5"/>
+            <circle cx="242" cy="117" r="5" fill="#4a90d9" stroke="#6ab0f9" stroke-width="1.5"/>
+            <rect x="38" y="62" width="28" height="56" rx="2" fill="none" stroke="#4a90d9" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+            <rect x="136" y="62" width="28" height="56" rx="2" fill="none" stroke="#4a90d9" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+            <rect x="224" y="62" width="28" height="56" rx="2" fill="none" stroke="#4a90d9" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+            <line x1="150" y1="18" x2="150" y2="50" stroke="#ff6b6b" stroke-width="2.5"/>
+            <polygon points="150,55 144,44 156,44" fill="#ff6b6b"/>
+            <polygon points="50,125 36,148 64,148" fill="#7a7a9a"/>
+            <polygon points="250,125 236,148 264,148" fill="#7a7a9a"/>
+            <text x="220" y="72" fill="#ff9944" font-size="9" font-family="Space Mono">←compression</text>
+            <text x="220" y="150" fill="#4a90d9" font-size="9" font-family="Space Mono">←steel=tension</text>
+            <text x="60" y="168" fill="#5b8fff" font-size="9" font-family="Space Mono">deformed rebar (Grade 60)</text>
+          </svg>
+        </div>
+        <p class="cap">Rebar near the tension face prevents cracking. Stirrups (dashed squares) resist shear.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PSC -->
+  <div class="panel" id="psc">
+    <div class="g2">
+      <div>
+        <h3 style="font-weight:700;margin-bottom:.7rem">Prestressed Concrete (PSC)</h3>
+        <p class="small muted" style="margin-bottom:.6rem">High-strength steel tendons (wires, strands, or bars — up to 270 ksi) are stretched and anchored against the concrete. This squeezes the concrete into <strong>pre-compression</strong> before any live load is applied.</p>
+        <p class="small muted" style="margin-bottom:.6rem"><span class="hi">The key insight:</span> When live load bends the member and induces tension at the bottom, it must first overcome that pre-compression before cracking can occur. This allows much thinner sections and longer spans.</p>
+        <p class="small muted">Enables spans of 100–300 ft. Used in bridges, parking garages, stadiums. Dramatically reduces deflection and crack widths.</p>
+        <div class="tags">
+          <span class="tag tgo">★ Long spans (100–300 ft)</span><span class="tag tgo">★ Less deflection</span>
+          <span class="tag tgo">★ Thinner sections</span>
+          <span class="tag tr">✗ Complex construction</span><span class="tag tr">✗ Costly equipment</span>
+        </div>
+      </div>
+      <div>
+        <div class="dbox">
+          <svg viewBox="0 0 300 230" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="18" fill="#7a7a9a" font-size="9" font-family="Space Mono">BEFORE LOAD (pre-compression active)</text>
+            <rect x="15" y="24" width="270" height="44" rx="3" fill="#1e1e2e" stroke="#5a5a7a" stroke-width="1.5"/>
+            <line x1="15" y1="50" x2="285" y2="50" stroke="#e8b84b" stroke-width="3"/>
+            <circle cx="15" cy="50" r="4.5" fill="#e8b84b"/><circle cx="285" cy="50" r="4.5" fill="#e8b84b"/>
+            <polygon points="118,33 102,28 102,38" fill="#4ecdc4"/>
+            <polygon points="182,33 198,28 198,38" fill="#4ecdc4"/>
+            <text x="122" y="37" fill="#4ecdc4" font-size="8" font-family="Space Mono">←pre-comp→</text>
+            <text x="10" y="92" fill="#7a7a9a" font-size="9" font-family="Space Mono">UNDER LOAD (tension must fight pre-comp)</text>
+            <rect x="15" y="98" width="270" height="44" rx="3" fill="#1e1e2e" stroke="#5a5a7a" stroke-width="1.5"/>
+            <path d="M15,122 Q150,142 285,122" stroke="#e8b84b" stroke-width="3" fill="none"/>
+            <line x1="150" y1="74" x2="150" y2="93" stroke="#ff6b6b" stroke-width="2.5"/>
+            <polygon points="150,98 144,86 156,86" fill="#ff6b6b"/>
+            <polygon points="48,142 34,162 62,162" fill="#7a7a9a"/>
+            <polygon points="252,142 238,162 266,162" fill="#7a7a9a"/>
+            <rect x="12" y="185" width="12" height="10" fill="#e8b84b" rx="2"/>
+            <text x="28" y="194" fill="#e8b84b" font-size="9" font-family="Space Mono">High-strength tendon (270 ksi)</text>
+            <rect x="12" y="200" width="12" height="10" fill="#4ecdc4" rx="2"/>
+            <text x="28" y="209" fill="#4ecdc4" font-size="9" font-family="Space Mono">Pre-compression zone</text>
+          </svg>
+        </div>
+        <p class="cap">The draped tendon profile follows the tension zone, pre-compressing it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARS -->
+  <div class="bars mt2">
+    <h3>Strength Comparison — The Numbers in Context</h3>
+    <p class="small muted" style="margin-bottom:1rem">Typical values for normal-weight, 4,000 psi concrete and standard reinforcement.</p>
+    <div class="bar-row"><div class="bar-lbl">f'c (comp.)</div><div class="bar-wrap"><div class="bar-fill" style="width:72%;background:linear-gradient(90deg,#4ecdc4,#44a08d)">4,000 psi</div></div><div class="bar-val">4,000 psi</div></div>
+    <div class="bar-row"><div class="bar-lbl">fr (tension)</div><div class="bar-wrap"><div class="bar-fill" style="width:7.5%;background:linear-gradient(90deg,#ff6b6b,#ee0979)">~400</div></div><div class="bar-val">~400 psi</div></div>
+    <div class="bar-row"><div class="bar-lbl">Gr.60 rebar</div><div class="bar-wrap"><div class="bar-fill" style="width:55%;background:linear-gradient(90deg,#4a90d9,#5b6ff5)">60,000 psi</div></div><div class="bar-val">60,000 psi</div></div>
+    <div class="bar-row"><div class="bar-lbl">PS strand</div><div class="bar-wrap"><div class="bar-fill" style="width:98%;background:linear-gradient(90deg,#e8b84b,#f5a623)">270,000 psi</div></div><div class="bar-val">270,000 psi</div></div>
+    <p class="small muted" style="margin-top:.7rem">→ Concrete tensile strength is only <strong style="color:var(--a2)">~10%</strong> of its compressive strength. That single fact drives the entire logic of reinforced concrete design.</p>
+  </div>
+
+  <div class="quiz">
+    <h3>✏ Check Your Understanding</h3>
+    <div class="q-q">Why does prestressed concrete allow longer spans than ordinary reinforced concrete?</div>
+    <div class="q-opts" id="q1o">
+      <button class="qo" onclick="ans('q1o',0,'q1f',false)">A) High-strength tendons are stiffer than rebar, reducing deflection directly.</button>
+      <button class="qo" onclick="ans('q1o',1,'q1f',true)">B) Pre-compression means tension from live loads must overcome that squeeze before cracking — the section stays uncracked longer, greatly increasing effective stiffness and span capacity.</button>
+      <button class="qo" onclick="ans('q1o',2,'q1f',false)">C) PSC uses higher-strength concrete, which is stronger in both tension and compression.</button>
+      <button class="qo" onclick="ans('q1o',3,'q1f',false)">D) The tendons act as additional compression reinforcement like columns do.</button>
+    </div>
+    <div class="qfb" id="q1f"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ §1.2 ═══════════════ -->
+<section class="sec" id="s2">
+  <div class="sec-lbl">Section 1.2</div>
+  <h2>Structural Forms</h2>
+  <div class="why">
+    <div class="why-lbl">⚡ Why does this matter?</div>
+    <p>Choosing the <em>right structural form</em> is the first and most impactful decision in any design. It determines how efficiently loads travel to the ground, how much material you use, how much you spend, and what spans are achievable. An engineer who confuses these forms or applies them outside their optimal range will produce expensive, unsafe, or impractical structures.</p>
+  </div>
+  <div class="analogy">
+    <div class="a-lbl">🧠 Analogy</div>
+    <p>Structural forms are like tools in a toolbox. A hammer, screwdriver, and wrench each do something the others can't. You don't drive a screw with a hammer just because you already have it out. Flat plates suit apartments; shells suit stadiums; arches suit bridges — force the wrong one onto the wrong job and you waste money or risk failure.</p>
+  </div>
+
+  <p class="small muted" style="margin-bottom:.8rem">Click any card to see how that structural form works and when engineers choose it.</p>
+
+  <div class="cards" id="formsCards">
+    <div class="card" onclick="showCard('fp',this)">
+      <div class="dbox">
+        <svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="8" width="184" height="94" rx="3" fill="#1a2a3a" stroke="#4a90d9" stroke-width="1.5"/>
+          <circle cx="28" cy="28" r="6" fill="#4a90d9" opacity=".8"/><circle cx="172" cy="28" r="6" fill="#4a90d9" opacity=".8"/>
+          <circle cx="28" cy="90" r="6" fill="#4a90d9" opacity=".8"/><circle cx="172" cy="90" r="6" fill="#4a90d9" opacity=".8"/>
+          <circle cx="100" cy="59" r="6" fill="#4a90d9" opacity=".8"/>
+          <line x1="28" y1="28" x2="100" y2="59" stroke="#4a90d9" stroke-width=".7" stroke-dasharray="3,3" opacity=".4"/>
+          <line x1="172" y1="28" x2="100" y2="59" stroke="#4a90d9" stroke-width=".7" stroke-dasharray="3,3" opacity=".4"/>
+          <line x1="28" y1="90" x2="100" y2="59" stroke="#4a90d9" stroke-width=".7" stroke-dasharray="3,3" opacity=".4"/>
+          <line x1="172" y1="90" x2="100" y2="59" stroke="#4a90d9" stroke-width=".7" stroke-dasharray="3,3" opacity=".4"/>
+          <text x="55" y="105" fill="#7a7a9a" font-size="8" font-family="Space Mono">FLAT PLATE (plan)</text>
+        </svg>
+      </div>
+      <div class="card-ttl">Flat Plate</div>
+      <div class="card-sub">Slab on columns — no beams at all.</div>
+    </div>
+    <div class="card" onclick="showCard('owsb',this)">
+      <div class="dbox">
+        <svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="15" width="184" height="18" rx="2" fill="#1a2a3a" stroke="#4ecdc4" stroke-width="1.5"/>
+          <rect x="8" y="33" width="38" height="55" rx="2" fill="#152535" stroke="#4ecdc4" stroke-width="1.5"/>
+          <rect x="154" y="33" width="38" height="55" rx="2" fill="#152535" stroke="#4ecdc4" stroke-width="1.5"/>
+          <line x1="70" y1="5" x2="70" y2="13" stroke="#ff6b6b" stroke-width="1.5"/>
+          <polygon points="70,15 66,9 74,9" fill="#ff6b6b"/>
+          <line x1="120" y1="5" x2="120" y2="13" stroke="#ff6b6b" stroke-width="1.5"/>
+          <polygon points="120,15 116,9 124,9" fill="#ff6b6b"/>
+          <line x1="50" y1="48" x2="150" y2="48" stroke="#5b8fff" stroke-width="2"/>
+          <polygon points="150,44 158,48 150,52" fill="#5b8fff"/>
+          <text x="55" y="62" fill="#5b8fff" font-size="8" font-family="Space Mono">spans ONE way</text>
+          <text x="20" y="104" fill="#7a7a9a" font-size="8" font-family="Space Mono">ONE-WAY SLAB + BEAM</text>
+        </svg>
+      </div>
+      <div class="card-ttl">One-Way Slab + Beam</div>
+      <div class="card-sub">Load flows in one direction to beams, then columns.</div>
+    </div>
+    <div class="card" onclick="showCard('arch',this)">
+      <div class="dbox">
+        <svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12,95 Q100,8 188,95" stroke="#ffd93d" stroke-width="3" fill="none"/>
+          <line x1="12" y1="95" x2="4" y2="108" stroke="#ffd93d" stroke-width="2"/>
+          <line x1="188" y1="95" x2="196" y2="108" stroke="#ffd93d" stroke-width="2"/>
+          <line x1="75" y1="8" x2="75" y2="36" stroke="#ff6b6b" stroke-width="1.5"/>
+          <polygon points="75,40 71,31 79,31" fill="#ff6b6b"/>
+          <line x1="100" y1="4" x2="100" y2="22" stroke="#ff6b6b" stroke-width="1.5"/>
+          <polygon points="100,26 96,17 104,17" fill="#ff6b6b"/>
+          <line x1="125" y1="8" x2="125" y2="36" stroke="#ff6b6b" stroke-width="1.5"/>
+          <polygon points="125,40 121,31 129,31" fill="#ff6b6b"/>
+          <text x="60" y="72" fill="#ffd93d" font-size="8" font-family="Space Mono">COMPRESSION ONLY</text>
+          <text x="38" y="106" fill="#7a7a9a" font-size="8" font-family="Space Mono">ARCH — pure comp. thrust</text>
+        </svg>
+      </div>
+      <div class="card-ttl">Arch</div>
+      <div class="card-sub">Redirects vertical loads into diagonal thrust — pure compression.</div>
+    </div>
+    <div class="card" onclick="showCard('shell',this)">
+      <div class="dbox">
+        <svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18,100 Q18,25 100,15 Q182,25 182,100" stroke="#4ecdc4" stroke-width="2" fill="#1a2535"/>
+          <ellipse cx="100" cy="15" rx="82" ry="8" fill="none" stroke="#4ecdc4" stroke-width="1.5"/>
+          <path d="M18,100 Q55,56 100,46 Q145,56 182,100" stroke="#4ecdc4" stroke-width=".8" fill="none" opacity=".4"/>
+          <path d="M18,100 Q48,74 100,66 Q152,74 182,100" stroke="#4ecdc4" stroke-width=".8" fill="none" opacity=".4"/>
+          <text x="66" y="92" fill="#4ecdc4" font-size="8" font-family="Space Mono">VERY THIN!</text>
+          <text x="30" y="108" fill="#7a7a9a" font-size="8" font-family="Space Mono">CYLINDRICAL SHELL ROOF</text>
+        </svg>
+      </div>
+      <div class="card-ttl">Shell Structure</div>
+      <div class="card-sub">Curved thin surfaces — strength comes from form, not mass.</div>
+    </div>
+    <div class="card" onclick="showCard('fs',this)">
+      <div class="dbox">
+        <svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="14" width="184" height="18" rx="2" fill="#1a2a3a" stroke="#ff9944" stroke-width="1.5"/>
+          <rect x="35" y="32" width="32" height="12" rx="2" fill="#1a2535" stroke="#ff9944" stroke-width="1.5"/>
+          <rect x="133" y="32" width="32" height="12" rx="2" fill="#1a2535" stroke="#ff9944" stroke-width="1.5"/>
+          <path d="M42,44 L36,90 L67,90 L61,44" fill="#152535" stroke="#ff9944" stroke-width="1.5"/>
+          <path d="M140,44 L134,90 L165,90 L159,44" fill="#152535" stroke="#ff9944" stroke-width="1.5"/>
+          <text x="52" y="106" fill="#7a7a9a" font-size="8" font-family="Space Mono">FLAT SLAB + DROP PANELS</text>
+        </svg>
+      </div>
+      <div class="card-ttl">Flat Slab</div>
+      <div class="card-sub">Like flat plate + thickened slab at columns for heavy loads.</div>
+    </div>
+    <div class="card" onclick="showCard('bg',this)">
+      <div class="dbox">
+        <svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="25" width="160" height="65" rx="3" fill="none" stroke="#5b8fff" stroke-width="2"/>
+          <rect x="42" y="40" width="116" height="40" rx="2" fill="#0a0a1a" stroke="#5b8fff" stroke-width="1.5"/>
+          <line x1="100" y1="4" x2="20" y2="28" stroke="#ffd93d" stroke-width="1.5"/>
+          <line x1="100" y1="4" x2="180" y2="28" stroke="#ffd93d" stroke-width="1.5"/>
+          <circle cx="100" cy="3" r="3" fill="#ffd93d"/>
+          <text x="68" y="92" fill="#5b8fff" font-size="8" font-family="Space Mono">BOX SECTION</text>
+          <text x="42" y="107" fill="#7a7a9a" font-size="8" font-family="Space Mono">BOX GIRDER BRIDGE</text>
+        </svg>
+      </div>
+      <div class="card-ttl">Box Girder Bridge</div>
+      <div class="card-sub">Hollow box — outstanding bending + torsion resistance.</div>
+    </div>
+    <div class="card" onclick="showCard('joist',this)">
+      <div class="dbox">
+        <svg viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="10" width="184" height="16" rx="2" fill="#1a2a3a" stroke="#a78bfa" stroke-width="1.5"/>
+          <rect x="20" y="26" width="12" height="55" rx="2" fill="#152535" stroke="#a78bfa" stroke-width="1.5"/>
+          <rect x="46" y="26" width="12" height="55" rx="2" fill="#152535" stroke="#a78bfa" stroke-width="1.5"/>
+          <rect x="72" y="26" width="12" height="55" rx="2" fill="#152535" stroke="#a78bfa" stroke-width="1.5"/>
+          <rect x="98" y="26" width="12" height="55" rx="2" fill="#152535" stroke="#a78bfa" stroke-width="1.5"/>
+          <rect x="124" y="26" width="12" height="55" rx="2" fill="#152535" stroke="#a78bfa" stroke-width="1.5"/>
+          <rect x="150" y="26" width="12" height="55" rx="2" fill="#152535" stroke="#a78bfa" stroke-width="1.5"/>
+          <rect x="176" y="26" width="12" height="55" rx="2" fill="#152535" stroke="#a78bfa" stroke-width="1.5"/>
+          <text x="30" y="104" fill="#7a7a9a" font-size="8" font-family="Space Mono">ONE-WAY JOIST SYSTEM</text>
+        </svg>
+      </div>
+      <div class="card-ttl">One-Way Joist System</div>
+      <div class="card-sub">Closely spaced ribs on a thin slab — light &amp; efficient.</div>
+    </div>
+  </div>
+
+  <div class="expand" id="formDetail">
+    <h4 id="formDttl"></h4>
+    <p id="formDbody"></p>
+    <p id="formDwhere" style="color:var(--a3);font-size:.88rem;margin-top:.4rem"></p>
+    <p id="formDspan" style="color:var(--accent);font-family:var(--mono);font-size:.78rem;margin-top:.4rem"></p>
+  </div>
+
+  <!-- LOAD PATH DIAGRAM -->
+  <div class="mt2">
+    <h3 style="font-weight:700;margin-bottom:1rem">Universal Law: Every Structural System is Just a Load Path</h3>
+    <div class="dbox">
+      <svg viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg">
+        <text x="270" y="20" fill="#7a7a9a" font-size="10" font-family="Space Mono">SNOW / WIND / LIVE LOAD</text>
+        <line x1="330" y1="22" x2="330" y2="45" stroke="#ff6b6b" stroke-width="2.5"/>
+        <polygon points="330,48 324,37 336,37" fill="#ff6b6b"/>
+        <rect x="215" y="50" width="230" height="34" rx="6" fill="#1a2a4a" stroke="#4a90d9" stroke-width="1.5"/>
+        <text x="270" y="71" fill="#4a90d9" font-size="10" font-family="Space Mono">ROOF / FLOOR SLAB</text>
+        <line x1="330" y1="86" x2="330" y2="106" stroke="#4ecdc4" stroke-width="2"/>
+        <polygon points="330,108 324,97 336,97" fill="#4ecdc4"/>
+        <rect x="195" y="109" width="270" height="34" rx="6" fill="#1a2535" stroke="#4ecdc4" stroke-width="1.5"/>
+        <text x="262" y="130" fill="#4ecdc4" font-size="10" font-family="Space Mono">BEAMS / GIRDERS</text>
+        <line x1="330" y1="145" x2="330" y2="165" stroke="#ffd93d" stroke-width="2"/>
+        <polygon points="330,167 324,156 336,156" fill="#ffd93d"/>
+        <rect x="185" y="168" width="290" height="34" rx="6" fill="#1a2535" stroke="#ffd93d" stroke-width="1.5"/>
+        <text x="245" y="189" fill="#ffd93d" font-size="10" font-family="Space Mono">COLUMNS / WALLS</text>
+        <line x1="330" y1="204" x2="330" y2="224" stroke="#ff9944" stroke-width="2"/>
+        <polygon points="330,226 324,215 336,215" fill="#ff9944"/>
+        <rect x="170" y="227" width="320" height="34" rx="6" fill="#1a2535" stroke="#ff9944" stroke-width="1.5"/>
+        <text x="220" y="248" fill="#ff9944" font-size="10" font-family="Space Mono">FOUNDATIONS → GROUND</text>
+        <text x="12" y="120" fill="#5a5a7a" font-size="10" font-family="Space Mono">Load</text>
+        <text x="10" y="133" fill="#5a5a7a" font-size="10" font-family="Space Mono">Path</text>
+        <text x="10" y="146" fill="#5a5a7a" font-size="10" font-family="Space Mono">↓↓↓↓</text>
+        <text x="518" y="71" fill="#4a90d9" font-size="9" font-family="Space Mono">← bending</text>
+        <text x="518" y="130" fill="#4ecdc4" font-size="9" font-family="Space Mono">← bend + shear</text>
+        <text x="518" y="189" fill="#ffd93d" font-size="9" font-family="Space Mono">← axial comp.</text>
+        <text x="518" y="248" fill="#ff9944" font-size="9" font-family="Space Mono">← bearing + spread</text>
+      </svg>
+    </div>
+    <p class="cap">Every structural form is a different way to route loads down this same chain. Good engineers visualise this path intuitively.</p>
+  </div>
+
+  <div class="quiz">
+    <h3>✏ Check Your Understanding</h3>
+    <div class="q-q">An arch converts vertical loads into what type of internal stress, and why is concrete ideal for arches?</div>
+    <div class="q-opts" id="q2o">
+      <button class="qo" onclick="ans('q2o',0,'q2f',false)">A) Bending — concrete handles high bending moments efficiently.</button>
+      <button class="qo" onclick="ans('q2o',1,'q2f',false)">B) Tension — high-strength tendons run along the arch axis.</button>
+      <button class="qo" onclick="ans('q2o',2,'q2f',true)">C) Compression (diagonal thrust) — concrete excels in compression, so an arch lets you exploit exactly that strength while avoiding tension almost entirely.</button>
+      <button class="qo" onclick="ans('q2o',3,'q2f',false)">D) Shear — the curved profile distributes shear across the arch ring.</button>
+    </div>
+    <div class="qfb" id="q2f"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ §1.3 ═══════════════ -->
+<section class="sec" id="s3">
+  <div class="sec-lbl">Section 1.3</div>
+  <h2>Loads</h2>
+  <div class="why">
+    <div class="why-lbl">⚡ Why does this matter?</div>
+    <p>Every design calculation you ever do starts with loads. If you misclassify a load, apply the wrong value, or ignore a load type, your structure will be either dangerously under-designed or wastefully over-designed. Understanding load types and their statistical nature is what separates a thoughtful engineer from someone who just plugs numbers into equations.</p>
+  </div>
+  <div class="analogy">
+    <div class="a-lbl">🧠 Analogy</div>
+    <p>Think of loads like your monthly budget. <strong>Dead loads = rent</strong> (fixed, always there, known precisely). <strong>Live loads = groceries</strong> (varies month to month, but bounded). <strong>Wind/seismic = sudden car repair</strong> (rare but potentially huge). You plan for the regular ones and buy insurance for the surprises. Engineers do the same through <em>load combinations</em> — but with math instead of a bank account.</p>
+  </div>
+
+  <div class="ltypes">
+    <div class="lcard"><div class="lico">🏗️</div><h4>Dead Load (D)</h4><p>Self-weight of the structure + permanent fixtures (HVAC, flooring, ceilings). Calculated from dimensions and unit weights. Always present. Known precisely.</p><div class="ctag">ACI symbol: D</div></div>
+    <div class="lcard"><div class="lico">🚶</div><h4>Live Load (L)</h4><p>Occupancy loads — people, furniture, vehicles, stored goods. Varies with use and time. Code specifies minimum values by occupancy (40 psf residential → 250 psf warehouses).</p><div class="ctag">ACI symbol: L</div></div>
+    <div class="lcard"><div class="lico">❄️</div><h4>Snow (S)</h4><p>Accumulation on roofs. Depends on geographic location and roof slope. Can be asymmetric (drift loads at parapets). A major cause of roof failures in cold climates.</p><div class="ctag">ACI symbol: S</div></div>
+    <div class="lcard"><div class="lico">🌬️</div><h4>Wind (W)</h4><p>Pressure and suction on all surfaces. Can cause net uplift on flat roofs. Varies with height, terrain, and building shape. Based on statistical return periods (ASCE 7).</p><div class="ctag">ACI symbol: W</div></div>
+    <div class="lcard"><div class="lico">🌍</div><h4>Seismic (E)</h4><p>Inertia forces during ground shaking. Proportional to mass — <em>heavier structures attract more seismic force</em>. Dynamic analysis required for complex/tall structures.</p><div class="ctag">ACI symbol: E</div></div>
+    <div class="lcard"><div class="lico">🌡️</div><h4>Other (F, H, T)</h4><p>Fluid pressure (water tanks), lateral earth pressure (retaining walls), and temperature/settlement effects. Must be considered when applicable.</p><div class="ctag">F, H, T</div></div>
+  </div>
+
+  <!-- BEAM SIMULATOR -->
+  <div class="sim">
+    <h3>🔬 Interactive: Feel the Effect of Load on a Beam</h3>
+    <p class="small muted" style="margin-bottom:1rem">Drag the sliders to see how dead load, live load, and span affect beam deflection. The factored moment updates in real time — this is what you're designing against.</p>
+    <div class="controls">
+      <div class="knob"><label>Dead Load D (psf) <span id="dv">25</span></label><input type="range" min="0" max="120" value="25" id="dsl" oninput="updateSim()"></div>
+      <div class="knob"><label>Live Load L (psf) <span id="lv">50</span></label><input type="range" min="0" max="200" value="50" id="lsl" oninput="updateSim()"></div>
+      <div class="knob"><label>Span (ft) <span id="sv">24</span></label><input type="range" min="8" max="50" value="24" id="ssl" oninput="updateSim()"></div>
+    </div>
+    <div class="canvas-bg"><canvas id="bc" width="800" height="175" style="width:100%;height:auto"></canvas></div>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;margin-top:.9rem">
+      <div style="font-family:var(--mono);font-size:.78rem"><span class="muted">w (D+L):</span> <span style="color:var(--accent)" id="wt">—</span></div>
+      <div style="font-family:var(--mono);font-size:.78rem"><span class="muted">wu = 1.2D+1.6L:</span> <span style="color:var(--a4)" id="wu">—</span></div>
+      <div style="font-family:var(--mono);font-size:.78rem"><span class="muted">Mu ∝ wuL²/8:</span> <span style="color:var(--a5)" id="mu">—</span></div>
+      <div style="font-family:var(--mono);font-size:.76rem;color:var(--a2)">⚠ Deflection exaggerated ×40</div>
+    </div>
+  </div>
+
+  <div class="fcard">
+    <div class="ftitle">ACI 318 — Key Factored Load Combinations</div>
+    <div class="feq">U = 1.4D</div>
+    <div class="feq">U = 1.2D + 1.6L + 0.5(Lr or S or R)</div>
+    <div class="feq">U = 1.2D + 1.6(Lr or S or R) + (L or 0.5W)</div>
+    <div class="feq">U = 1.2D + 1.0W + L + 0.5(Lr or S or R)</div>
+    <div class="feq">U = 0.9D + 1.0W &nbsp;&nbsp;&nbsp; (checks uplift/overturning)</div>
+    <div class="fleg"><span>D</span>=dead · <span>L</span>=live · <span>S</span>=snow · <span>W</span>=wind · <span>Lr</span>=roof live · <span>R</span>=rain · The design must satisfy ALL applicable combinations simultaneously.</div>
+  </div>
+
+  <div class="quiz">
+    <h3>✏ Check Your Understanding</h3>
+    <div class="q-q">A flat-roof structure in a snowy climate. Which load combination is most likely to govern design?</div>
+    <div class="q-opts" id="q3o">
+      <button class="qo" onclick="ans('q3o',0,'q3f',false)">A) U = 1.4D — dead load is always heaviest on flat roofs.</button>
+      <button class="qo" onclick="ans('q3o',1,'q3f',true)">B) U = 1.2D + 1.6S + L — snow load gets the 1.6 factor when it's the dominant environmental load, which often governs flat roofs in heavy-snow regions.</button>
+      <button class="qo" onclick="ans('q3o',2,'q3f',false)">C) U = 0.9D + 1.0W — uplift from wind governs all flat roofs.</button>
+      <button class="qo" onclick="ans('q3o',3,'q3f',false)">D) U = 1.2D + 1.6L — live load always governs because snow is treated as live load.</button>
+    </div>
+    <div class="qfb" id="q3f"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ §1.4 ═══════════════ -->
+<section class="sec" id="s4">
+  <div class="sec-lbl">Section 1.4</div>
+  <h2>Serviceability, Strength, and Structural Safety</h2>
+  <div class="why">
+    <div class="why-lbl">⚡ Why does this matter?</div>
+    <p>This is the <em>philosophical core</em> of structural engineering. Why do we multiply loads by 1.2 or 1.6? Why do we reduce calculated strength by 0.9 or 0.75? The answer is that <strong>both loads and strengths are random variables</strong> — they vary, and we can never know them exactly. This section teaches you to think probabilistically about structural safety instead of treating it as a magic recipe from a code book.</p>
+  </div>
+  <div class="analogy">
+    <div class="a-lbl">🧠 Analogy</div>
+    <p>Imagine two overlapping bell curves on a number line — one for the loads a structure will see, one for the strength it actually has. <strong>Failure happens when a load exceeds the strength</strong> — the overlap of those two curves. Safety design means keeping that overlap (the failure probability) acceptably tiny — typically 1 in 100,000 for structural elements.</p>
+  </div>
+
+  <!-- Bell curve diagram -->
+  <div class="bell-wrap">
+    <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#ff6b6b" stop-opacity="0"/>
+          <stop offset="60%" stop-color="#ff6b6b" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#ff6b6b" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#4ecdc4" stop-opacity="0"/>
+          <stop offset="40%" stop-color="#4ecdc4" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#4ecdc4" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="lg3" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="60%" stop-color="#ff6b6b" stop-opacity=".25"/>
+          <stop offset="75%" stop-color="#ffd93d" stop-opacity=".4"/>
+          <stop offset="88%" stop-color="#4ecdc4" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="#4ecdc4" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- Baseline -->
+      <line x1="30" y1="165" x2="630" y2="165" stroke="#3a3a5a" stroke-width="1.5"/>
+      <!-- Load distribution (bell centered at 200) -->
+      <path d="M50,165 Q80,165 110,162 Q140,158 170,140 Q200,110 230,80 Q260,110 290,140 Q320,158 350,162 Q380,165 410,165" fill="url(#lg1)" stroke="#ff6b6b" stroke-width="2"/>
+      <!-- Strength distribution (bell centered at 420) -->
+      <path d="M230,165 Q260,165 290,162 Q320,158 350,140 Q380,110 410,80 Q440,110 470,140 Q500,158 530,162 Q560,165 590,165" fill="url(#lg2)" stroke="#4ecdc4" stroke-width="2"/>
+      <!-- Overlap region -->
+      <path d="M280,165 Q295,163 310,158 Q325,150 340,140 Q355,130 365,135 Q375,140 385,145 Q395,155 405,162 Q415,165 430,165 L280,165 Z" fill="url(#lg3)" opacity=".6"/>
+      <!-- Labels -->
+      <text x="170" y="72" fill="#ff6b6b" font-size="11" font-family="Space Mono" text-anchor="middle">Load Q</text>
+      <text x="170" y="86" fill="#ff6b6b" font-size="9" font-family="Space Mono" text-anchor="middle">(what acts on structure)</text>
+      <text x="450" y="72" fill="#4ecdc4" font-size="11" font-family="Space Mono" text-anchor="middle">Strength S</text>
+      <text x="450" y="86" fill="#4ecdc4" font-size="9" font-family="Space Mono" text-anchor="middle">(what structure can carry)</text>
+      <!-- Failure zone arrow -->
+      <line x1="340" y1="130" x2="340" y2="178" stroke="#ffd93d" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="300" y="192" fill="#ffd93d" font-size="9" font-family="Space Mono">FAILURE ZONE</text>
+      <text x="285" y="183" fill="#ffd93d" font-size="9" font-family="Space Mono">(S &lt; Q)</text>
+      <!-- Design intent arrows -->
+      <line x1="210" y1="100" x2="160" y2="100" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#arw)"/>
+      <text x="100" y="98" fill="#ff6b6b" font-size="8" font-family="Space Mono">design Q loads</text>
+      <text x="92" y="108" fill="#ff6b6b" font-size="8" font-family="Space Mono">conservatively HIGH</text>
+      <line x1="430" y1="100" x2="480" y2="100" stroke="#4ecdc4" stroke-width="1.5"/>
+      <text x="484" y="98" fill="#4ecdc4" font-size="8" font-family="Space Mono">design S strength</text>
+      <text x="484" y="108" fill="#4ecdc4" font-size="8" font-family="Space Mono">conservatively LOW</text>
+    </svg>
+    <p class="cap" style="margin-top:.3rem">The goal: keep the curves far apart so the overlap (failure probability) is negligibly small.</p>
+  </div>
+
+  <h3 style="font-weight:700;margin:1.8rem 0 1rem">7 Sources of Uncertainty in Concrete Construction</h3>
+  <p class="small muted" style="margin-bottom:1rem">Each source below is a reason we can't use exact values — and collectively they justify why we need safety factors. Click any item to learn more about why it matters.</p>
+
+  <div class="unc-list">
+    <div class="unc-item" onclick="toggleUnc(this)">
+      <div class="unc-num">1</div>
+      <div class="unc-text">Actual loads may differ from those assumed in design.</div>
+      <div class="unc-sev sev-h">HIGH</div>
+    </div>
+    <div class="unc-detail" style="display:none;padding:.7rem 1rem .7rem 3.2rem;font-size:.85rem;color:var(--muted);border-left:2px solid var(--a2);margin-bottom:.5rem">Occupancy loads change over a building's 50-year life. A floor designed for offices may be used as a storage room. Live loads in codes are conservative upper bounds, not averages.</div>
+    <div class="unc-item" onclick="toggleUnc(this)">
+      <div class="unc-num">2</div>
+      <div class="unc-text">Actual load distribution may differ from what was assumed.</div>
+      <div class="unc-sev sev-m">MED</div>
+    </div>
+    <div class="unc-detail" style="display:none;padding:.7rem 1rem .7rem 3.2rem;font-size:.85rem;color:var(--muted);border-left:2px solid var(--a5);margin-bottom:.5rem">Analysis models idealise load as uniform or point loads. Reality is messier — furniture clusters, crowds concentrate near exits, equipment vibrates.</div>
+    <div class="unc-item" onclick="toggleUnc(this)">
+      <div class="unc-num">3</div>
+      <div class="unc-text">Analysis assumptions and simplifications introduce error in calculated internal forces.</div>
+      <div class="unc-sev sev-m">MED</div>
+    </div>
+    <div class="unc-detail" style="display:none;padding:.7rem 1rem .7rem 3.2rem;font-size:.85rem;color:var(--muted);border-left:2px solid var(--a5);margin-bottom:.5rem">Elastic analysis, simply-supported assumptions, ignoring stiffness changes — all introduce discrepancies between our model and the real structure.</div>
+    <div class="unc-item" onclick="toggleUnc(this)">
+      <div class="unc-num">4</div>
+      <div class="unc-text">Actual structural behaviour may differ from assumed (imperfect knowledge).</div>
+      <div class="unc-sev sev-m">MED</div>
+    </div>
+    <div class="unc-detail" style="display:none;padding:.7rem 1rem .7rem 3.2rem;font-size:.85rem;color:var(--muted);border-left:2px solid var(--a5);margin-bottom:.5rem">Concrete-to-steel bond, redistribution of forces, progressive cracking — these phenomena are modelled imperfectly. Research continues to improve our understanding.</div>
+    <div class="unc-item" onclick="toggleUnc(this)">
+      <div class="unc-num">5</div>
+      <div class="unc-text">Actual member dimensions may differ from those specified.</div>
+      <div class="unc-sev sev-l">LOW</div>
+    </div>
+    <div class="unc-detail" style="display:none;padding:.7rem 1rem .7rem 3.2rem;font-size:.85rem;color:var(--muted);border-left:2px solid var(--a3);margin-bottom:.5rem">Construction tolerances mean a beam specified as 12" wide might be 11.5". This affects section capacity. ACI allows ±3/8" tolerance on dimensions.</div>
+    <div class="unc-item" onclick="toggleUnc(this)">
+      <div class="unc-num">6</div>
+      <div class="unc-text">Reinforcement may not be in its specified position.</div>
+      <div class="unc-sev sev-m">MED</div>
+    </div>
+    <div class="unc-detail" style="display:none;padding:.7rem 1rem .7rem 3.2rem;font-size:.85rem;color:var(--muted);border-left:2px solid var(--a5);margin-bottom:.5rem">A bar misplaced by 3/4" in a shallow slab can reduce moment capacity by 10–15%. This is why ACI specifies cover tolerances and inspectors check bar placement.</div>
+    <div class="unc-item" onclick="toggleUnc(this)">
+      <div class="unc-num">7</div>
+      <div class="unc-text">Actual material strength may differ from that specified.</div>
+      <div class="unc-sev sev-h">HIGH</div>
+    </div>
+    <div class="unc-detail" style="display:none;padding:.7rem 1rem .7rem 3.2rem;font-size:.85rem;color:var(--muted);border-left:2px solid var(--a2);margin-bottom:.5rem">Even carefully mixed concrete shows batch-to-batch variability of ±500–1000 psi. ACI requires f'c to be the strength such that no more than 10% of tests fall below it.</div>
+  </div>
+
+  <div class="fcard mt2">
+    <div class="ftitle">The Safety Margin Equation (Conceptual)</div>
+    <div class="feq">M = S − Q &gt; 0 &nbsp;&nbsp;&nbsp;&nbsp; (must be positive to avoid failure)</div>
+    <div class="feq">Practical form:&nbsp;&nbsp; φ·Sn ≥ γ·Qd</div>
+    <div class="fleg">
+      <span>φ</span> = strength reduction factor (accounts for strength uncertainty, &lt;1.0) ·
+      <span>Sn</span> = nominal strength · <span>γ</span> = load factor (accounts for load uncertainty, &gt;1.0) ·
+      <span>Qd</span> = code-specified design load · <em>β (reliability index) of 3–4 corresponds to ~1:100,000 failure probability.</em>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <h3>✏ Check Your Understanding</h3>
+    <div class="q-q">Why do strength reduction factors φ have different values for different failure modes (e.g., φ=0.90 for flexure vs φ=0.65 for compression)?</div>
+    <div class="q-opts" id="q4o">
+      <button class="qo" onclick="ans('q4o',0,'q4f',false)">A) Higher-loaded elements always get lower φ values.</button>
+      <button class="qo" onclick="ans('q4o',1,'q4f',false)">B) φ is lower for members that cost more to repair.</button>
+      <button class="qo" onclick="ans('q4o',2,'q4f',true)">C) φ reflects both the uncertainty in calculating that failure mode AND the consequence — compression failures (columns) are sudden and catastrophic, so they get a lower φ. Flexure gives ductile warning, so φ can be higher.</button>
+      <button class="qo" onclick="ans('q4o',3,'q4f',false)">D) The values are arbitrary code conventions inherited from older working-stress methods.</button>
+    </div>
+    <div class="qfb" id="q4f"></div>
+  </div>
+</section>
+<!-- ═══════════════ §1.5 ═══════════════ -->
+<section class="sec" id="s5">
+  <div class="sec-lbl">Section 1.5</div>
+  <h2>Design Basis</h2>
+  <div class="why">
+    <div class="why-lbl">⚡ Why does this matter?</div>
+    <p>You need to understand <em>why</em> modern concrete design works the way it does — and why it replaced what came before. This isn't just history: understanding the two competing philosophies tells you exactly what the strength design equations are trying to achieve, which makes them far easier to remember and apply correctly.</p>
+  </div>
+  <div class="analogy">
+    <div class="a-lbl">🧠 Analogy</div>
+    <p>Imagine two ways to hire a taxi driver. The old method (<em>working stress / ASD</em>) says: "Keep your speed below 30 mph at all times" — a rule based on service conditions. The modern method (<em>strength design / LRFD</em>) says: "Your car must be able to physically survive a crash at 60 mph without killing anyone" — a rule based on the ultimate limit. The modern method is more rational because it designs against actual failure, not an arbitrary fraction of it.</p>
+  </div>
+
+  <!-- Toggle comparison -->
+  <div style="margin:1.8rem 0">
+    <div style="display:flex;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap">
+      <button class="tab on" onclick="swDB('strength',this)">Strength Design (LRFD) — Modern</button>
+      <button class="tab" onclick="swDB('asd',this)">Working Stress Design (ASD) — Historical</button>
+    </div>
+    <div class="panel on" id="strength">
+      <div class="g2">
+        <div>
+          <h3 style="font-weight:700;margin-bottom:.7rem">Strength Design (SD / LRFD)</h3>
+          <p class="small muted" style="margin-bottom:.7rem">Members are proportioned so their <em>nominal strength</em>, reduced by φ, meets or exceeds the <em>required strength U</em> from factored loads.</p>
+          <div class="fcard" style="margin:.8rem 0">
+            <div class="feq">φSn ≥ U = Σ(γᵢ · Loadᵢ)</div>
+            <div class="fleg">Design against <span>ultimate failure</span>, not service stress.</div>
+          </div>
+          <ul style="padding-left:1.3rem;font-size:.88rem;color:var(--muted)">
+            <li style="margin-bottom:.4rem">More rational — directly targets the limit state that matters (collapse)</li>
+            <li style="margin-bottom:.4rem">Different safety factors for different load types (1.2D vs 1.6L) — reflects actual variability</li>
+            <li style="margin-bottom:.4rem">Accounts for nonlinear material behaviour at ultimate (concrete crushes, steel yields)</li>
+            <li>Standard in ACI 318 and virtually all modern codes worldwide</li>
+          </ul>
+        </div>
+        <div>
+          <div class="dbox">
+            <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
+              <text x="10" y="18" fill="#7a7a9a" font-size="9" font-family="Space Mono">STRENGTH DESIGN — WHAT WE'RE TARGETING</text>
+              <!-- Beam with loads scaled up -->
+              <rect x="15" y="50" width="250" height="45" rx="3" fill="#1e1e2e" stroke="#5b8fff" stroke-width="1.5"/>
+              <!-- Rebar -->
+              <circle cx="50" cy="88" r="5" fill="#4a90d9"/><circle cx="90" cy="88" r="5" fill="#4a90d9"/>
+              <circle cx="140" cy="88" r="5" fill="#4a90d9"/><circle cx="190" cy="88" r="5" fill="#4a90d9"/>
+              <circle cx="230" cy="88" r="5" fill="#4a90d9"/>
+              <!-- Factored load arrows (bigger) -->
+              <line x1="80" y1="18" x2="80" y2="44" stroke="#ff6b6b" stroke-width="2.5"/>
+              <polygon points="80,50 74,37 86,37" fill="#ff6b6b"/>
+              <line x1="140" y1="18" x2="140" y2="44" stroke="#ff6b6b" stroke-width="2.5"/>
+              <polygon points="140,50 134,37 146,37" fill="#ff6b6b"/>
+              <line x1="200" y1="18" x2="200" y2="44" stroke="#ff6b6b" stroke-width="2.5"/>
+              <polygon points="200,50 194,37 206,37" fill="#ff6b6b"/>
+              <text x="55" y="15" fill="#ff6b6b" font-size="9" font-family="Space Mono">wu = 1.2D + 1.6L</text>
+              <!-- Supports -->
+              <polygon points="38,95 25,115 51,115" fill="#7a7a9a"/>
+              <polygon points="242,95 229,115 255,115" fill="#7a7a9a"/>
+              <!-- Moment diagram (parabola) -->
+              <text x="10" y="140" fill="#7a7a9a" font-size="9" font-family="Space Mono">Mu = wuL²/8</text>
+              <path d="M15,190 Q140,145 265,190" fill="none" stroke="#ffd93d" stroke-width="2"/>
+              <text x="95" y="155" fill="#ffd93d" font-size="9" font-family="Space Mono">Mu (max)</text>
+              <text x="10" y="145" fill="#7a7a9a" font-size="8" font-family="Space Mono">MOMENT</text>
+              <text x="10" y="157" fill="#7a7a9a" font-size="8" font-family="Space Mono">DIAGRAM:</text>
+              <text x="40" y="205" fill="#4a90d9" font-size="9" font-family="Space Mono">DESIGN: φMn ≥ Mu</text>
+            </svg>
+          </div>
+          <p class="cap">Design against the factored moment — the member must physically be able to resist collapse under extreme loads.</p>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="asd">
+      <div class="g2">
+        <div>
+          <h3 style="font-weight:700;margin-bottom:.7rem">Working Stress Design (ASD)</h3>
+          <p class="small muted" style="margin-bottom:.7rem">Members are proportioned so that stresses under <em>service (unfactored) loads</em> stay within allowable limits — typically half the failure stress.</p>
+          <div class="fcard" style="margin:.8rem 0">
+            <div class="feq">f_actual ≤ f_allowable = f_failure / FS</div>
+            <div class="fleg">Safety factor FS ≈ 2.0 applied to material strength. Design at <span>service level</span>, not ultimate.</div>
+          </div>
+          <ul style="padding-left:1.3rem;font-size:.88rem;color:var(--muted)">
+            <li style="margin-bottom:.4rem">Simple and intuitive — stresses under real loads must be "safe"</li>
+            <li style="margin-bottom:.4rem">Single safety factor treats all load types the same — not reflecting actual variability</li>
+            <li style="margin-bottom:.4rem">Assumes linear-elastic behaviour even at service loads — an approximation</li>
+            <li>Still used for serviceability checks and is the basis for many older structures</li>
+          </ul>
+        </div>
+        <div>
+          <div class="dbox">
+            <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg">
+              <text x="10" y="18" fill="#7a7a9a" font-size="9" font-family="Space Mono">ASD — WORKING AT SERVICE LEVEL</text>
+              <rect x="15" y="50" width="250" height="45" rx="3" fill="#1e1e2e" stroke="#7a7a9a" stroke-width="1.5"/>
+              <circle cx="50" cy="88" r="5" fill="#7a7a9a"/><circle cx="140" cy="88" r="5" fill="#7a7a9a"/><circle cx="230" cy="88" r="5" fill="#7a7a9a"/>
+              <line x1="80" y1="22" x2="80" y2="44" stroke="#ff9944" stroke-width="1.5"/>
+              <polygon points="80,50 75,40 85,40" fill="#ff9944"/>
+              <line x1="140" y1="22" x2="140" y2="44" stroke="#ff9944" stroke-width="1.5"/>
+              <polygon points="140,50 135,40 145,40" fill="#ff9944"/>
+              <line x1="200" y1="22" x2="200" y2="44" stroke="#ff9944" stroke-width="1.5"/>
+              <polygon points="200,50 195,40 205,40" fill="#ff9944"/>
+              <text x="72" y="19" fill="#ff9944" font-size="9" font-family="Space Mono">w = D + L (no factors)</text>
+              <polygon points="38,95 25,115 51,115" fill="#7a7a9a"/>
+              <polygon points="242,95 229,115 255,115" fill="#7a7a9a"/>
+              <text x="10" y="140" fill="#7a7a9a" font-size="9" font-family="Space Mono">f = Mc/I ≤ f_allow</text>
+              <path d="M15,190 Q140,152 265,190" fill="none" stroke="#ff9944" stroke-width="2"/>
+              <text x="10" y="145" fill="#7a7a9a" font-size="8" font-family="Space Mono">STRESS</text>
+              <text x="10" y="157" fill="#7a7a9a" font-size="8" font-family="Space Mono">DIAGRAM:</text>
+              <!-- Allowable stress line -->
+              <line x1="15" y1="168" x2="265" y2="168" stroke="#4ecdc4" stroke-width="1.5" stroke-dasharray="5,3"/>
+              <text x="196" y="165" fill="#4ecdc4" font-size="8" font-family="Space Mono">f_allow = f'c/2</text>
+              <text x="30" y="207" fill="#7a7a9a" font-size="9" font-family="Space Mono">CHECK: f_actual &lt; f_allow ✓</text>
+            </svg>
+          </div>
+          <p class="cap">ASD checks that elastic stresses under real loads stay below an arbitrary fraction of failure stress.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dbox mt2">
+    <svg viewBox="0 0 660 130" xmlns="http://www.w3.org/2000/svg">
+      <text x="10" y="22" fill="#7a7a9a" font-size="10" font-family="Space Mono">TIMELINE: HOW DESIGN PHILOSOPHY EVOLVED</text>
+      <line x1="30" y1="75" x2="630" y2="75" stroke="#3a3a5a" stroke-width="2"/>
+      <!-- Events -->
+      <circle cx="80" cy="75" r="6" fill="#7a7a9a"/>
+      <text x="68" y="65" fill="#7a7a9a" font-size="9" font-family="Space Mono">1900s</text>
+      <text x="55" y="95" fill="#7a7a9a" font-size="8" font-family="Space Mono">ASD dominates</text>
+      <circle cx="230" cy="75" r="6" fill="#7a7a9a"/>
+      <text x="218" y="65" fill="#7a7a9a" font-size="9" font-family="Space Mono">1950s</text>
+      <text x="200" y="95" fill="#7a7a9a" font-size="8" font-family="Space Mono">SD introduced</text>
+      <text x="195" y="107" fill="#7a7a9a" font-size="8" font-family="Space Mono">(optional in ACI)</text>
+      <circle cx="380" cy="75" r="6" fill="#5b8fff"/>
+      <text x="368" y="65" fill="#5b8fff" font-size="9" font-family="Space Mono">1963</text>
+      <text x="345" y="95" fill="#5b8fff" font-size="8" font-family="Space Mono">ACI 318-63 adopts</text>
+      <text x="352" y="107" fill="#5b8fff" font-size="8" font-family="Space Mono">Strength Design</text>
+      <circle cx="520" cy="75" r="6" fill="#4ecdc4"/>
+      <text x="508" y="65" fill="#4ecdc4" font-size="9" font-family="Space Mono">2014+</text>
+      <text x="488" y="95" fill="#4ecdc4" font-size="8" font-family="Space Mono">ACI 318-14 reorganised</text>
+      <text x="500" y="107" fill="#4ecdc4" font-size="8" font-family="Space Mono">member-focused</text>
+    </svg>
+  </div>
+
+  <div class="quiz">
+    <h3>✏ Check Your Understanding</h3>
+    <div class="q-q">A beam is designed using Strength Design. The factored moment Mu = 380 kip·ft. If you calculate a nominal moment capacity Mn = 440 kip·ft with φ = 0.90, does the beam pass?</div>
+    <div class="q-opts" id="q5o">
+      <button class="qo" onclick="ans('q5o',0,'q5f',false)">A) No — Mn = 440 &lt; 380 × 1.6 = 608 kip·ft, so the beam fails.</button>
+      <button class="qo" onclick="ans('q5o',1,'q5f',true)">B) Yes — φMn = 0.90 × 440 = 396 kip·ft ≥ Mu = 380 kip·ft, so the beam passes (just barely).</button>
+      <button class="qo" onclick="ans('q5o',2,'q5f',false)">C) No — φ has not been applied yet. We need additional capacity.</button>
+      <button class="qo" onclick="ans('q5o',3,'q5f',false)">D) Yes — Mn = 440 &gt; 380, and φ only applies to column design, not beams.</button>
+    </div>
+    <div class="qfb" id="q5f"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ §1.6 ═══════════════ -->
+<section class="sec" id="s6">
+  <div class="sec-lbl">Section 1.6</div>
+  <h2>Design Codes and Specifications</h2>
+  <div class="why">
+    <div class="why-lbl">⚡ Why does this matter?</div>
+    <p>You will spend your entire career navigating and applying these documents. Understanding <em>who writes them, why they exist, and how they relate to each other</em> is essential — not just for passing exams, but because misapplying the wrong code or the wrong edition of a code to a project has caused structural failures and massive legal liability.</p>
+  </div>
+  <div class="analogy">
+    <div class="a-lbl">🧠 Analogy</div>
+    <p>Think of design codes like traffic laws. The <strong>ACI Code</strong> is like the detailed traffic rulebook for concrete — specific technical requirements. The <strong>IBC</strong> is like the state law that says "you must follow the traffic rulebook." <strong>ASCE 7</strong> is a separate standard that defines the loads (speed limits, essentially). No single document covers everything — they reference each other in a chain.</p>
+  </div>
+
+  <div class="org-grid">
+    <div class="org-card">
+      <div class="org-abbr">ACI 318</div>
+      <div class="org-name">American Concrete Institute</div>
+      <div class="org-role">The primary code for design of concrete structures in the U.S. Specifies material requirements, analysis methods, member proportioning, detailing. Updated every 6 years. ACI 318-14 is the current version covered in this textbook.</div>
+    </div>
+    <div class="org-card">
+      <div class="org-abbr">ASCE 7</div>
+      <div class="org-name">Am. Society of Civil Engineers</div>
+      <div class="org-role">Specifies minimum design loads — dead, live, wind, snow, seismic, flood. ACI 318 references ASCE 7 for load magnitudes. Published as "Minimum Design Loads for Buildings and Other Structures."</div>
+    </div>
+    <div class="org-card">
+      <div class="org-abbr">IBC</div>
+      <div class="org-name">International Building Code</div>
+      <div class="org-role">The model building code adopted by most U.S. municipalities. Mandates the use of ACI 318 and ASCE 7. Local jurisdictions may adopt IBC with amendments. Ensures a consistent minimum safety standard.</div>
+    </div>
+    <div class="org-card">
+      <div class="org-abbr">AASHTO</div>
+      <div class="org-name">Am. Assoc. of State Highway &amp; Transportation Officials</div>
+      <div class="org-role">Governs bridge design. The AASHTO LRFD Bridge Design Specifications include concrete design provisions parallel to (but distinct from) ACI 318. This text includes AASHTO shear design in Chapter 5.</div>
+    </div>
+    <div class="org-card">
+      <div class="org-abbr">AREMA</div>
+      <div class="org-name">Am. Railway Engineering &amp; Maintenance-of-Way Assoc.</div>
+      <div class="org-role">Specifies design requirements for railway bridges and structures. Railway loads differ significantly from highway loads (heavier, dynamic impact factors).</div>
+    </div>
+    <div class="org-card">
+      <div class="org-abbr">ACI 301</div>
+      <div class="org-name">Specifications for Structural Concrete</div>
+      <div class="org-role">Companion document to ACI 318. While 318 is the design standard, ACI 301 governs construction practice — mixing, placing, curing, formwork. The engineer designs; ACI 301 governs how it gets built.</div>
+    </div>
+  </div>
+
+  <!-- Code hierarchy -->
+  <div class="dbox mt2">
+    <svg viewBox="0 0 660 180" xmlns="http://www.w3.org/2000/svg">
+      <text x="250" y="20" fill="#7a7a9a" font-size="10" font-family="Space Mono">U.S. CODE HIERARCHY FOR CONCRETE BUILDINGS</text>
+      <!-- Level 1: IBC -->
+      <rect x="240" y="30" width="180" height="32" rx="6" fill="#1a2a4a" stroke="#4a90d9" stroke-width="1.5"/>
+      <text x="292" y="50" fill="#4a90d9" font-size="10" font-family="Space Mono">IBC (Local Law)</text>
+      <!-- Lines down -->
+      <line x1="330" y1="62" x2="200" y2="88" stroke="#3a3a5a" stroke-width="1.5"/>
+      <line x1="330" y1="62" x2="330" y2="88" stroke="#3a3a5a" stroke-width="1.5"/>
+      <line x1="330" y1="62" x2="460" y2="88" stroke="#3a3a5a" stroke-width="1.5"/>
+      <!-- Level 2 -->
+      <rect x="120" y="88" width="160" height="32" rx="6" fill="#1a2535" stroke="#4ecdc4" stroke-width="1.5"/>
+      <text x="152" y="108" fill="#4ecdc4" font-size="10" font-family="Space Mono">ACI 318 (Concrete)</text>
+      <rect x="250" y="88" width="160" height="32" rx="6" fill="#1a2535" stroke="#ffd93d" stroke-width="1.5"/>
+      <text x="270" y="108" fill="#ffd93d" font-size="10" font-family="Space Mono">ASCE 7 (Loads)</text>
+      <rect x="380" y="88" width="160" height="32" rx="6" fill="#1a2535" stroke="#ff9944" stroke-width="1.5"/>
+      <text x="398" y="108" fill="#ff9944" font-size="10" font-family="Space Mono">Other standards</text>
+      <!-- Lines down from ACI 318 -->
+      <line x1="200" y1="120" x2="200" y2="148" stroke="#3a3a5a" stroke-width="1.5"/>
+      <rect x="110" y="148" width="180" height="28" rx="6" fill="#1a2535" stroke="#7a7a9a" stroke-width="1.5"/>
+      <text x="143" y="166" fill="#7a7a9a" font-size="9" font-family="Space Mono">ACI 301 (Construction)</text>
+    </svg>
+  </div>
+
+  <p class="small muted mt1" style="margin-bottom:1rem">The United States — unlike many nations — has <strong>no single official government-sanctioned national code</strong>. Instead, codes are written by professional organisations (ACI, ASCE, AASHTO) and adopted by local jurisdictions through reference in laws like the IBC.</p>
+
+  <div class="quiz">
+    <h3>✏ Check Your Understanding</h3>
+    <div class="q-q">A structural engineer designing a concrete office building in Kansas City needs to determine wind load and then size the concrete beams. Which standards does she use, and in what order?</div>
+    <div class="q-opts" id="q6o">
+      <button class="qo" onclick="ans('q6o',0,'q6f',false)">A) ACI 318 only — it covers both loads and design in one document.</button>
+      <button class="qo" onclick="ans('q6o',1,'q6f',false)">B) AASHTO first, then ACI 318 — AASHTO governs all U.S. structures.</button>
+      <button class="qo" onclick="ans('q6o',2,'q6f',true)">C) ASCE 7 to determine wind and other load magnitudes, then ACI 318 to design the concrete members to resist those loads. Both are referenced by the IBC, which Kansas City has adopted.</button>
+      <button class="qo" onclick="ans('q6o',3,'q6f',false)">D) IBC only — it is a complete self-contained design code.</button>
+    </div>
+    <div class="qfb" id="q6f"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ §1.7 ═══════════════ -->
+<section class="sec" id="s7">
+  <div class="sec-lbl">Section 1.7</div>
+  <h2>Safety Provisions of the ACI Code</h2>
+  <div class="why">
+    <div class="why-lbl">⚡ Why does this matter?</div>
+    <p>These are the actual numbers you will use in every single design calculation for the rest of this course and your career. The φ (phi) factors and load factors aren't arbitrary — each one is calibrated to reflect specific levels of uncertainty and consequence. Understanding the <em>reason</em> behind each value prevents you from blindly applying the wrong one and catching errors that others miss.</p>
+  </div>
+  <div class="analogy">
+    <div class="a-lbl">🧠 Analogy</div>
+    <p>Think of φ factors like the safety margins on different parts of a car. The <strong>brakes</strong> (columns — sudden, catastrophic failure) get more redundancy (φ = 0.65). The <strong>seatbelts</strong> (beams — give ductile warning before failing) need less redundancy (φ = 0.90) because you can see a problem coming. The ACI calibrates each φ to give the same overall probability of failure regardless of how different each failure mode looks.</p>
+  </div>
+
+  <!-- PHI TABLE -->
+  <h3 style="font-weight:700;margin:1.8rem 0 .5rem">ACI 318 Strength Reduction Factors (φ)</h3>
+  <p class="small muted" style="margin-bottom:1rem">Each φ &lt; 1.0 reduces the calculated nominal strength to account for real-world variability. Click any row to learn why that value was chosen.</p>
+
+  <table class="phi-table" id="phiTable">
+    <thead><tr><th>Action / Failure Mode</th><th>φ Value</th><th>Relative φ</th><th>Reason</th></tr></thead>
+    <tbody>
+      <tr onclick="togglePhiNote(this,'n1')" style="cursor:pointer">
+        <td><strong>Flexure (tension-controlled)</strong></td><td class="phi-val">0.90</td>
+        <td class="phi-bar-cell"><div class="phi-mini"><div class="phi-mini-fill" style="width:90%;background:linear-gradient(90deg,#4ecdc4,#44a08d)"></div></div></td>
+        <td class="small muted">Ductile; warns before failure ▸</td>
+      </tr>
+      <tr class="phi-note" id="n1" style="display:none"><td colspan="4" style="padding:.6rem 1rem;font-size:.83rem;color:var(--muted);background:var(--surface2)">Flexural failure is gradual — steel yields and the beam deflects visibly before concrete crushes. This ductility means there's time to detect and fix problems. Highest φ value because uncertainty in calculating Mn is low and consequences are manageable.</td></tr>
+      <tr onclick="togglePhiNote(this,'n2')" style="cursor:pointer">
+        <td><strong>Shear and torsion</strong></td><td class="phi-val">0.75</td>
+        <td class="phi-bar-cell"><div class="phi-mini"><div class="phi-mini-fill" style="width:75%;background:linear-gradient(90deg,#5b8fff,#4a90d9)"></div></div></td>
+        <td class="small muted">Less predictable; more sudden ▸</td>
+      </tr>
+      <tr class="phi-note" id="n2" style="display:none"><td colspan="4" style="padding:.6rem 1rem;font-size:.83rem;color:var(--muted);background:var(--surface2)">Shear failure can be sudden and brittle — diagonal cracking propagates quickly. Our theoretical models for shear are less accurate than flexure models, so higher uncertainty demands a lower φ. Reflects both unpredictability of diagonal tension and lack of ductile warning.</td></tr>
+      <tr onclick="togglePhiNote(this,'n3')" style="cursor:pointer">
+        <td><strong>Compression-controlled (tied columns)</strong></td><td class="phi-val">0.65</td>
+        <td class="phi-bar-cell"><div class="phi-mini"><div class="phi-mini-fill" style="width:65%;background:linear-gradient(90deg,#ff9944,#ff6b6b)"></div></div></td>
+        <td class="small muted">Sudden; catastrophic collapse ▸</td>
+      </tr>
+      <tr class="phi-note" id="n3" style="display:none"><td colspan="4" style="padding:.6rem 1rem;font-size:.83rem;color:var(--muted);background:var(--surface2)">Column compression failure is sudden — no ductile warning, immediate collapse. Also, column failure causes progressive collapse of everything it supports. Lowest φ for tied columns reflects both the severity of the consequence AND the high variability in concrete compression strength under construction conditions.</td></tr>
+      <tr onclick="togglePhiNote(this,'n4')" style="cursor:pointer">
+        <td><strong>Compression-controlled (spiral columns)</strong></td><td class="phi-val">0.75</td>
+        <td class="phi-bar-cell"><div class="phi-mini"><div class="phi-mini-fill" style="width:75%;background:linear-gradient(90deg,#ff9944,#ffd93d)"></div></div></td>
+        <td class="small muted">More ductile than tied ▸</td>
+      </tr>
+      <tr class="phi-note" id="n4" style="display:none"><td colspan="4" style="padding:.6rem 1rem;font-size:.83rem;color:var(--muted);background:var(--surface2)">Spiral reinforcement confines the concrete core much more effectively than rectangular ties. When the outer concrete shell spalls, the spiral-confined core continues to carry load. This ductile post-spall behaviour justifies a higher φ than for tied columns.</td></tr>
+      <tr onclick="togglePhiNote(this,'n5')" style="cursor:pointer">
+        <td><strong>Bearing on concrete</strong></td><td class="phi-val">0.65</td>
+        <td class="phi-bar-cell"><div class="phi-mini"><div class="phi-mini-fill" style="width:65%;background:linear-gradient(90deg,#ff6b6b,#ee0979)"></div></div></td>
+        <td class="small muted">Localised, brittle ▸</td>
+      </tr>
+      <tr class="phi-note" id="n5" style="display:none"><td colspan="4" style="padding:.6rem 1rem;font-size:.83rm;color:var(--muted);background:var(--surface2)">Bearing stresses on concrete (e.g., under a column base plate) can cause local crushing — a brittle failure mode. The low φ reflects the uncertainty in contact area and stress distribution.</td></tr>
+      <tr onclick="togglePhiNote(this,'n6')" style="cursor:pointer">
+        <td><strong>Post-tensioned anchorage zones</strong></td><td class="phi-val">0.85</td>
+        <td class="phi-bar-cell"><div class="phi-mini"><div class="phi-mini-fill" style="width:85%;background:linear-gradient(90deg,#e8b84b,#ffd93d)"></div></div></td>
+        <td class="small muted">High-quality PS construction ▸</td>
+      </tr>
+      <tr class="phi-note" id="n6" style="display:none"><td colspan="4" style="padding:.6rem 1rem;font-size:.83rem;color:var(--muted);background:var(--surface2)">Prestressed concrete anchorage zones are typically subject to rigorous quality control and engineering oversight. The slightly higher φ reflects better control over concrete quality and the predictability of the localised stress field in the anchorage zone.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Load factors visual -->
+  <h3 style="font-weight:700;margin:2rem 0 .5rem">ACI 318 Load Factors — Why Each Value?</h3>
+  <div class="dbox">
+    <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Dead load: γ=1.2 -->
+      <text x="20" y="22" fill="#7a7a9a" font-size="10" font-family="Space Mono">LOAD FACTORS — REFLECTING UNCERTAINTY</text>
+      <!-- D -->
+      <rect x="20" y="35" width="100" height="60" rx="6" fill="#1a2a4a" stroke="#4a90d9" stroke-width="1.5"/>
+      <text x="55" y="62" fill="#4a90d9" font-size="18" font-family="Space Mono" font-weight="bold">D</text>
+      <text x="45" y="78" fill="#4a90d9" font-size="9" font-family="Space Mono">Dead Load</text>
+      <text x="130" y="68" fill="#7a7a9a" font-size="14" font-family="Space Mono">×1.2</text>
+      <text x="25" y="115" fill="#7a7a9a" font-size="8" font-family="Space Mono">Known precisely from</text>
+      <text x="25" y="126" fill="#7a7a9a" font-size="8" font-family="Space Mono">design → small factor</text>
+      <!-- L -->
+      <rect x="175" y="35" width="100" height="60" rx="6" fill="#1a2535" stroke="#4ecdc4" stroke-width="1.5"/>
+      <text x="212" y="62" fill="#4ecdc4" font-size="18" font-family="Space Mono" font-weight="bold">L</text>
+      <text x="203" y="78" fill="#4ecdc4" font-size="9" font-family="Space Mono">Live Load</text>
+      <text x="285" y="68" fill="#7a7a9a" font-size="14" font-family="Space Mono">×1.6</text>
+      <text x="180" y="115" fill="#7a7a9a" font-size="8" font-family="Space Mono">Uncertain occupancy</text>
+      <text x="180" y="126" fill="#7a7a9a" font-size="8" font-family="Space Mono">→ largest factor</text>
+      <!-- W -->
+      <rect x="330" y="35" width="100" height="60" rx="6" fill="#1a2535" stroke="#ffd93d" stroke-width="1.5"/>
+      <text x="367" y="62" fill="#ffd93d" font-size="18" font-family="Space Mono" font-weight="bold">W</text>
+      <text x="356" y="78" fill="#ffd93d" font-size="9" font-family="Space Mono">Wind Load</text>
+      <text x="440" y="68" fill="#7a7a9a" font-size="14" font-family="Space Mono">×1.0</text>
+      <text x="335" y="115" fill="#7a7a9a" font-size="8" font-family="Space Mono">Already high (ASCE 7</text>
+      <text x="335" y="126" fill="#7a7a9a" font-size="8" font-family="Space Mono">uses 700-yr return)</text>
+      <!-- E -->
+      <rect x="490" y="35" width="100" height="60" rx="6" fill="#1a2535" stroke="#ff9944" stroke-width="1.5"/>
+      <text x="528" y="62" fill="#ff9944" font-size="18" font-family="Space Mono" font-weight="bold">E</text>
+      <text x="510" y="78" fill="#ff9944" font-size="9" font-family="Space Mono">Seismic Load</text>
+      <text x="598" y="68" fill="#7a7a9a" font-size="14" font-family="Space Mono">×1.0</text>
+      <text x="492" y="115" fill="#7a7a9a" font-size="8" font-family="Space Mono">Also pre-amplified</text>
+      <text x="492" y="126" fill="#7a7a9a" font-size="8" font-family="Space Mono">in ASCE 7</text>
+      <!-- Key -->
+      <text x="20" y="165" fill="#7a7a9a" font-size="9" font-family="Space Mono">KEY PRINCIPLE: factor = 1 + (variability × consequence)</text>
+      <text x="20" y="180" fill="#7a7a9a" font-size="9" font-family="Space Mono">Dead load is your own design → low variability → γ=1.2. Crowds are random → high variability → γ=1.6.</text>
+    </svg>
+  </div>
+
+  <div class="quiz">
+    <h3>✏ Check Your Understanding</h3>
+    <div class="q-q">A beam is being designed for flexure (φ=0.90) and shear (φ=0.75). If both give the same nominal capacity, which failure mode is the code more concerned about, and why?</div>
+    <div class="q-opts" id="q7o">
+      <button class="qo" onclick="ans('q7o',0,'q7f',false)">A) Flexure — φ=0.90 is closer to 1.0, showing the code trusts flexure calculations more and invests more design effort there.</button>
+      <button class="qo" onclick="ans('q7o',1,'q7f',true)">B) Shear — φ=0.75 &lt; 0.90 means the code is MORE concerned about shear. It applies a larger reduction to effective capacity, essentially requiring a larger reserve margin against shear failure, which is more sudden and less predictable.</button>
+      <button class="qo" onclick="ans('q7o',2,'q7f',false)">C) They're equally concerning — φ is just a normalisation factor with no engineering meaning.</button>
+      <button class="qo" onclick="ans('q7o',3,'q7f',false)">D) Flexure — bigger φ means larger allowable moment, which is the critical failure mode.</button>
+    </div>
+    <div class="qfb" id="q7f"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ §1.8 ═══════════════ -->
+<section class="sec" id="s8">
+  <div class="sec-lbl">Section 1.8</div>
+  <h2>Developing Factored Gravity Loads</h2>
+  <div class="why">
+    <div class="why-lbl">⚡ Why does this matter?</div>
+    <p>This is where the theory becomes calculation. Every structural design starts with computing the factored loads — the actual numbers that go into your beam or column equations. Get this step wrong and everything downstream is wrong. This section walks you through the exact process used in professional practice, from gathering service loads to computing the governing factored design force.</p>
+  </div>
+  <div class="analogy">
+    <div class="a-lbl">🧠 Analogy</div>
+    <p>Developing factored loads is like computing the worst-case bill you need to be able to pay. You list all your regular expenses (dead loads), estimate your maximum variable spending (live loads), multiply each by how uncertain it is (load factors), and check every possible month's scenario (load combinations). The highest total across all scenarios is your required "financial strength" — your Mu, the design demand.</p>
+  </div>
+
+  <!-- Step-by-step process -->
+  <h3 style="font-weight:700;margin:1.8rem 0 1rem">The 5-Step Process for Developing Factored Gravity Loads</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Identify all loads acting on the member</h4>
+        <p>List dead loads (self-weight of concrete at 150 pcf, slab fill, partitions, MEP, ceilings) and live loads (from ASCE 7 Table 4.3-1 based on occupancy). Don't forget roof live loads, snow, or other applicable loads.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Determine the tributary area or tributary width</h4>
+        <p>The portion of the floor or roof that "feeds" loads to the beam or column being designed. For a beam with joists at 8 ft spacing, the tributary width is 8 ft. For a column, it's the surrounding floor area it supports.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Convert area loads (psf) to linear loads (plf or k/ft)</h4>
+        <p>Multiply load intensity (psf) × tributary width (ft) = load per linear foot (plf). This gives you the distributed load w on your beam or girder.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Apply ACI load combinations to find the governing factored load wu</h4>
+        <p>Check both U = 1.4D and U = 1.2D + 1.6L (plus others if snow/wind applies). The <em>larger</em> result governs.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Compute the factored internal forces (Mu, Vu)</h4>
+        <p>Use statics to find maximum moment and shear. For a simply supported beam: Mu = wuL²/8, Vu = wuL/2. These are the demand values your design must satisfy.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE CALCULATOR -->
+  <div class="calc">
+    <h3>🧮 Interactive: Factored Load Calculator</h3>
+    <p class="small muted" style="margin-bottom:1rem">Enter your service loads and span. The calculator checks all governing ACI combinations and highlights the one that controls design.</p>
+    <div class="calc-inputs">
+      <div class="cinp"><label>Dead Load D (psf)</label><input type="number" id="ci_d" value="40" oninput="calcU()"></div>
+      <div class="cinp"><label>Live Load L (psf)</label><input type="number" id="ci_l" value="80" oninput="calcU()"></div>
+      <div class="cinp"><label>Snow Load S (psf)</label><input type="number" id="ci_s" value="20" oninput="calcU()"></div>
+      <div class="cinp"><label>Roof Live Lr (psf)</label><input type="number" id="ci_lr" value="20" oninput="calcU()"></div>
+      <div class="cinp"><label>Tributary Width (ft)</label><input type="number" id="ci_tw" value="10" oninput="calcU()"></div>
+      <div class="cinp"><label>Beam Span (ft)</label><input type="number" id="ci_sp" value="22" oninput="calcU()"></div>
+    </div>
+    <h4 style="font-weight:700;margin-bottom:.7rem;font-size:.9rem;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.1em">ACI Load Combinations → Factored Distributed Load (k/ft)</h4>
+    <div class="combos" id="comboRows"></div>
+    <div id="calcResult" style="margin-top:1.2rem;background:var(--surface2);border-radius:var(--r);padding:1.2rem;font-family:var(--mono);font-size:.85rem"></div>
+  </div>
+
+  <!-- TRIBUTARY AREA VISUAL -->
+  <div class="mt2">
+    <h3 style="font-weight:700;margin-bottom:1rem">Understanding Tributary Areas</h3>
+    <div class="dbox">
+      <svg viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Floor plan showing columns and tributary areas -->
+        <text x="10" y="20" fill="#7a7a9a" font-size="10" font-family="Space Mono">TRIBUTARY AREAS — FLOOR PLAN VIEW</text>
+        <!-- Floor slab -->
+        <rect x="30" y="30" width="600" height="235" rx="3" fill="#12121a" stroke="#3a3a5a" stroke-width="1.5"/>
+        <!-- Column grid -->
+        <!-- Row 1 -->
+        <circle cx="110" cy="80" r="8" fill="#4a90d9"/>
+        <circle cx="230" cy="80" r="8" fill="#4a90d9"/>
+        <circle cx="350" cy="80" r="8" fill="#4a90d9"/>
+        <circle cx="470" cy="80" r="8" fill="#4a90d9"/>
+        <circle cx="550" cy="80" r="8" fill="#4a90d9"/>
+        <!-- Row 2 -->
+        <circle cx="110" cy="175" r="8" fill="#4a90d9"/>
+        <circle cx="230" cy="175" r="8" fill="#4a90d9"/>
+        <circle cx="350" cy="175" r="8" fill="#ff6b6b" stroke="#ff6b6b" stroke-width="2"/>
+        <circle cx="470" cy="175" r="8" fill="#4a90d9"/>
+        <circle cx="550" cy="175" r="8" fill="#4a90d9"/>
+        <!-- Row 3 -->
+        <circle cx="110" cy="245" r="8" fill="#4a90d9"/>
+        <circle cx="230" cy="245" r="8" fill="#4a90d9"/>
+        <circle cx="350" cy="245" r="8" fill="#4a90d9"/>
+        <circle cx="470" cy="245" r="8" fill="#4a90d9"/>
+        <circle cx="550" cy="245" r="8" fill="#4a90d9"/>
+        <!-- Tributary area for interior column (350,175) — highlighted -->
+        <rect x="291" y="128" width="118" height="96" rx="2" fill="rgba(255,107,107,0.12)" stroke="#ff6b6b" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="300" y="185" fill="#ff6b6b" font-size="8" font-family="Space Mono">TRIBUTARY</text>
+        <text x="300" y="196" fill="#ff6b6b" font-size="8" font-family="Space Mono">AREA for</text>
+        <text x="300" y="207" fill="#ff6b6b" font-size="8" font-family="Space Mono">this column</text>
+        <!-- Span labels -->
+        <line x1="110" y1="260" x2="230" y2="260" stroke="#7a7a9a" stroke-width="1" marker-end="url(#da)"/>
+        <line x1="230" y1="260" x2="110" y2="260" stroke="#7a7a9a" stroke-width="1"/>
+        <text x="148" y="272" fill="#7a7a9a" font-size="9" font-family="Space Mono">L1</text>
+        <line x1="230" y1="260" x2="350" y2="260" stroke="#7a7a9a" stroke-width="1"/>
+        <text x="278" y="272" fill="#7a7a9a" font-size="9" font-family="Space Mono">L2</text>
+        <!-- Beam -->
+        <text x="38" y="175" fill="#4ecdc4" font-size="8" font-family="Space Mono">← BEAM →</text>
+        <line x1="110" y1="172" x2="550" y2="172" stroke="#4ecdc4" stroke-width="1.5" opacity=".5"/>
+        <!-- Tributary width for beam -->
+        <rect x="110" y="128" width="440" height="47" rx="0" fill="rgba(78,205,196,0.08)" stroke="#4ecdc4" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="430" y="156" fill="#4ecdc4" font-size="8" font-family="Space Mono">Tributary width = L1/2 + L2/2</text>
+        <!-- Key -->
+        <circle cx="38" cy="42" r="5" fill="#4a90d9"/>
+        <text x="47" y="46" fill="#7a7a9a" font-size="9" font-family="Space Mono">Regular column</text>
+        <circle cx="150" cy="42" r="5" fill="#ff6b6b"/>
+        <text x="159" y="46" fill="#ff6b6b" font-size="9" font-family="Space Mono">Column of interest</text>
+        <rect x="260" y="37" width="12" height="10" fill="rgba(255,107,107,0.2)" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="275" y="46" fill="#7a7a9a" font-size="9" font-family="Space Mono">Tributary area (column)</text>
+        <rect x="410" y="37" width="12" height="10" fill="rgba(78,205,196,0.1)" stroke="#4ecdc4" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="425" y="46" fill="#7a7a9a" font-size="9" font-family="Space Mono">Tributary width (beam)</text>
+      </svg>
+    </div>
+    <p class="cap">Each column or beam collects load from its surrounding "tributary" region. Interior columns carry more load than corner columns because they have a larger tributary area.</p>
+  </div>
+
+  <div class="quiz">
+    <h3>✏ Check Your Understanding</h3>
+    <div class="q-q">A beam has D = 30 psf and L = 60 psf acting over a tributary width of 12 ft, on a 20-ft span. What is the governing factored load wu (k/ft) and factored moment Mu (k·ft)?</div>
+    <div class="q-opts" id="q8o">
+      <button class="qo" onclick="ans('q8o',0,'q8f',false)">A) wu = (1.4×30) × 12/1000 = 0.504 k/ft → governs. Mu = 0.504×400/8 = 25.2 k·ft</button>
+      <button class="qo" onclick="ans('q8o',1,'q8f',true)">B) Comb 1: wu=1.4×30×12/1000=0.504 k/ft. Comb 2: wu=(1.2×30+1.6×60)×12/1000=(36+96)×12/1000=1.584 k/ft → Comb 2 governs. Mu=1.584×20²/8 = 79.2 k·ft.</button>
+      <button class="qo" onclick="ans('q8o',2,'q8f',false)">C) wu = (30+60) × 12 / 1000 = 1.08 k/ft (no factors needed for Mu). Mu = 1.08 × 400/8 = 54 k·ft.</button>
+      <button class="qo" onclick="ans('q8o',3,'q8f',false)">D) wu = 1.6×60×12/1000 = 1.152 k/ft (live load always governs). Mu = 1.152×400/8 = 57.6 k·ft.</button>
+    </div>
+    <div class="qfb" id="q8f"></div>
+  </div>
+
+  <!-- CHAPTER SUMMARY -->
+  <div class="summary">
+    <h3>📋 Complete Chapter 1 Summary — All 8 Sections</h3>
+    <p><strong>§1.1 Materials:</strong> Concrete is strong in compression (~4,000 psi), weak in tension (~400 psi). Rebar fills the tensile gap. Prestressing pre-compresses concrete so live load tension must overcome the squeeze before cracking — enabling long spans.</p>
+    <p><strong>§1.2 Structural Forms:</strong> Each form (flat plate, slab-beam, arch, shell, joist, box girder) routes loads to the ground via a different mechanism, each suited to specific span ranges and load conditions. All good structural design starts with recognising the load path.</p>
+    <p><strong>§1.3 Loads:</strong> Dead, live, snow, wind, seismic, and environmental loads each have different statistical characters. ACI load combinations (1.4D; 1.2D+1.6L; etc.) apply factors reflecting the uncertainty of each load type. All applicable combinations must be checked.</p>
+    <p><strong>§1.4 Safety:</strong> Both loads and strengths are random variables with probability distributions. Safety means keeping the probability that strength &lt; load acceptably tiny (~1:100,000). This motivates φ &lt; 1.0 (reduce calculated strength) and γ &gt; 1.0 (amplify design loads).</p>
+    <p><strong>§1.5 Design Basis:</strong> Modern Strength Design (LRFD) proportions members to resist factored loads at failure — using nonlinear material behaviour. It replaced Working Stress Design, which kept elastic stresses at fractions of failure stress. SD is more realistic and rational.</p>
+    <p><strong>§1.6 Design Codes:</strong> ACI 318 (concrete design) + ASCE 7 (loads) are the two primary standards, both referenced by the IBC. No single U.S. national government code exists. AASHTO governs bridges; AREMA governs railways. Know which code applies to your project.</p>
+    <p><strong>§1.7 ACI Provisions:</strong> φ factors range from 0.65 (tied columns — sudden, catastrophic) to 0.90 (flexure — ductile warning). Load factors are calibrated to uncertainty: 1.2 for well-known dead loads, 1.6 for uncertain live loads. Each number has a specific engineering rationale.</p>
+    <p><strong>§1.8 Factored Loads:</strong> The 5-step process: (1) identify loads, (2) find tributary area/width, (3) convert psf → plf, (4) apply load combinations to find wu, (5) compute Mu = wuL²/8 and Vu = wuL/2. The governing combination produces the design forces all subsequent calculations must satisfy.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Mathify.us · Civil Engineering Module · Based on Darwin, Dolan &amp; Nilson, <em>Design of Concrete Structures, 15th Ed.</em></p>
+  <p style="margin-top:.5rem">Educational reference · <a href="https://mathify.us">mathify.us</a></p>
+</footer>
+
+<script>
+// ── THEME ──────────────────────────────────────
+const togBtn=document.getElementById('togBtn');
+togBtn.addEventListener('click',()=>{
+  const h=document.documentElement,dark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',dark?'light':'dark');
+  togBtn.textContent=dark?'🌙 Dark':'☀ Light';
+  updateSim();
+});
+
+// ── SCROLL PROGRESS + NAV ─────────────────────
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('pb').style.width=dh>0?(st/dh*100)+'%':'0%';
+  const ids=['s1','s2','s3','s4','s5','s6','s7','s8'];
+  const dots=document.querySelectorAll('.snd');
+  let ai=0;
+  ids.forEach((id,i)=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=window.innerHeight/2)ai=i;});
+  dots.forEach((d,i)=>d.classList.toggle('active',i===ai));
+});
+document.querySelectorAll('.snd').forEach(d=>{
+  d.addEventListener('click',()=>{document.getElementById(d.dataset.target)?.scrollIntoView({behavior:'smooth'});});
+});
+
+// ── TABS ──────────────────────────────────────
+function swTab(id,btn){
+  const par=btn.closest('.sec')||btn.closest('div');
+  par.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  btn.closest('.tabs').querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id)?.classList.add('on');
+  btn.classList.add('on');
+}
+function swDB(id,btn){
+  ['strength','asd'].forEach(x=>{document.getElementById(x)?.classList.remove('on');});
+  btn.closest('div').querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id)?.classList.add('on');
+  btn.classList.add('on');
+}
+
+// ── STRUCTURAL FORMS ─────────────────────────
+const fd={
+  fp:{t:'Flat Plate Floor',b:'A uniform-thickness slab carried directly by columns with no beams. Loads travel two-directionally to the columns. The critical design challenge is <strong>punching shear</strong> — the column punching through the slab at the joint.',w:'📍 Apartments, hotels, parking garages. Best for spans 15–25 ft with moderate loads. Maximum floor-to-floor height efficiency.',s:'Typical spans: 15–25 ft'},
+  owsb:{t:'One-Way Slab + Beam System',b:'The slab spans in one direction to parallel beams, which transfer load to columns. Clear, predictable load path. Rebar runs primarily in the short direction of the slab span.',w:'📍 Office buildings, warehouses. Good up to 30 ft with beams. Very common in rectangular floor plans.',s:'Typical spans: 15–30 ft (beam spans)'},
+  arch:{t:'Arch Structures',b:'The curved shape converts vertical loads into diagonal thrust, carried almost entirely in compression. Concrete excels in compression, so arches use the material most efficiently. Must resist horizontal thrust at abutments.',w:'📍 Bridges, tunnels, large roof spans, pedestrian footbridges. Natchez Trace Bridge spans 155 ft above the valley floor.',s:'Typical spans: 50–300 ft'},
+  shell:{t:'Shell Structures',b:'Thin curved surfaces that carry loads through membrane action — like an eggshell. Doubly-curved surfaces (domes, hyperbolic paraboloids) are even more efficient than singly-curved ones. Can be incredibly thin, relatively.',w:'📍 Large-span roofs for arenas, airports, museums, concert halls. Can span 200+ ft with very thin concrete.',s:'Typical spans: 100–400 ft+'},
+  fs:{t:'Flat Slab with Drop Panels',b:'Like a flat plate but with thickened slab portions (drop panels) over the columns and/or flared column capitals. The extra thickness reduces punching shear stress and increases moment capacity at the column, which is the most critical location.',w:'📍 Warehouses, industrial buildings with heavy floor loads. Also used in parking structures with forklift traffic.',s:'Typical spans: 20–30 ft under heavy loads'},
+  bg:{t:'Box Girder Bridge',b:'A hollow rectangular cross-section provides excellent stiffness in both bending and torsion — far superior to solid beams of the same weight. Often built using segmental construction: precast segments are assembled and post-tensioned together.',w:'📍 Highway and railway bridges with medium-to-long spans. Ideal when the bridge curves in plan (torsion resistance matters). Bennett Bay Bridge: 1730 ft total length.',s:'Typical spans: 100–600 ft'},
+  joist:{t:'One-Way Joist System',b:'Closely spaced, narrow ribs (joists) supported by wide beams, with a thin slab on top. Very efficient use of material — the concrete between ribs is removed where it does little work. Transverse ribs distribute localised loads.',w:'📍 Office buildings, parking structures. Lighter than solid slabs for the same span. Good for 25–50 ft spans.',s:'Typical spans: 25–50 ft'}
+};
+
+function showCard(key,el){
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  const d=fd[key];if(!d)return;
+  const det=document.getElementById('formDetail');
+  document.getElementById('formDttl').textContent=d.t;
+  document.getElementById('formDbody').innerHTML=d.b;
+  document.getElementById('formDwhere').textContent=d.w;
+  document.getElementById('formDspan').textContent=d.s;
+  det.classList.add('on');
+  det.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ── BEAM SIM ──────────────────────────────────
+function updateSim(){
+  const D=+document.getElementById('dsl').value,
+        L=+document.getElementById('lsl').value,
+        sp=+document.getElementById('ssl').value;
+  document.getElementById('dv').textContent=D;
+  document.getElementById('lv').textContent=L;
+  document.getElementById('sv').textContent=sp;
+  const wu=1.2*D+1.6*L;
+  document.getElementById('wt').textContent=(D+L)+' psf';
+  document.getElementById('wu').textContent=wu.toFixed(0)+' psf';
+  const muVal=(wu*sp*sp/8).toFixed(0);
+  document.getElementById('mu').textContent=muVal+' lb·ft/ft';
+  drawBeam(D,L,sp);
+}
+
+function drawBeam(D,L,sp){
+  const cv=document.getElementById('bc');
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  const bg=dark?'#1a1a26':'#eaeaf2';
+  const bc2=dark?'#2a2a4a':'#c0c0e0';
+  const bs=dark?'#5a5a8a':'#8080b0';
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  const mx=55,by=80,bh=30;
+  const tot=D+L,wu=1.2*D+1.6*L;
+  const md=Math.min((tot/50)*(sp/20)**3*30,50);
+  const ac=Math.floor(10+tot/30);
+  for(let i=0;i<=ac;i++){
+    const x=mx+(i/ac)*(W-2*mx);
+    const ah=14+(tot/250)*16;
+    ctx.beginPath();ctx.moveTo(x,by-ah-5);ctx.lineTo(x,by-6);
+    ctx.strokeStyle='#ff6b6b';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x-3,by-9);ctx.lineTo(x,by-3);ctx.lineTo(x+3,by-9);
+    ctx.fillStyle='#ff6b6b';ctx.fill();
+  }
+  ctx.fillStyle='#ff6b6b';ctx.font='10px "Space Mono"';
+  ctx.fillText(`wu=${wu.toFixed(0)} psf (1.2D+1.6L)`,W/2-80,by-36);
+  ctx.beginPath();
+  for(let i=0;i<=200;i++){const t=i/200,x=mx+t*(W-2*mx),d=md*4*t*(1-t);i===0?ctx.moveTo(x,by+d):ctx.lineTo(x,by+d);}
+  for(let i=200;i>=0;i--){const t=i/200,x=mx+t*(W-2*mx),d=md*4*t*(1-t);ctx.lineTo(x,by+d+bh);}
+  ctx.closePath();ctx.fillStyle=bc2;ctx.fill();ctx.strokeStyle=bs;ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath();
+  for(let i=0;i<=200;i++){const t=i/200,x=mx+t*(W-2*mx),d=md*4*t*(1-t)+bh-7;i===0?ctx.moveTo(x,by+d):ctx.lineTo(x,by+d);}
+  ctx.strokeStyle='#4a90d9';ctx.lineWidth=2.5;ctx.setLineDash([]);ctx.stroke();
+  const spt=(x,y)=>{ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-11,y+18);ctx.lineTo(x+11,y+18);ctx.closePath();ctx.fillStyle='#7a7a9a';ctx.fill();};
+  spt(mx,by+bh);spt(W-mx,by+bh);
+  if(md>2){const mx2=W/2;ctx.beginPath();ctx.moveTo(mx2,by);ctx.lineTo(mx2,by+md+4);ctx.strokeStyle='#5b8fff';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#5b8fff';ctx.font='9px "Space Mono"';ctx.fillText('Δmax',mx2+4,by+md/2+10);}
+  ctx.fillStyle=dark?'#7a7a9a':'#606080';ctx.font='10px "Space Mono"';
+  ctx.fillText(`Span = ${sp} ft`,W/2-30,H-6);
+  ctx.fillStyle='#4a90d9';ctx.fillRect(mx,H-20,16,4);
+  ctx.fillStyle=dark?'#7a7a9a':'#606080';ctx.fillText('tension rebar',mx+20,H-14);
+}
+
+// ── UNCERTAINTY TOGGLE ────────────────────────
+function toggleUnc(el){
+  const d=el.nextElementSibling;
+  if(!d)return;
+  d.style.display=d.style.display==='none'?'block':'none';
+}
+
+// ── PHI TABLE ─────────────────────────────────
+function togglePhiNote(row,id){
+  const n=document.getElementById(id);
+  if(!n)return;
+  n.style.display=n.style.display==='none'?'table-row':'none';
+}
+
+// ── FACTORED LOAD CALC ────────────────────────
+function calcU(){
+  const D=+document.getElementById('ci_d').value||0;
+  const L=+document.getElementById('ci_l').value||0;
+  const S=+document.getElementById('ci_s').value||0;
+  const Lr=+document.getElementById('ci_lr').value||0;
+  const tw=+document.getElementById('ci_tw').value||1;
+  const sp=+document.getElementById('ci_sp').value||1;
+  const combos=[
+    {label:'U = 1.4D',val:1.4*D},
+    {label:'U = 1.2D + 1.6L + 0.5S',val:1.2*D+1.6*L+0.5*S},
+    {label:'U = 1.2D + 1.6L + 0.5Lr',val:1.2*D+1.6*L+0.5*Lr},
+    {label:'U = 1.2D + 1.6S + L',val:1.2*D+1.6*S+L},
+    {label:'U = 1.2D + 1.6Lr + L',val:1.2*D+1.6*Lr+L},
+  ];
+  const max=Math.max(...combos.map(c=>c.val));
+  const html=combos.map(c=>{
+    const wpsf=c.val,wklf=(wpsf*tw/1000);
+    const gov=Math.abs(wpsf-max)<0.01;
+    return `<div class="combo-row${gov?' gov':''}">
+      <div><span class="combo-expr">${c.label}</span>${gov?'<span class="gov-badge">GOVERNS</span>':''}</div>
+      <div class="combo-val">${wklf.toFixed(3)} k/ft</div>
+    </div>`;
+  }).join('');
+  document.getElementById('comboRows').innerHTML=html;
+  const wu=max*tw/1000;
+  const Mu=(wu*sp*sp/8).toFixed(1);
+  const Vu=(wu*sp/2).toFixed(2);
+  document.getElementById('calcResult').innerHTML=`
+    <div style="color:var(--a2);margin-bottom:.5rem">▶ Governing wu = <strong>${wu.toFixed(3)} k/ft</strong></div>
+    <div style="color:var(--a4);margin-bottom:.3rem">▶ Mu = wuL²/8 = ${wu.toFixed(3)} × ${sp}² / 8 = <strong>${Mu} k·ft</strong> (simply-supported)</div>
+    <div style="color:var(--accent)">▶ Vu = wuL/2 = ${wu.toFixed(3)} × ${sp} / 2 = <strong>${Vu} k</strong></div>
+    <div style="color:var(--muted);font-size:.72rem;margin-top:.7rem">Note: Assumes simply-supported beam. Continuous beams use ACI moment coefficients (Chapter 11).</div>`;
+}
+
+// ── QUIZ ENGINE ───────────────────────────────
+const answers={
+  q1f:'✓ Correct! Pre-compression means the section stays uncracked under service loads, maintaining full gross-section stiffness. An uncracked section is orders of magnitude stiffer than a cracked one — this is what allows thin prestressed sections to span distances impossible for ordinary RC.',
+  q2f:'✓ Correct! The arch shape converts all vertical loads into diagonal compression that travels along the arch axis to the abutments. Concrete\'s high compressive strength (4,000+ psi) is perfectly suited for this — unlike tension, which would require rebar.',
+  q3f:'✓ Correct! In heavy-snow regions, the combination U = 1.2D + 1.6S + L often governs flat roofs because snow can accumulate to significant depths. Snow gets the 1.6 factor when it\'s the dominant variable load. Always check all applicable combinations.',
+  q4f:'✓ Correct! φ has two components: (1) uncertainty in predicting that failure mode, and (2) the consequence (ductility) of that failure. Column compression failure is sudden with no warning → φ=0.65. Flexural failure deflects visibly before collapse → φ=0.90. Same principle behind varying car safety standards by component criticality.',
+  q5f:'✓ Correct! φMn = 0.90 × 440 = 396 kip·ft ≥ Mu = 380 kip·ft → PASSES (396 > 380). The beam has about 4% extra capacity. Note: Mu already has the load factors built in from step 4 of the design process — φ applies only to the strength side.',
+  q6f:'✓ Correct! ASCE 7 provides the load magnitudes (wind pressure, snow ground loads, seismic design category, etc.). ACI 318 then governs how to design the concrete members to resist those factored loads. The IBC is the local law that mandates use of both. They work together — not interchangeably.',
+  q7f:'✓ Correct! Lower φ means the code demands a LARGER reserve. φ=0.75 for shear means we only "credit" 75% of calculated shear capacity, effectively requiring 33% more nominal capacity than φ=0.90 for flexure would. This is the code\'s way of saying: shear failure is more uncertain and more dangerous, so build in more margin.',
+  q8f:'✓ Correct! Combination 1: wu = 1.4×30×12/1000 = 0.504 k/ft. Combination 2: wu = (1.2×30+1.6×60)×12/1000 = (36+96)×12/1000 = 1.584 k/ft. Combo 2 governs (live load dominates). Mu = 1.584×20²/8 = 1.584×400/8 = 79.2 k·ft.'
+};
+const wrong_msg='✗ Not quite. ';
+const exp={
+  q1f:'Pre-compression is what makes PSC special. The tendon squeezes the beam into compression before any load arrives — live load tension must fight that pre-squeeze before cracking occurs, keeping the section stiffer and allowing longer spans.',
+  q2f:'An arch works by converting vertical loads into compression along the arch axis — the shape itself creates this. Concrete\'s 4,000 psi compressive strength is ideal. Tension would require expensive rebar and wouldn\'t use the material efficiently.',
+  q3f:'In heavy-snow regions on flat roofs, snow accumulation is the dominant variable load. ACI gives it the 1.6 factor when it governs. Always check ALL combinations — you can\'t know which governs without computing them all.',
+  q4f:'φ reflects both calculation uncertainty and the nature of failure. Flexure gives ductile warning (beam deflects, cracks appear) — φ=0.90. Shear fails suddenly, compression fails catastrophically — lower φ values require larger strength reserves for these modes.',
+  q5f:'The check is: φMn ≥ Mu. Here: 0.90×440=396 ≥ 380 ✓. Mu already incorporates the load factors. φ only reduces the strength side. If φMn < Mu, you must either increase the section size or add more rebar.',
+  q6f:'ASCE 7 defines load magnitudes (wind speed maps, snow ground load, seismic zones). ACI 318 defines how to design concrete members for those loads. The IBC mandates both be used. They\'re complementary, not competing.',
+  q7f:'Lower φ = larger required reserve = more concern. φ=0.75 for shear means you need 33% more nominal shear capacity than if φ=0.90. This reflects that shear models are less accurate and shear failure is more sudden and brittle than flexural failure.',
+  q8f:'Check BOTH combinations: 1.4D and 1.2D+1.6L. Here, Combo 2 = (36+96)×12/1000 = 1.584 k/ft dominates. Mu=wu×L²/8=1.584×400/8=79.2 k·ft. Always check all applicable combinations and use the largest result.'
+};
+
+function ans(optId,idx,fbId,correct){
+  const opts=document.querySelectorAll('#'+optId+' .qo');
+  opts.forEach(o=>{o.classList.remove('ok','no');o.disabled=true;});
+  const fb=document.getElementById(fbId);
+  if(correct){
+    opts[idx].classList.add('ok');
+    fb.className='qfb show ok';
+    fb.textContent=answers[fbId];
+  }else{
+    opts[idx].classList.add('no');
+    // find correct
+    const correctBtn=[...opts].find(o=>o.onclick?.toString().includes('true'));
+    if(correctBtn)correctBtn.classList.add('ok');
+    fb.className='qfb show no';
+    fb.textContent=wrong_msg+exp[fbId];
+  }
+}
+
+// ── INIT ──────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  updateSim();
+  calcU();
+  // init phi table rows hidden
+  document.querySelectorAll('.phi-note').forEach(r=>r.style.display='none');
+  document.querySelectorAll('.unc-detail').forEach(r=>r.style.display='none');
+});
+</script>
+
+</body>
+</html>
