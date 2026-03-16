@@ -1,0 +1,2361 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 2: Materials — Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c18;
+  --bg2: #0d1220;
+  --bg3: #111827;
+  --card: #141b2d;
+  --border: #1e2a42;
+  --blue: #3b82f6;
+  --blue-dim: #1d4ed8;
+  --rust: #e07b54;
+  --rust-dim: #9a3d1e;
+  --amber: #f59e0b;
+  --amber-dim: #b45309;
+  --green: #10b981;
+  --purple: #8b5cf6;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --text-muted: #475569;
+  --mono: 'Space Mono', monospace;
+  --serif: 'Playfair Display', serif;
+  --sans: 'DM Sans', sans-serif;
+  --hero-grid: rgba(59,130,246,0.04);
+  --canvas-bg: #0d1220;
+  --canvas-grid: #1e2a42;
+  --canvas-text: #94a3b8;
+  --shadow: rgba(0,0,0,0.4);
+  --toggle-track: #1e2a42;
+  --toggle-thumb: #3b82f6;
+}
+
+[data-theme="light"] {
+  --bg: #f5f7ff;
+  --bg2: #eef1fb;
+  --bg3: #e8ecf7;
+  --card: #ffffff;
+  --border: #d1d9f0;
+  --blue: #2563eb;
+  --blue-dim: #1d4ed8;
+  --rust: #c0531e;
+  --rust-dim: #9a3d1e;
+  --amber: #d97706;
+  --amber-dim: #b45309;
+  --green: #059669;
+  --purple: #7c3aed;
+  --text: #0f172a;
+  --text-dim: #334155;
+  --text-muted: #64748b;
+  --hero-grid: rgba(37,99,235,0.06);
+  --canvas-bg: #eef1fb;
+  --canvas-grid: #c7d0ea;
+  --canvas-text: #64748b;
+  --shadow: rgba(0,0,0,0.1);
+  --toggle-track: #c7d0ea;
+  --toggle-thumb: #2563eb;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* TOP NAV */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 2rem;
+  background: var(--bg);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s, border-color 0.3s;
+}
+.site-nav-logo {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  text-decoration: none;
+  text-transform: uppercase;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.site-nav-logo:hover { opacity: 1; }
+
+/* TOGGLE SWITCH */
+.toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toggle-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  user-select: none;
+}
+.toggle-track {
+  width: 44px; height: 24px;
+  border-radius: 12px;
+  background: var(--border);
+  position: relative;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--blue);
+  transition: transform 0.3s, background 0.3s;
+}
+[data-theme="light"] .toggle-track { background: #c7d0ea; }
+[data-theme="light"] .toggle-track::after { transform: translateX(20px); background: #1a3a5c; }
+.toggle-icon {
+  font-size: 1rem;
+  line-height: 1;
+  user-select: none;
+}
+
+/* HERO */
+.hero {
+  padding-top: 110px;
+  background: radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(224,123,84,0.1) 0%, transparent 50%),
+              var(--bg);
+  padding: 80px 24px 60px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s, border-color 0.3s;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, var(--hero-grid) 39px, var(--hero-grid) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, var(--hero-grid) 39px, var(--hero-grid) 40px);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.3);
+  color: var(--blue);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding: 6px 16px;
+  border-radius: 2px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero h1 span { color: var(--amber); }
+.hero p {
+  max-width: 580px;
+  margin: 0 auto 32px;
+  color: var(--text-dim);
+  font-size: 1.05rem;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat .num {
+  font-family: var(--mono);
+  font-size: 1.8rem;
+  color: var(--amber);
+  display: block;
+}
+.hero-stat .lbl {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* NAV */
+.chapter-nav {
+  position: sticky;
+  top: 53px;
+  z-index: 99;
+  background: var(--bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  transition: background 0.3s, border-color 0.3s;
+}
+.chapter-nav::-webkit-scrollbar { display: none; }
+.nav-inner {
+  display: inline-flex;
+  gap: 0;
+  align-items: center;
+  min-width: max-content;
+}
+.nav-item {
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  text-decoration: none;
+  padding: 14px 14px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.nav-item:hover, .nav-item.active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+}
+
+/* MAIN */
+main { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* SECTION */
+.section {
+  padding: 70px 0 40px;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.3s;
+}
+.section:last-child { border-bottom: none; }
+
+.sec-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.sec-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--blue);
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.2);
+  padding: 4px 10px;
+  border-radius: 2px;
+  white-space: nowrap;
+  margin-top: 6px;
+  transition: background 0.3s, color 0.3s;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  transition: color 0.3s;
+}
+
+/* WHY BOX */
+.why-box {
+  background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(224,123,84,0.05));
+  border: 1px solid rgba(245,158,11,0.25);
+  border-left: 3px solid var(--amber);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  transition: background 0.3s, border-color 0.3s;
+}
+[data-theme="light"] .why-box {
+  background: linear-gradient(135deg, rgba(217,119,6,0.07), rgba(192,83,30,0.04));
+}
+.why-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.why-box p { color: var(--text); font-size: 0.97rem; }
+
+/* ANALOGY BOX */
+.analogy-box {
+  background: rgba(59,130,246,0.06);
+  border: 1px solid rgba(59,130,246,0.2);
+  border-left: 3px solid var(--blue);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  transition: background 0.3s, border-color 0.3s;
+}
+[data-theme="light"] .analogy-box {
+  background: rgba(37,99,235,0.05);
+  border-color: rgba(37,99,235,0.2);
+}
+.analogy-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--blue);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.analogy-box p { color: var(--text-dim); font-size: 0.95rem; }
+
+/* TECH DETAILS */
+.tech-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 24px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.tech-box h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--rust);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.tech-box p, .tech-box li {
+  color: var(--text-dim);
+  font-size: 0.93rem;
+  margin-bottom: 8px;
+}
+.tech-box ul { padding-left: 20px; }
+.tech-box strong { color: var(--text); }
+
+/* CANVAS */
+.viz-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 24px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.viz-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+canvas {
+  display: block;
+  width: 100%;
+  border-radius: 2px;
+  image-rendering: crisp-edges;
+}
+
+/* FORMULA */
+.formula {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--green);
+  text-align: center;
+  letter-spacing: 0.5px;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* SLIDER CONTROLS */
+.ctrl-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.ctrl-row label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+input[type=range] {
+  flex: 1;
+  min-width: 120px;
+  accent-color: var(--amber);
+  cursor: pointer;
+}
+.ctrl-val {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--amber);
+  min-width: 48px;
+  text-align: right;
+}
+
+/* TAG GRID */
+.tag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.tag-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px;
+  transition: border-color 0.2s, background 0.3s;
+}
+.tag-card:hover { border-color: var(--blue); }
+.tag-card .icon { font-size: 1.5rem; margin-bottom: 8px; }
+.tag-card .name { font-family: var(--mono); font-size: 11px; color: var(--blue); margin-bottom: 4px; letter-spacing: 0.5px; }
+.tag-card p { font-size: 0.82rem; color: var(--text-muted); }
+
+/* TABLE */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-bottom: 20px;
+}
+.data-table th {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--blue);
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: var(--bg2);
+}
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(30,42,66,0.5);
+  color: var(--text-dim);
+  transition: color 0.3s, background 0.3s;
+}
+[data-theme="light"] .data-table td { border-bottom-color: var(--border); }
+.data-table tr:hover td { color: var(--text); background: rgba(59,130,246,0.03); }
+
+/* CALLOUT */
+.callout {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: rgba(16,185,129,0.07);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  transition: background 0.3s, border-color 0.3s;
+}
+[data-theme="light"] .callout {
+  background: rgba(5,150,105,0.06);
+  border-color: rgba(5,150,105,0.25);
+}
+.callout .icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+.callout p { font-size: 0.9rem; color: var(--text-dim); }
+.callout strong { color: var(--green); }
+
+.warn {
+  background: rgba(224,123,84,0.07);
+  border-color: rgba(224,123,84,0.25);
+}
+[data-theme="light"] .warn {
+  background: rgba(192,83,30,0.06);
+  border-color: rgba(192,83,30,0.25);
+}
+.warn p strong { color: var(--rust); }
+
+/* TABS */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 10px 18px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.tab-btn.active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* QUIZ */
+.quiz-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  margin-top: 24px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.quiz-q {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.88rem;
+  padding: 10px 16px;
+  text-align: left;
+  transition: all 0.2s;
+}
+.quiz-opt:hover { border-color: var(--blue); color: var(--text); }
+.quiz-opt.correct { background: rgba(16,185,129,0.1); border-color: var(--green); color: var(--green); }
+.quiz-opt.wrong { background: rgba(224,123,84,0.1); border-color: var(--rust); color: var(--rust); }
+.quiz-fb { margin-top: 12px; font-size: 0.88rem; color: var(--text-dim); display: none; }
+
+/* PROGRESS */
+.progress-bar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--amber));
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+/* COMPARISON */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+@media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+.compare-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.compare-card .c-head {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.compare-card .c-val {
+  font-family: var(--mono);
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+.compare-card p { font-size: 0.82rem; color: var(--text-muted); }
+
+/* HERO h1 color fix for light mode */
+[data-theme="light"] .hero h1 { color: #0f172a; }
+[data-theme="light"] .hero p { color: var(--text-dim); }
+</style>
+</head>
+<body>
+
+<!-- SITE NAV -->
+<nav class="site-nav">
+  <a href="civil.html" class="site-nav-logo">← RC Design</a>
+  <div class="toggle-wrap">
+    <span class="toggle-icon" id="themeIcon">🌙</span>
+    <button class="toggle-track" id="themeToggle" aria-label="Toggle light/dark mode"></button>
+    <span class="toggle-label" id="themeLabel">Dark</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Design of Concrete Structures · 15th Edition</div>
+  <h1>Chapter 2<br><span>Materials</span></h1>
+  <p>Before you can design with concrete, you must understand what it <em>is</em> — how it's made, how it behaves, and why it can fail. This chapter builds your foundation.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">17</span><span class="lbl">Sections</span></div>
+    <div class="hero-stat"><span class="num">8</span><span class="lbl">Interactive Elements</span></div>
+    <div class="hero-stat"><span class="num">5</span><span class="lbl">Canvas Visuals</span></div>
+    <div class="hero-stat"><span class="num">4</span><span class="lbl">Quick Checks</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="chapter-nav">
+  <div class="nav-inner">
+    <a class="nav-item" href="#s21">2.1 Intro</a>
+    <a class="nav-item" href="#s22">2.2 Cement</a>
+    <a class="nav-item" href="#s23">2.3 Aggregates</a>
+    <a class="nav-item" href="#s24">2.4 Proportioning</a>
+    <a class="nav-item" href="#s25">2.5 Placing</a>
+    <a class="nav-item" href="#s26">2.6 Quality</a>
+    <a class="nav-item" href="#s27">2.7 Admixtures</a>
+    <a class="nav-item" href="#s28">2.8 Compression</a>
+    <a class="nav-item" href="#s29">2.9 Tension</a>
+    <a class="nav-item" href="#s210">2.10 Combined</a>
+    <a class="nav-item" href="#s211">2.11 Shrinkage</a>
+    <a class="nav-item" href="#s212">2.12 High-Strength</a>
+    <a class="nav-item" href="#s213">2.13 Steel</a>
+    <a class="nav-item" href="#s214">2.14 Rebar</a>
+    <a class="nav-item" href="#s215">2.15 WWR</a>
+    <a class="nav-item" href="#s216">2.16 Prestress</a>
+    <a class="nav-item" href="#s217">2.17 Fibers</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- 2.1 INTRODUCTION -->
+<div class="section" id="s21">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.1</span>
+    <h2 class="sec-title">Introduction</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Concrete is not a single material — it's a composite system. Understanding each ingredient and how they interact is the difference between a structure that lasts 100 years and one that fails in 10. Everything in this course depends on understanding what's inside your concrete.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 The Big Picture Analogy</div>
+    <p>Think of concrete like a fruitcake. The cake batter (cement paste) holds everything together, while the fruits and nuts (aggregates) provide bulk and economy. The recipe — how much of each ingredient, how long you bake it — determines whether it's delicious or inedible. Steel reinforcement is like a wire mesh baked inside: invisible but essential for holding the whole thing together when it's stressed.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Concrete System Overview</div>
+    <canvas id="introCanvas" height="200"></canvas>
+  </div>
+
+  <div class="tech-box">
+    <h4>Technical Overview</h4>
+    <p>Concrete is a composite material consisting of <strong>cement paste</strong> (cement + water) as binder, and <strong>aggregates</strong> (fine sand + coarse gravel/rock) as filler. The strength and durability depend on:</p>
+    <ul>
+      <li>The type and quality of cement</li>
+      <li>The water-cement (w/c) ratio</li>
+      <li>The gradation and cleanliness of aggregates</li>
+      <li>Curing conditions (temperature, moisture, time)</li>
+      <li>Use of admixtures to modify properties</li>
+    </ul>
+    <p>Reinforced concrete adds <strong>steel bars</strong> (rebars) to carry tensile forces that concrete cannot resist on its own.</p>
+  </div>
+</div>
+
+<!-- 2.2 CEMENT -->
+<div class="section" id="s22">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.2</span>
+    <h2 class="sec-title">Cement</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Cement is the chemical engine of concrete. Choosing the wrong type of cement — or mixing it poorly — can cause a bridge deck to crack within months, a slab to heave from sulfate attack, or a pour to freeze solid overnight. The type of cement you specify will affect strength gain rate, heat generation, durability, and cost.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Epoxy Glue</div>
+    <p>Portland cement works like a two-part epoxy. Dry cement is Part A. Water is Part B. When mixed, a chemical reaction called <em>hydration</em> starts — and unlike epoxy, this reaction can keep going for years! The cement particles grow microscopic crystals that interlock and harden, locking aggregates in place. This is why concrete gets stronger over time, not weaker.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Hydration Progress: Cement Particle Growing Crystals Over Time</div>
+    <canvas id="cementCanvas" height="160"></canvas>
+    <div class="ctrl-row">
+      <label>Hydration Time →</label>
+      <input type="range" id="hydSlider" min="0" max="100" value="30">
+      <span class="ctrl-val" id="hydVal">28 days</span>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('cement','types')">Types</button>
+    <button class="tab-btn" onclick="switchTab('cement','heat')">Heat of Hydration</button>
+  </div>
+  <div id="cement-types" class="tab-panel active">
+    <table class="data-table">
+      <tr><th>ASTM Type</th><th>Name</th><th>Use Case</th></tr>
+      <tr><td>Type I</td><td>Normal Portland</td><td>General-purpose construction</td></tr>
+      <tr><td>Type II</td><td>Moderate sulfate resistance</td><td>Foundations near sulfate-bearing soils</td></tr>
+      <tr><td>Type III</td><td>High Early Strength</td><td>Cold weather, fast-track construction</td></tr>
+      <tr><td>Type IV</td><td>Low Heat</td><td>Massive structures (dams) — minimizes cracking</td></tr>
+      <tr><td>Type V</td><td>High Sulfate Resistance</td><td>Aggressive soil/groundwater environments</td></tr>
+    </table>
+  </div>
+  <div id="cement-heat" class="tab-panel">
+    <div class="tech-box">
+      <h4>Why Heat of Hydration Matters</h4>
+      <p>The hydration reaction releases heat. In a thin slab, this heat escapes easily. In a massive dam or thick mat foundation, the core can reach <strong>160°F+</strong> while the surface stays cool — creating temperature gradients that crack the concrete before it even carries load.</p>
+      <p><strong>Solution:</strong> Type IV cement (low heat), pre-cooling aggregates, or mixing ice water. The Hoover Dam used special cements and embedded cooling pipes to manage this.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="icon">💡</span>
+    <p><strong>Key Fact:</strong> Portland cement accounts for about <strong>65–75%</strong> of concrete's cost by weight. Replacing some cement with fly ash or slag (supplementary cementitious materials) saves money and often improves long-term durability.</p>
+  </div>
+</div>
+
+<!-- 2.3 AGGREGATES -->
+<div class="section" id="s23">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.3</span>
+    <h2 class="sec-title">Aggregates</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Aggregates make up 60–75% of concrete's volume. They're not just cheap filler — they directly control strength, stiffness, thermal expansion, and freeze-thaw resistance. A poorly graded aggregate wastes cement paste, weakens the mix, and can cause pumping problems on site.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Packing Marbles in a Jar</div>
+    <p>Imagine filling a jar with marbles of all the same size — there are large gaps between them. Now add some smaller marbles — they fill the gaps. Add sand — fills more gaps. Add water — fills the rest. Well-graded aggregate uses this same principle: a range of particle sizes packs more efficiently, requiring less cement paste to fill the voids, which means a stronger, cheaper, less-shrinkage-prone concrete.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Aggregate Gradation Visualization</div>
+    <canvas id="aggCanvas" height="180"></canvas>
+  </div>
+
+  <div class="tech-box">
+    <h4>Technical Requirements</h4>
+    <ul>
+      <li><strong>Fine aggregate (sand):</strong> Particles under ¼ in. (No. 4 sieve). Must be clean — clay or organic matter weakens the cement-aggregate bond.</li>
+      <li><strong>Coarse aggregate:</strong> Gravel or crushed rock, typically ⅜ to 1½ in. Larger sizes require less water (lower w/c ratio → stronger concrete), but can't fit between rebars.</li>
+      <li><strong>Maximum aggregate size</strong> is limited to ¾ of the clear space between rebars, or 1/5 of the narrowest form dimension — whichever is smaller.</li>
+      <li><strong>Alkali-silica reaction (ASR):</strong> Certain reactive aggregates expand when in contact with alkaline cement, causing internal cracking. Use low-alkali cement or pozzolanic SCMs to prevent it.</li>
+    </ul>
+  </div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Quick Check: A wall section is 8 inches wide with rebars spaced at 2 inches clear. What is the maximum allowable aggregate size?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q1')">2 inches (full clear spacing)</button>
+      <button class="quiz-opt" onclick="checkQ(this, true, 'q1')">1.5 inches (¾ × 2 in = 1.5 in, also ⅕ × 8 in = 1.6 in — use smaller: 1.5 in)</button>
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q1')">1.6 inches (⅕ of wall width)</button>
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q1')">No limit, just use standard gravel</button>
+    </div>
+    <div class="quiz-fb" id="q1-fb">The ACI Code limits max aggregate size to the smallest of: ¾ × clear spacing = 1.5 in, or ⅕ of minimum form dimension = 1.6 in. Take the smaller: <strong>1.5 inches</strong>.</div>
+  </div>
+</div>
+
+<!-- 2.4 PROPORTIONING -->
+<div class="section" id="s24">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.4</span>
+    <h2 class="sec-title">Proportioning and Mixing Concrete</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>The water-cement (w/c) ratio is arguably the single most important number in concrete design. It directly controls compressive strength, permeability, and durability. Too much water makes weak, porous concrete. Too little makes it unworkable on site. Getting this balance right is everything.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Baking Bread</div>
+    <p>Too much water in bread dough → dense, gummy loaf with weak structure. Too little → you can't even knead it. The right amount gives you a workable dough that rises properly and bakes into a strong loaf. In concrete, the "baking" is curing, and the strength of the loaf is measured at 28 days.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Interactive: w/c Ratio vs. Compressive Strength (f'c)</div>
+    <canvas id="wcCanvas" height="220"></canvas>
+    <div class="ctrl-row">
+      <label>w/c Ratio:</label>
+      <input type="range" id="wcSlider" min="30" max="80" value="50" step="1">
+      <span class="ctrl-val" id="wcVal">0.50</span>
+    </div>
+    <div class="ctrl-row">
+      <label style="margin-left:0">Predicted f'c ≈</label>
+      <span class="ctrl-val" id="wcStrength" style="color:var(--green); font-size:1.1rem">4,200 psi</span>
+      <span style="font-size:0.8rem; color:var(--text-muted); margin-left:8px">(28-day cylinder strength)</span>
+    </div>
+  </div>
+
+  <div class="formula">f'c ≈ A / (B^(w/c))  — Abrams' Law (higher w/c → exponentially lower strength)</div>
+
+  <div class="tech-box">
+    <h4>ACI Mix Design Process</h4>
+    <ul>
+      <li><strong>Step 1 — Target Strength:</strong> Required f'c plus a safety margin. ACI 318 adds ~1,200 psi for variability.</li>
+      <li><strong>Step 2 — w/c ratio:</strong> Selected from tables based on target strength and exposure class.</li>
+      <li><strong>Step 3 — Water content:</strong> Determined by desired slump and max aggregate size.</li>
+      <li><strong>Step 4 — Cement content:</strong> = Water ÷ (w/c ratio)</li>
+      <li><strong>Step 5 — Aggregate proportions:</strong> Coarse and fine amounts to fill remaining volume.</li>
+      <li><strong>Step 6 — Trial batches:</strong> Make cylinders and test at 7 and 28 days to verify.</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <span class="icon">⚠️</span>
+    <p><strong>Critical Rule:</strong> Never add water to concrete on-site to make it flow easier. This increases the w/c ratio, drops strength, and creates a structure that may not meet code requirements. Use superplasticizers instead.</p>
+  </div>
+</div>
+
+<!-- 2.5 PLACING -->
+<div class="section" id="s25">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.5</span>
+    <h2 class="sec-title">Conveying, Placing, Compacting & Curing</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>You can design a perfect mix on paper and still end up with weak, honeycombed concrete if it's placed badly. Segregation, trapped air pockets, and poor curing all destroy concrete quality. This is where the lab meets the field.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Pouring Pancake Batter</div>
+    <p><strong>Conveying</strong> = pouring the batter into the pan carefully (don't splatter). <strong>Compacting</strong> = tapping the pan to release air bubbles. <strong>Curing</strong> = keeping the stove at just the right temperature long enough — if you rush it by cranking up the heat (or letting the surface dry too fast), the pancake looks done but the center is wrong.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Curing Timeline — Strength Gain at Different Temperatures</div>
+    <canvas id="curingCanvas" height="200"></canvas>
+  </div>
+
+  <div class="tag-grid">
+    <div class="tag-card">
+      <div class="icon">🚰</div>
+      <div class="name">Conveying</div>
+      <p>Minimize segregation. Avoid long drops, use chutes at max 3:1 slope, or pumps/buckets for tall forms.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">📳</div>
+      <div class="name">Vibration</div>
+      <p>Internal vibrators consolidate concrete, releasing trapped air. Penetrate every 18–24 in., don't over-vibrate (segregation!).</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">💧</div>
+      <div class="name">Curing</div>
+      <p>Keep concrete moist for ≥7 days (Type I cement). Prevents premature drying which halts hydration and reduces final strength.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">🌡️</div>
+      <div class="name">Temperature</div>
+      <p>Ideal placement temp: 50–90°F. Cold slows hydration; heat accelerates it but reduces final strength. Steam curing used in precast plants.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2.6 QUALITY CONTROL -->
+<div class="section" id="s26">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.6</span>
+    <h2 class="sec-title">Quality Control</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Concrete strength is inherently variable — even from the same plant, on the same day. Quality control defines how we measure that variability and set strength targets high enough that almost no batch falls below the minimum required by the code. This protects lives.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Manufacturing Bolts</div>
+    <p>A factory making bolts rated at 10 kN doesn't make every bolt exactly at 10 kN — they aim higher (say, 12 kN average) to ensure almost none fall below the minimum. Concrete works the same way. The <em>required average strength</em> (f'cr) is always higher than the <em>specified strength</em> (f'c) to account for normal variation.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Strength Distribution — Why We Need a Margin Above f'c</div>
+    <canvas id="qualityCanvas" height="200"></canvas>
+    <div class="ctrl-row">
+      <label>Std Dev σ (psi):</label>
+      <input type="range" id="sdSlider" min="200" max="900" value="400" step="50">
+      <span class="ctrl-val" id="sdVal">400 psi</span>
+    </div>
+  </div>
+
+  <div class="tech-box">
+    <h4>ACI Required Average Strength</h4>
+    <p>When enough test data exists (≥30 cylinders), ACI 318 requires:</p>
+    <div class="formula">f'cr = f'c + 1.34σ  (no result more than 500 psi below f'c)</div>
+    <div class="formula">f'cr = f'c + 2.33σ − 500  (no average of 3 consecutive below f'c)</div>
+    <p>Where <strong>σ</strong> is the standard deviation of test results. Less data → ACI uses prescribed margins.</p>
+    <p><strong>Slump test</strong> measures workability (how easily concrete flows). Standard: 3–4 in. for beams.</p>
+    <p><strong>Cylinder test</strong> (6×12 in. or 4×8 in.) is the primary strength verification method — cast on site, tested at 28 days.</p>
+  </div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Quick Check: A contractor's concrete has f'c = 4,000 psi specified and a standard deviation σ = 600 psi. What is the required average strength f'cr (using the larger of the two ACI equations)?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q2')">4,000 psi (just meet spec)</button>
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q2')">4,804 psi (f'c + 1.34σ only)</button>
+      <button class="quiz-opt" onclick="checkQ(this, true, 'q2')">4,898 psi (max of 4,804 and 4,898)</button>
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q2')">5,400 psi (f'c + 1.34σ + 500)</button>
+    </div>
+    <div class="quiz-fb" id="q2-fb">Eq 1: 4000 + 1.34×600 = 4,804 psi. Eq 2: 4000 + 2.33×600 − 500 = 4,898 psi. Use the larger: <strong>4,898 psi</strong>.</div>
+  </div>
+</div>
+
+<!-- 2.7 ADMIXTURES -->
+<div class="section" id="s27">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.7</span>
+    <h2 class="sec-title">Admixtures</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Admixtures are the pharmacology of concrete. Small doses — often less than 1% by cement weight — can dramatically change workability, setting time, strength, and durability. Modern high-rises, long-span bridges, and underwater structures wouldn't be possible without them.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Food Additives</div>
+    <p>Preservatives extend shelf life (retarders = slow setting for hot weather or long hauls). Leavening agents make dough rise (air-entraining agents add tiny bubbles for freeze-thaw resistance). Food coloring changes appearance (pigments). Emulsifiers let water and oil mix (water reducers let water and cement mix better without adding more water).</p>
+  </div>
+
+  <div class="tag-grid">
+    <div class="tag-card">
+      <div class="icon">⚡</div>
+      <div class="name">Accelerators</div>
+      <p>Speed up hydration. Useful in cold weather or fast-track work. Calcium chloride is cheap but causes steel corrosion — use non-chloride type in reinforced concrete.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">🐌</div>
+      <div class="name">Retarders</div>
+      <p>Slow setting time. Used in hot weather or for large pours that take many hours. Prevents cold joints between lifts.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">❄️</div>
+      <div class="name">Air-Entraining</div>
+      <p>Creates billions of microscopic air bubbles (~3–6% air). These act as pressure-relief valves for freezing water — essential for pavements in cold climates.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">🧪</div>
+      <div class="name">Water Reducers / Superplasticizers</div>
+      <p>Reduce water needed for same workability by 12–30%. Same strength at lower w/c ratio — or same w/c with better flow for pumping and congested rebar.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">🛡️</div>
+      <div class="name">Pozzolans (SCMs)</div>
+      <p>Fly ash, silica fume, slag. React with calcium hydroxide to form additional binding compounds. Improve durability, reduce permeability, lower heat of hydration.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">💧</div>
+      <div class="name">Shrinkage Reducers</div>
+      <p>Reduce drying shrinkage and cracking in slabs. Critical for flat floor slabs where crack control is important for aesthetics and serviceability.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2.8 COMPRESSION -->
+<div class="section" id="s28">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.8</span>
+    <h2 class="sec-title">Properties in Compression</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>This is the most important section in Chapter 2. The stress-strain curve of concrete in compression is the foundation of every beam, column, and slab design you'll ever do. The shape of this curve determines how a structure fails — and whether that failure is sudden or gradual.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Crushing a Foam Cup</div>
+    <p>At first, a foam cup compresses uniformly and bounces back — elastic behavior. Keep pushing and you reach the cup's peak capacity. Then it starts to crush and fold unevenly — plastic behavior. Finally it collapses. Concrete follows a similar path: linear → nonlinear → peak → descending branch. Unlike the cup, concrete gives almost no warning before peak — which is why we design columns to be ductile (wrapped in spirals) so they can absorb energy without sudden collapse.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Interactive Stress-Strain Curve — Concrete in Compression</div>
+    <canvas id="stressCanvas" height="250"></canvas>
+    <div class="ctrl-row">
+      <label>f'c (psi):</label>
+      <input type="range" id="fcSlider" min="3000" max="12000" value="4000" step="500">
+      <span class="ctrl-val" id="fcVal">4,000 psi</span>
+    </div>
+  </div>
+
+  <div class="tech-box">
+    <h4>Key Relationships from the Curve</h4>
+    <ul>
+      <li><strong>Elastic Modulus (Ec):</strong> The initial slope. ACI formula: Ec = 33 × wc^1.5 × √f'c (for normal weight concrete ≈ 57,000√f'c psi)</li>
+      <li><strong>Peak strain:</strong> ε₀ ≈ 0.002 (strain at maximum stress) — same regardless of strength!</li>
+      <li><strong>Ultimate strain:</strong> εu = 0.003 — the ACI-assumed limit for design at the extreme compression fiber</li>
+      <li><strong>Higher f'c → steeper curve, more brittle.</strong> High-strength concrete fails more suddenly.</li>
+      <li><strong>Confinement (spiral reinforcement)</strong> extends the descending branch enormously — creating ductile columns that don't collapse suddenly in earthquakes.</li>
+    </ul>
+  </div>
+
+  <div class="formula">Ec = 57,000 √f'c (psi) — ACI 318 for normal-weight concrete</div>
+
+  <div class="compare-grid">
+    <div class="compare-card">
+      <div class="c-head" style="color: var(--blue)">Normal Strength</div>
+      <div class="c-val" style="color: var(--blue)">3,000–6,000 psi</div>
+      <p>Gradual failure, visible cracking before collapse, more ductile. Used in most buildings.</p>
+    </div>
+    <div class="compare-card">
+      <div class="c-head" style="color: var(--rust)">High Strength</div>
+      <div class="c-val" style="color: var(--rust)">8,000–15,000 psi</div>
+      <p>Steeper stress-strain curve, more brittle. Requires special ductility provisions in design.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2.9 TENSION -->
+<div class="section" id="s29">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.9</span>
+    <h2 class="sec-title">Properties in Tension</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Concrete is only about 8–15% as strong in tension as in compression. This is the fundamental reason we add steel reinforcement — steel handles the tension, concrete handles the compression. Understanding tensile strength also predicts cracking, which affects serviceability, durability, and how loads are redistributed.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Chalk Stick</div>
+    <p>Hold a piece of chalk and press it from both ends — hard to break (compression). Now try to pull it from both ends — it snaps easily (tension). Concrete is the same: great under squeezing, terrible under pulling. This is why unreinforced concrete buildings are rare — any bending creates tension on one face, and it cracks. Steel bars placed on the tension side carry those pulling forces instead.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Three Ways to Measure Tensile Strength of Concrete</div>
+    <canvas id="tensionCanvas" height="180"></canvas>
+  </div>
+
+  <div class="tech-box">
+    <h4>Tensile Strength Estimates</h4>
+    <p>Direct tension tests are unreliable (gripping concrete is hard). Instead we use:</p>
+    <ul>
+      <li><strong>Modulus of Rupture (fr):</strong> Third-point bending test. fr = 7.5λ√f'c (psi). Measures flexural tensile strength — highest estimate.</li>
+      <li><strong>Splitting Tensile Strength (fct):</strong> Brazil test — cylinder on its side. fct ≈ 6.7√f'c (psi). Most common indirect test.</li>
+      <li><strong>Direct Tension:</strong> Difficult to test, rarely done. ≈ 4√f'c (psi) estimated.</li>
+    </ul>
+    <p>The ACI Code conservatively assumes <strong>cracked concrete carries zero tension</strong> in flexural design — all tension goes to steel.</p>
+  </div>
+
+  <div class="formula">fr = 7.5λ√f'c (psi) — Modulus of Rupture (ACI 318)</div>
+
+  <div class="callout">
+    <span class="icon">💡</span>
+    <p><strong>For a 4,000 psi concrete:</strong> f'c = 4,000 → Compression capacity = 4,000 psi. Tensile capacity (fr) = 7.5 × √4000 = 474 psi. That's only <strong>12%</strong> of the compressive strength!</p>
+  </div>
+</div>
+
+<!-- 2.10 COMBINED STRESS -->
+<div class="section" id="s210">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.10</span>
+    <h2 class="sec-title">Strength under Combined Stress</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Real structures don't experience pure compression or pure tension — they experience combinations of both simultaneously. A beam in bending also has shear. A column has compression plus bending. Understanding how concrete fails under combined stresses determines how we design stirrups, spiral ties, and interaction diagrams for columns.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Arm Wrestling + Push-Up Simultaneously</div>
+    <p>You're stronger at each individually than you are at both at once. Concrete is the same — if you're using up compressive capacity in one direction, there's less capacity available in another. A biaxial compression state actually increases concrete's strength slightly. But compression in one direction + tension in another reduces the tensile capacity significantly.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Biaxial Failure Envelope for Concrete</div>
+    <canvas id="biaxialCanvas" height="220"></canvas>
+  </div>
+
+  <div class="tech-box">
+    <h4>Key Failure States</h4>
+    <ul>
+      <li><strong>Biaxial tension:</strong> Both directions pulling — weakest state. Strength barely reaches uniaxial tensile strength.</li>
+      <li><strong>Tension + Compression:</strong> Tensile strength reduced as compressive stress increases. Critical for shear design.</li>
+      <li><strong>Biaxial compression:</strong> Slightly stronger than uniaxial — compression in one direction helps resist cracking in the other (up to ~16% increase).</li>
+      <li><strong>Application:</strong> This is why shear (diagonal tension) cracks form at 45° — the principal tensile stress exceeds the tensile strength of concrete.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 2.11 SHRINKAGE -->
+<div class="section" id="s211">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.11</span>
+    <h2 class="sec-title">Shrinkage and Temperature Effects</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Concrete wants to shrink as it dries. But it's attached to other elements — foundations, walls, rebar — that resist this shrinkage. The result? Tensile stresses build up inside and concrete cracks, even before any load is applied. Shrinkage cracking damages waterproofing, looks bad, and can reduce structural durability. Understanding it is key to placing reinforcement correctly and spacing control joints.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Drying Clay</div>
+    <p>Wet clay is soft and flexible. As it dries, it wants to shrink. If you dry a flat clay slab attached to a rigid base, it can't shrink freely — so it cracks. Concrete does the same. The "clay" is the cement paste; the "rigid base" is the aggregate, the steel bars, or the adjacent structure. Shrinkage reinforcement doesn't prevent cracking — it forces many fine cracks instead of a few wide, damaging ones.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Shrinkage Strain Development Over Time</div>
+    <canvas id="shrinkCanvas" height="200"></canvas>
+  </div>
+
+  <div class="tech-box">
+    <h4>Types of Volume Change</h4>
+    <ul>
+      <li><strong>Plastic shrinkage:</strong> Occurs in first few hours after placement — surface dries faster than interior. Prevent with evaporation retarder sprays and wind breaks.</li>
+      <li><strong>Drying shrinkage:</strong> Long-term moisture loss. Ultimate value ≈ 400–800 × 10⁻⁶ (0.04–0.08%). High water content, smaller aggregates, and low humidity all increase shrinkage.</li>
+      <li><strong>Creep:</strong> Under sustained load, concrete deforms slowly over time (separate from elastic deformation). Creep strain can be 1–3× the elastic strain. Critical for long-term deflection predictions.</li>
+      <li><strong>Thermal:</strong> Coefficient of thermal expansion ≈ 5–6 × 10⁻⁶ /°F. A 100 ft concrete member changes ≈ 0.7 in. over a 100°F temperature swing. This is why expansion joints are required every 200–300 ft.</li>
+    </ul>
+  </div>
+
+  <div class="formula">εsh (ultimate) ≈ 400–800 × 10⁻⁶ | Creep coefficient Cc ≈ 1.0–3.0 × elastic strain</div>
+
+  <div class="callout warn">
+    <span class="icon">⚠️</span>
+    <p><strong>Designer Trap:</strong> ACI requires minimum shrinkage reinforcement even in slabs that aren't structurally needed for load. For slabs: As,min = 0.0018 × bh (Grade 60 steel). Without it, wide cracks open up and the slab deteriorates rapidly.</p>
+  </div>
+</div>
+
+<!-- 2.12 HIGH-STRENGTH -->
+<div class="section" id="s212">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.12</span>
+    <h2 class="sec-title">High-Strength Concrete</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>High-strength concrete (HSC), with f'c above 6,000 psi (and often reaching 15,000–20,000 psi in tall buildings), enables slimmer columns, longer spans, and reduced dead loads. But HSC behaves differently — it's more brittle, has a higher modulus, and requires modified design equations. Modern skyscrapers like the Burj Khalifa wouldn't be possible without it.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Carbon Fiber vs. Aluminum</div>
+    <p>Carbon fiber is much stronger than aluminum per unit weight — but it's also brittle. It doesn't bend before breaking; it shatters. HSC behaves similarly: you get more strength, but you must design specifically for the reduced ductility or the structure can fail catastrophically under overload without warning.</p>
+  </div>
+
+  <div class="tag-grid">
+    <div class="tag-card">
+      <div class="icon">💪</div>
+      <div class="name">Achieved By</div>
+      <p>Low w/c ratio (≤0.35), silica fume, superplasticizers, high-quality aggregates, careful curing. Sometimes reactive powder concretes exceed 50,000 psi!</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">📐</div>
+      <div class="name">Modified Behavior</div>
+      <p>Peak strain ε₀ stays near 0.002–0.003 but descending branch becomes very steep. ACI uses modified stress block parameters (β₁ reduced) for f'c > 4,000 psi.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">🏗️</div>
+      <div class="name">Design Adjustments</div>
+      <p>β₁ = 0.85 − 0.05(f'c − 4000)/1000 for f'c > 4,000 psi, min 0.65. Affects neutral axis depth calculations in beam design.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">🏙️</div>
+      <div class="name">Applications</div>
+      <p>High-rise columns, bridge piers, offshore platforms. Chicago's Water Tower Place (1976) used 9,000 psi — revolutionary at the time. Now 15,000+ psi is routine.</p>
+    </div>
+  </div>
+
+  <div class="formula">β₁ = 0.85 − 0.05 × (f'c − 4000) / 1000 ≥ 0.65</div>
+</div>
+
+<!-- 2.13 REINFORCING STEELS -->
+<div class="section" id="s213">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.13</span>
+    <h2 class="sec-title">Reinforcing Steels for Concrete</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Steel is what makes concrete a structural material worth designing with. Without steel, concrete is just a very expensive rock — strong in compression but dangerously brittle in tension. The steel-concrete team works because: (1) steel has 100× concrete's tensile strength, (2) their thermal expansion coefficients are nearly identical (so the bond doesn't break with temperature changes), and (3) the alkaline environment in concrete protects steel from corrosion.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Reinforced Fishing Rod</div>
+    <p>A glass fishing rod is stiff and strong under compression (when you're storing it vertically) but can snap under bending. Wrap it in carbon fiber and now it bends elastically under load without breaking. The fibers (like rebar) carry the tensile stress along the outer surface. The glass matrix (like concrete) carries the compression. Together they're far stronger than either alone.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Steel vs. Concrete Stress-Strain Curves — Why They're Perfect Partners</div>
+    <canvas id="steelCanvas" height="230"></canvas>
+  </div>
+
+  <div class="tech-box">
+    <h4>Why This Partnership Works</h4>
+    <ul>
+      <li><strong>Bond:</strong> Deformed bars have ribs that mechanically interlock with concrete. Smooth bars (old buildings) rely only on friction — much weaker bond.</li>
+      <li><strong>Thermal compatibility:</strong> Steel: α = 6.5 × 10⁻⁶/°F. Concrete: α = 5.5 × 10⁻⁶/°F. Close enough that temperature changes don't break the bond.</li>
+      <li><strong>Corrosion protection:</strong> High pH of concrete (pH ≈ 12–13) forms a passive oxide layer on steel. This breaks down if chlorides penetrate (coastal environments, deicing salts) → rebar corrosion → concrete spalling.</li>
+      <li><strong>Elastic modulus:</strong> Es = 29,000,000 psi for all grades of steel — much higher than concrete (≈3–5 million psi), so steel carries loads efficiently even in small cross-sections.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 2.14 REINFORCING BARS -->
+<div class="section" id="s214">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.14</span>
+    <h2 class="sec-title">Reinforcing Bars</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Bar size selection directly affects spacing, concrete cover, development lengths, and cost. The wrong bar size can make a beam impossible to detail properly — too large bars mean insufficient cover or spacing, failing code requirements. Understanding the bar designation system is essential for reading structural drawings.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Pipe Sizes</div>
+    <p>A "#8 bar" doesn't mean 8 inches — it means 8/8 = 1 inch diameter. Each bar number corresponds to eighths of an inch in nominal diameter. A #4 bar = 4/8 = ½ inch. A #10 bar = 10/8 = 1¼ inch. This numbering system makes it easy to specify bars on drawings and order from the fabricator.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Interactive Bar Size Selector — Properties Reference</div>
+    <canvas id="barCanvas" height="100"></canvas>
+    <div class="ctrl-row">
+      <label>Bar Size:</label>
+      <input type="range" id="barSlider" min="3" max="11" value="6" step="1">
+      <span class="ctrl-val" id="barNum">#6</span>
+    </div>
+    <div id="barProps" style="display:grid; grid-template-columns: repeat(4,1fr); gap:8px; margin-top:12px;"></div>
+  </div>
+
+  <div class="tech-box">
+    <h4>Steel Grades and Yield Strengths</h4>
+    <table class="data-table">
+      <tr><th>Grade</th><th>fy (psi)</th><th>Common Use</th><th>Color Code</th></tr>
+      <tr><td>Grade 40</td><td>40,000</td><td>Older construction, small bars</td><td>No mark</td></tr>
+      <tr><td>Grade 60</td><td>60,000</td><td>Standard U.S. construction (most common)</td><td>One line or "4"</td></tr>
+      <tr><td>Grade 80</td><td>80,000</td><td>High-strength applications, seismic</td><td>Two lines or "5"</td></tr>
+      <tr><td>Grade 100</td><td>100,000</td><td>Special applications, coupler connections</td><td>Three lines</td></tr>
+    </table>
+    <p><strong>ASTM A615</strong> (carbon steel) and <strong>ASTM A706</strong> (low-alloy, weldable — required in seismic zones) are the two most common bar specifications.</p>
+  </div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Quick Check: A #8 bar with fy = 60,000 psi. What is its nominal area and yield force?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q3')">As = 0.44 in², Fy = 26.4 kips</button>
+      <button class="quiz-opt" onclick="checkQ(this, true, 'q3')">As = 0.79 in², Fy = 47.4 kips</button>
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q3')">As = 1.00 in², Fy = 60 kips</button>
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q3')">As = 0.60 in², Fy = 36 kips</button>
+    </div>
+    <div class="quiz-fb" id="q3-fb">#8 bar: d = 8/8 = 1.00 in, Area = π(1.00)²/4 = 0.785 ≈ <strong>0.79 in²</strong>. Force = 0.79 × 60,000 = <strong>47,400 lb = 47.4 kips</strong>.</div>
+  </div>
+</div>
+
+<!-- 2.15 WWR -->
+<div class="section" id="s215">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.15</span>
+    <h2 class="sec-title">Welded Wire Reinforcement</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>For slabs-on-grade, pavements, and precast elements, placing and tying individual rebars is expensive and time-consuming. Welded wire reinforcement (WWR) — prefabricated sheets or rolls of wire — provides two-directional reinforcement in a single placement operation, reducing labor cost and improving consistency.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Window Screen vs. Individual Wires</div>
+    <p>You could stretch individual horizontal and vertical wires across a window frame and tie each intersection by hand — or you could just use a prefabricated screen. WWR is the prefabricated screen of concrete reinforcement: faster to install, more consistent spacing, and the welds at intersections provide excellent mechanical anchorage.</p>
+  </div>
+
+  <div class="tech-box">
+    <h4>Designation System</h4>
+    <p>WWR is designated by: <strong>Spacing × Spacing — Wire Size × Wire Size</strong></p>
+    <p>Example: <strong>6×6 — W2.9×W2.9</strong> means 6-in. spacing each way, wires of 0.029 in² area each.</p>
+    <ul>
+      <li><strong>W = plain wire</strong>, D = deformed wire</li>
+      <li>Number after W or D = wire cross-sectional area in hundredths of in²</li>
+      <li>Yield strength: 65,000 psi (plain) to 75,000 psi (deformed)</li>
+      <li>Widely used in slabs-on-grade, floor slabs, precast panels, and pipe</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 2.16 PRESTRESSING -->
+<div class="section" id="s216">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.16</span>
+    <h2 class="sec-title">Prestressing Steels</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Regular rebar works by stretching — it's passive. Prestressing steel is <em>actively tensioned</em> before (or after) concrete is cast, creating built-in compressive forces that counteract future tension from loads. This allows much longer spans, thinner sections, and crack-free concrete under service conditions. Prestressed concrete is used in virtually every major bridge and parking garage you've seen.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Squeezing a Row of Books</div>
+    <p>Lay 10 books side by side and try to lift the row as a beam — they fall apart. Now squeeze the ends hard with your hands (like a prestressing force) and suddenly you can lift the whole row as a unit. The compression from your hands prevents the books from separating at the bottom under bending. Prestress applies the same principle: precompressing the concrete before loads arrive means bending loads first have to overcome the precompression before any tension (and cracking) begins.</p>
+  </div>
+
+  <div class="viz-wrap">
+    <div class="viz-title">Prestressing Concept: How Pre-Tension Works</div>
+    <canvas id="prestressCanvas" height="200"></canvas>
+    <div class="ctrl-row">
+      <label>Applied Load:</label>
+      <input type="range" id="psSlider" min="0" max="100" value="30" step="5">
+      <span class="ctrl-val" id="psVal">30%</span>
+    </div>
+  </div>
+
+  <div class="tech-box">
+    <h4>Prestressing Steel vs. Mild Steel</h4>
+    <table class="data-table">
+      <tr><th>Property</th><th>Grade 60 Rebar</th><th>Prestressing Strand</th></tr>
+      <tr><td>fy / fpy (psi)</td><td>60,000</td><td>243,000</td></tr>
+      <tr><td>fu / fpu (psi)</td><td>90,000</td><td>270,000</td></tr>
+      <tr><td>Es (psi)</td><td>29,000,000</td><td>28,500,000</td></tr>
+      <tr><td>% elongation</td><td>~9%</td><td>~3.5%</td></tr>
+      <tr><td>Stress-strain curve</td><td>Clear yield plateau</td><td>No yield plateau (gradual)</td></tr>
+    </table>
+    <p><strong>Types:</strong> Seven-wire strand (most common), high-strength wire, and alloy bars. All must have very low relaxation to maintain the prestress force over decades.</p>
+  </div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Quick Check: Why can't we use Grade 60 rebar for prestressing?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q4')">It's too expensive compared to strand</button>
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q4')">It doesn't bond to concrete</button>
+      <button class="quiz-opt" onclick="checkQ(this, true, 'q4')">Concrete shrinkage and creep losses (≈ 20,000–30,000 psi) would consume nearly all of the 60,000 psi — leaving almost no useful prestress</button>
+      <button class="quiz-opt" onclick="checkQ(this, false, 'q4')">It corrodes too quickly under prestress tension</button>
+    </div>
+    <div class="quiz-fb" id="q4-fb">Prestress losses from shrinkage, creep, and relaxation are on the order of 20–35 ksi. On a 60 ksi yield bar, that's a 30–50% loss — you'd barely have any prestress left. Strand at 270 ksi has the same absolute losses but they represent only ~10% of the initial stress, leaving ≥90% still effective.</div>
+  </div>
+</div>
+
+<!-- 2.17 FIBERS -->
+<div class="section" id="s217">
+  <div class="sec-header">
+    <span class="sec-num">§ 2.17</span>
+    <h2 class="sec-title">Fiber Reinforcement</h2>
+  </div>
+  <div class="why-box">
+    <div class="why-label">⚡ Why Does This Matter?</div>
+    <p>Traditional rebar resists cracks after they form — but only at the bar locations. Fibers distributed throughout the mix resist cracking everywhere, providing crack control at the micro-level, improving toughness (energy absorption), and enabling thinner sections. Fiber-reinforced concrete is increasingly used in slabs, tunnels, and shotcrete applications.</p>
+  </div>
+  <div class="analogy-box">
+    <div class="analogy-label">🧠 Analogy: Papier-Mâché vs. Plain Paper</div>
+    <p>A single sheet of paper tears easily. Papier-mâché — layers of paper in all orientations — is far tougher and can absorb energy without catastrophic failure. Fibers in concrete do the same thing at the microscale: they bridge across forming cracks, requiring much more energy to propagate the crack through the matrix.</p>
+  </div>
+
+  <div class="tag-grid">
+    <div class="tag-card">
+      <div class="icon">🔩</div>
+      <div class="name">Steel Fibers</div>
+      <p>Hooked-end or crimped steel, 0.5–2 in. long. Dramatically increase toughness and post-crack ductility. Used in precast concrete, industrial floors, tunnel linings.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">🧵</div>
+      <div class="name">Synthetic Fibers</div>
+      <p>Polypropylene, nylon, or polyethylene. Primarily control plastic shrinkage cracking. Don't significantly increase strength but reduce early-age cracking.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">🌿</div>
+      <div class="name">Glass Fibers</div>
+      <p>Used in thin panels and architectural concrete. Must be alkali-resistant (AR glass) — plain glass deteriorates in the high-pH concrete environment.</p>
+    </div>
+    <div class="tag-card">
+      <div class="icon">⚫</div>
+      <div class="name">Carbon Fibers</div>
+      <p>Extremely high strength and stiffness, very expensive. Used in research and special applications. UHPC (ultra-high performance concrete) uses steel fibers at 2% by volume.</p>
+    </div>
+  </div>
+
+  <div class="tech-box">
+    <h4>Ultra-High Performance Concrete (UHPC)</h4>
+    <p>The frontier of fiber reinforcement. UHPC combines: steel fibers (1–3% by volume) + very low w/c (≤0.20) + silica fume + superplasticizers → compressive strengths of <strong>20,000–50,000 psi</strong> with significant tensile capacity (800–1,200 psi, vs. 400 psi for normal concrete).</p>
+    <p>Applications: ductal bridge decks, thin precast facades, blast-resistant structures, connection joints in segmental construction.</p>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="why-box" style="margin-top: 40px; border-left-color: var(--green); background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(59,130,246,0.04));">
+    <div class="why-label" style="color: var(--green)">✅ Chapter 2 — The Big Ideas</div>
+    <p><strong>1. Concrete = cement paste + aggregates.</strong> The w/c ratio is the master variable controlling strength, durability, and permeability.<br><br>
+    <strong>2. Concrete is strong in compression (f'c), weak in tension (≈ 10× weaker).</strong> Steel reinforcement solves this — placed where tension occurs.<br><br>
+    <strong>3. The stress-strain curve shape determines ductility.</strong> Higher strength → more brittle → more care needed in design.<br><br>
+    <strong>4. Shrinkage and creep cause long-term deformations</strong> that are often larger than immediate elastic deflections — ignore them at your peril.<br><br>
+    <strong>5. Prestressing uses high-strength steel to precompress concrete,</strong> enabling crack-free, long-span structures impossible with normal rebar.<br><br>
+    <strong>6. Admixtures, fibers, and supplementary materials</strong> are engineering tools — use them deliberately to solve specific problems.</p>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ─── HELPERS ────────────────────────────────────────────────
+function dpr() { return Math.min(window.devicePixelRatio || 1, 2); }
+function initCanvas(id, h) {
+  const c = document.getElementById(id);
+  if (!c) return null;
+  const ctx = c.getContext('2d');
+  const w = c.parentElement.clientWidth - 40;
+  const ratio = dpr();
+  c.width = w * ratio;
+  c.height = h * ratio;
+  c.style.width = w + 'px';
+  c.style.height = h + 'px';
+  ctx.scale(ratio, ratio);
+  return { ctx, w, h };
+}
+
+// ─── 2.1 INTRO CANVAS ───────────────────────────────────────
+function drawIntro() {
+  const r = initCanvas('introCanvas', 200);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,RUST,AMBER,GREEN,STONE} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const items = [
+    { x: w*0.12, y: h*0.5, r: 30, col: STONE, label: 'Coarse\nAggregate', desc: '40–50%' },
+    { x: w*0.3, y: h*0.5, r: 20, col: STONE+'cc', label: 'Fine\nAggregate', desc: '25–30%' },
+    { x: w*0.48, y: h*0.5, r: 24, col: BLUE+'99', label: 'Cement\nPaste', desc: '25–35%' },
+    { x: w*0.66, y: h*0.5, r: 12, col: BLUE+'cc', label: 'Air\nVoids', desc: '1–6%' },
+    { x: w*0.82, y: h*0.5, r: 8, col: RUST, label: 'Steel\nRebar', desc: '1–8%' },
+  ];
+
+  items.forEach(it => {
+    ctx.beginPath(); ctx.arc(it.x, it.y, it.r, 0, Math.PI*2);
+    ctx.fillStyle = it.col; ctx.fill();
+    ctx.strokeStyle = '#fff2'; ctx.lineWidth = 1; ctx.stroke();
+
+    ctx.fillStyle = '#fff';
+    ctx.font = `bold 9px 'Space Mono', monospace`;
+    ctx.textAlign = 'center';
+    it.label.split('\n').forEach((l, i) => ctx.fillText(l, it.x, it.y + h*0.28 + i*14));
+    ctx.fillStyle = AMBER; ctx.font = `10px 'Space Mono', monospace`;
+    ctx.fillText(it.desc, it.x, it.y + h*0.42);
+  });
+
+  ctx.fillStyle = TEXT; ctx.font = `10px 'Space Mono', monospace`;
+  ctx.textAlign = 'center';
+  ctx.fillText('CONCRETE COMPOSITION BY VOLUME', w/2, 20);
+
+  // arrows between
+  ctx.strokeStyle = GRID; ctx.lineWidth = 1;
+  for (let i=0;i<items.length-1;i++) {
+    ctx.beginPath();
+    ctx.moveTo(items[i].x + items[i].r, items[i].y);
+    ctx.lineTo(items[i+1].x - items[i+1].r, items[i+1].y);
+    ctx.stroke();
+  }
+}
+
+// ─── 2.2 CEMENT HYDRATION ───────────────────────────────────
+function drawCement(pct) {
+  const r = initCanvas('cementCanvas', 160);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,AMBER,GREEN,STONE} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const cx = w/2, cy = h/2;
+  const R = Math.min(h*0.35, 50);
+
+  // gel growth
+  const gels = 24;
+  for (let i=0;i<gels;i++) {
+    const angle = (i/gels)*Math.PI*2;
+    const len = R * 0.3 + R * 0.7 * pct/100;
+    const x2 = cx + (R + len) * Math.cos(angle);
+    const y2 = cy + (R + len) * Math.sin(angle);
+    ctx.beginPath();
+    ctx.moveTo(cx + R*Math.cos(angle), cy + R*Math.sin(angle));
+    ctx.lineTo(x2, y2);
+    const alpha = Math.min(1, pct/30);
+    const {BLUE:BLU} = C();
+    ctx.strokeStyle = BLU + Math.round(alpha*0.8*255).toString(16).padStart(2,'0');
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    if (pct > 20) {
+      ctx.beginPath();
+      ctx.arc(x2, y2, 2, 0, Math.PI*2);
+      ctx.fillStyle = BLU + Math.round(alpha*255).toString(16).padStart(2,'0');
+      ctx.fill();
+    }
+  }
+
+  // cement core
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
+  ctx.fillStyle = STONE; ctx.fill();
+
+  // strength indicator
+  const barW = w * 0.3, barX = w*0.68;
+  const barH = h * 0.5, barY = h*0.25;
+  ctx.fillStyle = GRID; ctx.fillRect(barX, barY, barW, barH);
+  const fill = barH * (pct/100);
+  const grad = ctx.createLinearGradient(0, barY+barH-fill, 0, barY+barH);
+  grad.addColorStop(0, BLUE); grad.addColorStop(1, GREEN);
+  ctx.fillStyle = grad; ctx.fillRect(barX, barY+barH-fill, barW, fill);
+  ctx.fillStyle = TEXT; ctx.font = `9px 'Space Mono', monospace`;
+  ctx.textAlign = 'center';
+  ctx.fillText('STRENGTH', barX+barW/2, barY-8);
+  ctx.fillStyle = '#fff';
+  ctx.fillText(Math.round(pct)+'%', barX+barW/2, barY+barH+14);
+
+  ctx.fillStyle = TEXT; ctx.font = `9px 'Space Mono', monospace`;
+  ctx.textAlign = 'center';
+  ctx.fillText('Cement particle growing C-S-H gel crystals', cx, h-8);
+}
+
+const hydSlider = document.getElementById('hydSlider');
+const hydVal = document.getElementById('hydVal');
+const hydDays = [0,1,3,7,14,21,28,56,90,180,270,365];
+hydSlider.addEventListener('input', () => {
+  const v = hydSlider.value;
+  const dayIdx = Math.round(v/100 * (hydDays.length-1));
+  const days = hydDays[dayIdx] || Math.round(v/100*365);
+  hydVal.textContent = days + ' days';
+  drawCement(+v);
+});
+drawCement(30);
+
+// ─── 2.3 AGGREGATE CANVAS ───────────────────────────────────
+function drawAgg() {
+  const r = initCanvas('aggCanvas', 180);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,STONE} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const particles = [
+    {x:60,y:80,r:32,col:STONE},{x:130,y:70,r:28,col:STONE+'cc'},
+    {x:200,y:85,r:35,col:STONE},{x:270,y:75,r:26,col:STONE+'cc'},
+    {x:340,y:80,r:30,col:STONE},
+    {x:95,y:120,r:16,col:STONE+'aa'},{x:165,y:115,r:18,col:STONE+'99'},
+    {x:235,y:118,r:14,col:STONE+'aa'},{x:305,y:122,r:17,col:STONE+'99'},
+    {x:55,y:130,r:7,col:STONE+'77'},{x:78,y:140,r:6,col:STONE+'88'},
+    {x:145,y:135,r:8,col:STONE+'77'},{x:190,y:140,r:5,col:STONE+'88'},
+    {x:250,y:135,r:7,col:STONE+'77'},{x:285,y:145,r:6,col:STONE+'88'},
+    {x:320,y:138,r:8,col:STONE+'77'},{x:355,y:143,r:5,col:STONE+'88'},
+  ];
+
+  // cement paste fill
+  ctx.fillStyle = 'rgba(59,130,246,0.12)';
+  ctx.fillRect(20, 50, w-40, 110);
+  ctx.strokeStyle = GRID; ctx.lineWidth = 1;
+  ctx.strokeRect(20, 50, w-40, 110);
+
+  const maxR = Math.min(particles[0].r, (w-60)/particles.length*1.5);
+  const scaleX = (w-60) / 380;
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(20 + p.x*scaleX, p.y, p.r*Math.min(scaleX,1)*0.9, 0, Math.PI*2);
+    ctx.fillStyle = p.col; ctx.fill();
+    ctx.strokeStyle = '#fff1'; ctx.lineWidth = 0.5; ctx.stroke();
+  });
+
+  ctx.fillStyle = TEXT; ctx.font = `9px 'Space Mono', monospace`;
+  ctx.textAlign = 'left';
+  ctx.fillText('Coarse', 22, 42);
+  ctx.textAlign = 'center';
+  ctx.fillText('← Well-graded aggregate fills voids efficiently →', w/2, h-6);
+
+  // legend
+  const leg = [{col:STONE,lbl:'Coarse'},{col:STONE+'aa',lbl:'Medium'},{col:STONE+'77',lbl:'Fine'},{col:BLUE+'55',lbl:'Paste'}];
+  let lx = 22;
+  leg.forEach(l => {
+    ctx.fillStyle = l.col; ctx.fillRect(lx, h-26, 10, 10);
+    ctx.fillStyle = TEXT; ctx.font = `8px 'Space Mono', monospace`; ctx.textAlign = 'left';
+    ctx.fillText(l.lbl, lx+13, h-18);
+    lx += 60;
+  });
+}
+drawAgg();
+
+// ─── 2.4 W/C CANVAS ─────────────────────────────────────────
+function wcStrengthCalc(wc) {
+  // Abrams' law approximation: fc = 96.5 / (wc/0.38)^2.6  (psi, rough)
+  return Math.round(11000 * Math.pow(0.38/wc, 2.4));
+}
+
+function drawWC(wcRatio) {
+  const r = initCanvas('wcCanvas', 220);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,AMBER} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const padL=50, padR=20, padT=20, padB=40;
+  const gw = w-padL-padR, gh = h-padT-padB;
+
+  // grid
+  ctx.strokeStyle = GRID; ctx.lineWidth = 0.5;
+  for (let i=0;i<=5;i++) {
+    const y = padT + gh*i/5;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL+gw, y); ctx.stroke();
+    ctx.fillStyle = TEXT; ctx.font = `8px 'Space Mono', monospace`;
+    ctx.textAlign = 'right';
+    ctx.fillText(Math.round(8000-i*1500)+'', padL-4, y+3);
+  }
+  for (let i=0;i<=5;i++) {
+    const x = padL + gw*i/5;
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT+gh); ctx.stroke();
+    ctx.fillStyle = TEXT; ctx.font = `8px 'Space Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText((0.3 + i*0.1).toFixed(1), x, padT+gh+14);
+  }
+
+  // axes labels
+  ctx.save(); ctx.rotate(-Math.PI/2);
+  ctx.fillStyle = TEXT; ctx.font = `9px 'Space Mono', monospace`; ctx.textAlign = 'center';
+  ctx.fillText("f'c (psi)", -h/2, 12);
+  ctx.restore();
+  ctx.fillStyle = TEXT; ctx.textAlign = 'center';
+  ctx.fillText('w/c Ratio', padL+gw/2, h-2);
+
+  // curve
+  ctx.beginPath();
+  for (let wc=0.30; wc<=0.80; wc+=0.01) {
+    const fc = wcStrengthCalc(wc);
+    const x = padL + (wc-0.30)/0.50 * gw;
+    const y = padT + gh - (fc/8000)*gh;
+    if (wc===0.30) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.strokeStyle = BLUE; ctx.lineWidth = 2; ctx.stroke();
+
+  // highlight current point
+  const curFC = wcStrengthCalc(wcRatio);
+  const cx = padL + (wcRatio-0.30)/0.50*gw;
+  const cy = padT + gh - (curFC/8000)*gh;
+
+  // dashed lines
+  ctx.setLineDash([3,3]);
+  ctx.strokeStyle = AMBER+'88'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, padT+gh); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(padL, cy); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2);
+  ctx.fillStyle = AMBER; ctx.fill();
+}
+
+const wcSlider = document.getElementById('wcSlider');
+const wcValEl = document.getElementById('wcVal');
+const wcStrEl = document.getElementById('wcStrength');
+wcSlider.addEventListener('input', () => {
+  const wc = wcSlider.value/100;
+  wcValEl.textContent = wc.toFixed(2);
+  const fc = wcStrengthCalc(wc);
+  wcStrEl.textContent = fc.toLocaleString() + ' psi';
+  drawWC(wc);
+});
+drawWC(0.50);
+
+// ─── 2.5 CURING CANVAS ──────────────────────────────────────
+function drawCuring() {
+  const r = initCanvas('curingCanvas', 200);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,AMBER,GREEN} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const padL=50, padR=20, padT=20, padB=40;
+  const gw=w-padL-padR, gh=h-padT-padB;
+
+  // grid
+  ctx.strokeStyle = GRID; ctx.lineWidth = 0.5;
+  [0,25,50,75,100].forEach((v,i) => {
+    const y = padT + gh*(1-v/100);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(padL+gw,y); ctx.stroke();
+    ctx.fillStyle=TEXT; ctx.font=`8px 'Space Mono', monospace`;
+    ctx.textAlign='right'; ctx.fillText(v+'%', padL-4, y+3);
+  });
+  [0,7,14,21,28,56,90].forEach((d,i) => {
+    const x = padL + (d/90)*gw;
+    ctx.beginPath(); ctx.moveTo(x,padT); ctx.lineTo(x,padT+gh); ctx.stroke();
+    ctx.fillStyle=TEXT; ctx.font=`8px 'Space Mono', monospace`;
+    ctx.textAlign='center'; ctx.fillText(d+'d', x, padT+gh+14);
+  });
+
+  // strength curves: warm (100%), normal (100%), cold (70%)
+  const curves = [
+    { label:'Normal curing (70°F)', col: GREEN, fn: d => Math.min(100, 100*(1-Math.exp(-d/8.5))) },
+    { label:'Warm weather (90°F)', col: AMBER, fn: d => Math.min(100, 110*(1-Math.exp(-d/5.5))) },
+    { label:'Cold weather (45°F)', col: BLUE, fn: d => Math.min(95, 90*(1-Math.exp(-d/18))) },
+  ];
+
+  curves.forEach(c => {
+    ctx.beginPath();
+    for (let d=0;d<=90;d+=0.5) {
+      const x = padL + (d/90)*gw;
+      const y = padT + gh*(1-c.fn(d)/100);
+      if (d===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle = c.col; ctx.lineWidth = 2; ctx.stroke();
+  });
+
+  // 28-day reference line
+  const x28 = padL + (28/90)*gw;
+  ctx.setLineDash([4,3]);
+  ctx.strokeStyle = '#ffffff22'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(x28,padT); ctx.lineTo(x28,padT+gh); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#fff4'; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='center'; ctx.fillText('28-day', x28, padT-4);
+
+  // legend
+  let lx = padL;
+  curves.forEach(c => {
+    ctx.beginPath(); ctx.moveTo(lx,h-6); ctx.lineTo(lx+20,h-6);
+    ctx.strokeStyle=c.col; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle=TEXT; ctx.font=`8px 'Space Mono', monospace`;
+    ctx.textAlign='left'; ctx.fillText(c.label, lx+24, h-3);
+    lx += 130;
+  });
+
+  ctx.save(); ctx.rotate(-Math.PI/2);
+  ctx.fillStyle=TEXT; ctx.font=`9px 'Space Mono', monospace`; ctx.textAlign='center';
+  ctx.fillText('Strength Gain (%)', -h/2, 12); ctx.restore();
+  ctx.fillStyle=TEXT; ctx.textAlign='center';
+  ctx.fillText('Age (days)', padL+gw/2, h-2);
+}
+drawCuring();
+
+// ─── 2.6 QUALITY CONTROL ────────────────────────────────────
+function drawQuality(sigma) {
+  const r = initCanvas('qualityCanvas', 200);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,RUST,AMBER,GREEN} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const padL=20, padR=20, padT=20, padB=30;
+  const gw=w-padL-padR, gh=h-padT-padB;
+
+  const fc = 4000, margin = sigma*1.65;
+  const mean = fc + margin;
+  const xMin = mean - 3.5*sigma, xMax = mean + 3.5*sigma;
+
+  function xToPixel(x) { return padL + (x-xMin)/(xMax-xMin)*gw; }
+  function gauss(x) { return Math.exp(-0.5*((x-mean)/sigma)**2) / (sigma*Math.sqrt(2*Math.PI)); }
+
+  const maxG = gauss(mean);
+
+  ctx.beginPath();
+  for (let x=xMin; x<=xMax; x+=(xMax-xMin)/200) {
+    const px = xToPixel(x);
+    const py = padT + gh - (gauss(x)/maxG)*gh*0.85;
+    if (x===xMin) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  ctx.strokeStyle=BLUE; ctx.lineWidth=2; ctx.stroke();
+
+  // Fill area below fc in red
+  ctx.beginPath();
+  ctx.moveTo(xToPixel(xMin), padT+gh);
+  for (let x=xMin; x<=fc; x+=(fc-xMin)/50) {
+    ctx.lineTo(xToPixel(x), padT+gh-(gauss(x)/maxG)*gh*0.85);
+  }
+  ctx.lineTo(xToPixel(fc), padT+gh);
+  ctx.closePath();
+  ctx.fillStyle='rgba(224,123,84,0.3)'; ctx.fill();
+
+  // f'c line
+  const fcX = xToPixel(fc);
+  ctx.beginPath(); ctx.moveTo(fcX,padT); ctx.lineTo(fcX,padT+gh);
+  ctx.strokeStyle=RUST; ctx.lineWidth=2; ctx.setLineDash([4,3]); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle=RUST; ctx.font=`9px 'Space Mono', monospace`;
+  ctx.textAlign='center'; ctx.fillText("f'c = 4000", fcX, padT-6);
+
+  // mean line
+  const mX = xToPixel(mean);
+  ctx.beginPath(); ctx.moveTo(mX,padT); ctx.lineTo(mX,padT+gh);
+  ctx.strokeStyle=GREEN; ctx.lineWidth=2; ctx.setLineDash([4,3]); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle=GREEN; ctx.font=`9px 'Space Mono', monospace`;
+  ctx.textAlign='center';
+  ctx.fillText("f'cr ≈ "+Math.round(mean), mX, padT-6);
+
+  ctx.fillStyle=RUST; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='center';
+  ctx.fillText('fail zone', xToPixel(xMin+(fc-xMin)/2), padT+gh+14);
+  ctx.fillStyle=TEXT;
+  ctx.fillText('σ = '+sigma+' psi', padL+gw-30, padT+14);
+}
+
+const sdSlider = document.getElementById('sdSlider');
+const sdVal = document.getElementById('sdVal');
+sdSlider.addEventListener('input', () => {
+  sdVal.textContent = sdSlider.value + ' psi';
+  drawQuality(+sdSlider.value);
+});
+drawQuality(400);
+
+// ─── 2.8 STRESS-STRAIN ──────────────────────────────────────
+function drawStress(fc) {
+  const r = initCanvas('stressCanvas', 250);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,RUST,AMBER,GREEN} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const padL=55, padR=30, padT=30, padB=40;
+  const gw=w-padL-padR, gh=h-padT-padB;
+  const Ec = 57000*Math.sqrt(fc);
+  const e0 = 0.002, eu = 0.003;
+  const maxE = 0.0035;
+
+  // axes
+  ctx.strokeStyle=GRID; ctx.lineWidth=0.5;
+  [0,0.001,0.002,0.003].forEach(e => {
+    const x = padL + (e/maxE)*gw;
+    ctx.beginPath(); ctx.moveTo(x,padT); ctx.lineTo(x,padT+gh); ctx.stroke();
+    ctx.fillStyle=TEXT; ctx.font=`8px 'Space Mono', monospace`;
+    ctx.textAlign='center'; ctx.fillText(e.toFixed(3), x, padT+gh+14);
+  });
+  [0,0.25,0.5,0.75,1].forEach(f => {
+    const y = padT + gh*(1-f);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(padL+gw,y); ctx.stroke();
+    ctx.fillStyle=TEXT; ctx.font=`8px 'Space Mono', monospace`;
+    ctx.textAlign='right'; ctx.fillText(Math.round(f*fc/1000)+'k', padL-4, y+3);
+  });
+
+  // Normal concrete curve (parabolic-linear model)
+  function stressAt(e) {
+    if (e <= e0) return fc * (2*(e/e0) - (e/e0)**2);
+    if (e <= eu) return fc;
+    return fc * Math.max(0, 1 - 4*(e-eu)/eu);
+  }
+
+  ctx.beginPath();
+  for (let e=0;e<=maxE;e+=maxE/300) {
+    const s = stressAt(e);
+    const x = padL + (e/maxE)*gw;
+    const y = padT + gh - (s/fc)*gh;
+    if (e===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle=BLUE; ctx.lineWidth=2.5; ctx.stroke();
+
+  // εu line
+  const euX = padL + (eu/maxE)*gw;
+  ctx.beginPath(); ctx.moveTo(euX,padT); ctx.lineTo(euX,padT+gh);
+  ctx.strokeStyle=AMBER+'88'; ctx.setLineDash([3,3]); ctx.lineWidth=1; ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle=AMBER; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='center'; ctx.fillText('εu=0.003', euX, padT-8);
+  ctx.fillText('ACI limit', euX, padT);
+
+  // Ec tangent line
+  ctx.beginPath();
+  ctx.moveTo(padL, padT+gh);
+  const ecSlope = fc/(e0);
+  const tangEndE = Math.min(fc/ecSlope * 0.5, maxE*0.4);
+  ctx.lineTo(padL + (tangEndE/maxE)*gw, padT+gh - (ecSlope*tangEndE/fc)*gh*0.5);
+  ctx.strokeStyle=GREEN+'66'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle=GREEN+'aa'; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='left'; ctx.fillText('Ec = '+Math.round(Ec/1000)+'k psi', padL+8, padT+gh-28);
+
+  // Peak
+  const peakY = padT;
+  ctx.beginPath(); ctx.arc(padL+(e0/maxE)*gw, padT+gh-gh, 4, 0, Math.PI*2);
+  ctx.fillStyle=RUST; ctx.fill();
+  ctx.fillStyle=RUST; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='center'; ctx.fillText("f'c="+Math.round(fc/1000)+'k psi', padL+(e0/maxE)*gw, padT-8);
+
+  ctx.save(); ctx.rotate(-Math.PI/2);
+  ctx.fillStyle=TEXT; ctx.font=`9px 'Space Mono', monospace`; ctx.textAlign='center';
+  ctx.fillText('Stress (psi)', -h/2, 14); ctx.restore();
+  ctx.fillStyle=TEXT; ctx.textAlign='center';
+  ctx.fillText('Strain ε', padL+gw/2, h-2);
+}
+
+const fcSlider = document.getElementById('fcSlider');
+const fcVal = document.getElementById('fcVal');
+fcSlider.addEventListener('input', () => {
+  fcVal.textContent = (+fcSlider.value).toLocaleString() + ' psi';
+  drawStress(+fcSlider.value);
+});
+drawStress(4000);
+
+// ─── 2.9 TENSION CANVAS ─────────────────────────────────────
+function drawTension() {
+  const r = initCanvas('tensionCanvas', 180);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,RUST,AMBER,GREEN} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const tests = [
+    { name: 'Modulus of\nRupture', type: 'Bending', mult: 7.5, col: AMBER },
+    { name: 'Splitting\nTensile', type: 'Brazil Test', mult: 6.7, col: BLUE },
+    { name: 'Direct\nTension', type: 'Rare/Indirect', mult: 4.0, col: RUST },
+  ];
+  const fc = 4000, sqrtFc = Math.sqrt(fc);
+  const maxVal = 7.5*sqrtFc;
+
+  tests.forEach((t, i) => {
+    const val = t.mult * sqrtFc;
+    const x = w*(0.18 + i*0.3);
+    const barH = (val/maxVal) * (h*0.5);
+    const barY = h*0.72 - barH;
+
+    ctx.fillStyle = t.col + '33';
+    ctx.fillRect(x-20, barY, 40, barH);
+    ctx.strokeStyle = t.col; ctx.lineWidth = 1.5;
+    ctx.strokeRect(x-20, barY, 40, barH);
+
+    ctx.fillStyle = t.col; ctx.font = `bold 11px 'Space Mono', monospace`;
+    ctx.textAlign='center';
+    ctx.fillText(Math.round(val)+' psi', x, barY-8);
+
+    ctx.fillStyle = TEXT; ctx.font = `8px 'Space Mono', monospace`;
+    t.name.split('\n').forEach((l,j) => ctx.fillText(l, x, h*0.78+j*13));
+    ctx.fillStyle = TEXT+'88';
+    ctx.fillText(t.type, x, h*0.78+28);
+    ctx.fillStyle = '#fff5';
+    ctx.fillText(t.mult+'√f\'c', x, h-6);
+  });
+
+  ctx.fillStyle = TEXT; ctx.font = `9px 'Space Mono', monospace`;
+  ctx.textAlign='center';
+  ctx.fillText("Tensile strength estimates for f'c = 4,000 psi", w/2, 16);
+  ctx.fillText('Compare: Compressive f\'c = 4,000 psi (≈ 8–10× tensile)', w/2, 30);
+}
+drawTension();
+
+// ─── 2.10 BIAXIAL CANVAS ────────────────────────────────────
+function drawBiaxial() {
+  const r = initCanvas('biaxialCanvas', 220);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,RUST,AMBER,GREEN} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const cx=w/2, cy=h/2, R=Math.min(w,h)*0.38;
+
+  // Axes
+  ctx.strokeStyle=GRID; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(cx-R*1.2, cy); ctx.lineTo(cx+R*1.2, cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, cy-R*1.2); ctx.lineTo(cx, cy+R*1.2); ctx.stroke();
+
+  ctx.fillStyle=TEXT; ctx.font=`9px 'Space Mono', monospace`;
+  ctx.textAlign='center'; ctx.fillText('σ₂ (compression +)', cx+R*1.1, cy-6);
+  ctx.fillText('σ₁ (compression +)', cx, cy-R*1.1-4);
+  ctx.fillText('Tension →', cx-R*0.7, cy+14);
+
+  // Draw biaxial failure envelope (simplified)
+  ctx.beginPath();
+  const pts = 200;
+  for (let i=0; i<=pts; i++) {
+    const angle = (i/pts)*Math.PI*2;
+    let r_val;
+    const cosA = Math.cos(angle), sinA = Math.sin(angle);
+    // Biaxial compression quadrant: slightly larger
+    if (cosA >= 0 && sinA >= 0) r_val = R * (1 + 0.12*Math.sin(2*angle));
+    // Biaxial tension: much smaller
+    else if (cosA <= 0 && sinA <= 0) r_val = R * 0.1;
+    // Mixed: interpolated
+    else r_val = R * (0.1 + 0.9 * Math.max(0, cosA*sinA < 0 ? Math.abs(Math.max(cosA,sinA)) : 1));
+
+    const px = cx + cosA * r_val;
+    const py = cy - sinA * r_val;
+    if (i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  ctx.closePath();
+  ctx.strokeStyle = BLUE; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = 'rgba(59,130,246,0.06)'; ctx.fill();
+
+  // Labels
+  const regions = [
+    {x:cx+R*0.6, y:cy-R*0.6, text:'Biaxial\nCompression\n(~16% stronger)', col:GREEN},
+    {x:cx-R*0.4, y:cy+R*0.4, text:'Biaxial\nTension\n(weakest)', col:RUST},
+    {x:cx+R*0.5, y:cy+R*0.4, text:'Tension+\nCompression\n(shear zone)', col:AMBER},
+  ];
+  regions.forEach(reg => {
+    ctx.fillStyle=reg.col; ctx.font=`8px 'Space Mono', monospace`;
+    ctx.textAlign='center';
+    reg.text.split('\n').forEach((l,i) => ctx.fillText(l, reg.x, reg.y+i*11));
+  });
+}
+drawBiaxial();
+
+// ─── 2.11 SHRINKAGE CANVAS ──────────────────────────────────
+function drawShrink() {
+  const r = initCanvas('shrinkCanvas', 200);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,RUST,AMBER,GREEN} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const padL=55, padR=20, padT=20, padB=40;
+  const gw=w-padL-padR, gh=h-padT-padB;
+
+  // Grid
+  ctx.strokeStyle=GRID; ctx.lineWidth=0.5;
+  [0,200,400,600,800].forEach(v => {
+    const y = padT + gh*(1-v/800);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(padL+gw,y); ctx.stroke();
+    ctx.fillStyle=TEXT; ctx.font=`8px 'Space Mono', monospace`;
+    ctx.textAlign='right'; ctx.fillText(v+'×10⁻⁶', padL-4, y+3);
+  });
+  [0,100,200,365,730].forEach(d => {
+    const x = padL+(d/730)*gw;
+    ctx.beginPath(); ctx.moveTo(x,padT); ctx.lineTo(x,padT+gh); ctx.stroke();
+    ctx.fillStyle=TEXT; ctx.textAlign='center';
+    ctx.fillText(d+'d', x, padT+gh+14);
+  });
+
+  const configs = [
+    { label: 'Low w/c (0.40), well-cured', ult: 400, col: GREEN },
+    { label: 'Typical (0.50)', ult: 600, col: BLUE },
+    { label: 'High w/c (0.65), poor cure', ult: 800, col: RUST },
+  ];
+
+  configs.forEach(c => {
+    ctx.beginPath();
+    for (let d=0;d<=730;d+=5) {
+      const sh = c.ult * d/(d+35);
+      const x = padL+(d/730)*gw;
+      const y = padT+gh - (sh/800)*gh;
+      if (d===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle=c.col; ctx.lineWidth=2; ctx.stroke();
+  });
+
+  // Creep annotation
+  ctx.fillStyle=AMBER+'88'; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='left'; ctx.fillText('+ Creep (under sustained load) adds 1–3× elastic strain on top', padL+4, padT+16);
+
+  // Legend
+  let lx=padL;
+  configs.forEach(c => {
+    ctx.strokeStyle=c.col; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(lx,h-6); ctx.lineTo(lx+16,h-6); ctx.stroke();
+    ctx.fillStyle=TEXT; ctx.font=`7.5px 'Space Mono', monospace`;
+    ctx.textAlign='left'; ctx.fillText(c.label, lx+20, h-3);
+    lx += 160;
+  });
+
+  ctx.save(); ctx.rotate(-Math.PI/2);
+  ctx.fillStyle=TEXT; ctx.font=`9px 'Space Mono', monospace`; ctx.textAlign='center';
+  ctx.fillText('Shrinkage Strain ε_sh', -h/2, 12); ctx.restore();
+}
+drawShrink();
+
+// ─── 2.13 STEEL CANVAS ──────────────────────────────────────
+function drawSteel() {
+  const r = initCanvas('steelCanvas', 230);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,RUST,AMBER,GREEN,STONE} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const padL=55, padR=30, padT=30, padB=40;
+  const gw=w-padL-padR, gh=h-padT-padB;
+  const maxStress = 80000, maxStrain = 0.025;
+
+  // Grid
+  ctx.strokeStyle=GRID; ctx.lineWidth=0.5;
+  [0,20,40,60,80].forEach(v => {
+    const y = padT+gh*(1-v/80);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(padL+gw,y); ctx.stroke();
+    ctx.fillStyle=TEXT; ctx.font=`8px 'Space Mono', monospace`;
+    ctx.textAlign='right'; ctx.fillText(v+'k', padL-4, y+3);
+  });
+
+  // Concrete curve (scaled to show alongside)
+  ctx.beginPath();
+  const fc=4000, e0c=0.003;
+  for (let e=0;e<=0.005;e+=0.0001) {
+    const s = e<=e0c ? fc*(2*(e/e0c)-(e/e0c)**2) : fc*Math.max(0,1-3*(e-e0c)/e0c);
+    const x = padL+(e/maxStrain)*gw;
+    const y = padT+gh-(s/maxStress)*gh;
+    if (e===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle=STONE; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle=STONE; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='left'; ctx.fillText("Concrete f'c=4k psi", padL+4, padT+gh-20);
+
+  // Steel Grade 60 bilinear
+  const fy=60000, Es=29000000, eySt=fy/Es;
+  ctx.beginPath();
+  for (let e=0;e<=maxStrain;e+=maxStrain/400) {
+    const s = e<=eySt ? e*Es : fy;
+    const x = padL+(e/maxStrain)*gw;
+    const y = padT+gh-(s/maxStress)*gh;
+    if (e===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle=BLUE; ctx.lineWidth=2.5; ctx.stroke();
+
+  // Yield point
+  const eyX = padL+(eySt/maxStrain)*gw;
+  const eyY = padT+gh-(fy/maxStress)*gh;
+  ctx.beginPath(); ctx.arc(eyX, eyY, 4, 0, Math.PI*2);
+  ctx.fillStyle=AMBER; ctx.fill();
+  ctx.fillStyle=AMBER; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='left'; ctx.fillText('fy = 60k, εy = 0.00207', eyX+6, eyY-4);
+
+  // Labels
+  ctx.fillStyle=BLUE; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='left'; ctx.fillText('Steel Grade 60 (large strain range!)', padL+4, padT+8);
+
+  ctx.save(); ctx.rotate(-Math.PI/2);
+  ctx.fillStyle=TEXT; ctx.font=`9px 'Space Mono', monospace`; ctx.textAlign='center';
+  ctx.fillText('Stress (psi)', -h/2, 14); ctx.restore();
+  ctx.fillStyle=TEXT; ctx.textAlign='center';
+  ctx.fillText('Strain ε', padL+gw/2, h-2);
+}
+drawSteel();
+
+// ─── 2.14 BAR SELECTOR ──────────────────────────────────────
+const barData = {
+  3: {dia:0.375, area:0.11, wt:0.376},
+  4: {dia:0.500, area:0.20, wt:0.668},
+  5: {dia:0.625, area:0.31, wt:1.043},
+  6: {dia:0.750, area:0.44, wt:1.502},
+  7: {dia:0.875, area:0.60, wt:2.044},
+  8: {dia:1.000, area:0.79, wt:2.670},
+  9: {dia:1.128, area:1.00, wt:3.400},
+  10:{dia:1.270, area:1.27, wt:4.303},
+  11:{dia:1.410, area:1.56, wt:5.313},
+};
+
+function drawBar(num) {
+  const r = initCanvas('barCanvas', 100);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,TEXT,RUST,AMBER} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const b = barData[num];
+  const R = Math.min(h*0.35, (b.dia/1.41)*60);
+  const cx = w/2, cy = h/2;
+
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
+  const g = ctx.createRadialGradient(cx-R*0.3,cy-R*0.3,1,cx,cy,R);
+  g.addColorStop(0,'#b45309'); g.addColorStop(1,'#78350f');
+  ctx.fillStyle=g; ctx.fill();
+  ctx.strokeStyle=RUST; ctx.lineWidth=2; ctx.stroke();
+
+  // Deformation ribs
+  for (let i=0;i<6;i++) {
+    const angle = (i/6)*Math.PI*2;
+    ctx.beginPath();
+    ctx.arc(cx+Math.cos(angle)*R, cy+Math.sin(angle)*R, R*0.12, 0, Math.PI*2);
+    ctx.fillStyle=RUST+'66'; ctx.fill();
+  }
+
+  ctx.fillStyle='#fff'; ctx.font=`bold 14px 'Space Mono', monospace`;
+  ctx.textAlign='center'; ctx.fillText('#'+num, cx, cy+5);
+
+  // Cross section label
+  ctx.fillStyle=TEXT; ctx.font=`9px 'Space Mono', monospace`;
+  ctx.textAlign='left';
+  ctx.fillText('d = '+b.dia+'"', 20, 16);
+  ctx.textAlign='right';
+  ctx.fillText('Area = '+b.area+' in²', w-20, 16);
+}
+
+function updateBar(num) {
+  const b = barData[num];
+  document.getElementById('barNum').textContent = '#'+num;
+  drawBar(num);
+  const propsEl = document.getElementById('barProps');
+  propsEl.innerHTML = [
+    {lbl:'Diameter',val: b.dia + ' in'},
+    {lbl:'Area',val: b.area + ' in²'},
+    {lbl:'Weight',val: b.wt + ' lb/ft'},
+    {lbl:'Force (Gr60)',val: Math.round(b.area*60)+' kips'},
+  ].map(p=>`<div class="compare-card"><div class="c-head" style="color:var(--blue)">${p.lbl}</div><div class="c-val" style="font-size:1rem;color:var(--amber)">${p.val}</div></div>`).join('');
+}
+document.getElementById('barSlider').addEventListener('input', e => updateBar(+e.target.value));
+updateBar(6);
+
+// ─── 2.16 PRESTRESS CANVAS ──────────────────────────────────
+function drawPrestress(loadPct) {
+  const r = initCanvas('prestressCanvas', 200);
+  if (!r) return;
+  const {ctx, w, h} = r;
+  const {BG,GRID,TEXT,BLUE,RUST,AMBER,GREEN} = C();
+  ctx.fillStyle = BG; ctx.fillRect(0,0,w,h);
+
+  const bx=40, by=60, bw=w-80, bh=70;
+  const prestress = 1000; // initial precompression, psi
+  const loadTension = (loadPct/100) * 1500; // psi tension at bottom
+
+  const netBottom = prestress - loadTension;
+  const netTop = prestress + loadTension * 0.3;
+
+  // Beam body
+  ctx.fillStyle = GRID; ctx.fillRect(bx, by, bw, bh);
+  ctx.strokeStyle = TEXT+'44'; ctx.lineWidth = 1; ctx.strokeRect(bx,by,bw,bh);
+
+  // Prestress strand
+  ctx.strokeStyle=AMBER; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(bx+10, by+bh-15);
+  ctx.lineTo(bx+bw-10, by+bh-15); ctx.stroke();
+  ctx.fillStyle=AMBER; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='center'; ctx.fillText('Prestress Strand', bx+bw/2, by+bh-20);
+
+  // Stress distribution (trapezoid)
+  const maxBarH = 40;
+  const topStress = netTop; // compression (positive)
+  const botStress = netBottom; // negative = tension
+
+  function stressBar(stress, x, yRef, side) {
+    const barLen = Math.abs(stress)/1200*maxBarH;
+    const isComp = stress > 0;
+    ctx.fillStyle = isComp ? BLUE+'66' : RUST+'66';
+    if (side === 'left') {
+      ctx.fillRect(x - barLen - 30, yRef - 8, barLen + 30, 16);
+    } else {
+      ctx.fillRect(x, yRef-8, barLen+30, 16);
+    }
+    ctx.fillStyle = isComp ? BLUE : RUST;
+    ctx.font=`8px 'Space Mono', monospace`;
+    ctx.textAlign = side === 'left' ? 'right' : 'left';
+    const label = (isComp ? 'C:' : 'T:') + Math.abs(Math.round(stress)) + ' psi';
+    ctx.fillText(label, side==='left' ? x-barLen-32 : x+barLen+32, yRef+3);
+  }
+
+  stressBar(netTop, bx+20, by+12, 'left');
+  stressBar(netBottom, bx+bw-20, by+bh-12, 'right');
+
+  // Arrow for load
+  if (loadPct > 0) {
+    ctx.fillStyle=RUST;
+    ctx.beginPath();
+    ctx.moveTo(bx+bw/2, by-20);
+    ctx.lineTo(bx+bw/2-8, by-5);
+    ctx.lineTo(bx+bw/2+8, by-5);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle=RUST; ctx.font=`9px 'Space Mono', monospace`;
+    ctx.textAlign='center'; ctx.fillText('Load', bx+bw/2, by-24);
+  }
+
+  ctx.fillStyle=TEXT; ctx.font=`8px 'Space Mono', monospace`;
+  ctx.textAlign='center';
+  if (netBottom >= 0) {
+    ctx.fillStyle=GREEN; ctx.fillText('✓ No tension — no cracking!', w/2, by+bh+20);
+  } else {
+    ctx.fillStyle=RUST; ctx.fillText('⚠ Tension developing — approaching cracking', w/2, by+bh+20);
+  }
+  ctx.fillStyle=TEXT;
+  ctx.fillText('Prestress precompresses beam, delaying tension cracking under load', w/2, h-6);
+}
+
+const psSlider = document.getElementById('psSlider');
+const psVal = document.getElementById('psVal');
+psSlider.addEventListener('input', () => {
+  psVal.textContent = psSlider.value+'%';
+  drawPrestress(+psSlider.value);
+});
+drawPrestress(30);
+
+// ─── TAB SWITCHING ───────────────────────────────────────────
+function switchTab(group, tab) {
+  document.querySelectorAll(`[id^="${group}-"]`).forEach(p => p.classList.remove('active'));
+  document.querySelectorAll(`.tab-btn`).forEach(b => b.classList.remove('active'));
+  document.getElementById(`${group}-${tab}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── THEME TOGGLE ────────────────────────────────────────────
+const root = document.documentElement;
+const toggleBtn = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const themeLabel = document.getElementById('themeLabel');
+
+function setTheme(t) {
+  root.setAttribute('data-theme', t);
+  themeIcon.textContent = t === 'dark' ? '🌙' : '☀️';
+  themeLabel.textContent = t === 'dark' ? 'Dark' : 'Light';
+  localStorage.setItem('mathify-theme', t);
+  // Redraw all canvases with new colours
+  redrawAll();
+}
+
+const savedTheme = localStorage.getItem('mathify-theme')
+  || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+setTheme(savedTheme);
+
+toggleBtn.addEventListener('click', () => {
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+
+// ─── THEME-AWARE CANVAS COLOURS ──────────────────────────────
+function C() {
+  const dark = root.getAttribute('data-theme') !== 'light';
+  return {
+    BG:    dark ? '#0d1220' : '#eef1fb',
+    GRID:  dark ? '#1e2a42' : '#c7d0ea',
+    TEXT:  dark ? '#94a3b8' : '#64748b',
+    BLUE:  dark ? '#3b82f6' : '#2563eb',
+    RUST:  dark ? '#e07b54' : '#c0531e',
+    AMBER: dark ? '#f59e0b' : '#d97706',
+    GREEN: dark ? '#10b981' : '#059669',
+    STONE: dark ? '#78716c' : '#92817a',
+  };
+}
+
+// ─── QUIZ ────────────────────────────────────────────────────
+function checkQ(btn, correct, qId) {
+  const container = btn.closest('.quiz-box');
+  container.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    b.classList.remove('correct','wrong');
+  });
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  const fb = document.getElementById(qId+'-fb');
+  if (fb) { fb.style.display='block'; }
+}
+
+// ─── NAV HIGHLIGHT ───────────────────────────────────────────
+const sections = document.querySelectorAll('.section');
+const navItems = document.querySelectorAll('.nav-item');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const match = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => io.observe(s));
+
+// ─── REDRAW ALL ───────────────────────────────────────────────
+function redrawAll() {
+  drawIntro();
+  drawCement(+hydSlider.value);
+  drawAgg();
+  drawWC(+wcSlider.value / 100);
+  drawCuring();
+  drawQuality(+sdSlider.value);
+  drawStress(+fcSlider.value);
+  drawTension();
+  drawBiaxial();
+  drawSteel();
+  drawShrink();
+  drawBar(+document.getElementById('barSlider').value);
+  drawPrestress(+psSlider.value);
+}
+
+// Re-draw on resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(redrawAll, 200);
+});
+</script>
+</body>
+</html>
