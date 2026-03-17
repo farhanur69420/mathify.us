@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Mathify</title>
-  <meta name="description" content="Free step-by-step tutorials for Reinforced Concrete Beam Design, Traffic Engineering, Algebra, and more — with interactive simulations and worked examples.">
-  <meta name="keywords" content="reinforced concrete beam flexural analysis tutorial, RC design working stress method, traffic engineering lessons, civil engineering education, free engineering tutorials, beam bending stress simulation">
+  <meta name="description" content="Free interactive lessons for Reinforced Concrete Design, Traffic Engineering, and more — with simulations, worked examples, and an AI tutor.">
+  <meta name="keywords" content="reinforced concrete beam design, RC design ACI 318, traffic engineering lessons, civil engineering education, free engineering tutorials, flexural analysis">
   <meta property="og:title" content="Mathify — Free Engineering & Math Lessons">
-  <meta property="og:description" content="Interactive lessons for Math, Physics, and Civil Engineering with step-by-step simulations and worked examples.">
+  <meta property="og:description" content="Interactive lessons for Civil Engineering and Math with simulations, worked examples, and a built-in AI tutor. Free forever.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="cover.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -24,31 +24,31 @@
       --text:#1C1C1E; --text2:#3C3C43; --text3:#8E8E93;
       --accent:#6366F1; --accent2:#8B5CF6;
       --green:#34C759; --amber:#FF9F0A; --red:#FF453A; --blue:#0A84FF;
-      --shadow-sm:0 1px 4px rgba(0,0,0,0.07); --shadow-md:0 4px 16px rgba(0,0,0,0.09);
+      --shadow-sm:0 1px 4px rgba(0,0,0,0.07);
+      --shadow-md:0 4px 16px rgba(0,0,0,0.09);
       --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
       --radius-sm:8px; --radius-md:14px; --radius-lg:20px;
     }
-
     [data-theme="dark"] {
       --bg:#000000; --bg2:#1C1C1E; --bg3:#2C2C2E; --card:#1C1C1E; --border:#38383A;
       --text:#FFFFFF; --text2:#EBEBF0; --text3:#8E8E93;
       --accent:#818CF8; --accent2:#A78BFA;
       --green:#30D158; --amber:#FF9F0A; --red:#FF453A; --blue:#0A84FF;
-      --shadow-sm:0 1px 4px rgba(0,0,0,0.3); --shadow-md:0 4px 16px rgba(0,0,0,0.4);
+      --shadow-sm:0 1px 4px rgba(0,0,0,0.3);
+      --shadow-md:0 4px 16px rgba(0,0,0,0.4);
       --shadow-lg:0 8px 32px rgba(0,0,0,0.5);
     }
 
     html { scroll-behavior: smooth; }
-
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg); color: var(--text); line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      transition: background 0.25s ease, color 0.25s ease;
+      transition: background 0.25s, color 0.25s;
       overflow-x: hidden;
     }
 
-    /* ── HEADER ── */
+    /* ── HEADER ─────────────────────────────────────── */
     .site-header {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
@@ -58,210 +58,95 @@
       -webkit-backdrop-filter: saturate(180%) blur(12px);
       transition: background 0.25s, border-color 0.25s;
     }
-
     .nav-brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; flex-shrink: 0; }
-    .nav-logo-img {
-      /* Show the square M-icon portion of default.png */
-      width: 38px;
-      height: 38px;
-      border-radius: 9px;
-      object-fit: cover;
-      object-position: 18% center;
-      display: block;
-      flex-shrink: 0;
-    }
-    .nav-wordmark {
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--text);
-    }
+    .nav-logo-img { width: 38px; height: 38px; border-radius: 9px; object-fit: cover; object-position: 18% center; display: block; flex-shrink: 0; }
+    .nav-wordmark { font-size: 0.875rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
     @media (max-width: 480px) { .nav-wordmark { display: none; } }
-
     .nav-links { display: flex; align-items: center; gap: 0.25rem; }
-    .nav-link {
-      font-size: 0.875rem; font-weight: 500; color: var(--text3);
-      text-decoration: none; padding: 0.4rem 0.75rem;
-      border-radius: var(--radius-sm); transition: color 0.15s, background 0.15s;
-    }
+    .nav-link { font-size: 0.875rem; font-weight: 500; color: var(--text3); text-decoration: none; padding: 0.4rem 0.75rem; border-radius: var(--radius-sm); transition: color 0.15s, background 0.15s; }
     .nav-link:hover { color: var(--text); background: var(--bg2); }
-
     .nav-right { display: flex; align-items: center; gap: 0.5rem; }
-
-    /* ── SEARCH BUTTON ── */
-    .search-btn {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.375rem 0.875rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--bg2); color: var(--text3);
-      font-size: 0.8125rem; font-family: inherit;
-      cursor: pointer; transition: all 0.15s;
-      white-space: nowrap;
-    }
+    .search-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.375rem 0.875rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg2); color: var(--text3); font-size: 0.8125rem; font-family: inherit; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
     .search-btn:hover { background: var(--bg3); color: var(--text); border-color: var(--accent); }
-    .search-btn-icon { font-size: 0.875rem; }
-    .search-btn-kbd {
-      font-size: 0.6875rem; padding: 0.1rem 0.35rem;
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 4px; color: var(--text3); font-family: inherit;
-    }
+    .search-btn-kbd { font-size: 0.6875rem; padding: 0.1rem 0.35rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--text3); }
     @media (max-width: 500px) { .search-btn-text, .search-btn-kbd { display: none; } }
-
-    .theme-btn {
-      width: 34px; height: 34px; border-radius: 50%;
-      border: 1px solid var(--border); background: var(--bg2); color: var(--text3);
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; transition: background 0.15s, border-color 0.15s;
-    }
+    .theme-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg2); color: var(--text3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: background 0.15s; }
     .theme-btn:hover { background: var(--bg3); }
 
-    /* ── HERO ── */
+    /* ── HERO ───────────────────────────────────────── */
     .hero { text-align: center; padding: 5rem 1.5rem 3.5rem; max-width: 720px; margin: 0 auto; }
-
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.375rem;
-      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12));
-      border: 1px solid rgba(99,102,241,0.25); color: var(--accent);
-      font-size: 0.8125rem; font-weight: 600; padding: 0.375rem 0.875rem;
-      border-radius: 20px; margin-bottom: 1.5rem; letter-spacing: 0.01em;
-    }
-    .hero-badge-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
-      animation: pulse 2s infinite;
-    }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.375rem; background: linear-gradient(135deg,rgba(99,102,241,0.12),rgba(139,92,246,0.12)); border: 1px solid rgba(99,102,241,0.25); color: var(--accent); font-size: 0.8125rem; font-weight: 600; padding: 0.375rem 0.875rem; border-radius: 20px; margin-bottom: 1.5rem; letter-spacing: 0.01em; }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.6;transform:scale(1.3);} }
-
-    h1.hero-title {
-      font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em;
-      line-height: 1.15; color: var(--text); margin-bottom: 1rem;
-    }
-    h1.hero-title span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-
+    h1.hero-title { font-size: clamp(2rem,5vw,3rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem; }
+    h1.hero-title span { background: linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .hero-sub { font-size: 1.0625rem; color: var(--text3); max-width: 520px; margin: 0 auto 2rem; line-height: 1.65; }
-
     .hero-ctas { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff; font-size: 0.9375rem; font-weight: 600;
-      padding: 0.75rem 1.5rem; border-radius: var(--radius-md);
-      text-decoration: none; border: none; cursor: pointer;
-      box-shadow: 0 4px 16px rgba(99,102,241,0.35);
-      transition: opacity 0.15s, transform 0.1s;
-    }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg,var(--accent),var(--accent2)); color: #fff; font-size: 0.9375rem; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: var(--radius-md); text-decoration: none; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(99,102,241,0.35); transition: opacity 0.15s, transform 0.1s; }
     .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0); }
-
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--bg2); color: var(--text); font-size: 0.9375rem; font-weight: 500;
-      padding: 0.75rem 1.5rem; border-radius: var(--radius-md);
-      text-decoration: none; border: 1px solid var(--border); cursor: pointer;
-      transition: background 0.15s, transform 0.1s;
-    }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--bg2); color: var(--text); font-size: 0.9375rem; font-weight: 500; padding: 0.75rem 1.5rem; border-radius: var(--radius-md); text-decoration: none; border: 1px solid var(--border); cursor: pointer; transition: background 0.15s, transform 0.1s; }
     .btn-secondary:hover { background: var(--bg3); transform: translateY(-1px); }
     .btn-secondary:active { transform: translateY(0); }
-
-    /* ── STATS BAR ── */
-    .stats-bar {
-      display: flex; justify-content: center; gap: 0;
-      border: 1px solid var(--border); border-radius: var(--radius-lg);
-      max-width: 600px; margin: 2.5rem auto 0;
-      overflow: hidden; background: var(--card); box-shadow: var(--shadow-sm);
-    }
+    .stats-bar { display: flex; justify-content: center; border: 1px solid var(--border); border-radius: var(--radius-lg); max-width: 600px; margin: 2.5rem auto 0; overflow: hidden; background: var(--card); box-shadow: var(--shadow-sm); }
     .stat-item { flex: 1; text-align: center; padding: 1rem 0.5rem; border-right: 1px solid var(--border); }
     .stat-item:last-child { border-right: none; }
     .stat-num { display: block; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; color: var(--accent); }
-    .stat-lbl { display: block; font-size: 0.75rem; color: var(--text3); margin-top: 0.1rem; font-weight: 500; }
-    /* visitor counter pulse while loading */
     .stat-num.loading { opacity: 0.4; animation: pulse 1.2s infinite; }
+    .stat-lbl { display: block; font-size: 0.75rem; color: var(--text3); margin-top: 0.1rem; font-weight: 500; }
 
-    /* ── SECTION ── */
+    /* ── SECTIONS ───────────────────────────────────── */
     .section { max-width: 1100px; margin: 0 auto; padding: 3.5rem 1.5rem; }
     .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.75rem; gap: 1rem; flex-wrap: wrap; }
     h2.section-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
     .section-link { font-size: 0.875rem; font-weight: 500; color: var(--accent); text-decoration: none; white-space: nowrap; }
     .section-link:hover { text-decoration: underline; }
 
-    /* ── COURSE CARDS ── */
-    .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-
-    .course-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
-      padding: 1.5rem; text-decoration: none; color: inherit;
-      display: flex; flex-direction: column; gap: 0.875rem;
-      box-shadow: var(--shadow-sm); transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
-      position: relative; overflow: hidden;
-    }
-    .course-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--card-accent, var(--accent)), var(--card-accent2, var(--accent2)));
-      opacity: 0; transition: opacity 0.15s;
-    }
+    /* ── COURSE CARDS ───────────────────────────────── */
+    .courses-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(290px,1fr)); gap: 1rem; }
+    .course-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.875rem; box-shadow: var(--shadow-sm); transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; position: relative; overflow: hidden; }
+    .course-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); opacity:0; transition:opacity 0.15s; }
     .course-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(99,102,241,0.3); }
     .course-card:hover::before { opacity: 1; }
     .course-card:active { transform: translateY(0); }
-
     .course-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
     .course-icon { font-size: 1.75rem; line-height: 1; }
-
-    .badge {
-      display: inline-flex; align-items: center; gap: 0.25rem;
-      font-size: 0.6875rem; font-weight: 700; padding: 0.25rem 0.625rem;
-      border-radius: 20px; letter-spacing: 0.04em; text-transform: uppercase; flex-shrink: 0;
-    }
+    .badge { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.6875rem; font-weight: 700; padding: 0.25rem 0.625rem; border-radius: 20px; letter-spacing: 0.04em; text-transform: uppercase; flex-shrink: 0; }
     .badge-live { background: rgba(52,199,89,0.15); color: var(--green); border: 1px solid rgba(52,199,89,0.3); }
+    .badge-live::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); }
     .badge-soon { background: rgba(255,159,10,0.12); color: var(--amber); border: 1px solid rgba(255,159,10,0.3); }
-    .badge-live::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
-
-    h3.course-title { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; line-height: 1.3; }
+    h3.course-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
     .course-desc { font-size: 0.875rem; color: var(--text3); line-height: 1.55; flex: 1; }
     .course-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; }
     .tag { font-size: 0.6875rem; font-weight: 500; padding: 0.25rem 0.625rem; border-radius: 6px; background: var(--bg2); color: var(--text3); border: 1px solid var(--border); }
     .course-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border); font-size: 0.8125rem; color: var(--text3); }
-    .arrow-icon { color: var(--accent); font-size: 1rem; }
+    .arrow-icon { color: var(--accent); }
 
-    /* ── SUBJECTS ── */
-    .subjects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.875rem; }
-    .subject-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
-      padding: 1.375rem 1.25rem; text-decoration: none; color: inherit;
-      display: flex; flex-direction: column; gap: 0.625rem;
-      box-shadow: var(--shadow-sm); transition: transform 0.15s, box-shadow 0.15s;
-    }
+    /* ── SUBJECTS ───────────────────────────────────── */
+    .subjects-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(210px,1fr)); gap: 0.875rem; }
+    .subject-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.375rem 1.25rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.625rem; box-shadow: var(--shadow-sm); transition: transform 0.15s, box-shadow 0.15s; }
     .subject-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .subject-card.soon { opacity: 0.6; pointer-events: none; }
     .subject-icon { font-size: 2rem; line-height: 1; }
     h3.subject-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
     .subject-desc { font-size: 0.8125rem; color: var(--text3); line-height: 1.5; }
     .subject-count { font-size: 0.75rem; font-weight: 600; color: var(--accent); margin-top: auto; padding-top: 0.5rem; }
 
-    /* ── ROADMAP ── */
+    /* ── COMING SOON ────────────────────────────────── */
+    .coming-soon-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .coming-pill { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 2rem; font-size: 0.8125rem; color: var(--text3); }
+    .coming-pill strong { color: var(--text); }
+    .coming-pill a { color: var(--accent); text-decoration: none; }
+    .coming-pill a:hover { text-decoration: underline; }
+
+    /* ── ROADMAP ────────────────────────────────────── */
     .roadmap-group { margin-bottom: 2rem; }
-    h3.roadmap-group-title {
-      font-size: 0.8125rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; color: var(--text3); margin-bottom: 0.75rem;
-      padding-left: 1rem; border-left: 3px solid var(--accent);
-    }
+    h3.roadmap-group-title { font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 0.75rem; padding-left: 1rem; border-left: 3px solid var(--accent); }
     .roadmap-items { display: flex; flex-direction: column; gap: 0.5rem; }
-    .roadmap-item {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 0.875rem 1rem; background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius-md); text-decoration: none; color: inherit;
-      transition: background 0.15s, border-color 0.15s, transform 0.1s;
-      box-shadow: var(--shadow-sm);
-    }
+    .roadmap-item { display: flex; align-items: center; gap: 1rem; padding: 0.875rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); text-decoration: none; color: inherit; transition: background 0.15s, border-color 0.15s, transform 0.1s; box-shadow: var(--shadow-sm); }
     .roadmap-item:hover { background: var(--bg2); border-color: rgba(99,102,241,0.25); transform: translateX(3px); }
     .roadmap-item.is-live:hover { border-color: rgba(52,199,89,0.3); }
-    .roadmap-step {
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
-    }
+    .roadmap-step { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
     .step-live { background: rgba(52,199,89,0.15); color: var(--green); border: 2px solid rgba(52,199,89,0.4); }
     .step-soon { background: var(--bg3); color: var(--text3); border: 2px solid var(--border); }
     .roadmap-content { flex: 1; min-width: 0; }
@@ -269,180 +154,136 @@
     .roadmap-sub { font-size: 0.8125rem; color: var(--text3); margin-top: 0.125rem; }
     .roadmap-end { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
 
-    /* ── RESOURCES ── */
-    .resources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
-    .resource-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md);
-      padding: 1.25rem; display: flex; gap: 1rem; align-items: flex-start; box-shadow: var(--shadow-sm);
-    }
-    .resource-icon {
-      width: 40px; height: 40px; border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12));
-      border: 1px solid rgba(99,102,241,0.15);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.125rem; flex-shrink: 0;
-    }
+    /* ── RESOURCES ──────────────────────────────────── */
+    .resources-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 1rem; }
+    .resource-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.25rem; display: flex; gap: 1rem; align-items: flex-start; box-shadow: var(--shadow-sm); }
+    .resource-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); background: linear-gradient(135deg,rgba(99,102,241,0.12),rgba(139,92,246,0.12)); border: 1px solid rgba(99,102,241,0.15); display: flex; align-items: center; justify-content: center; font-size: 1.125rem; flex-shrink: 0; }
     .resource-info { flex: 1; }
     .resource-title { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
     .resource-desc { font-size: 0.8125rem; color: var(--text3); line-height: 1.45; margin-bottom: 0.75rem; }
-    .btn-resource {
-      display: inline-flex; align-items: center; gap: 0.375rem;
-      font-size: 0.8125rem; font-weight: 500; color: var(--accent);
-      text-decoration: none; border: 1px solid rgba(99,102,241,0.25);
-      padding: 0.3rem 0.75rem; border-radius: 8px;
-      background: rgba(99,102,241,0.06); transition: background 0.15s;
-      cursor: default; opacity: 0.7;
-    }
-    .btn-resource.available { opacity: 1; cursor: pointer; }
-    .btn-resource.available:hover { background: rgba(99,102,241,0.12); }
+    .btn-resource { display: inline-flex; align-items: center; gap: 0.375rem; font-size: 0.8125rem; font-weight: 500; color: var(--accent); border: 1px solid rgba(99,102,241,0.25); padding: 0.3rem 0.75rem; border-radius: 8px; background: rgba(99,102,241,0.06); cursor: default; opacity: 0.7; }
 
-    /* ── FEEDBACK ── */
-    .feedback-section {
-      background: linear-gradient(135deg, rgba(99,102,241,0.07), rgba(139,92,246,0.07));
-      border: 1px solid rgba(99,102,241,0.15); border-radius: var(--radius-lg);
-      padding: 2.5rem 2rem; text-align: center;
-    }
+    /* ── FEEDBACK ───────────────────────────────────── */
+    .feedback-section { background: linear-gradient(135deg,rgba(99,102,241,0.07),rgba(139,92,246,0.07)); border: 1px solid rgba(99,102,241,0.15); border-radius: var(--radius-lg); padding: 2.5rem 2rem; text-align: center; }
     .feedback-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
     h2.feedback-title { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
     .feedback-sub { font-size: 0.9375rem; color: var(--text3); max-width: 420px; margin: 0 auto 1.5rem; line-height: 1.6; }
     .feedback-form { display: flex; gap: 0.75rem; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
-    .feedback-input {
-      flex: 1; min-width: 240px; padding: 0.75rem 1rem;
-      border-radius: var(--radius-md); border: 1px solid var(--border);
-      background: var(--bg); color: var(--text); font-size: 0.9375rem; font-family: inherit;
-      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-    }
+    .feedback-input { flex: 1; min-width: 240px; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 0.9375rem; font-family: inherit; outline: none; transition: border-color 0.2s; }
     .feedback-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
     .feedback-input::placeholder { color: var(--text3); }
 
-    /* ── FAB ── */
-    .fab {
-      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
-      display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff; border: none; border-radius: 28px;
-      font-size: 0.875rem; font-weight: 600; font-family: inherit; cursor: pointer;
-      box-shadow: 0 4px 20px rgba(99,102,241,0.4);
-      transition: transform 0.15s, box-shadow 0.15s; text-decoration: none;
-    }
-    .fab:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.5); }
-    .fab:active { transform: translateY(0); }
-
+    /* ── FOOTER / DIVIDER ───────────────────────────── */
     .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
-
-    .site-footer { text-align: center; padding: 2rem 1.5rem; color: var(--text3); font-size: 0.8125rem; border-top: 1px solid var(--border); }
+    .site-footer { text-align: center; padding: 2rem 1.5rem; color: var(--text3); font-size: 0.8125rem; border-top: 1px solid var(--border); line-height: 2; }
     .site-footer a { color: var(--text3); text-decoration: none; }
     .site-footer a:hover { color: var(--text); }
 
-    /* ══════════════════════════════════════════
-       SEARCH MODAL
-    ══════════════════════════════════════════ */
-    .search-overlay {
-      position: fixed; inset: 0; z-index: 300;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-      display: flex; align-items: flex-start; justify-content: center;
-      padding: 5rem 1rem 2rem;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.18s;
+    /* ── AI CHAT FAB ────────────────────────────────── */
+    .fab {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.3rem;
+      background: linear-gradient(135deg,var(--accent),var(--accent2));
+      color: #fff; border: none; border-radius: 28px;
+      font-size: 0.875rem; font-weight: 600; font-family: inherit; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.45);
+      transition: transform 0.15s, box-shadow 0.15s;
     }
-    .search-overlay.open { opacity: 1; pointer-events: all; }
+    .fab:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(99,102,241,0.55); }
+    @media (max-width: 768px) { .fab .fab-label { display: none; } .fab { padding: 0.9rem; border-radius: 50%; } }
 
-    .search-box {
+    /* ── CHAT DRAWER ────────────────────────────────── */
+    .chat-backdrop { position: fixed; inset: 0; z-index: 250; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+    .chat-backdrop.open { opacity: 1; pointer-events: all; }
+    .chat-drawer {
+      position: fixed; bottom: 0; right: 0; z-index: 260;
+      width: 420px; max-width: 100vw; height: min(620px, 92vh);
       background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); width: 100%; max-width: 600px;
-      box-shadow: var(--shadow-lg); overflow: hidden;
-      transform: translateY(-12px); transition: transform 0.18s;
+      border-radius: 20px 20px 0 0; display: flex; flex-direction: column;
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
+      transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
     }
+    .chat-drawer.open { transform: translateY(0); }
+    @media (max-width: 768px) { .chat-drawer { width: 100%; border-radius: 20px 20px 0 0; } }
+
+    .chat-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem 0.875rem; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .chat-header-left { display: flex; align-items: center; gap: 0.75rem; }
+    .chat-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,var(--accent),var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .chat-header-name { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+    .chat-header-status { font-size: 0.72rem; color: var(--green); display: flex; align-items: center; gap: 0.3rem; margin-top: 1px; }
+    .chat-header-status::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); }
+    .chat-close { width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--bg2); color: var(--text3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: background 0.15s; }
+    .chat-close:hover { background: var(--bg3); }
+
+    .chat-messages { flex: 1; overflow-y: auto; padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.875rem; scroll-behavior: smooth; }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .chat-msg { display: flex; gap: 0.625rem; animation: msgIn 0.2s ease; }
+    @keyframes msgIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+    .chat-msg.msg-user { flex-direction: row-reverse; }
+    .chat-msg-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+    .msg-ai .chat-msg-avatar { background: linear-gradient(135deg,var(--accent),var(--accent2)); color: #fff; }
+    .msg-user .chat-msg-avatar { background: var(--bg3); }
+    .chat-bubble { max-width: 80%; padding: 0.625rem 0.875rem; border-radius: 14px; font-size: 0.875rem; line-height: 1.55; }
+    .msg-ai .chat-bubble { background: var(--bg2); color: var(--text); border-radius: 4px 14px 14px 14px; }
+    .msg-user .chat-bubble { background: linear-gradient(135deg,var(--accent),var(--accent2)); color: #fff; border-radius: 14px 4px 14px 14px; }
+    .msg-ai .chat-bubble code { background: var(--bg3); color: var(--accent); padding: 0.1em 0.35em; border-radius: 4px; font-family: 'SF Mono',Consolas,monospace; font-size: 0.85em; }
+    .msg-user .chat-bubble code { background: rgba(255,255,255,0.2); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.85em; }
+
+    .chat-typing-wrap { display: flex; gap: 0.625rem; }
+    .chat-typing { display: flex; gap: 4px; align-items: center; padding: 0.625rem 0.875rem; background: var(--bg2); border-radius: 4px 14px 14px 14px; }
+    .chat-typing span { width: 6px; height: 6px; background: var(--text3); border-radius: 50%; animation: typingDot 1.2s infinite; }
+    .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingDot { 0%,60%,100%{opacity:0.3;transform:scale(1);} 30%{opacity:1;transform:scale(1.3);} }
+
+    .chat-suggestions { display: flex; gap: 0.5rem; flex-wrap: wrap; padding: 0 1.25rem 0.75rem; flex-shrink: 0; }
+    .chat-suggest-btn { font-size: 0.75rem; padding: 0.3rem 0.75rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 1rem; color: var(--text3); cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
+    .chat-suggest-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .chat-input-row { display: flex; gap: 0.625rem; padding: 0.875rem 1.25rem 1rem; border-top: 1px solid var(--border); flex-shrink: 0; }
+    .chat-input { flex: 1; padding: 0.625rem 0.875rem; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 0.875rem; font-family: inherit; color: var(--text); outline: none; resize: none; transition: border-color 0.2s; max-height: 120px; overflow-y: auto; }
+    .chat-input:focus { border-color: var(--accent); }
+    .chat-input::placeholder { color: var(--text3); }
+    .chat-send { width: 38px; height: 38px; border-radius: 50%; border: none; flex-shrink: 0; background: linear-gradient(135deg,var(--accent),var(--accent2)); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: opacity 0.15s, transform 0.1s; align-self: flex-end; }
+    .chat-send:hover { opacity: 0.9; transform: scale(1.05); }
+    .chat-send:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+    /* ── SEARCH MODAL ───────────────────────────────── */
+    .search-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); display: flex; align-items: flex-start; justify-content: center; padding: 5rem 1rem 2rem; opacity: 0; pointer-events: none; transition: opacity 0.18s; }
+    .search-overlay.open { opacity: 1; pointer-events: all; }
+    .search-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); width: 100%; max-width: 600px; box-shadow: var(--shadow-lg); overflow: hidden; transform: translateY(-12px); transition: transform 0.18s; }
     .search-overlay.open .search-box { transform: translateY(0); }
-
-    .search-input-row {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
-    }
-    .search-input-icon { font-size: 1.1rem; color: var(--text3); flex-shrink: 0; }
-    .search-input {
-      flex: 1; background: none; border: none; outline: none;
-      font-size: 1rem; color: var(--text); font-family: inherit;
-    }
+    .search-input-row { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+    .search-input { flex: 1; background: none; border: none; outline: none; font-size: 1rem; color: var(--text); font-family: inherit; }
     .search-input::placeholder { color: var(--text3); }
-    .search-close-btn {
-      background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
-      color: var(--text3); font-size: 0.75rem; padding: 0.2rem 0.5rem;
-      cursor: pointer; font-family: inherit; transition: background 0.15s;
-    }
-    .search-close-btn:hover { background: var(--bg3); }
-
+    .search-close-btn { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; color: var(--text3); font-size: 0.75rem; padding: 0.2rem 0.5rem; cursor: pointer; font-family: inherit; transition: background 0.15s; }
     .search-results { max-height: 420px; overflow-y: auto; }
-    .search-empty {
-      padding: 2rem 1.25rem; text-align: center;
-      color: var(--text3); font-size: 0.9rem;
-    }
-    .search-group-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--text3);
-      padding: 0.9rem 1.25rem 0.35rem; position: sticky; top: 0;
-      background: var(--card);
-    }
-    .search-result {
-      display: flex; align-items: center; gap: 0.875rem;
-      padding: 0.75rem 1.25rem; text-decoration: none; color: inherit;
-      transition: background 0.12s; border-radius: 0; cursor: pointer;
-    }
-    .search-result:hover, .search-result.active {
-      background: linear-gradient(90deg, rgba(99,102,241,0.08), transparent);
-    }
-    .search-result-icon {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12));
-      border: 1px solid rgba(99,102,241,0.12);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; flex-shrink: 0;
-    }
+    .search-empty { padding: 2rem 1.25rem; text-align: center; color: var(--text3); font-size: 0.9rem; }
+    .search-group-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); padding: 0.9rem 1.25rem 0.35rem; position: sticky; top: 0; background: var(--card); }
+    .search-result { display: flex; align-items: center; gap: 0.875rem; padding: 0.75rem 1.25rem; text-decoration: none; color: inherit; transition: background 0.12s; }
+    .search-result:hover, .search-result.active { background: linear-gradient(90deg,rgba(99,102,241,0.08),transparent); }
+    .search-result-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg,rgba(99,102,241,0.12),rgba(139,92,246,0.12)); border: 1px solid rgba(99,102,241,0.12); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
     .search-result-body { flex: 1; min-width: 0; }
     .search-result-title { font-size: 0.9rem; font-weight: 600; color: var(--text); }
     .search-result-title mark { background: none; color: var(--accent); font-weight: 700; }
-    .search-result-desc { font-size: 0.78rem; color: var(--text3); margin-top: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .search-result-desc { font-size: 0.78rem; color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .search-result-arrow { color: var(--text3); font-size: 0.85rem; flex-shrink: 0; }
-    .search-footer {
-      padding: 0.625rem 1.25rem; border-top: 1px solid var(--border);
-      display: flex; align-items: center; gap: 1rem;
-      font-size: 0.72rem; color: var(--text3);
-    }
-    .search-footer-hint { display: flex; align-items: center; gap: 0.3rem; }
-    .search-footer-hint kbd {
-      background: var(--bg2); border: 1px solid var(--border); border-radius: 4px;
-      padding: 0.1rem 0.35rem; font-family: inherit; font-size: 0.65rem;
-    }
+    .search-footer { padding: 0.625rem 1.25rem; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 1rem; font-size: 0.72rem; color: var(--text3); }
+    .search-footer kbd { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.35rem; font-family: inherit; font-size: 0.65rem; }
 
-    /* ══════════════════════════════════════════
-       FEEDBACK MODAL
-    ══════════════════════════════════════════ */
-    .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200;
-      display: flex; align-items: center; justify-content: center;
-      padding: 1rem; backdrop-filter: blur(4px);
-    }
+    /* ── FEEDBACK MODAL ─────────────────────────────── */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 400; display: flex; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(4px); }
     .modal-backdrop.hidden { display: none; }
-    .modal {
-      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
-      padding: 2rem; width: 100%; max-width: 440px; box-shadow: var(--shadow-lg); position: relative;
-    }
-    .modal-close {
-      position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px;
-      border-radius: 50%; border: none; background: var(--bg2); color: var(--text3);
-      cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;
-    }
+    .modal { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; width: 100%; max-width: 440px; box-shadow: var(--shadow-lg); position: relative; }
+    .modal-close { position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--bg2); color: var(--text3); cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
     h2.modal-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.375rem; letter-spacing: -0.02em; }
     .modal-sub { font-size: 0.875rem; color: var(--text3); margin-bottom: 1.25rem; }
     .form-field { margin-bottom: 1rem; }
     .form-label { display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text2); margin-bottom: 0.375rem; }
-    .form-control {
-      width: 100%; padding: 0.625rem 0.875rem; border-radius: var(--radius-sm);
-      border: 1px solid var(--border); background: var(--bg2); color: var(--text);
-      font-size: 0.9375rem; font-family: inherit; outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s; resize: vertical;
-    }
+    .form-control { width: 100%; padding: 0.625rem 0.875rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg2); color: var(--text); font-size: 0.9375rem; font-family: inherit; outline: none; transition: border-color 0.2s; resize: vertical; }
     .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
     .form-control::placeholder { color: var(--text3); }
     .modal-actions { display: flex; gap: 0.625rem; justify-content: flex-end; margin-top: 1.25rem; }
@@ -450,103 +291,83 @@
     .success-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
     .hidden { display: none !important; }
 
-    /* ── RESPONSIVE ── */
+    /* ── RESPONSIVE ─────────────────────────────────── */
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .hero { padding: 3.5rem 1.25rem 2.5rem; }
       .section { padding: 2.5rem 1.25rem; }
       .stats-bar { max-width: 100%; }
       .stat-num { font-size: 1.25rem; }
-      .fab span { display: none; }
-      .fab { padding: 0.875rem; border-radius: 50%; }
       .search-overlay { padding: 4rem 0.75rem 1rem; align-items: flex-start; }
     }
     @media (max-width: 480px) {
       h1.hero-title { font-size: 1.75rem; }
       .courses-grid { grid-template-columns: 1fr; }
-      .subjects-grid { grid-template-columns: repeat(2, 1fr); }
+      .subjects-grid { grid-template-columns: repeat(2,1fr); }
       .resources-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══ HEADER ═══ -->
+  <!-- ═══ HEADER ════════════════════════════════════════════════════════ -->
   <header class="site-header">
     <a class="nav-brand" href="index.html" aria-label="Mathify — home">
-      <img src="default.png" alt="Mathify icon" class="nav-logo-img">
+      <img src="default.png" alt="Mathify" class="nav-logo-img">
       <span class="nav-wordmark">mathify.us</span>
     </a>
 
     <nav class="nav-links" aria-label="Site navigation">
       <a class="nav-link" href="civil.html">Civil Eng.</a>
-      <a class="nav-link" href="math.html">Mathematics</a>
-      <a class="nav-link" href="physics.html">Physics</a>
+      <a class="nav-link" href="#coming-soon">Mathematics</a>
+      <a class="nav-link" href="#coming-soon">Physics</a>
       <a class="nav-link" href="about.html">About</a>
     </nav>
 
     <div class="nav-right">
-      <!-- Universal Search -->
-      <button class="search-btn" id="searchOpenBtn" aria-label="Search site (Ctrl+K)" title="Search (Ctrl+K)">
-        <span class="search-btn-icon">🔍</span>
+      <button class="search-btn" id="searchOpenBtn" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+        <span>🔍</span>
         <span class="search-btn-text">Search</span>
         <kbd class="search-btn-kbd">⌘K</kbd>
       </button>
-      <button class="theme-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle dark/light mode">
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
         <span id="themeIcon">☀️</span>
       </button>
     </div>
   </header>
 
-  <!-- ═══ HERO ═══ -->
+  <!-- ═══ HERO ═══════════════════════════════════════════════════════════ -->
   <section aria-labelledby="hero-title">
     <div class="hero">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
-        4 courses live now
+        5 courses live now
       </div>
       <h1 class="hero-title" id="hero-title">
         Learn <span>Engineering & Math</span>,<br>One Concept at a Time
       </h1>
-      <p class="hero-sub">
-        Free, step-by-step tutorials with interactive simulations and fully worked examples — built for engineering students who want to actually understand the material.
-      </p>
+      <p class="hero-sub">Free, step-by-step tutorials with interactive simulations and fully worked examples — built for engineering students who want to actually understand the material.</p>
       <div class="hero-ctas">
         <a href="civil.html" class="btn-primary">
           Explore Courses
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#roadmap" class="btn-secondary">
-          View Roadmap
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        <button class="btn-secondary" onclick="openChat()">
+          ✨ Ask AI Tutor
+        </button>
       </div>
-
       <div class="stats-bar" role="list" aria-label="Site statistics">
-        <div class="stat-item" role="listitem">
-          <span class="stat-num">4</span>
-          <span class="stat-lbl">Live Courses</span>
-        </div>
-        <div class="stat-item" role="listitem">
-          <span class="stat-num">30+</span>
-          <span class="stat-lbl">Simulations</span>
-        </div>
-        <div class="stat-item" role="listitem">
-          <span class="stat-num">50+</span>
-          <span class="stat-lbl">Worked Examples</span>
-        </div>
-        <!-- Live visitor counter -->
-        <div class="stat-item" role="listitem">
-          <span class="stat-num loading" id="visitorCount">—</span>
-          <span class="stat-lbl">Total Visitors</span>
-        </div>
+        <div class="stat-item" role="listitem"><span class="stat-num">5</span><span class="stat-lbl">Live Courses</span></div>
+        <div class="stat-item" role="listitem"><span class="stat-num">30+</span><span class="stat-lbl">Simulations</span></div>
+        <div class="stat-item" role="listitem"><span class="stat-num">50+</span><span class="stat-lbl">Worked Examples</span></div>
+        <div class="stat-item" role="listitem"><span class="stat-num loading" id="visitorCount">—</span><span class="stat-lbl">Total Visitors</span></div>
       </div>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- ═══ LIVE COURSES ═══ -->
+  <!-- ═══ LIVE COURSES ══════════════════════════════════════════════════ -->
   <section class="section" aria-labelledby="courses-title">
     <div class="section-header">
       <h2 class="section-title" id="courses-title">Live Courses</h2>
@@ -556,34 +377,42 @@
 
       <a href="rc-chapter1.html" class="course-card">
         <div class="course-card-top"><span class="course-icon">🏗️</span><span class="badge badge-live">Live</span></div>
-        <h3 class="course-title">RC Design — Chapter 1: Working Stress Design</h3>
-        <p class="course-desc">Master the WSD method for reinforced concrete beams. Covers material tester, w/c ratio, transformed section, k &amp; j analysis, and fully solved design problems.</p>
+        <h3 class="course-title">RC Design — Ch. 1: Working Stress Design</h3>
+        <p class="course-desc">WSD method, transformed section, k &amp; j analysis, beam geometry, and 3 fully solved design problems.</p>
         <div class="course-tags"><span class="tag">#RC_Beam</span><span class="tag">#WSD_Method</span><span class="tag">#Structural_Analysis</span></div>
         <div class="course-footer"><span>🧪 8 simulations · 3 worked examples</span><span class="arrow-icon">→</span></div>
       </a>
 
       <a href="cee-chapter2.html" class="course-card">
         <div class="course-card-top"><span class="course-icon">🧱</span><span class="badge badge-live">Live</span></div>
-        <h3 class="course-title">RC Design — Chapter 2: Materials</h3>
-        <p class="course-desc">Deep dive into concrete &amp; steel material properties. Interactive stress-strain curves, w/c ratio, curing timelines, bar selector, and prestress concepts.</p>
+        <h3 class="course-title">RC Design — Ch. 2: Materials</h3>
+        <p class="course-desc">Concrete &amp; steel properties, stress-strain curves, w/c ratio, curing, bar selector, and prestress. All 17 sections.</p>
         <div class="course-tags"><span class="tag">#Concrete_Materials</span><span class="tag">#Steel_Rebar</span><span class="tag">#RC_Beam</span></div>
         <div class="course-footer"><span>📊 13 simulations · 17 sections</span><span class="arrow-icon">→</span></div>
       </a>
 
       <a href="chapter3-concrete.html" class="course-card">
         <div class="course-card-top"><span class="course-icon">📐</span><span class="badge badge-live">Live</span></div>
-        <h3 class="course-title">RC Design — Chapter 3: Design & Fundamental Assumptions</h3>
-        <p class="course-desc">Design philosophy, ACI code logic, the 4 core RC assumptions, axial load behavior, and elastic beam bending — with interactive calculators and quizzes.</p>
+        <h3 class="course-title">RC Design — Ch. 3: Design &amp; Fundamental Assumptions</h3>
+        <p class="course-desc">ACI code logic, the 4 core RC assumptions, axial load behavior, and elastic beam bending — with calculators and quizzes.</p>
         <div class="course-tags"><span class="tag">#ACI_318</span><span class="tag">#RC_Assumptions</span><span class="tag">#Bending</span></div>
         <div class="course-footer"><span>⚡ 2 calculators · 3 quizzes · 6 sections</span><span class="arrow-icon">→</span></div>
       </a>
 
+      <a href="chapter4-concrete.html" class="course-card">
+        <div class="course-card-top"><span class="course-icon">📊</span><span class="badge badge-live">Live</span></div>
+        <h3 class="course-title">RC Design — Ch. 4: Flexural Analysis &amp; Design</h3>
+        <p class="course-desc">Whitney stress block, failure modes, ρ limits, Rn design aids, practical detailing, doubly reinforced beams, and T-beams. All 7 sections.</p>
+        <div class="course-tags"><span class="tag">#Whitney_Block</span><span class="tag">#T-Beams</span><span class="tag">#ACI_318</span></div>
+        <div class="course-footer"><span>⚡ 5 calculators · 7 quizzes · 7 sections</span><span class="arrow-icon">→</span></div>
+      </a>
+
       <a href="cee350-traffic-analysis.html" class="course-card">
         <div class="course-card-top"><span class="course-icon">🚦</span><span class="badge badge-live">Live</span></div>
-        <h3 class="course-title">Traffic Engineering Analysis — CEE 350</h3>
-        <p class="course-desc">Covers signal timing, level of service (LOS), trip generation, capacity analysis, and highway design. Worked examples from standard textbook problems.</p>
+        <h3 class="course-title">Traffic Engineering — CEE 350</h3>
+        <p class="course-desc">Signal timing, level of service (LOS), trip generation, capacity analysis, and highway design. 20+ worked problems.</p>
         <div class="course-tags"><span class="tag">#Traffic_Engineering</span><span class="tag">#LOS</span><span class="tag">#Signal_Timing</span></div>
-        <div class="course-footer"><span>📋 14 topics · Worked problems</span><span class="arrow-icon">→</span></div>
+        <div class="course-footer"><span>📋 14 topics · 20+ worked problems</span><span class="arrow-icon">→</span></div>
       </a>
 
     </div>
@@ -591,43 +420,51 @@
 
   <hr class="divider">
 
-  <!-- ═══ SUBJECT AREAS ═══ -->
+  <!-- ═══ SUBJECT AREAS ═════════════════════════════════════════════════ -->
   <section class="section" aria-labelledby="subjects-title">
     <div class="section-header"><h2 class="section-title" id="subjects-title">All Subject Areas</h2></div>
     <div class="subjects-grid">
+
       <a href="civil.html" class="subject-card">
         <div class="subject-icon">🏗️</div>
         <h3 class="subject-title">Civil Engineering</h3>
         <p class="subject-desc">Reinforced concrete design, traffic engineering, structural analysis, and foundation design.</p>
-        <div class="subject-count">4 courses available →</div>
+        <div class="subject-count">5 courses available →</div>
       </a>
-      <a href="math.html" class="subject-card">
+
+      <!-- Math and Physics are disabled — no dead links -->
+      <div class="subject-card soon" aria-label="Mathematics — coming soon">
         <div class="subject-icon">📐</div>
         <h3 class="subject-title">Mathematics</h3>
-        <p class="subject-desc">Algebra, calculus, trigonometry, linear algebra, and statistics with interactive calculators.</p>
+        <p class="subject-desc">Calculus, linear algebra, trigonometry, and statistics with interactive graphing.</p>
         <div class="subject-count" style="color:var(--amber)">Coming soon</div>
-      </a>
-      <a href="physics.html" class="subject-card">
+      </div>
+
+      <div class="subject-card soon" aria-label="Physics — coming soon">
         <div class="subject-icon">⚛️</div>
         <h3 class="subject-title">Physics</h3>
         <p class="subject-desc">Mechanics, waves, optics, electricity &amp; magnetism, and modern physics with simulations.</p>
         <div class="subject-count" style="color:var(--amber)">Coming soon</div>
-      </a>
-      <a href="explore.html" class="subject-card">
-        <div class="subject-icon">🎵</div>
-        <h3 class="subject-title">Study Vibes</h3>
-        <p class="subject-desc">Lo-fi, ambient, and focus playlists curated for deep study sessions.</p>
-        <div class="subject-count" style="color:var(--text3)">Explore →</div>
-      </a>
+      </div>
+
+    </div>
+
+    <!-- "Coming soon" anchor + study vibes link, without cluttering the subject grid -->
+    <div id="coming-soon" style="margin-top:1.25rem;">
+      <div class="coming-soon-row">
+        <div class="coming-pill">📐 <strong>Mathematics</strong> — Calculus, Linear Algebra &amp; Statistics</div>
+        <div class="coming-pill">⚛️ <strong>Physics</strong> — Mechanics, Waves &amp; Optics</div>
+        <div class="coming-pill">🎵 <strong>Study Vibes</strong> — <a href="explore.html">Lo-fi &amp; Focus Music →</a></div>
+      </div>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- ═══ ROADMAP ═══ -->
+  <!-- ═══ ROADMAP ════════════════════════════════════════════════════════ -->
   <section class="section" id="roadmap" aria-labelledby="roadmap-title">
     <div class="section-header"><h2 class="section-title" id="roadmap-title">Upcoming Lessons Roadmap</h2></div>
-    <div class="roadmap" role="list">
+    <div role="list">
 
       <div class="roadmap-group" role="listitem">
         <h3 class="roadmap-group-title">Civil Engineering — RC Design Track</h3>
@@ -647,11 +484,11 @@
             <div class="roadmap-content"><div class="roadmap-title">Chapter 3 — Design Philosophy &amp; Fundamental Assumptions</div><div class="roadmap-sub">ACI code, load factors, RC assumptions, axial &amp; bending</div></div>
             <div class="roadmap-end"><span class="badge badge-live">Live</span><span style="color:var(--accent);font-size:0.875rem">→</span></div>
           </a>
-          <div class="roadmap-item">
-            <div class="roadmap-step step-soon">4</div>
-            <div class="roadmap-content"><div class="roadmap-title">Chapter 4 — Flexural Analysis &amp; Design (ACI 318)</div><div class="roadmap-sub">Whitney stress block, Mn, ρmin, ρmax, T-beams</div></div>
-            <div class="roadmap-end"><span class="badge badge-soon">Soon</span></div>
-          </div>
+          <a href="chapter4-concrete.html" class="roadmap-item is-live">
+            <div class="roadmap-step step-live">✓</div>
+            <div class="roadmap-content"><div class="roadmap-title">Chapter 4 — Flexural Analysis &amp; Design (ACI 318)</div><div class="roadmap-sub">Whitney block, Mn, ρ limits, T-beams, doubly reinforced — all 7 sections</div></div>
+            <div class="roadmap-end"><span class="badge badge-live">Live</span><span style="color:var(--accent);font-size:0.875rem">→</span></div>
+          </a>
           <div class="roadmap-item">
             <div class="roadmap-step step-soon">5</div>
             <div class="roadmap-content"><div class="roadmap-title">Chapter 5 — Shear &amp; Diagonal Tension</div><div class="roadmap-sub">Vc, Vs, stirrup design, torsion, ACI shear provisions</div></div>
@@ -659,7 +496,12 @@
           </div>
           <div class="roadmap-item">
             <div class="roadmap-step step-soon">6</div>
-            <div class="roadmap-content"><div class="roadmap-title">Chapter 6 — Columns &amp; Interaction Diagrams</div><div class="roadmap-sub">P-M interaction, slenderness, tied vs spiral columns</div></div>
+            <div class="roadmap-content"><div class="roadmap-title">Chapter 6 — Bond, Anchorage &amp; Development Length</div><div class="roadmap-sub">Ld, hooks, bar cutoffs, splices, ACI provisions</div></div>
+            <div class="roadmap-end"><span class="badge badge-soon">Soon</span></div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-step step-soon">7</div>
+            <div class="roadmap-content"><div class="roadmap-title">Chapter 9 — Short Columns &amp; Interaction Diagrams</div><div class="roadmap-sub">P-M interaction, balanced failure, tied vs. spiral columns</div></div>
             <div class="roadmap-end"><span class="badge badge-soon">Soon</span></div>
           </div>
         </div>
@@ -696,18 +538,19 @@
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- ═══ RESOURCES ═══ -->
+  <!-- ═══ RESOURCES ══════════════════════════════════════════════════════ -->
   <section class="section" aria-labelledby="resources-title">
     <div class="section-header"><h2 class="section-title" id="resources-title">Resources &amp; Downloads</h2></div>
     <div class="resources-grid">
       <div class="resource-card">
         <div class="resource-icon">📄</div>
-        <div class="resource-info"><div class="resource-title">RC Design Formula Sheet</div><p class="resource-desc">All WSD and ACI 318 formulas on one page — k, j, Mn, ρ, stirrups, and more.</p><span class="btn-resource">Coming soon</span></div>
+        <div class="resource-info"><div class="resource-title">RC Design Formula Sheet</div><p class="resource-desc">All WSD and ACI 318 formulas — k, j, Mn, ρ, stirrups, and more.</p><span class="btn-resource">Coming soon</span></div>
       </div>
       <div class="resource-card">
         <div class="resource-icon">📊</div>
@@ -715,7 +558,7 @@
       </div>
       <div class="resource-card">
         <div class="resource-icon">🚦</div>
-        <div class="resource-info"><div class="resource-title">Traffic Engineering Cheat Sheet</div><p class="resource-desc">LOS thresholds, signal timing formulas, capacity lookup tables, and HCM reference.</p><span class="btn-resource">Coming soon</span></div>
+        <div class="resource-info"><div class="resource-title">Traffic Engineering Cheat Sheet</div><p class="resource-desc">LOS thresholds, signal timing formulas, capacity tables, and HCM reference.</p><span class="btn-resource">Coming soon</span></div>
       </div>
       <div class="resource-card">
         <div class="resource-icon">🧮</div>
@@ -726,7 +569,7 @@
 
   <hr class="divider">
 
-  <!-- ═══ FEEDBACK ═══ -->
+  <!-- ═══ FEEDBACK ═══════════════════════════════════════════════════════ -->
   <section class="section" aria-labelledby="feedback-title">
     <div class="feedback-section">
       <div class="feedback-icon">💬</div>
@@ -739,15 +582,52 @@
     </div>
   </section>
 
+  <!-- ═══ FOOTER ═════════════════════════════════════════════════════════ -->
   <footer class="site-footer">
-    <p>© 2025 Mathify.us &nbsp;·&nbsp; <a href="about.html">About</a> &nbsp;·&nbsp; Free for everyone, always</p>
+    <p>
+      © 2026 Mathify.us &nbsp;·&nbsp;
+      <a href="about.html">About</a> &nbsp;·&nbsp;
+      <a href="explore.html">Study Vibes 🎵</a> &nbsp;·&nbsp;
+      <a href="mailto:hello@mathify.us">hello@mathify.us</a> &nbsp;·&nbsp;
+      Free for everyone, always
+    </p>
   </footer>
 
-  <button class="fab" id="fabBtn" onclick="openFeedbackModal()" aria-label="Ask a question or submit feedback">
-    💬 <span>Ask / Feedback</span>
+  <!-- ═══ AI TUTOR FAB ════════════════════════════════════════════════════ -->
+  <button class="fab" onclick="openChat()" aria-label="Open AI Tutor">
+    <span>✨</span>
+    <span class="fab-label">AI Tutor</span>
   </button>
 
-  <!-- ═══ FEEDBACK MODAL ═══ -->
+  <!-- ═══ AI CHAT DRAWER ══════════════════════════════════════════════════ -->
+  <div class="chat-backdrop" id="chatBackdrop" onclick="closeChat()"></div>
+  <div class="chat-drawer" id="chatDrawer" role="dialog" aria-modal="true" aria-label="AI Tutor">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="chat-avatar">✨</div>
+        <div>
+          <div class="chat-header-name">Mathify AI Tutor</div>
+          <div class="chat-header-status">Online — powered by Claude</div>
+        </div>
+      </div>
+      <button class="chat-close" onclick="closeChat()" aria-label="Close chat">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-suggestions" id="chatSuggestions">
+      <button class="chat-suggest-btn" onclick="sendSuggestion(this)">What is the Whitney stress block?</button>
+      <button class="chat-suggest-btn" onclick="sendSuggestion(this)">Explain ρmin and ρmax</button>
+      <button class="chat-suggest-btn" onclick="sendSuggestion(this)">How do I design a T-beam?</button>
+      <button class="chat-suggest-btn" onclick="sendSuggestion(this)">What is level of service (LOS)?</button>
+    </div>
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="chatInput" placeholder="Ask anything about the courses..." rows="1" aria-label="Chat message"></textarea>
+      <button class="chat-send" id="chatSend" onclick="sendChat()" aria-label="Send">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8L2 2l2 6-2 6 12-6z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ FEEDBACK MODAL ══════════════════════════════════════════════════ -->
   <div class="modal-backdrop hidden" id="feedbackModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal">
       <button class="modal-close" onclick="closeFeedbackModal()" aria-label="Close">✕</button>
@@ -770,176 +650,278 @@
     </div>
   </div>
 
-  <!-- ═══ SEARCH MODAL ═══ -->
+  <!-- ═══ SEARCH MODAL ════════════════════════════════════════════════════ -->
   <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Site search">
     <div class="search-box" role="search">
       <div class="search-input-row">
-        <span class="search-input-icon" aria-hidden="true">🔍</span>
-        <input
-          type="text"
-          class="search-input"
-          id="searchInput"
-          placeholder="Search topics, chapters, formulas..."
-          autocomplete="off"
-          spellcheck="false"
-          aria-label="Search Mathify"
-        >
+        <span style="font-size:1.1rem;color:var(--text3);flex-shrink:0;" aria-hidden="true">🔍</span>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search topics, chapters, formulas..." autocomplete="off" spellcheck="false" aria-label="Search Mathify">
         <button class="search-close-btn" onclick="closeSearch()" aria-label="Close search">Esc</button>
       </div>
       <div class="search-results" id="searchResults" role="listbox">
         <div class="search-empty" id="searchEmpty">Start typing to search across all courses and topics.</div>
       </div>
       <div class="search-footer">
-        <span class="search-footer-hint"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
-        <span class="search-footer-hint"><kbd>↵</kbd> Open</span>
-        <span class="search-footer-hint"><kbd>Esc</kbd> Close</span>
+        <span style="display:flex;align-items:center;gap:0.3rem"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+        <span style="display:flex;align-items:center;gap:0.3rem"><kbd>↵</kbd> Open</span>
+        <span style="display:flex;align-items:center;gap:0.3rem"><kbd>Esc</kbd> Close</span>
       </div>
     </div>
   </div>
 
   <script>
-  /* ══════════════════════════════════════════════════
-     THEME
-  ══════════════════════════════════════════════════ */
+  /* ══ THEME ══════════════════════════════════════════════════════════════ */
   const root = document.documentElement;
   const themeBtn = document.getElementById('themeBtn');
   const themeIcon = document.getElementById('themeIcon');
-
   function setTheme(t) {
     root.setAttribute('data-theme', t);
     themeIcon.textContent = t === 'dark' ? '🌙' : '☀️';
     localStorage.setItem('mathify-theme', t);
   }
-  const savedTheme = localStorage.getItem('mathify-theme');
-  setTheme(savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  setTheme(localStorage.getItem('mathify-theme') || (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light'));
   themeBtn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 
-  /* ══════════════════════════════════════════════════
-     VISITOR COUNTER — countapi.xyz (free, cross-device)
-     Namespace: mathify-us   Key: visitors
-  ══════════════════════════════════════════════════ */
-  (function loadVisitorCount() {
+  /* ══ VISITOR COUNTER ════════════════════════════════════════════════════ */
+  (function() {
     const el = document.getElementById('visitorCount');
-
     fetch('https://api.countapi.xyz/hit/mathify-us/visitors')
       .then(r => r.json())
-      .then(data => {
-        if (data && typeof data.value === 'number') {
-          // Animate count up from previous stored value
+      .then(d => {
+        if (d && typeof d.value === 'number') {
           const prev = parseInt(localStorage.getItem('mathify-vc') || '0', 10);
-          const target = data.value;
-          localStorage.setItem('mathify-vc', target);
+          localStorage.setItem('mathify-vc', d.value);
           el.classList.remove('loading');
-
-          // Format with commas
-          const fmt = n => n.toLocaleString();
-
-          if (target - prev > 0 && prev > 0 && target - prev < 200) {
-            // Smooth count-up animation
+          if (d.value - prev > 0 && prev > 0 && d.value - prev < 500) {
             let cur = prev;
-            const step = Math.max(1, Math.ceil((target - prev) / 30));
+            const step = Math.max(1, Math.ceil((d.value - prev) / 30));
             const timer = setInterval(() => {
-              cur = Math.min(cur + step, target);
-              el.textContent = fmt(cur);
-              if (cur >= target) clearInterval(timer);
+              cur = Math.min(cur + step, d.value);
+              el.textContent = cur.toLocaleString();
+              if (cur >= d.value) clearInterval(timer);
             }, 40);
           } else {
-            el.textContent = fmt(target);
+            el.textContent = d.value.toLocaleString();
           }
         } else {
-          el.textContent = '—';
           el.classList.remove('loading');
+          el.textContent = '—';
         }
       })
       .catch(() => {
-        // Fallback: show cached value if API fails
-        const cached = localStorage.getItem('mathify-vc');
         el.classList.remove('loading');
+        const cached = localStorage.getItem('mathify-vc');
         el.textContent = cached ? parseInt(cached).toLocaleString() : '—';
       });
   })();
 
-  /* ══════════════════════════════════════════════════
-     EXISTING VISITOR TRACKER (keep for analytics)
-  ══════════════════════════════════════════════════ */
-  (function() {
-    fetch('https://visitor.6developer.com/visit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        domain: 'mathify.us',
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        page_path: location.pathname,
-        page_title: document.title,
-        referrer: document.referrer
-      })
-    }).catch(() => {});
-  })();
+  /* ══ ANALYTICS ══════════════════════════════════════════════════════════ */
+  fetch('https://visitor.6developer.com/visit', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ domain: 'mathify.us', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, page_path: location.pathname, page_title: document.title, referrer: document.referrer })
+  }).catch(() => {});
 
-  /* ══════════════════════════════════════════════════
-     UNIVERSAL SEARCH
-  ══════════════════════════════════════════════════ */
+  /* ══ AI CHAT ════════════════════════════════════════════════════════════ */
+  const chatDrawer    = document.getElementById('chatDrawer');
+  const chatBackdrop  = document.getElementById('chatBackdrop');
+  const chatMessages  = document.getElementById('chatMessages');
+  const chatInput     = document.getElementById('chatInput');
+  const chatSend      = document.getElementById('chatSend');
+  const chatSuggEl    = document.getElementById('chatSuggestions');
+
+  let chatHistory = [];
+  let chatBusy    = false;
+  let chatStarted = false;
+
+  const TUTOR_SYSTEM = `You are the Mathify AI Tutor — a friendly, expert tutor built into mathify.us. You help engineering and math students learn by explaining clearly and building intuition.
+
+You specialise in:
+• Reinforced Concrete Design (ACI 318 — Darwin, Dolan & Nilson 15th ed.): WSD, flexural analysis, Whitney stress block, Mn, ρ limits, T-beams, doubly reinforced beams, shear, columns, materials
+• Traffic Engineering (CEE 350): signal timing, LOS, capacity, trip generation, HCM
+• General civil engineering and math fundamentals
+
+Your teaching style:
+• Always explain WHY before HOW
+• Use real-world analogies and step-by-step calculations
+• Format formulas using backtick inline code, e.g. \`Mn = As·fy·(d − a/2)\`
+• Be concise but complete — avoid padding
+• Be encouraging and clear
+
+The site currently has live courses: RC Design Ch.1 (WSD), Ch.2 (Materials), Ch.3 (Assumptions & Basics), Ch.4 (Flexural Analysis & Design — complete, 7 sections), and Traffic Engineering CEE 350.
+
+For topics outside civil engineering and math, politely redirect to the course content.`;
+
+  function openChat() {
+    chatDrawer.classList.add('open');
+    chatBackdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (!chatStarted) {
+      chatStarted = true;
+      addMsg('ai', "Hi! 👋 I'm your Mathify AI Tutor. I can help you understand RC design, flexural analysis, traffic engineering, or anything from the courses.\n\nWhat would you like to learn?");
+    }
+    setTimeout(() => chatInput.focus(), 350);
+  }
+
+  function closeChat() {
+    chatDrawer.classList.remove('open');
+    chatBackdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function addMsg(role, text) {
+    const wrap = document.createElement('div');
+    wrap.className = `chat-msg msg-${role}`;
+
+    const av = document.createElement('div');
+    av.className = 'chat-msg-avatar';
+    av.textContent = role === 'ai' ? '✨' : '👤';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+
+    // Light markdown: bold + inline code + newlines
+    bubble.innerHTML = escHtml(text)
+      .replace(/`([^`\n]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+
+    wrap.appendChild(av);
+    wrap.appendChild(bubble);
+    chatMessages.appendChild(wrap);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function showTyping() {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-msg msg-ai chat-typing-wrap';
+    wrap.id = 'chatTyping';
+    wrap.innerHTML = '<div class="chat-msg-avatar">✨</div><div class="chat-typing"><span></span><span></span><span></span></div>';
+    chatMessages.appendChild(wrap);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function hideTyping() {
+    const el = document.getElementById('chatTyping');
+    if (el) el.remove();
+  }
+
+  async function sendChat() {
+    const text = chatInput.value.trim();
+    if (!text || chatBusy) return;
+
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
+    chatSuggEl.style.display = 'none';
+
+    addMsg('user', text);
+    chatHistory.push({ role: 'user', content: text });
+
+    chatBusy = true;
+    chatSend.disabled = true;
+    showTyping();
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: TUTOR_SYSTEM,
+          messages: chatHistory
+        })
+      });
+      const data = await res.json();
+      hideTyping();
+
+      const reply = data.content?.[0]?.text
+        || (data.error ? `Sorry — ${data.error.message}` : "Sorry, I couldn't get a response. Please try again.");
+
+      addMsg('ai', reply);
+      chatHistory.push({ role: 'assistant', content: reply });
+
+      // Keep context window manageable
+      if (chatHistory.length > 24) chatHistory = chatHistory.slice(-24);
+
+    } catch (err) {
+      hideTyping();
+      addMsg('ai', 'Sorry, there was a connection issue. Please try again in a moment.');
+    }
+
+    chatBusy = false;
+    chatSend.disabled = false;
+    chatInput.focus();
+  }
+
+  function sendSuggestion(btn) {
+    chatInput.value = btn.textContent;
+    sendChat();
+  }
+
+  // Auto-resize textarea
+  chatInput.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+  });
+
+  chatInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && chatDrawer.classList.contains('open')) closeChat();
+  });
+
+  /* ══ SEARCH ══════════════════════════════════════════════════════════════ */
   const SEARCH_INDEX = [
-    // ── RC DESIGN CH1 ──
-    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Why Reinforced Concrete', desc:'Introduction to RC, material overview', url:'rc-chapter1.html', tags:'reinforced concrete introduction why rc material' },
-    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Mix Design & Unit Weights', desc:'Concrete mix proportions, w/c ratio basics', url:'rc-chapter1.html', tags:'mix design unit weight water cement ratio proportioning' },
-    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Loads & Safety Factors', desc:'Dead load, live load, load combinations', url:'rc-chapter1.html', tags:'loads dead live safety factors load combinations' },
-    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Beam Geometry & Cover', desc:'Beam dimensions, concrete cover, bar placement', url:'rc-chapter1.html', tags:'beam geometry cover bar placement dimensions' },
-    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Three Stages of Loading', desc:'Uncracked, cracked elastic, and ultimate stages', url:'rc-chapter1.html', tags:'three stages loading uncracked cracked ultimate' },
-    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Transformed Section Method', desc:'Converting steel to equivalent concrete area', url:'rc-chapter1.html', tags:'transformed section method modular ratio n steel concrete' },
-    { icon:'🏗️', group:'RC Design — Chapter 1', title:'WSD Analysis — k & j Method', desc:'Working stress design analysis formulas', url:'rc-chapter1.html', tags:'WSD working stress design k j method analysis kd jd' },
-    { icon:'🏗️', group:'RC Design — Chapter 1', title:'WSD Design Procedure', desc:'Step-by-step beam design using WSD', url:'rc-chapter1.html', tags:'WSD design procedure steps beam design working stress' },
-    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Worked Problems (3)', desc:'Fully solved RC beam design problems', url:'rc-chapter1.html', tags:'worked problems solved examples beam design' },
-
-    // ── RC DESIGN CH2 ──
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Cement & Hydration', desc:'Portland cement, hydration process, types', url:'cee-chapter2.html', tags:'cement hydration portland types C3S C2S' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Aggregates', desc:'Fine and coarse aggregates, gradation', url:'cee-chapter2.html', tags:'aggregates fine coarse gradation sieve' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'w/c Ratio & Mix Design', desc:'Water-cement ratio effect on strength', url:'cee-chapter2.html', tags:'water cement ratio mix design strength proportioning' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Placing & Curing', desc:'Conveying, compaction, and curing methods', url:'cee-chapter2.html', tags:'placing curing compaction conveying vibration' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Quality Control', desc:'Slump test, cylinder test, ACI provisions', url:'cee-chapter2.html', tags:'quality control slump test cylinder compressive strength' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Admixtures', desc:'Plasticizers, retarders, accelerators, air entrainment', url:'cee-chapter2.html', tags:'admixtures plasticizer retarder accelerator air entraining' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Compressive Strength & Stress-Strain', desc:'f\'c, Ec, stress-strain curve, modulus of elasticity', url:'cee-chapter2.html', tags:'compressive strength fc stress strain curve modulus elasticity Ec' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Tensile Strength', desc:'Splitting test, modulus of rupture, fr', url:'cee-chapter2.html', tags:'tensile strength splitting test modulus rupture fr' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Shrinkage & Creep', desc:'Drying shrinkage, creep coefficient, long-term effects', url:'cee-chapter2.html', tags:'shrinkage creep drying long-term deflection' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'High-Strength Concrete', desc:'HSC properties, f\'c above 6000 psi', url:'cee-chapter2.html', tags:'high strength concrete HSC 6000 psi properties' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Reinforcing Bars', desc:'Bar sizes, deformations, ASTM grades', url:'cee-chapter2.html', tags:'reinforcing bars rebar deformations ASTM grade 60 sizes' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Prestressing Steels', desc:'Strands, wires, tendons, prestress force', url:'cee-chapter2.html', tags:'prestressing steel strands wires tendons prestress' },
-    { icon:'🧱', group:'RC Design — Chapter 2', title:'Fiber Reinforcement', desc:'Steel, glass, and synthetic fibers in concrete', url:'cee-chapter2.html', tags:'fiber reinforcement steel glass synthetic FRC' },
-
-    // ── RC DESIGN CH3 ──
-    { icon:'📐', group:'RC Design — Chapter 3', title:'Introduction to Structural Design', desc:'Three goals: strength, serviceability, economy', url:'chapter3-concrete.html#s31', tags:'introduction structural design strength serviceability economy goals' },
-    { icon:'📐', group:'RC Design — Chapter 3', title:'Members & Sections', desc:'Beams, columns, slabs, walls; cross-section types', url:'chapter3-concrete.html#s32', tags:'members sections beams columns slabs walls cross section T-beam' },
-    { icon:'📐', group:'RC Design — Chapter 3', title:'Theory, Codes & Practice', desc:'ACI 318, load factors, strength reduction factor phi', url:'chapter3-concrete.html#s33', tags:'ACI 318 code theory practice load factors phi strength reduction' },
-    { icon:'📐', group:'RC Design — Chapter 3', title:'Fundamental Assumptions for RC', desc:'Plane sections, perfect bond, no tensile concrete, small deformations', url:'chapter3-concrete.html#s34', tags:'assumptions plane sections bond no tension small deformations Bernoulli modular ratio n' },
-    { icon:'📐', group:'RC Design — Chapter 3', title:'Behavior Under Axial Loads', desc:'Tension and compression members, column capacity P0', url:'chapter3-concrete.html#s35', tags:'axial loads tension compression column P0 capacity transformed section' },
-    { icon:'📐', group:'RC Design — Chapter 3', title:'Bending of Homogeneous Beams', desc:'Flexure formula sigma = Mc/I, neutral axis, moment of inertia', url:'chapter3-concrete.html#s36', tags:'bending homogeneous beam flexure formula sigma Mc/I neutral axis moment inertia' },
-    { icon:'📐', group:'RC Design — Chapter 3', title:'Column Load Calculator', desc:'Interactive: compute P0 with sliders for Ag, rho, fc, fy', url:'chapter3-concrete.html#s35', tags:'column calculator P0 Ag rho steel ratio fc fy interactive' },
-    { icon:'📐', group:'RC Design — Chapter 3', title:'Bending Stress Visualizer', desc:'Interactive stress diagram for rectangular beams', url:'chapter3-concrete.html#s36', tags:'bending stress visualizer interactive stress diagram rectangular beam' },
-
-    // ── TRAFFIC ENGINEERING ──
+    { icon:'🏗️', group:'RC Design — Ch.1', title:'Why Reinforced Concrete', desc:'Introduction to RC, material overview', url:'rc-chapter1.html', tags:'reinforced concrete introduction why rc material' },
+    { icon:'🏗️', group:'RC Design — Ch.1', title:'Three Stages of Loading', desc:'Uncracked, cracked elastic, and ultimate', url:'rc-chapter1.html', tags:'three stages loading uncracked cracked ultimate' },
+    { icon:'🏗️', group:'RC Design — Ch.1', title:'Transformed Section Method', desc:'Converting steel to equivalent concrete area using n', url:'rc-chapter1.html', tags:'transformed section method modular ratio n steel' },
+    { icon:'🏗️', group:'RC Design — Ch.1', title:'WSD k & j Method', desc:'Working stress design analysis formulas', url:'rc-chapter1.html', tags:'WSD working stress design k j method kd jd analysis' },
+    { icon:'🏗️', group:'RC Design — Ch.1', title:'Mix Design & Unit Weights', desc:'Concrete mix proportions, w/c ratio basics', url:'rc-chapter1.html', tags:'mix design unit weight water cement ratio' },
+    { icon:'🧱', group:'RC Design — Ch.2', title:'Cement & Hydration', desc:'Portland cement, types, hydration process', url:'cee-chapter2.html', tags:'cement hydration portland types C3S C2S' },
+    { icon:'🧱', group:'RC Design — Ch.2', title:'Aggregates', desc:'Fine and coarse aggregates, gradation', url:'cee-chapter2.html', tags:'aggregates fine coarse gradation sieve' },
+    { icon:'🧱', group:'RC Design — Ch.2', title:'w/c Ratio & Mix Design', desc:'Water-cement ratio effect on strength', url:'cee-chapter2.html', tags:'water cement ratio mix design strength proportioning' },
+    { icon:'🧱', group:'RC Design — Ch.2', title:'Compressive Strength & Stress-Strain', desc:"f'c, Ec, stress-strain curve, modulus of elasticity", url:'cee-chapter2.html', tags:"compressive strength fc stress strain curve modulus Ec" },
+    { icon:'🧱', group:'RC Design — Ch.2', title:'Tensile Strength', desc:'Splitting test, modulus of rupture, fr', url:'cee-chapter2.html', tags:'tensile strength splitting test modulus rupture fr' },
+    { icon:'🧱', group:'RC Design — Ch.2', title:'Shrinkage & Creep', desc:'Drying shrinkage, creep coefficient, long-term effects', url:'cee-chapter2.html', tags:'shrinkage creep drying long-term deflection' },
+    { icon:'🧱', group:'RC Design — Ch.2', title:'Reinforcing Bars', desc:'Bar sizes, deformations, ASTM grades', url:'cee-chapter2.html', tags:'reinforcing bars rebar deformations ASTM grade 60 sizes' },
+    { icon:'🧱', group:'RC Design — Ch.2', title:'Prestressing Steels', desc:'Strands, wires, tendons, prestress force', url:'cee-chapter2.html', tags:'prestressing steel strands wires tendons prestress' },
+    { icon:'📐', group:'RC Design — Ch.3', title:'Introduction to Structural Design', desc:'Three goals: strength, serviceability, economy', url:'chapter3-concrete.html#s31', tags:'introduction structural design strength serviceability economy' },
+    { icon:'📐', group:'RC Design — Ch.3', title:'Theory, Codes & Practice', desc:'ACI 318, load factors, strength reduction factor phi', url:'chapter3-concrete.html#s33', tags:'ACI 318 code theory practice load factors phi strength reduction' },
+    { icon:'📐', group:'RC Design — Ch.3', title:'Fundamental Assumptions for RC', desc:'Plane sections, perfect bond, no tensile concrete', url:'chapter3-concrete.html#s34', tags:'assumptions plane sections bond no tension Bernoulli modular ratio n' },
+    { icon:'📐', group:'RC Design — Ch.3', title:'Behavior Under Axial Loads', desc:'Tension and compression members, column capacity P0', url:'chapter3-concrete.html#s35', tags:'axial loads tension compression column P0 capacity' },
+    { icon:'📐', group:'RC Design — Ch.3', title:'Bending of Homogeneous Beams', desc:'Flexure formula σ = Mc/I, neutral axis, moment of inertia', url:'chapter3-concrete.html#s36', tags:'bending homogeneous beam flexure formula sigma Mc/I neutral axis moment inertia' },
+    { icon:'📊', group:'RC Design — Ch.4', title:'RC Beam Behavior — 3 Stages', desc:'Uncracked, cracked elastic, ultimate load stages', url:'chapter4-concrete.html#s42', tags:'beam behavior stages uncracked cracked ultimate loading' },
+    { icon:'📊', group:'RC Design — Ch.4', title:'Whitney Stress Block', desc:"a = Asfy/(0.85f'c·b), equivalent rectangle", url:'chapter4-concrete.html#s42', tags:"Whitney stress block a beta1 rectangular equivalent compression 0.85" },
+    { icon:'📊', group:'RC Design — Ch.4', title:'Nominal Moment Capacity Mn', desc:'Mn = Asfy(d − a/2), the core flexure formula', url:'chapter4-concrete.html#s42', tags:'Mn nominal moment capacity flexure formula As fy d a design' },
+    { icon:'📊', group:'RC Design — Ch.4', title:'Tension vs Compression Failure', desc:'εt limits, ductile vs brittle failure, φ factors', url:'chapter4-concrete.html#s42', tags:'tension controlled compression failure ductile brittle phi strain epsilon 0.005 0.004' },
+    { icon:'📊', group:'RC Design — Ch.4', title:'Reinforcement Ratio ρ — Limits', desc:'ρmin prevents cracking failure, ρmax ensures ductility', url:'chapter4-concrete.html#s43', tags:'reinforcement ratio rho min max ductility cracking ACI limits 200/fy' },
+    { icon:'📊', group:'RC Design — Ch.4', title:'Analysis & Design Procedure', desc:'6-step procedure for both analysis and design problems', url:'chapter4-concrete.html#s43', tags:'analysis design procedure steps beam rectangular singly reinforced' },
+    { icon:'📊', group:'RC Design — Ch.4', title:'Rn Design Aid Tables & Chart', desc:'Rn = ρfy(1−ρfy/1.7fc), b·d² sizing without iteration', url:'chapter4-concrete.html#s44', tags:'Rn design aid table Ku resistance factor b d squared sizing Ku' },
+    { icon:'📊', group:'RC Design — Ch.4', title:'Practical Detailing — Cover & Spacing', desc:'Concrete cover, h vs d, bar spacing rules', url:'chapter4-concrete.html#s45', tags:'cover spacing practical detailing h d effective depth stirrup bar ACI' },
+    { icon:'📊', group:'RC Design — Ch.4', title:'Doubly Reinforced Beams', desc:"A's compression steel, two couples Mn1+Mn2, yield check", url:'chapter4-concrete.html#s46', tags:"doubly reinforced compression steel A's two couples Mn1 Mn2 f's yield epsilon" },
+    { icon:'📊', group:'RC Design — Ch.4', title:'T-Beams — Effective Flange Width', desc:'ACI be limits, Case 1 (a≤hf) vs Case 2 (a>hf)', url:'chapter4-concrete.html#s47', tags:'T-beam flange web bw be hf effective width case 1 2 slab monolithic' },
     { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Traffic Engineering Basics', desc:'Fundamentals of traffic flow and analysis', url:'cee350-traffic-analysis.html', tags:'traffic engineering basics flow fundamentals' },
     { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Flow, Density & Speed', desc:'Fundamental traffic flow relationships', url:'cee350-traffic-analysis.html', tags:'flow density speed relationships traffic fundamental diagram' },
-    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Signal Phasing & Timing', desc:'Cycle length, phase splits, timing plans', url:'cee350-traffic-analysis.html', tags:'signal phasing timing cycle length splits green time' },
-    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Green Splits & Offsets', desc:'Coordinating signals for progression', url:'cee350-traffic-analysis.html', tags:'green splits offsets signal coordination progression' },
-    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Saturation Flow Rate', desc:'s, g/C ratio, capacity calculations', url:'cee350-traffic-analysis.html', tags:'saturation flow rate s g/C capacity PHF' },
-    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Lane Capacity', desc:'Volume-to-capacity ratio, v/c', url:'cee350-traffic-analysis.html', tags:'lane capacity volume capacity ratio v/c' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Signal Phasing & Timing', desc:'Cycle length, phase splits, green time', url:'cee350-traffic-analysis.html', tags:'signal phasing timing cycle length splits green time' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Saturation Flow Rate', desc:'s, g/C ratio, capacity calculations', url:'cee350-traffic-analysis.html', tags:'saturation flow rate s g/C capacity PHF v/c' },
     { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Level of Service (LOS)', desc:'LOS A–F, delay thresholds, HCM methodology', url:'cee350-traffic-analysis.html', tags:'level of service LOS A B C D E F delay HCM' },
-    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Trip Generation', desc:'ITE rates, regression models, land use', url:'cee350-traffic-analysis.html', tags:'trip generation ITE rates regression land use' },
-    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Trip Distribution & Gravity Model', desc:'Gravity model, friction factors, balancing', url:'cee350-traffic-analysis.html', tags:'trip distribution gravity model friction factors zone' },
-    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Mode Split', desc:'Modal split, utility function, logit model', url:'cee350-traffic-analysis.html', tags:'mode split modal logit utility function' },
-
-    // ── PAGES ──
-    { icon:'🏠', group:'Pages', title:'Home', desc:'Mathify homepage', url:'index.html', tags:'home mathify main page' },
-    { icon:'🏗️', group:'Pages', title:'Civil Engineering', desc:'All civil engineering courses', url:'civil.html', tags:'civil engineering all courses page' },
-    { icon:'🎵', group:'Pages', title:'Study Vibes — Explore', desc:'Music and ambient playlists for studying', url:'explore.html', tags:'study music vibes lo-fi ambient focus playlist explore' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Trip Generation & Distribution', desc:'ITE rates, gravity model, mode split', url:'cee350-traffic-analysis.html', tags:'trip generation distribution gravity model mode split ITE rates' },
+    { icon:'🏠', group:'Pages', title:'Civil Engineering Courses', desc:'All civil engineering chapters', url:'civil.html', tags:'civil engineering all courses page' },
+    { icon:'🏠', group:'Pages', title:'About Mathify', desc:'About the project and creator', url:'about.html', tags:'about mathify creator project' },
+    { icon:'🎵', group:'Pages', title:'Study Vibes — Music', desc:'Lo-fi and ambient music for studying', url:'explore.html', tags:'study music vibes lo-fi ambient focus playlist explore' },
   ];
 
   const overlay = document.getElementById('searchOverlay');
   const searchInput = document.getElementById('searchInput');
   const resultsContainer = document.getElementById('searchResults');
   const emptyMsg = document.getElementById('searchEmpty');
-  let activeIdx = -1;
-  let currentResults = [];
+  let activeIdx = -1, currentResults = [];
 
   function openSearch() {
     overlay.classList.add('open');
@@ -948,182 +930,97 @@
     renderResults('');
     document.body.style.overflow = 'hidden';
   }
+  function closeSearch() { overlay.classList.remove('open'); document.body.style.overflow = ''; activeIdx = -1; }
 
-  function closeSearch() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-    activeIdx = -1;
-  }
-
-  function highlight(text, query) {
-    if (!query) return text;
-    const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return text.replace(new RegExp(`(${esc})`, 'gi'), '<mark>$1</mark>');
+  function hl(text, q) {
+    if (!q) return text;
+    return text.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<mark>$1</mark>');
   }
 
   function renderResults(query) {
     const q = query.trim().toLowerCase();
-
     if (!q) {
       emptyMsg.style.display = 'block';
-      // Clear everything except empty msg
-      Array.from(resultsContainer.children).forEach(c => {
-        if (c !== emptyMsg) c.remove();
-      });
-      currentResults = [];
-      activeIdx = -1;
+      Array.from(resultsContainer.children).forEach(c => { if (c !== emptyMsg) c.remove(); });
+      currentResults = []; activeIdx = -1;
       return;
     }
-
     emptyMsg.style.display = 'none';
-
-    // Score and filter
-    const scored = SEARCH_INDEX
-      .map(item => {
-        let score = 0;
-        const titleL = item.title.toLowerCase();
-        const tagsL = item.tags.toLowerCase();
-        const descL = item.desc.toLowerCase();
-        const groupL = item.group.toLowerCase();
-        if (titleL === q) score += 100;
-        if (titleL.startsWith(q)) score += 50;
-        if (titleL.includes(q)) score += 30;
-        if (tagsL.includes(q)) score += 20;
-        if (descL.includes(q)) score += 10;
-        if (groupL.includes(q)) score += 5;
-        // Multi-word: each word
-        q.split(' ').filter(Boolean).forEach(w => {
-          if (titleL.includes(w)) score += 8;
-          if (tagsL.includes(w)) score += 4;
-        });
-        return { item, score };
-      })
-      .filter(x => x.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 12);
+    const scored = SEARCH_INDEX.map(item => {
+      let s = 0;
+      const tl = item.title.toLowerCase(), tg = item.tags.toLowerCase(), dl = item.desc.toLowerCase(), gl = item.group.toLowerCase();
+      if (tl === q) s += 100; if (tl.startsWith(q)) s += 50; if (tl.includes(q)) s += 30;
+      if (tg.includes(q)) s += 20; if (dl.includes(q)) s += 10; if (gl.includes(q)) s += 5;
+      q.split(' ').filter(Boolean).forEach(w => { if (tl.includes(w)) s += 8; if (tg.includes(w)) s += 4; });
+      return { item, s };
+    }).filter(x => x.s > 0).sort((a,b) => b.s - a.s).slice(0, 12);
 
     currentResults = scored.map(x => x.item);
     activeIdx = -1;
-
-    // Build HTML
     const frag = document.createDocumentFragment();
-
-    // Group by group label
     const groups = {};
-    currentResults.forEach(item => {
-      if (!groups[item.group]) groups[item.group] = [];
-      groups[item.group].push(item);
-    });
-
-    if (Object.keys(groups).length === 0) {
-      const noRes = document.createElement('div');
-      noRes.className = 'search-empty';
-      noRes.textContent = `No results for "${query}"`;
-      frag.appendChild(noRes);
+    currentResults.forEach(item => { if (!groups[item.group]) groups[item.group] = []; groups[item.group].push(item); });
+    if (!Object.keys(groups).length) {
+      const d = document.createElement('div'); d.className = 'search-empty'; d.textContent = `No results for "${query}"`; frag.appendChild(d);
     } else {
-      Object.entries(groups).forEach(([groupName, items]) => {
-        const lbl = document.createElement('div');
-        lbl.className = 'search-group-label';
-        lbl.textContent = groupName;
-        frag.appendChild(lbl);
-
-        items.forEach((item, i) => {
-          const globalIdx = currentResults.indexOf(item);
-          const a = document.createElement('a');
-          a.href = item.url;
-          a.className = 'search-result';
-          a.setAttribute('role', 'option');
-          a.dataset.idx = globalIdx;
-          a.innerHTML = `
-            <div class="search-result-icon">${item.icon}</div>
-            <div class="search-result-body">
-              <div class="search-result-title">${highlight(item.title, query.trim())}</div>
-              <div class="search-result-desc">${item.desc}</div>
-            </div>
-            <span class="search-result-arrow">→</span>`;
-          a.addEventListener('mouseenter', () => setActive(globalIdx));
+      Object.entries(groups).forEach(([gn, items]) => {
+        const lbl = document.createElement('div'); lbl.className = 'search-group-label'; lbl.textContent = gn; frag.appendChild(lbl);
+        items.forEach(item => {
+          const gi = currentResults.indexOf(item);
+          const a = document.createElement('a'); a.href = item.url; a.className = 'search-result'; a.setAttribute('role','option'); a.dataset.idx = gi;
+          a.innerHTML = `<div class="search-result-icon">${item.icon}</div><div class="search-result-body"><div class="search-result-title">${hl(item.title, query.trim())}</div><div class="search-result-desc">${item.desc}</div></div><span class="search-result-arrow">→</span>`;
+          a.addEventListener('mouseenter', () => setActive(gi));
           frag.appendChild(a);
         });
       });
     }
-
-    // Swap in results
-    Array.from(resultsContainer.children).forEach(c => {
-      if (c !== emptyMsg) c.remove();
-    });
+    Array.from(resultsContainer.children).forEach(c => { if (c !== emptyMsg) c.remove(); });
     resultsContainer.appendChild(frag);
   }
 
   function setActive(idx) {
     activeIdx = idx;
-    resultsContainer.querySelectorAll('.search-result').forEach(el => {
-      el.classList.toggle('active', parseInt(el.dataset.idx) === idx);
-    });
+    resultsContainer.querySelectorAll('.search-result').forEach(el => el.classList.toggle('active', parseInt(el.dataset.idx) === idx));
   }
 
-  searchInput.addEventListener('input', e => renderResults(e.target.value));
+  function scrollActive() { resultsContainer.querySelector('.search-result.active')?.scrollIntoView({ block: 'nearest' }); }
 
+  searchInput.addEventListener('input', e => renderResults(e.target.value));
   searchInput.addEventListener('keydown', e => {
-    if (e.key === 'ArrowDown') { e.preventDefault(); setActive(Math.min(activeIdx + 1, currentResults.length - 1)); scrollActiveIntoView(); }
-    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); scrollActiveIntoView(); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive(Math.min(activeIdx+1, currentResults.length-1)); scrollActive(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(Math.max(activeIdx-1, 0)); scrollActive(); }
     else if (e.key === 'Enter' && activeIdx >= 0) { e.preventDefault(); window.location.href = currentResults[activeIdx].url; }
     else if (e.key === 'Escape') closeSearch();
   });
-
-  function scrollActiveIntoView() {
-    const el = resultsContainer.querySelector('.search-result.active');
-    if (el) el.scrollIntoView({ block: 'nearest' });
-  }
-
   document.getElementById('searchOpenBtn').addEventListener('click', openSearch);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeSearch(); });
-
   document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
-    if (e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
+    if (e.key === 'Escape') {
+      if (overlay.classList.contains('open')) closeSearch();
+      if (chatDrawer.classList.contains('open')) closeChat();
+    }
   });
 
-  /* ══════════════════════════════════════════════════
-     FEEDBACK MODAL
-  ══════════════════════════════════════════════════ */
+  /* ══ FEEDBACK MODAL ══════════════════════════════════════════════════════ */
   const feedbackModal = document.getElementById('feedbackModal');
-
   function openFeedbackModal() {
-    const inlineInput = document.getElementById('feedbackInput');
-    if (inlineInput && inlineInput.value.trim()) {
-      const msgField = document.getElementById('modalMessage');
-      if (msgField && !msgField.value) msgField.value = inlineInput.value.trim();
-    }
+    const v = document.getElementById('feedbackInput').value.trim();
+    if (v) { const m = document.getElementById('modalMessage'); if (!m.value) m.value = v; }
     feedbackModal.classList.remove('hidden');
     document.getElementById('modalMessage').focus();
     document.body.style.overflow = 'hidden';
   }
-
-  function closeFeedbackModal() {
-    feedbackModal.classList.add('hidden');
-    document.body.style.overflow = '';
-  }
-
+  function closeFeedbackModal() { feedbackModal.classList.add('hidden'); document.body.style.overflow = ''; }
   function submitFeedback() {
     const msg = document.getElementById('modalMessage').value.trim();
     if (!msg) { document.getElementById('modalMessage').focus(); return; }
     const name = document.getElementById('modalName').value.trim() || 'Anonymous';
-    const subject = encodeURIComponent('Mathify Feedback from ' + name);
-    const body = encodeURIComponent('Name: ' + name + '\n\nMessage:\n' + msg);
-    window.open('mailto:hello@mathify.us?subject=' + subject + '&body=' + body);
-    document.getElementById('modalBody').innerHTML = `
-      <div class="modal-success">
-        <div class="success-icon">🎉</div>
-        <h2 class="modal-title">Thank you!</h2>
-        <p style="color:var(--text3);font-size:0.9375rem;margin-top:0.5rem">Your email client has opened. Please send the message — it goes directly to the creator.</p>
-        <button class="btn-primary" onclick="closeFeedbackModal()" style="margin-top:1.5rem">Done</button>
-      </div>`;
+    window.open(`mailto:hello@mathify.us?subject=${encodeURIComponent('Mathify Feedback from ' + name)}&body=${encodeURIComponent('Name: ' + name + '\n\nMessage:\n' + msg)}`);
+    document.getElementById('modalBody').innerHTML = `<div class="modal-success"><div class="success-icon">🎉</div><h2 class="modal-title">Thank you!</h2><p style="color:var(--text3);font-size:0.9375rem;margin-top:0.5rem">Your email client has opened. Please send the message — it goes directly to the creator.</p><button class="btn-primary" onclick="closeFeedbackModal()" style="margin-top:1.5rem">Done</button></div>`;
   }
-
   feedbackModal.addEventListener('click', e => { if (e.target === feedbackModal) closeFeedbackModal(); });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !feedbackModal.classList.contains('hidden')) closeFeedbackModal();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !feedbackModal.classList.contains('hidden')) closeFeedbackModal(); });
   </script>
 </body>
 </html>
