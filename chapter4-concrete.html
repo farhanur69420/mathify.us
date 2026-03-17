@@ -156,12 +156,15 @@ canvas{border-radius:8px;display:block;}
   <div class="hero-badge"><span class="hero-dot"></span>Darwin · Dolan · Nilson — 15th Ed.</div>
   <h1>Chapter 4<br><em>Flexural Analysis</em><br>&amp; Design of Beams</h1>
   <p class="hero-sub">The heart of RC design — master how beams bend, when they fail, and how to calculate the exact amount of steel they need.</p>
-  <div class="part-badge">⬡ Part 1 of 2 — Sections 4.1 through 4.4</div>
+  <div class="part-badge">⬡ Complete — All 7 Sections</div>
   <div class="hero-pills">
     <a href="#s41" class="pill">4.1 — Introduction</a>
     <a href="#s42" class="pill">4.2 — Beam Behavior</a>
-    <a href="#s43" class="pill">4.3 — Design of RC Beams</a>
+    <a href="#s43" class="pill">4.3 — Rectangular Design</a>
     <a href="#s44" class="pill">4.4 — Design Aids</a>
+    <a href="#s45" class="pill">4.5 — Practical Details</a>
+    <a href="#s46" class="pill">4.6 — Doubly Reinforced</a>
+    <a href="#s47" class="pill">4.7 — T-Beams</a>
   </div>
 </section>
 
@@ -171,6 +174,9 @@ canvas{border-radius:8px;display:block;}
   <a href="#s42" class="nav-item"><span class="nav-num">4.2</span>Beam Behavior</a>
   <a href="#s43" class="nav-item"><span class="nav-num">4.3</span>Rectangular Design</a>
   <a href="#s44" class="nav-item"><span class="nav-num">4.4</span>Design Aids</a>
+  <a href="#s45" class="nav-item"><span class="nav-num">4.5</span>Practical Details</a>
+  <a href="#s46" class="nav-item"><span class="nav-num">4.6</span>Doubly Reinforced</a>
+  <a href="#s47" class="nav-item"><span class="nav-num">4.7</span>T-Beams</a>
 </nav>
 
 <!-- ══ 4.1 INTRODUCTION ══════════════════════════════════════════════════ -->
@@ -769,25 +775,479 @@ canvas{border-radius:8px;display:block;}
       </div>
     </div>
     <div style="margin-top:1.5rem;padding:1rem;background:var(--bg);border-radius:10px;border:1px dashed rgba(45,212,191,.3);text-align:center;">
-      <span style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--teal);">Part 2 covers → §4.5 Practical Details · §4.6 Doubly Reinforced Beams · §4.7 T-Beams</span>
+      <span style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--teal);">↓ Continue below → §4.5 Practical Details · §4.6 Doubly Reinforced Beams · §4.7 T-Beams</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4.5 PRACTICAL CONSIDERATIONS ══════════════════════════════════════ -->
+<section class="section reveal" id="s45">
+  <div class="section-header">
+    <span class="section-num">§ 4.5</span>
+    <h2 class="section-title">Practical Considerations<br>in the Design of Beams</h2>
+  </div>
+
+  <div class="why-box">
+    <p>The formulas in §4.3 give you As and d on paper — but a real beam has to be <em>physically built</em>. Bars need space to fit. Concrete must flow around them. Cover protects steel from corrosion and fire. This section translates calculated numbers into a buildable beam.</p>
+  </div>
+
+  <div class="analogy-box">
+    <p>You've calculated you need a 3-foot door opening — but lumber comes in fixed sizes, hinges have specific positions, and you need room to swing the door. <strong>Practical beam design is the same:</strong> bars come in discrete sizes, beams are built to round dimensions, and code rules dictate minimum gaps. You don't get to specify 11.3 inches — you round up to 12.</p>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;margin:2rem 0 .8rem;color:var(--teal);">Concrete Cover</h3>
+  <p>Cover is the distance from the <strong>outer face of the beam to the surface of the nearest bar</strong>. It protects steel from corrosion, fire, and bond failure near the surface.</p>
+
+  <div class="key-box reveal">
+    <div class="key-box-title">📐 ACI 318 Minimum Cover Requirements</div>
+    <table class="data-table">
+      <thead><tr><th>Exposure Condition</th><th>Min. Cover</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Interior, not exposed — bars #6–#18</td><td class="hl">1½ in</td><td style="font-size:.8rem;color:var(--muted);">Typical interior beams &amp; slabs</td></tr>
+        <tr><td>Interior, not exposed — bars #5 and smaller</td><td class="hl">¾ in</td><td style="font-size:.8rem;color:var(--muted);">Slabs, walls with small bars</td></tr>
+        <tr><td>Exposed to weather — bars #6–#18</td><td class="hl">2 in</td><td style="font-size:.8rem;color:var(--muted);">Exterior beams, retaining walls</td></tr>
+        <tr><td>Exposed to weather — bars #5 and smaller</td><td class="hl">1½ in</td><td style="font-size:.8rem;color:var(--muted);">&nbsp;</td></tr>
+        <tr><td>Cast against and in contact with earth</td><td class="hl">3 in</td><td style="font-size:.8rem;color:var(--muted);">Footings — no formwork between bar and soil</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;margin:2.5rem 0 .8rem;color:var(--teal);">Total Depth h vs. Effective Depth d</h3>
+  <p>Design formulas use <code>d</code> — but you specify <code>h</code> on drawings. The relationship depends on cover, stirrup size, and bar diameter:</p>
+  <div class="formula-block">
+    <div><span class="formula">d = h − cover − d<sub style="font-size:.7em">stirrup</sub> − d<sub style="font-size:.7em">bar</sub>/2</span></div>
+  </div>
+
+  <div class="interactive-wrap reveal">
+    <div class="interactive-title">h ↔ d Calculator — Find Your Effective Depth</div>
+    <p style="font-size:.83rem;color:var(--muted);margin-bottom:1.5rem;">Specify the beam's total depth and detailing — get the effective depth d used in all Mn calculations.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="slider-row">
+        <div class="slider-label">Total depth h (in) <span id="hh-val">24</span></div>
+        <input type="range" id="hh-sl" min="10" max="48" step="1" value="24" oninput="updateCover()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">Cover (in) <span id="cov-val">1.5</span></div>
+        <input type="range" id="cov-sl" min="0.75" max="3" step="0.25" value="1.5" oninput="updateCover()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">Stirrup d<sub>st</sub> (in) <span id="dst-val">0.375</span></div>
+        <input type="range" id="dst-sl" min="0.25" max="0.625" step="0.125" value="0.375" oninput="updateCover()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">Main bar d<sub>b</sub> (in) <span id="db-val">1.000</span></div>
+        <input type="range" id="db-sl" min="0.5" max="1.693" step="0.0625" value="1.0" oninput="updateCover()">
+      </div>
+    </div>
+    <div class="result-grid" style="margin-top:1rem;">
+      <div class="result-card"><div class="result-label">Effective depth d</div><div class="result-value" id="eff-d" style="color:var(--teal);font-size:1.4rem;">—</div></div>
+      <div class="result-card"><div class="result-label">d/h ratio</div><div class="result-value" id="dh-ratio" style="color:var(--amber);">—</div></div>
+      <div class="result-card"><div class="result-label">CG from bottom</div><div class="result-value" id="cg-bot" style="color:var(--purple);">—</div></div>
+      <div class="result-card"><div class="result-label">Rule of thumb</div><div class="result-value" style="color:var(--muted);font-size:.78rem;">d ≈ 0.85–0.90h</div></div>
+    </div>
+    <div style="margin-top:1.2rem;">
+      <canvas id="coverCanvas" width="560" height="190" style="width:100%;max-height:190px;border-radius:10px;"></canvas>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;margin:2.5rem 0 .8rem;color:var(--teal);">Bar Spacing Requirements</h3>
+  <p>ACI 318 requires <strong>clear spacing</strong> between parallel bars to satisfy all three rules simultaneously:</p>
+  <div class="formula-block">
+    <div><span class="formula">s<sub style="font-size:.7em">clear</sub> ≥ max( d<sub style="font-size:.7em">b</sub> , 1 in , 4/3·d<sub style="font-size:.7em">agg</sub> )</span></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.9rem;margin:1.5rem 0;" class="reveal">
+    <div style="padding:1.1rem;background:var(--surface2);border-radius:10px;text-align:center;">
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--teal);margin-bottom:.5rem;">RULE 1</div>
+      <div style="font-size:.95rem;font-weight:700;color:var(--text);">≥ d<sub>b</sub></div>
+      <div style="font-size:.77rem;color:var(--muted);margin-top:.4rem;">Bar diameter — concrete must flow around each bar</div>
+    </div>
+    <div style="padding:1.1rem;background:var(--surface2);border-radius:10px;text-align:center;">
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--amber);margin-bottom:.5rem;">RULE 2</div>
+      <div style="font-size:.95rem;font-weight:700;color:var(--text);">≥ 1 inch</div>
+      <div style="font-size:.77rem;color:var(--muted);margin-top:.4rem;">Absolute minimum regardless of bar size</div>
+    </div>
+    <div style="padding:1.1rem;background:var(--surface2);border-radius:10px;text-align:center;">
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--lime);margin-bottom:.5rem;">RULE 3</div>
+      <div style="font-size:.95rem;font-weight:700;color:var(--text);">≥ 4/3 d<sub>agg</sub></div>
+      <div style="font-size:.77rem;color:var(--muted);margin-top:.4rem;">Aggregate must physically fit between bars</div>
+    </div>
+  </div>
+
+  <div class="key-box reveal">
+    <div class="key-box-title">📏 Quick Proportioning Guidelines</div>
+    <table class="data-table">
+      <thead><tr><th>Parameter</th><th>Guideline</th><th>Reason</th></tr></thead>
+      <tbody>
+        <tr><td>Beam width b</td><td class="hl">b ≈ 0.4–0.6 × d</td><td style="font-size:.8rem;color:var(--muted);">Efficient aspect ratio; common values 10, 12, 14, 16 in</td></tr>
+        <tr><td>Total depth h</td><td class="hl">h = d + 2.5 to 3.5 in</td><td style="font-size:.8rem;color:var(--muted);">Cover + stirrup + half bar; round up to nearest inch</td></tr>
+        <tr><td>Min h for deflection</td><td class="hl">h ≥ L/16 (simple span)</td><td style="font-size:.8rem;color:var(--muted);">ACI Table 9.3.1.1 — avoids explicit deflection check</td></tr>
+        <tr><td>Bar layers</td><td class="hl">1 or 2 preferred</td><td style="font-size:.8rem;color:var(--muted);">More layers reduce d and complicate detailing</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quiz-wrap reveal">
+    <div class="quiz-header">✦ Quick Check</div>
+    <div class="quiz-q">A beam uses 1.5 in cover, #3 stirrups (d<sub>st</sub> = 0.375 in), and #8 main bars (d<sub>b</sub> = 1.0 in). If h = 20 in, what is the effective depth d?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qCheck(this,false,'q5')">d = 17.5 in</button>
+      <button class="quiz-opt" onclick="qCheck(this,true,'q5')">d = 17.625 in</button>
+      <button class="quiz-opt" onclick="qCheck(this,false,'q5')">d = 18.125 in</button>
+      <button class="quiz-opt" onclick="qCheck(this,false,'q5')">d = 16.5 in</button>
+    </div>
+    <div class="quiz-fb" id="q5-fb"></div>
+  </div>
+</section>
+
+<!-- ══ 4.6 DOUBLY REINFORCED BEAMS ═══════════════════════════════════════ -->
+<section class="section reveal" id="s46">
+  <div class="section-header">
+    <span class="section-num">§ 4.6</span>
+    <h2 class="section-title">Rectangular Beams with Tension<br>&amp; Compression Reinforcement</h2>
+  </div>
+
+  <div class="why-box">
+    <p>Sometimes you <em>cannot</em> increase beam depth — a parking garage has a fixed floor-to-floor height, or the architect has fixed the soffit. If a singly-reinforced beam can't carry Mu without exceeding ρmax, <strong>adding compression steel A's near the top unlocks extra capacity within the same envelope</strong> by allowing more tension steel As at the bottom.</p>
+  </div>
+
+  <div class="analogy-box">
+    <p>Imagine a pulley system where the main rope is already maxed out. You can't strengthen that rope — but you can add a <em>second rope</em> on the other side of the pulley to share the load. Compression steel is that second rope: it opens up a new load path and lets the beam carry more moment in the same cross-section height.</p>
+  </div>
+
+  <div class="diagram-wrap reveal">
+    <div class="diagram-title">Doubly Reinforced Beam — Decomposed into Two Internal Couples</div>
+    <svg viewBox="0 0 780 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:300px;">
+      <defs>
+        <marker id="da" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#f59e0b"/></marker>
+        <marker id="db" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#2dd4bf"/></marker>
+        <marker id="dc" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#a78bfa"/></marker>
+      </defs>
+      <!-- Full section -->
+      <rect x="30" y="30" width="90" height="230" rx="5" fill="#0f1318" stroke="#2dd4bf" stroke-width="1.5"/>
+      <rect x="30" y="30" width="90" height="75" rx="3" fill="rgba(245,158,11,0.22)"/>
+      <text x="75" y="72" fill="#f59e0b" font-size="9" text-anchor="middle" font-weight="bold">0.85f'c</text>
+      <line x1="20" y1="138" x2="130" y2="138" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="132" y="142" fill="#f59e0b" font-size="8.5">N.A.</text>
+      <circle cx="55" cy="52" r="7" fill="#a78bfa"/><circle cx="105" cy="52" r="7" fill="#a78bfa"/>
+      <text x="75" y="22" fill="#a78bfa" font-size="8.5" text-anchor="middle">A's</text>
+      <circle cx="55" cy="238" r="7" fill="#38bdf8"/><circle cx="105" cy="238" r="7" fill="#38bdf8"/>
+      <text x="75" y="270" fill="#2dd4bf" font-size="8.5" text-anchor="middle">As</text>
+      <!-- = sign -->
+      <text x="165" y="155" fill="#6b7a90" font-size="14">=</text>
+      <!-- Couple 1 -->
+      <rect x="193" y="30" width="78" height="230" rx="4" fill="#0f1318" stroke="#1e2733"/>
+      <rect x="193" y="30" width="78" height="75" rx="2" fill="rgba(245,158,11,0.18)"/>
+      <text x="232" y="72" fill="#f59e0b" font-size="8.5" text-anchor="middle">Block 1</text>
+      <circle cx="215" cy="238" r="6" fill="#38bdf8"/><circle cx="250" cy="238" r="6" fill="#38bdf8"/>
+      <line x1="232" y1="62" x2="232" y2="36" stroke="#f59e0b" stroke-width="2" marker-end="url(#da)"/>
+      <text x="276" y="52" fill="#f59e0b" font-size="8">C₁=0.85f'c·a·b</text>
+      <line x1="232" y1="228" x2="232" y2="252" stroke="#2dd4bf" stroke-width="2" marker-end="url(#db)"/>
+      <text x="276" y="252" fill="#2dd4bf" font-size="8">T₁=As1·fy</text>
+      <line x1="275" y1="62" x2="275" y2="238" stroke="#84cc16" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="280" y="158" fill="#84cc16" font-size="8">d−a/2</text>
+      <text x="232" y="290" fill="#94a3b8" font-size="7.5" text-anchor="middle">Couple 1 → Mn1</text>
+      <!-- + sign -->
+      <text x="358" y="158" fill="#6b7a90" font-size="14">+</text>
+      <!-- Couple 2 -->
+      <rect x="376" y="30" width="78" height="230" rx="4" fill="#0f1318" stroke="#1e2733"/>
+      <circle cx="397" cy="52" r="6" fill="#a78bfa"/><circle cx="433" cy="52" r="6" fill="#a78bfa"/>
+      <circle cx="397" cy="238" r="6" fill="#38bdf8"/><circle cx="433" cy="238" r="6" fill="#38bdf8"/>
+      <line x1="415" y1="62" x2="415" y2="36" stroke="#a78bfa" stroke-width="2" marker-end="url(#dc)"/>
+      <text x="459" y="52" fill="#a78bfa" font-size="8">C₂=A's·f's</text>
+      <line x1="415" y1="228" x2="415" y2="252" stroke="#2dd4bf" stroke-width="2" marker-end="url(#db)"/>
+      <text x="459" y="252" fill="#2dd4bf" font-size="8">T₂=As2·fy</text>
+      <line x1="458" y1="52" x2="458" y2="238" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="463" y="150" fill="#a78bfa" font-size="8">d−d'</text>
+      <text x="415" y="290" fill="#94a3b8" font-size="7.5" text-anchor="middle">Couple 2 → Mn2</text>
+      <!-- Result box -->
+      <rect x="558" y="108" width="195" height="84" rx="10" fill="#0f1318" stroke="#2dd4bf" stroke-width="1.5"/>
+      <text x="655" y="130" fill="#2dd4bf" font-size="10" text-anchor="middle" font-weight="bold">Mn = Mn1 + Mn2</text>
+      <line x1="575" y1="140" x2="735" y2="140" stroke="#1e2733"/>
+      <text x="575" y="158" fill="#f59e0b" font-size="8.5">Mn1 = As1·fy·(d − a/2)</text>
+      <text x="575" y="176" fill="#a78bfa" font-size="8.5">Mn2 = A's·f's·(d − d')</text>
+    </svg>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;margin:2rem 0 .8rem;color:var(--teal);">Does the Compression Steel Actually Yield?</h3>
+  <p>The key question: is <code>f's = fy</code> valid? If the neutral axis is high (small c), the strain at A's depth may not reach yield strain.</p>
+  <div class="formula-block">
+    <div><span class="formula">ε's = 0.003 · (c − d') / c</span><span class="formula-note">strain in compression steel</span></div>
+    <div><span class="formula">f's = min( Es · ε's , fy )</span><span class="formula-note">capped at fy (29,000 × ε's vs fy)</span></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;" class="reveal">
+    <div style="padding:1.3rem;background:var(--surface2);border-radius:12px;border-left:3px solid var(--lime);">
+      <div style="font-weight:700;font-size:.9rem;color:var(--lime);margin-bottom:.5rem;">✅ ε's ≥ fy/Es → A's has yielded</div>
+      <div style="font-size:.82rem;color:var(--muted);line-height:1.6;">Use <code>f's = fy</code>. Equilibrium gives:<br><code>a = (As−A's)fy / (0.85f'c·b)</code><br>Simple one-pass calculation.</div>
+    </div>
+    <div style="padding:1.3rem;background:var(--surface2);border-radius:12px;border-left:3px solid var(--rose);">
+      <div style="font-weight:700;font-size:.9rem;color:var(--rose);margin-bottom:.5rem;">⚠ ε's &lt; fy/Es → A's has NOT yielded</div>
+      <div style="font-size:.82rem;color:var(--muted);line-height:1.6;">Use <code>f's = Es·ε's</code>. Equilibrium becomes quadratic in c. More work — but same principle.</div>
+    </div>
+  </div>
+
+  <div class="key-box reveal">
+    <div class="key-box-title">🧮 Analysis Procedure — Doubly Reinforced (assuming A's yields)</div>
+    <ol class="steps">
+      <li>Assume A's yields. Set T = C1 + C2: <code>As·fy = 0.85f'c·β₁c·b + A's·fy</code> → solve for c</li>
+      <li>Verify: <code>ε's = 0.003(c−d')/c ≥ fy/Es</code>. If not, iterate with <code>f's = Es·ε's</code></li>
+      <li>Check ductility: <code>εt = 0.003(d−c)/c ≥ 0.004</code></li>
+      <li>Compute <code>a = β₁·c</code></li>
+      <li>Compute <code>Mn = (As−A's)·fy·(d−a/2) + A's·fy·(d−d')</code></li>
+      <li>Apply φ → report φMn</li>
+    </ol>
+  </div>
+
+  <div class="interactive-wrap reveal">
+    <div class="interactive-title">Doubly Reinforced Beam Calculator</div>
+    <p style="font-size:.83rem;color:var(--muted);margin-bottom:1.5rem;">Add compression steel A's and watch how φMn grows beyond what a singly-reinforced section achieves at the same depth.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="slider-row">
+        <div class="slider-label">b (in) <span id="dr-b-val">14</span></div>
+        <input type="range" id="dr-b" min="8" max="24" step="1" value="14" oninput="updateDR()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">d (in) <span id="dr-d-val">22</span></div>
+        <input type="range" id="dr-d" min="10" max="36" step="1" value="22" oninput="updateDR()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">As — tension steel (in²) <span id="dr-as-val">4.00</span></div>
+        <input type="range" id="dr-as" min="1" max="10" step="0.1" value="4.0" oninput="updateDR()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">A's — comp. steel (in²) <span id="dr-asc-val">1.00</span></div>
+        <input type="range" id="dr-asc" min="0" max="4" step="0.1" value="1.0" oninput="updateDR()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">d' — depth to A's (in) <span id="dr-dp-val">2.5</span></div>
+        <input type="range" id="dr-dp" min="1.5" max="4" step="0.25" value="2.5" oninput="updateDR()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">f'c (psi) <span id="dr-fc-val">4000</span></div>
+        <input type="range" id="dr-fc" min="3000" max="8000" step="500" value="4000" oninput="updateDR()">
+      </div>
+    </div>
+    <div class="result-grid" style="margin-top:1.2rem;">
+      <div class="result-card"><div class="result-label">c (N.A. depth)</div><div class="result-value" id="dr-c-out" style="color:var(--purple);">—</div></div>
+      <div class="result-card"><div class="result-label">ε's</div><div class="result-value" id="dr-es-out">—</div></div>
+      <div class="result-card"><div class="result-label">f's (psi)</div><div class="result-value" id="dr-fs-out" style="color:var(--blue);">—</div></div>
+      <div class="result-card"><div class="result-label">εt</div><div class="result-value" id="dr-et-out">—</div></div>
+      <div class="result-card" style="border:1px solid rgba(245,158,11,.4);">
+        <div class="result-label">φMn (k·ft)</div>
+        <div class="result-value" id="dr-pmn-out" style="color:var(--amber);font-size:1.3rem;">—</div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">Gain vs singly reinf.</div>
+        <div class="result-value" id="dr-gain-out" style="color:var(--lime);">—</div>
+      </div>
+    </div>
+    <div id="dr-status" style="margin-top:.8rem;padding:.75rem 1rem;border-radius:8px;font-size:.82rem;font-family:'Space Mono',monospace;"></div>
+  </div>
+
+  <div class="quiz-wrap reveal">
+    <div class="quiz-header">✦ Quick Check</div>
+    <div class="quiz-q">In a doubly reinforced beam, why must you verify whether A's has yielded before using f's = fy?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qCheck(this,false,'q6')">Compression steel always yields before tension steel in an RC beam</button>
+      <button class="quiz-opt" onclick="qCheck(this,true,'q6')">If the neutral axis is shallow (small c), the strain at A's may fall below yield strain — assuming fy would overestimate the compression force C₂</button>
+      <button class="quiz-opt" onclick="qCheck(this,false,'q6')">Compression steel has a different modulus of elasticity than tension steel</button>
+      <button class="quiz-opt" onclick="qCheck(this,false,'q6')">ACI 318 prohibits the use of fy for compression steel in all cases</button>
+    </div>
+    <div class="quiz-fb" id="q6-fb"></div>
+  </div>
+</section>
+
+<!-- ══ 4.7 T-BEAMS ══════════════════════════════════════════════════════ -->
+<section class="section reveal" id="s47">
+  <div class="section-header">
+    <span class="section-num">§ 4.7</span>
+    <h2 class="section-title">T-Beams</h2>
+  </div>
+
+  <div class="why-box">
+    <p>Almost every real building beam is cast monolithically with the floor slab above it. Under positive bending (sagging), the slab is on the <em>compression</em> side — it adds a huge compression area. Ignoring this treats the beam as a wasteful little rectangle. The T-beam model correctly accounts for the slab's contribution, which can dramatically reduce the required beam depth or steel area.</p>
+  </div>
+
+  <div class="analogy-box">
+    <p>Think of a steel I-beam. Its wide top flange handles compression efficiently — the force is spread over a large area, keeping stress low. The narrow web carries shear. <strong>A T-beam is concrete's I-beam</strong> — the monolithic slab is the flange, the rectangular stem below it is the web. You get the efficiency of the I-shape for free because the slab is already there.</p>
+  </div>
+
+  <div class="diagram-wrap reveal">
+    <div class="diagram-title">T-Beam Geometry — ACI Effective Flange Width be</div>
+    <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:280px;">
+      <!-- Slab flange -->
+      <rect x="80" y="40" width="560" height="55" rx="4" fill="rgba(45,212,191,0.13)" stroke="#2dd4bf" stroke-width="1.5"/>
+      <!-- Web -->
+      <rect x="280" y="95" width="160" height="150" rx="4" fill="rgba(96,165,250,0.1)" stroke="#60a5fa" stroke-width="1.5"/>
+      <!-- be arrow -->
+      <line x1="80" y1="24" x2="640" y2="24" stroke="#2dd4bf" stroke-width="1.2"/>
+      <line x1="80" y1="19" x2="80" y2="29" stroke="#2dd4bf"/><line x1="640" y1="19" x2="640" y2="29" stroke="#2dd4bf"/>
+      <text x="360" y="17" fill="#2dd4bf" font-size="9" text-anchor="middle" font-weight="bold">be — effective flange width (ACI limits)</text>
+      <!-- bw arrow -->
+      <line x1="280" y1="260" x2="440" y2="260" stroke="#60a5fa" stroke-width="1.2"/>
+      <line x1="280" y1="255" x2="280" y2="265" stroke="#60a5fa"/><line x1="440" y1="255" x2="440" y2="265" stroke="#60a5fa"/>
+      <text x="360" y="274" fill="#60a5fa" font-size="9" text-anchor="middle">bw (web width)</text>
+      <!-- hf arrow -->
+      <line x1="652" y1="40" x2="652" y2="95" stroke="#f59e0b" stroke-width="1.2"/>
+      <line x1="647" y1="40" x2="657" y2="40" stroke="#f59e0b"/><line x1="647" y1="95" x2="657" y2="95" stroke="#f59e0b"/>
+      <text x="662" y="72" fill="#f59e0b" font-size="9">hf</text>
+      <!-- d arrow -->
+      <line x1="664" y1="40" x2="664" y2="232" stroke="#84cc16" stroke-width="1.2"/>
+      <line x1="659" y1="40" x2="669" y2="40" stroke="#84cc16"/><line x1="659" y1="232" x2="669" y2="232" stroke="#84cc16"/>
+      <text x="675" y="140" fill="#84cc16" font-size="9">d</text>
+      <!-- rebar -->
+      <circle cx="318" cy="228" r="6" fill="#38bdf8"/><circle cx="360" cy="228" r="6" fill="#38bdf8"/><circle cx="402" cy="228" r="6" fill="#38bdf8"/>
+      <!-- labels -->
+      <text x="165" y="70" fill="#2dd4bf" font-size="8" text-anchor="middle">effective</text>
+      <text x="165" y="81" fill="#2dd4bf" font-size="8" text-anchor="middle">overhang</text>
+      <text x="360" y="62" fill="#f59e0b" font-size="8.5" text-anchor="middle">compression zone (slab)</text>
+      <text x="360" y="128" fill="#60a5fa" font-size="8.5" text-anchor="middle">web bw × hw</text>
+      <!-- ACI rules box -->
+      <rect x="28" y="172" width="210" height="72" rx="8" fill="#0f1318" stroke="#1e2733"/>
+      <text x="133" y="192" fill="#94a3b8" font-size="8" text-anchor="middle">ACI be = minimum of:</text>
+      <text x="38" y="208" fill="#2dd4bf" font-size="8">• ln / 4  (quarter of span)</text>
+      <text x="38" y="221" fill="#2dd4bf" font-size="8">• bw + 8hf each side</text>
+      <text x="38" y="234" fill="#2dd4bf" font-size="8">• bw + clear distance to next web</text>
+    </svg>
+  </div>
+
+  <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;margin:2rem 0 .8rem;color:var(--teal);">The Two Cases: Does the Stress Block Stay in the Flange?</h3>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;" class="reveal">
+    <div style="padding:1.4rem;background:var(--surface2);border-radius:12px;border-left:3px solid var(--lime);">
+      <div style="font-weight:700;font-size:.9rem;color:var(--lime);margin-bottom:.5rem;">✅ Case 1: a ≤ hf</div>
+      <div style="font-size:.82rem;color:var(--muted);line-height:1.7;">Stress block entirely within the flange. Web below the block is cracked and irrelevant. <strong>Treat as a rectangular beam</strong> with b = be.<br><br><span style="color:var(--text);">a = As·fy / (0.85·f'c·be)</span><br><span style="color:var(--text);">Mn = As·fy·(d − a/2)</span><br><br>Most common case for positive moment T-beams.</div>
+    </div>
+    <div style="padding:1.4rem;background:var(--surface2);border-radius:12px;border-left:3px solid var(--amber);">
+      <div style="font-weight:700;font-size:.9rem;color:var(--amber);margin-bottom:.5rem;">⚠ Case 2: a &gt; hf</div>
+      <div style="font-size:.82rem;color:var(--muted);line-height:1.7;">Stress block extends into the web. Split compression into two parts:<br><br><span style="color:var(--text);">Cf = 0.85f'c·(be−bw)·hf</span> (overhangs)<br><span style="color:var(--text);">Cw = 0.85f'c·bw·aw</span> (web block)<br><br>Set T = Cf + Cw, solve for aw, then compute Mn from both couples.</div>
+    </div>
+  </div>
+
+  <div class="key-box reveal">
+    <div class="key-box-title">🧮 T-Beam Analysis — Case 2 Full Procedure (a &gt; hf)</div>
+    <ol class="steps">
+      <li>Compute trial a with b = be: <code>a_trial = As·fy/(0.85·f'c·be)</code></li>
+      <li>If a_trial &gt; hf → Case 2 applies. Continue below.</li>
+      <li>Steel resisted by flange overhangs: <code>Asf = 0.85·f'c·(be−bw)·hf / fy</code></li>
+      <li>Steel for web block: <code>Asw = As − Asf</code></li>
+      <li>Web stress block depth: <code>aw = Asw·fy / (0.85·f'c·bw)</code></li>
+      <li>Nominal moment: <code>Mn = Asf·fy·(d−hf/2) + Asw·fy·(d−aw/2)</code></li>
+      <li>Check εt at steel: <code>εt = 0.003(d−c)/c</code>, where <code>c = (hf + aw/2)·...</code> — or use c = a_total/β₁</li>
+    </ol>
+  </div>
+
+  <!-- T-BEAM INTERACTIVE CALCULATOR -->
+  <div class="interactive-wrap reveal">
+    <div class="interactive-title">T-Beam Calculator — be, Case Detection, and φMn</div>
+    <p style="font-size:.83rem;color:var(--muted);margin-bottom:1.5rem;">Enter beam and slab geometry. The calculator finds be, auto-detects Case 1 vs 2, and computes φMn.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+      <div class="slider-row">
+        <div class="slider-label">bw — web width (in) <span id="tb-bw-val">14</span></div>
+        <input type="range" id="tb-bw" min="8" max="24" step="1" value="14" oninput="updateTbeam()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">d — eff. depth (in) <span id="tb-d-val">24</span></div>
+        <input type="range" id="tb-d" min="12" max="42" step="1" value="24" oninput="updateTbeam()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">hf — slab thickness (in) <span id="tb-hf-val">5</span></div>
+        <input type="range" id="tb-hf" min="3" max="10" step="0.5" value="5" oninput="updateTbeam()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">As (in²) <span id="tb-as-val">4.00</span></div>
+        <input type="range" id="tb-as" min="1" max="14" step="0.1" value="4.0" oninput="updateTbeam()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">ln — clear span (ft) <span id="tb-ln-val">20</span></div>
+        <input type="range" id="tb-ln" min="10" max="40" step="1" value="20" oninput="updateTbeam()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-label">f'c (psi) <span id="tb-fc-val">4000</span></div>
+        <input type="range" id="tb-fc" min="3000" max="8000" step="500" value="4000" oninput="updateTbeam()">
+      </div>
+    </div>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:flex-start;margin-top:1.5rem;">
+      <canvas id="tbCanvas" width="220" height="240" style="flex-shrink:0;border-radius:10px;"></canvas>
+      <div style="flex:1;min-width:200px;">
+        <div class="result-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="result-card"><div class="result-label">be (eff. flange)</div><div class="result-value" id="tb-be-out" style="color:var(--teal);">—</div></div>
+          <div class="result-card"><div class="result-label">a (stress block)</div><div class="result-value" id="tb-a-out" style="color:var(--amber);">—</div></div>
+          <div class="result-card"><div class="result-label">Case</div><div class="result-value" id="tb-case-out" style="font-size:.85rem;">—</div></div>
+          <div class="result-card"><div class="result-label">εt</div><div class="result-value" id="tb-et-out">—</div></div>
+          <div class="result-card" style="border:1px solid rgba(245,158,11,.4);">
+            <div class="result-label">Mn (k·ft)</div>
+            <div class="result-value" id="tb-mn-out" style="color:var(--amber);">—</div>
+          </div>
+          <div class="result-card" style="border:1px solid rgba(45,212,191,.4);">
+            <div class="result-label">φMn (k·ft)</div>
+            <div class="result-value" id="tb-pmn-out" style="color:var(--teal);font-size:1.3rem;">—</div>
+          </div>
+        </div>
+        <div id="tb-status" style="margin-top:.8rem;padding:.75rem 1rem;border-radius:8px;font-size:.82rem;font-family:'Space Mono',monospace;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-wrap reveal">
+    <div class="quiz-header">✦ Quick Check</div>
+    <div class="quiz-q">A T-beam has be = 60 in, bw = 14 in, hf = 4 in, d = 22 in, As = 5.0 in², f'c = 4000 psi, fy = 60 ksi. Compute a assuming b = be. Which case applies?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qCheck(this,true,'q7')">Case 1 — a = 1.47 in &lt; hf = 4 in, treat as rectangular with b = be = 60 in</button>
+      <button class="quiz-opt" onclick="qCheck(this,false,'q7')">Case 2 — a extends past hf into the web; must use T-beam split formulas</button>
+      <button class="quiz-opt" onclick="qCheck(this,false,'q7')">Cannot determine without knowing the span length for the be calculation</button>
+    </div>
+    <div class="quiz-fb" id="q7-fb"></div>
+  </div>
+
+  <!-- FULL CHAPTER SUMMARY -->
+  <div style="margin-top:4rem;padding:2rem;background:linear-gradient(135deg,rgba(45,212,191,.06),rgba(245,158,11,.04));border:1px solid var(--border);border-radius:16px;" class="reveal">
+    <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--teal);letter-spacing:.12em;margin-bottom:1.5rem;text-transform:uppercase;">✦ Chapter 4 — Complete Summary</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:.9rem;">
+      <div style="padding:1rem;background:var(--bg);border-radius:10px;border-top:2px solid var(--teal);">
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:.35rem;">§4.1 — Intro</div>
+        <div style="font-size:.75rem;color:var(--muted);">φMn ≥ Mu. Analysis vs. design. φ = 0.90 for tension-controlled flexure.</div>
+      </div>
+      <div style="padding:1rem;background:var(--bg);border-radius:10px;border-top:2px solid var(--amber);">
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:.35rem;">§4.2 — Behavior</div>
+        <div style="font-size:.75rem;color:var(--muted);">3 load stages. Whitney block: a = Asfy/(0.85f'cb). Mn = Asfy(d−a/2). εt ≥ 0.005 for φ = 0.90.</div>
+      </div>
+      <div style="padding:1rem;background:var(--bg);border-radius:10px;border-top:2px solid var(--lime);">
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:.35rem;">§4.3 — Design</div>
+        <div style="font-size:.75rem;color:var(--muted);">ρ = As/bd. ρmin prevents sudden cracking. ρmax ensures ductility. 6-step design procedure.</div>
+      </div>
+      <div style="padding:1rem;background:var(--bg);border-radius:10px;border-top:2px solid var(--rose);">
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:.35rem;">§4.4 — Design Aids</div>
+        <div style="font-size:.75rem;color:var(--muted);">Rn = ρfy(1−ρfy/1.7f'c). Use Mu = φRn·b·d² directly. Target ρ ≈ 50–60% of ρmax.</div>
+      </div>
+      <div style="padding:1rem;background:var(--bg);border-radius:10px;border-top:2px solid var(--purple);">
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:.35rem;">§4.5 — Practical</div>
+        <div style="font-size:.75rem;color:var(--muted);">d = h − cover − stirrup − db/2. Clear spacing ≥ db, 1 in, 4/3·dagg. Round h up to nearest inch.</div>
+      </div>
+      <div style="padding:1rem;background:var(--bg);border-radius:10px;border-top:2px solid var(--blue);">
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:.35rem;">§4.6 — Doubly Reinf.</div>
+        <div style="font-size:.75rem;color:var(--muted);">Two couples: Mn1 + Mn2. Check ε's before using f's = fy. Adds Mn capacity without more depth.</div>
+      </div>
+      <div style="padding:1rem;background:var(--bg);border-radius:10px;border-top:2px solid var(--steel);">
+        <div style="font-weight:700;font-size:.85rem;margin-bottom:.35rem;">§4.7 — T-Beams</div>
+        <div style="font-size:.75rem;color:var(--muted);">Slab = compression flange. ACI limits be. a ≤ hf → rect. with b=be. a &gt; hf → split Cf + Cw.</div>
+      </div>
     </div>
   </div>
 </section>
 
 <div class="footer">
   Chapter 4 — Design of Concrete Structures, 15th Ed. (Darwin, Dolan, Nilson)<br>
-  Part 1: §4.1–§4.4 · Interactive Study Guide
+  Complete · §4.1–§4.7 · Interactive Study Guide · <a href="civil.html" style="color:var(--teal);text-decoration:none;">← Back to Civil Engineering</a>
 </div>
 
-<script>
-/* ══ SCROLL REVEAL ══════════════════════════════════════ */
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, {threshold:0.08});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
 /* ══ NAV ACTIVE ══════════════════════════════════════════ */
-const navIds = ['s41','s42','s43','s44'];
+const navIds = ['s41','s42','s43','s44','s45','s46','s47'];
 window.addEventListener('scroll', () => {
   let cur = '';
   navIds.forEach(id => { const el=document.getElementById(id); if(el&&window.scrollY>=el.offsetTop-110) cur=id; });
@@ -1290,9 +1750,303 @@ const qData = {
        explain:'✓ Right! a = Asfy/(0.85f\'cb) = (3.0 × 60,000)/(0.85 × 4,000 × 12) = 180,000/40,800 = 4.41 in. The stress block is 4.41 inches deep.' },
   q3:{ correct:'Prevents sudden brittle failure right at the cracking load — without steel, cracking = collapse',
        explain:'✓ Exactly! Without minimum steel, the moment capacity of the cracked section (carried by steel) is actually less than the cracking moment. The beam would collapse at the instant it first cracks. ρmin ensures the post-cracking capacity is always greater than Mcr.' },
-  q4:{ correct:'b·d² ≈ 4,233 in³',
-       explain:'✓ Correct! Mu = 200 k·ft = 200 × 12,000 = 2,400,000 lb·in. b·d² = Mu/(φ·Rn) = 2,400,000/(0.90 × 633) = 2,400,000/569.7 ≈ 4,214 in³ ≈ 4,233 in³ (rounding). Pick b=14 in → d² = 302 → d ≈ 17.4 in, use 18 in.' }
+  q5:{ correct:'d = 17.625 in',
+       explain:'✓ Correct! d = h − cover − d_stirrup − d_bar/2 = 20 − 1.5 − 0.375 − 1.0/2 = 20 − 1.5 − 0.375 − 0.5 = 17.625 in. Always subtract half the main bar diameter — the centroid of the bar is at its center.' },
+  q6:{ correct:'If the neutral axis is shallow (small c), the strain at A\'s may fall below yield strain — assuming fy would overestimate the compression force C₂',
+       explain:'✓ Exactly. ε\'s = 0.003(c−d\')/c depends on c. If c is small, d\' can represent a large fraction of c, making ε\'s small. Using fy when the bar hasn\'t yielded would overestimate C₂ and Mn, giving an unconservative answer.' },
+  q7:{ correct:'Case 1 — a = 1.47 in < hf = 4 in, treat as rectangular with b = be = 60 in',
+       explain:'✓ Right! a = As·fy/(0.85·f\'c·be) = (5.0×60,000)/(0.85×4,000×60) = 300,000/204,000 = 1.47 in. Since 1.47 in < hf = 4 in, the entire stress block lies within the slab. Use b = be = 60 in like a standard rectangular beam.' }
 };
+
+/* ══ COVER CALCULATOR ═══════════════════════════════════ */
+function updateCover() {
+  const h  = +document.getElementById('hh-sl').value;
+  const cov= +document.getElementById('cov-sl').value;
+  const dst= +document.getElementById('dst-sl').value;
+  const db = +document.getElementById('db-sl').value;
+
+  document.getElementById('hh-val').textContent  = h;
+  document.getElementById('cov-val').textContent  = cov.toFixed(3);
+  document.getElementById('dst-val').textContent  = dst.toFixed(3);
+  document.getElementById('db-val').textContent   = db.toFixed(3);
+
+  const cgFromBot = cov + dst + db/2;
+  const d = h - cgFromBot;
+
+  document.getElementById('eff-d').textContent   = d.toFixed(3) + ' in';
+  document.getElementById('dh-ratio').textContent= (d/h).toFixed(3);
+  document.getElementById('cg-bot').textContent  = cgFromBot.toFixed(3) + ' in';
+
+  drawCoverSection(h, cov, dst, db, d);
+}
+
+function drawCoverSection(h, cov, dst, db, d) {
+  const canvas = document.getElementById('coverCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#080b10';
+  ctx.fillRect(0,0,W,H);
+
+  const bw = 80, pad = 60;
+  const scale = (H - 40) / h;
+  const bh = h * scale;
+  const bx = (W - bw) / 2, by = (H - bh) / 2;
+
+  // Beam body
+  ctx.fillStyle = '#0f1318'; ctx.strokeStyle = '#2dd4bf'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(bx, by, bw, bh, 4); ctx.fill(); ctx.stroke();
+
+  // Cover zone shading
+  const covPx = cov * scale;
+  ctx.fillStyle = 'rgba(245,158,11,0.12)';
+  ctx.fillRect(bx, by+bh-covPx-dst*scale-db/2*scale*2, bw, covPx+dst*scale+db/2*scale*2);
+
+  // Stirrup line
+  const stirrupY = by + bh - (cov + dst) * scale;
+  ctx.strokeStyle = '#a78bfa'; ctx.lineWidth = 1; ctx.setLineDash([3,2]);
+  ctx.beginPath(); ctx.moveTo(bx+4, stirrupY); ctx.lineTo(bx+bw-4, stirrupY); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Main bar
+  const barY = by + bh - (cov + dst + db/2) * scale;
+  ctx.fillStyle = '#38bdf8';
+  const r = Math.max(3, Math.min(10, db * scale / 2));
+  [[bx+bw*0.28, barY],[bx+bw*0.72, barY]].forEach(([x,y]) => {
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+  });
+
+  // Dimension annotations
+  const annotX = bx + bw + 12;
+  ctx.fillStyle = '#f59e0b'; ctx.font = '8px Space Mono,monospace'; ctx.textAlign = 'left';
+  // cover bracket
+  ctx.strokeStyle = '#f59e0b'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(annotX, by+bh); ctx.lineTo(annotX, by+bh-covPx); ctx.stroke();
+  ctx.fillText('cov='+cov+'"', annotX+4, by+bh-covPx/2+3);
+
+  // d bracket
+  ctx.strokeStyle = '#2dd4bf'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(annotX+48, by); ctx.lineTo(annotX+48, barY); ctx.stroke();
+  ctx.fillStyle='#2dd4bf'; ctx.fillText('d='+d.toFixed(2)+'"', annotX+52, (by+barY)/2+3);
+
+  // h label
+  ctx.strokeStyle='#84cc16'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(bx-18, by); ctx.lineTo(bx-18, by+bh); ctx.stroke();
+  ctx.fillStyle='#84cc16'; ctx.font='8px Space Mono,monospace'; ctx.textAlign='right';
+  ctx.fillText('h='+h+'"', bx-22, by+bh/2+3);
+}
+updateCover();
+
+/* ══ DOUBLY REINFORCED CALCULATOR ═══════════════════════ */
+function updateDR() {
+  const b  = +document.getElementById('dr-b').value;
+  const d  = +document.getElementById('dr-d').value;
+  const As = +document.getElementById('dr-as').value;
+  const Asc= +document.getElementById('dr-asc').value;
+  const dp = +document.getElementById('dr-dp').value;
+  const fc = +document.getElementById('dr-fc').value;
+  const fy = 60000;
+  const Es = 29000000;
+
+  document.getElementById('dr-b-val').textContent  = b;
+  document.getElementById('dr-d-val').textContent  = d;
+  document.getElementById('dr-as-val').textContent = As.toFixed(2);
+  document.getElementById('dr-asc-val').textContent= Asc.toFixed(2);
+  document.getElementById('dr-dp-val').textContent = dp.toFixed(2);
+  document.getElementById('dr-fc-val').textContent = fc.toLocaleString();
+
+  const beta1 = calcBeta1(fc);
+
+  // Assume A's yields: As*fy = 0.85*fc*beta1*c*b + Asc*fy
+  // c = (As - Asc)*fy / (0.85*fc*beta1*b)
+  let c = (As - Asc) * fy / (0.85 * fc * beta1 * b);
+  let es_prime = 0.003 * (c - dp) / c;
+  let fs_prime = Math.min(Es * es_prime, fy);
+  // if A's didn't yield, re-solve: As*fy = 0.85*fc*beta1*c*b + Asc*(Es*0.003*(c-dp)/c)
+  // quadratic in c: 0.85*fc*beta1*b*c + Asc*Es*0.003*(1-dp/c) = As*fy
+  // => 0.85*fc*beta1*b*c² + Asc*Es*0.003*c - Asc*Es*0.003*dp = As*fy*c  (multiply by c)
+  // => (0.85*fc*beta1*b)*c² + (Asc*Es*0.003 - As*fy)*c - Asc*Es*0.003*dp = 0
+  if (es_prime < fy/Es) {
+    const A_coef = 0.85 * fc * beta1 * b;
+    const B_coef = Asc * Es * 0.003 - As * fy;
+    const C_coef = -Asc * Es * 0.003 * dp;
+    c = (-B_coef + Math.sqrt(B_coef*B_coef - 4*A_coef*C_coef)) / (2 * A_coef);
+    es_prime = 0.003 * (c - dp) / c;
+    fs_prime = Es * es_prime;
+  }
+
+  const a  = beta1 * c;
+  const et = 0.003 * (d - c) / c;
+  let phi = 0.90;
+  if (et < 0.004) phi = 0.65;
+  else if (et < 0.005) phi = 0.65 + 0.25*(et-0.004)/0.001;
+
+  const As1 = As - Asc;
+  const Mn_inlb = As1*fy*(d - a/2) + Asc*fs_prime*(d - dp);
+  const Mn_kft  = Mn_inlb / 12000;
+  const pMn     = phi * Mn_kft;
+
+  // Compare with singly-reinforced (Asc=0)
+  const a_single = As*fy/(0.85*fc*b);
+  const Mn_single = As*fy*(d - a_single/2)/12000;
+  const pMn_single= 0.90 * Mn_single;
+  const gain = pMn - pMn_single;
+
+  document.getElementById('dr-c-out').textContent  = c.toFixed(2)+' in';
+  document.getElementById('dr-es-out').textContent = es_prime.toFixed(4);
+  document.getElementById('dr-es-out').style.color = es_prime >= fy/Es ? '#84cc16' : '#fb7185';
+  document.getElementById('dr-fs-out').textContent = Math.round(fs_prime).toLocaleString()+' psi';
+  document.getElementById('dr-et-out').textContent = et.toFixed(4);
+  document.getElementById('dr-et-out').style.color = et>=0.005?'#84cc16':et>=0.004?'#f59e0b':'#fb7185';
+  document.getElementById('dr-pmn-out').textContent= pMn.toFixed(1)+' k·ft';
+  document.getElementById('dr-gain-out').textContent= '+'+gain.toFixed(1)+' k·ft';
+
+  const st = document.getElementById('dr-status');
+  if (et < 0.004) {
+    st.textContent='❌ Over-reinforced: εt < 0.004 — NOT permitted by ACI 318';
+    st.style.cssText='background:rgba(251,113,133,0.1);color:#fb7185;border:1px solid rgba(251,113,133,.25);border-radius:8px;';
+  } else if (es_prime < fy/Es) {
+    st.textContent='⚠ A\'s did NOT yield (ε\'s='+es_prime.toFixed(4)+' < '+( fy/Es).toFixed(4)+') — f\'s = Es·ε\'s used';
+    st.style.cssText='background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,.25);border-radius:8px;';
+  } else {
+    st.textContent='✅ Valid — A\'s yielded (f\'s = fy), φ='+phi.toFixed(2)+', εt='+et.toFixed(4);
+    st.style.cssText='background:rgba(132,204,22,0.1);color:#84cc16;border:1px solid rgba(132,204,22,.25);border-radius:8px;';
+  }
+}
+updateDR();
+
+/* ══ T-BEAM CALCULATOR ══════════════════════════════════ */
+function updateTbeam() {
+  const bw = +document.getElementById('tb-bw').value;
+  const d  = +document.getElementById('tb-d').value;
+  const hf = +document.getElementById('tb-hf').value;
+  const As = +document.getElementById('tb-as').value;
+  const ln = +document.getElementById('tb-ln').value * 12; // convert to inches
+  const fc = +document.getElementById('tb-fc').value;
+  const fy = 60000;
+
+  document.getElementById('tb-bw-val').textContent = bw;
+  document.getElementById('tb-d-val').textContent  = d;
+  document.getElementById('tb-hf-val').textContent = hf;
+  document.getElementById('tb-as-val').textContent = As.toFixed(2);
+  document.getElementById('tb-ln-val').textContent = ln/12;
+  document.getElementById('tb-fc-val').textContent = fc.toLocaleString();
+
+  const beta1 = calcBeta1(fc);
+  // ACI be: min of ln/4, bw+16hf, available (assume interior beam — use ln/4 and bw+16hf)
+  const be = Math.min(ln/4, bw + 16*hf);
+
+  // Trial a with b = be
+  const a_trial = As * fy / (0.85 * fc * be);
+  let Mn_inlb, a_eff, caseNum, c_depth;
+
+  if (a_trial <= hf) {
+    // Case 1 — rectangular with b = be
+    caseNum = 1;
+    a_eff = a_trial;
+    Mn_inlb = As * fy * (d - a_eff/2);
+    c_depth = a_eff / beta1;
+  } else {
+    // Case 2 — true T-beam
+    caseNum = 2;
+    const Asf = 0.85 * fc * (be - bw) * hf / fy;
+    const Asw = As - Asf;
+    const aw  = Asw * fy / (0.85 * fc * bw);
+    a_eff = aw; // web block depth
+    Mn_inlb = Asf*fy*(d - hf/2) + Asw*fy*(d - aw/2);
+    // approximate c from total compression depth
+    const total_comp = hf + aw; // rough
+    c_depth = total_comp / beta1;
+  }
+
+  const et  = 0.003 * (d - c_depth) / c_depth;
+  let phi = 0.90;
+  if (et < 0.004) phi = 0.65;
+  else if (et < 0.005) phi = 0.65 + 0.25*(et-0.004)/0.001;
+
+  const Mn_kft = Mn_inlb / 12000;
+  const pMn    = phi * Mn_kft;
+
+  document.getElementById('tb-be-out').textContent   = be.toFixed(1)+' in';
+  document.getElementById('tb-a-out').textContent    = a_trial.toFixed(2)+' in';
+  document.getElementById('tb-case-out').textContent = caseNum===1 ? '✅ Case 1 (rect.)' : '⚠ Case 2 (T-beam)';
+  document.getElementById('tb-case-out').style.color = caseNum===1 ? '#84cc16' : '#f59e0b';
+  document.getElementById('tb-et-out').textContent   = et.toFixed(4);
+  document.getElementById('tb-et-out').style.color   = et>=0.005?'#84cc16':et>=0.004?'#f59e0b':'#fb7185';
+  document.getElementById('tb-mn-out').textContent   = Mn_kft.toFixed(1)+' k·ft';
+  document.getElementById('tb-pmn-out').textContent  = pMn.toFixed(1)+' k·ft';
+
+  const st = document.getElementById('tb-status');
+  if (et < 0.004) {
+    st.textContent='❌ Over-reinforced: εt < 0.004 — reduce As or increase d';
+    st.style.cssText='background:rgba(251,113,133,0.1);color:#fb7185;border:1px solid rgba(251,113,133,.25);border-radius:8px;';
+  } else {
+    const caseDesc = caseNum===1
+      ? 'Case 1: a='+a_trial.toFixed(2)+'" ≤ hf='+hf+'" → rectangular analysis with b=be='+be.toFixed(0)+'"'
+      : 'Case 2: a='+a_trial.toFixed(2)+'" > hf='+hf+'" → T-beam split (Cf + Cw)';
+    st.textContent='✅ '+caseDesc+' · φ='+phi.toFixed(2);
+    st.style.cssText='background:rgba(132,204,22,0.1);color:#84cc16;border:1px solid rgba(132,204,22,.25);border-radius:8px;';
+  }
+
+  drawTbeamSection(bw, d, hf, be, a_trial, hf, caseNum);
+}
+
+function drawTbeamSection(bw, d, hf, be, a_trial, hf_val, caseNum) {
+  const canvas = document.getElementById('tbCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#080b10'; ctx.fillRect(0,0,W,H);
+
+  const totalH = d + 5;
+  const scale = (H - 30) / totalH;
+  const webW  = bw * scale;
+  const webH  = (d - hf_val) * scale;
+  const flangeH = hf_val * scale;
+  const flangeW = Math.min(be * scale, W - 20);
+
+  const cx = W / 2;
+  const topY = 15;
+
+  // Flange
+  ctx.fillStyle = '#0f1318'; ctx.strokeStyle = '#2dd4bf'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(cx - flangeW/2, topY, flangeW, flangeH, 3); ctx.fill(); ctx.stroke();
+
+  // Web
+  ctx.strokeStyle = '#60a5fa';
+  ctx.beginPath(); ctx.roundRect(cx - webW/2, topY + flangeH, webW, webH, 3); ctx.fill(); ctx.stroke();
+
+  // Stress block shading
+  const aH = Math.min(a_trial * scale, flangeH + webH);
+  const blockColor = caseNum===1 ? 'rgba(245,158,11,0.28)' : 'rgba(251,113,133,0.22)';
+  ctx.fillStyle = blockColor;
+  if (caseNum === 1) {
+    ctx.fillRect(cx - flangeW/2, topY, flangeW, aH);
+  } else {
+    ctx.fillRect(cx - flangeW/2, topY, flangeW, flangeH);
+    ctx.fillRect(cx - webW/2, topY + flangeH, webW, (a_trial - hf_val)*scale);
+  }
+
+  // Rebar dots at bottom
+  const barY = topY + flangeH + webH - 8;
+  ctx.fillStyle = '#38bdf8';
+  [cx-webW*0.28, cx, cx+webW*0.28].forEach(x => {
+    ctx.beginPath(); ctx.arc(x, barY, 4, 0, Math.PI*2); ctx.fill();
+  });
+
+  // Labels
+  ctx.fillStyle = '#2dd4bf'; ctx.font = '7.5px Space Mono,monospace'; ctx.textAlign = 'center';
+  ctx.fillText('be = '+Math.round(be)+'"', cx, topY - 4);
+  ctx.fillStyle = '#60a5fa';
+  ctx.fillText('bw = '+bw+'"', cx, topY + flangeH + webH/2 + 4);
+  ctx.fillStyle = '#f59e0b'; ctx.textAlign = 'right';
+  ctx.fillText('hf='+hf_val+'"', cx - flangeW/2 - 3, topY + flangeH/2 + 3);
+  ctx.fillStyle = '#84cc16'; ctx.textAlign = 'left';
+  ctx.fillText('d='+d+'"', cx + flangeW/2 + 3, topY + (d*scale)/2 + 3);
+}
+updateTbeam();
 
 function qCheck(btn, isCorrect, qid) {
   const opts = btn.closest('.quiz-opts').querySelectorAll('.quiz-opt');
