@@ -1400,6 +1400,10 @@ input[type=range] {
 </main>
 
 <script>
+// ─── ROOT (declared first — C() references this, so it must be initialized
+//     before any draw call to avoid the temporal dead zone ReferenceError) ──
+const root = document.documentElement;
+
 // ─── HELPERS ────────────────────────────────────────────────
 function dpr() { return Math.min(window.devicePixelRatio || 1, 2); }
 function initCanvas(id, h) {
@@ -2270,7 +2274,6 @@ function switchTab(group, tab) {
 }
 
 // ─── THEME TOGGLE ────────────────────────────────────────────
-const root = document.documentElement;
 const toggleBtn = document.getElementById('themeToggle');
 const themeIcon = document.getElementById('themeIcon');
 const themeLabel = document.getElementById('themeLabel');
