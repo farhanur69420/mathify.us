@@ -12,809 +12,429 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ═══════════════════════════════════════════════════════════
-       MATHIFY — EDUCATIONAL PLATFORM HOMEPAGE
-       ═══════════════════════════════════════════════════════════ */
-
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* ─── THEME TOKENS ─── */
     :root {
-      --bg:         #FFFFFF;
-      --bg2:        #F5F5F7;
-      --bg3:        #EBEBF0;
-      --card:       #FFFFFF;
-      --border:     #D1D1D6;
-      --text:       #1C1C1E;
-      --text2:      #3C3C43;
-      --text3:      #8E8E93;
-      --accent:     #6366F1;
-      --accent2:    #8B5CF6;
-      --green:      #34C759;
-      --amber:      #FF9F0A;
-      --red:        #FF453A;
-      --blue:       #0A84FF;
-      --shadow-sm:  0 1px 4px rgba(0,0,0,0.07);
-      --shadow-md:  0 4px 16px rgba(0,0,0,0.09);
-      --shadow-lg:  0 8px 32px rgba(0,0,0,0.12);
-      --radius-sm:  8px;
-      --radius-md:  14px;
-      --radius-lg:  20px;
+      --bg:#FFFFFF; --bg2:#F5F5F7; --bg3:#EBEBF0; --card:#FFFFFF; --border:#D1D1D6;
+      --text:#1C1C1E; --text2:#3C3C43; --text3:#8E8E93;
+      --accent:#6366F1; --accent2:#8B5CF6;
+      --green:#34C759; --amber:#FF9F0A; --red:#FF453A; --blue:#0A84FF;
+      --shadow-sm:0 1px 4px rgba(0,0,0,0.07); --shadow-md:0 4px 16px rgba(0,0,0,0.09);
+      --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+      --radius-sm:8px; --radius-md:14px; --radius-lg:20px;
     }
 
     [data-theme="dark"] {
-      --bg:         #000000;
-      --bg2:        #1C1C1E;
-      --bg3:        #2C2C2E;
-      --card:       #1C1C1E;
-      --border:     #38383A;
-      --text:       #FFFFFF;
-      --text2:      #EBEBF0;
-      --text3:      #8E8E93;
-      --accent:     #818CF8;
-      --accent2:    #A78BFA;
-      --green:      #30D158;
-      --amber:      #FF9F0A;
-      --red:        #FF453A;
-      --blue:       #0A84FF;
-      --shadow-sm:  0 1px 4px rgba(0,0,0,0.3);
-      --shadow-md:  0 4px 16px rgba(0,0,0,0.4);
-      --shadow-lg:  0 8px 32px rgba(0,0,0,0.5);
+      --bg:#000000; --bg2:#1C1C1E; --bg3:#2C2C2E; --card:#1C1C1E; --border:#38383A;
+      --text:#FFFFFF; --text2:#EBEBF0; --text3:#8E8E93;
+      --accent:#818CF8; --accent2:#A78BFA;
+      --green:#30D158; --amber:#FF9F0A; --red:#FF453A; --blue:#0A84FF;
+      --shadow-sm:0 1px 4px rgba(0,0,0,0.3); --shadow-md:0 4px 16px rgba(0,0,0,0.4);
+      --shadow-lg:0 8px 32px rgba(0,0,0,0.5);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      background: var(--bg); color: var(--text); line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       transition: background 0.25s ease, color 0.25s ease;
       overflow-x: hidden;
     }
 
-    /* ─── HEADER / NAV ─── */
+    /* ── HEADER ── */
     .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 1.5rem;
-      height: 56px;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem; height: 56px;
+      background: var(--bg); border-bottom: 1px solid var(--border);
       backdrop-filter: saturate(180%) blur(12px);
       -webkit-backdrop-filter: saturate(180%) blur(12px);
       transition: background 0.25s, border-color 0.25s;
     }
 
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    .nav-logo {
-      width: 30px;
-      height: 30px;
-      flex-shrink: 0;
-    }
-
+    .nav-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text); }
+    .nav-logo { width: 30px; height: 30px; flex-shrink: 0; }
     .nav-name {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      font-size: 1rem; font-weight: 700; letter-spacing: -0.02em;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
     .nav-link {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--text3);
-      text-decoration: none;
-      padding: 0.4rem 0.75rem;
+      font-size: 0.875rem; font-weight: 500; color: var(--text3);
+      text-decoration: none; padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-sm); transition: color 0.15s, background 0.15s;
+    }
+    .nav-link:hover { color: var(--text); background: var(--bg2); }
+
+    .nav-right { display: flex; align-items: center; gap: 0.5rem; }
+
+    /* ── SEARCH BUTTON ── */
+    .search-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.375rem 0.875rem;
       border-radius: var(--radius-sm);
-      transition: color 0.15s, background 0.15s;
+      border: 1px solid var(--border);
+      background: var(--bg2); color: var(--text3);
+      font-size: 0.8125rem; font-family: inherit;
+      cursor: pointer; transition: all 0.15s;
+      white-space: nowrap;
     }
-
-    .nav-link:hover {
-      color: var(--text);
-      background: var(--bg2);
+    .search-btn:hover { background: var(--bg3); color: var(--text); border-color: var(--accent); }
+    .search-btn-icon { font-size: 0.875rem; }
+    .search-btn-kbd {
+      font-size: 0.6875rem; padding: 0.1rem 0.35rem;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 4px; color: var(--text3); font-family: inherit;
     }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+    @media (max-width: 500px) { .search-btn-text, .search-btn-kbd { display: none; } }
 
     .theme-btn {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: var(--bg2);
-      color: var(--text3);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-      transition: background 0.15s, border-color 0.15s;
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid var(--border); background: var(--bg2); color: var(--text3);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; transition: background 0.15s, border-color 0.15s;
     }
+    .theme-btn:hover { background: var(--bg3); }
 
-    .theme-btn:hover {
-      background: var(--bg3);
-    }
-
-    /* ─── HERO ─── */
-    .hero {
-      text-align: center;
-      padding: 5rem 1.5rem 3.5rem;
-      max-width: 720px;
-      margin: 0 auto;
-    }
+    /* ── HERO ── */
+    .hero { text-align: center; padding: 5rem 1.5rem 3.5rem; max-width: 720px; margin: 0 auto; }
 
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.375rem;
+      display: inline-flex; align-items: center; gap: 0.375rem;
       background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12));
-      border: 1px solid rgba(99,102,241,0.25);
-      color: var(--accent);
-      font-size: 0.8125rem;
-      font-weight: 600;
-      padding: 0.375rem 0.875rem;
-      border-radius: 20px;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.01em;
+      border: 1px solid rgba(99,102,241,0.25); color: var(--accent);
+      font-size: 0.8125rem; font-weight: 600; padding: 0.375rem 0.875rem;
+      border-radius: 20px; margin-bottom: 1.5rem; letter-spacing: 0.01em;
     }
-
     .hero-badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
+      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
       animation: pulse 2s infinite;
     }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.3); }
-    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.6;transform:scale(1.3);} }
 
     h1.hero-title {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: var(--text);
-      margin-bottom: 1rem;
+      font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.15; color: var(--text); margin-bottom: 1rem;
     }
-
     h1.hero-title span {
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
-    .hero-sub {
-      font-size: 1.0625rem;
-      color: var(--text3);
-      max-width: 520px;
-      margin: 0 auto 2rem;
-      line-height: 1.65;
-    }
+    .hero-sub { font-size: 1.0625rem; color: var(--text3); max-width: 520px; margin: 0 auto 2rem; line-height: 1.65; }
 
-    .hero-ctas {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+    .hero-ctas { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
 
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      font-size: 0.9375rem;
-      font-weight: 600;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius-md);
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
+      color: #fff; font-size: 0.9375rem; font-weight: 600;
+      padding: 0.75rem 1.5rem; border-radius: var(--radius-md);
+      text-decoration: none; border: none; cursor: pointer;
       box-shadow: 0 4px 16px rgba(99,102,241,0.35);
       transition: opacity 0.15s, transform 0.1s;
     }
-
     .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0); }
 
     .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--bg2);
-      color: var(--text);
-      font-size: 0.9375rem;
-      font-weight: 500;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius-md);
-      text-decoration: none;
-      border: 1px solid var(--border);
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--bg2); color: var(--text); font-size: 0.9375rem; font-weight: 500;
+      padding: 0.75rem 1.5rem; border-radius: var(--radius-md);
+      text-decoration: none; border: 1px solid var(--border); cursor: pointer;
       transition: background 0.15s, transform 0.1s;
     }
-
     .btn-secondary:hover { background: var(--bg3); transform: translateY(-1px); }
     .btn-secondary:active { transform: translateY(0); }
 
-    /* ─── STATS BAR ─── */
+    /* ── STATS BAR ── */
     .stats-bar {
-      display: flex;
-      justify-content: center;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      max-width: 560px;
-      margin: 2.5rem auto 0;
-      overflow: hidden;
-      background: var(--card);
-      box-shadow: var(--shadow-sm);
+      display: flex; justify-content: center; gap: 0;
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      max-width: 600px; margin: 2.5rem auto 0;
+      overflow: hidden; background: var(--card); box-shadow: var(--shadow-sm);
     }
-
-    .stat-item {
-      flex: 1;
-      text-align: center;
-      padding: 1rem 0.5rem;
-      border-right: 1px solid var(--border);
-    }
-
+    .stat-item { flex: 1; text-align: center; padding: 1rem 0.5rem; border-right: 1px solid var(--border); }
     .stat-item:last-child { border-right: none; }
+    .stat-num { display: block; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; color: var(--accent); }
+    .stat-lbl { display: block; font-size: 0.75rem; color: var(--text3); margin-top: 0.1rem; font-weight: 500; }
+    /* visitor counter pulse while loading */
+    .stat-num.loading { opacity: 0.4; animation: pulse 1.2s infinite; }
 
-    .stat-num {
-      display: block;
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--accent);
-    }
-
-    .stat-lbl {
-      display: block;
-      font-size: 0.75rem;
-      color: var(--text3);
-      margin-top: 0.1rem;
-      font-weight: 500;
-    }
-
-    /* ─── SECTION WRAPPER ─── */
-    .section {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 3.5rem 1.5rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 1.75rem;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    h2.section-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text);
-    }
-
-    .section-link {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--accent);
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
+    /* ── SECTION ── */
+    .section { max-width: 1100px; margin: 0 auto; padding: 3.5rem 1.5rem; }
+    .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.75rem; gap: 1rem; flex-wrap: wrap; }
+    h2.section-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+    .section-link { font-size: 0.875rem; font-weight: 500; color: var(--accent); text-decoration: none; white-space: nowrap; }
     .section-link:hover { text-decoration: underline; }
 
-    /* ─── LIVE COURSES GRID ─── */
-    .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
-    }
+    /* ── COURSE CARDS ── */
+    .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
 
     .course-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: 0.875rem;
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
-      position: relative;
-      overflow: hidden;
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 1.5rem; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 0.875rem;
+      box-shadow: var(--shadow-sm); transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      position: relative; overflow: hidden;
     }
-
     .course-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, var(--card-accent, var(--accent)), var(--card-accent2, var(--accent2)));
-      opacity: 0;
-      transition: opacity 0.15s;
+      opacity: 0; transition: opacity 0.15s;
     }
-
-    .course-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      border-color: rgba(99,102,241,0.3);
-    }
-
+    .course-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(99,102,241,0.3); }
     .course-card:hover::before { opacity: 1; }
     .course-card:active { transform: translateY(0); }
 
-    .course-card-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 0.5rem;
-    }
-
-    .course-icon {
-      font-size: 1.75rem;
-      line-height: 1;
-    }
+    .course-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+    .course-icon { font-size: 1.75rem; line-height: 1; }
 
     .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      font-size: 0.6875rem;
-      font-weight: 700;
-      padding: 0.25rem 0.625rem;
-      border-radius: 20px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      font-size: 0.6875rem; font-weight: 700; padding: 0.25rem 0.625rem;
+      border-radius: 20px; letter-spacing: 0.04em; text-transform: uppercase; flex-shrink: 0;
     }
+    .badge-live { background: rgba(52,199,89,0.15); color: var(--green); border: 1px solid rgba(52,199,89,0.3); }
+    .badge-soon { background: rgba(255,159,10,0.12); color: var(--amber); border: 1px solid rgba(255,159,10,0.3); }
+    .badge-live::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
 
-    .badge-live {
-      background: rgba(52,199,89,0.15);
-      color: var(--green);
-      border: 1px solid rgba(52,199,89,0.3);
-    }
+    h3.course-title { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; line-height: 1.3; }
+    .course-desc { font-size: 0.875rem; color: var(--text3); line-height: 1.55; flex: 1; }
+    .course-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; }
+    .tag { font-size: 0.6875rem; font-weight: 500; padding: 0.25rem 0.625rem; border-radius: 6px; background: var(--bg2); color: var(--text3); border: 1px solid var(--border); }
+    .course-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border); font-size: 0.8125rem; color: var(--text3); }
+    .arrow-icon { color: var(--accent); font-size: 1rem; }
 
-    .badge-soon {
-      background: rgba(255,159,10,0.12);
-      color: var(--amber);
-      border: 1px solid rgba(255,159,10,0.3);
-    }
-
-    .badge-live::before {
-      content: '';
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--green);
-    }
-
-    h3.course-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.01em;
-      line-height: 1.3;
-    }
-
-    .course-desc {
-      font-size: 0.875rem;
-      color: var(--text3);
-      line-height: 1.55;
-      flex: 1;
-    }
-
-    .course-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.375rem;
-    }
-
-    .tag {
-      font-size: 0.6875rem;
-      font-weight: 500;
-      padding: 0.25rem 0.625rem;
-      border-radius: 6px;
-      background: var(--bg2);
-      color: var(--text3);
-      border: 1px solid var(--border);
-    }
-
-    .course-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.8125rem;
-      color: var(--text3);
-    }
-
-    .course-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.375rem;
-    }
-
-    .arrow-icon {
-      color: var(--accent);
-      font-size: 1rem;
-    }
-
-    /* ─── SUBJECTS ─── */
-    .subjects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 0.875rem;
-    }
-
+    /* ── SUBJECTS ── */
+    .subjects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.875rem; }
     .subject-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.375rem 1.25rem;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: 0.625rem;
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.15s, box-shadow 0.15s;
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 1.375rem 1.25rem; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 0.625rem;
+      box-shadow: var(--shadow-sm); transition: transform 0.15s, box-shadow 0.15s;
     }
+    .subject-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .subject-icon { font-size: 2rem; line-height: 1; }
+    h3.subject-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+    .subject-desc { font-size: 0.8125rem; color: var(--text3); line-height: 1.5; }
+    .subject-count { font-size: 0.75rem; font-weight: 600; color: var(--accent); margin-top: auto; padding-top: 0.5rem; }
 
-    .subject-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .subject-icon {
-      font-size: 2rem;
-      line-height: 1;
-    }
-
-    h3.subject-title {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-
-    .subject-desc {
-      font-size: 0.8125rem;
-      color: var(--text3);
-      line-height: 1.5;
-    }
-
-    .subject-count {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--accent);
-      margin-top: auto;
-      padding-top: 0.5rem;
-    }
-
-    /* ─── ROADMAP ─── */
-    .roadmap {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .roadmap-group {
-      margin-bottom: 2rem;
-    }
-
+    /* ── ROADMAP ── */
+    .roadmap-group { margin-bottom: 2rem; }
     h3.roadmap-group-title {
-      font-size: 0.8125rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text3);
-      margin-bottom: 0.75rem;
-      padding-left: 1rem;
-      border-left: 3px solid var(--accent);
+      font-size: 0.8125rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text3); margin-bottom: 0.75rem;
+      padding-left: 1rem; border-left: 3px solid var(--accent);
     }
-
-    .roadmap-items {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
+    .roadmap-items { display: flex; flex-direction: column; gap: 0.5rem; }
     .roadmap-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.875rem 1rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      text-decoration: none;
-      color: inherit;
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.875rem 1rem; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); text-decoration: none; color: inherit;
       transition: background 0.15s, border-color 0.15s, transform 0.1s;
       box-shadow: var(--shadow-sm);
     }
-
-    .roadmap-item:hover {
-      background: var(--bg2);
-      border-color: rgba(99,102,241,0.25);
-      transform: translateX(3px);
-    }
-
-    .roadmap-item.is-live:hover {
-      border-color: rgba(52,199,89,0.3);
-    }
-
+    .roadmap-item:hover { background: var(--bg2); border-color: rgba(99,102,241,0.25); transform: translateX(3px); }
+    .roadmap-item.is-live:hover { border-color: rgba(52,199,89,0.3); }
     .roadmap-step {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      flex-shrink: 0;
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
     }
+    .step-live { background: rgba(52,199,89,0.15); color: var(--green); border: 2px solid rgba(52,199,89,0.4); }
+    .step-soon { background: var(--bg3); color: var(--text3); border: 2px solid var(--border); }
+    .roadmap-content { flex: 1; min-width: 0; }
+    .roadmap-title { font-size: 0.9375rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .roadmap-sub { font-size: 0.8125rem; color: var(--text3); margin-top: 0.125rem; }
+    .roadmap-end { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
 
-    .step-live {
-      background: rgba(52,199,89,0.15);
-      color: var(--green);
-      border: 2px solid rgba(52,199,89,0.4);
-    }
-
-    .step-soon {
-      background: var(--bg3);
-      color: var(--text3);
-      border: 2px solid var(--border);
-    }
-
-    .roadmap-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .roadmap-title {
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.3;
-    }
-
-    .roadmap-sub {
-      font-size: 0.8125rem;
-      color: var(--text3);
-      margin-top: 0.125rem;
-    }
-
-    .roadmap-end {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-shrink: 0;
-    }
-
-    /* ─── RESOURCES ─── */
-    .resources-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1rem;
-    }
-
+    /* ── RESOURCES ── */
+    .resources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
     .resource-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 1.25rem;
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-      box-shadow: var(--shadow-sm);
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 1.25rem; display: flex; gap: 1rem; align-items: flex-start; box-shadow: var(--shadow-sm);
     }
-
     .resource-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-sm);
+      width: 40px; height: 40px; border-radius: var(--radius-sm);
       background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12));
       border: 1px solid rgba(99,102,241,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.125rem;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.125rem; flex-shrink: 0;
     }
-
     .resource-info { flex: 1; }
-
-    .resource-title {
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 0.25rem;
-    }
-
-    .resource-desc {
-      font-size: 0.8125rem;
-      color: var(--text3);
-      line-height: 1.45;
-      margin-bottom: 0.75rem;
-    }
-
+    .resource-title { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+    .resource-desc { font-size: 0.8125rem; color: var(--text3); line-height: 1.45; margin-bottom: 0.75rem; }
     .btn-resource {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.375rem;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--accent);
-      text-decoration: none;
-      border: 1px solid rgba(99,102,241,0.25);
-      padding: 0.3rem 0.75rem;
-      border-radius: 8px;
-      background: rgba(99,102,241,0.06);
-      transition: background 0.15s;
-      cursor: default;
-      opacity: 0.7;
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      font-size: 0.8125rem; font-weight: 500; color: var(--accent);
+      text-decoration: none; border: 1px solid rgba(99,102,241,0.25);
+      padding: 0.3rem 0.75rem; border-radius: 8px;
+      background: rgba(99,102,241,0.06); transition: background 0.15s;
+      cursor: default; opacity: 0.7;
     }
+    .btn-resource.available { opacity: 1; cursor: pointer; }
+    .btn-resource.available:hover { background: rgba(99,102,241,0.12); }
 
-    .btn-resource.available {
-      opacity: 1;
-      cursor: pointer;
-    }
-
-    .btn-resource.available:hover {
-      background: rgba(99,102,241,0.12);
-    }
-
-    /* ─── FEEDBACK ─── */
+    /* ── FEEDBACK ── */
     .feedback-section {
       background: linear-gradient(135deg, rgba(99,102,241,0.07), rgba(139,92,246,0.07));
-      border: 1px solid rgba(99,102,241,0.15);
-      border-radius: var(--radius-lg);
-      padding: 2.5rem 2rem;
-      text-align: center;
+      border: 1px solid rgba(99,102,241,0.15); border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem; text-align: center;
     }
-
-    .feedback-icon {
-      font-size: 2.5rem;
-      margin-bottom: 0.75rem;
-    }
-
-    h2.feedback-title {
-      font-size: 1.375rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-    }
-
-    .feedback-sub {
-      font-size: 0.9375rem;
-      color: var(--text3);
-      max-width: 420px;
-      margin: 0 auto 1.5rem;
-      line-height: 1.6;
-    }
-
-    .feedback-form {
-      display: flex;
-      gap: 0.75rem;
-      max-width: 480px;
-      margin: 0 auto;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
+    .feedback-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    h2.feedback-title { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .feedback-sub { font-size: 0.9375rem; color: var(--text3); max-width: 420px; margin: 0 auto 1.5rem; line-height: 1.6; }
+    .feedback-form { display: flex; gap: 0.75rem; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
     .feedback-input {
-      flex: 1;
-      min-width: 240px;
-      padding: 0.75rem 1rem;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      font-size: 0.9375rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      flex: 1; min-width: 240px; padding: 0.75rem 1rem;
+      border-radius: var(--radius-md); border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 0.9375rem; font-family: inherit;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
     }
-
-    .feedback-input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
-    }
-
+    .feedback-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
     .feedback-input::placeholder { color: var(--text3); }
 
-    /* ─── FLOATING FEEDBACK BTN ─── */
+    /* ── FAB ── */
     .fab {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.25rem;
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
+      display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      border: none;
-      border-radius: 28px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      font-family: inherit;
-      cursor: pointer;
+      color: #fff; border: none; border-radius: 28px;
+      font-size: 0.875rem; font-weight: 600; font-family: inherit; cursor: pointer;
       box-shadow: 0 4px 20px rgba(99,102,241,0.4);
-      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s; text-decoration: none;
     }
-
-    .fab:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(99,102,241,0.5);
-    }
-
+    .fab:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.5); }
     .fab:active { transform: translateY(0); }
 
-    /* ─── DIVIDER ─── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 0;
-    }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
 
-    /* ─── FOOTER ─── */
-    .site-footer {
-      text-align: center;
-      padding: 2rem 1.5rem;
-      color: var(--text3);
-      font-size: 0.8125rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .site-footer a {
-      color: var(--text3);
-      text-decoration: none;
-    }
-
+    .site-footer { text-align: center; padding: 2rem 1.5rem; color: var(--text3); font-size: 0.8125rem; border-top: 1px solid var(--border); }
+    .site-footer a { color: var(--text3); text-decoration: none; }
     .site-footer a:hover { color: var(--text); }
 
-    /* ─── RESPONSIVE ─── */
+    /* ══════════════════════════════════════════
+       SEARCH MODAL
+    ══════════════════════════════════════════ */
+    .search-overlay {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      display: flex; align-items: flex-start; justify-content: center;
+      padding: 5rem 1rem 2rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.18s;
+    }
+    .search-overlay.open { opacity: 1; pointer-events: all; }
+
+    .search-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); width: 100%; max-width: 600px;
+      box-shadow: var(--shadow-lg); overflow: hidden;
+      transform: translateY(-12px); transition: transform 0.18s;
+    }
+    .search-overlay.open .search-box { transform: translateY(0); }
+
+    .search-input-row {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+    }
+    .search-input-icon { font-size: 1.1rem; color: var(--text3); flex-shrink: 0; }
+    .search-input {
+      flex: 1; background: none; border: none; outline: none;
+      font-size: 1rem; color: var(--text); font-family: inherit;
+    }
+    .search-input::placeholder { color: var(--text3); }
+    .search-close-btn {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text3); font-size: 0.75rem; padding: 0.2rem 0.5rem;
+      cursor: pointer; font-family: inherit; transition: background 0.15s;
+    }
+    .search-close-btn:hover { background: var(--bg3); }
+
+    .search-results { max-height: 420px; overflow-y: auto; }
+    .search-empty {
+      padding: 2rem 1.25rem; text-align: center;
+      color: var(--text3); font-size: 0.9rem;
+    }
+    .search-group-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--text3);
+      padding: 0.9rem 1.25rem 0.35rem; position: sticky; top: 0;
+      background: var(--card);
+    }
+    .search-result {
+      display: flex; align-items: center; gap: 0.875rem;
+      padding: 0.75rem 1.25rem; text-decoration: none; color: inherit;
+      transition: background 0.12s; border-radius: 0; cursor: pointer;
+    }
+    .search-result:hover, .search-result.active {
+      background: linear-gradient(90deg, rgba(99,102,241,0.08), transparent);
+    }
+    .search-result-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.12));
+      border: 1px solid rgba(99,102,241,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+    }
+    .search-result-body { flex: 1; min-width: 0; }
+    .search-result-title { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+    .search-result-title mark { background: none; color: var(--accent); font-weight: 700; }
+    .search-result-desc { font-size: 0.78rem; color: var(--text3); margin-top: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .search-result-arrow { color: var(--text3); font-size: 0.85rem; flex-shrink: 0; }
+    .search-footer {
+      padding: 0.625rem 1.25rem; border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 0.72rem; color: var(--text3);
+    }
+    .search-footer-hint { display: flex; align-items: center; gap: 0.3rem; }
+    .search-footer-hint kbd {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 4px;
+      padding: 0.1rem 0.35rem; font-family: inherit; font-size: 0.65rem;
+    }
+
+    /* ══════════════════════════════════════════
+       FEEDBACK MODAL
+    ══════════════════════════════════════════ */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem; backdrop-filter: blur(4px);
+    }
+    .modal-backdrop.hidden { display: none; }
+    .modal {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 2rem; width: 100%; max-width: 440px; box-shadow: var(--shadow-lg); position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px;
+      border-radius: 50%; border: none; background: var(--bg2); color: var(--text3);
+      cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;
+    }
+    h2.modal-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.375rem; letter-spacing: -0.02em; }
+    .modal-sub { font-size: 0.875rem; color: var(--text3); margin-bottom: 1.25rem; }
+    .form-field { margin-bottom: 1rem; }
+    .form-label { display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text2); margin-bottom: 0.375rem; }
+    .form-control {
+      width: 100%; padding: 0.625rem 0.875rem; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--bg2); color: var(--text);
+      font-size: 0.9375rem; font-family: inherit; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s; resize: vertical;
+    }
+    .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
+    .form-control::placeholder { color: var(--text3); }
+    .modal-actions { display: flex; gap: 0.625rem; justify-content: flex-end; margin-top: 1.25rem; }
+    .modal-success { text-align: center; padding: 1rem 0; }
+    .success-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .hidden { display: none !important; }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .hero { padding: 3.5rem 1.25rem 2.5rem; }
@@ -823,118 +443,14 @@
       .stat-num { font-size: 1.25rem; }
       .fab span { display: none; }
       .fab { padding: 0.875rem; border-radius: 50%; }
+      .search-overlay { padding: 4rem 0.75rem 1rem; align-items: flex-start; }
     }
-
     @media (max-width: 480px) {
       h1.hero-title { font-size: 1.75rem; }
       .courses-grid { grid-template-columns: 1fr; }
       .subjects-grid { grid-template-columns: repeat(2, 1fr); }
       .resources-grid { grid-template-columns: 1fr; }
     }
-
-    /* ─── HIDDEN UTILITY ─── */
-    .hidden { display: none !important; }
-
-    /* ─── MODAL ─── */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      backdrop-filter: blur(4px);
-    }
-
-    .modal-backdrop.hidden { display: none; }
-
-    .modal {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      width: 100%;
-      max-width: 440px;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 1rem; right: 1rem;
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      border: none;
-      background: var(--bg2);
-      color: var(--text3);
-      cursor: pointer;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    h2.modal-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 0.375rem;
-      letter-spacing: -0.02em;
-    }
-
-    .modal-sub {
-      font-size: 0.875rem;
-      color: var(--text3);
-      margin-bottom: 1.25rem;
-    }
-
-    .form-field {
-      margin-bottom: 1rem;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--text2);
-      margin-bottom: 0.375rem;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 0.625rem 0.875rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--bg2);
-      color: var(--text);
-      font-size: 0.9375rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      resize: vertical;
-    }
-
-    .form-control:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
-    }
-
-    .form-control::placeholder { color: var(--text3); }
-
-    .modal-actions {
-      display: flex;
-      gap: 0.625rem;
-      justify-content: flex-end;
-      margin-top: 1.25rem;
-    }
-
-    .modal-success {
-      text-align: center;
-      padding: 1rem 0;
-    }
-
-    .success-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
   </style>
 </head>
 <body>
@@ -943,12 +459,7 @@
   <header class="site-header">
     <a class="nav-brand" href="index.html">
       <svg class="nav-logo" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="nGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#6366F1"/>
-            <stop offset="100%" stop-color="#8B5CF6"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="nGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6366F1"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient></defs>
         <rect width="30" height="30" rx="7" fill="url(#nGrad)"/>
         <text x="15" y="22" text-anchor="middle" font-family="Georgia,serif" font-size="18" font-weight="bold" fill="white">∫</text>
       </svg>
@@ -963,6 +474,12 @@
     </nav>
 
     <div class="nav-right">
+      <!-- Universal Search -->
+      <button class="search-btn" id="searchOpenBtn" aria-label="Search site (Ctrl+K)" title="Search (Ctrl+K)">
+        <span class="search-btn-icon">🔍</span>
+        <span class="search-btn-text">Search</span>
+        <kbd class="search-btn-kbd">⌘K</kbd>
+      </button>
       <button class="theme-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle dark/light mode">
         <span id="themeIcon">☀️</span>
       </button>
@@ -974,17 +491,14 @@
     <div class="hero">
       <div class="hero-badge">
         <span class="hero-badge-dot"></span>
-        3 courses live now
+        4 courses live now
       </div>
-
       <h1 class="hero-title" id="hero-title">
         Learn <span>Engineering & Math</span>,<br>One Concept at a Time
       </h1>
-
       <p class="hero-sub">
         Free, step-by-step tutorials with interactive simulations and fully worked examples — built for engineering students who want to actually understand the material.
       </p>
-
       <div class="hero-ctas">
         <a href="civil.html" class="btn-primary">
           Explore Courses
@@ -998,7 +512,7 @@
 
       <div class="stats-bar" role="list" aria-label="Site statistics">
         <div class="stat-item" role="listitem">
-          <span class="stat-num">3</span>
+          <span class="stat-num">4</span>
           <span class="stat-lbl">Live Courses</span>
         </div>
         <div class="stat-item" role="listitem">
@@ -1009,9 +523,10 @@
           <span class="stat-num">50+</span>
           <span class="stat-lbl">Worked Examples</span>
         </div>
+        <!-- Live visitor counter -->
         <div class="stat-item" role="listitem">
-          <span class="stat-num">Free</span>
-          <span class="stat-lbl">Always</span>
+          <span class="stat-num loading" id="visitorCount">—</span>
+          <span class="stat-lbl">Total Visitors</span>
         </div>
       </div>
     </div>
@@ -1025,76 +540,38 @@
       <h2 class="section-title" id="courses-title">Live Courses</h2>
       <a href="civil.html" class="section-link">View all →</a>
     </div>
-
     <div class="courses-grid">
 
-      <!-- RC Design Chapter 1 -->
-      <a href="rc-chapter1.html" class="course-card" aria-label="RC Design Chapter 1: Working Stress Design — Open course">
-        <div class="course-card-top">
-          <span class="course-icon">🏗️</span>
-          <span class="badge badge-live">Live</span>
-        </div>
-        <div>
-          <h3 class="course-title">RC Design — Chapter 1: Working Stress Design</h3>
-        </div>
-        <p class="course-desc">
-          Master the WSD method for reinforced concrete beams. Covers material tester, w/c ratio, transformed section, k &amp; j analysis, and fully solved design problems.
-        </p>
-        <div class="course-tags">
-          <span class="tag">#RC_Beam</span>
-          <span class="tag">#WSD_Method</span>
-          <span class="tag">#Structural_Analysis</span>
-        </div>
-        <div class="course-footer">
-          <span class="course-meta">🧪 8 simulations &nbsp;·&nbsp; 3 worked examples</span>
-          <span class="arrow-icon">→</span>
-        </div>
+      <a href="rc-chapter1.html" class="course-card">
+        <div class="course-card-top"><span class="course-icon">🏗️</span><span class="badge badge-live">Live</span></div>
+        <h3 class="course-title">RC Design — Chapter 1: Working Stress Design</h3>
+        <p class="course-desc">Master the WSD method for reinforced concrete beams. Covers material tester, w/c ratio, transformed section, k &amp; j analysis, and fully solved design problems.</p>
+        <div class="course-tags"><span class="tag">#RC_Beam</span><span class="tag">#WSD_Method</span><span class="tag">#Structural_Analysis</span></div>
+        <div class="course-footer"><span>🧪 8 simulations · 3 worked examples</span><span class="arrow-icon">→</span></div>
       </a>
 
-      <!-- RC Design Chapter 2 -->
-      <a href="cee-chapter2.html" class="course-card" aria-label="RC Design Chapter 2: Materials — Open course">
-        <div class="course-card-top">
-          <span class="course-icon">🧱</span>
-          <span class="badge badge-live">Live</span>
-        </div>
-        <div>
-          <h3 class="course-title">RC Design — Chapter 2: Materials</h3>
-        </div>
-        <p class="course-desc">
-          Deep dive into concrete &amp; steel material properties. Interactive stress-strain curves, w/c ratio, curing timelines, bar selector, and prestress concepts. Based on Nilson 15th ed.
-        </p>
-        <div class="course-tags">
-          <span class="tag">#Concrete_Materials</span>
-          <span class="tag">#Steel_Rebar</span>
-          <span class="tag">#RC_Beam</span>
-        </div>
-        <div class="course-footer">
-          <span class="course-meta">📊 13 simulations &nbsp;·&nbsp; 17 sections</span>
-          <span class="arrow-icon">→</span>
-        </div>
+      <a href="cee-chapter2.html" class="course-card">
+        <div class="course-card-top"><span class="course-icon">🧱</span><span class="badge badge-live">Live</span></div>
+        <h3 class="course-title">RC Design — Chapter 2: Materials</h3>
+        <p class="course-desc">Deep dive into concrete &amp; steel material properties. Interactive stress-strain curves, w/c ratio, curing timelines, bar selector, and prestress concepts.</p>
+        <div class="course-tags"><span class="tag">#Concrete_Materials</span><span class="tag">#Steel_Rebar</span><span class="tag">#RC_Beam</span></div>
+        <div class="course-footer"><span>📊 13 simulations · 17 sections</span><span class="arrow-icon">→</span></div>
       </a>
 
-      <!-- Traffic Engineering -->
-      <a href="cee350-traffic-analysis.html" class="course-card" aria-label="Traffic Engineering Analysis — Open course">
-        <div class="course-card-top">
-          <span class="course-icon">🚦</span>
-          <span class="badge badge-live">Live</span>
-        </div>
-        <div>
-          <h3 class="course-title">Traffic Engineering Analysis — CEE 350</h3>
-        </div>
-        <p class="course-desc">
-          Covers signal timing, level of service (LOS), trip generation, capacity analysis, and highway design. Worked examples from standard textbook problems.
-        </p>
-        <div class="course-tags">
-          <span class="tag">#Traffic_Engineering</span>
-          <span class="tag">#LOS</span>
-          <span class="tag">#Signal_Timing</span>
-        </div>
-        <div class="course-footer">
-          <span class="course-meta">📋 14 topics &nbsp;·&nbsp; Worked problems</span>
-          <span class="arrow-icon">→</span>
-        </div>
+      <a href="chapter3-concrete.html" class="course-card">
+        <div class="course-card-top"><span class="course-icon">📐</span><span class="badge badge-live">Live</span></div>
+        <h3 class="course-title">RC Design — Chapter 3: Design & Fundamental Assumptions</h3>
+        <p class="course-desc">Design philosophy, ACI code logic, the 4 core RC assumptions, axial load behavior, and elastic beam bending — with interactive calculators and quizzes.</p>
+        <div class="course-tags"><span class="tag">#ACI_318</span><span class="tag">#RC_Assumptions</span><span class="tag">#Bending</span></div>
+        <div class="course-footer"><span>⚡ 2 calculators · 3 quizzes · 6 sections</span><span class="arrow-icon">→</span></div>
+      </a>
+
+      <a href="cee350-traffic-analysis.html" class="course-card">
+        <div class="course-card-top"><span class="course-icon">🚦</span><span class="badge badge-live">Live</span></div>
+        <h3 class="course-title">Traffic Engineering Analysis — CEE 350</h3>
+        <p class="course-desc">Covers signal timing, level of service (LOS), trip generation, capacity analysis, and highway design. Worked examples from standard textbook problems.</p>
+        <div class="course-tags"><span class="tag">#Traffic_Engineering</span><span class="tag">#LOS</span><span class="tag">#Signal_Timing</span></div>
+        <div class="course-footer"><span>📋 14 topics · Worked problems</span><span class="arrow-icon">→</span></div>
       </a>
 
     </div>
@@ -1104,33 +581,27 @@
 
   <!-- ═══ SUBJECT AREAS ═══ -->
   <section class="section" aria-labelledby="subjects-title">
-    <div class="section-header">
-      <h2 class="section-title" id="subjects-title">All Subject Areas</h2>
-    </div>
-
+    <div class="section-header"><h2 class="section-title" id="subjects-title">All Subject Areas</h2></div>
     <div class="subjects-grid">
-      <a href="civil.html" class="subject-card" aria-label="Civil Engineering — 3 courses available">
+      <a href="civil.html" class="subject-card">
         <div class="subject-icon">🏗️</div>
         <h3 class="subject-title">Civil Engineering</h3>
         <p class="subject-desc">Reinforced concrete design, traffic engineering, structural analysis, and foundation design.</p>
-        <div class="subject-count">3 courses available →</div>
+        <div class="subject-count">4 courses available →</div>
       </a>
-
-      <a href="math.html" class="subject-card" aria-label="Mathematics — coming soon">
+      <a href="math.html" class="subject-card">
         <div class="subject-icon">📐</div>
         <h3 class="subject-title">Mathematics</h3>
         <p class="subject-desc">Algebra, calculus, trigonometry, linear algebra, and statistics with interactive calculators.</p>
         <div class="subject-count" style="color:var(--amber)">Coming soon</div>
       </a>
-
-      <a href="physics.html" class="subject-card" aria-label="Physics — coming soon">
+      <a href="physics.html" class="subject-card">
         <div class="subject-icon">⚛️</div>
         <h3 class="subject-title">Physics</h3>
         <p class="subject-desc">Mechanics, waves, optics, electricity &amp; magnetism, and modern physics with simulations.</p>
         <div class="subject-count" style="color:var(--amber)">Coming soon</div>
       </a>
-
-      <a href="explore.html" class="subject-card" aria-label="Explore study music">
+      <a href="explore.html" class="subject-card">
         <div class="subject-icon">🎵</div>
         <h3 class="subject-title">Study Vibes</h3>
         <p class="subject-desc">Lo-fi, ambient, and focus playlists curated for deep study sessions.</p>
@@ -1141,133 +612,78 @@
 
   <hr class="divider">
 
-  <!-- ═══ UPCOMING LESSONS ROADMAP ═══ -->
+  <!-- ═══ ROADMAP ═══ -->
   <section class="section" id="roadmap" aria-labelledby="roadmap-title">
-    <div class="section-header">
-      <h2 class="section-title" id="roadmap-title">Upcoming Lessons Roadmap</h2>
-    </div>
-
+    <div class="section-header"><h2 class="section-title" id="roadmap-title">Upcoming Lessons Roadmap</h2></div>
     <div class="roadmap" role="list">
 
-      <!-- Civil Engineering Track -->
       <div class="roadmap-group" role="listitem">
         <h3 class="roadmap-group-title">Civil Engineering — RC Design Track</h3>
         <div class="roadmap-items">
-
-          <a href="rc-chapter1.html" class="roadmap-item is-live" aria-label="Chapter 1: Working Stress Design — Live">
+          <a href="rc-chapter1.html" class="roadmap-item is-live">
             <div class="roadmap-step step-live">✓</div>
-            <div class="roadmap-content">
-              <div class="roadmap-title">Chapter 1 — Working Stress Design (WSD)</div>
-              <div class="roadmap-sub">Transformed section, k &amp; j, beam design procedure</div>
-            </div>
-            <div class="roadmap-end">
-              <span class="badge badge-live">Live</span>
-              <span style="color:var(--accent);font-size:0.875rem">→</span>
-            </div>
+            <div class="roadmap-content"><div class="roadmap-title">Chapter 1 — Working Stress Design (WSD)</div><div class="roadmap-sub">Transformed section, k &amp; j, beam design procedure</div></div>
+            <div class="roadmap-end"><span class="badge badge-live">Live</span><span style="color:var(--accent);font-size:0.875rem">→</span></div>
           </a>
-
-          <a href="cee-chapter2.html" class="roadmap-item is-live" aria-label="Chapter 2: Materials — Live">
+          <a href="cee-chapter2.html" class="roadmap-item is-live">
             <div class="roadmap-step step-live">✓</div>
-            <div class="roadmap-content">
-              <div class="roadmap-title">Chapter 2 — Concrete &amp; Steel Materials</div>
-              <div class="roadmap-sub">Stress-strain, w/c ratio, rebar properties, prestress</div>
-            </div>
-            <div class="roadmap-end">
-              <span class="badge badge-live">Live</span>
-              <span style="color:var(--accent);font-size:0.875rem">→</span>
-            </div>
+            <div class="roadmap-content"><div class="roadmap-title">Chapter 2 — Concrete &amp; Steel Materials</div><div class="roadmap-sub">Stress-strain, w/c ratio, rebar properties, prestress</div></div>
+            <div class="roadmap-end"><span class="badge badge-live">Live</span><span style="color:var(--accent);font-size:0.875rem">→</span></div>
           </a>
-
-          <div class="roadmap-item" aria-label="Chapter 3: Flexural Analysis — Coming soon">
-            <div class="roadmap-step step-soon">3</div>
-            <div class="roadmap-content">
-              <div class="roadmap-title">Chapter 3 — Flexural Analysis &amp; Design (ACI 318)</div>
-              <div class="roadmap-sub">Whitney stress block, Mn, ρmin, ρmax, T-beams</div>
-            </div>
-            <div class="roadmap-end">
-              <span class="badge badge-soon">Soon</span>
-            </div>
-          </div>
-
-          <div class="roadmap-item" aria-label="Chapter 4: Shear and Diagonal Tension — Coming soon">
+          <a href="chapter3-concrete.html" class="roadmap-item is-live">
+            <div class="roadmap-step step-live">✓</div>
+            <div class="roadmap-content"><div class="roadmap-title">Chapter 3 — Design Philosophy &amp; Fundamental Assumptions</div><div class="roadmap-sub">ACI code, load factors, RC assumptions, axial &amp; bending</div></div>
+            <div class="roadmap-end"><span class="badge badge-live">Live</span><span style="color:var(--accent);font-size:0.875rem">→</span></div>
+          </a>
+          <div class="roadmap-item">
             <div class="roadmap-step step-soon">4</div>
-            <div class="roadmap-content">
-              <div class="roadmap-title">Chapter 4 — Shear &amp; Diagonal Tension</div>
-              <div class="roadmap-sub">Vc, Vs, stirrup design, torsion, ACI shear provisions</div>
-            </div>
-            <div class="roadmap-end">
-              <span class="badge badge-soon">Soon</span>
-            </div>
+            <div class="roadmap-content"><div class="roadmap-title">Chapter 4 — Flexural Analysis &amp; Design (ACI 318)</div><div class="roadmap-sub">Whitney stress block, Mn, ρmin, ρmax, T-beams</div></div>
+            <div class="roadmap-end"><span class="badge badge-soon">Soon</span></div>
           </div>
-
-          <div class="roadmap-item" aria-label="Chapter 5: Columns and Combined Loading — Coming soon">
+          <div class="roadmap-item">
             <div class="roadmap-step step-soon">5</div>
-            <div class="roadmap-content">
-              <div class="roadmap-title">Chapter 5 — Columns &amp; Interaction Diagrams</div>
-              <div class="roadmap-sub">P-M interaction, slenderness, tied vs spiral columns</div>
-            </div>
-            <div class="roadmap-end">
-              <span class="badge badge-soon">Soon</span>
-            </div>
+            <div class="roadmap-content"><div class="roadmap-title">Chapter 5 — Shear &amp; Diagonal Tension</div><div class="roadmap-sub">Vc, Vs, stirrup design, torsion, ACI shear provisions</div></div>
+            <div class="roadmap-end"><span class="badge badge-soon">Soon</span></div>
           </div>
-
+          <div class="roadmap-item">
+            <div class="roadmap-step step-soon">6</div>
+            <div class="roadmap-content"><div class="roadmap-title">Chapter 6 — Columns &amp; Interaction Diagrams</div><div class="roadmap-sub">P-M interaction, slenderness, tied vs spiral columns</div></div>
+            <div class="roadmap-end"><span class="badge badge-soon">Soon</span></div>
+          </div>
         </div>
       </div>
 
-      <!-- Traffic Engineering Track -->
       <div class="roadmap-group" role="listitem">
         <h3 class="roadmap-group-title">Civil Engineering — Transportation Track</h3>
         <div class="roadmap-items">
-
-          <a href="cee350-traffic-analysis.html" class="roadmap-item is-live" aria-label="Traffic Engineering CEE 350 — Live">
+          <a href="cee350-traffic-analysis.html" class="roadmap-item is-live">
             <div class="roadmap-step step-live">✓</div>
-            <div class="roadmap-content">
-              <div class="roadmap-title">CEE 350 — Traffic Engineering Analysis</div>
-              <div class="roadmap-sub">Signals, LOS, capacity, trip generation, design</div>
-            </div>
-            <div class="roadmap-end">
-              <span class="badge badge-live">Live</span>
-              <span style="color:var(--accent);font-size:0.875rem">→</span>
-            </div>
+            <div class="roadmap-content"><div class="roadmap-title">CEE 350 — Traffic Engineering Analysis</div><div class="roadmap-sub">Signals, LOS, capacity, trip generation, design</div></div>
+            <div class="roadmap-end"><span class="badge badge-live">Live</span><span style="color:var(--accent);font-size:0.875rem">→</span></div>
           </a>
-
-          <div class="roadmap-item" aria-label="Pavement Design — Coming soon">
+          <div class="roadmap-item">
             <div class="roadmap-step step-soon">2</div>
-            <div class="roadmap-content">
-              <div class="roadmap-title">Pavement Design — Flexible &amp; Rigid</div>
-              <div class="roadmap-sub">AASHTO method, ESAL, CBR, serviceability</div>
-            </div>
-            <div class="roadmap-end">
-              <span class="badge badge-soon">Soon</span>
-            </div>
+            <div class="roadmap-content"><div class="roadmap-title">Pavement Design — Flexible &amp; Rigid</div><div class="roadmap-sub">AASHTO method, ESAL, CBR, serviceability</div></div>
+            <div class="roadmap-end"><span class="badge badge-soon">Soon</span></div>
           </div>
-
         </div>
       </div>
 
-      <!-- Math Track -->
       <div class="roadmap-group" role="listitem">
         <h3 class="roadmap-group-title">Mathematics</h3>
         <div class="roadmap-items">
           <div class="roadmap-item">
             <div class="roadmap-step step-soon">1</div>
-            <div class="roadmap-content">
-              <div class="roadmap-title">Calculus — Limits, Derivatives &amp; Integration</div>
-              <div class="roadmap-sub">Visual explanations with real-time graphing simulations</div>
-            </div>
+            <div class="roadmap-content"><div class="roadmap-title">Calculus — Limits, Derivatives &amp; Integration</div><div class="roadmap-sub">Visual explanations with real-time graphing simulations</div></div>
             <div class="roadmap-end"><span class="badge badge-soon">Soon</span></div>
           </div>
           <div class="roadmap-item">
             <div class="roadmap-step step-soon">2</div>
-            <div class="roadmap-content">
-              <div class="roadmap-title">Linear Algebra — Vectors, Matrices &amp; Systems</div>
-              <div class="roadmap-sub">Gaussian elimination, eigenvalues, geometric intuition</div>
-            </div>
+            <div class="roadmap-content"><div class="roadmap-title">Linear Algebra — Vectors, Matrices &amp; Systems</div><div class="roadmap-sub">Gaussian elimination, eigenvalues, geometric intuition</div></div>
             <div class="roadmap-end"><span class="badge badge-soon">Soon</span></div>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -1275,84 +691,46 @@
 
   <!-- ═══ RESOURCES ═══ -->
   <section class="section" aria-labelledby="resources-title">
-    <div class="section-header">
-      <h2 class="section-title" id="resources-title">Resources &amp; Downloads</h2>
-    </div>
-
+    <div class="section-header"><h2 class="section-title" id="resources-title">Resources &amp; Downloads</h2></div>
     <div class="resources-grid">
       <div class="resource-card">
         <div class="resource-icon">📄</div>
-        <div class="resource-info">
-          <div class="resource-title">RC Design Formula Sheet</div>
-          <p class="resource-desc">All WSD and ACI 318 formulas on one page — k, j, Mn, ρ, stirrups, and more.</p>
-          <span class="btn-resource" aria-disabled="true">Coming soon</span>
-        </div>
+        <div class="resource-info"><div class="resource-title">RC Design Formula Sheet</div><p class="resource-desc">All WSD and ACI 318 formulas on one page — k, j, Mn, ρ, stirrups, and more.</p><span class="btn-resource">Coming soon</span></div>
       </div>
-
       <div class="resource-card">
         <div class="resource-icon">📊</div>
-        <div class="resource-info">
-          <div class="resource-title">Concrete Materials Quick Reference</div>
-          <p class="resource-desc">f'c, Ec, modular ratio n, bar sizes, and steel properties in a printable chart.</p>
-          <span class="btn-resource" aria-disabled="true">Coming soon</span>
-        </div>
+        <div class="resource-info"><div class="resource-title">Concrete Materials Quick Reference</div><p class="resource-desc">f'c, Ec, modular ratio n, bar sizes, and steel properties in a printable chart.</p><span class="btn-resource">Coming soon</span></div>
       </div>
-
       <div class="resource-card">
         <div class="resource-icon">🚦</div>
-        <div class="resource-info">
-          <div class="resource-title">Traffic Engineering Cheat Sheet</div>
-          <p class="resource-desc">LOS thresholds, signal timing formulas, capacity lookup tables, and HCM reference.</p>
-          <span class="btn-resource" aria-disabled="true">Coming soon</span>
-        </div>
+        <div class="resource-info"><div class="resource-title">Traffic Engineering Cheat Sheet</div><p class="resource-desc">LOS thresholds, signal timing formulas, capacity lookup tables, and HCM reference.</p><span class="btn-resource">Coming soon</span></div>
       </div>
-
       <div class="resource-card">
         <div class="resource-icon">🧮</div>
-        <div class="resource-info">
-          <div class="resource-title">Practice Problem Sets</div>
-          <p class="resource-desc">Exam-style problems with full solutions for RC design and traffic engineering.</p>
-          <span class="btn-resource" aria-disabled="true">Coming soon</span>
-        </div>
+        <div class="resource-info"><div class="resource-title">Practice Problem Sets</div><p class="resource-desc">Exam-style problems with full solutions for RC design and traffic engineering.</p><span class="btn-resource">Coming soon</span></div>
       </div>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- ═══ FEEDBACK SECTION ═══ -->
+  <!-- ═══ FEEDBACK ═══ -->
   <section class="section" aria-labelledby="feedback-title">
     <div class="feedback-section">
-      <div class="feedback-icon" aria-hidden="true">💬</div>
+      <div class="feedback-icon">💬</div>
       <h2 class="feedback-title" id="feedback-title">Have a Question or Suggestion?</h2>
-      <p class="feedback-sub">
-        Found an error? Want a specific topic covered? Your feedback directly shapes what gets built next.
-      </p>
+      <p class="feedback-sub">Found an error? Want a specific topic covered? Your feedback directly shapes what gets built next.</p>
       <div class="feedback-form">
-        <input
-          type="text"
-          class="feedback-input"
-          id="feedbackInput"
-          placeholder="Ask a question or suggest a topic..."
-          aria-label="Ask a question or suggest a topic"
-        >
-        <button class="btn-primary" onclick="openFeedbackModal()" type="button">
-          Submit
-        </button>
+        <input type="text" class="feedback-input" id="feedbackInput" placeholder="Ask a question or suggest a topic..." aria-label="Ask a question or suggest a topic">
+        <button class="btn-primary" onclick="openFeedbackModal()" type="button">Submit</button>
       </div>
     </div>
   </section>
 
-  <!-- ═══ FOOTER ═══ -->
   <footer class="site-footer">
-    <p>
-      © 2025 Mathify.us &nbsp;·&nbsp;
-      <a href="about.html">About</a> &nbsp;·&nbsp;
-      Free for everyone, always
-    </p>
+    <p>© 2025 Mathify.us &nbsp;·&nbsp; <a href="about.html">About</a> &nbsp;·&nbsp; Free for everyone, always</p>
   </footer>
 
-  <!-- ═══ FLOATING FEEDBACK BUTTON ═══ -->
   <button class="fab" id="fabBtn" onclick="openFeedbackModal()" aria-label="Ask a question or submit feedback">
     💬 <span>Ask / Feedback</span>
   </button>
@@ -1360,120 +738,380 @@
   <!-- ═══ FEEDBACK MODAL ═══ -->
   <div class="modal-backdrop hidden" id="feedbackModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal">
-      <button class="modal-close" onclick="closeFeedbackModal()" aria-label="Close feedback modal">✕</button>
+      <button class="modal-close" onclick="closeFeedbackModal()" aria-label="Close">✕</button>
       <div id="modalBody">
         <h2 class="modal-title" id="modalTitle">Ask a Question</h2>
         <p class="modal-sub">Your question helps improve the content for everyone.</p>
-
         <div class="form-field">
           <label class="form-label" for="modalName">Your name <span style="color:var(--text3)">(optional)</span></label>
           <input type="text" class="form-control" id="modalName" placeholder="e.g. Alex">
         </div>
-
         <div class="form-field">
           <label class="form-label" for="modalMessage">Question or suggestion *</label>
           <textarea class="form-control" id="modalMessage" rows="4" placeholder="e.g. Can you add a lesson on beam deflection calculations?"></textarea>
         </div>
-
         <div class="modal-actions">
-          <button class="btn-secondary" onclick="closeFeedbackModal()" style="font-size:0.875rem; padding:0.6rem 1rem">Cancel</button>
-          <button class="btn-primary" onclick="submitFeedback()" style="font-size:0.875rem; padding:0.6rem 1.25rem">Send →</button>
+          <button class="btn-secondary" onclick="closeFeedbackModal()" style="font-size:0.875rem;padding:0.6rem 1rem">Cancel</button>
+          <button class="btn-primary" onclick="submitFeedback()" style="font-size:0.875rem;padding:0.6rem 1.25rem">Send →</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- ═══ SEARCH MODAL ═══ -->
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Site search">
+    <div class="search-box" role="search">
+      <div class="search-input-row">
+        <span class="search-input-icon" aria-hidden="true">🔍</span>
+        <input
+          type="text"
+          class="search-input"
+          id="searchInput"
+          placeholder="Search topics, chapters, formulas..."
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Search Mathify"
+        >
+        <button class="search-close-btn" onclick="closeSearch()" aria-label="Close search">Esc</button>
+      </div>
+      <div class="search-results" id="searchResults" role="listbox">
+        <div class="search-empty" id="searchEmpty">Start typing to search across all courses and topics.</div>
+      </div>
+      <div class="search-footer">
+        <span class="search-footer-hint"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+        <span class="search-footer-hint"><kbd>↵</kbd> Open</span>
+        <span class="search-footer-hint"><kbd>Esc</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+
   <script>
-    /* ═══════════════════════════════════════════════════════════
-       MATHIFY — HOMEPAGE SCRIPTS
-       ═══════════════════════════════════════════════════════════ */
+  /* ══════════════════════════════════════════════════
+     THEME
+  ══════════════════════════════════════════════════ */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const themeIcon = document.getElementById('themeIcon');
 
-    // ─── THEME ─── //
-    const root = document.documentElement;
-    const themeBtn = document.getElementById('themeBtn');
-    const themeIcon = document.getElementById('themeIcon');
+  function setTheme(t) {
+    root.setAttribute('data-theme', t);
+    themeIcon.textContent = t === 'dark' ? '🌙' : '☀️';
+    localStorage.setItem('mathify-theme', t);
+  }
+  const savedTheme = localStorage.getItem('mathify-theme');
+  setTheme(savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  themeBtn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 
-    function setTheme(t) {
-      root.setAttribute('data-theme', t);
-      themeIcon.textContent = t === 'dark' ? '🌙' : '☀️';
-      localStorage.setItem('mathify-theme', t);
-    }
+  /* ══════════════════════════════════════════════════
+     VISITOR COUNTER — countapi.xyz (free, cross-device)
+     Namespace: mathify-us   Key: visitors
+  ══════════════════════════════════════════════════ */
+  (function loadVisitorCount() {
+    const el = document.getElementById('visitorCount');
 
-    const savedTheme = localStorage.getItem('mathify-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+    fetch('https://api.countapi.xyz/hit/mathify-us/visitors')
+      .then(r => r.json())
+      .then(data => {
+        if (data && typeof data.value === 'number') {
+          // Animate count up from previous stored value
+          const prev = parseInt(localStorage.getItem('mathify-vc') || '0', 10);
+          const target = data.value;
+          localStorage.setItem('mathify-vc', target);
+          el.classList.remove('loading');
 
-    themeBtn.addEventListener('click', () => {
-      setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    });
+          // Format with commas
+          const fmt = n => n.toLocaleString();
 
-    // ─── FEEDBACK MODAL ─── //
-    const modal = document.getElementById('feedbackModal');
-
-    function openFeedbackModal() {
-      // Pre-fill from inline input if present
-      const inlineInput = document.getElementById('feedbackInput');
-      if (inlineInput && inlineInput.value.trim()) {
-        const msgField = document.getElementById('modalMessage');
-        if (msgField && !msgField.value) {
-          msgField.value = inlineInput.value.trim();
+          if (target - prev > 0 && prev > 0 && target - prev < 200) {
+            // Smooth count-up animation
+            let cur = prev;
+            const step = Math.max(1, Math.ceil((target - prev) / 30));
+            const timer = setInterval(() => {
+              cur = Math.min(cur + step, target);
+              el.textContent = fmt(cur);
+              if (cur >= target) clearInterval(timer);
+            }, 40);
+          } else {
+            el.textContent = fmt(target);
+          }
+        } else {
+          el.textContent = '—';
+          el.classList.remove('loading');
         }
-      }
-      modal.classList.remove('hidden');
-      document.getElementById('modalMessage').focus();
-      document.body.style.overflow = 'hidden';
+      })
+      .catch(() => {
+        // Fallback: show cached value if API fails
+        const cached = localStorage.getItem('mathify-vc');
+        el.classList.remove('loading');
+        el.textContent = cached ? parseInt(cached).toLocaleString() : '—';
+      });
+  })();
+
+  /* ══════════════════════════════════════════════════
+     EXISTING VISITOR TRACKER (keep for analytics)
+  ══════════════════════════════════════════════════ */
+  (function() {
+    fetch('https://visitor.6developer.com/visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        domain: 'mathify.us',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        page_path: location.pathname,
+        page_title: document.title,
+        referrer: document.referrer
+      })
+    }).catch(() => {});
+  })();
+
+  /* ══════════════════════════════════════════════════
+     UNIVERSAL SEARCH
+  ══════════════════════════════════════════════════ */
+  const SEARCH_INDEX = [
+    // ── RC DESIGN CH1 ──
+    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Why Reinforced Concrete', desc:'Introduction to RC, material overview', url:'rc-chapter1.html', tags:'reinforced concrete introduction why rc material' },
+    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Mix Design & Unit Weights', desc:'Concrete mix proportions, w/c ratio basics', url:'rc-chapter1.html', tags:'mix design unit weight water cement ratio proportioning' },
+    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Loads & Safety Factors', desc:'Dead load, live load, load combinations', url:'rc-chapter1.html', tags:'loads dead live safety factors load combinations' },
+    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Beam Geometry & Cover', desc:'Beam dimensions, concrete cover, bar placement', url:'rc-chapter1.html', tags:'beam geometry cover bar placement dimensions' },
+    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Three Stages of Loading', desc:'Uncracked, cracked elastic, and ultimate stages', url:'rc-chapter1.html', tags:'three stages loading uncracked cracked ultimate' },
+    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Transformed Section Method', desc:'Converting steel to equivalent concrete area', url:'rc-chapter1.html', tags:'transformed section method modular ratio n steel concrete' },
+    { icon:'🏗️', group:'RC Design — Chapter 1', title:'WSD Analysis — k & j Method', desc:'Working stress design analysis formulas', url:'rc-chapter1.html', tags:'WSD working stress design k j method analysis kd jd' },
+    { icon:'🏗️', group:'RC Design — Chapter 1', title:'WSD Design Procedure', desc:'Step-by-step beam design using WSD', url:'rc-chapter1.html', tags:'WSD design procedure steps beam design working stress' },
+    { icon:'🏗️', group:'RC Design — Chapter 1', title:'Worked Problems (3)', desc:'Fully solved RC beam design problems', url:'rc-chapter1.html', tags:'worked problems solved examples beam design' },
+
+    // ── RC DESIGN CH2 ──
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Cement & Hydration', desc:'Portland cement, hydration process, types', url:'cee-chapter2.html', tags:'cement hydration portland types C3S C2S' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Aggregates', desc:'Fine and coarse aggregates, gradation', url:'cee-chapter2.html', tags:'aggregates fine coarse gradation sieve' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'w/c Ratio & Mix Design', desc:'Water-cement ratio effect on strength', url:'cee-chapter2.html', tags:'water cement ratio mix design strength proportioning' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Placing & Curing', desc:'Conveying, compaction, and curing methods', url:'cee-chapter2.html', tags:'placing curing compaction conveying vibration' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Quality Control', desc:'Slump test, cylinder test, ACI provisions', url:'cee-chapter2.html', tags:'quality control slump test cylinder compressive strength' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Admixtures', desc:'Plasticizers, retarders, accelerators, air entrainment', url:'cee-chapter2.html', tags:'admixtures plasticizer retarder accelerator air entraining' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Compressive Strength & Stress-Strain', desc:'f\'c, Ec, stress-strain curve, modulus of elasticity', url:'cee-chapter2.html', tags:'compressive strength fc stress strain curve modulus elasticity Ec' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Tensile Strength', desc:'Splitting test, modulus of rupture, fr', url:'cee-chapter2.html', tags:'tensile strength splitting test modulus rupture fr' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Shrinkage & Creep', desc:'Drying shrinkage, creep coefficient, long-term effects', url:'cee-chapter2.html', tags:'shrinkage creep drying long-term deflection' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'High-Strength Concrete', desc:'HSC properties, f\'c above 6000 psi', url:'cee-chapter2.html', tags:'high strength concrete HSC 6000 psi properties' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Reinforcing Bars', desc:'Bar sizes, deformations, ASTM grades', url:'cee-chapter2.html', tags:'reinforcing bars rebar deformations ASTM grade 60 sizes' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Prestressing Steels', desc:'Strands, wires, tendons, prestress force', url:'cee-chapter2.html', tags:'prestressing steel strands wires tendons prestress' },
+    { icon:'🧱', group:'RC Design — Chapter 2', title:'Fiber Reinforcement', desc:'Steel, glass, and synthetic fibers in concrete', url:'cee-chapter2.html', tags:'fiber reinforcement steel glass synthetic FRC' },
+
+    // ── RC DESIGN CH3 ──
+    { icon:'📐', group:'RC Design — Chapter 3', title:'Introduction to Structural Design', desc:'Three goals: strength, serviceability, economy', url:'chapter3-concrete.html#s31', tags:'introduction structural design strength serviceability economy goals' },
+    { icon:'📐', group:'RC Design — Chapter 3', title:'Members & Sections', desc:'Beams, columns, slabs, walls; cross-section types', url:'chapter3-concrete.html#s32', tags:'members sections beams columns slabs walls cross section T-beam' },
+    { icon:'📐', group:'RC Design — Chapter 3', title:'Theory, Codes & Practice', desc:'ACI 318, load factors, strength reduction factor phi', url:'chapter3-concrete.html#s33', tags:'ACI 318 code theory practice load factors phi strength reduction' },
+    { icon:'📐', group:'RC Design — Chapter 3', title:'Fundamental Assumptions for RC', desc:'Plane sections, perfect bond, no tensile concrete, small deformations', url:'chapter3-concrete.html#s34', tags:'assumptions plane sections bond no tension small deformations Bernoulli modular ratio n' },
+    { icon:'📐', group:'RC Design — Chapter 3', title:'Behavior Under Axial Loads', desc:'Tension and compression members, column capacity P0', url:'chapter3-concrete.html#s35', tags:'axial loads tension compression column P0 capacity transformed section' },
+    { icon:'📐', group:'RC Design — Chapter 3', title:'Bending of Homogeneous Beams', desc:'Flexure formula sigma = Mc/I, neutral axis, moment of inertia', url:'chapter3-concrete.html#s36', tags:'bending homogeneous beam flexure formula sigma Mc/I neutral axis moment inertia' },
+    { icon:'📐', group:'RC Design — Chapter 3', title:'Column Load Calculator', desc:'Interactive: compute P0 with sliders for Ag, rho, fc, fy', url:'chapter3-concrete.html#s35', tags:'column calculator P0 Ag rho steel ratio fc fy interactive' },
+    { icon:'📐', group:'RC Design — Chapter 3', title:'Bending Stress Visualizer', desc:'Interactive stress diagram for rectangular beams', url:'chapter3-concrete.html#s36', tags:'bending stress visualizer interactive stress diagram rectangular beam' },
+
+    // ── TRAFFIC ENGINEERING ──
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Traffic Engineering Basics', desc:'Fundamentals of traffic flow and analysis', url:'cee350-traffic-analysis.html', tags:'traffic engineering basics flow fundamentals' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Flow, Density & Speed', desc:'Fundamental traffic flow relationships', url:'cee350-traffic-analysis.html', tags:'flow density speed relationships traffic fundamental diagram' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Signal Phasing & Timing', desc:'Cycle length, phase splits, timing plans', url:'cee350-traffic-analysis.html', tags:'signal phasing timing cycle length splits green time' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Green Splits & Offsets', desc:'Coordinating signals for progression', url:'cee350-traffic-analysis.html', tags:'green splits offsets signal coordination progression' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Saturation Flow Rate', desc:'s, g/C ratio, capacity calculations', url:'cee350-traffic-analysis.html', tags:'saturation flow rate s g/C capacity PHF' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Lane Capacity', desc:'Volume-to-capacity ratio, v/c', url:'cee350-traffic-analysis.html', tags:'lane capacity volume capacity ratio v/c' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Level of Service (LOS)', desc:'LOS A–F, delay thresholds, HCM methodology', url:'cee350-traffic-analysis.html', tags:'level of service LOS A B C D E F delay HCM' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Trip Generation', desc:'ITE rates, regression models, land use', url:'cee350-traffic-analysis.html', tags:'trip generation ITE rates regression land use' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Trip Distribution & Gravity Model', desc:'Gravity model, friction factors, balancing', url:'cee350-traffic-analysis.html', tags:'trip distribution gravity model friction factors zone' },
+    { icon:'🚦', group:'Traffic Engineering — CEE 350', title:'Mode Split', desc:'Modal split, utility function, logit model', url:'cee350-traffic-analysis.html', tags:'mode split modal logit utility function' },
+
+    // ── PAGES ──
+    { icon:'🏠', group:'Pages', title:'Home', desc:'Mathify homepage', url:'index.html', tags:'home mathify main page' },
+    { icon:'🏗️', group:'Pages', title:'Civil Engineering', desc:'All civil engineering courses', url:'civil.html', tags:'civil engineering all courses page' },
+    { icon:'🎵', group:'Pages', title:'Study Vibes — Explore', desc:'Music and ambient playlists for studying', url:'explore.html', tags:'study music vibes lo-fi ambient focus playlist explore' },
+  ];
+
+  const overlay = document.getElementById('searchOverlay');
+  const searchInput = document.getElementById('searchInput');
+  const resultsContainer = document.getElementById('searchResults');
+  const emptyMsg = document.getElementById('searchEmpty');
+  let activeIdx = -1;
+  let currentResults = [];
+
+  function openSearch() {
+    overlay.classList.add('open');
+    searchInput.value = '';
+    searchInput.focus();
+    renderResults('');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSearch() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    activeIdx = -1;
+  }
+
+  function highlight(text, query) {
+    if (!query) return text;
+    const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp(`(${esc})`, 'gi'), '<mark>$1</mark>');
+  }
+
+  function renderResults(query) {
+    const q = query.trim().toLowerCase();
+
+    if (!q) {
+      emptyMsg.style.display = 'block';
+      // Clear everything except empty msg
+      Array.from(resultsContainer.children).forEach(c => {
+        if (c !== emptyMsg) c.remove();
+      });
+      currentResults = [];
+      activeIdx = -1;
+      return;
     }
 
-    function closeFeedbackModal() {
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
+    emptyMsg.style.display = 'none';
 
-    function submitFeedback() {
-      const msg = document.getElementById('modalMessage').value.trim();
-      if (!msg) {
-        document.getElementById('modalMessage').focus();
-        return;
-      }
-      const name = document.getElementById('modalName').value.trim() || 'Anonymous';
-      const subject = encodeURIComponent('Mathify Feedback from ' + name);
-      const body = encodeURIComponent('Name: ' + name + '\n\nMessage:\n' + msg);
-      window.open('mailto:hello@mathify.us?subject=' + subject + '&body=' + body);
-      document.getElementById('modalBody').innerHTML = `
-        <div class="modal-success">
-          <div class="success-icon">🎉</div>
-          <h2 class="modal-title">Thank you!</h2>
-          <p style="color:var(--text3);font-size:0.9375rem;margin-top:0.5rem">Your email client has opened. Please send the message — it goes directly to the creator.</p>
-          <button class="btn-primary" onclick="closeFeedbackModal()" style="margin-top:1.5rem">Done</button>
-        </div>`;
-    }
+    // Score and filter
+    const scored = SEARCH_INDEX
+      .map(item => {
+        let score = 0;
+        const titleL = item.title.toLowerCase();
+        const tagsL = item.tags.toLowerCase();
+        const descL = item.desc.toLowerCase();
+        const groupL = item.group.toLowerCase();
+        if (titleL === q) score += 100;
+        if (titleL.startsWith(q)) score += 50;
+        if (titleL.includes(q)) score += 30;
+        if (tagsL.includes(q)) score += 20;
+        if (descL.includes(q)) score += 10;
+        if (groupL.includes(q)) score += 5;
+        // Multi-word: each word
+        q.split(' ').filter(Boolean).forEach(w => {
+          if (titleL.includes(w)) score += 8;
+          if (tagsL.includes(w)) score += 4;
+        });
+        return { item, score };
+      })
+      .filter(x => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 12);
 
-    // Close modal on backdrop click
-    modal.addEventListener('click', e => {
-      if (e.target === modal) closeFeedbackModal();
+    currentResults = scored.map(x => x.item);
+    activeIdx = -1;
+
+    // Build HTML
+    const frag = document.createDocumentFragment();
+
+    // Group by group label
+    const groups = {};
+    currentResults.forEach(item => {
+      if (!groups[item.group]) groups[item.group] = [];
+      groups[item.group].push(item);
     });
 
-    // Close modal on Escape key
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-        closeFeedbackModal();
-      }
-    });
+    if (Object.keys(groups).length === 0) {
+      const noRes = document.createElement('div');
+      noRes.className = 'search-empty';
+      noRes.textContent = `No results for "${query}"`;
+      frag.appendChild(noRes);
+    } else {
+      Object.entries(groups).forEach(([groupName, items]) => {
+        const lbl = document.createElement('div');
+        lbl.className = 'search-group-label';
+        lbl.textContent = groupName;
+        frag.appendChild(lbl);
 
-    // ─── VISITOR COUNTER ─── //
-    (function() {
-      fetch('https://visitor.6developer.com/visit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          domain: 'mathify.us',
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          page_path: location.pathname,
-          page_title: document.title,
-          referrer: document.referrer
-        })
-      }).catch(() => {});
-    })();
+        items.forEach((item, i) => {
+          const globalIdx = currentResults.indexOf(item);
+          const a = document.createElement('a');
+          a.href = item.url;
+          a.className = 'search-result';
+          a.setAttribute('role', 'option');
+          a.dataset.idx = globalIdx;
+          a.innerHTML = `
+            <div class="search-result-icon">${item.icon}</div>
+            <div class="search-result-body">
+              <div class="search-result-title">${highlight(item.title, query.trim())}</div>
+              <div class="search-result-desc">${item.desc}</div>
+            </div>
+            <span class="search-result-arrow">→</span>`;
+          a.addEventListener('mouseenter', () => setActive(globalIdx));
+          frag.appendChild(a);
+        });
+      });
+    }
+
+    // Swap in results
+    Array.from(resultsContainer.children).forEach(c => {
+      if (c !== emptyMsg) c.remove();
+    });
+    resultsContainer.appendChild(frag);
+  }
+
+  function setActive(idx) {
+    activeIdx = idx;
+    resultsContainer.querySelectorAll('.search-result').forEach(el => {
+      el.classList.toggle('active', parseInt(el.dataset.idx) === idx);
+    });
+  }
+
+  searchInput.addEventListener('input', e => renderResults(e.target.value));
+
+  searchInput.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive(Math.min(activeIdx + 1, currentResults.length - 1)); scrollActiveIntoView(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); scrollActiveIntoView(); }
+    else if (e.key === 'Enter' && activeIdx >= 0) { e.preventDefault(); window.location.href = currentResults[activeIdx].url; }
+    else if (e.key === 'Escape') closeSearch();
+  });
+
+  function scrollActiveIntoView() {
+    const el = resultsContainer.querySelector('.search-result.active');
+    if (el) el.scrollIntoView({ block: 'nearest' });
+  }
+
+  document.getElementById('searchOpenBtn').addEventListener('click', openSearch);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeSearch(); });
+
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
+  });
+
+  /* ══════════════════════════════════════════════════
+     FEEDBACK MODAL
+  ══════════════════════════════════════════════════ */
+  const feedbackModal = document.getElementById('feedbackModal');
+
+  function openFeedbackModal() {
+    const inlineInput = document.getElementById('feedbackInput');
+    if (inlineInput && inlineInput.value.trim()) {
+      const msgField = document.getElementById('modalMessage');
+      if (msgField && !msgField.value) msgField.value = inlineInput.value.trim();
+    }
+    feedbackModal.classList.remove('hidden');
+    document.getElementById('modalMessage').focus();
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFeedbackModal() {
+    feedbackModal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function submitFeedback() {
+    const msg = document.getElementById('modalMessage').value.trim();
+    if (!msg) { document.getElementById('modalMessage').focus(); return; }
+    const name = document.getElementById('modalName').value.trim() || 'Anonymous';
+    const subject = encodeURIComponent('Mathify Feedback from ' + name);
+    const body = encodeURIComponent('Name: ' + name + '\n\nMessage:\n' + msg);
+    window.open('mailto:hello@mathify.us?subject=' + subject + '&body=' + body);
+    document.getElementById('modalBody').innerHTML = `
+      <div class="modal-success">
+        <div class="success-icon">🎉</div>
+        <h2 class="modal-title">Thank you!</h2>
+        <p style="color:var(--text3);font-size:0.9375rem;margin-top:0.5rem">Your email client has opened. Please send the message — it goes directly to the creator.</p>
+        <button class="btn-primary" onclick="closeFeedbackModal()" style="margin-top:1.5rem">Done</button>
+      </div>`;
+  }
+
+  feedbackModal.addEventListener('click', e => { if (e.target === feedbackModal) closeFeedbackModal(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !feedbackModal.classList.contains('hidden')) closeFeedbackModal();
+  });
   </script>
 </body>
 </html>
