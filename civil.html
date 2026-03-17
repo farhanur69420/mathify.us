@@ -16,8 +16,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);}
 .nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--steel);text-decoration:none;padding:0.4rem 0.75rem;border-radius:6px;transition:color 0.15s,background 0.15s;}
+.nav-links a:hover{color:var(--ink);background:rgba(128,128,128,0.1);}
+.nav-links a.active{color:var(--blueprint);font-weight:700;}
+.nav-right{display:flex;align-items:center;gap:0.5rem;}
 .theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
 .theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
+@media(max-width:640px){.nav-links{display:none;}}
 
 .container{max-width:900px;margin:0 auto;padding:5.5rem 2rem 4rem;position:relative;z-index:1;}
 
@@ -100,7 +106,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 <body>
 <nav>
   <a href="index.html" class="nav-logo">&larr; Mathify</a>
-  <button class="theme-toggle" id="themeToggle">&#9728;&#65039;</button>
+  <ul class="nav-links" aria-label="Site navigation">
+    <li><a href="civil.html" class="active">Civil Eng.</a></li>
+    <li><a href="math.html">Mathematics</a></li>
+    <li><a href="physics.html">Physics</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle">&#9728;&#65039;</button>
+  </div>
 </nav>
 
 <div class="container">
