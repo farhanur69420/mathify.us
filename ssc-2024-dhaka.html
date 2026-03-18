@@ -1,0 +1,814 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSC 2024 Dhaka Math Exam | Mathify</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script>MathJax={tex:{inlineMath:[['$' ,'$' ],['\(' ,'\)' ]]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+[data-theme="light"]{--ink:#0d0d0d;--paper:#f5f0e8;--paper2:#fff;--blueprint:#1a3a5c;--grid:#d4cfc4;--accent:#e67e22;--rust:#c0392b;--steel:#2c3e50;--nav-bg:rgba(245,240,232,0.93);--card-bg:#fff;--card-border:#d4cfc4;--toggle-bg:#1a3a5c;--toggle-icon:#f5f0e8;--text-muted:#666;--success:#16a34a;--code-bg:#f8f5f0;}
+[data-theme="dark"]{--ink:#e2e8f0;--paper:#0d1117;--paper2:#161b22;--blueprint:#60a5fa;--grid:#1e293b;--accent:#f59e0b;--rust:#f87171;--steel:#94a3b8;--nav-bg:rgba(13,17,23,0.93);--card-bg:#161b22;--card-border:#1e293b;--toggle-bg:#f59e0b;--toggle-icon:#0d1117;--text-muted:#64748b;--success:#4ade80;--code-bg:#1e293b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;transition:background 0.3s,color 0.3s;line-height:1.7;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(26,58,92,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,58,92,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+.theme-toggle{width:36px;height:36px;border-radius:50%;background:var(--toggle-bg);border:none;color:var(--toggle-icon);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.3s,transform 0.2s;}
+.theme-toggle:hover{transform:rotate(20deg) scale(1.1);}
+
+/* --- LAYOUT --- */
+.page{display:flex;min-height:100vh;padding-top:3.8rem;position:relative;z-index:1;}
+.sidebar{position:sticky;top:3.8rem;width:260px;height:calc(100vh - 3.8rem);overflow-y:auto;border-right:1px solid var(--grid);padding:1.5rem 0;flex-shrink:0;background:var(--paper);}
+.sidebar h3{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:0.8rem 1.5rem 0.4rem;margin-top:0.5rem;}
+.sidebar h3:first-child{margin-top:0;}
+.sidebar a{display:block;padding:0.45rem 1.5rem;font-size:0.85rem;color:var(--steel);text-decoration:none;border-left:3px solid transparent;transition:all 0.15s;}
+.sidebar a:hover,.sidebar a.active{color:var(--blueprint);border-left-color:var(--blueprint);background:rgba(96,165,250,0.06);}
+.content{flex:1;max-width:900px;padding:2.5rem 3rem 4rem;overflow-x:hidden;}
+
+/* --- CLASS TABS --- */
+.class-tabs{display:flex;gap:0;border:2px solid var(--card-border);border-radius:8px;overflow:hidden;margin-bottom:2.5rem;}
+.class-tab{flex:1;padding:0.9rem;text-align:center;font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;background:transparent;border:none;color:var(--steel);transition:all 0.2s;}
+.class-tab:hover{background:rgba(96,165,250,0.08);}
+.class-tab.active{background:var(--blueprint);color:#fff;}
+
+/* --- TOPIC SECTIONS --- */
+.topic-section{display:block;animation:fadeIn 0.4s ease;}
+.topic-header{margin-bottom:2rem;}
+.topic-header h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--blueprint);margin-bottom:0.5rem;}
+.topic-header p{color:var(--steel);font-size:1rem;}
+
+h2.section-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--blueprint);margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--grid);}
+h3.sub-title{font-family:'DM Sans',sans-serif;font-size:1.15rem;font-weight:600;color:var(--ink);margin:1.8rem 0 0.8rem;}
+
+/* --- CONCEPT BOX --- */
+.concept{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:1.5rem;margin:1.2rem 0;}
+.concept-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem;}
+.concept h4{font-size:1.05rem;font-weight:600;color:var(--blueprint);margin-bottom:0.5rem;}
+
+/* --- FORMULA BOX --- */
+.formula-box{background:var(--code-bg);border-left:4px solid var(--accent);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;overflow-x:auto;font-size:1.05rem;}
+
+/* --- EXAMPLE / PROBLEM --- */
+.example{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;margin:1.5rem 0;overflow:hidden;}
+.example-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:rgba(96,165,250,0.08);cursor:pointer;user-select:none;}
+[data-theme="dark"] .example-header{background:rgba(96,165,250,0.05);}
+.example-header h4{font-size:0.95rem;color:var(--blueprint);font-weight:600;}
+.example-toggle{font-size:1.2rem;color:var(--blueprint);transition:transform 0.3s;}
+.example-toggle.open{transform:rotate(180deg);}
+.example-body{padding:1.5rem;display:none;border-top:1px solid var(--card-border);}
+.example-body.open{display:block;animation:fadeIn 0.3s ease;}
+.step{display:flex;gap:0.8rem;margin:0.7rem 0;align-items:flex-start;}
+.step-num{font-family:'Space Mono',monospace;font-size:0.7rem;background:var(--blueprint);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step-text{flex:1;}
+
+/* --- TIP / NOTE --- */
+.tip{background:rgba(22,163,74,0.08);border-left:4px solid var(--success);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem;}
+.tip strong{color:var(--success);}
+.note{background:rgba(96,165,250,0.08);border-left:4px solid var(--blueprint);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem;}
+.warn{background:rgba(245,158,11,0.08);border-left:4px solid var(--accent);padding:1rem 1.3rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem;}
+.warn strong{color:var(--accent);}
+
+/* --- SIMULATION --- */
+.sim-container{background:var(--card-bg);border:1px solid var(--card-border);border-radius:10px;padding:1.5rem;margin:1.5rem 0;text-align:center;}
+.sim-container canvas{max-width:100%;border-radius:6px;background:#0f172a;}
+.sim-container h4{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;}
+.sim-controls{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:1rem;}
+.sim-controls label{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--steel);}
+.sim-controls input[type="range"]{width:140px;}
+.sim-btn{font-family:'Space Mono',monospace;font-size:0.72rem;padding:0.4rem 1rem;border:1px solid var(--blueprint);background:transparent;color:var(--blueprint);border-radius:4px;cursor:pointer;transition:all 0.2s;}
+.sim-btn:hover{background:var(--blueprint);color:#fff;}
+.sim-info{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--accent);margin-top:0.5rem;}
+
+/* --- FORMULA TABLE --- */
+.formula-table{width:100%;border-collapse:collapse;margin:1.2rem 0;}
+.formula-table th{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;background:var(--code-bg);color:var(--steel);padding:0.6rem 1rem;text-align:left;border-bottom:2px solid var(--grid);}
+.formula-table td{padding:0.7rem 1rem;border-bottom:1px solid var(--grid);font-size:0.9rem;vertical-align:top;}
+.formula-table tr:last-child td{border-bottom:none;}
+.formula-table tr:hover td{background:rgba(96,165,250,0.04);}
+
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@media(max-width:900px){ .sidebar{display:none;} .content{padding:2rem 1.5rem;} nav{padding:0.85rem 1.2rem;} }
+@media(max-width:600px){ .class-tabs{flex-wrap:wrap;} .class-tab{min-width:45%;} .content{padding:1.5rem 1rem;} }
+</style>
+<script>
+  function toggleExample(header) {
+    const body = header.nextElementSibling;
+    const toggleIcon = header.querySelector(".example-toggle");
+    if (body.style.display === 'block') {
+      body.style.display = 'none';
+      toggleIcon.classList.remove('open');
+    } else {
+      body.style.display = 'block';
+      toggleIcon.classList.add('open');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    });
+  });
+</script>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">&larr; Mathify</a>
+  <button class="theme-toggle" id="themeToggle">&#9728;&#65039;</button>
+</nav>
+
+<div class="page">
+  <aside class="sidebar" id="sidebar">
+    <h3>SSC 2024 Dhaka</h3>
+    <a href="#mcq-section">Multiple Choice Questions</a>
+    <a href="#cq-section">Creative Questions</a>
+  </aside>
+
+  <main class="content">
+    <div class="topic-header">
+      <h1>SSC 2024 Dhaka Math Exam</h1>
+      <p>Multiple Choice Questions (MCQ) and Creative Questions (CQ) with detailed solutions.</p>
+    </div>
+
+    <h2 class="section-title" id="mcq-section">Multiple Choice Questions</h2>
+    <p>Images of the original MCQ paper:</p>
+    <p><img src="https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-dhaka-1.jpg" alt="SSC 2024 Dhaka MCQ" style="max-width:100%; height:auto; display:block; margin-bottom: 1rem;"></p><p><img src="https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-dhaka-2.jpg" alt="SSC 2024 Dhaka MCQ" style="max-width:100%; height:auto; display:block; margin-bottom: 1rem;"></p>
+    <div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>1. If \(a+b=5\) and \(ab=6\), then \(a^2+b^2=\)?</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> যদি \(a+b=5\) এবং \(ab=6\) হয়, তাহলে \(a^2+b^2\) = ?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>11</li>
+      <li>12</li>
+      <li>13</li>
+      <li>25</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>Use the identity: \(a^2+b^2 = (a+b)^2 - 2ab\)</p>
+      <div class="formula-box">(5)^2 - 2(6) = 25 - 12 = \boxed{13}</div>
+      <div class="tip"><strong>Note:</strong> 🔑 This identity appears in almost every SSC paper. Memorize it as the '2ab trick'.</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>2. Which is an irrational number?</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> নিচের কোনটি অমূলদ সংখ্যা?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>\(\frac{22}{7}\)</li>
+      <li>\(\sqrt{4}\)</li>
+      <li>\(\sqrt{3}\)</li>
+      <li>\(0.\overline{3}\)</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>\(\frac{22}{7}\) — rational (ratio of two integers)</p>
+      <p>\(\sqrt{4}=2\) — integer, hence rational</p>
+      <p>\(0.\overline{3}=\frac{1}{3}\) — repeating decimal, rational</p>
+      <p>\(\sqrt{3}=1.7320508...\) — non-terminating, non-repeating → <strong>irrational</strong></p>
+      <div class="tip"><strong>Note:</strong> 🔑 \(\sqrt{n}\) is irrational when \(n\) is not a perfect square</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>3. \(\log_2 32 = ?\)</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(\log_2 32\) এর মান কত?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>16</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>Ask: 2 to what power gives 32?</p>
+      <div class="formula-box">2^1=2,\ 2^2=4,\ 2^3=8,\ 2^4=16,\ 2^5=32</div>
+      <div class="formula-box">\log_2 32 = \boxed{5}</div>
+      <div class="tip"><strong>Note:</strong> 🔑 \(\log_b x = n \iff b^n = x\)</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>4. If \(p=\sqrt{5}+\sqrt{3}\) and \(q=\sqrt{5}-\sqrt{3}\), then \(pq=\)?</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> </p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>\(\sqrt{2}\)</li>
+      <li>\(2\)</li>
+      <li>\(8\)</li>
+      <li>\(2\sqrt{15}\)</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>Difference of squares: \((a+b)(a-b)=a^2-b^2\)</p>
+      <div class="formula-box">pq = (\sqrt{5})^2-(\sqrt{3})^2 = 5-3 = \boxed{2}</div>
+      <div class="tip"><strong>Note:</strong> 🔑 Conjugate surds always give a rational product.</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>5. \(\dfrac{\sqrt{72}}{\sqrt{8}}\) simplifies to:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(\dfrac{\sqrt{72}}{\sqrt{8}}\) এর সরলতম মান:</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>\(\sqrt{6}\)</li>
+      <li>\(2\sqrt{2}\)</li>
+      <li>\(3\)</li>
+      <li>\(9\)</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">\sqrt{\frac{72}{8}} = \sqrt{9} = \boxed{3}</div>
+      <div class="tip"><strong>Note:</strong> Rule: \(\frac{\sqrt{a}}{\sqrt{b}}=\sqrt{\frac{a}{b}}\)</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>6. If \(\log x = \frac{1}{2}\), then \(x = ?\)</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(\log x = \frac{1}{2}\) হলে \(x\) = ?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>\(2\)</li>
+      <li>\(5\)</li>
+      <li>\(\sqrt{10}\)</li>
+      <li>\(100\)</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>Unwritten base means \(\log_{10}\)</p>
+      <div class="formula-box">x = 10^{1/2} = \boxed{\sqrt{10}}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>7. \(n(A)=25,\ n(B)=20,\ n(A\cap B)=10\). Find \(n(A\cup B)\).</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> </p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>30</li>
+      <li>35</li>
+      <li>45</li>
+      <li>55</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>Inclusion-exclusion principle:</p>
+      <div class="formula-box">n(A\cup B) = n(A)+n(B)-n(A\cap B) = 25+20-10 = \boxed{35}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>8. If \(A=\{1,2,3\}\), number of subsets = ?</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(A=\{1,2,3\}\) এর উপসেটের সংখ্যা কত?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>4</li>
+      <li>6</li>
+      <li>8</li>
+      <li>9</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">2^{|A|} = 2^3 = \boxed{8}</div>
+      <div class="tip"><strong>Note:</strong> Subsets: ∅, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>9. \(f(x)=2x+3\). Find \(f(f(1))\).</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(f(x)=2x+3\) হলে \(f(f(1))\) = ?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>11</li>
+      <li>13</li>
+      <li>15</li>
+      <li>17</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">f(1) = 2(1)+3 = 5</div>
+      <div class="formula-box">f(f(1)) = f(5) = 2(5)+3 = \boxed{13}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>10. Which set is a subset of every set?</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> কোন সেটটি প্রতিটি সেটের উপসেট?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>Universal set</li>
+      <li>Power set</li>
+      <li>Empty set ∅</li>
+      <li>Singleton set</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>The empty set ∅ has no elements, so vacuously it satisfies the subset condition for every set.</p>
+      <div class="formula-box">\emptyset \subseteq A \quad \text{for every set } A</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>11. \(\log 2 + \log 5 = ?\)</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(\log 2 + \log 5\) এর মান কত?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>1</li>
+      <li>\(\log 3\)</li>
+      <li>\(\log 7\)</li>
+      <li>10</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> A</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">\log 2 + \log 5 = \log(2\times5) = \log 10 = \boxed{1}</div>
+      <div class="tip"><strong>Note:</strong> 🔑 Product rule: \(\log a + \log b = \log(ab)\). And \(\log_{10}10=1\) always.</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>12. \(a^2-b^2=21,\ a-b=3\). Find \(a+b\).</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(a^2-b^2=21,\ a-b=3\) হলে \(a+b=\)?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">a^2-b^2=(a+b)(a-b)</div>
+      <div class="formula-box">21 = (a+b)\times3 \implies a+b = \boxed{7}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>13. Rationalize \(\dfrac{1}{\sqrt{3}-1}\):</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(\dfrac{1}{\sqrt{3}-1}\) এর হর মূলদ করলে পাওয়া যায়:</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>\(\frac{\sqrt{3}-1}{2}\)</li>
+      <li>\(\frac{\sqrt{3}+1}{2}\)</li>
+      <li>\(\sqrt{3}+1\)</li>
+      <li>\(\sqrt{3}-1\)</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>Multiply by conjugate \((\sqrt{3}+1)\):</p>
+      <div class="formula-box">\frac{1}{\sqrt{3}-1}\cdot\frac{\sqrt{3}+1}{\sqrt{3}+1} = \frac{\sqrt{3}+1}{3-1} = \boxed{\frac{\sqrt{3}+1}{2}}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>14. \(\log_a a^3 = ?\)</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(\log_a a^3\) এর মান কত?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>\(a\)</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">\log_a a^3 = 3\log_a a = 3\times1 = \boxed{3}</div>
+      <div class="tip"><strong>Note:</strong> Power rule: \(\log_b x^n = n\log_b x\)</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>15. Sum of angles in a triangle:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> একটি ত্রিভুজের কোণের সমষ্টি:</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>90°</li>
+      <li>120°</li>
+      <li>180°</li>
+      <li>360°</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">\angle A + \angle B + \angle C = \boxed{180^\circ}</div>
+      <div class="tip"><strong>Note:</strong> Proved by drawing a line parallel to base through the apex — alternate angles fill out a straight angle (180°).</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>16. In △ABC, AB=AC, ∠B=70°. Find ∠A.</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> △ABC-এ AB=AC, ∠B=70° হলে ∠A = ?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>30°</li>
+      <li>40°</li>
+      <li>50°</li>
+      <li>70°</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>Isosceles → base angles equal → ∠B = ∠C = 70°</p>
+      <div class="formula-box">\angle A = 180^\circ - 70^\circ - 70^\circ = \boxed{40^\circ}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>17. An exterior angle of a triangle equals:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> একটি ত্রিভুজের বহিঃস্থ কোণ সমান:</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>One interior angle</li>
+      <li>Sum of all interior angles</li>
+      <li>Sum of two non-adjacent interior angles</li>
+      <li>Half the sum</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">\text{Exterior angle} = \alpha + \beta \quad (\text{two non-adjacent interior angles})</div>
+      <div class="tip"><strong>Note:</strong> Exterior Angle Theorem — follows directly from angles on a straight line summing to 180°.</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>18. The angle in a semicircle is:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> অর্ধবৃত্তস্থ কোণের মান:</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>45°</li>
+      <li>60°</li>
+      <li>90°</li>
+      <li>120°</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>Thales' theorem: angle subtended by a diameter at any point on the circle is always 90°.</p>
+      <div class="formula-box">\angle = \boxed{90^\circ}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>19. Distance from (3, 4) to the origin:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> (3,4) বিন্দু থেকে মূলবিন্দুর দূরত্ব:</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>7</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">d = \sqrt{3^2+4^2} = \sqrt{9+16} = \sqrt{25} = \boxed{5}</div>
+      <div class="tip"><strong>Note:</strong> Classic 3-4-5 right triangle!</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>20. Slope of a line parallel to the x-axis:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> x-অক্ষের সমান্তরাল রেখার ঢাল:</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>Undefined</li>
+      <li>1</li>
+      <li>0</li>
+      <li>−1</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>A horizontal line has zero vertical change (Δy = 0).</p>
+      <div class="formula-box">m = \frac{\Delta y}{\Delta x} = \frac{0}{\Delta x} = \boxed{0}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>21. If \(\tan\theta=\frac{3}{4}\), then \(\sin\theta=\)?</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(\tan\theta=\frac{3}{4}\) হলে \(\sin\theta=\)?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>\(\frac{4}{5}\)</li>
+      <li>\(\frac{3}{5}\)</li>
+      <li>\(\frac{4}{3}\)</li>
+      <li>\(\frac{5}{3}\)</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>opp = 3, adj = 4 → hyp = √(9+16) = 5</p>
+      <div class="formula-box">\sin\theta = \frac{\text{opp}}{\text{hyp}} = \boxed{\frac{3}{5}}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>22. \(\sin^2\theta + \cos^2\theta = ?\)</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(\sin^2\theta + \cos^2\theta\) এর মান:</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>1</li>
+      <li>0</li>
+      <li>\(\sin\theta\)</li>
+      <li>2</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> A</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>From unit circle: point (cosθ, sinθ) lies on \(x^2+y^2=1\)</p>
+      <div class="formula-box">\sin^2\theta + \cos^2\theta = \boxed{1} \quad \forall\theta</div>
+      <div class="tip"><strong>Note:</strong> The fundamental Pythagorean identity — it is never anything other than 1.</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>23. \(\cos 60° = ?\)</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> </p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>\(\frac{1}{2}\)</li>
+      <li>\(\frac{\sqrt{3}}{2}\)</li>
+      <li>\(\sqrt{3}\)</li>
+      <li>1</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> A</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>30-60-90 triangle: side ratios 1 : √3 : 2</p>
+      <div class="formula-box">\cos 60^\circ = \frac{\text{adj}}{\text{hyp}} = \frac{1}{2}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>24. Mean of 5, 10, 15, 20, 25:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> 5, 10, 15, 20, 25 এর গড় কত?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>12</li>
+      <li>14</li>
+      <li>15</li>
+      <li>16</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">\bar{x} = \frac{5+10+15+20+25}{5} = \frac{75}{5} = \boxed{15}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>25. Median of 3, 7, 4, 9, 2, 6, 1:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> 3, 7, 4, 9, 2, 6, 1 এর মধ্যমা কত?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>3</li>
+      <li>4</li>
+      <li>6</li>
+      <li>7</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>Sort: 1, 2, 3, <strong>4</strong>, 6, 7, 9 → n=7, middle = 4th value</p>
+      <div class="formula-box">\text{Median position} = \frac{n+1}{2} = 4\text{th} = \boxed{4}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>26. Mode of 2, 3, 3, 4, 5, 3, 7:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> 2, 3, 3, 4, 5, 3, 7 এর প্রচুরক:</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> B</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <p>3 appears 3 times — the most frequent value.</p>
+      <div class="formula-box">\text{Mode} = \boxed{3}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>27. If \(3x - 5 = 7\), then \(x = ?\)</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(3x - 5 = 7\) হলে \(x\) = ?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>4</li>
+      <li>3</li>
+      <li>5</li>
+      <li>2</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> A</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">3x = 12 \implies x = \boxed{4}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>28. Area of circle with r = 7 cm (π = 22/7):</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> r = 7 সেমি বৃত্তের ক্ষেত্রফল (π = 22/7):</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>44 cm²</li>
+      <li>88 cm²</li>
+      <li>154 cm²</li>
+      <li>308 cm²</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">A = \pi r^2 = \frac{22}{7}\times 49 = 22\times7 = \boxed{154 \text{ cm}^2}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>29. \(\log_a 1 = ?\)</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> \(\log_a 1\) এর মান কত?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>0</li>
+      <li>1</li>
+      <li>a</li>
+      <li>undefined</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> A</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">a^0 = 1 \implies \log_a 1 = \boxed{0}</div>
+    </div>
+  </div>
+</div>
+<div class="example">
+  <div class="example-header" onclick="toggleExample(this)">
+    <h4>30. HCF of 12 and 18:</h4>
+    <span class="example-toggle">&#9660;</span>
+  </div>
+  <div class="example-body">
+    <p><strong>Bengali:</strong> 12 এবং 18 এর গ.সা.গু কত?</p>
+    <p><strong>Options:</strong></p>
+    <ol type="A">
+      <li>3</li>
+      <li>4</li>
+      <li>6</li>
+      <li>9</li>
+    </ol>
+    <p><strong>Correct Answer:</strong> C</p>
+    <div class="concept">
+      <div class="concept-label">Solution</div>
+      <div class="formula-box">12 = 2^2\times3,\quad 18 = 2\times3^2</div>
+      <div class="formula-box">\text{HCF} = 2^1\times3^1 = \boxed{6}</div>
+    </div>
+  </div>
+</div>
+
+    <h2 class="section-title" id="cq-section">Creative Questions</h2>
+    <p>Images of the original Creative Questions paper:</p>
+    <p><img src="https://i0.wp.com/i.ibb.co/TrYKY84/pdf-Download-3.jpg" alt="SSC 2024 Dhaka CQ" style="max-width:100%; height:auto; display:block; margin-bottom: 1rem;"></p><p><img src="https://i0.wp.com/i.ibb.co/vB09Xbk/pdf-Download-4.jpg" alt="SSC 2024 Dhaka CQ" style="max-width:100%; height:auto; display:block; margin-bottom: 1rem;"></p><p><img src="https://i0.wp.com/i.ibb.co/DwtBR7Z/pdf-Download-5.jpg" alt="SSC 2024 Dhaka CQ" style="max-width:100%; height:auto; display:block; margin-bottom: 1rem;"></p>
+    <p>Detailed solutions for Creative Questions will be added soon.</p>
+
+  </main>
+</div>
+</body>
+</html>
