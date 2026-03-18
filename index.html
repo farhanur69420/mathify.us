@@ -685,34 +685,16 @@
   /* ══ VISITOR COUNTER ════════════════════════════════════════════════════ */
   (function() {
     const el = document.getElementById('visitorCount');
-    fetch('https://api.countapi.xyz/hit/mathify-us/visitors')
-      .then(r => r.json())
-      .then(d => {
-        if (d && typeof d.value === 'number') {
-          const prev = parseInt(localStorage.getItem('mathify-vc') || '0', 10);
-          localStorage.setItem('mathify-vc', d.value);
-          el.classList.remove('loading');
-          if (d.value - prev > 0 && prev > 0 && d.value - prev < 500) {
-            let cur = prev;
-            const step = Math.max(1, Math.ceil((d.value - prev) / 30));
-            const timer = setInterval(() => {
-              cur = Math.min(cur + step, d.value);
-              el.textContent = cur.toLocaleString();
-              if (cur >= d.value) clearInterval(timer);
-            }, 40);
-          } else {
-            el.textContent = d.value.toLocaleString();
-          }
-        } else {
-          el.classList.remove('loading');
-          el.textContent = '—';
-        }
-      })
-      .catch(() => {
-        el.classList.remove('loading');
-        const cached = localStorage.getItem('mathify-vc');
-        el.textContent = cached ? parseInt(cached).toLocaleString() : '—';
-      });
+    const storageKey = 'mathify-visitor-count';
+    
+    // Get current count from localStorage, or initialize to 1
+    let count = parseInt(localStorage.getItem(storageKey) || '0', 10);
+    count++;
+    localStorage.setItem(storageKey, count);
+    
+    // Remove loading state and display the count
+    el.classList.remove('loading');
+    el.textContent = count.toLocaleString();
   })();
 
   /* ══ ANALYTICS ══════════════════════════════════════════════════════════ */
@@ -1022,9 +1004,6 @@ For topics outside civil engineering and math, politely redirect to the course c
   feedbackModal.addEventListener('click', e => { if (e.target === feedbackModal) closeFeedbackModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !feedbackModal.classList.contains('hidden')) closeFeedbackModal(); });
   </script>
-<div style="text-align: center; margin-top: 20px;">
-<a href='https://www.free-counters.org/'>Free-Counters</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=f1dddbb8b5fe1fdc523c016282fe4703344dc8'></script>
-<script type='text/javascript' src='https://www.freevisitorcounters.com/en/home/counter/1520112/v0/'></script>
-</div>
+
 </body>
 </html>
