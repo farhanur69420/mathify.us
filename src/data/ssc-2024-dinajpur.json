@@ -1,0 +1,75 @@
+{
+  "label": "Dinajpur",
+  "year": 2024,
+  "mcqImgs": ["https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-dinajpur-1.jpg","https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-dinajpur-2.jpg"],
+  "cqImgs": ["https://i0.wp.com/i.ibb.co/bMfk3sZ9/pdf-Download-1.jpg"],
+  "mcq": [
+    {"n":1,"ch":"Algebra","en":"\\(a^2+b^2=20,\\ a-b=2\\). Find \\(ab\\).","bn":"","opts":["8","10","12","16"],"ans":0,"sol":[{"m":"(a-b)^2=a^2-2ab+b^2 \\implies 4=20-2ab \\implies ab=\\boxed{8}"}]},
+    {"n":2,"ch":"Real Numbers","en":"A rational number between \\(\\sqrt{3}\\) and \\(\\sqrt{5}\\):","bn":"","opts":["1.7","1.9","2.1","2.3"],"ans":1,"sol":[{"m":"\\sqrt{3}\\approx1.732,\\sqrt{5}\\approx2.236 \\implies 1.9\\text{ is between them}"}]},
+    {"n":3,"ch":"Logarithms","en":"\\(\\log_{10} 1 = ?\\)","bn":"","opts":["0","1","10","−1"],"ans":0,"sol":[{"m":"10^0=1 \\implies \\log_{10}1=\\boxed{0}"}]},
+    {"n":4,"ch":"Sets","en":"\\(A \\cup A = ?\\)","bn":"","opts":["∅","A","U","{A}"],"ans":1,"sol":[{"m":"A\\cup A=A \\text{ (idempotent law)}"}]},
+    {"n":5,"ch":"Functions","en":"If \\(h(x)=\\frac{1}{x+1}\\), domain excludes:","bn":"","opts":["0","1","−1","∞"],"ans":2,"sol":[{"m":"x+1=0 \\implies x=-1 \\text{ must be excluded}"}]},
+    {"n":6,"ch":"Algebra","en":"\\(a^4-b^4 = ?\\)","bn":"","opts":["\\((a^2+b^2)(a+b)(a-b)\\)","\\((a-b)^4\\)","\\((a^2-b^2)^2\\)","\\((a+b)^4\\)"],"ans":0,"sol":[{"m":"a^4-b^4=(a^2+b^2)(a^2-b^2)=(a^2+b^2)(a+b)(a-b)"}]},
+    {"n":7,"ch":"Logarithms","en":"\\(\\ln e^5 = ?\\)","bn":"","opts":["1","e","5","25"],"ans":2,"sol":[{"m":"\\ln e^5=5\\ln e=5\\times1=\\boxed{5}"}]},
+    {"n":8,"ch":"Exponents","en":"\\((0.001)^{1/3} = ?\\)","bn":"","opts":["0.01","0.1","0.001","1"],"ans":1,"sol":[{"m":"(10^{-3})^{1/3}=10^{-1}=\\boxed{0.1}"}]},
+    {"n":9,"ch":"Logarithms","en":"\\(\\log_a(mn) = ?\\)","bn":"","opts":["\\(\\log_a m+\\log_a n\\)","\\(\\log_a m\\times\\log_a n\\)","\\(m+n\\)","\\(\\log_a(m-n)\\)"],"ans":0,"sol":[{"m":"\\log_a(mn)=\\log_a m+\\log_a n"}]},
+    {"n":10,"ch":"Geometry","en":"Vertically opposite angles are formed at:","bn":"","opts":["Parallel lines","Perpendicular lines","Intersecting lines","Transversal"],"ans":2,"sol":[{"t":"Vertically opposite angles form at intersection of two lines."}]},
+    {"n":11,"ch":"Triangles","en":"If two sides of triangle are 4 and 9, valid third side:","bn":"","opts":["4","6","13","14"],"ans":1,"sol":[{"t":"Triangle inequality: \\(|9-4|<x<9+4 \\implies 5<x<13\\)"},{"m":"6\\text{ is valid}"}]},
+    {"n":12,"ch":"Circle","en":"A tangent drawn from external point, its length equals:","bn":"","opts":["Half chord","Depends on position","Equal to another tangent from same point","Diameter"],"ans":2,"sol":[{"t":"Equal tangent lengths from same external point."}]},
+    {"n":13,"ch":"Coordinate Geometry","en":"If gradient = 0, line is:","bn":"","opts":["Vertical","Horizontal","45° to x-axis","Undefined"],"ans":1,"sol":[{"m":"m=0 \\implies \\text{horizontal line}"}]},
+    {"n":14,"ch":"Coordinate Geometry","en":"Line \\(y=x\\) passes through:","bn":"","opts":["(1,2)","(2,1)","(3,3)","(4,3)"],"ans":2,"sol":[{"m":"y=x \\implies \\text{all points where }y=x: (3,3)\\checkmark"}]},
+    {"n":15,"ch":"Trigonometry","en":"\\(\\tan 0° = ?\\)","bn":"","opts":["0","1","undefined","∞"],"ans":0,"sol":[{"m":"\\tan 0^\\circ=\\frac{\\sin 0^\\circ}{\\cos 0^\\circ}=\\frac{0}{1}=\\boxed{0}"}]},
+    {"n":16,"ch":"Trigonometry","en":"If \\(\\sin\\theta=1\\), then \\(\\theta=?\\)","bn":"","opts":["0°","45°","60°","90°"],"ans":3,"sol":[{"m":"\\sin 90^\\circ=1"}]},
+    {"n":17,"ch":"Circle","en":"Angle subtended by diameter at circumference:","bn":"","opts":["45°","60°","90°","180°"],"ans":2,"sol":[{"m":"\\text{Thales theorem} \\implies 90^\\circ"}]},
+    {"n":18,"ch":"Coordinate Geometry","en":"Two points with same y-coordinate. The line is:","bn":"","opts":["Vertical","Horizontal","Oblique","Undefined"],"ans":1,"sol":[{"t":"Same y → horizontal line."}]},
+    {"n":19,"ch":"Algebra","en":"\\(x^2-2x-8 = ?\\)","bn":"","opts":["\\((x-4)(x+2)\\)","\\((x+4)(x-2)\\)","\\((x-4)(x-2)\\)","\\((x+4)(x+2)\\)"],"ans":0,"sol":[{"t":"Product=−8, sum=−2 → −4 and +2"},{"m":"(x-4)(x+2)"}]},
+    {"n":20,"ch":"Trigonometry","en":"\\(2\\sin\\theta\\cos\\theta = ?\\)","bn":"","opts":["\\(\\cos 2\\theta\\)","\\(\\sin 2\\theta\\)","\\(\\sin^2\\theta\\)","\\(\\tan\\theta\\)"],"ans":1,"sol":[{"m":"2\\sin\\theta\\cos\\theta=\\sin 2\\theta"}]},
+    {"n":21,"ch":"Arithmetic","en":"Largest 3-digit prime:","bn":"","opts":["991","997","993","999"],"ans":1,"sol":[{"t":"997 is prime (not divisible by 2,3,5,7,11,13,17,19,23,29,31 — all primes up to √997≈31.6)."}]},
+    {"n":22,"ch":"Exponents","en":"\\(\\sqrt[4]{16} = ?\\)","bn":"","opts":["2","4","8","16"],"ans":0,"sol":[{"m":"16^{1/4}=(2^4)^{1/4}=\\boxed{2}"}]},
+    {"n":23,"ch":"Sets","en":"If \\(P(A)=0.6\\), \\(P(A')=?\\)","bn":"","opts":["0.3","0.4","0.6","1.6"],"ans":1,"sol":[{"m":"P(A')=1-0.6=\\boxed{0.4}"}]},
+    {"n":24,"ch":"Statistics","en":"Mean deviation is minimum about the:","bn":"","opts":["Mean","Median","Mode","Range"],"ans":1,"sol":[{"t":"Mean deviation is minimum when calculated about the median."}]},
+    {"n":25,"ch":"Mensuration","en":"Diagonal of square side \\(a\\):","bn":"","opts":["\\(a\\)","\\(a\\sqrt{2}\\)","\\(2a\\)","\\(a^2\\)"],"ans":1,"sol":[{"m":"d=\\sqrt{a^2+a^2}=a\\sqrt{2}"}]},
+    {"n":26,"ch":"Mensuration","en":"Area of rhombus with diagonals 6 and 8:","bn":"","opts":["14","24","48","96"],"ans":1,"sol":[{"m":"A=\\frac{d_1\\times d_2}{2}=\\frac{6\\times8}{2}=\\boxed{24}"}]},
+    {"n":27,"ch":"Trigonometry","en":"\\(1-\\cos^2\\theta = ?\\)","bn":"","opts":["\\(\\sin\\theta\\)","\\(\\sin^2\\theta\\)","\\(\\tan^2\\theta\\)","\\(\\cos^2\\theta\\)"],"ans":1,"sol":[{"m":"\\sin^2\\theta+\\cos^2\\theta=1 \\implies 1-\\cos^2\\theta=\\sin^2\\theta"}]},
+    {"n":28,"ch":"Statistics","en":"Median class is the class containing:","bn":"","opts":["Mean","Most frequent value","n/2-th observation","Smallest value"],"ans":2,"sol":[{"t":"Median class contains the n/2-th cumulative frequency."}]},
+    {"n":29,"ch":"Exponents","en":"\\(4^x=32\\). Find \\(x\\):","bn":"","opts":["\\(\\frac{3}{2}\\)","\\(\\frac{5}{2}\\)","2","3"],"ans":1,"sol":[{"m":"4^x=2^{2x}=32=2^5 \\implies 2x=5 \\implies x=\\boxed{\\frac{5}{2}}"}]},
+    {"n":30,"ch":"Algebra","en":"If \\(x+\\frac{1}{x}=4\\), find \\(x^2+\\frac{1}{x^2}\\).","bn":"","opts":["12","14","16","18"],"ans":1,"sol":[{"m":"\\left(x+\\frac{1}{x}\\right)^2=x^2+2+\\frac{1}{x^2} \\implies 16=x^2+2+\\frac{1}{x^2} \\implies \\boxed{14}"}]}
+  ],
+  "cq": [
+    {"n":1,"ch":"Algebra","stem":"\\(a+b=7,\\quad ab=12\\)","stemBn":"","parts":[
+      {"l":"ক","m":2,"q":"Find \\((a-b)^2\\).","sol":[{"m":"(a-b)^2=(a+b)^2-4ab=49-48=\\boxed{1}"}]},
+      {"l":"খ","m":4,"q":"Find \\(a^2+b^2\\).","sol":[{"m":"a^2+b^2=(a+b)^2-2ab=49-24=\\boxed{25}"}]},
+      {"l":"গ","m":4,"q":"Find \\(a^3+b^3\\).","sol":[{"t":"\\(a^3+b^3=(a+b)(a^2-ab+b^2)\\)"},{"m":"=7\\times(25-12)=7\\times13=\\boxed{91}"}]}
+    ]},
+    {"n":2,"ch":"Logarithms","stem":"\\(2\\log_5 x - \\log_5 4 = 2\\)","stemBn":"","parts":[
+      {"l":"ক","m":2,"q":"Find \\(\\log_5 25\\).","sol":[{"m":"\\log_5 25=\\log_5 5^2=\\boxed{2}"}]},
+      {"l":"খ","m":4,"q":"Find \\(x\\).","sol":[{"m":"\\log_5\\frac{x^2}{4}=2 \\implies \\frac{x^2}{4}=25"},{"m":"x^2=100 \\implies x=\\boxed{10}"}]},
+      {"l":"গ","m":4,"q":"Verify.","sol":[{"m":"2\\log_5 10-\\log_5 4=\\log_5 100-\\log_5 4=\\log_5 25=\\boxed{2}\\checkmark"}]}
+    ]},
+    {"n":3,"ch":"Coordinate Geometry","stem":"\\(X(0,0)\\), \\(Y(12,0)\\), \\(Z(12,5)\\)","stemBn":"","viz":"coordplane","vizData":{"points":[[0,0,"X"],[12,0,"Y"],[12,5,"Z"]],"lines":[[[0,0],[12,5]]]},"parts":[
+      {"l":"ক","m":2,"q":"Find XY.","sol":[{"m":"XY=12"}]},
+      {"l":"খ","m":4,"q":"Find YZ and XZ. Verify right-angled.","sol":[{"m":"YZ=5,\\quad XZ=\\sqrt{144+25}=13"},{"m":"12^2+5^2=144+25=169=13^2\\checkmark"},{"note":"5-12-13 Pythagorean triple."}]},
+      {"l":"গ","m":4,"q":"Area of △XYZ.","sol":[{"m":"A=\\frac{1}{2}\\times12\\times5=\\boxed{30\\text{ sq. units}}"}]}
+    ]},
+    {"n":4,"ch":"Sets","stem":"80 students: 45 study maths (M), 40 study physics (P), 20 study both.","stemBn":"","viz":"venn","vizData":{"A":45,"B":40,"AB":20,"total":80},"parts":[
+      {"l":"ক","m":2,"q":"Maths only.","sol":[{"m":"45-20=\\boxed{25}"}]},
+      {"l":"খ","m":4,"q":"\\(n(M\\cup P)\\).","sol":[{"m":"45+40-20=\\boxed{65}"}]},
+      {"l":"গ","m":4,"q":"Neither subject.","sol":[{"m":"80-65=\\boxed{15}"}]}
+    ]},
+    {"n":5,"ch":"Statistics","stem":"Marks: 12, 15, 18, 21, 24, 27, 30, 33, 36, 39","stemBn":"","viz":"barchart","vizData":{"labels":["12","18","24","30","36"],"values":[12,18,24,30,36]},"parts":[
+      {"l":"ক","m":2,"q":"Range.","sol":[{"m":"39-12=\\boxed{27}"}]},
+      {"l":"খ","m":4,"q":"Mean and median.","sol":[{"m":"\\bar{x}=\\frac{255}{10}=\\boxed{25.5}"},{"m":"\\text{Median}=\\frac{24+27}{2}=\\boxed{25.5}"}]},
+      {"l":"গ","m":4,"q":"Variance.","sol":[{"t":"Arithmetic progression: common difference=3, mean=25.5"},{"m":"\\sigma^2=\\frac{n^2-1}{12}d^2=\\frac{99}{12}\\times9=\\boxed{74.25}"}]}
+    ]},
+    {"n":6,"ch":"Trigonometry","stem":"From ground, angle of elevation of top of tower is 60°. Tower is 45 m tall.","stemBn":"","viz":"right_triangle_trig","vizData":{"opp":45,"adj":26,"hyp":52,"angle":60},"parts":[
+      {"l":"ক","m":2,"q":"\\(\\tan 60° = ?\\)","sol":[{"m":"\\tan 60^\\circ=\\sqrt{3}"}]},
+      {"l":"খ","m":4,"q":"Horizontal distance from tower base.","sol":[{"m":"\\tan 60^\\circ=\\frac{45}{d} \\implies d=\\frac{45}{\\sqrt{3}}=15\\sqrt{3}\\approx\\boxed{25.98\\text{ m}}"}]},
+      {"l":"গ","m":4,"q":"Slant distance.","sol":[{"m":"\\frac{45}{\\sin 60^\\circ}=\\frac{45}{\\sqrt{3}/2}=30\\sqrt{3}\\approx\\boxed{51.96\\text{ m}}"}]}
+    ]},
+    {"n":7,"ch":"Functions","stem":"\\(q(x)=x^2-8x+16\\)","stemBn":"","parts":[
+      {"l":"ক","m":2,"q":"Find \\(q(4)\\).","sol":[{"m":"q(4)=16-32+16=\\boxed{0}"}]},
+      {"l":"খ","m":4,"q":"Factorize and find minimum.","sol":[{"m":"q(x)=(x-4)^2"},{"t":"Minimum = 0 at x=4."}]},
+      {"l":"গ","m":4,"q":"For which \\(x\\) is \\(q(x)\\leq9\\)?","sol":[{"m":"(x-4)^2\\leq9 \\implies |x-4|\\leq3"},{"m":"\\boxed{1\\leq x\\leq7}"}]}
+    ]}
+  ]
+}

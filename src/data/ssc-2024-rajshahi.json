@@ -1,0 +1,81 @@
+{
+  "label": "Rajshahi",
+  "year": 2024,
+  "mcqImgs": [
+    "https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-rajshahi-1.jpg",
+    "https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-rajshahi-2.jpg"
+  ],
+  "cqImgs": [
+    "https://i0.wp.com/i.ibb.co/wSRB7zn/Rajshahi-Board-SSC-Math-Question-Solution-2024-pdf-Download-1.jpg",
+    "https://i0.wp.com/i.ibb.co/JxPMFDR/Rajshahi-Board-SSC-Math-Question-Solution-2024-pdf-Download-2.jpg"
+  ],
+  "mcq": [
+    {"n":1,"ch":"Algebra","en":"If \\(x - \\frac{1}{x} = 3\\), find \\(x^2 + \\frac{1}{x^2}\\).","bn":"","opts":["9","10","11","12"],"ans":2,"sol":[{"t":"Use: \\((x-\\frac{1}{x})^2 = x^2 - 2 + \\frac{1}{x^2}\\)"},{"m":"9 = x^2 - 2 + \\frac{1}{x^2} \\implies x^2+\\frac{1}{x^2} = \\boxed{11}"}]},
+    {"n":2,"ch":"Real Numbers","en":"\\(\\sqrt{5}\\) is:","bn":"\\(\\sqrt{5}\\) হলো:","opts":["Rational","Integer","Irrational","Natural"],"ans":2,"viz":"surd_numline","sol":[{"t":"5 is not a perfect square → \\(\\sqrt{5}=2.2360...\\) non-terminating, non-repeating."},{"m":"\\sqrt{5} \\in \\mathbb{R}\\setminus\\mathbb{Q} \\text{ (irrational)}"}]},
+    {"n":3,"ch":"Logarithms","en":"\\(\\log_3 81 = ?\\)","bn":"","opts":["2","3","4","9"],"ans":2,"sol":[{"m":"3^4 = 81 \\implies \\log_3 81 = \\boxed{4}"}]},
+    {"n":4,"ch":"Sets","en":"If \\(A \\subset B\\) and \\(B \\subset A\\), then:","bn":"","opts":["A is empty","B is empty","A = B","A ∩ B = ∅"],"ans":2,"sol":[{"t":"If each is a subset of the other, they contain exactly the same elements."},{"m":"A \\subset B \\text{ and } B \\subset A \\implies A = B"}]},
+    {"n":5,"ch":"Sets","en":"If \\(n(A) = 5\\), total subsets of A:","bn":"","opts":["10","25","32","64"],"ans":2,"sol":[{"m":"2^5 = \\boxed{32}"}]},
+    {"n":6,"ch":"Functions","en":"If \\(f(x) = x^2 + 1\\), find \\(f(-2)\\).","bn":"","opts":["3","4","5","6"],"ans":2,"sol":[{"m":"f(-2) = (-2)^2 + 1 = 4+1 = \\boxed{5}"}]},
+    {"n":7,"ch":"Algebra","en":"\\((a+b)^2 - (a-b)^2 = ?\\)","bn":"","opts":["\\(4ab\\)","\\(2ab\\)","\\(a^2-b^2\\)","\\(2a^2\\)"],"ans":0,"sol":[{"m":"(a^2+2ab+b^2)-(a^2-2ab+b^2) = \\boxed{4ab}"}]},
+    {"n":8,"ch":"Algebra","en":"Factors of \\(x^2 - 5x + 6\\):","bn":"","opts":["\\((x-1)(x-6)\\)","\\((x-2)(x-3)\\)","\\((x+2)(x+3)\\)","\\((x-1)(x+6)\\)"],"ans":1,"sol":[{"t":"Find two numbers: product=6, sum=5 → 2 and 3"},{"m":"x^2-5x+6 = (x-2)(x-3)"}]},
+    {"n":9,"ch":"Logarithms","en":"\\(\\log\\frac{a}{b} = ?\\)","bn":"","opts":["\\(\\log a - \\log b\\)","\\(\\log a \\cdot \\log b\\)","\\(\\frac{\\log a}{\\log b}\\)","\\(\\log a + \\log b\\)"],"ans":0,"sol":[{"m":"\\log\\frac{a}{b} = \\log a - \\log b"},{"note":"Quotient rule of logarithms."}]},
+    {"n":10,"ch":"Exponents","en":"\\(2^{3x} = 64\\), find \\(x\\):","bn":"","opts":["1","2","3","4"],"ans":1,"sol":[{"m":"64 = 2^6 \\implies 3x=6 \\implies x = \\boxed{2}"}]},
+    {"n":11,"ch":"Geometry","en":"Sum of angles of a quadrilateral:","bn":"","opts":["180°","270°","360°","540°"],"ans":2,"sol":[{"m":"(4-2)\\times180^\\circ = \\boxed{360^\\circ}"}]},
+    {"n":12,"ch":"Triangles","en":"In a right triangle, hypotenuse² =","bn":"","opts":["a+b","a²−b²","a²+b²","(a+b)²"],"ans":2,"sol":[{"m":"c^2 = a^2 + b^2 \\quad (\\text{Pythagorean theorem})"}]},
+    {"n":13,"ch":"Circle","en":"At the point of tangency, tangent and radius are:","bn":"","opts":["Parallel","Equal","Perpendicular","Supplementary"],"ans":2,"sol":[{"m":"\\text{Tangent} \\perp \\text{Radius at point of contact}"}]},
+    {"n":14,"ch":"Coordinate Geometry","en":"Midpoint of (2, 4) and (6, 8):","bn":"","opts":["(3,6)","(4,6)","(4,8)","(8,12)"],"ans":1,"sol":[{"m":"\\left(\\frac{2+6}{2}, \\frac{4+8}{2}\\right) = \\boxed{(4,6)}"}]},
+    {"n":15,"ch":"Coordinate Geometry","en":"Gradient of line joining (1,2) and (3,6):","bn":"","opts":["1","2","3","4"],"ans":1,"sol":[{"m":"m = \\frac{6-2}{3-1} = \\frac{4}{2} = \\boxed{2}"}]},
+    {"n":16,"ch":"Trigonometry","en":"\\(\\sin 30° = ?\\)","bn":"","opts":["\\(\\frac{\\sqrt{3}}{2}\\)","\\(\\frac{1}{2}\\)","\\(1\\)","\\(\\frac{1}{\\sqrt{2}}\\)"],"ans":1,"sol":[{"m":"\\sin 30^\\circ = \\boxed{\\frac{1}{2}}"}]},
+    {"n":17,"ch":"Trigonometry","en":"\\(\\tan 45° = ?\\)","bn":"","opts":["0","\\(\\frac{1}{\\sqrt{2}}\\)","\\(\\sqrt{3}\\)","1"],"ans":3,"sol":[{"m":"\\tan 45^\\circ = \\frac{\\sin 45^\\circ}{\\cos 45^\\circ} = \\boxed{1}"}]},
+    {"n":18,"ch":"Trigonometry","en":"If \\(\\cos\\theta = \\frac{5}{13}\\), find \\(\\tan\\theta\\).","bn":"","opts":["\\(\\frac{5}{12}\\)","\\(\\frac{12}{5}\\)","\\(\\frac{12}{13}\\)","\\(\\frac{13}{5}\\)"],"ans":1,"viz":"right_triangle_trig","vizData":{"opp":12,"adj":5,"hyp":13,"angle":67},"sol":[{"t":"adj=5, hyp=13 → opp=√(169−25)=12"},{"m":"\\tan\\theta = \\frac{12}{5}"}]},
+    {"n":19,"ch":"Statistics","en":"Arithmetic mean of 10 numbers is 15. Their sum:","bn":"","opts":["25","100","150","200"],"ans":2,"sol":[{"m":"\\text{Sum} = n \\times \\bar{x} = 10 \\times 15 = \\boxed{150}"}]},
+    {"n":20,"ch":"Statistics","en":"Median of 2, 4, 6, 8, 10 (sorted):","bn":"","opts":["4","5","6","7"],"ans":2,"sol":[{"t":"n=5 (odd), middle = 3rd value"},{"m":"\\text{Median} = \\boxed{6}"}]},
+    {"n":21,"ch":"Algebra","en":"\\(a+b=7,\\ ab=10\\). Find \\((a-b)^2\\).","bn":"","opts":["3","9","29","49"],"ans":1,"sol":[{"m":"(a-b)^2 = (a+b)^2 - 4ab = 49-40 = \\boxed{9}"}]},
+    {"n":22,"ch":"Logarithms","en":"\\(\\log_{10} 0.01 = ?\\)","bn":"","opts":["−1","−2","2","0.01"],"ans":1,"sol":[{"m":"0.01 = 10^{-2} \\implies \\log_{10}0.01 = \\boxed{-2}"}]},
+    {"n":23,"ch":"Real Numbers","en":"The number \\(-\\sqrt{2}\\) is:","bn":"","opts":["Natural","Rational","Irrational","Integer"],"ans":2,"sol":[{"t":"Negating an irrational keeps it irrational."},{"m":"-\\sqrt{2} \\in \\mathbb{R}\\setminus\\mathbb{Q}"}]},
+    {"n":24,"ch":"Sets","en":"If \\(A=\\{1,2\\}\\) and \\(B=\\{2,3\\}\\), then \\(A \\cup B = ?\\)","bn":"","opts":["\\(\\{2\\}\\)","\\(\\{1,2,3\\}\\)","\\(\\{1,3\\}\\)","\\(\\{1,2,2,3\\}\\)"],"ans":1,"sol":[{"m":"A \\cup B = \\{1,2,3\\}"}]},
+    {"n":25,"ch":"Mensuration","en":"Area of rectangle with l=8, b=5:","bn":"","opts":["13","26","40","80"],"ans":2,"sol":[{"m":"A = l \\times b = 8 \\times 5 = \\boxed{40}"}]},
+    {"n":26,"ch":"Mensuration","en":"Perimeter of equilateral triangle, side=6:","bn":"","opts":["6","12","18","36"],"ans":2,"sol":[{"m":"P = 3 \\times 6 = \\boxed{18}"}]},
+    {"n":27,"ch":"Trigonometry","en":"\\(\\sec^2\\theta - \\tan^2\\theta = ?\\)","bn":"","opts":["0","1","\\(\\sec\\theta\\)","2"],"ans":1,"sol":[{"m":"\\sec^2\\theta - \\tan^2\\theta = \\frac{1-\\sin^2\\theta}{\\cos^2\\theta} = \\frac{\\cos^2\\theta}{\\cos^2\\theta} = \\boxed{1}"}]},
+    {"n":28,"ch":"Statistics","en":"Standard deviation is always:","bn":"","opts":["Negative","Zero","Positive","Non-negative"],"ans":3,"sol":[{"t":"\\(\\sigma = \\sqrt{\\text{variance}} \\geq 0\\). Equals 0 only when all values are identical."}]},
+    {"n":29,"ch":"Exponents","en":"\\(8^{2/3} = ?\\)","bn":"","opts":["2","4","6","8"],"ans":1,"sol":[{"m":"8^{2/3} = (8^{1/3})^2 = 2^2 = \\boxed{4}"}]},
+    {"n":30,"ch":"Arithmetic","en":"Number of prime factors of 60:","bn":"","opts":["2","3","4","5"],"ans":1,"sol":[{"m":"60 = 2^2 \\times 3 \\times 5 \\implies \\text{prime factors: } \\{2,3,5\\} = \\boxed{3}"}]}
+  ],
+  "cq": [
+    {"n":1,"ch":"Surds","stem":"\\(x = 2+\\sqrt{3},\\quad y = 2-\\sqrt{3}\\)","stemBn":"","parts":[
+      {"l":"ক","m":2,"q":"Find \\(xy\\).","sol":[{"m":"xy = (2+\\sqrt{3})(2-\\sqrt{3}) = 4-3 = \\boxed{1}"}]},
+      {"l":"খ","m":4,"q":"Find \\(x^2+y^2\\).","sol":[{"m":"x+y=4,\\ xy=1"},{"m":"x^2+y^2 = (x+y)^2-2xy = 16-2 = \\boxed{14}"}]},
+      {"l":"গ","m":4,"q":"Find \\(x^3+y^3\\).","sol":[{"t":"Use: \\(x^3+y^3=(x+y)(x^2-xy+y^2)\\)"},{"m":"=(4)(14-1) = 4\\times13 = \\boxed{52}"}]}
+    ]},
+    {"n":2,"ch":"Logarithms","stem":"\\(\\log_3(x-2)+\\log_3 3 = 3\\)","stemBn":"","parts":[
+      {"l":"ক","m":2,"q":"Find \\(\\log_3 3\\).","sol":[{"m":"\\log_3 3 = \\boxed{1}"}]},
+      {"l":"খ","m":4,"q":"Find \\(x\\).","sol":[{"m":"\\log_3[3(x-2)]=3 \\implies 3(x-2)=27"},{"m":"x-2=9 \\implies x=\\boxed{11}"}]},
+      {"l":"গ","m":4,"q":"Verify your answer.","sol":[{"m":"\\log_3(11-2)+1 = \\log_3 9+1 = 2+1 = \\boxed{3}\\checkmark"}]}
+    ]},
+    {"n":3,"ch":"Coordinate Geometry","stem":"Vertices: \\(P(0,0)\\), \\(Q(6,0)\\), \\(R(6,8)\\)","stemBn":"","viz":"coordplane","vizData":{"points":[[0,0,"P"],[6,0,"Q"],[6,8,"R"]],"lines":[[[0,0],[6,8]]]},"parts":[
+      {"l":"ক","m":2,"q":"Find PQ.","sol":[{"m":"PQ = \\sqrt{36+0} = \\boxed{6}"}]},
+      {"l":"খ","m":4,"q":"Find PR and QR. Show right-angled at Q.","sol":[{"m":"QR=8,\\quad PR=\\sqrt{36+64}=10"},{"m":"PQ^2+QR^2=36+64=100=PR^2\\checkmark"}]},
+      {"l":"গ","m":4,"q":"Area of △PQR.","sol":[{"m":"A = \\frac{1}{2}\\times6\\times8 = \\boxed{24 \\text{ sq. units}}"}]}
+    ]},
+    {"n":4,"ch":"Sets","stem":"60 students: 35 like maths (M), 30 like science (S), 15 like both.","stemBn":"","viz":"venn","vizData":{"A":35,"B":30,"AB":15,"total":60},"parts":[
+      {"l":"ক","m":2,"q":"Maths only.","sol":[{"m":"35-15=\\boxed{20}"}]},
+      {"l":"খ","m":4,"q":"\\(n(M\\cup S)\\).","sol":[{"m":"35+30-15=\\boxed{50}"}]},
+      {"l":"গ","m":4,"q":"Neither subject.","sol":[{"m":"60-50=\\boxed{10}"}]}
+    ]},
+    {"n":5,"ch":"Statistics","stem":"Data: 20, 25, 30, 35, 40, 45, 50, 55, 60, 65","stemBn":"","viz":"histogram","vizData":{"labels":["20-30","30-40","40-50","50-60","60-70"],"freq":[2,2,2,2,2]},"parts":[
+      {"l":"ক","m":2,"q":"Range.","sol":[{"m":"65-20=\\boxed{45}"}]},
+      {"l":"খ","m":4,"q":"Mean and median.","sol":[{"m":"\\bar{x}=\\frac{395}{10}=\\boxed{39.5}"},{"t":"Sorted n=10 (even): 5th=40, 6th=45"},{"m":"\\text{Median}=\\frac{40+45}{2}=\\boxed{42.5}"}]},
+      {"l":"গ","m":4,"q":"Variance \\(\\sigma^2\\).","sol":[{"t":"Deviations from 39.5: −19.5,−14.5,−9.5,−4.5,0.5,5.5,10.5,15.5,20.5,25.5"},{"m":"\\sigma^2=\\frac{2062.5}{10}=\\boxed{206.25}"}]}
+    ]},
+    {"n":6,"ch":"Trigonometry","stem":"From top of 40 m building, angle of depression = 60°.","stemBn":"","viz":"right_triangle_trig","vizData":{"opp":40,"adj":23,"hyp":46,"angle":60},"parts":[
+      {"l":"ক","m":2,"q":"\\(\\tan 60° = ?\\)","sol":[{"m":"\\tan 60^\\circ = \\sqrt{3}"}]},
+      {"l":"খ","m":4,"q":"Horizontal distance.","sol":[{"m":"\\tan 60^\\circ=\\frac{40}{d} \\implies d=\\frac{40}{\\sqrt{3}}=\\frac{40\\sqrt{3}}{3}\\approx\\boxed{23.09\\text{ m}}"}]},
+      {"l":"গ","m":4,"q":"Slant distance.","sol":[{"m":"\\frac{40}{\\sin 60^\\circ}=\\frac{40}{\\sqrt{3}/2}=\\frac{80}{\\sqrt{3}}\\approx\\boxed{46.19\\text{ m}}"}]}
+    ]},
+    {"n":7,"ch":"Functions","stem":"\\(g(x) = 3x^2 - 6x + 3\\)","stemBn":"","parts":[
+      {"l":"ক","m":2,"q":"Find \\(g(1)\\).","sol":[{"m":"g(1)=3-6+3=\\boxed{0}"}]},
+      {"l":"খ","m":4,"q":"Factorize \\(g(x)\\).","sol":[{"m":"3x^2-6x+3 = 3(x-1)^2"}]},
+      {"l":"গ","m":4,"q":"For which \\(x\\) is \\(g(x)=12\\)?","sol":[{"m":"3(x-1)^2=12 \\implies (x-1)^2=4"},{"m":"x=3 \\text{ or } x=\\boxed{-1}"}]}
+    ]}
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "label": "Mymensingh",
+  "year": 2024,
+  "mcqImgs": ["https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-mym-1.jpg","https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-mym-2.jpg"],
+  "cqImgs": ["https://i0.wp.com/i.ibb.co/cKNxyHhX/pdf-Download-2.jpg","https://i0.wp.com/i.ibb.co/WNCxqW8f/pdf-Download-1.jpg"],
+  "mcq": [
+    {"n":1,"ch":"Algebra","en":"\\(x+\\frac{1}{x}=4\\). Find \\(x^2+\\frac{1}{x^2}\\).","bn":"","opts":["12","14","16","18"],"ans":1,"sol":[{"m":"\\left(x+\\frac{1}{x}\\right)^2=x^2+2+\\frac{1}{x^2} \\implies 16=x^2+2+\\frac{1}{x^2} \\implies \\boxed{14}"}]},
+    {"n":2,"ch":"Surds","en":"Simplify \\(\\sqrt{50}-\\sqrt{18}\\).","bn":"","opts":["\\(2\\sqrt{2}\\)","\\(3\\sqrt{2}\\)","\\(4\\sqrt{2}\\)","\\(\\sqrt{32}\\)"],"ans":0,"sol":[{"m":"5\\sqrt{2}-3\\sqrt{2}=\\boxed{2\\sqrt{2}}"}]},
+    {"n":3,"ch":"Logarithms","en":"\\(\\log 2=0.301\\). Find \\(\\log 8\\).","bn":"","opts":["0.602","0.903","1.204","2.401"],"ans":1,"sol":[{"m":"\\log 8=\\log 2^3=3\\log 2=3\\times0.301=\\boxed{0.903}"}]},
+    {"n":4,"ch":"Sets","en":"\\(n(U)=100,n(A)=60,n(B)=50,n(A\\cap B)=20\\). Find \\(n((A\\cup B)')\\).","bn":"","opts":["10","20","30","40"],"ans":0,"sol":[{"m":"n(A\\cup B)=60+50-20=90 \\implies n((A\\cup B)')=100-90=\\boxed{10}"}]},
+    {"n":5,"ch":"Functions","en":"If \\(f(x)=|x|\\), find \\(f(-5)\\).","bn":"","opts":["−5","0","5","25"],"ans":2,"sol":[{"m":"f(-5)=|-5|=\\boxed{5}"}]},
+    {"n":6,"ch":"Algebra","en":"\\(\\frac{x^2-4}{x-2} = ?\\)","bn":"","opts":["\\(x+2\\) (for \\(x\\neq2\\))","\\(x-2\\)","\\(x^2+4\\)","2"],"ans":0,"sol":[{"m":"\\frac{(x-2)(x+2)}{x-2}=\\boxed{x+2} \\text{ for } x\\neq2"}]},
+    {"n":7,"ch":"Logarithms","en":"\\(10^{\\log_{10}7} = ?\\)","bn":"","opts":["7","10","70","100"],"ans":0,"sol":[{"m":"10^{\\log_{10}7}=\\boxed{7} \\text{ (inverse function property)}"}]},
+    {"n":8,"ch":"Algebra","en":"\\(x^4-1 = ?\\)","bn":"","opts":["\\((x-1)(x+1)(x^2+1)\\)","\\((x-1)^4\\)","\\((x^2-1)^2\\)","\\((x+1)^4\\)"],"ans":0,"sol":[{"m":"x^4-1=(x^2-1)(x^2+1)=(x-1)(x+1)(x^2+1)"}]},
+    {"n":9,"ch":"Exponents","en":"\\(\\frac{1}{x^{-3}} = ?\\)","bn":"","opts":["\\(x^3\\)","\\(x^{-3}\\)","\\(\\frac{1}{3x}\\)","\\(-x^3\\)"],"ans":0,"sol":[{"m":"\\frac{1}{x^{-3}}=x^3"}]},
+    {"n":10,"ch":"Logarithms","en":"Change of base: \\(\\log_3 7 = ?\\)","bn":"","opts":["\\(\\frac{\\log 7}{\\log 3}\\)","\\(\\frac{\\log 3}{\\log 7}\\)","\\(7\\log 3\\)","\\(3\\log 7\\)"],"ans":0,"sol":[{"m":"\\log_3 7=\\frac{\\log 7}{\\log 3}=\\frac{\\ln 7}{\\ln 3}"}]},
+    {"n":11,"ch":"Geometry","en":"Corresponding angles on parallel lines are:","bn":"","opts":["Supplementary","Equal","Complementary","Vertically opposite"],"ans":1,"sol":[{"t":"Corresponding angles (F-angles) are equal."}]},
+    {"n":12,"ch":"Triangles","en":"Altitude of equilateral triangle side \\(a\\):","bn":"","opts":["\\(\\frac{a}{2}\\)","\\(\\frac{a\\sqrt{3}}{2}\\)","\\(a\\sqrt{3}\\)","\\(\\frac{a\\sqrt{3}}{4}\\)"],"ans":1,"sol":[{"m":"h=\\frac{a\\sqrt{3}}{2}"}]},
+    {"n":13,"ch":"Circle","en":"Two circles with same center are called:","bn":"","opts":["Concentric","Congruent","Similar","Eccentric"],"ans":0,"sol":[{"t":"Concentric circles share the same center."}]},
+    {"n":14,"ch":"Coordinate Geometry","en":"Equation of line slope=2 through (0,3):","bn":"","opts":["y=2x+3","y=3x+2","y=2x-3","y=3x-2"],"ans":0,"sol":[{"m":"y=mx+c=2x+3"}]},
+    {"n":15,"ch":"Coordinate Geometry","en":"Area of triangle with vertices (0,0),(4,0),(0,3):","bn":"","opts":["6","8","10","12"],"ans":0,"sol":[{"m":"A=\\frac{1}{2}\\times4\\times3=\\boxed{6}"}]},
+    {"n":16,"ch":"Trigonometry","en":"\\(\\text{cosec}\\,30° = ?\\)","bn":"","opts":["1","2","√2","√3"],"ans":1,"sol":[{"m":"\\csc 30^\\circ=\\frac{1}{\\sin 30^\\circ}=\\frac{1}{1/2}=\\boxed{2}"}]},
+    {"n":17,"ch":"Trigonometry","en":"In right triangle, if \\(\\sin A=\\frac{5}{13}\\), then \\(\\cos A=?\\)","bn":"","opts":["\\(\\frac{12}{13}\\)","\\(\\frac{5}{12}\\)","\\(\\frac{13}{5}\\)","\\(\\frac{13}{12}\\)"],"ans":0,"sol":[{"t":"opp=5, hyp=13 → adj=12"},{"m":"\\cos A=\\frac{12}{13}"}]},
+    {"n":18,"ch":"Circle","en":"The longest chord of a circle is:","bn":"","opts":["Any chord","Diameter","Radius","Arc"],"ans":1,"sol":[{"t":"Diameter is the longest chord."}]},
+    {"n":19,"ch":"Coordinate Geometry","en":"Gradient of line joining (2,3) and (4,7):","bn":"","opts":["1","2","3","4"],"ans":1,"sol":[{"m":"m=\\frac{7-3}{4-2}=\\frac{4}{2}=\\boxed{2}"}]},
+    {"n":20,"ch":"Algebra","en":"\\((x+3)^2 = ?\\)","bn":"","opts":["\\(x^2+9\\)","\\(x^2+3x+9\\)","\\(x^2+6x+9\\)","\\(x^2+6x+3\\)"],"ans":2,"sol":[{"m":"(x+3)^2=x^2+6x+9"}]},
+    {"n":21,"ch":"Trigonometry","en":"\\(\\tan 30° = ?\\)","bn":"","opts":["\\(\\frac{1}{\\sqrt{3}}\\)","\\(\\sqrt{3}\\)","\\(\\frac{\\sqrt{3}}{2}\\)","\\(\\frac{1}{2}\\)"],"ans":0,"sol":[{"m":"\\tan 30^\\circ=\\frac{\\sin 30^\\circ}{\\cos 30^\\circ}=\\frac{1/2}{\\sqrt{3}/2}=\\frac{1}{\\sqrt{3}}"}]},
+    {"n":22,"ch":"Real Numbers","en":"Total number of rational numbers between 0 and 1:","bn":"","opts":["10","100","Finite","Infinite"],"ans":3,"sol":[{"t":"Between any two rationals, infinitely many rationals exist."}]},
+    {"n":23,"ch":"Sets","en":"\\(A \\cap A' = ?\\)","bn":"","opts":["A","∅","U","A'"],"ans":1,"sol":[{"m":"A\\cap A'=\\emptyset \\text{ (a set and its complement are disjoint)}"}]},
+    {"n":24,"ch":"Exponents","en":"\\(x^{-1}+y^{-1} = ?\\)","bn":"","opts":["\\(\\frac{x+y}{xy}\\)","\\(\\frac{1}{x+y}\\)","\\(x+y\\)","\\(xy\\)"],"ans":0,"sol":[{"m":"\\frac{1}{x}+\\frac{1}{y}=\\frac{x+y}{xy}"}]},
+    {"n":25,"ch":"Statistics","en":"Ogive is used to find:","bn":"","opts":["Mean","Mode","Median","Variance"],"ans":2,"sol":[{"t":"Cumulative frequency curve (ogive) is used to find median and quartiles."}]},
+    {"n":26,"ch":"Statistics","en":"Frequency polygon connects midpoints of:","bn":"","opts":["Class boundaries","Class marks","Frequency","Cumulative frequency"],"ans":1,"sol":[{"t":"Frequency polygon connects class marks (midpoints) at their frequencies."}]},
+    {"n":27,"ch":"Trigonometry","en":"\\(\\text{cosec}^2\\theta-\\cot^2\\theta = ?\\)","bn":"","opts":["0","1","2","\\(\\csc\\theta\\)"],"ans":1,"sol":[{"m":"\\csc^2\\theta-\\cot^2\\theta=1"}]},
+    {"n":28,"ch":"Mensuration","en":"Area of parallelogram base=8, height=5:","bn":"","opts":["13","20","40","80"],"ans":2,"sol":[{"m":"A=b\\times h=8\\times5=\\boxed{40}"}]},
+    {"n":29,"ch":"Mensuration","en":"Curved surface area of cylinder r=4, h=10 (π=22/7):","bn":"","opts":["251.4","1760/7","880/7","440/7"],"ans":1,"sol":[{"m":"2\\pi rh=2\\times\\frac{22}{7}\\times4\\times10=\\frac{1760}{7}\\approx251.4"}]},
+    {"n":30,"ch":"Statistics","en":"If mean=median=mode, distribution is:","bn":"","opts":["Positively skewed","Negatively skewed","Symmetric","Bimodal"],"ans":2,"sol":[{"t":"Equal mean, median, mode → symmetric distribution."}]}
+  ],
+  "cq": [
+    {"n":1,"ch":"Algebra","stem":"\\(c+d=9,\\quad cd=20\\)","stemBn":"","parts":[
+      {"l":"ক","m":2,"q":"Find \\((c-d)^2\\).","sol":[{"m":"(c-d)^2=(c+d)^2-4cd=81-80=\\boxed{1}"}]},
+      {"l":"খ","m":4,"q":"Find \\(c^2+d^2\\).","sol":[{"m":"c^2+d^2=(c+d)^2-2cd=81-40=\\boxed{41}"}]},
+      {"l":"গ","m":4,"q":"Find \\(c^3+d^3\\).","sol":[{"t":"\\(c^3+d^3=(c+d)(c^2-cd+d^2)\\)"},{"m":"=9\\times(41-20)=9\\times21=\\boxed{189}"}]}
+    ]},
+    {"n":2,"ch":"Logarithms","stem":"\\(\\log_3 x=2,\\quad \\log_9 y=1\\)","stemBn":"","parts":[
+      {"l":"ক","m":2,"q":"Find \\(x\\).","sol":[{"m":"x=3^2=\\boxed{9}"}]},
+      {"l":"খ","m":4,"q":"Find \\(y\\).","sol":[{"m":"y=9^1=\\boxed{9}"}]},
+      {"l":"গ","m":4,"q":"Find \\(\\log_3(xy)\\).","sol":[{"m":"\\log_3(9\\times9)=\\log_3 81=\\log_3 3^4=\\boxed{4}"}]}
+    ]},
+    {"n":3,"ch":"Coordinate Geometry","stem":"\\(A(0,0)\\), \\(B(15,0)\\), \\(C(15,8)\\)","stemBn":"","viz":"coordplane","vizData":{"points":[[0,0,"A"],[15,0,"B"],[15,8,"C"]],"lines":[[[0,0],[15,8]]]},"parts":[
+      {"l":"ক","m":2,"q":"Find AB.","sol":[{"m":"AB=15"}]},
+      {"l":"খ","m":4,"q":"Find BC and AC. Verify Pythagorean.","sol":[{"m":"BC=8,\\quad AC=\\sqrt{225+64}=17"},{"m":"15^2+8^2=225+64=289=17^2\\checkmark"},{"note":"8-15-17 Pythagorean triple."}]},
+      {"l":"গ","m":4,"q":"Area of △ABC.","sol":[{"m":"A=\\frac{1}{2}\\times15\\times8=\\boxed{60\\text{ sq. units}}"}]}
+    ]},
+    {"n":4,"ch":"Sets","stem":"120 students: 70 play indoor (I), 65 play outdoor (O), 30 play both.","stemBn":"","viz":"venn","vizData":{"A":70,"B":65,"AB":30,"total":120},"parts":[
+      {"l":"ক","m":2,"q":"Indoor only.","sol":[{"m":"70-30=\\boxed{40}"}]},
+      {"l":"খ","m":4,"q":"\\(n(I\\cup O)\\).","sol":[{"m":"70+65-30=\\boxed{105}"}]},
+      {"l":"গ","m":4,"q":"Neither sport.","sol":[{"m":"120-105=\\boxed{15}"}]}
+    ]},
+    {"n":5,"ch":"Statistics","stem":"Heights (cm): 150, 155, 160, 165, 170, 175, 180, 145, 140, 185","stemBn":"","viz":"histogram","vizData":{"labels":["140-150","150-160","160-170","170-180","180-190"],"freq":[2,2,2,2,2]},"parts":[
+      {"l":"ক","m":2,"q":"Range.","sol":[{"m":"185-140=\\boxed{45}"}]},
+      {"l":"খ","m":4,"q":"Mean and median.","sol":[{"m":"\\bar{x}=\\frac{1625}{10}=\\boxed{162.5}"},{"m":"\\text{Median}=\\frac{162.5+162.5}{2}=\\boxed{162.5}"}]},
+      {"l":"গ","m":4,"q":"Variance.","sol":[{"m":"\\sigma^2=\\frac{2062.5}{10}=\\boxed{206.25}"}]}
+    ]},
+    {"n":6,"ch":"Trigonometry","stem":"A ladder 10 m long leans against a wall. Foot makes 60° with ground.","stemBn":"","viz":"right_triangle_trig","vizData":{"opp":9,"adj":5,"hyp":10,"angle":60},"parts":[
+      {"l":"ক","m":2,"q":"\\(\\sin 60° = ?\\)","sol":[{"m":"\\sin 60^\\circ=\\frac{\\sqrt{3}}{2}"}]},
+      {"l":"খ","m":4,"q":"Height up the wall.","sol":[{"m":"\\sin 60^\\circ=\\frac{h}{10} \\implies h=10\\times\\frac{\\sqrt{3}}{2}=5\\sqrt{3}\\approx\\boxed{8.66\\text{ m}}"}]},
+      {"l":"গ","m":4,"q":"Distance of foot from wall.","sol":[{"m":"\\cos 60^\\circ=\\frac{d}{10} \\implies d=10\\times\\frac{1}{2}=\\boxed{5\\text{ m}}"}]}
+    ]},
+    {"n":7,"ch":"Functions","stem":"\\(t(x)=x^2-10x+25\\)","stemBn":"","parts":[
+      {"l":"ক","m":2,"q":"Find \\(t(5)\\).","sol":[{"m":"t(5)=25-50+25=\\boxed{0}"}]},
+      {"l":"খ","m":4,"q":"Factorize and find minimum.","sol":[{"m":"t(x)=(x-5)^2"},{"t":"Minimum = 0 at x=5."}]},
+      {"l":"গ","m":4,"q":"For which \\(x\\) is \\(t(x)\\leq36\\)?","sol":[{"m":"(x-5)^2\\leq36 \\implies |x-5|\\leq6"},{"m":"\\boxed{-1\\leq x\\leq11}"}]}
+    ]}
+  ]
+}
