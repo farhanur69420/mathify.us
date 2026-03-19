@@ -1,3 +1,1 @@
-User-agent: *
-Allow: /
-Sitemap: https://mathify.us/sitemap.xml
+User-agent: *\nAllow: /\nSitemap: https://mathify.us/site
