@@ -1,0 +1,18 @@
+---
+import SscMathPage from '../components/SscMathPage.astro';
+
+import dhaka     from '../data/ssc-2023-dhaka.json';
+import rajshahi  from '../data/ssc-2023-rajshahi.json';
+import chittagong from '../data/ssc-2023-chittagong.json';
+import jessore   from '../data/ssc-2023-jessore.json';
+import comilla   from '../data/ssc-2023-comilla.json';
+import barisal   from '../data/ssc-2023-barisal.json';
+import sylhet    from '../data/ssc-2023-sylhet.json';
+import dinajpur  from '../data/ssc-2023-dinajpur.json';
+import mymensingh from '../data/ssc-2023-mymensingh.json';
+
+const boards = [dhaka, rajshahi, chittagong, jessore, comilla, barisal, sylhet, dinajpur, mymensingh];
+const allYears = [2020, 2021, 2022, 2023, 2024, 2025];
+---
+
+<SscMathPage year={2023} boards={boards} examDate="30 April 2023" allYears={allYears} />
