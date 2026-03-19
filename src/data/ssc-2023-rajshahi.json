@@ -1,0 +1,510 @@
+{
+  "label": "Rajshahi",
+  "year": 2023,
+  "mcqImgs": [],
+  "cqImgs": [],
+  "mcq": [
+    {
+      "n": 1, "ch": "Sets",
+      "en": "If \\(A = \\{a,b,c\\}\\), the number of proper subsets is:",
+      "bn": "\\(A = \\{a,b,c\\}\\) হলে প্রকৃত উপসেটের সংখ্যা:",
+      "opts": ["6", "7", "8", "9"], "ans": 1,
+      "sol": [
+        {"m": "\\text{Proper subsets} = 2^n - 1 = 2^3 - 1 = \\boxed{7}"},
+        {"note": "Proper subsets exclude the set itself."}
+      ]
+    },
+    {
+      "n": 2, "ch": "Sets",
+      "en": "\\(A \\cup \\emptyset = ?\\)",
+      "bn": "\\(A \\cup \\emptyset = ?\\)",
+      "opts": ["\\(\\emptyset\\)", "\\(A\\)", "\\(U\\)", "\\(A'\\)"], "ans": 1,
+      "sol": [
+        {"t": "Union with the empty set returns the original set."},
+        {"m": "A \\cup \\emptyset = \\boxed{A}"}
+      ]
+    },
+    {
+      "n": 3, "ch": "Functions",
+      "en": "If \\(f(x) = x^2 + 1\\), then \\(f(-2) = ?\\)",
+      "bn": "\\(f(x) = x^2 + 1\\) হলে \\(f(-2) = ?\\)",
+      "opts": ["3", "5", "-3", "-5"], "ans": 1,
+      "sol": [
+        {"m": "f(-2) = (-2)^2 + 1 = 4 + 1 = \\boxed{5}"}
+      ]
+    },
+    {
+      "n": 4, "ch": "Algebra",
+      "en": "If \\(x + y = 6\\) and \\(x - y = 2\\), then \\(x = ?\\)",
+      "bn": "\\(x + y = 6\\) এবং \\(x - y = 2\\) হলে \\(x = ?\\)",
+      "opts": ["2", "3", "4", "5"], "ans": 2,
+      "sol": [
+        {"t": "Add the two equations:"},
+        {"m": "2x = 8 \\implies x = \\boxed{4}"}
+      ]
+    },
+    {
+      "n": 5, "ch": "Algebra",
+      "en": "\\((a+b)^2 - (a-b)^2 = ?\\)",
+      "bn": "\\((a+b)^2 - (a-b)^2\\) এর মান:",
+      "opts": ["\\(2ab\\)", "\\(4ab\\)", "\\(2(a^2+b^2)\\)", "\\(a^2-b^2\\)"], "ans": 1,
+      "sol": [
+        {"m": "(a+b)^2 = a^2+2ab+b^2"},
+        {"m": "(a-b)^2 = a^2-2ab+b^2"},
+        {"m": "(a+b)^2 - (a-b)^2 = \\boxed{4ab}"}
+      ]
+    },
+    {
+      "n": 6, "ch": "Real Numbers",
+      "en": "Between which two integers does \\(\\sqrt{10}\\) lie?",
+      "bn": "\\(\\sqrt{10}\\) কোন দুটি পূর্ণসংখ্যার মধ্যে অবস্থিত?",
+      "opts": ["2 and 3", "3 and 4", "4 and 5", "5 and 6"], "ans": 1,
+      "sol": [
+        {"m": "3^2 = 9 < 10 < 16 = 4^2"},
+        {"m": "\\therefore 3 < \\sqrt{10} < 4"}
+      ]
+    },
+    {
+      "n": 7, "ch": "Surds",
+      "en": "\\(3\\sqrt{2} \\times 2\\sqrt{3} = ?\\)",
+      "bn": "\\(3\\sqrt{2} \\times 2\\sqrt{3}\\) এর মান:",
+      "opts": ["\\(6\\sqrt{5}\\)", "\\(6\\sqrt{6}\\)", "\\(5\\sqrt{6}\\)", "\\(6\\)"], "ans": 1,
+      "sol": [
+        {"m": "3\\sqrt{2} \\times 2\\sqrt{3} = 6\\sqrt{6}"}
+      ]
+    },
+    {
+      "n": 8, "ch": "Surds",
+      "en": "Rationalize: \\(\\frac{1}{\\sqrt{5}+\\sqrt{3}}\\)",
+      "bn": "হর মূলদ করো: \\(\\frac{1}{\\sqrt{5}+\\sqrt{3}}\\)",
+      "opts": ["\\(\\frac{\\sqrt{5}-\\sqrt{3}}{2}\\)", "\\(\\frac{\\sqrt{5}+\\sqrt{3}}{2}\\)", "\\(\\sqrt{5}-\\sqrt{3}\\)", "\\(\\frac{\\sqrt{5}-\\sqrt{3}}{8}\\)"], "ans": 0,
+      "sol": [
+        {"m": "\\frac{1}{\\sqrt{5}+\\sqrt{3}} \\times \\frac{\\sqrt{5}-\\sqrt{3}}{\\sqrt{5}-\\sqrt{3}} = \\frac{\\sqrt{5}-\\sqrt{3}}{5-3} = \\boxed{\\frac{\\sqrt{5}-\\sqrt{3}}{2}}"}
+      ]
+    },
+    {
+      "n": 9, "ch": "Exponents",
+      "en": "\\((27)^{2/3} = ?\\)",
+      "bn": "\\((27)^{2/3}\\) এর মান কত?",
+      "opts": ["3", "6", "9", "18"], "ans": 2,
+      "sol": [
+        {"m": "27^{2/3} = (3^3)^{2/3} = 3^2 = \\boxed{9}"}
+      ]
+    },
+    {
+      "n": 10, "ch": "Exponents",
+      "en": "If \\(5^{x} = 125\\), then \\(x = ?\\)",
+      "bn": "\\(5^{x} = 125\\) হলে \\(x = ?\\)",
+      "opts": ["2", "3", "4", "5"], "ans": 1,
+      "sol": [
+        {"m": "125 = 5^3 \\implies x = \\boxed{3}"}
+      ]
+    },
+    {
+      "n": 11, "ch": "Logarithms",
+      "en": "\\(\\log_5 25 = ?\\)",
+      "bn": "\\(\\log_5 25\\) এর মান কত?",
+      "opts": ["2", "5", "10", "25"], "ans": 0,
+      "sol": [
+        {"m": "\\log_5 25 = \\log_5 5^2 = \\boxed{2}"}
+      ]
+    },
+    {
+      "n": 12, "ch": "Logarithms",
+      "en": "\\(\\log 50 - \\log 5 = ?\\)",
+      "bn": "\\(\\log 50 - \\log 5\\) এর মান কত?",
+      "opts": ["0", "1", "10", "45"], "ans": 1,
+      "sol": [
+        {"m": "\\log 50 - \\log 5 = \\log\\frac{50}{5} = \\log 10 = \\boxed{1}"},
+        {"note": "Quotient rule: \\(\\log a - \\log b = \\log(a/b)\\)"}
+      ]
+    },
+    {
+      "n": 13, "ch": "Algebra",
+      "en": "The product of the roots of \\(2x^2 + 5x - 3 = 0\\) is:",
+      "bn": "\\(2x^2 + 5x - 3 = 0\\) সমীকরণের মূলদ্বয়ের গুণফল:",
+      "opts": ["\\(\\frac{3}{2}\\)", "\\(-\\frac{3}{2}\\)", "\\(\\frac{5}{2}\\)", "\\(-\\frac{5}{2}\\)"], "ans": 1,
+      "sol": [
+        {"t": "For \\(ax^2+bx+c=0\\), product of roots = \\(c/a\\)"},
+        {"m": "\\text{Product} = \\frac{-3}{2} = \\boxed{-\\frac{3}{2}}"}
+      ]
+    },
+    {
+      "n": 14, "ch": "Algebra",
+      "en": "\\(a^4 - b^4\\) factorizes as:",
+      "bn": "\\(a^4 - b^4\\) এর উৎপাদক:",
+      "opts": ["\\((a^2+b^2)(a+b)(a-b)\\)", "\\((a^2-b^2)^2\\)", "\\((a+b)^2(a-b)^2\\)", "\\((a^2+b^2)^2\\)"], "ans": 0,
+      "sol": [
+        {"m": "a^4-b^4 = (a^2+b^2)(a^2-b^2) = \\boxed{(a^2+b^2)(a+b)(a-b)}"}
+      ]
+    },
+    {
+      "n": 15, "ch": "Coordinate Geometry",
+      "en": "The equation of x-axis is:",
+      "bn": "x-অক্ষের সমীকরণ:",
+      "opts": ["\\(x = 0\\)", "\\(y = 0\\)", "\\(x = y\\)", "\\(x + y = 0\\)"], "ans": 1,
+      "sol": [
+        {"t": "On the x-axis, the y-coordinate is always 0."},
+        {"m": "\\text{Equation: } \\boxed{y = 0}"}
+      ]
+    },
+    {
+      "n": 16, "ch": "Coordinate Geometry",
+      "en": "In which quadrant does the point \\((-3, 4)\\) lie?",
+      "bn": "\\((-3, 4)\\) বিন্দুটি কোন চতুর্ভাগে অবস্থিত?",
+      "opts": ["I", "II", "III", "IV"], "ans": 1,
+      "sol": [
+        {"t": "Negative x, positive y means second quadrant."},
+        {"m": "(-3,4) \\in \\boxed{\\text{Quadrant II}}"}
+      ]
+    },
+    {
+      "n": 17, "ch": "Geometry",
+      "en": "Sum of exterior angles of any convex polygon is:",
+      "bn": "যেকোনো উত্তল বহুভুজের বহিঃস্থ কোণের সমষ্টি:",
+      "opts": ["180°", "270°", "360°", "540°"], "ans": 2,
+      "sol": [
+        {"m": "\\text{Sum of exterior angles} = \\boxed{360°}"},
+        {"note": "This is true for any convex polygon regardless of the number of sides."}
+      ]
+    },
+    {
+      "n": 18, "ch": "Geometry",
+      "en": "A chord of length 16 cm is drawn in a circle of radius 10 cm. The distance of the chord from the center is:",
+      "bn": "10 সেমি ব্যাসার্ধের বৃত্তে 16 সেমি জ্যা আঁকা হলে কেন্দ্র থেকে জ্যার দূরত্ব:",
+      "opts": ["4 cm", "5 cm", "6 cm", "8 cm"], "ans": 2,
+      "sol": [
+        {"t": "Perpendicular from center bisects the chord. Half-chord = 8 cm."},
+        {"m": "d = \\sqrt{r^2 - 8^2} = \\sqrt{100-64} = \\sqrt{36} = \\boxed{6 \\text{ cm}}"}
+      ]
+    },
+    {
+      "n": 19, "ch": "Geometry",
+      "en": "Two angles of a triangle are 50° and 60°. The third angle is:",
+      "bn": "একটি ত্রিভুজের দুটি কোণ 50° ও 60°। তৃতীয় কোণ:",
+      "opts": ["60°", "70°", "80°", "90°"], "ans": 1,
+      "sol": [
+        {"m": "\\text{Third angle} = 180° - 50° - 60° = \\boxed{70°}"}
+      ]
+    },
+    {
+      "n": 20, "ch": "Trigonometry",
+      "en": "\\(\\sec 0° = ?\\)",
+      "bn": "\\(\\sec 0°\\) এর মান কত?",
+      "opts": ["0", "1", "\\(\\infty\\)", "undefined"], "ans": 1,
+      "sol": [
+        {"m": "\\sec 0° = \\frac{1}{\\cos 0°} = \\frac{1}{1} = \\boxed{1}"}
+      ]
+    },
+    {
+      "n": 21, "ch": "Trigonometry",
+      "en": "If \\(\\cos\\theta = \\frac{12}{13}\\), then \\(\\tan\\theta = ?\\) (acute angle)",
+      "bn": "\\(\\cos\\theta = \\frac{12}{13}\\) হলে \\(\\tan\\theta = ?\\) (সূক্ষ্মকোণ)",
+      "opts": ["\\(\\frac{5}{12}\\)", "\\(\\frac{5}{13}\\)", "\\(\\frac{12}{5}\\)", "\\(\\frac{13}{12}\\)"], "ans": 0,
+      "viz": "right_triangle_trig",
+      "sol": [
+        {"m": "\\sin\\theta = \\sqrt{1-\\cos^2\\theta} = \\sqrt{1-\\frac{144}{169}} = \\sqrt{\\frac{25}{169}} = \\frac{5}{13}"},
+        {"m": "\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta} = \\frac{5/13}{12/13} = \\boxed{\\frac{5}{12}}"}
+      ]
+    },
+    {
+      "n": 22, "ch": "Trigonometry",
+      "en": "\\(1 + \\tan^2\\theta = ?\\)",
+      "bn": "\\(1 + \\tan^2\\theta\\) এর মান:",
+      "opts": ["\\(\\sin^2\\theta\\)", "\\(\\cos^2\\theta\\)", "\\(\\sec^2\\theta\\)", "\\(\\csc^2\\theta\\)"], "ans": 2,
+      "sol": [
+        {"m": "1 + \\tan^2\\theta = \\boxed{\\sec^2\\theta}"},
+        {"note": "One of the three Pythagorean identities."}
+      ]
+    },
+    {
+      "n": 23, "ch": "Statistics",
+      "en": "The mean of 10, 20, 30, 40, 50 is:",
+      "bn": "10, 20, 30, 40, 50 এর গড়:",
+      "opts": ["20", "25", "30", "35"], "ans": 2,
+      "sol": [
+        {"m": "\\bar{x} = \\frac{10+20+30+40+50}{5} = \\frac{150}{5} = \\boxed{30}"}
+      ]
+    },
+    {
+      "n": 24, "ch": "Statistics",
+      "en": "Median of 8, 3, 5, 1, 9 is:",
+      "bn": "8, 3, 5, 1, 9 এর মধ্যমা:",
+      "opts": ["3", "5", "8", "9"], "ans": 1,
+      "sol": [
+        {"t": "Sort: 1, 3, <strong>5</strong>, 8, 9 → middle value (3rd) = 5"},
+        {"m": "\\text{Median} = \\boxed{5}"}
+      ]
+    },
+    {
+      "n": 25, "ch": "Mensuration",
+      "en": "The area of a triangle with base 8 cm and height 6 cm is:",
+      "bn": "ভূমি 8 সেমি ও উচ্চতা 6 সেমি বিশিষ্ট ত্রিভুজের ক্ষেত্রফল:",
+      "opts": ["14 cm²", "24 cm²", "48 cm²", "96 cm²"], "ans": 1,
+      "sol": [
+        {"m": "A = \\frac{1}{2} \\times 8 \\times 6 = \\boxed{24 \\text{ cm}^2}"}
+      ]
+    },
+    {
+      "n": 26, "ch": "Mensuration",
+      "en": "The surface area of a sphere with radius 3 cm is:",
+      "bn": "3 সেমি ব্যাসার্ধের গোলকের পৃষ্ঠতলের ক্ষেত্রফল:",
+      "opts": ["\\(36\\pi\\) cm²", "\\(12\\pi\\) cm²", "\\(18\\pi\\) cm²", "\\(9\\pi\\) cm²"], "ans": 0,
+      "sol": [
+        {"m": "S = 4\\pi r^2 = 4\\pi(9) = \\boxed{36\\pi \\text{ cm}^2}"}
+      ]
+    },
+    {
+      "n": 27, "ch": "Arithmetic",
+      "en": "If A can do a work in 10 days, how much work does A do in 1 day?",
+      "bn": "A একটি কাজ 10 দিনে করতে পারলে, 1 দিনে A কতটুকু কাজ করে?",
+      "opts": ["\\(\\frac{1}{5}\\)", "\\(\\frac{1}{10}\\)", "\\(\\frac{1}{20}\\)", "10"], "ans": 1,
+      "sol": [
+        {"m": "\\text{1 day's work} = \\boxed{\\frac{1}{10}}"}
+      ]
+    },
+    {
+      "n": 28, "ch": "Arithmetic",
+      "en": "Simple interest on Tk. 5000 at 8% per annum for 3 years is:",
+      "bn": "5000 টাকায় বার্ষিক 8% হারে 3 বছরের সরল সুদ:",
+      "opts": ["Tk. 800", "Tk. 1000", "Tk. 1200", "Tk. 1500"], "ans": 2,
+      "sol": [
+        {"m": "I = \\frac{P \\times r \\times t}{100} = \\frac{5000 \\times 8 \\times 3}{100} = \\boxed{1200}"}
+      ]
+    },
+    {
+      "n": 29, "ch": "Real Numbers",
+      "en": "The absolute value of \\(-7\\) is:",
+      "bn": "\\(-7\\) এর পরম মান:",
+      "opts": ["-7", "7", "0", "\\(\\frac{1}{7}\\)"], "ans": 1,
+      "sol": [
+        {"m": "|-7| = \\boxed{7}"}
+      ]
+    },
+    {
+      "n": 30, "ch": "Functions",
+      "en": "If \\(f(x) = \\frac{x+1}{x-1}\\), then \\(f(3) = ?\\)",
+      "bn": "\\(f(x) = \\frac{x+1}{x-1}\\) হলে \\(f(3) = ?\\)",
+      "opts": ["1", "2", "3", "4"], "ans": 1,
+      "sol": [
+        {"m": "f(3) = \\frac{3+1}{3-1} = \\frac{4}{2} = \\boxed{2}"}
+      ]
+    }
+  ],
+  "cq": [
+    {
+      "n": 1, "ch": "Sets",
+      "stem": "In a class of 50 students, 30 like Mathematics (M), 25 like Science (S), and 10 like both.",
+      "stemBn": "50 জন শিক্ষার্থীর একটি ক্লাসে, 30 জন গণিত (M) পছন্দ করে, 25 জন বিজ্ঞান (S) পছন্দ করে এবং 10 জন উভয়ই পছন্দ করে।",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(n(M \\cup S)\\).",
+          "sol": [
+            {"m": "n(M \\cup S) = 30+25-10 = \\boxed{45}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "How many students like only Mathematics?",
+          "sol": [
+            {"m": "n(M \\text{ only}) = n(M) - n(M \\cap S) = 30-10 = \\boxed{20}"},
+            {"t": "Similarly, Science only = \\(25-10 = 15\\)"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "How many students like neither? Draw a Venn diagram.",
+          "sol": [
+            {"m": "n(\\text{neither}) = 50 - n(M \\cup S) = 50 - 45 = \\boxed{5}"},
+            {"note": "Venn: M only = 20, Both = 10, S only = 15, Outside = 5. Total = 50 \\checkmark"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2, "ch": "Algebra",
+      "stem": "\\(x - \\frac{1}{x} = 3\\)",
+      "stemBn": "\\(x - \\frac{1}{x} = 3\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(x^2 + \\frac{1}{x^2}\\).",
+          "sol": [
+            {"m": "\\left(x - \\frac{1}{x}\\right)^2 = x^2 - 2 + \\frac{1}{x^2} = 9"},
+            {"m": "x^2 + \\frac{1}{x^2} = 9 + 2 = \\boxed{11}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(x^2 - \\frac{1}{x^2}\\).",
+          "sol": [
+            {"t": "We need \\(x + \\frac{1}{x}\\). Use: \\((x+1/x)^2 = x^2+2+1/x^2 = 11+2 = 13\\)"},
+            {"m": "x + \\frac{1}{x} = \\sqrt{13} \\quad (\\text{taking positive root})"},
+            {"m": "x^2 - \\frac{1}{x^2} = \\left(x-\\frac{1}{x}\\right)\\left(x+\\frac{1}{x}\\right) = 3\\sqrt{13}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find \\(x^4 + \\frac{1}{x^4}\\).",
+          "sol": [
+            {"m": "\\left(x^2 + \\frac{1}{x^2}\\right)^2 = x^4 + 2 + \\frac{1}{x^4}"},
+            {"m": "121 = x^4 + 2 + \\frac{1}{x^4}"},
+            {"m": "x^4 + \\frac{1}{x^4} = \\boxed{119}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 3, "ch": "Surds",
+      "stem": "\\(a = \\frac{\\sqrt{5}+1}{\\sqrt{5}-1}\\) and \\(b = \\frac{\\sqrt{5}-1}{\\sqrt{5}+1}\\)",
+      "stemBn": "\\(a = \\frac{\\sqrt{5}+1}{\\sqrt{5}-1}\\) এবং \\(b = \\frac{\\sqrt{5}-1}{\\sqrt{5}+1}\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(ab\\).",
+          "sol": [
+            {"m": "ab = \\frac{(\\sqrt{5}+1)(\\sqrt{5}-1)}{(\\sqrt{5}-1)(\\sqrt{5}+1)} = \\frac{5-1}{5-1} = \\boxed{1}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the value of \\(a\\) by rationalizing.",
+          "sol": [
+            {"m": "a = \\frac{\\sqrt{5}+1}{\\sqrt{5}-1} \\times \\frac{\\sqrt{5}+1}{\\sqrt{5}+1} = \\frac{(\\sqrt{5}+1)^2}{4}"},
+            {"m": "= \\frac{5+2\\sqrt{5}+1}{4} = \\boxed{\\frac{6+2\\sqrt{5}}{4} = \\frac{3+\\sqrt{5}}{2}}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find \\(a^2 + b^2\\).",
+          "sol": [
+            {"t": "Since \\(a + b = \\frac{(\\sqrt5+1)^2+(\\sqrt5-1)^2}{(\\sqrt5-1)(\\sqrt5+1)} = \\frac{(6+2\\sqrt5)+(6-2\\sqrt5)}{4} = \\frac{12}{4} = 3\\)"},
+            {"m": "a^2+b^2 = (a+b)^2-2ab = 9-2 = \\boxed{7}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 4, "ch": "Coordinate Geometry",
+      "stem": "The vertices of a triangle are \\(A(0,0)\\), \\(B(6,0)\\), \\(C(0,8)\\).",
+      "stemBn": "একটি ত্রিভুজের শীর্ষবিন্দু \\(A(0,0)\\), \\(B(6,0)\\), \\(C(0,8)\\)।",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(AB\\) and \\(AC\\).",
+          "sol": [
+            {"m": "AB = \\sqrt{36+0} = 6,\\quad AC = \\sqrt{0+64} = 8"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(BC\\) and show the triangle is right-angled.",
+          "sol": [
+            {"m": "BC = \\sqrt{(0-6)^2+(8-0)^2} = \\sqrt{36+64} = \\sqrt{100} = 10"},
+            {"m": "AB^2+AC^2 = 36+64 = 100 = BC^2"},
+            {"note": "6-8-10 is a Pythagorean triple. Right angle at A."}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the area and perimeter of the triangle.",
+          "sol": [
+            {"m": "\\text{Area} = \\frac{1}{2}\\times AB \\times AC = \\frac{1}{2}\\times6\\times8 = \\boxed{24 \\text{ sq. units}}"},
+            {"m": "\\text{Perimeter} = 6+8+10 = \\boxed{24 \\text{ units}}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 5, "ch": "Trigonometry",
+      "stem": "From a point on the ground, the angle of elevation of the top of a building is 30°. The building is 20 m tall.",
+      "stemBn": "মাটির একটি বিন্দু থেকে একটি ভবনের চূড়ার উন্নতি কোণ 30°। ভবনটি 20 মিটার উঁচু।",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(\\tan 30°\\).",
+          "sol": [
+            {"m": "\\tan 30° = \\boxed{\\frac{1}{\\sqrt{3}}}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the distance of the point from the base of the building.",
+          "sol": [
+            {"m": "\\tan 30° = \\frac{20}{d}"},
+            {"m": "\\frac{1}{\\sqrt{3}} = \\frac{20}{d}"},
+            {"m": "d = 20\\sqrt{3} \\approx \\boxed{34.64 \\text{ m}}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the distance from the point to the top of the building.",
+          "sol": [
+            {"m": "\\sin 30° = \\frac{20}{\\text{hyp}}"},
+            {"m": "\\frac{1}{2} = \\frac{20}{\\text{hyp}} \\implies \\text{hyp} = \\boxed{40 \\text{ m}}"},
+            {"note": "Check: \\(\\sqrt{(20\\sqrt{3})^2+20^2} = \\sqrt{1200+400} = \\sqrt{1600} = 40\\) \\checkmark"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 6, "ch": "Geometry",
+      "stem": "In triangle \\(ABC\\), \\(\\angle B = 90°\\), \\(AB = 5\\) cm, \\(BC = 12\\) cm.",
+      "stemBn": "\\(ABC\\) ত্রিভুজে \\(\\angle B = 90°\\), \\(AB = 5\\) সেমি, \\(BC = 12\\) সেমি।",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(AC\\).",
+          "sol": [
+            {"m": "AC = \\sqrt{AB^2+BC^2} = \\sqrt{25+144} = \\sqrt{169} = \\boxed{13 \\text{ cm}}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(\\sin A\\) and \\(\\cos A\\).",
+          "sol": [
+            {"m": "\\sin A = \\frac{BC}{AC} = \\frac{12}{13}"},
+            {"m": "\\cos A = \\frac{AB}{AC} = \\frac{5}{13}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Show that \\(\\sin^2 A + \\cos^2 A = 1\\).",
+          "sol": [
+            {"m": "\\sin^2 A + \\cos^2 A = \\left(\\frac{12}{13}\\right)^2+\\left(\\frac{5}{13}\\right)^2"},
+            {"m": "= \\frac{144}{169}+\\frac{25}{169} = \\frac{169}{169} = \\boxed{1} \\checkmark"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 7, "ch": "Mensuration",
+      "stem": "A cone has base radius 6 cm and height 8 cm.",
+      "stemBn": "একটি শঙ্কুর ভূমির ব্যাসার্ধ 6 সেমি এবং উচ্চতা 8 সেমি।",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find the slant height of the cone.",
+          "sol": [
+            {"m": "l = \\sqrt{r^2+h^2} = \\sqrt{36+64} = \\sqrt{100} = \\boxed{10 \\text{ cm}}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the curved surface area of the cone.",
+          "sol": [
+            {"m": "\\text{CSA} = \\pi r l = \\pi \\times 6 \\times 10 = \\boxed{60\\pi \\approx 188.5 \\text{ cm}^2}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the volume of the cone.",
+          "sol": [
+            {"m": "V = \\frac{1}{3}\\pi r^2 h = \\frac{1}{3}\\pi(36)(8) = \\frac{288\\pi}{3} = \\boxed{96\\pi \\approx 301.6 \\text{ cm}^3}"}
+          ]
+        }
+      ]
+    }
+  ]
+}

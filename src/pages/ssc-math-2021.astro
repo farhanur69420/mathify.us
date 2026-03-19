@@ -1,0 +1,18 @@
+---
+import SscMathPage from '../components/SscMathPage.astro';
+
+import dhaka     from '../data/ssc-2021-dhaka.json';
+import rajshahi  from '../data/ssc-2021-rajshahi.json';
+import chittagong from '../data/ssc-2021-chittagong.json';
+import jessore   from '../data/ssc-2021-jessore.json';
+import comilla   from '../data/ssc-2021-comilla.json';
+import barisal   from '../data/ssc-2021-barisal.json';
+import sylhet    from '../data/ssc-2021-sylhet.json';
+import dinajpur  from '../data/ssc-2021-dinajpur.json';
+import mymensingh from '../data/ssc-2021-mymensingh.json';
+
+const boards = [dhaka, rajshahi, chittagong, jessore, comilla, barisal, sylhet, dinajpur, mymensingh];
+const allYears = [2020, 2021, 2022, 2023, 2024, 2025];
+---
+
+<SscMathPage year={2021} boards={boards} examDate="14 November 2021" allYears={allYears} />

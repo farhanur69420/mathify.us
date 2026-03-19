@@ -1,0 +1,551 @@
+{
+  "label": "Rajshahi",
+  "year": 2021,
+  "mcqImgs": [],
+  "cqImgs": [],
+  "mcq": [
+    {
+      "n": 1, "ch": "Sets",
+      "en": "If \\(U = \\{1,2,3,4,5,6,7\\}\\) and \\(A = \\{2,4,6\\}\\), then \\(A' = ?\\)",
+      "bn": "\\(U = \\{1,2,3,4,5,6,7\\}\\) এবং \\(A = \\{2,4,6\\}\\) হলে \\(A' = ?\\)",
+      "opts": ["\\(\\{1,3,5\\}\\)", "\\(\\{1,3,5,7\\}\\)", "\\(\\{2,4,6\\}\\)", "\\(\\{1,2,3\\}\\)"],
+      "ans": 1,
+      "sol": [
+        {"m": "A' = U - A = \\{1,3,5,7\\}"},
+        {"note": "Complement contains all elements in U but not in A."}
+      ]
+    },
+    {
+      "n": 2, "ch": "Sets",
+      "en": "\\(A = \\{x : x \\in \\mathbb{N}, x < 6\\}\\). What is \\(n(A)\\)?",
+      "bn": "\\(A = \\{x : x \\in \\mathbb{N}, x < 6\\}\\) হলে \\(n(A) = ?\\)",
+      "opts": ["4", "5", "6", "7"],
+      "ans": 1,
+      "sol": [
+        {"m": "A = \\{1, 2, 3, 4, 5\\}"},
+        {"m": "n(A) = \\boxed{5}"}
+      ]
+    },
+    {
+      "n": 3, "ch": "Functions",
+      "en": "If \\(f(x) = x^2 + 1\\), then \\(f(-2) = ?\\)",
+      "bn": "\\(f(x) = x^2 + 1\\) হলে \\(f(-2) = ?\\)",
+      "opts": ["3", "4", "5", "−3"],
+      "ans": 2,
+      "sol": [
+        {"m": "f(-2) = (-2)^2 + 1 = 4 + 1 = \\boxed{5}"}
+      ]
+    },
+    {
+      "n": 4, "ch": "Algebra",
+      "en": "If \\(a + b = 6\\) and \\(ab = 8\\), then \\(a^2 + b^2 = ?\\)",
+      "bn": "\\(a + b = 6\\) এবং \\(ab = 8\\) হলে \\(a^2 + b^2 = ?\\)",
+      "opts": ["16", "20", "24", "28"],
+      "ans": 1,
+      "sol": [
+        {"m": "a^2 + b^2 = (a+b)^2 - 2ab = 36 - 16 = \\boxed{20}"}
+      ]
+    },
+    {
+      "n": 5, "ch": "Algebra",
+      "en": "\\((x + 3)(x - 3) = ?\\)",
+      "bn": "\\((x + 3)(x - 3) = ?\\)",
+      "opts": ["\\(x^2 - 6\\)", "\\(x^2 + 9\\)", "\\(x^2 - 9\\)", "\\(x^2 + 6x + 9\\)"],
+      "ans": 2,
+      "sol": [
+        {"m": "(x+3)(x-3) = x^2 - 9"},
+        {"note": "Difference of squares: \\((a+b)(a-b) = a^2 - b^2\\)"}
+      ]
+    },
+    {
+      "n": 6, "ch": "Real Numbers",
+      "en": "Between which two integers does \\(\\sqrt{10}\\) lie?",
+      "bn": "\\(\\sqrt{10}\\) কোন দুটি পূর্ণসংখ্যার মধ্যে অবস্থিত?",
+      "opts": ["2 and 3", "3 and 4", "4 and 5", "5 and 6"],
+      "ans": 1,
+      "viz": "surd_numline",
+      "sol": [
+        {"m": "3^2 = 9 < 10 < 16 = 4^2"},
+        {"m": "\\therefore 3 < \\sqrt{10} < 4"}
+      ]
+    },
+    {
+      "n": 7, "ch": "Surds",
+      "en": "\\(\\sqrt{12} + \\sqrt{27} = ?\\)",
+      "bn": "\\(\\sqrt{12} + \\sqrt{27}\\) এর মান:",
+      "opts": ["\\(5\\sqrt{3}\\)", "\\(6\\sqrt{3}\\)", "\\(3\\sqrt{5}\\)", "\\(\\sqrt{39}\\)"],
+      "ans": 0,
+      "sol": [
+        {"m": "\\sqrt{12} = 2\\sqrt{3},\\quad \\sqrt{27} = 3\\sqrt{3}"},
+        {"m": "2\\sqrt{3} + 3\\sqrt{3} = \\boxed{5\\sqrt{3}}"}
+      ]
+    },
+    {
+      "n": 8, "ch": "Surds",
+      "en": "Rationalizing factor of \\(\\sqrt{5} - 2\\) is:",
+      "bn": "\\(\\sqrt{5} - 2\\) এর মূলদকরণ গুণনীয়ক:",
+      "opts": ["\\(\\sqrt{5} - 2\\)", "\\(\\sqrt{5} + 2\\)", "\\(2\\sqrt{5}\\)", "\\(5 + 2\\)"],
+      "ans": 1,
+      "sol": [
+        {"m": "(\\sqrt{5}-2)(\\sqrt{5}+2) = 5 - 4 = 1 \\text{ (rational)}"},
+        {"note": "The conjugate always rationalizes the denominator."}
+      ]
+    },
+    {
+      "n": 9, "ch": "Exponents",
+      "en": "\\(\\left(3^2\\right)^3 = ?\\)",
+      "bn": "\\(\\left(3^2\\right)^3\\) এর মান কত?",
+      "opts": ["27", "243", "729", "2187"],
+      "ans": 2,
+      "sol": [
+        {"m": "(3^2)^3 = 3^{2 \\times 3} = 3^6 = \\boxed{729}"}
+      ]
+    },
+    {
+      "n": 10, "ch": "Exponents",
+      "en": "\\(5^0 + 5^{-1} = ?\\)",
+      "bn": "\\(5^0 + 5^{-1}\\) এর মান কত?",
+      "opts": ["\\(\\frac{4}{5}\\)", "\\(\\frac{6}{5}\\)", "0", "2"],
+      "ans": 1,
+      "sol": [
+        {"m": "5^0 = 1,\\quad 5^{-1} = \\frac{1}{5}"},
+        {"m": "1 + \\frac{1}{5} = \\boxed{\\frac{6}{5}}"}
+      ]
+    },
+    {
+      "n": 11, "ch": "Logarithms",
+      "en": "\\(\\log_5 125 = ?\\)",
+      "bn": "\\(\\log_5 125\\) এর মান কত?",
+      "opts": ["2", "3", "4", "5"],
+      "ans": 1,
+      "viz": "log_graph",
+      "sol": [
+        {"m": "5^3 = 125 \\implies \\log_5 125 = \\boxed{3}"}
+      ]
+    },
+    {
+      "n": 12, "ch": "Logarithms",
+      "en": "\\(\\log \\frac{1}{100} = ?\\)",
+      "bn": "\\(\\log \\frac{1}{100}\\) এর মান কত?",
+      "opts": ["−1", "−2", "2", "\\(\\frac{1}{2}\\)"],
+      "ans": 1,
+      "sol": [
+        {"m": "\\log \\frac{1}{100} = \\log 10^{-2} = -2\\log 10 = \\boxed{-2}"}
+      ]
+    },
+    {
+      "n": 13, "ch": "Algebra",
+      "en": "If \\(2x + 3y = 12\\) and \\(x = 3\\), then \\(y = ?\\)",
+      "bn": "\\(2x + 3y = 12\\) এবং \\(x = 3\\) হলে \\(y = ?\\)",
+      "opts": ["1", "2", "3", "4"],
+      "ans": 1,
+      "sol": [
+        {"m": "2(3) + 3y = 12 \\implies 3y = 6 \\implies y = \\boxed{2}"}
+      ]
+    },
+    {
+      "n": 14, "ch": "Algebra",
+      "en": "The sum of roots of \\(x^2 - 7x + 12 = 0\\) is:",
+      "bn": "\\(x^2 - 7x + 12 = 0\\) সমীকরণের মূলদ্বয়ের সমষ্টি:",
+      "opts": ["5", "7", "12", "−7"],
+      "ans": 1,
+      "sol": [
+        {"t": "For \\(ax^2+bx+c=0\\), sum of roots \\(= -b/a\\)"},
+        {"m": "\\text{Sum} = -\\frac{-7}{1} = \\boxed{7}"}
+      ]
+    },
+    {
+      "n": 15, "ch": "Coordinate Geometry",
+      "en": "The distance between points \\((0, 0)\\) and \\((6, 8)\\) is:",
+      "bn": "\\((0, 0)\\) ও \\((6, 8)\\) বিন্দুদ্বয়ের দূরত্ব:",
+      "opts": ["8", "10", "12", "14"],
+      "ans": 1,
+      "viz": "coordplane",
+      "sol": [
+        {"m": "d = \\sqrt{6^2 + 8^2} = \\sqrt{36 + 64} = \\sqrt{100} = \\boxed{10}"}
+      ]
+    },
+    {
+      "n": 16, "ch": "Coordinate Geometry",
+      "en": "The equation of the x-axis is:",
+      "bn": "x-অক্ষের সমীকরণ:",
+      "opts": ["\\(x = 0\\)", "\\(y = 0\\)", "\\(x = y\\)", "\\(x + y = 0\\)"],
+      "ans": 1,
+      "sol": [
+        {"t": "On the x-axis, the y-coordinate is always 0."},
+        {"m": "\\text{Equation: } \\boxed{y = 0}"}
+      ]
+    },
+    {
+      "n": 17, "ch": "Geometry",
+      "en": "The sum of exterior angles of any convex polygon is:",
+      "bn": "যে কোনো উত্তল বহুভুজের বহিঃকোণগুলোর সমষ্টি:",
+      "opts": ["180°", "270°", "360°", "540°"],
+      "ans": 2,
+      "sol": [
+        {"m": "\\text{Sum of exterior angles} = \\boxed{360°}"},
+        {"note": "This is true for ANY convex polygon, regardless of the number of sides."}
+      ]
+    },
+    {
+      "n": 18, "ch": "Geometry",
+      "en": "In a right triangle, the hypotenuse is 13 cm and one side is 5 cm. The other side is:",
+      "bn": "একটি সমকোণী ত্রিভুজে অতিভুজ 13 সেমি এবং একটি বাহু 5 সেমি। অপর বাহু:",
+      "opts": ["8 cm", "10 cm", "12 cm", "14 cm"],
+      "ans": 2,
+      "sol": [
+        {"m": "b = \\sqrt{13^2 - 5^2} = \\sqrt{169 - 25} = \\sqrt{144} = \\boxed{12 \\text{ cm}}"},
+        {"note": "5-12-13 is a Pythagorean triple."}
+      ]
+    },
+    {
+      "n": 19, "ch": "Geometry",
+      "en": "An angle inscribed in a semicircle is:",
+      "bn": "অর্ধবৃত্তে অন্তর্লিখিত কোণ হলো:",
+      "opts": ["60°", "90°", "120°", "180°"],
+      "ans": 1,
+      "viz": "circle_theorem",
+      "sol": [
+        {"m": "\\text{Angle in semicircle} = \\boxed{90°}"},
+        {"note": "Thales' theorem: any angle inscribed in a semicircle is a right angle."}
+      ]
+    },
+    {
+      "n": 20, "ch": "Trigonometry",
+      "en": "\\(\\sin 45° = ?\\)",
+      "bn": "\\(\\sin 45°\\) এর মান:",
+      "opts": ["\\(\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{2}}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "1"],
+      "ans": 1,
+      "sol": [
+        {"m": "\\sin 45° = \\frac{1}{\\sqrt{2}} = \\boxed{\\frac{\\sqrt{2}}{2}}"}
+      ]
+    },
+    {
+      "n": 21, "ch": "Trigonometry",
+      "en": "\\(\\cos 0° + \\sin 90° = ?\\)",
+      "bn": "\\(\\cos 0° + \\sin 90°\\) এর মান:",
+      "opts": ["0", "1", "2", "\\(\\frac{1}{2}\\)"],
+      "ans": 2,
+      "sol": [
+        {"m": "\\cos 0° = 1,\\quad \\sin 90° = 1"},
+        {"m": "1 + 1 = \\boxed{2}"}
+      ]
+    },
+    {
+      "n": 22, "ch": "Trigonometry",
+      "en": "If \\(\\cos\\theta = \\frac{5}{13}\\), then \\(\\sin\\theta = ?\\) (first quadrant)",
+      "bn": "\\(\\cos\\theta = \\frac{5}{13}\\) হলে \\(\\sin\\theta = ?\\) (প্রথম চতুর্ভাগে)",
+      "opts": ["\\(\\frac{8}{13}\\)", "\\(\\frac{12}{13}\\)", "\\(\\frac{5}{12}\\)", "\\(\\frac{13}{5}\\)"],
+      "ans": 1,
+      "viz": "right_triangle_trig",
+      "sol": [
+        {"m": "\\sin\\theta = \\sqrt{1 - \\cos^2\\theta} = \\sqrt{1 - \\frac{25}{169}} = \\sqrt{\\frac{144}{169}} = \\boxed{\\frac{12}{13}}"}
+      ]
+    },
+    {
+      "n": 23, "ch": "Trigonometry",
+      "en": "\\(1 + \\cot^2\\theta = ?\\)",
+      "bn": "\\(1 + \\cot^2\\theta\\) এর মান:",
+      "opts": ["\\(\\sec^2\\theta\\)", "\\(\\csc^2\\theta\\)", "\\(\\tan^2\\theta\\)", "\\(\\cos^2\\theta\\)"],
+      "ans": 1,
+      "sol": [
+        {"m": "1 + \\cot^2\\theta = \\csc^2\\theta"},
+        {"note": "This is the third Pythagorean identity."}
+      ]
+    },
+    {
+      "n": 24, "ch": "Statistics",
+      "en": "Mean of 10, 20, 30, 40, 50 is:",
+      "bn": "10, 20, 30, 40, 50 এর গড়:",
+      "opts": ["25", "30", "35", "40"],
+      "ans": 1,
+      "sol": [
+        {"m": "\\bar{x} = \\frac{10+20+30+40+50}{5} = \\frac{150}{5} = \\boxed{30}"}
+      ]
+    },
+    {
+      "n": 25, "ch": "Statistics",
+      "en": "Median of 2, 8, 5, 3, 9, 4, 7:",
+      "bn": "2, 8, 5, 3, 9, 4, 7 এর মধ্যমা:",
+      "opts": ["4", "5", "7", "8"],
+      "ans": 1,
+      "sol": [
+        {"t": "Sort: 2, 3, 4, 5, 7, 8, 9. Middle = 4th value = 5"},
+        {"m": "\\text{Median} = \\boxed{5}"}
+      ]
+    },
+    {
+      "n": 26, "ch": "Statistics",
+      "en": "The range of data 3, 7, 11, 15, 19 is:",
+      "bn": "3, 7, 11, 15, 19 এর পরিসর:",
+      "opts": ["12", "14", "16", "18"],
+      "ans": 2,
+      "viz": "histogram",
+      "sol": [
+        {"m": "\\text{Range} = 19 - 3 = \\boxed{16}"}
+      ]
+    },
+    {
+      "n": 27, "ch": "Mensuration",
+      "en": "The surface area of a sphere with radius 7 cm is (\\(\\pi = \\frac{22}{7}\\)):",
+      "bn": "7 সেমি ব্যাসার্ধের গোলকের পৃষ্ঠতলের ক্ষেত্রফল (\\(\\pi = \\frac{22}{7}\\)):",
+      "opts": ["308 cm²", "616 cm²", "924 cm²", "1232 cm²"],
+      "ans": 1,
+      "sol": [
+        {"m": "S = 4\\pi r^2 = 4 \\times \\frac{22}{7} \\times 49 = 4 \\times 22 \\times 7 = \\boxed{616 \\text{ cm}^2}"}
+      ]
+    },
+    {
+      "n": 28, "ch": "Mensuration",
+      "en": "The area of a triangle with base 10 cm and height 6 cm is:",
+      "bn": "ভূমি 10 সেমি ও উচ্চতা 6 সেমি বিশিষ্ট ত্রিভুজের ক্ষেত্রফল:",
+      "opts": ["16 cm²", "30 cm²", "60 cm²", "120 cm²"],
+      "ans": 1,
+      "sol": [
+        {"m": "A = \\frac{1}{2} \\times 10 \\times 6 = \\boxed{30 \\text{ cm}^2}"}
+      ]
+    },
+    {
+      "n": 29, "ch": "Arithmetic",
+      "en": "HCF of 24 and 36 is:",
+      "bn": "24 এবং 36 এর গ.সা.গু:",
+      "opts": ["6", "8", "12", "18"],
+      "ans": 2,
+      "sol": [
+        {"m": "24 = 2^3 \\times 3,\\quad 36 = 2^2 \\times 3^2"},
+        {"m": "\\text{HCF} = 2^2 \\times 3 = \\boxed{12}"}
+      ]
+    },
+    {
+      "n": 30, "ch": "Arithmetic",
+      "en": "If the ratio of two numbers is 3:5 and their sum is 48, the larger number is:",
+      "bn": "দুটি সংখ্যার অনুপাত 3:5 এবং তাদের সমষ্টি 48 হলে বড় সংখ্যাটি:",
+      "opts": ["18", "24", "30", "36"],
+      "ans": 2,
+      "sol": [
+        {"m": "\\text{Larger} = \\frac{5}{3+5} \\times 48 = \\frac{5}{8} \\times 48 = \\boxed{30}"}
+      ]
+    }
+  ],
+  "cq": [
+    {
+      "n": 1, "ch": "Surds",
+      "stem": "\\(a = \\sqrt{5} + 1\\) and \\(b = \\sqrt{5} - 1\\)",
+      "stemBn": "\\(a = \\sqrt{5} + 1\\) এবং \\(b = \\sqrt{5} - 1\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(ab\\).",
+          "sol": [
+            {"m": "ab = (\\sqrt{5}+1)(\\sqrt{5}-1) = 5 - 1 = \\boxed{4}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Show that \\(a^2 + b^2 = 12\\).",
+          "sol": [
+            {"m": "a + b = 2\\sqrt{5},\\quad (a+b)^2 = 20"},
+            {"m": "a^2 + b^2 = (a+b)^2 - 2ab = 20 - 8 = \\boxed{12} \\quad \\checkmark"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the value of \\(\\frac{a^2 - b^2}{ab}\\).",
+          "sol": [
+            {"m": "a^2 - b^2 = (a+b)(a-b) = 2\\sqrt{5} \\times 2 = 4\\sqrt{5}"},
+            {"m": "\\frac{a^2-b^2}{ab} = \\frac{4\\sqrt{5}}{4} = \\boxed{\\sqrt{5}}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2, "ch": "Algebra",
+      "stem": "\\(x - \\frac{1}{x} = 3\\)",
+      "stemBn": "\\(x - \\frac{1}{x} = 3\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(x^2 + \\frac{1}{x^2}\\).",
+          "sol": [
+            {"m": "\\left(x - \\frac{1}{x}\\right)^2 = x^2 - 2 + \\frac{1}{x^2} = 9"},
+            {"m": "x^2 + \\frac{1}{x^2} = 9 + 2 = \\boxed{11}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(x^4 + \\frac{1}{x^4}\\).",
+          "sol": [
+            {"m": "\\left(x^2 + \\frac{1}{x^2}\\right)^2 = x^4 + 2 + \\frac{1}{x^4} = 121"},
+            {"m": "x^4 + \\frac{1}{x^4} = 121 - 2 = \\boxed{119}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find \\(x^3 - \\frac{1}{x^3}\\).",
+          "sol": [
+            {"t": "Use identity: \\(a^3 - b^3 = (a-b)(a^2 + ab + b^2)\\) with \\(a=x, b=1/x\\)"},
+            {"m": "x^3 - \\frac{1}{x^3} = \\left(x - \\frac{1}{x}\\right)\\left(x^2 + 1 + \\frac{1}{x^2}\\right)"},
+            {"m": "= 3 \\times (11 + 1) = 3 \\times 12 = \\boxed{36}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 3, "ch": "Logarithms",
+      "stem": "\\(\\log_2 x + \\log_2 8 = 6\\)",
+      "stemBn": "\\(\\log_2 x + \\log_2 8 = 6\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(\\log_2 8\\).",
+          "sol": [
+            {"m": "\\log_2 8 = \\log_2 2^3 = \\boxed{3}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the value of \\(x\\).",
+          "sol": [
+            {"m": "\\log_2 x + 3 = 6 \\implies \\log_2 x = 3"},
+            {"m": "x = 2^3 = \\boxed{8}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Verify that the answer is correct and find \\(\\log_4 x\\).",
+          "sol": [
+            {"t": "Verification: \\(\\log_2 8 + \\log_2 8 = 3 + 3 = 6\\) \\(\\checkmark\\)"},
+            {"m": "\\log_4 8 = \\frac{\\log 8}{\\log 4} = \\frac{3\\log 2}{2\\log 2} = \\boxed{\\frac{3}{2}}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 4, "ch": "Coordinate Geometry",
+      "stem": "Points \\(P(2, 3)\\), \\(Q(6, 3)\\), \\(R(6, 6)\\)",
+      "stemBn": "\\(P(2, 3)\\), \\(Q(6, 3)\\), \\(R(6, 6)\\) বিন্দুত্রয়",
+      "viz": "coordplane",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find the length of \\(PQ\\).",
+          "sol": [
+            {"m": "PQ = \\sqrt{(6-2)^2 + (3-3)^2} = \\sqrt{16} = \\boxed{4}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(QR\\) and \\(PR\\). Show that \\(\\triangle PQR\\) is a right triangle.",
+          "sol": [
+            {"m": "QR = \\sqrt{(6-6)^2 + (6-3)^2} = \\sqrt{9} = 3"},
+            {"m": "PR = \\sqrt{(6-2)^2 + (6-3)^2} = \\sqrt{16+9} = 5"},
+            {"m": "PQ^2 + QR^2 = 16 + 9 = 25 = PR^2 \\quad \\checkmark"},
+            {"note": "3-4-5 Pythagorean triple. Right angle at Q."}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the area and perimeter of \\(\\triangle PQR\\).",
+          "sol": [
+            {"m": "\\text{Area} = \\frac{1}{2} \\times 4 \\times 3 = \\boxed{6 \\text{ sq. units}}"},
+            {"m": "\\text{Perimeter} = 4 + 3 + 5 = \\boxed{12 \\text{ units}}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 5, "ch": "Trigonometry",
+      "stem": "A ladder 10 m long leans against a wall making an angle of 60° with the ground.",
+      "stemBn": "10 মি দীর্ঘ একটি মই একটি দেওয়ালে 60° কোণে ঠেসে রাখা আছে।",
+      "viz": "right_triangle_trig",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(\\sin 60°\\) and \\(\\cos 60°\\).",
+          "sol": [
+            {"m": "\\sin 60° = \\frac{\\sqrt{3}}{2},\\quad \\cos 60° = \\frac{1}{2}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "How high up the wall does the ladder reach?",
+          "sol": [
+            {"m": "\\sin 60° = \\frac{h}{10}"},
+            {"m": "h = 10 \\sin 60° = 10 \\times \\frac{\\sqrt{3}}{2} = \\boxed{5\\sqrt{3} \\approx 8.66 \\text{ m}}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "How far is the foot of the ladder from the wall?",
+          "sol": [
+            {"m": "\\cos 60° = \\frac{d}{10}"},
+            {"m": "d = 10 \\cos 60° = 10 \\times \\frac{1}{2} = \\boxed{5 \\text{ m}}"},
+            {"t": "Verification: \\(5^2 + (5\\sqrt{3})^2 = 25 + 75 = 100 = 10^2\\) \\(\\checkmark\\)"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 6, "ch": "Statistics",
+      "stem": "The marks of 7 students are: 42, 56, 63, 70, 77, 84, 98",
+      "stemBn": "7 জন শিক্ষার্থীর নম্বর: 42, 56, 63, 70, 77, 84, 98",
+      "viz": "barchart",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find the range and median.",
+          "sol": [
+            {"m": "\\text{Range} = 98 - 42 = \\boxed{56}"},
+            {"m": "\\text{Median} = \\text{4th value} = \\boxed{70}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the mean.",
+          "sol": [
+            {"m": "\\bar{x} = \\frac{42+56+63+70+77+84+98}{7} = \\frac{490}{7} = \\boxed{70}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the standard deviation.",
+          "sol": [
+            {"t": "Deviations from mean (70): -28, -14, -7, 0, 7, 14, 28"},
+            {"t": "Squared: 784, 196, 49, 0, 49, 196, 784"},
+            {"m": "\\sigma^2 = \\frac{784+196+49+0+49+196+784}{7} = \\frac{2058}{7} = 294"},
+            {"m": "\\sigma = \\sqrt{294} \\approx \\boxed{17.15}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 7, "ch": "Mensuration",
+      "stem": "A right circular cylinder has radius 7 cm and height 10 cm. (\\(\\pi = \\frac{22}{7}\\))",
+      "stemBn": "একটি লম্ব বৃত্তাকার সিলিন্ডারের ব্যাসার্ধ 7 সেমি এবং উচ্চতা 10 সেমি। (\\(\\pi = \\frac{22}{7}\\))",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find the area of the base.",
+          "sol": [
+            {"m": "A = \\pi r^2 = \\frac{22}{7} \\times 49 = \\boxed{154 \\text{ cm}^2}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the curved surface area and total surface area.",
+          "sol": [
+            {"m": "\\text{CSA} = 2\\pi rh = 2 \\times \\frac{22}{7} \\times 7 \\times 10 = \\boxed{440 \\text{ cm}^2}"},
+            {"m": "\\text{TSA} = 2\\pi r(r+h) = 2 \\times \\frac{22}{7} \\times 7 \\times 17 = \\boxed{748 \\text{ cm}^2}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the volume of the cylinder.",
+          "sol": [
+            {"m": "V = \\pi r^2 h = \\frac{22}{7} \\times 49 \\times 10 = 154 \\times 10 = \\boxed{1540 \\text{ cm}^3}"}
+          ]
+        }
+      ]
+    }
+  ]
+}

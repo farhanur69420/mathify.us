@@ -1,0 +1,500 @@
+{
+  "label": "Chittagong",
+  "year": 2023,
+  "mcqImgs": [],
+  "cqImgs": [],
+  "mcq": [
+    {
+      "n": 1, "ch": "Sets",
+      "en": "If \\(A = \\{2,4,6,8\\}\\) and \\(B = \\{1,2,3,4\\}\\), then \\(A - B = ?\\)",
+      "bn": "\\(A = \\{2,4,6,8\\}\\) এবং \\(B = \\{1,2,3,4\\}\\) হলে \\(A - B = ?\\)",
+      "opts": ["\\(\\{1,3\\}\\)", "\\(\\{6,8\\}\\)", "\\(\\{2,4\\}\\)", "\\(\\{1,2,3,4,6,8\\}\\)"], "ans": 1,
+      "sol": [
+        {"t": "\\(A - B\\) contains elements in A but not in B."},
+        {"m": "A - B = \\{6,8\\}"}
+      ]
+    },
+    {
+      "n": 2, "ch": "Sets",
+      "en": "\\(n(A) = 15\\), \\(n(B) = 12\\), \\(n(A \\cup B) = 22\\). Find \\(n(A \\cap B)\\).",
+      "bn": "\\(n(A) = 15\\), \\(n(B) = 12\\), \\(n(A \\cup B) = 22\\) হলে \\(n(A \\cap B) = ?\\)",
+      "opts": ["3", "5", "7", "10"], "ans": 1,
+      "viz": "venn",
+      "sol": [
+        {"m": "n(A \\cap B) = n(A)+n(B)-n(A \\cup B) = 15+12-22 = \\boxed{5}"}
+      ]
+    },
+    {
+      "n": 3, "ch": "Functions",
+      "en": "If \\(g(x) = 2x^2 - 3\\), then \\(g(2) = ?\\)",
+      "bn": "\\(g(x) = 2x^2 - 3\\) হলে \\(g(2) = ?\\)",
+      "opts": ["1", "3", "5", "7"], "ans": 2,
+      "sol": [
+        {"m": "g(2) = 2(4)-3 = 8-3 = \\boxed{5}"}
+      ]
+    },
+    {
+      "n": 4, "ch": "Algebra",
+      "en": "If \\(2x + 3 = 11\\), then \\(x = ?\\)",
+      "bn": "\\(2x + 3 = 11\\) হলে \\(x = ?\\)",
+      "opts": ["3", "4", "5", "7"], "ans": 1,
+      "sol": [
+        {"m": "2x = 8 \\implies x = \\boxed{4}"}
+      ]
+    },
+    {
+      "n": 5, "ch": "Algebra",
+      "en": "\\((x+3)(x-2) = ?\\)",
+      "bn": "\\((x+3)(x-2)\\) এর প্রসারিত রূপ:",
+      "opts": ["\\(x^2+x-6\\)", "\\(x^2-x-6\\)", "\\(x^2+5x-6\\)", "\\(x^2+x+6\\)"], "ans": 0,
+      "sol": [
+        {"m": "(x+3)(x-2) = x^2 -2x + 3x - 6 = \\boxed{x^2+x-6}"}
+      ]
+    },
+    {
+      "n": 6, "ch": "Real Numbers",
+      "en": "\\(\\sqrt{169} = ?\\)",
+      "bn": "\\(\\sqrt{169}\\) এর মান:",
+      "opts": ["11", "12", "13", "14"], "ans": 2,
+      "sol": [
+        {"m": "\\sqrt{169} = \\sqrt{13^2} = \\boxed{13}"}
+      ]
+    },
+    {
+      "n": 7, "ch": "Surds",
+      "en": "\\(\\sqrt{18} + \\sqrt{8} = ?\\)",
+      "bn": "\\(\\sqrt{18} + \\sqrt{8}\\) এর মান:",
+      "opts": ["\\(\\sqrt{26}\\)", "\\(5\\sqrt{2}\\)", "\\(4\\sqrt{2}\\)", "\\(26\\)"], "ans": 1,
+      "sol": [
+        {"m": "\\sqrt{18} = 3\\sqrt{2},\\quad \\sqrt{8} = 2\\sqrt{2}"},
+        {"m": "3\\sqrt{2}+2\\sqrt{2} = \\boxed{5\\sqrt{2}}"}
+      ]
+    },
+    {
+      "n": 8, "ch": "Surds",
+      "en": "\\(\\frac{\\sqrt{48}}{\\sqrt{3}} = ?\\)",
+      "bn": "\\(\\frac{\\sqrt{48}}{\\sqrt{3}}\\) এর মান:",
+      "opts": ["3", "4", "\\(4\\sqrt{3}\\)", "16"], "ans": 1,
+      "sol": [
+        {"m": "\\frac{\\sqrt{48}}{\\sqrt{3}} = \\sqrt{\\frac{48}{3}} = \\sqrt{16} = \\boxed{4}"}
+      ]
+    },
+    {
+      "n": 9, "ch": "Exponents",
+      "en": "\\(\\left(\\frac{a^3}{a^5}\\right) = ?\\)",
+      "bn": "\\(\\left(\\frac{a^3}{a^5}\\right)\\) এর মান:",
+      "opts": ["\\(a^2\\)", "\\(a^{-2}\\)", "\\(a^8\\)", "\\(a^{15}\\)"], "ans": 1,
+      "sol": [
+        {"m": "\\frac{a^3}{a^5} = a^{3-5} = \\boxed{a^{-2}}"},
+        {"note": "Rule: \\(\\frac{a^m}{a^n} = a^{m-n}\\)"}
+      ]
+    },
+    {
+      "n": 10, "ch": "Exponents",
+      "en": "\\((4^{1/2})^3 = ?\\)",
+      "bn": "\\((4^{1/2})^3\\) এর মান:",
+      "opts": ["2", "4", "6", "8"], "ans": 3,
+      "sol": [
+        {"m": "(4^{1/2})^3 = (2)^3 = \\boxed{8}"}
+      ]
+    },
+    {
+      "n": 11, "ch": "Logarithms",
+      "en": "\\(\\log_4 64 = ?\\)",
+      "bn": "\\(\\log_4 64\\) এর মান:",
+      "opts": ["2", "3", "4", "16"], "ans": 1,
+      "sol": [
+        {"m": "4^3 = 64 \\implies \\log_4 64 = \\boxed{3}"}
+      ]
+    },
+    {
+      "n": 12, "ch": "Logarithms",
+      "en": "\\(\\log \\sqrt{10} = ?\\)",
+      "bn": "\\(\\log \\sqrt{10}\\) এর মান:",
+      "opts": ["\\(\\frac{1}{2}\\)", "1", "2", "\\(\\frac{1}{10}\\)"], "ans": 0,
+      "sol": [
+        {"m": "\\log\\sqrt{10} = \\log 10^{1/2} = \\frac{1}{2}\\log 10 = \\boxed{\\frac{1}{2}}"}
+      ]
+    },
+    {
+      "n": 13, "ch": "Algebra",
+      "en": "If \\(a + b = 8\\) and \\(a - b = 4\\), then \\(a^2 - b^2 = ?\\)",
+      "bn": "\\(a + b = 8\\) এবং \\(a - b = 4\\) হলে \\(a^2 - b^2 = ?\\)",
+      "opts": ["12", "24", "32", "48"], "ans": 2,
+      "sol": [
+        {"m": "a^2-b^2 = (a+b)(a-b) = 8 \\times 4 = \\boxed{32}"}
+      ]
+    },
+    {
+      "n": 14, "ch": "Algebra",
+      "en": "The discriminant of \\(x^2 + 4x + 4 = 0\\) is:",
+      "bn": "\\(x^2 + 4x + 4 = 0\\) এর নির্ণায়ক:",
+      "opts": ["0", "4", "8", "16"], "ans": 0,
+      "sol": [
+        {"m": "D = b^2-4ac = 16-16 = \\boxed{0}"},
+        {"note": "D = 0 means equal (repeated) roots."}
+      ]
+    },
+    {
+      "n": 15, "ch": "Coordinate Geometry",
+      "en": "The line \\(y = 2x + 3\\) has y-intercept:",
+      "bn": "\\(y = 2x + 3\\) রেখার y-অন্তঃখণ্ড:",
+      "opts": ["2", "3", "-3", "0"], "ans": 1,
+      "sol": [
+        {"t": "In \\(y = mx + c\\), the y-intercept is \\(c = 3\\)."}
+      ]
+    },
+    {
+      "n": 16, "ch": "Coordinate Geometry",
+      "en": "The slope of a line perpendicular to a line with slope 3 is:",
+      "bn": "ঢাল 3 বিশিষ্ট রেখার উপর লম্ব রেখার ঢাল:",
+      "opts": ["3", "\\(-3\\)", "\\(\\frac{1}{3}\\)", "\\(-\\frac{1}{3}\\)"], "ans": 3,
+      "sol": [
+        {"m": "m_1 \\times m_2 = -1 \\implies m_2 = \\frac{-1}{3} = \\boxed{-\\frac{1}{3}}"}
+      ]
+    },
+    {
+      "n": 17, "ch": "Geometry",
+      "en": "The number of diagonals of a hexagon is:",
+      "bn": "একটি ষড়ভুজের কর্ণের সংখ্যা:",
+      "opts": ["6", "8", "9", "12"], "ans": 2,
+      "sol": [
+        {"m": "\\text{Diagonals} = \\frac{n(n-3)}{2} = \\frac{6 \\times 3}{2} = \\boxed{9}"}
+      ]
+    },
+    {
+      "n": 18, "ch": "Geometry",
+      "en": "If two chords intersect inside a circle, then the products of their segments are:",
+      "bn": "দুটি জ্যা বৃত্তের ভিতরে ছেদ করলে তাদের খণ্ডদ্বয়ের গুণফল:",
+      "opts": ["Equal", "Complementary", "Supplementary", "Unrelated"], "ans": 0,
+      "sol": [
+        {"t": "Intersecting chords theorem: if chords AB and CD intersect at P, then PA·PB = PC·PD."}
+      ]
+    },
+    {
+      "n": 19, "ch": "Geometry",
+      "en": "An angle inscribed in a semicircle is always:",
+      "bn": "অর্ধবৃত্তে অন্তর্লিখিত কোণ সর্বদা:",
+      "opts": ["45°", "60°", "90°", "180°"], "ans": 2,
+      "sol": [
+        {"m": "\\text{Angle in semicircle} = \\boxed{90°}"},
+        {"note": "Thales' theorem."}
+      ]
+    },
+    {
+      "n": 20, "ch": "Trigonometry",
+      "en": "\\(\\tan 60° = ?\\)",
+      "bn": "\\(\\tan 60°\\) এর মান:",
+      "opts": ["\\(\\frac{1}{\\sqrt{3}}\\)", "1", "\\(\\sqrt{3}\\)", "2"], "ans": 2,
+      "sol": [
+        {"m": "\\tan 60° = \\boxed{\\sqrt{3}}"}
+      ]
+    },
+    {
+      "n": 21, "ch": "Trigonometry",
+      "en": "\\(\\sin 0° + \\cos 0° = ?\\)",
+      "bn": "\\(\\sin 0° + \\cos 0°\\) এর মান:",
+      "opts": ["0", "1", "2", "undefined"], "ans": 1,
+      "sol": [
+        {"m": "\\sin 0° + \\cos 0° = 0 + 1 = \\boxed{1}"}
+      ]
+    },
+    {
+      "n": 22, "ch": "Trigonometry",
+      "en": "\\(\\cot 45° = ?\\)",
+      "bn": "\\(\\cot 45°\\) এর মান:",
+      "opts": ["0", "\\(\\frac{1}{2}\\)", "1", "\\(\\sqrt{2}\\)"], "ans": 2,
+      "sol": [
+        {"m": "\\cot 45° = \\frac{1}{\\tan 45°} = \\frac{1}{1} = \\boxed{1}"}
+      ]
+    },
+    {
+      "n": 23, "ch": "Statistics",
+      "en": "The range of data 12, 15, 20, 25, 30 is:",
+      "bn": "12, 15, 20, 25, 30 তথ্যের পরিসর:",
+      "opts": ["12", "15", "18", "30"], "ans": 2,
+      "sol": [
+        {"m": "\\text{Range} = 30 - 12 = \\boxed{18}"}
+      ]
+    },
+    {
+      "n": 24, "ch": "Statistics",
+      "en": "If the mean of 5 numbers is 12, their sum is:",
+      "bn": "5টি সংখ্যার গড় 12 হলে তাদের যোগফল:",
+      "opts": ["17", "50", "60", "72"], "ans": 2,
+      "sol": [
+        {"m": "\\text{Sum} = n \\times \\bar{x} = 5 \\times 12 = \\boxed{60}"}
+      ]
+    },
+    {
+      "n": 25, "ch": "Mensuration",
+      "en": "The perimeter of a rectangle with length 8 cm and breadth 5 cm is:",
+      "bn": "দৈর্ঘ্য 8 সেমি ও প্রস্থ 5 সেমি বিশিষ্ট আয়তক্ষেত্রের পরিসীমা:",
+      "opts": ["13 cm", "26 cm", "40 cm", "80 cm"], "ans": 1,
+      "sol": [
+        {"m": "P = 2(l+b) = 2(8+5) = 2 \\times 13 = \\boxed{26 \\text{ cm}}"}
+      ]
+    },
+    {
+      "n": 26, "ch": "Mensuration",
+      "en": "The volume of a sphere with radius 3 cm is:",
+      "bn": "3 সেমি ব্যাসার্ধের গোলকের আয়তন:",
+      "opts": ["\\(36\\pi\\) cm³", "\\(18\\pi\\) cm³", "\\(27\\pi\\) cm³", "\\(108\\pi\\) cm³"], "ans": 0,
+      "sol": [
+        {"m": "V = \\frac{4}{3}\\pi r^3 = \\frac{4}{3}\\pi(27) = \\boxed{36\\pi \\text{ cm}^3}"}
+      ]
+    },
+    {
+      "n": 27, "ch": "Arithmetic",
+      "en": "A shopkeeper sells an article for Tk. 450 at 10% profit. The cost price is:",
+      "bn": "একজন দোকানদার 10% লাভে একটি জিনিস 450 টাকায় বিক্রি করে। ক্রয়মূল্য কত?",
+      "opts": ["Tk. 400", "Tk. 405", "Tk. 409", "Tk. 410"], "ans": 2,
+      "sol": [
+        {"m": "\\text{CP} = \\frac{\\text{SP}}{1+\\frac{p}{100}} = \\frac{450}{1.1} = \\boxed{409.09 \\approx 409}"},
+        {"note": "More precisely, CP = 450/1.1 ≈ Tk. 409.09"}
+      ]
+    },
+    {
+      "n": 28, "ch": "Arithmetic",
+      "en": "HCF of 15 and 25 is:",
+      "bn": "15 এবং 25 এর গ.সা.গু:",
+      "opts": ["3", "5", "15", "75"], "ans": 1,
+      "sol": [
+        {"m": "15 = 3 \\times 5,\\quad 25 = 5^2"},
+        {"m": "\\text{HCF} = \\boxed{5}"}
+      ]
+    },
+    {
+      "n": 29, "ch": "Exponents",
+      "en": "\\(8^{2/3} = ?\\)",
+      "bn": "\\(8^{2/3}\\) এর মান:",
+      "opts": ["2", "4", "6", "16"], "ans": 1,
+      "sol": [
+        {"m": "8^{2/3} = (2^3)^{2/3} = 2^2 = \\boxed{4}"}
+      ]
+    },
+    {
+      "n": 30, "ch": "Algebra",
+      "en": "The roots of \\(x^2 - 5x + 6 = 0\\) are:",
+      "bn": "\\(x^2 - 5x + 6 = 0\\) এর মূলদ্বয়:",
+      "opts": ["1, 6", "2, 3", "-2, -3", "1, 5"], "ans": 1,
+      "sol": [
+        {"m": "x^2-5x+6 = (x-2)(x-3) = 0"},
+        {"m": "x = \\boxed{2, 3}"}
+      ]
+    }
+  ],
+  "cq": [
+    {
+      "n": 1, "ch": "Algebra",
+      "stem": "\\(p + q = 5\\) and \\(pq = 6\\)",
+      "stemBn": "\\(p + q = 5\\) এবং \\(pq = 6\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(p^2 + q^2\\).",
+          "sol": [
+            {"m": "p^2+q^2 = (p+q)^2-2pq = 25-12 = \\boxed{13}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the values of \\(p\\) and \\(q\\).",
+          "sol": [
+            {"m": "p-q = \\pm\\sqrt{(p+q)^2-4pq} = \\pm\\sqrt{25-24} = \\pm 1"},
+            {"t": "If \\(p-q=1\\): \\(p=3, q=2\\). If \\(p-q=-1\\): \\(p=2, q=3\\)."}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find \\(p^3 - q^3\\) when \\(p > q\\).",
+          "sol": [
+            {"m": "p^3-q^3 = (p-q)(p^2+pq+q^2)"},
+            {"m": "= 1 \\times (13+6) = \\boxed{19}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2, "ch": "Surds",
+      "stem": "\\(m = 2 + \\sqrt{3}\\)",
+      "stemBn": "\\(m = 2 + \\sqrt{3}\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(\\frac{1}{m}\\).",
+          "sol": [
+            {"m": "\\frac{1}{m} = \\frac{1}{2+\\sqrt{3}} \\times \\frac{2-\\sqrt{3}}{2-\\sqrt{3}} = \\frac{2-\\sqrt{3}}{4-3} = \\boxed{2-\\sqrt{3}}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(m^2 + \\frac{1}{m^2}\\).",
+          "sol": [
+            {"m": "m + \\frac{1}{m} = (2+\\sqrt{3})+(2-\\sqrt{3}) = 4"},
+            {"m": "m^2+\\frac{1}{m^2} = \\left(m+\\frac{1}{m}\\right)^2-2 = 16-2 = \\boxed{14}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find \\(m^3 + \\frac{1}{m^3}\\).",
+          "sol": [
+            {"t": "Use identity: \\(a^3+b^3 = (a+b)^3-3ab(a+b)\\) where \\(a=m, b=1/m\\)"},
+            {"m": "m^3+\\frac{1}{m^3} = 4^3-3(1)(4) = 64-12 = \\boxed{52}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 3, "ch": "Logarithms",
+      "stem": "\\(\\log_2 x + \\log_4 x = 6\\)",
+      "stemBn": "\\(\\log_2 x + \\log_4 x = 6\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Express \\(\\log_4 x\\) in terms of \\(\\log_2 x\\).",
+          "sol": [
+            {"m": "\\log_4 x = \\frac{\\log_2 x}{\\log_2 4} = \\frac{\\log_2 x}{2}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(x\\).",
+          "sol": [
+            {"t": "Let \\(\\log_2 x = k\\). Then \\(k + k/2 = 6\\)"},
+            {"m": "\\frac{3k}{2} = 6 \\implies k = 4"},
+            {"m": "\\log_2 x = 4 \\implies x = 2^4 = \\boxed{16}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Verify your answer.",
+          "sol": [
+            {"m": "\\log_2 16 + \\log_4 16 = 4 + 2 = \\boxed{6} \\checkmark"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 4, "ch": "Coordinate Geometry",
+      "stem": "Line passes through \\(A(1, 3)\\) and \\(B(5, 7)\\).",
+      "stemBn": "\\(A(1, 3)\\) ও \\(B(5, 7)\\) বিন্দু দিয়ে যাওয়া সরলরেখা।",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find the slope of line AB.",
+          "sol": [
+            {"m": "m = \\frac{7-3}{5-1} = \\frac{4}{4} = \\boxed{1}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the equation of line AB.",
+          "sol": [
+            {"m": "y - 3 = 1(x - 1)"},
+            {"m": "y = x + 2 \\quad \\text{or} \\quad \\boxed{x - y + 2 = 0}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the equation of a line perpendicular to AB passing through \\(A(1, 3)\\).",
+          "sol": [
+            {"t": "Slope of perpendicular = \\(-1/m = -1\\)"},
+            {"m": "y - 3 = -1(x - 1)"},
+            {"m": "y = -x + 4 \\quad \\text{or} \\quad \\boxed{x + y - 4 = 0}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 5, "ch": "Trigonometry",
+      "stem": "\\(\\sec\\theta = \\frac{5}{3}\\) where \\(\\theta\\) is an acute angle.",
+      "stemBn": "\\(\\sec\\theta = \\frac{5}{3}\\) যেখানে \\(\\theta\\) সূক্ষ্মকোণ।",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(\\cos\\theta\\).",
+          "sol": [
+            {"m": "\\cos\\theta = \\frac{1}{\\sec\\theta} = \\frac{1}{5/3} = \\boxed{\\frac{3}{5}}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(\\sin\\theta\\) and \\(\\tan\\theta\\).",
+          "sol": [
+            {"m": "\\sin\\theta = \\sqrt{1-\\cos^2\\theta} = \\sqrt{1-\\frac{9}{25}} = \\sqrt{\\frac{16}{25}} = \\frac{4}{5}"},
+            {"m": "\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta} = \\frac{4/5}{3/5} = \\boxed{\\frac{4}{3}}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Verify that \\(\\sec^2\\theta - \\tan^2\\theta = 1\\).",
+          "sol": [
+            {"m": "\\sec^2\\theta = \\left(\\frac{5}{3}\\right)^2 = \\frac{25}{9}"},
+            {"m": "\\tan^2\\theta = \\left(\\frac{4}{3}\\right)^2 = \\frac{16}{9}"},
+            {"m": "\\sec^2\\theta-\\tan^2\\theta = \\frac{25}{9}-\\frac{16}{9} = \\frac{9}{9} = \\boxed{1} \\checkmark"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 6, "ch": "Statistics",
+      "stem": "The marks of 7 students in a test are: 50, 60, 45, 70, 55, 80, 40.",
+      "stemBn": "7 জন শিক্ষার্থীর পরীক্ষায় প্রাপ্ত নম্বর: 50, 60, 45, 70, 55, 80, 40।",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find the mean.",
+          "sol": [
+            {"m": "\\bar{x} = \\frac{50+60+45+70+55+80+40}{7} = \\frac{400}{7} \\approx \\boxed{57.14}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the median.",
+          "sol": [
+            {"t": "Sort: 40, 45, 50, <strong>55</strong>, 60, 70, 80 (n=7 odd)"},
+            {"m": "\\text{Median} = \\frac{n+1}{2}\\text{th value} = 4\\text{th value} = \\boxed{55}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the range and determine if the data is widely spread.",
+          "sol": [
+            {"m": "\\text{Range} = 80-40 = \\boxed{40}"},
+            {"t": "A range of 40 on a test where marks vary from 40 to 80 indicates moderate spread."}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 7, "ch": "Mensuration",
+      "stem": "A rectangular box has length 10 cm, breadth 6 cm, and height 4 cm.",
+      "stemBn": "একটি আয়তাকার বাক্সের দৈর্ঘ্য 10 সেমি, প্রস্থ 6 সেমি এবং উচ্চতা 4 সেমি।",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find the volume.",
+          "sol": [
+            {"m": "V = l \\times b \\times h = 10 \\times 6 \\times 4 = \\boxed{240 \\text{ cm}^3}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the total surface area.",
+          "sol": [
+            {"m": "S = 2(lb+bh+lh) = 2(60+24+40) = 2 \\times 124 = \\boxed{248 \\text{ cm}^2}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the length of the diagonal of the box.",
+          "sol": [
+            {"m": "d = \\sqrt{l^2+b^2+h^2} = \\sqrt{100+36+16} = \\sqrt{152} = 2\\sqrt{38}"},
+            {"m": "\\approx \\boxed{12.33 \\text{ cm}}"}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,568 @@
+{
+  "label": "Dinajpur",
+  "year": 2021,
+  "mcqImgs": [],
+  "cqImgs": [],
+  "mcq": [
+    {
+      "n": 1, "ch": "Sets",
+      "en": "If \\(A = \\{1, 2, 3, 4\\}\\) and \\(B = \\{3, 4, 5, 6\\}\\), then \\(A \\cap B = ?\\)",
+      "bn": "যদি \\(A = \\{1, 2, 3, 4\\}\\) এবং \\(B = \\{3, 4, 5, 6\\}\\) হয়, তাহলে \\(A \\cap B = ?\\)",
+      "opts": ["\\(\\{1, 2\\}\\)", "\\(\\{3, 4\\}\\)", "\\(\\{5, 6\\}\\)", "\\(\\{1, 2, 3, 4, 5, 6\\}\\)"],
+      "ans": 1,
+      "viz": "venn",
+      "sol": [
+        {"t": "The intersection contains elements common to both sets."},
+        {"m": "A \\cap B = \\{3, 4\\}"},
+        {"note": "Intersection means elements that appear in BOTH sets."}
+      ]
+    },
+    {
+      "n": 2, "ch": "Sets",
+      "en": "If \\(n(A) = 30\\), \\(n(B) = 25\\), \\(n(A \\cup B) = 45\\), then \\(n(A \\cap B) = ?\\)",
+      "bn": "\\(n(A) = 30\\), \\(n(B) = 25\\), \\(n(A \\cup B) = 45\\) হলে \\(n(A \\cap B) = ?\\)",
+      "opts": ["5", "10", "15", "20"],
+      "ans": 1,
+      "viz": "venn",
+      "sol": [
+        {"m": "n(A \\cap B) = n(A) + n(B) - n(A \\cup B) = 30 + 25 - 45 = \\boxed{10}"}
+      ]
+    },
+    {
+      "n": 3, "ch": "Functions",
+      "en": "If \\(f(x) = 3x - 2\\), then \\(f(3) = ?\\)",
+      "bn": "\\(f(x) = 3x - 2\\) হলে \\(f(3) = ?\\)",
+      "opts": ["5", "7", "9", "11"],
+      "ans": 1,
+      "sol": [
+        {"m": "f(3) = 3(3) - 2 = 9 - 2 = \\boxed{7}"}
+      ]
+    },
+    {
+      "n": 4, "ch": "Algebra",
+      "en": "If \\(x + \\frac{1}{x} = 4\\), then \\(x^2 + \\frac{1}{x^2} = ?\\)",
+      "bn": "\\(x + \\frac{1}{x} = 4\\) হলে \\(x^2 + \\frac{1}{x^2} = ?\\)",
+      "opts": ["12", "14", "16", "18"],
+      "ans": 1,
+      "sol": [
+        {"t": "Square both sides of the given equation:"},
+        {"m": "\\left(x + \\frac{1}{x}\\right)^2 = 16"},
+        {"m": "x^2 + 2 + \\frac{1}{x^2} = 16"},
+        {"m": "x^2 + \\frac{1}{x^2} = 16 - 2 = \\boxed{14}"}
+      ]
+    },
+    {
+      "n": 5, "ch": "Algebra",
+      "en": "The factors of \\(x^2 - 5x + 6\\) are:",
+      "bn": "\\(x^2 - 5x + 6\\) এর উৎপাদক:",
+      "opts": ["\\((x-1)(x-6)\\)", "\\((x-2)(x-3)\\)", "\\((x+2)(x+3)\\)", "\\((x-2)(x+3)\\)"],
+      "ans": 1,
+      "sol": [
+        {"t": "Find two numbers whose product is 6 and sum is -5: those are -2 and -3."},
+        {"m": "x^2 - 5x + 6 = \\boxed{(x-2)(x-3)}"}
+      ]
+    },
+    {
+      "n": 6, "ch": "Real Numbers",
+      "en": "Which of the following is a rational number?",
+      "bn": "নিচের কোনটি মূলদ সংখ্যা?",
+      "opts": ["\\(\\sqrt{2}\\)", "\\(\\sqrt{5}\\)", "\\(\\sqrt{9}\\)", "\\(\\pi\\)"],
+      "ans": 2,
+      "sol": [
+        {"t": "\\(\\sqrt{9} = 3\\), which is an integer and hence rational."},
+        {"m": "\\sqrt{9} = 3 = \\frac{3}{1}"},
+        {"note": "A number is rational if it can be expressed as \\(\\frac{p}{q}\\) where \\(q \\neq 0\\)."}
+      ]
+    },
+    {
+      "n": 7, "ch": "Surds",
+      "en": "\\(\\sqrt{50}\\) in simplest form is:",
+      "bn": "\\(\\sqrt{50}\\) এর সরলতম রূপ:",
+      "opts": ["\\(2\\sqrt{5}\\)", "\\(5\\sqrt{2}\\)", "\\(10\\sqrt{5}\\)", "\\(25\\sqrt{2}\\)"],
+      "ans": 1,
+      "sol": [
+        {"m": "\\sqrt{50} = \\sqrt{25 \\times 2} = 5\\sqrt{2}"}
+      ]
+    },
+    {
+      "n": 8, "ch": "Surds",
+      "en": "If \\(a = \\sqrt{7} + \\sqrt{5}\\) and \\(b = \\sqrt{7} - \\sqrt{5}\\), then \\(a^2 - b^2 = ?\\)",
+      "bn": "",
+      "opts": ["\\(2\\sqrt{35}\\)", "\\(4\\sqrt{35}\\)", "\\(4\\sqrt{5}\\)", "\\(12\\)"],
+      "ans": 1,
+      "sol": [
+        {"m": "a^2 - b^2 = (a+b)(a-b)"},
+        {"m": "a + b = 2\\sqrt{7},\\quad a - b = 2\\sqrt{5}"},
+        {"m": "a^2 - b^2 = 2\\sqrt{7} \\times 2\\sqrt{5} = \\boxed{4\\sqrt{35}}"}
+      ]
+    },
+    {
+      "n": 9, "ch": "Exponents",
+      "en": "\\(2^3 \\times 2^4 = ?\\)",
+      "bn": "\\(2^3 \\times 2^4 = ?\\)",
+      "opts": ["64", "128", "256", "512"],
+      "ans": 1,
+      "sol": [
+        {"m": "2^3 \\times 2^4 = 2^{3+4} = 2^7 = \\boxed{128}"},
+        {"note": "When multiplying same bases, add exponents: \\(a^m \\times a^n = a^{m+n}\\)"}
+      ]
+    },
+    {
+      "n": 10, "ch": "Logarithms",
+      "en": "\\(\\log_{10} 1000 = ?\\)",
+      "bn": "\\(\\log_{10} 1000\\) এর মান কত?",
+      "opts": ["2", "3", "4", "10"],
+      "ans": 1,
+      "viz": "log_graph",
+      "sol": [
+        {"m": "10^3 = 1000 \\implies \\log_{10} 1000 = \\boxed{3}"}
+      ]
+    },
+    {
+      "n": 11, "ch": "Logarithms",
+      "en": "\\(\\log 4 + \\log 25 = ?\\)",
+      "bn": "\\(\\log 4 + \\log 25\\) এর মান কত?",
+      "opts": ["1", "2", "3", "4"],
+      "ans": 1,
+      "sol": [
+        {"m": "\\log 4 + \\log 25 = \\log(4 \\times 25) = \\log 100 = \\boxed{2}"}
+      ]
+    },
+    {
+      "n": 12, "ch": "Logarithms",
+      "en": "If \\(\\log_3 x = 4\\), then \\(x = ?\\)",
+      "bn": "\\(\\log_3 x = 4\\) হলে \\(x = ?\\)",
+      "opts": ["12", "27", "64", "81"],
+      "ans": 3,
+      "sol": [
+        {"m": "x = 3^4 = \\boxed{81}"}
+      ]
+    },
+    {
+      "n": 13, "ch": "Algebra",
+      "en": "If \\(a - b = 4\\) and \\(ab = 5\\), then \\(a^2 + b^2 = ?\\)",
+      "bn": "\\(a - b = 4\\) এবং \\(ab = 5\\) হলে \\(a^2 + b^2 = ?\\)",
+      "opts": ["16", "21", "26", "31"],
+      "ans": 2,
+      "sol": [
+        {"m": "(a-b)^2 = a^2 - 2ab + b^2 = 16"},
+        {"m": "a^2 + b^2 = 16 + 2ab = 16 + 10 = \\boxed{26}"}
+      ]
+    },
+    {
+      "n": 14, "ch": "Algebra",
+      "en": "\\(a^3 + b^3 = ?\\) when \\(a + b = 3\\), \\(ab = 2\\)",
+      "bn": "\\(a + b = 3\\), \\(ab = 2\\) হলে \\(a^3 + b^3 = ?\\)",
+      "opts": ["7", "9", "15", "27"],
+      "ans": 1,
+      "sol": [
+        {"t": "Use the identity \\(a^3 + b^3 = (a+b)^3 - 3ab(a+b)\\)"},
+        {"m": "= 27 - 3(2)(3) = 27 - 18 = \\boxed{9}"}
+      ]
+    },
+    {
+      "n": 15, "ch": "Coordinate Geometry",
+      "en": "The midpoint of \\((2, 6)\\) and \\((8, 4)\\) is:",
+      "bn": "\\((2, 6)\\) ও \\((8, 4)\\) বিন্দুদ্বয়ের মধ্যবিন্দু:",
+      "opts": ["\\((3, 5)\\)", "\\((5, 5)\\)", "\\((6, 10)\\)", "\\((10, 10)\\)"],
+      "ans": 1,
+      "viz": "coordplane",
+      "sol": [
+        {"m": "\\text{Midpoint} = \\left(\\frac{2+8}{2}, \\frac{6+4}{2}\\right) = \\boxed{(5, 5)}"}
+      ]
+    },
+    {
+      "n": 16, "ch": "Coordinate Geometry",
+      "en": "The slope of the line passing through \\((1, 2)\\) and \\((4, 8)\\) is:",
+      "bn": "\\((1, 2)\\) ও \\((4, 8)\\) বিন্দুগামী রেখার ঢাল:",
+      "opts": ["1", "2", "3", "6"],
+      "ans": 1,
+      "sol": [
+        {"m": "m = \\frac{8-2}{4-1} = \\frac{6}{3} = \\boxed{2}"}
+      ]
+    },
+    {
+      "n": 17, "ch": "Geometry",
+      "en": "Each interior angle of a regular hexagon is:",
+      "bn": "সুষম ষড়ভুজের প্রতিটি অন্তঃকোণের পরিমাণ:",
+      "opts": ["90°", "108°", "120°", "135°"],
+      "ans": 2,
+      "sol": [
+        {"m": "\\text{Interior angle} = \\frac{(n-2) \\times 180°}{n} = \\frac{4 \\times 180°}{6} = \\boxed{120°}"}
+      ]
+    },
+    {
+      "n": 18, "ch": "Geometry",
+      "en": "In a cyclic quadrilateral, the sum of opposite angles is:",
+      "bn": "বৃত্তস্থ চতুর্ভুজের বিপরীত কোণদ্বয়ের সমষ্টি:",
+      "opts": ["90°", "120°", "180°", "360°"],
+      "ans": 2,
+      "viz": "circle_theorem",
+      "sol": [
+        {"m": "\\angle A + \\angle C = 180°"},
+        {"note": "Property of cyclic quadrilateral: opposite angles are supplementary."}
+      ]
+    },
+    {
+      "n": 19, "ch": "Geometry",
+      "en": "The sum of interior angles of a pentagon is:",
+      "bn": "পঞ্চভুজের অন্তঃকোণগুলোর সমষ্টি:",
+      "opts": ["360°", "480°", "540°", "720°"],
+      "ans": 2,
+      "sol": [
+        {"m": "(n-2) \\times 180° = (5-2) \\times 180° = 3 \\times 180° = \\boxed{540°}"}
+      ]
+    },
+    {
+      "n": 20, "ch": "Trigonometry",
+      "en": "\\(\\sin 30° + \\cos 60° = ?\\)",
+      "bn": "\\(\\sin 30° + \\cos 60°\\) এর মান কত?",
+      "opts": ["0", "\\(\\frac{1}{2}\\)", "1", "\\(\\sqrt{3}\\)"],
+      "ans": 2,
+      "sol": [
+        {"m": "\\sin 30° = \\frac{1}{2},\\quad \\cos 60° = \\frac{1}{2}"},
+        {"m": "\\sin 30° + \\cos 60° = \\frac{1}{2} + \\frac{1}{2} = \\boxed{1}"}
+      ]
+    },
+    {
+      "n": 21, "ch": "Trigonometry",
+      "en": "\\(\\tan 45° \\times \\cos 45° = ?\\)",
+      "bn": "\\(\\tan 45° \\times \\cos 45°\\) এর মান:",
+      "opts": ["\\(\\frac{1}{2}\\)", "\\(\\frac{1}{\\sqrt{2}}\\)", "1", "\\(\\sqrt{2}\\)"],
+      "ans": 1,
+      "viz": "right_triangle_trig",
+      "sol": [
+        {"m": "\\tan 45° = 1,\\quad \\cos 45° = \\frac{1}{\\sqrt{2}}"},
+        {"m": "1 \\times \\frac{1}{\\sqrt{2}} = \\boxed{\\frac{1}{\\sqrt{2}}}"}
+      ]
+    },
+    {
+      "n": 22, "ch": "Trigonometry",
+      "en": "If \\(\\sin\\theta = \\frac{4}{5}\\), then \\(\\cos\\theta = ?\\) (first quadrant)",
+      "bn": "\\(\\sin\\theta = \\frac{4}{5}\\) হলে \\(\\cos\\theta = ?\\) (প্রথম চতুর্ভাগে)",
+      "opts": ["\\(\\frac{3}{5}\\)", "\\(\\frac{4}{5}\\)", "\\(\\frac{5}{4}\\)", "\\(\\frac{3}{4}\\)"],
+      "ans": 0,
+      "sol": [
+        {"m": "\\cos\\theta = \\sqrt{1 - \\sin^2\\theta} = \\sqrt{1 - \\frac{16}{25}} = \\sqrt{\\frac{9}{25}} = \\boxed{\\frac{3}{5}}"}
+      ]
+    },
+    {
+      "n": 23, "ch": "Trigonometry",
+      "en": "\\(\\sec^2\\theta - \\tan^2\\theta = ?\\)",
+      "bn": "\\(\\sec^2\\theta - \\tan^2\\theta\\) এর মান:",
+      "opts": ["0", "1", "2", "\\(\\sin^2\\theta\\)"],
+      "ans": 1,
+      "viz": "unitcircle",
+      "sol": [
+        {"m": "\\sec^2\\theta - \\tan^2\\theta = \\boxed{1}"},
+        {"note": "This is the Pythagorean identity: \\(1 + \\tan^2\\theta = \\sec^2\\theta\\)"}
+      ]
+    },
+    {
+      "n": 24, "ch": "Statistics",
+      "en": "The mean of first 5 natural numbers is:",
+      "bn": "প্রথম 5টি স্বাভাবিক সংখ্যার গড়:",
+      "opts": ["2", "2.5", "3", "3.5"],
+      "ans": 2,
+      "sol": [
+        {"m": "\\bar{x} = \\frac{1+2+3+4+5}{5} = \\frac{15}{5} = \\boxed{3}"}
+      ]
+    },
+    {
+      "n": 25, "ch": "Statistics",
+      "en": "Median of 8, 3, 5, 1, 7:",
+      "bn": "8, 3, 5, 1, 7 এর মধ্যমা:",
+      "opts": ["3", "5", "7", "8"],
+      "ans": 1,
+      "sol": [
+        {"t": "Sort: 1, 3, 5, 7, 8. Middle value (3rd) = 5"},
+        {"m": "\\text{Median} = \\boxed{5}"}
+      ]
+    },
+    {
+      "n": 26, "ch": "Statistics",
+      "en": "Mode of 4, 6, 6, 8, 8, 8, 10:",
+      "bn": "4, 6, 6, 8, 8, 8, 10 এর প্রচুরক:",
+      "opts": ["4", "6", "8", "10"],
+      "ans": 2,
+      "viz": "barchart",
+      "sol": [
+        {"t": "8 appears 3 times — the most frequent value."},
+        {"m": "\\text{Mode} = \\boxed{8}"}
+      ]
+    },
+    {
+      "n": 27, "ch": "Mensuration",
+      "en": "The volume of a cube with side 5 cm is:",
+      "bn": "5 সেমি বাহু বিশিষ্ট ঘনকের আয়তন:",
+      "opts": ["25 cm³", "75 cm³", "100 cm³", "125 cm³"],
+      "ans": 3,
+      "sol": [
+        {"m": "V = a^3 = 5^3 = \\boxed{125 \\text{ cm}^3}"}
+      ]
+    },
+    {
+      "n": 28, "ch": "Mensuration",
+      "en": "The circumference of a circle with diameter 14 cm is (\\(\\pi = \\frac{22}{7}\\)):",
+      "bn": "14 সেমি ব্যাসের বৃত্তের পরিধি (\\(\\pi = \\frac{22}{7}\\)):",
+      "opts": ["22 cm", "44 cm", "88 cm", "154 cm"],
+      "ans": 1,
+      "sol": [
+        {"m": "C = \\pi d = \\frac{22}{7} \\times 14 = \\boxed{44 \\text{ cm}}"}
+      ]
+    },
+    {
+      "n": 29, "ch": "Arithmetic",
+      "en": "LCM of 8 and 12 is:",
+      "bn": "8 এবং 12 এর ল.সা.গু:",
+      "opts": ["4", "12", "24", "48"],
+      "ans": 2,
+      "sol": [
+        {"m": "8 = 2^3,\\quad 12 = 2^2 \\times 3"},
+        {"m": "\\text{LCM} = 2^3 \\times 3 = \\boxed{24}"}
+      ]
+    },
+    {
+      "n": 30, "ch": "Exponents",
+      "en": "\\(\\left(\\frac{2}{3}\\right)^{-2} = ?\\)",
+      "bn": "\\(\\left(\\frac{2}{3}\\right)^{-2}\\) এর মান কত?",
+      "opts": ["\\(\\frac{4}{9}\\)", "\\(\\frac{9}{4}\\)", "\\(\\frac{3}{2}\\)", "\\(\\frac{-4}{9}\\)"],
+      "ans": 1,
+      "sol": [
+        {"m": "\\left(\\frac{2}{3}\\right)^{-2} = \\left(\\frac{3}{2}\\right)^{2} = \\boxed{\\frac{9}{4}}"},
+        {"note": "Negative exponent flips the fraction: \\(\\left(\\frac{a}{b}\\right)^{-n} = \\left(\\frac{b}{a}\\right)^n\\)"}
+      ]
+    }
+  ],
+  "cq": [
+    {
+      "n": 1, "ch": "Algebra",
+      "stem": "\\(a + b = 7\\) and \\(ab = 10\\)",
+      "stemBn": "\\(a + b = 7\\) এবং \\(ab = 10\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(a^2 + b^2\\).",
+          "sol": [
+            {"m": "(a+b)^2 = a^2 + 2ab + b^2 = 49"},
+            {"m": "a^2 + b^2 = 49 - 2(10) = \\boxed{29}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\((a - b)^2\\) and hence find \\(a - b\\).",
+          "sol": [
+            {"m": "(a-b)^2 = (a+b)^2 - 4ab = 49 - 40 = 9"},
+            {"m": "a - b = \\pm 3"},
+            {"note": "We get two cases: \\(a-b=3\\) or \\(a-b=-3\\)."}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the values of \\(a\\) and \\(b\\).",
+          "sol": [
+            {"t": "Taking \\(a - b = 3\\):"},
+            {"m": "a + b = 7,\\quad a - b = 3"},
+            {"m": "2a = 10 \\implies a = 5,\\quad b = 2"},
+            {"t": "Taking \\(a - b = -3\\):"},
+            {"m": "a = 2,\\quad b = 5"},
+            {"m": "\\boxed{(a, b) = (5, 2) \\text{ or } (2, 5)}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2, "ch": "Logarithms",
+      "stem": "Given \\(\\log 2 = 0.3010\\) and \\(\\log 3 = 0.4771\\)",
+      "stemBn": "দেওয়া আছে \\(\\log 2 = 0.3010\\) এবং \\(\\log 3 = 0.4771\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(\\log 6\\).",
+          "sol": [
+            {"m": "\\log 6 = \\log(2 \\times 3) = \\log 2 + \\log 3 = 0.3010 + 0.4771 = \\boxed{0.7781}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(\\log 15\\).",
+          "sol": [
+            {"m": "\\log 15 = \\log\\frac{30}{2} = \\log 30 - \\log 2"},
+            {"m": "\\log 30 = \\log(3 \\times 10) = \\log 3 + 1 = 1.4771"},
+            {"m": "\\log 15 = 1.4771 - 0.3010 = \\boxed{1.1761}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the number of digits in \\(2^{10}\\).",
+          "sol": [
+            {"t": "Number of digits = \\(\\lfloor \\log_{10} N \\rfloor + 1\\)"},
+            {"m": "\\log 2^{10} = 10 \\times \\log 2 = 10 \\times 0.3010 = 3.010"},
+            {"m": "\\text{Number of digits} = \\lfloor 3.010 \\rfloor + 1 = 3 + 1 = \\boxed{4}"},
+            {"note": "Verification: \\(2^{10} = 1024\\), which indeed has 4 digits."}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 3, "ch": "Sets",
+      "stem": "In a class of 50 students, 28 study English (E), 30 study Bengali (B), and 5 study neither.",
+      "stemBn": "50 জন শিক্ষার্থীর একটি শ্রেণিতে 28 জন ইংরেজি (E), 30 জন বাংলা (B) পড়ে এবং 5 জন কোনোটিই পড়ে না।",
+      "viz": "venn",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(n(E \\cup B)\\).",
+          "sol": [
+            {"m": "n(E \\cup B) = 50 - 5 = \\boxed{45}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find \\(n(E \\cap B)\\), the number of students who study both subjects.",
+          "sol": [
+            {"m": "n(E \\cup B) = n(E) + n(B) - n(E \\cap B)"},
+            {"m": "45 = 28 + 30 - n(E \\cap B)"},
+            {"m": "n(E \\cap B) = 58 - 45 = \\boxed{13}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the number of students who study only English and only Bengali. Verify with a Venn diagram.",
+          "sol": [
+            {"m": "\\text{Only English} = 28 - 13 = 15"},
+            {"m": "\\text{Only Bengali} = 30 - 13 = 17"},
+            {"t": "Verification: 15 + 13 + 17 + 5 = 50 \\(\\checkmark\\)"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 4, "ch": "Coordinate Geometry",
+      "stem": "Triangle with vertices \\(A(1, 1)\\), \\(B(5, 1)\\), \\(C(3, 5)\\)",
+      "stemBn": "\\(A(1, 1)\\), \\(B(5, 1)\\), \\(C(3, 5)\\) শীর্ষবিন্দু বিশিষ্ট ত্রিভুজ",
+      "viz": "coordplane",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find the length of \\(AB\\).",
+          "sol": [
+            {"m": "AB = \\sqrt{(5-1)^2 + (1-1)^2} = \\sqrt{16} = \\boxed{4}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the lengths of \\(BC\\) and \\(AC\\) and determine whether the triangle is isosceles.",
+          "sol": [
+            {"m": "BC = \\sqrt{(3-5)^2 + (5-1)^2} = \\sqrt{4+16} = \\sqrt{20} = 2\\sqrt{5}"},
+            {"m": "AC = \\sqrt{(3-1)^2 + (5-1)^2} = \\sqrt{4+16} = \\sqrt{20} = 2\\sqrt{5}"},
+            {"t": "Since \\(BC = AC = 2\\sqrt{5}\\), the triangle is isosceles."}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the area of \\(\\triangle ABC\\).",
+          "sol": [
+            {"t": "Using the formula: \\(\\text{Area} = \\frac{1}{2}|x_1(y_2 - y_3) + x_2(y_3 - y_1) + x_3(y_1 - y_2)|\\)"},
+            {"m": "= \\frac{1}{2}|1(1-5) + 5(5-1) + 3(1-1)|"},
+            {"m": "= \\frac{1}{2}|{-4} + 20 + 0| = \\frac{1}{2} \\times 16 = \\boxed{8 \\text{ sq. units}}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 5, "ch": "Trigonometry",
+      "stem": "From the top of a 40 m building, the angle of depression to a car on the ground is 30°.",
+      "stemBn": "40 মি উঁচু ভবনের শীর্ষ থেকে মাটিতে একটি গাড়ির অবনতি কোণ 30°।",
+      "viz": "right_triangle_trig",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(\\tan 30°\\).",
+          "sol": [
+            {"m": "\\tan 30° = \\boxed{\\frac{1}{\\sqrt{3}}}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the horizontal distance from the building to the car.",
+          "sol": [
+            {"m": "\\tan 30° = \\frac{40}{d}"},
+            {"m": "\\frac{1}{\\sqrt{3}} = \\frac{40}{d}"},
+            {"m": "d = 40\\sqrt{3} \\approx \\boxed{69.28 \\text{ m}}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the direct distance from the top of the building to the car.",
+          "sol": [
+            {"m": "\\text{Direct distance} = \\frac{40}{\\sin 30°} = \\frac{40}{1/2} = \\boxed{80 \\text{ m}}"},
+            {"t": "Verification: \\(80^2 = 40^2 + (40\\sqrt{3})^2 = 1600 + 4800 = 6400\\) \\(\\checkmark\\)"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 6, "ch": "Statistics",
+      "stem": "The marks obtained by 8 students in a test are: 55, 60, 45, 70, 65, 50, 80, 75",
+      "stemBn": "8 জন শিক্ষার্থীর একটি পরীক্ষায় প্রাপ্ত নম্বর: 55, 60, 45, 70, 65, 50, 80, 75",
+      "viz": "barchart",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find the mean.",
+          "sol": [
+            {"m": "\\bar{x} = \\frac{55+60+45+70+65+50+80+75}{8} = \\frac{500}{8} = \\boxed{62.5}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Find the median.",
+          "sol": [
+            {"t": "Sorted: 45, 50, 55, 60, 65, 70, 75, 80 (n = 8, even)"},
+            {"m": "\\text{Median} = \\frac{\\text{4th value} + \\text{5th value}}{2} = \\frac{60 + 65}{2} = \\boxed{62.5}"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the mean deviation from the mean.",
+          "sol": [
+            {"t": "Deviations from 62.5: |55-62.5|=7.5, |60-62.5|=2.5, |45-62.5|=17.5, |70-62.5|=7.5, |65-62.5|=2.5, |50-62.5|=12.5, |80-62.5|=17.5, |75-62.5|=12.5"},
+            {"m": "\\text{Sum of }|d_i| = 7.5+2.5+17.5+7.5+2.5+12.5+17.5+12.5 = 80"},
+            {"m": "\\text{Mean deviation} = \\frac{80}{8} = \\boxed{10}"}
+          ]
+        }
+      ]
+    },
+    {
+      "n": 7, "ch": "Surds",
+      "stem": "\\(x = \\sqrt{3} + \\sqrt{2}\\) and \\(y = \\sqrt{3} - \\sqrt{2}\\)",
+      "stemBn": "\\(x = \\sqrt{3} + \\sqrt{2}\\) এবং \\(y = \\sqrt{3} - \\sqrt{2}\\)",
+      "parts": [
+        {
+          "l": "ক", "m": 2,
+          "q": "Find \\(xy\\).",
+          "sol": [
+            {"m": "xy = (\\sqrt{3}+\\sqrt{2})(\\sqrt{3}-\\sqrt{2}) = 3 - 2 = \\boxed{1}"}
+          ]
+        },
+        {
+          "l": "খ", "m": 4,
+          "q": "Show that \\(x^2 + y^2 = 10\\).",
+          "sol": [
+            {"m": "x^2 = (\\sqrt{3}+\\sqrt{2})^2 = 3 + 2\\sqrt{6} + 2 = 5 + 2\\sqrt{6}"},
+            {"m": "y^2 = (\\sqrt{3}-\\sqrt{2})^2 = 3 - 2\\sqrt{6} + 2 = 5 - 2\\sqrt{6}"},
+            {"m": "x^2 + y^2 = (5+2\\sqrt{6}) + (5-2\\sqrt{6}) = \\boxed{10} \\quad \\checkmark"}
+          ]
+        },
+        {
+          "l": "গ", "m": 4,
+          "q": "Find the value of \\(\\frac{x}{y} + \\frac{y}{x}\\).",
+          "sol": [
+            {"m": "\\frac{x}{y} + \\frac{y}{x} = \\frac{x^2 + y^2}{xy} = \\frac{10}{1} = \\boxed{10}"}
+          ]
+        }
+      ]
+    }
+  ]
+}
