@@ -1,0 +1,177 @@
+---
+import Main from '../layouts/Main.astro';
+---
+<Main title="Mathify" description="Free math, physics, and civil engineering education with step-by-step solutions.">
+
+<style>
+  .hero {
+    padding: 5rem 2rem 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .hero h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin-bottom: .6rem;
+  }
+  .hero h1 span { color: var(--teal); }
+  .hero p {
+    color: var(--txt2);
+    font-size: 1rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Subjects */
+  .subjects {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .scard {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 8px;
+    padding: 2rem 1.5rem;
+    text-decoration: none;
+    transition: border-color .2s, transform .2s;
+  }
+  .scard:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .scard .icon { font-size: 1.8rem; margin-bottom: .8rem; display: block; }
+  .scard h2 {
+    font-size: .95rem;
+    font-weight: 700;
+    margin-bottom: .3rem;
+  }
+  .scard p { font-size: .8rem; color: var(--txt2); line-height: 1.5; }
+
+  /* Section */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+  .slabel {
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--mut);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .slabel::after { content: ''; flex: 1; height: 1px; background: var(--bdr); }
+
+  /* SSC grid */
+  .ssc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: .6rem;
+  }
+  .ssc-link {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 6px;
+    padding: .8rem 1rem;
+    text-decoration: none;
+    font-size: .78rem;
+    font-weight: 600;
+    transition: border-color .2s;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ssc-link:hover { border-color: var(--amb); color: var(--amb); }
+  .ssc-link .yr { color: var(--amb); font-family: 'Space Mono', monospace; font-size: .7rem; }
+
+  /* Quick links */
+  .qgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: .6rem;
+  }
+  .qlink {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 6px;
+    padding: .8rem 1rem;
+    text-decoration: none;
+    font-size: .78rem;
+    color: var(--txt2);
+    transition: border-color .2s, color .2s;
+  }
+  .qlink:hover { border-color: var(--teal); color: var(--teal); }
+  .qlink .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: .55rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--mut);
+    display: block;
+    margin-bottom: .2rem;
+  }
+
+  @media (max-width: 600px) {
+    .subjects { grid-template-columns: 1fr; }
+    .hero { padding: 3.5rem 1.5rem 2rem; }
+    .section { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+</style>
+
+<!-- HERO -->
+<div class="hero">
+  <h1><span>mathify</span></h1>
+  <p>Free step-by-step education in mathematics, physics, and civil engineering.</p>
+</div>
+
+<!-- SUBJECTS -->
+<div class="subjects">
+  <a href="/math" class="scard">
+    <span class="icon">&sum;</span>
+    <h2>Mathematics</h2>
+    <p>Class 9&ndash;12 guides, algebra, calculus, geometry, and more.</p>
+  </a>
+  <a href="/physics" class="scard">
+    <span class="icon">&hbar;</span>
+    <h2>Physics</h2>
+    <p>Mechanics, waves, thermodynamics, and electromagnetism.</p>
+  </a>
+  <a href="/civil" class="scard">
+    <span class="icon">&#9651;</span>
+    <h2>Civil Engineering</h2>
+    <p>RC design, structural analysis, traffic engineering.</p>
+  </a>
+</div>
+
+<!-- SSC QUESTION SOLUTIONS -->
+<div class="section">
+  <div class="slabel">SSC Question Solutions</div>
+  <div class="ssc-grid">
+    <a href="/ssc-math-2025" class="ssc-link">SSC Math <span class="yr">2025</span></a>
+    <a href="/ssc-math-2024" class="ssc-link">SSC Math <span class="yr">2024</span></a>
+    <a href="/ssc-math-2023" class="ssc-link">SSC Math <span class="yr">2023</span></a>
+    <a href="/ssc-math-2022" class="ssc-link">SSC Math <span class="yr">2022</span></a>
+    <a href="/ssc-math-2021" class="ssc-link">SSC Math <span class="yr">2021</span></a>
+    <a href="/ssc-math-2020" class="ssc-link">SSC Math <span class="yr">2020</span></a>
+  </div>
+</div>
+
+<!-- COMING SOON -->
+<div class="section">
+  <div class="slabel">Coming Soon</div>
+  <div class="qgrid">
+    <a href="/hsc" class="qlink"><span class="tag">Exam Prep</span>HSC</a>
+    <a href="/o-level" class="qlink"><span class="tag">Exam Prep</span>O Level</a>
+    <a href="/a-level" class="qlink"><span class="tag">Exam Prep</span>A Level</a>
+    <a href="/bcs" class="qlink"><span class="tag">Exam Prep</span>BCS</a>
+    <a href="/sat-prep" class="qlink"><span class="tag">Exam Prep</span>SAT Prep</a>
+    <a href="/shop" class="qlink"><span class="tag">Store</span>Merch &amp; Watches</a>
+    <a href="/explore" class="qlink"><span class="tag">More</span>Explore</a>
+  </div>
+</div>
+
+</Main>
