@@ -1,0 +1,99 @@
+---
+import Main from '../layouts/Main.astro';
+---
+<Main title="Explore" description="Explore non-academic topics, hobbies, and more on Mathify." activeNav="explore">
+
+<style>
+  .explore-hero {
+    padding: 5rem 2rem 3rem;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .explore-hero h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: .4rem;
+  }
+  .explore-hero p { color: var(--txt2); font-size: .95rem; }
+
+  .topics {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 2rem 5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .topic {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: border-color .2s;
+  }
+  .topic:hover { border-color: var(--teal); }
+  .topic .icon { font-size: 2rem; margin-bottom: .6rem; display: block; }
+  .topic h3 { font-size: .9rem; font-weight: 700; margin-bottom: .2rem; }
+  .topic p { font-size: .75rem; color: var(--mut); }
+  .soon {
+    font-family: 'Space Mono', monospace;
+    font-size: .55rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--amb);
+    background: var(--adim);
+    border: 1px solid var(--aline);
+    padding: .15rem .5rem;
+    border-radius: 2px;
+    margin-top: .5rem;
+    display: inline-block;
+  }
+</style>
+
+<div class="explore-hero">
+  <h1>Explore</h1>
+  <p>Non-academic topics, hobbies, and everything else. More coming soon.</p>
+</div>
+
+<div class="topics">
+  <div class="topic">
+    <span class="icon">&#127912;</span>
+    <h3>Creative</h3>
+    <p>Design, art, and visual thinking.</p>
+    <span class="soon">Coming Soon</span>
+  </div>
+  <div class="topic">
+    <span class="icon">&#128187;</span>
+    <h3>Tech</h3>
+    <p>Programming, gadgets, and the web.</p>
+    <span class="soon">Coming Soon</span>
+  </div>
+  <div class="topic">
+    <span class="icon">&#127919;</span>
+    <h3>Gaming</h3>
+    <p>Reviews, strategy, and esports.</p>
+    <span class="soon">Coming Soon</span>
+  </div>
+  <div class="topic">
+    <span class="icon">&#127939;</span>
+    <h3>Fitness</h3>
+    <p>Workout plans and nutrition basics.</p>
+    <span class="soon">Coming Soon</span>
+  </div>
+  <div class="topic">
+    <span class="icon">&#127911;</span>
+    <h3>Music</h3>
+    <p>Production, playlists, and theory.</p>
+    <span class="soon">Coming Soon</span>
+  </div>
+  <div class="topic">
+    <span class="icon">&#128218;</span>
+    <h3>Books</h3>
+    <p>Recommendations and reading lists.</p>
+    <span class="soon">Coming Soon</span>
+  </div>
+</div>
+
+</Main>

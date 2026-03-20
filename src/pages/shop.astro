@@ -1,0 +1,219 @@
+---
+import Main from '../layouts/Main.astro';
+
+const products = [
+  { id: 'tee-sigma', name: 'Sigma Grind Tee', price: 24.99, category: 'merch', img: '&#931;', desc: 'Premium cotton tee with the sigma symbol.' },
+  { id: 'tee-euler', name: "Euler's Identity Tee", price: 24.99, category: 'merch', img: 'e', desc: 'e^(i&pi;) + 1 = 0 on soft black cotton.' },
+  { id: 'hoodie-mathify', name: 'Mathify Hoodie', price: 44.99, category: 'merch', img: '&sum;', desc: 'Heavyweight hoodie with embroidered logo.' },
+  { id: 'mug-integral', name: 'Integral Mug', price: 14.99, category: 'merch', img: '&int;', desc: 'Ceramic mug &mdash; "I integrate my coffee."' },
+  { id: 'watch-minimal', name: 'Minimal Analog', price: 89.99, category: 'watch', img: '&#9201;', desc: 'Clean dial, sapphire crystal, leather strap.' },
+  { id: 'watch-engineer', name: "Engineer's Chrono", price: 129.99, category: 'watch', img: '&#9201;', desc: 'Chronograph with tachymeter bezel.' },
+  { id: 'watch-digital', name: 'Pi Digital', price: 69.99, category: 'watch', img: '&#960;', desc: 'Retro digital watch showing time in radians.' },
+  { id: 'cap-mathify', name: 'Mathify Cap', price: 19.99, category: 'merch', img: '&#8734;', desc: 'Snapback cap with infinity logo.' },
+];
+---
+<Main title="Shop" description="Mathify merch and watches for students and engineers." activeNav="shop">
+
+<style>
+  .shop-hero {
+    padding: 3.5rem 2rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .shop-hero h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: .3rem;
+  }
+  .shop-hero p { color: var(--txt2); font-size: .9rem; }
+
+  .filters {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 1.5rem;
+    display: flex; gap: .4rem;
+  }
+  .fbtn {
+    padding: .4rem .9rem;
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border: 1px solid var(--bdr);
+    background: transparent;
+    color: var(--mut);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .2s;
+    font-family: inherit;
+  }
+  .fbtn:hover { border-color: var(--teal); color: var(--teal); }
+  .fbtn.active { background: var(--teal); color: var(--bg); border-color: var(--teal); }
+
+  .products {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .pcard {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+  }
+  .pcard:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .pcard-img {
+    height: 140px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    background: var(--surf2);
+    border-bottom: 1px solid var(--bdr);
+    user-select: none;
+  }
+  .pcard-body { padding: 1rem; }
+  .pcard-cat {
+    font-family: 'Space Mono', monospace;
+    font-size: .55rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--amb);
+    margin-bottom: .2rem;
+  }
+  .pcard-name { font-weight: 700; font-size: .88rem; margin-bottom: .15rem; }
+  .pcard-desc { font-size: .75rem; color: var(--txt2); margin-bottom: .6rem; line-height: 1.45; }
+  .pcard-row { display: flex; align-items: center; justify-content: space-between; }
+  .pcard-price {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: .85rem;
+    color: var(--teal);
+  }
+  .add-btn {
+    padding: .35rem .7rem;
+    font-size: .6rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    background: var(--teal);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity .2s;
+  }
+  .add-btn:hover { opacity: .85; }
+
+  /* Cart bar */
+  .cart-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(10,10,15,.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--bdr);
+    padding: .8rem 2rem;
+    display: none; align-items: center; justify-content: space-between;
+    z-index: 200;
+  }
+  .cart-bar.show { display: flex; }
+  .cart-info { font-size: .78rem; color: var(--txt2); }
+  .cart-info strong { color: var(--teal); }
+  .checkout-btn {
+    padding: .5rem 1.2rem;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    background: var(--amb);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  @media (max-width: 600px) {
+    .products { grid-template-columns: 1fr 1fr; gap: .6rem; }
+    .pcard-img { height: 100px; font-size: 2rem; }
+    .shop-hero, .filters, .products { padding-left: 1rem; padding-right: 1rem; }
+  }
+</style>
+
+<div class="shop-hero">
+  <h1>Shop</h1>
+  <p>Merch and watches for the curious mind.</p>
+</div>
+
+<div class="filters" id="filters">
+  <button class="fbtn active" data-filter="all">All</button>
+  <button class="fbtn" data-filter="merch">Merch</button>
+  <button class="fbtn" data-filter="watch">Watches</button>
+</div>
+
+<div class="products" id="products">
+  {products.map(p => (
+    <div class="pcard" data-cat={p.category} data-id={p.id} data-price={p.price}>
+      <div class="pcard-img"><Fragment set:html={p.img} /></div>
+      <div class="pcard-body">
+        <div class="pcard-cat">{p.category}</div>
+        <div class="pcard-name">{p.name}</div>
+        <div class="pcard-desc"><Fragment set:html={p.desc} /></div>
+        <div class="pcard-row">
+          <span class="pcard-price">${p.price}</span>
+          <button class="add-btn" data-id={p.id}>Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<div class="cart-bar" id="cartBar">
+  <span class="cart-info"><strong id="cartCount">0</strong> items &middot; $<span id="cartTotal">0.00</span></span>
+  <button class="checkout-btn" id="checkoutBtn">Checkout</button>
+</div>
+
+<script is:inline>
+  // Filter
+  document.querySelectorAll('.fbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.pcard').forEach(c => {
+        c.style.display = (f === 'all' || c.dataset.cat === f) ? '' : 'none';
+      });
+    });
+  });
+
+  // Cart
+  const cart = {};
+  function updateCart() {
+    let count = 0, total = 0;
+    for (const id in cart) { count += cart[id].qty; total += cart[id].qty * cart[id].price; }
+    document.getElementById('cartCount').textContent = count;
+    document.getElementById('cartTotal').textContent = total.toFixed(2);
+    document.getElementById('cartBar').classList.toggle('show', count > 0);
+  }
+
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.pcard');
+      const id = card.dataset.id;
+      const price = parseFloat(card.dataset.price);
+      if (!cart[id]) cart[id] = { qty: 0, price };
+      cart[id].qty++;
+      btn.textContent = `Added (${cart[id].qty})`;
+      setTimeout(() => { btn.textContent = 'Add to Cart'; }, 800);
+      updateCart();
+    });
+  });
+
+  document.getElementById('checkoutBtn')?.addEventListener('click', () => {
+    alert('Checkout coming soon! We\'re setting up payment processing.');
+  });
+</script>
+
+</Main>

@@ -1,0 +1,91 @@
+---
+import Main from '../layouts/Main.astro';
+
+const years = [2025, 2024, 2023, 2022, 2021, 2020];
+const boards = ['Dhaka', 'Rajshahi', 'Chittagong', 'Jessore', 'Comilla', 'Barisal', 'Sylhet', 'Dinajpur', 'Mymensingh'];
+---
+<Main title="SSC Question Solutions" description="All SSC board exam math questions solved step-by-step for all 9 boards, 2020-2025." activeNav="ssc">
+
+<style>
+  .ssc-hero {
+    padding: 3.5rem 2rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .ssc-hero h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: .3rem; }
+  .ssc-hero p { color: var(--txt2); font-size: .9rem; }
+
+  .year-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+  }
+  .ylabel {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--amb);
+    margin-bottom: .6rem;
+  }
+  .boards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: .5rem;
+    margin-bottom: 1.5rem;
+  }
+  .blink {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 6px;
+    padding: .6rem .8rem;
+    text-decoration: none;
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--txt2);
+    transition: border-color .2s, color .2s;
+    text-align: center;
+  }
+  .blink:hover { border-color: var(--teal); color: var(--teal); }
+
+  .all-link {
+    display: inline-flex;
+    padding: .45rem 1rem;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: var(--teal);
+    color: var(--bg);
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    transition: opacity .2s;
+  }
+  .all-link:hover { opacity: .85; }
+
+  @media (max-width: 600px) {
+    .ssc-hero, .year-section { padding-left: 1rem; padding-right: 1rem; }
+    .boards { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+
+<div class="ssc-hero">
+  <h1>SSC Question Solutions</h1>
+  <p>All 9 boards &middot; Mathematics &middot; Step-by-step solutions with visualizations.</p>
+</div>
+
+{years.map(year => (
+  <div class="year-section">
+    <div class="ylabel">SSC Math {year}</div>
+    <a href={`/ssc-math-${year}`} class="all-link">View All 9 Boards &rarr;</a>
+    <div class="boards">
+      {boards.map(b => (
+        <a href={`/ssc-math-${year}#${b.toLowerCase()}`} class="blink">{b}</a>
+      ))}
+    </div>
+  </div>
+))}
+
+</Main>
