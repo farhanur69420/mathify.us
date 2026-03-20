@@ -177,9 +177,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 .fsnote{font-size:.75rem;color:var(--muted);line-height:1.5;}
 @media(max-width:900px){.wrap{grid-template-columns:1fr;}.toc{display:none;}.hero,.banner,.lecnav{padding-left:20px;padding-right:20px;}.content{padding:0 20px 60px;}}
 @media(max-width:580px){nav{padding:10px 16px;}.nlinks{display:none;}}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;z-index:300;pointer-events:none;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--sky));width:0;transition:width .1s;}
+.breadcrumb{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--dim);padding:.5rem 32px;border-bottom:1px solid var(--border);background:var(--bg);}
+.breadcrumb a{color:var(--dim);text-decoration:none;transition:color .2s;}
+.breadcrumb a:hover{color:var(--gold);}
+.breadcrumb em{color:var(--ink);font-style:normal;}
 </style>
 </head>
 <body>
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
 <nav>
   <a href="index.html" class="nlogo">∑ Mathify</a>
   <ul class="nlinks">
@@ -198,6 +205,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <a href="#fs" class="pill">Formula Sheet ↓</a>
   </div>
 </nav>
+<div class="breadcrumb"><a href="/">Mathify</a> → <a href="/civil">Civil</a> → <em>RC Design Ch. 1</em></div>
 
 <div class="hero">
   <div class="htag">📐 CEE335 — CHAPTER 1 · WORKING STRESS DESIGN</div>
@@ -1366,5 +1374,11 @@ document.getElementById('sl2').dispatchEvent(new Event('input'));
 document.getElementById('sl3').dispatchEvent(new Event('input'));
 sim1draw(0);sim5draw(0);sim6draw();sim7draw();sim8draw(0);d4step(0);
 document.fonts.ready.then(()=>{sizeAll();redrawAll();if(window.MathJax)MathJax.typesetPromise().catch(()=>{});});
+</script>
+<script>
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progressBar').style.width=dh>0?(st/dh*100)+'%':'0%';
+});
 </script>
 </body></html>

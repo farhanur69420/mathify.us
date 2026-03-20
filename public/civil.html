@@ -15,7 +15,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:0.85rem 2.5rem;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid);}
-.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--blueprint);text-transform:uppercase;text-decoration:none;}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.04em;color:#4ec9b0;text-decoration:none;font-weight:700;}
+[data-theme="light"] .nav-logo{color:#0d9488;}
 .nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
 .nav-links a{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--steel);text-decoration:none;padding:0.4rem 0.75rem;border-radius:6px;transition:color 0.15s,background 0.15s;}
 .nav-links a:hover{color:var(--ink);background:rgba(128,128,128,0.1);}
@@ -105,7 +106,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 </head>
 <body>
 <nav>
-  <a href="index.html" class="nav-logo">&larr; Mathify</a>
+  <a href="/" class="nav-logo">mathify</a>
   <ul class="nav-links" aria-label="Site navigation">
     <li><a href="civil.html" class="active">Civil Eng.</a></li>
     <li><a href="math.html">Mathematics</a></li>

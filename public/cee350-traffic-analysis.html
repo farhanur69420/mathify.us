@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,9 +14,10 @@
   --border:rgba(0,212,255,.1);--border2:rgba(0,255,163,.12);
   --glow-g:rgba(0,255,163,.15);--glow-c:rgba(0,212,255,.15);
 }
+[data-theme="light"]{--bg:#f5f5fa;--bg2:#ffffff;--bg3:#eeeef4;--bg4:#e4e4f0;--ink:#1a1a2e;--muted:#6a6a8a;--dim:#4a4a6a;--green:#059669;--cyan:#0284c7;--amber:#b45309;--red:#dc2626;--violet:#7c3aed;--border:rgba(13,148,136,.15);--border2:rgba(5,150,105,.15);--glow-g:rgba(5,150,105,.08);--glow-c:rgba(2,132,199,.08);}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--ink);font-family:'Lora',serif;line-height:1.7;overflow-x:hidden;}
+body{background:var(--bg);color:var(--ink);font-family:'Lora',serif;line-height:1.7;overflow-x:hidden;transition:background .3s,color .3s;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
 ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--cyan);opacity:.5;}
 
@@ -26,6 +27,12 @@ nav{position:sticky;top:0;z-index:200;background:rgba(6,11,20,.95);backdrop-filt
 .nlinks{display:flex;gap:6px;flex-wrap:wrap;}
 .nlinks a{color:var(--muted);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:4px 10px;border:1px solid transparent;border-radius:2px;transition:all .2s;letter-spacing:.04em;}
 .nlinks a:hover{color:var(--cyan);border-color:var(--border);}
+.breadcrumb{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);padding:.5rem 32px;border-bottom:1px solid var(--border);background:var(--bg);}
+.breadcrumb a{color:var(--muted);text-decoration:none;transition:color .2s;}
+.breadcrumb a:hover{color:var(--green);}
+.breadcrumb em{color:var(--ink);font-style:normal;}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;z-index:300;pointer-events:none;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));width:0;transition:width .1s;}
 
 /* ─── HERO ─── */
 .hero{position:relative;z-index:1;padding:70px 60px 56px;max-width:1100px;margin:0 auto;}
@@ -251,7 +258,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <a href="#practice">📝 Practice</a>
     <a href="#fs">📋 Formulas</a>
   </div>
+  <button class="tbtn" id="themeToggle" aria-label="Toggle theme" style="width:32px;height:32px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);color:var(--ink);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:transform .2s;"></button>
 </nav>
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+<div class="breadcrumb"><a href="/">Mathify</a> → <a href="/civil">Civil</a> → <em>Traffic Engineering</em></div>
 
 <div class="hero">
   <div class="hero-tag">🎓 CEE 350 · Traffic Analysis & Design · Spring 2026</div>
@@ -1695,6 +1705,20 @@ document.querySelectorAll('section.sec').forEach(s=>{if(s.id)obs.observe(s);});
 /* ═══ INIT ═══ */
 szAll();calcPHF();drawSignal();drawDelayCurve();drawQueueStatic();
 document.fonts.ready.then(()=>{szAll();redrawAll();drawQueueStatic();});
+</script>
+<script>
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progressBar').style.width=dh>0?(st/dh*100)+'%':'0%';
+});
+// Theme toggle
+const root=document.documentElement;
+const tBtn=document.getElementById('themeToggle');
+function setTheme(t){root.setAttribute('data-theme',t);tBtn.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('mathify-theme',t);}
+const saved=localStorage.getItem('mathify-theme');
+setTheme(saved||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+tBtn.addEventListener('click',()=>{setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});
 </script>
 </body>
 </html>

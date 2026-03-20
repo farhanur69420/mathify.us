@@ -1,0 +1,131 @@
+---
+import Main from '../layouts/Main.astro';
+---
+<Main title="About" description="About Mathify — free, open educational resources for mathematics, physics, and civil engineering.">
+
+<style>
+  .about {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 4rem 2rem 3rem;
+  }
+  .about h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  .about h1 span { color: var(--teal); }
+  .about p {
+    color: var(--txt2);
+    font-size: .92rem;
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+  }
+
+  .contributors {
+    margin-top: 2.5rem;
+  }
+  .clabel {
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--mut);
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .clabel::after { content: ''; flex: 1; height: 1px; background: var(--bdr); }
+
+  .contributor {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .contributor h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: .2rem;
+  }
+  .contributor .role {
+    font-family: 'Space Mono', monospace;
+    font-size: .68rem;
+    color: var(--teal);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: .8rem;
+  }
+  .contributor p {
+    font-size: .84rem;
+    margin-bottom: .8rem;
+  }
+  .socials {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+  .socials a {
+    font-family: 'Space Mono', monospace;
+    font-size: .68rem;
+    padding: .35rem .7rem;
+    border: 1px solid var(--bdr);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--txt2);
+    transition: border-color .2s, color .2s;
+  }
+  .socials a:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  @media (max-width: 600px) {
+    .about { padding: 3rem 1.5rem 2rem; }
+  }
+</style>
+
+<div class="about">
+  <h1>About <span>mathify</span></h1>
+  <p>
+    Mathify is a free, open educational platform offering step-by-step guides
+    in mathematics, physics, and civil engineering. Every chapter features
+    interactive simulations, worked problems, and visual explanations — built
+    to make complex topics feel approachable.
+  </p>
+  <p>
+    The goal is simple: give students clear, no-fluff resources that actually
+    help them learn — without paywalls, ads, or signup walls.
+  </p>
+
+  <div class="contributors">
+    <div class="clabel">Contributors</div>
+
+    <div class="contributor">
+      <h3>Farhanur Rahman</h3>
+      <div class="role">Content &amp; Design</div>
+      <p>Civil engineering student and the creator behind all course content, interactive simulations, and site design on Mathify.</p>
+      <div class="socials">
+        <a href="https://instagram.com/farhanur.69" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/farhanur420/" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://open.spotify.com/user/yatvozz2pzd9fkhmr4x1ieu0z" target="_blank" rel="noopener">Spotify</a>
+        <a href="https://www.snapchat.com/add/farhanur69" target="_blank" rel="noopener">Snapchat</a>
+        <a href="https://t.me/farhanur2002" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://lichess.org/@/actualfarhan" target="_blank" rel="noopener">Lichess</a>
+      </div>
+    </div>
+
+    <div class="contributor">
+      <h3>Claude</h3>
+      <div class="role">AI Development Partner</div>
+      <p>Built by Anthropic. Assisted with code architecture, interactive components, and content structuring across the platform.</p>
+      <div class="socials">
+        <a href="https://anthropic.com" target="_blank" rel="noopener">Anthropic</a>
+        <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</Main>

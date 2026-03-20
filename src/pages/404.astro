@@ -1,0 +1,72 @@
+---
+import Main from '../layouts/Main.astro';
+---
+<Main title="Page Not Found" description="The page you're looking for doesn't exist.">
+
+<style>
+  .notfound {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  .notfound .code {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(4rem, 12vw, 8rem);
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: .06em;
+    line-height: 1;
+    margin-bottom: .5rem;
+  }
+  .notfound h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: .6rem;
+  }
+  .notfound p {
+    color: var(--txt2);
+    font-size: .9rem;
+    max-width: 400px;
+    margin-bottom: 2rem;
+  }
+  .notfound .links {
+    display: flex;
+    gap: .8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .notfound .links a {
+    font-family: 'Space Mono', monospace;
+    font-size: .75rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: .6rem 1.2rem;
+    border: 1px solid var(--bdr);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--txt2);
+    transition: border-color .2s, color .2s;
+  }
+  .notfound .links a:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+</style>
+
+<div class="notfound">
+  <div class="code">404</div>
+  <h1>Page not found</h1>
+  <p>The page you're looking for doesn't exist or has been moved.</p>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/math">Math</a>
+    <a href="/physics">Physics</a>
+    <a href="/civil">Civil</a>
+  </div>
+</div>
+
+</Main>

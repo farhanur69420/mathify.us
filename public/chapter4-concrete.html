@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,9 +13,19 @@
   --lime:#84cc16; --blue:#60a5fa; --purple:#a78bfa;
   --concrete:#94a3b8; --steel:#38bdf8;
 }
+[data-theme="light"]{--bg:#f5f5fa;--surface:#ffffff;--surface2:#eeeef4;--border:#d8d8e4;--text:#1a1a2e;--muted:#6a6a8a;--teal:#0d9488;--amber:#b45309;--rose:#d44a6a;--lime:#4a7a10;--blue:#2563eb;--purple:#7c3aed;--concrete:#6a7080;--steel:#0d9488;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background .3s,color .3s;}
+.topbar{position:sticky;top:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:.6rem 2rem;background:var(--bg);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);font-family:'Space Mono',monospace;font-size:.72rem;}
+.topbar a{color:var(--muted);text-decoration:none;transition:color .2s;}
+.topbar a:hover{color:var(--teal);}
+.topbar .crumb{color:var(--muted);}
+.topbar .crumb em{color:var(--text);font-style:normal;}
+.tbtn{width:32px;height:32px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+.tbtn:hover{transform:rotate(20deg) scale(1.1);}
+.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;z-index:300;pointer-events:none;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--teal),var(--amber));width:0;transition:width .1s;}
 
 /* HERO */
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:4rem 2rem;position:relative;overflow:hidden;}
@@ -34,7 +44,7 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);line-h
 .part-badge{position:relative;margin-top:2rem;display:inline-block;font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);border:1px dashed rgba(245,158,11,.4);padding:.35rem .9rem;border-radius:.4rem;}
 
 /* STICKY NAV */
-.sticky-nav{position:sticky;top:0;z-index:100;background:rgba(8,11,16,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;}
+.sticky-nav{position:sticky;top:37px;z-index:100;background:rgba(8,11,16,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;}
 .sticky-nav::-webkit-scrollbar{display:none;}
 .nav-item{padding:.9rem 1.1rem;font-size:.75rem;font-family:'Space Mono',monospace;color:var(--muted);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
 .nav-item:hover,.nav-item.active{color:var(--teal);border-bottom-color:var(--teal);}
@@ -148,6 +158,11 @@ canvas{border-radius:8px;display:block;}
 </style>
 </head>
 <body>
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+<div class="topbar">
+  <div class="crumb"><a href="/">Mathify</a> → <a href="/civil">Civil</a> → <em>Chapter 4</em></div>
+  <button class="tbtn" id="themeToggle" aria-label="Toggle theme"></button>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -2058,6 +2073,20 @@ function qCheck(btn, isCorrect, qid) {
   fb.textContent = isCorrect ? q.explain : '✗ Not quite. '+q.explain;
   fb.className='quiz-fb show '+(isCorrect?'ok':'no');
 }
+</script>
+<script>
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progressBar').style.width=dh>0?(st/dh*100)+'%':'0%';
+});
+// Theme toggle
+const root=document.documentElement;
+const tBtn=document.getElementById('themeToggle');
+function setTheme(t){root.setAttribute('data-theme',t);tBtn.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('mathify-theme',t);}
+const saved=localStorage.getItem('mathify-theme');
+setTheme(saved||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+tBtn.addEventListener('click',()=>{setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});
 </script>
 </body>
 </html>
