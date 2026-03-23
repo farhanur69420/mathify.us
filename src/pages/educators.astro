@@ -1,0 +1,133 @@
+---
+import Main from '../layouts/Main.astro';
+---
+
+<Main title="Educators" description="Teaching resources and curriculum guides for educators (coming soon).">
+
+<style>
+  .coming-soon {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .coming-soon h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--txt);
+  }
+
+  .coming-soon p {
+    font-size: 1rem;
+    color: var(--txt2);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .features {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: left;
+  }
+
+  .features h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--txt);
+  }
+
+  .features ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .features li {
+    padding: 0.8rem 0;
+    color: var(--txt2);
+    border-bottom: 1px solid var(--bdr);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .features li:last-child {
+    border-bottom: none;
+  }
+
+  .features li::before {
+    content: "✓";
+    color: var(--teal);
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .cta {
+    margin-top: 2rem;
+  }
+
+  .cta a {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    background: var(--teal);
+    color: var(--bg);
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .cta a:hover {
+    background: #5dd9bd;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 600px) {
+    .coming-soon {
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .coming-soon h1 {
+      font-size: 1.5rem;
+    }
+
+    .features {
+      padding: 1.5rem;
+    }
+
+    .features h2 {
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
+<div class="coming-soon">
+  <h1>Educator Resources</h1>
+  <p>We're building a comprehensive platform for educators to access teaching materials, lesson plans, and curriculum integration guides.</p>
+
+  <div class="features">
+    <h2>Coming Soon</h2>
+    <ul>
+      <li>Ready-to-use lesson plans and teaching guides</li>
+      <li>Curriculum integration resources for different education systems</li>
+      <li>Downloadable worksheets and practice materials</li>
+      <li>Assessment tools and evaluation frameworks</li>
+      <li>Professional development content for educators</li>
+      <li>Interactive tools for in-class use</li>
+    </ul>
+  </div>
+
+  <p>We're committed to supporting educators with free, high-quality resources to enhance student learning. If you're an educator interested in using Mathify.us resources in your classroom, we'd love to hear from you!</p>
+
+  <div class="cta">
+    <a href="mailto:hello@mathify.us">Get in Touch</a>
+  </div>
+</div>
+
+</Main>

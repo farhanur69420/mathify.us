@@ -1,0 +1,88 @@
+---
+export interface Props {
+  items: Array<{ label: string; href?: string }>;
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li>
+      <a href="/">Home</a>
+      {items.length > 0 && <span class="divider">/</span>}
+    </li>
+    {items.map((item, index) => (
+      <li key={index}>
+        {item.href ? (
+          <>
+            <a href={item.href}>{item.label}</a>
+            {index < items.length - 1 && <span class="divider">/</span>}
+          </>
+        ) : (
+          <>
+            <span class="current">{item.label}</span>
+          </>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0.8rem 2rem;
+    font-size: 0.75rem;
+  }
+
+  ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  a {
+    color: var(--teal);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  a:hover {
+    color: var(--amb);
+    text-decoration: underline;
+  }
+
+  .current {
+    color: var(--txt2);
+  }
+
+  .divider {
+    color: var(--mut);
+    margin: 0 0.2rem;
+  }
+
+  @media (max-width: 600px) {
+    .breadcrumbs {
+      padding: 0.6rem 1rem;
+      font-size: 0.7rem;
+    }
+
+    ol {
+      gap: 0.2rem;
+    }
+
+    li {
+      gap: 0.2rem;
+    }
+  }
+</style>

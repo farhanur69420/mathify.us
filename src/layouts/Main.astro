@@ -77,7 +77,7 @@ const { title, description = 'Free math, physics, and civil engineering educatio
       letter-spacing: .04em;
       margin-right: auto;
     }
-    .site-nav .links { display: flex; gap: 1.5rem; list-style: none; }
+    .site-nav .links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
     .site-nav .links a {
       font-size: .72rem; font-weight: 500;
       letter-spacing: .06em; text-transform: uppercase;
@@ -86,6 +86,24 @@ const { title, description = 'Free math, physics, and civil engineering educatio
     }
     .site-nav .links a:hover,
     .site-nav .links a.active { color: var(--teal); }
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .nav-label {
+      font-size: .6rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--mut);
+      font-weight: 700;
+      padding-right: 0.5rem;
+      border-right: 1px solid var(--bdr);
+    }
+    .nav-group a {
+      font-size: .68rem;
+      white-space: nowrap;
+    }
 
     /* ── FOOTER ── */
     .site-footer {
@@ -171,11 +189,33 @@ const { title, description = 'Free math, physics, and civil engineering educatio
         overflow-y: auto;
       }
       .site-nav .links.open { display: flex; }
+      .nav-group {
+        flex-direction: column;
+        gap: 0;
+        align-items: stretch;
+        border-right: none;
+        border-bottom: 1px solid var(--bdr);
+        padding: 0.5rem 0;
+      }
+      .nav-label {
+        padding: 0.75rem 1.5rem;
+        border-right: none;
+        border-bottom: 1px solid var(--bdr);
+        margin: 0;
+      }
+      .nav-group a {
+        padding: 0.6rem 2rem;
+        display: block;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .nav-group a:last-child {
+        border-bottom: none;
+      }
       .site-nav .links a {
-        padding: 1rem 1.5rem; display: block; border-bottom: 1px solid var(--bdr);
+        padding: 0.75rem 1.5rem; display: block; border-bottom: 1px solid var(--bdr);
         font-size: .7rem;
       }
-      .site-nav .links a:last-child { border-bottom: none; }
+      .site-nav .links > li:not(.nav-group) > a:last-child { border-bottom: none; }
       body { font-size: 13px; }
       code { font-size: 0.8em; }
     }
@@ -200,12 +240,15 @@ const { title, description = 'Free math, physics, and civil engineering educatio
     <a href="/" class="logo">mathify</a>
     <button class="mobile-toggle" id="menuBtn" aria-label="Menu">&#9776;</button>
     <ul class="links" id="navLinks">
-      <li><a href="/math" class={activeNav === 'math' ? 'active' : ''}>Math</a></li>
-      <li><a href="/physics" class={activeNav === 'physics' ? 'active' : ''}>Physics</a></li>
-      <li><a href="/civil" class={activeNav === 'civil' ? 'active' : ''}>Civil</a></li>
-      <li><a href="/ssc" class={activeNav === 'ssc' ? 'active' : ''}>SSC</a></li>
-      <li><a href="/shop" class={activeNav === 'shop' ? 'active' : ''}>Shop</a></li>
+      <li class="nav-group">
+        <span class="nav-label">Learn</span>
+        <a href="/math" class={activeNav === 'math' ? 'active' : ''}>Mathematics</a>
+        <a href="/physics" class={activeNav === 'physics' ? 'active' : ''}>Physics</a>
+        <a href="/civil" class={activeNav === 'civil' ? 'active' : ''}>Civil Eng.</a>
+      </li>
+      <li><a href="/ssc" class={activeNav === 'ssc' ? 'active' : ''}>SSC Prep</a></li>
       <li><a href="/explore" class={activeNav === 'explore' ? 'active' : ''}>Explore</a></li>
+      <li><a href="/shop" class={activeNav === 'shop' ? 'active' : ''}>Shop</a></li>
     </ul>
   </nav>
 
