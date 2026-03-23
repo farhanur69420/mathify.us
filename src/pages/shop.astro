@@ -145,6 +145,9 @@ const products = [
 <div class="shop-hero">
   <h1>Shop</h1>
   <p>Merch and watches for the curious mind.</p>
+  <div style="margin-top:1rem;padding:.75rem 1rem;background:rgba(212,169,74,.08);border:1px solid rgba(212,169,74,.25);border-left:3px solid var(--amb);border-radius:4px;font-size:.82rem;color:var(--txt2);line-height:1.6;">
+    🚧 <strong style="color:var(--amb);">Shop coming soon</strong> — products shown are previews only. Payment processing is not yet active.
+  </div>
 </div>
 
 <div class="filters" id="filters">
@@ -212,7 +215,8 @@ const products = [
   });
 
   document.getElementById('checkoutBtn')?.addEventListener('click', () => {
-    alert('Checkout coming soon! We\'re setting up payment processing.');
+    const btn = document.getElementById('checkoutBtn');
+    if (btn) { btn.textContent = 'Coming soon!'; setTimeout(() => { btn.textContent = 'Checkout'; }, 2000); }
   });
 </script>
 

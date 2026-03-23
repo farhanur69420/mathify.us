@@ -11,6 +11,14 @@ export interface Props {
 
 const { year, boards, examDate = '', allYears } = Astro.props;
 const boardKeys = boards.map((b: any) => b.label.toLowerCase());
+
+// Detect boards whose MCQ content is identical to the first board (Dhaka placeholder)
+const dhakaFingerprint = JSON.stringify((boards[0] as any)?.mcq?.map((q: any) => q.en ?? q.q));
+const placeholderBoards = new Set(
+  boards.slice(1)
+    .filter((b: any) => JSON.stringify(b.mcq?.map((q: any) => q.en ?? q.q)) === dhakaFingerprint)
+    .map((b: any) => b.label)
+);
 ---
 
 <Base title={`SSC Math ${year} — All Boards Solved`} description={`All 9 boards' SSC Math ${year} questions with full step-by-step solutions, bilingual, with interactive visualizations.`}>
@@ -83,6 +91,18 @@ const boardKeys = boards.map((b: any) => b.label.toLowerCase());
   /* ── SCROLL TOP ── */
   .stbtn { position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;width:36px;height:36px;background:var(--surf);border:1px solid var(--bdr);color:var(--teal);display:flex;align-items:center;justify-content:center;border-radius:2px;text-decoration:none;opacity:0;transition:opacity .2s;font-size:.9rem; }
 
+  /* ── PLACEHOLDER NOTICE ── */
+  .placeholder-notice {
+    display:flex;align-items:flex-start;gap:.7rem;
+    background:rgba(212,169,74,.08);
+    border:1px solid rgba(212,169,74,.25);
+    border-left:3px solid var(--amb);
+    border-radius:3px;padding:.85rem 1rem;
+    margin-bottom:1.5rem;font-size:.78rem;line-height:1.6;color:var(--txt2);
+  }
+  .placeholder-notice .pn-icon { font-size:1rem;flex-shrink:0;margin-top:.05rem; }
+  .placeholder-notice strong { color:var(--amb); }
+
   @media (max-width:600px) {
     .hero { padding:2.5rem 1.2rem 1.5rem; }
     .main { padding-left:1rem;padding-right:1rem; }
@@ -136,6 +156,18 @@ const boardKeys = boards.map((b: any) => b.label.toLowerCase());
         <span class="board-badge">{board.label} Board</span>
         <span class="board-title">Mathematics {year}</span>
       </div>
+
+      <!-- Placeholder notice for boards with unverified content -->
+      {placeholderBoards.has(board.label) && (
+        <div class="placeholder-notice">
+          <span class="pn-icon">⚠️</span>
+          <span>
+            <strong>Questions for {board.label} Board are being verified.</strong>
+            {' '}Showing Dhaka Board questions as a placeholder until board-specific papers are confirmed.
+            Solutions are correct for the displayed questions.
+          </span>
+        </div>
+      )}
 
       <!-- ── MCQ ── -->
       <div class="mcq-wrap">
