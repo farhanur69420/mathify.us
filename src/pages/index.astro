@@ -5,26 +5,98 @@ import Main from '../layouts/Main.astro';
 
 <style>
   .hero {
-    padding: 5rem 2rem 3rem;
-    max-width: 800px;
+    padding: 6rem 2rem 4rem;
+    max-width: 900px;
     margin: 0 auto;
     text-align: center;
   }
   .hero h1 {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
     font-weight: 700;
     letter-spacing: -.02em;
-    margin-bottom: .6rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--teal), var(--amb));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   .hero h1 span { color: var(--teal); }
+  .hero-tag {
+    font-size: .75rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--amb);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
   .hero p {
     color: var(--txt2);
-    font-size: 1rem;
-    max-width: 480px;
-    margin: 0 auto;
+    font-size: 1.1rem;
+    max-width: 620px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .cta-btn {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .9rem;
+    transition: all .2s;
+    cursor: pointer;
+    border: none;
+  }
+  .cta-primary {
+    background: var(--teal);
+    color: var(--bg);
+  }
+  .cta-primary:hover {
+    background: #5dd9bd;
+    transform: translateY(-2px);
+  }
+  .cta-secondary {
+    background: var(--surf);
+    color: var(--teal);
+    border: 1.5px solid var(--teal);
+  }
+  .cta-secondary:hover {
+    background: rgba(78, 201, 176, 0.1);
+    transform: translateY(-2px);
   }
 
+  /* Subjects Section */
+  .subjects-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+  }
+  .section-heading {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--txt);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .section-heading::before,
+  .section-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--bdr);
+  }
   /* Subjects */
   .subjects {
     max-width: 900px;
@@ -32,24 +104,29 @@ import Main from '../layouts/Main.astro';
     padding: 0 2rem 3rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    gap: 1.2rem;
   }
   .scard {
     background: var(--surf);
-    border: 1px solid var(--bdr);
-    border-radius: 8px;
-    padding: 2rem 1.5rem;
+    border: 1.5px solid var(--bdr);
+    border-radius: 10px;
+    padding: 2.5rem 2rem;
     text-decoration: none;
-    transition: border-color .2s, transform .2s;
+    transition: all .25s;
   }
-  .scard:hover { border-color: var(--teal); transform: translateY(-2px); }
-  .scard .icon { font-size: 1.8rem; margin-bottom: .8rem; display: block; }
+  .scard:hover {
+    border-color: var(--teal);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(78, 201, 176, 0.15);
+  }
+  .scard .icon { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
   .scard h2 {
-    font-size: .95rem;
+    font-size: 1rem;
     font-weight: 700;
-    margin-bottom: .3rem;
+    margin-bottom: .5rem;
+    color: var(--txt);
   }
-  .scard p { font-size: .8rem; color: var(--txt2); line-height: 1.5; }
+  .scard p { font-size: .85rem; color: var(--txt2); line-height: 1.6; }
 
   /* Section */
   .section {
@@ -115,20 +192,37 @@ import Main from '../layouts/Main.astro';
     margin-bottom: .2rem;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     .subjects { grid-template-columns: 1fr; }
-    .hero { padding: 3.5rem 1.5rem 2rem; }
+    .hero-cta { flex-direction: column; }
+    .cta-btn { width: 100%; }
+  }
+
+  @media (max-width: 600px) {
+    .subjects { grid-template-columns: 1fr; padding: 0 1.5rem 3rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
     .section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .subjects-section { padding: 1.5rem 1.5rem 0; }
+    .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    .section-heading { font-size: 1.1rem; }
   }
 </style>
 
 <!-- HERO -->
 <div class="hero">
-  <h1><span>mathify</span></h1>
-  <p>Free step-by-step education in mathematics, physics, and civil engineering.</p>
+  <div class="hero-tag">📚 Learn Anytime, Anywhere</div>
+  <h1><span>Master Math, Physics & Engineering</span></h1>
+  <p>Free, step-by-step education with interactive visualizations. From fundamental concepts to advanced problem-solving—everything you need to excel.</p>
+  <div class="hero-cta">
+    <a href="/math" class="cta-btn cta-primary">Start Learning Math</a>
+    <a href="/explore" class="cta-btn cta-secondary">Explore All Topics</a>
+  </div>
 </div>
 
 <!-- SUBJECTS -->
+<div class="subjects-section">
+  <div class="section-heading">Choose Your Path</div>
+</div>
 <div class="subjects">
   <a href="/math" class="scard">
     <span class="icon">&sum;</span>
