@@ -1,0 +1,128 @@
+[
+  {
+    "title": "Mathematics",
+    "url": "/math",
+    "description": "Class 9–12 guides, algebra, calculus, geometry, and more",
+    "category": "Subject",
+    "keywords": ["math", "algebra", "calculus", "geometry", "trigonometry"]
+  },
+  {
+    "title": "Physics",
+    "url": "/physics",
+    "description": "Mechanics, waves, thermodynamics, and electromagnetism",
+    "category": "Subject",
+    "keywords": ["physics", "mechanics", "waves", "thermodynamics", "electromagnetism"]
+  },
+  {
+    "title": "Civil Engineering",
+    "url": "/civil",
+    "description": "RC design, structural analysis, traffic engineering",
+    "category": "Subject",
+    "keywords": ["civil", "engineering", "RC design", "structural", "traffic"]
+  },
+  {
+    "title": "SSC Mathematics 2025",
+    "url": "/ssc-math-2025",
+    "description": "SSC Mathematics 2025 - All 9 boards solved",
+    "category": "Exam Prep",
+    "keywords": ["SSC", "2025", "mathematics", "exam", "board"]
+  },
+  {
+    "title": "SSC Mathematics 2024",
+    "url": "/ssc-math-2024",
+    "description": "SSC Mathematics 2024 - All 9 boards solved",
+    "category": "Exam Prep",
+    "keywords": ["SSC", "2024", "mathematics", "exam", "board"]
+  },
+  {
+    "title": "SSC Mathematics 2023",
+    "url": "/ssc-math-2023",
+    "description": "SSC Mathematics 2023 - All 9 boards solved",
+    "category": "Exam Prep",
+    "keywords": ["SSC", "2023", "mathematics", "exam", "board"]
+  },
+  {
+    "title": "SSC Mathematics 2022",
+    "url": "/ssc-math-2022",
+    "description": "SSC Mathematics 2022 - All 9 boards solved",
+    "category": "Exam Prep",
+    "keywords": ["SSC", "2022", "mathematics", "exam", "board"]
+  },
+  {
+    "title": "SSC Mathematics 2021",
+    "url": "/ssc-math-2021",
+    "description": "SSC Mathematics 2021 - All 9 boards solved",
+    "category": "Exam Prep",
+    "keywords": ["SSC", "2021", "mathematics", "exam", "board"]
+  },
+  {
+    "title": "SSC Mathematics 2020",
+    "url": "/ssc-math-2020",
+    "description": "SSC Mathematics 2020 - All 9 boards solved",
+    "category": "Exam Prep",
+    "keywords": ["SSC", "2020", "mathematics", "exam", "board"]
+  },
+  {
+    "title": "SSC Exam Prep Hub",
+    "url": "/ssc",
+    "description": "SSC examination preparation with solutions from all boards",
+    "category": "Exam Prep",
+    "keywords": ["SSC", "exam", "preparation", "solutions"]
+  },
+  {
+    "title": "HSC Exam Prep",
+    "url": "/hsc",
+    "description": "Higher Secondary Certificate exam resources (coming soon)",
+    "category": "Exam Prep",
+    "keywords": ["HSC", "higher", "secondary", "exam", "preparation"]
+  },
+  {
+    "title": "O-Level Exam Prep",
+    "url": "/o-level",
+    "description": "O-Level IGCSE exam preparation resources (coming soon)",
+    "category": "Exam Prep",
+    "keywords": ["O-Level", "IGCSE", "exam", "preparation"]
+  },
+  {
+    "title": "A-Level Exam Prep",
+    "url": "/a-level",
+    "description": "A-Level post-secondary exam resources (coming soon)",
+    "category": "Exam Prep",
+    "keywords": ["A-Level", "post-secondary", "exam", "preparation"]
+  },
+  {
+    "title": "BCS Exam Prep",
+    "url": "/bcs",
+    "description": "Bangladesh Civil Service exam preparation (coming soon)",
+    "category": "Exam Prep",
+    "keywords": ["BCS", "Bangladesh", "civil", "service", "exam"]
+  },
+  {
+    "title": "SAT Preparation",
+    "url": "/sat-prep",
+    "description": "SAT exam preparation for US college entrance (coming soon)",
+    "category": "Exam Prep",
+    "keywords": ["SAT", "college", "entrance", "exam", "preparation"]
+  },
+  {
+    "title": "Explore",
+    "url": "/explore",
+    "description": "Discover advanced topics and specialized educational content",
+    "category": "Discovery",
+    "keywords": ["explore", "advanced", "topics", "discovery"]
+  },
+  {
+    "title": "Shop",
+    "url": "/shop",
+    "description": "Mathify merchandise, digital products, and specialty items",
+    "category": "Store",
+    "keywords": ["shop", "merchandise", "store", "products"]
+  },
+  {
+    "title": "Educators",
+    "url": "/educators",
+    "description": "Teaching resources and curriculum guides for educators",
+    "category": "Resources",
+    "keywords": ["educators", "teachers", "teaching", "resources", "curriculum"]
+  }
+]
