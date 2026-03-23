@@ -1,75 +1,908 @@
 {
   "label": "Comilla",
   "year": 2024,
-  "mcqImgs": ["https://i0.wp.com/i.ibb.co/Nnj3xXw3/pdf-Download-2.jpg","https://i0.wp.com/i.ibb.co/zV56S2Lg/pdf-Download-1.jpg"],
-  "cqImgs": ["https://i0.wp.com/i.ibb.co/TrYKY84/pdf-Download-3.jpg"],
+  "mcqImgs": [
+    "https://i0.wp.com/i.ibb.co/Nnj3xXw3/pdf-Download-2.jpg",
+    "https://i0.wp.com/i.ibb.co/zV56S2Lg/pdf-Download-1.jpg"
+  ],
+  "cqImgs": [
+    "https://i0.wp.com/i.ibb.co/TrYKY84/pdf-Download-3.jpg"
+  ],
   "mcq": [
-    {"n":1,"ch":"Algebra","en":"\\((x+2)^2+(x-2)^2 = ?\\)","bn":"","opts":["\\(2x^2+8\\)","\\(2x^2-8\\)","\\(x^2+8\\)","\\(4x^2+8\\)"],"ans":0,"sol":[{"m":"(x^2+4x+4)+(x^2-4x+4)=2x^2+8"}]},
-    {"n":2,"ch":"Surds","en":"\\(\\sqrt{2}+\\sqrt{8} = ?\\)","bn":"","opts":["\\(\\sqrt{10}\\)","\\(2\\sqrt{2}\\)","\\(3\\sqrt{2}\\)","\\(4\\sqrt{2}\\)"],"ans":2,"sol":[{"m":"\\sqrt{8}=2\\sqrt{2} \\implies \\sqrt{2}+2\\sqrt{2}=\\boxed{3\\sqrt{2}}"}]},
-    {"n":3,"ch":"Logarithms","en":"\\(\\log_{10} 10000 = ?\\)","bn":"","opts":["3","4","5","6"],"ans":1,"sol":[{"m":"10^4=10000 \\implies \\log_{10}10000=\\boxed{4}"}]},
-    {"n":4,"ch":"Sets","en":"If \\(B \\subset A\\), then \\(A \\cup B = ?\\)","bn":"","opts":["A","B","∅","U"],"ans":0,"sol":[{"t":"If B is a subset of A, the union is just A."}]},
-    {"n":5,"ch":"Functions","en":"If \\(f(x)=\\sqrt{x}\\), find \\(f(25)\\).","bn":"","opts":["3","4","5","6"],"ans":2,"sol":[{"m":"f(25)=\\sqrt{25}=\\boxed{5}"}]},
-    {"n":6,"ch":"Algebra","en":"\\(a^3+b^3 = ?\\)","bn":"","opts":["\\((a+b)^3\\)","\\((a+b)(a^2-ab+b^2)\\)","\\((a-b)(a^2+ab+b^2)\\)","\\((a+b)(a^2+ab+b^2)\\)"],"ans":1,"sol":[{"m":"a^3+b^3=(a+b)(a^2-ab+b^2)"}]},
-    {"n":7,"ch":"Logarithms","en":"\\(2\\log 3+\\log 5 = ?\\)","bn":"","opts":["\\(\\log 90\\)","\\(\\log 45\\)","\\(\\log 15\\)","\\(\\log 18\\)"],"ans":1,"sol":[{"m":"2\\log 3+\\log 5=\\log 9+\\log 5=\\log 45"}]},
-    {"n":8,"ch":"Algebra","en":"GCD of \\(x^2-4\\) and \\(x-2\\):","bn":"","opts":["\\(x-2\\)","\\(x+2\\)","\\(x^2-4\\)","1"],"ans":0,"sol":[{"m":"x^2-4=(x-2)(x+2) \\implies \\text{GCD}=x-2"}]},
-    {"n":9,"ch":"Exponents","en":"\\(4^{3/2} = ?\\)","bn":"","opts":["4","6","8","12"],"ans":2,"sol":[{"m":"4^{3/2}=(\\sqrt{4})^3=2^3=\\boxed{8}"}]},
-    {"n":10,"ch":"Logarithms","en":"\\(\\log_b 1 = ?\\)","bn":"","opts":["0","1","b","−1"],"ans":0,"sol":[{"m":"b^0=1 \\implies \\log_b 1=\\boxed{0}"}]},
-    {"n":11,"ch":"Geometry","en":"Two parallel lines cut by transversal: alternate interior angles are:","bn":"","opts":["Supplementary","Complementary","Equal","Reflex"],"ans":2,"sol":[{"t":"Alternate interior angles are equal (Z-angles)."}]},
-    {"n":12,"ch":"Triangles","en":"In △ABC, AB=BC=5, AC=6. Type:","bn":"","opts":["Scalene","Isosceles","Equilateral","Right"],"ans":1,"sol":[{"t":"AB=BC → isosceles."}]},
-    {"n":13,"ch":"Mensuration","en":"Circle diameter=14. Area = ?","bn":"","opts":["44","88","154","616"],"ans":2,"sol":[{"m":"r=7,\\ A=\\pi r^2=\\frac{22}{7}\\times49=\\boxed{154}"}]},
-    {"n":14,"ch":"Coordinate Geometry","en":"Distance between (1,1) and (4,5):","bn":"","opts":["3","4","5","6"],"ans":2,"sol":[{"m":"\\sqrt{(4-1)^2+(5-1)^2}=\\sqrt{9+16}=\\sqrt{25}=\\boxed{5}"}]},
-    {"n":15,"ch":"Coordinate Geometry","en":"Line \\(y=2x-3\\): when \\(x=0\\), \\(y=?\\)","bn":"","opts":["−3","−2","3","2"],"ans":0,"sol":[{"m":"y=2(0)-3=\\boxed{-3}"}]},
-    {"n":16,"ch":"Trigonometry","en":"\\(\\sin 45° = ?\\)","bn":"","opts":["\\(\\frac{1}{2}\\)","\\(\\frac{\\sqrt{3}}{2}\\)","\\(\\frac{1}{\\sqrt{2}}\\)","1"],"ans":2,"sol":[{"m":"\\sin 45^\\circ=\\frac{1}{\\sqrt{2}}=\\frac{\\sqrt{2}}{2}"}]},
-    {"n":17,"ch":"Trigonometry","en":"\\(1+\\cot^2\\theta = ?\\)","bn":"","opts":["\\(\\tan^2\\theta\\)","\\(\\csc^2\\theta\\)","\\(\\sec^2\\theta\\)","1"],"ans":1,"sol":[{"m":"1+\\cot^2\\theta=\\csc^2\\theta"}]},
-    {"n":18,"ch":"Circle","en":"Tangent to circle at P is perpendicular to:","bn":"","opts":["Chord","Diameter","Radius at P","Another tangent"],"ans":2,"sol":[{"m":"\\text{Tangent} \\perp \\text{Radius at point of contact}"}]},
-    {"n":19,"ch":"Coordinate Geometry","en":"Origin is at coordinates:","bn":"","opts":["(0,1)","(1,0)","(1,1)","(0,0)"],"ans":3,"sol":[{"m":"\\text{Origin} = (0,0)"}]},
-    {"n":20,"ch":"Algebra","en":"\\(x^2-9 = ?\\)","bn":"","opts":["\\((x-3)^2\\)","\\((x-3)(x+3)\\)","\\((x-9)(x+1)\\)","\\((x+3)^2\\)"],"ans":1,"sol":[{"m":"x^2-9=(x-3)(x+3) \\text{ (difference of squares)}"}]},
-    {"n":21,"ch":"Trigonometry","en":"\\(\\text{cosec}\\,90° = ?\\)","bn":"","opts":["0","1","2","undefined"],"ans":1,"sol":[{"m":"\\csc 90^\\circ=\\frac{1}{\\sin 90^\\circ}=\\frac{1}{1}=\\boxed{1}"}]},
-    {"n":22,"ch":"Arithmetic","en":"LCM × HCF = ?","bn":"","opts":["Sum","Difference","Product of the two numbers","Quotient"],"ans":2,"sol":[{"m":"\\text{LCM}\\times\\text{HCF}=\\text{Product of two numbers}"}]},
-    {"n":23,"ch":"Real Numbers","en":"\\(\\pi\\) is:","bn":"","opts":["Rational","Integer","Irrational","Natural"],"ans":2,"sol":[{"m":"\\pi=3.14159... \\text{ — non-terminating, non-repeating}"}]},
-    {"n":24,"ch":"Sets","en":"\\(A \\cap \\emptyset = ?\\)","bn":"","opts":["A","∅","U","{A}"],"ans":1,"sol":[{"m":"A\\cap\\emptyset=\\emptyset"}]},
-    {"n":25,"ch":"Algebra","en":"If \\(y\\propto x\\) and \\(y=12\\) when \\(x=3\\), find \\(y\\) when \\(x=7\\):","bn":"","opts":["14","21","28","35"],"ans":2,"sol":[{"m":"k=12/3=4 \\implies y=4\\times7=\\boxed{28}"}]},
-    {"n":26,"ch":"Mensuration","en":"Volume of cylinder r=3, h=7 (π=22/7):","bn":"","opts":["66","132","154","198"],"ans":3,"sol":[{"m":"V=\\pi r^2 h=\\frac{22}{7}\\times9\\times7=22\\times9=\\boxed{198}"}]},
-    {"n":27,"ch":"Statistics","en":"Mean of \\(a,\\ a+2,\\ a+4,\\ a+6,\\ a+8\\):","bn":"","opts":["\\(a+2\\)","\\(a+3\\)","\\(a+4\\)","\\(a+6\\)"],"ans":2,"sol":[{"m":"\\frac{5a+20}{5}=a+\\boxed{4}"}]},
-    {"n":28,"ch":"Statistics","en":"Standard deviation of 5, 5, 5, 5, 5:","bn":"","opts":["0","1","5","25"],"ans":0,"sol":[{"t":"All values equal mean → \\(\\sigma=0\\)."}]},
-    {"n":29,"ch":"Exponents","en":"\\((x^2y)(xy^3) = ?\\)","bn":"","opts":["\\(x^3y^4\\)","\\(x^2y^3\\)","\\(xy^3\\)","\\(x^3y^2\\)"],"ans":0,"sol":[{"m":"x^{2+1}\\cdot y^{1+3}=x^3y^4"}]},
-    {"n":30,"ch":"Algebra","en":"If \\(2x+3=11\\), \\(x=?\\)","bn":"","opts":["3","4","5","6"],"ans":1,"sol":[{"m":"2x=8 \\implies x=\\boxed{4}"}]}
+    {
+      "n": 1,
+      "ch": "Algebraic Expressions",
+      "en": "\\((x+2)^2+(x-2)^2 = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(2x^2+8\\)",
+        "\\(2x^2-8\\)",
+        "\\(x^2+8\\)",
+        "\\(4x^2+8\\)"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "(x^2+4x+4)+(x^2-4x+4)=2x^2+8"
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "ch": "Real Numbers",
+      "en": "\\(\\sqrt{2}+\\sqrt{8} = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(\\sqrt{10}\\)",
+        "\\(2\\sqrt{2}\\)",
+        "\\(3\\sqrt{2}\\)",
+        "\\(4\\sqrt{2}\\)"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\sqrt{8}=2\\sqrt{2} \\implies \\sqrt{2}+2\\sqrt{2}=\\boxed{3\\sqrt{2}}"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(\\log_{10} 10000 = ?\\)",
+      "bn": "",
+      "opts": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "10^4=10000 \\implies \\log_{10}10000=\\boxed{4}"
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "ch": "Sets and Functions",
+      "en": "If \\(B \\subset A\\), then \\(A \\cup B = ?\\)",
+      "bn": "",
+      "opts": [
+        "A",
+        "B",
+        "∅",
+        "U"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "t": "If B is a subset of A, the union is just A."
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "ch": "Sets and Functions",
+      "en": "If \\(f(x)=\\sqrt{x}\\), find \\(f(25)\\).",
+      "bn": "",
+      "opts": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "f(25)=\\sqrt{25}=\\boxed{5}"
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "ch": "Algebraic Expressions",
+      "en": "\\(a^3+b^3 = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\((a+b)^3\\)",
+        "\\((a+b)(a^2-ab+b^2)\\)",
+        "\\((a-b)(a^2+ab+b^2)\\)",
+        "\\((a+b)(a^2+ab+b^2)\\)"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "a^3+b^3=(a+b)(a^2-ab+b^2)"
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(2\\log 3+\\log 5 = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(\\log 90\\)",
+        "\\(\\log 45\\)",
+        "\\(\\log 15\\)",
+        "\\(\\log 18\\)"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "2\\log 3+\\log 5=\\log 9+\\log 5=\\log 45"
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "ch": "Algebraic Expressions",
+      "en": "GCD of \\(x^2-4\\) and \\(x-2\\):",
+      "bn": "",
+      "opts": [
+        "\\(x-2\\)",
+        "\\(x+2\\)",
+        "\\(x^2-4\\)",
+        "1"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "x^2-4=(x-2)(x+2) \\implies \\text{GCD}=x-2"
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(4^{3/2} = ?\\)",
+      "bn": "",
+      "opts": [
+        "4",
+        "6",
+        "8",
+        "12"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "4^{3/2}=(\\sqrt{4})^3=2^3=\\boxed{8}"
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(\\log_b 1 = ?\\)",
+      "bn": "",
+      "opts": [
+        "0",
+        "1",
+        "b",
+        "−1"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "b^0=1 \\implies \\log_b 1=\\boxed{0}"
+        }
+      ]
+    },
+    {
+      "n": 11,
+      "ch": "Lines, Angles and Triangles",
+      "en": "Two parallel lines cut by transversal: alternate interior angles are:",
+      "bn": "",
+      "opts": [
+        "Supplementary",
+        "Complementary",
+        "Equal",
+        "Reflex"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "t": "Alternate interior angles are equal (Z-angles)."
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "ch": "Lines, Angles and Triangles",
+      "en": "In △ABC, AB=BC=5, AC=6. Type:",
+      "bn": "",
+      "opts": [
+        "Scalene",
+        "Isosceles",
+        "Equilateral",
+        "Right"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "t": "AB=BC → isosceles."
+        }
+      ]
+    },
+    {
+      "n": 13,
+      "ch": "Mensuration",
+      "en": "Circle diameter=14. Area = ?",
+      "bn": "",
+      "opts": [
+        "44",
+        "88",
+        "154",
+        "616"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "r=7,\\ A=\\pi r^2=\\frac{22}{7}\\times49=\\boxed{154}"
+        }
+      ]
+    },
+    {
+      "n": 14,
+      "ch": "Algebraic Ratio and Proportion",
+      "en": "Distance between (1,1) and (4,5):",
+      "bn": "",
+      "opts": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\sqrt{(4-1)^2+(5-1)^2}=\\sqrt{9+16}=\\sqrt{25}=\\boxed{5}"
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "ch": "Algebraic Ratio and Proportion",
+      "en": "Line \\(y=2x-3\\): when \\(x=0\\), \\(y=?\\)",
+      "bn": "",
+      "opts": [
+        "−3",
+        "−2",
+        "3",
+        "2"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "y=2(0)-3=\\boxed{-3}"
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "ch": "Trigonometric Ratio",
+      "en": "\\(\\sin 45° = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(\\frac{1}{2}\\)",
+        "\\(\\frac{\\sqrt{3}}{2}\\)",
+        "\\(\\frac{1}{\\sqrt{2}}\\)",
+        "1"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\sin 45^\\circ=\\frac{1}{\\sqrt{2}}=\\frac{\\sqrt{2}}{2}"
+        }
+      ]
+    },
+    {
+      "n": 17,
+      "ch": "Trigonometric Ratio",
+      "en": "\\(1+\\cot^2\\theta = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(\\tan^2\\theta\\)",
+        "\\(\\csc^2\\theta\\)",
+        "\\(\\sec^2\\theta\\)",
+        "1"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "1+\\cot^2\\theta=\\csc^2\\theta"
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "ch": "Circle",
+      "en": "Tangent to circle at P is perpendicular to:",
+      "bn": "",
+      "opts": [
+        "Chord",
+        "Diameter",
+        "Radius at P",
+        "Another tangent"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\text{Tangent} \\perp \\text{Radius at point of contact}"
+        }
+      ]
+    },
+    {
+      "n": 19,
+      "ch": "Algebraic Ratio and Proportion",
+      "en": "Origin is at coordinates:",
+      "bn": "",
+      "opts": [
+        "(0,1)",
+        "(1,0)",
+        "(1,1)",
+        "(0,0)"
+      ],
+      "ans": 3,
+      "sol": [
+        {
+          "m": "\\text{Origin} = (0,0)"
+        }
+      ]
+    },
+    {
+      "n": 20,
+      "ch": "Algebraic Expressions",
+      "en": "\\(x^2-9 = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\((x-3)^2\\)",
+        "\\((x-3)(x+3)\\)",
+        "\\((x-9)(x+1)\\)",
+        "\\((x+3)^2\\)"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "x^2-9=(x-3)(x+3) \\text{ (difference of squares)}"
+        }
+      ]
+    },
+    {
+      "n": 21,
+      "ch": "Trigonometric Ratio",
+      "en": "\\(\\text{cosec}\\,90° = ?\\)",
+      "bn": "",
+      "opts": [
+        "0",
+        "1",
+        "2",
+        "undefined"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "\\csc 90^\\circ=\\frac{1}{\\sin 90^\\circ}=\\frac{1}{1}=\\boxed{1}"
+        }
+      ]
+    },
+    {
+      "n": 22,
+      "ch": "Real Numbers",
+      "en": "LCM × HCF = ?",
+      "bn": "",
+      "opts": [
+        "Sum",
+        "Difference",
+        "Product of the two numbers",
+        "Quotient"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\text{LCM}\\times\\text{HCF}=\\text{Product of two numbers}"
+        }
+      ]
+    },
+    {
+      "n": 23,
+      "ch": "Real Numbers",
+      "en": "\\(\\pi\\) is:",
+      "bn": "",
+      "opts": [
+        "Rational",
+        "Integer",
+        "Irrational",
+        "Natural"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\pi=3.14159... \\text{ — non-terminating, non-repeating}"
+        }
+      ]
+    },
+    {
+      "n": 24,
+      "ch": "Sets and Functions",
+      "en": "\\(A \\cap \\emptyset = ?\\)",
+      "bn": "",
+      "opts": [
+        "A",
+        "∅",
+        "U",
+        "{A}"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "A\\cap\\emptyset=\\emptyset"
+        }
+      ]
+    },
+    {
+      "n": 25,
+      "ch": "Algebraic Expressions",
+      "en": "If \\(y\\propto x\\) and \\(y=12\\) when \\(x=3\\), find \\(y\\) when \\(x=7\\):",
+      "bn": "",
+      "opts": [
+        "14",
+        "21",
+        "28",
+        "35"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "k=12/3=4 \\implies y=4\\times7=\\boxed{28}"
+        }
+      ]
+    },
+    {
+      "n": 26,
+      "ch": "Mensuration",
+      "en": "Volume of cylinder r=3, h=7 (π=22/7):",
+      "bn": "",
+      "opts": [
+        "66",
+        "132",
+        "154",
+        "198"
+      ],
+      "ans": 3,
+      "sol": [
+        {
+          "m": "V=\\pi r^2 h=\\frac{22}{7}\\times9\\times7=22\\times9=\\boxed{198}"
+        }
+      ]
+    },
+    {
+      "n": 27,
+      "ch": "Statistics",
+      "en": "Mean of \\(a,\\ a+2,\\ a+4,\\ a+6,\\ a+8\\):",
+      "bn": "",
+      "opts": [
+        "\\(a+2\\)",
+        "\\(a+3\\)",
+        "\\(a+4\\)",
+        "\\(a+6\\)"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\frac{5a+20}{5}=a+\\boxed{4}"
+        }
+      ]
+    },
+    {
+      "n": 28,
+      "ch": "Statistics",
+      "en": "Standard deviation of 5, 5, 5, 5, 5:",
+      "bn": "",
+      "opts": [
+        "0",
+        "1",
+        "5",
+        "25"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "t": "All values equal mean → \\(\\sigma=0\\)."
+        }
+      ]
+    },
+    {
+      "n": 29,
+      "ch": "Exponents and Logarithms",
+      "en": "\\((x^2y)(xy^3) = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(x^3y^4\\)",
+        "\\(x^2y^3\\)",
+        "\\(xy^3\\)",
+        "\\(x^3y^2\\)"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "x^{2+1}\\cdot y^{1+3}=x^3y^4"
+        }
+      ]
+    },
+    {
+      "n": 30,
+      "ch": "Algebraic Expressions",
+      "en": "If \\(2x+3=11\\), \\(x=?\\)",
+      "bn": "",
+      "opts": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "2x=8 \\implies x=\\boxed{4}"
+        }
+      ]
+    }
   ],
   "cq": [
-    {"n":1,"ch":"Surds","stem":"\\(m=\\sqrt{7}+\\sqrt{3},\\quad n=\\sqrt{7}-\\sqrt{3}\\)","stemBn":"","parts":[
-      {"l":"ক","m":2,"q":"Find \\(mn\\).","sol":[{"m":"mn=(\\sqrt{7})^2-(\\sqrt{3})^2=7-3=\\boxed{4}"}]},
-      {"l":"খ","m":4,"q":"Find \\(m^2+n^2\\).","sol":[{"m":"m+n=2\\sqrt{7},\\ mn=4"},{"m":"m^2+n^2=(2\\sqrt{7})^2-2(4)=28-8=\\boxed{20}"}]},
-      {"l":"গ","m":4,"q":"Find \\(\\frac{m}{n}+\\frac{n}{m}\\).","sol":[{"m":"\\frac{m^2+n^2}{mn}=\\frac{20}{4}=\\boxed{5}"}]}
-    ]},
-    {"n":2,"ch":"Logarithms","stem":"\\(\\log_3(2x+1)=3\\)","stemBn":"","parts":[
-      {"l":"ক","m":2,"q":"Find \\(\\log_3 27\\).","sol":[{"m":"\\log_3 27=\\log_3 3^3=\\boxed{3}"}]},
-      {"l":"খ","m":4,"q":"Find \\(x\\).","sol":[{"m":"2x+1=3^3=27"},{"m":"x=\\frac{26}{2}=\\boxed{13}"}]},
-      {"l":"গ","m":4,"q":"Verify.","sol":[{"m":"\\log_3(2\\times13+1)=\\log_3 27=\\boxed{3}\\checkmark"}]}
-    ]},
-    {"n":3,"ch":"Coordinate Geometry","stem":"\\(A(0,0)\\), \\(B(8,0)\\), \\(C(8,6)\\)","stemBn":"","viz":"coordplane","vizData":{"points":[[0,0,"A"],[8,0,"B"],[8,6,"C"]],"lines":[[[0,0],[8,6]]]},"parts":[
-      {"l":"ক","m":2,"q":"Find AB.","sol":[{"m":"AB=8"}]},
-      {"l":"খ","m":4,"q":"Find BC and AC. Verify 6-8-10 right triangle.","sol":[{"m":"BC=6,\\quad AC=\\sqrt{64+36}=10"},{"m":"8^2+6^2=64+36=100=10^2\\checkmark"}]},
-      {"l":"গ","m":4,"q":"Area of △ABC.","sol":[{"m":"A=\\frac{1}{2}\\times8\\times6=\\boxed{24\\text{ sq. units}}"}]}
-    ]},
-    {"n":4,"ch":"Sets","stem":"90 students: 50 play chess (C), 40 play carrom (K), 15 play both.","stemBn":"","viz":"venn","vizData":{"A":50,"B":40,"AB":15,"total":90},"parts":[
-      {"l":"ক","m":2,"q":"Chess only.","sol":[{"m":"50-15=\\boxed{35}"}]},
-      {"l":"খ","m":4,"q":"\\(n(C\\cup K)\\).","sol":[{"m":"50+40-15=\\boxed{75}"}]},
-      {"l":"গ","m":4,"q":"Neither game.","sol":[{"m":"90-75=\\boxed{15}"}]}
-    ]},
-    {"n":5,"ch":"Statistics","stem":"Marks: 60, 65, 70, 75, 80, 85, 90, 55, 50, 45","stemBn":"","viz":"histogram","vizData":{"labels":["40-50","50-60","60-70","70-80","80-90"],"freq":[2,2,2,2,2]},"parts":[
-      {"l":"ক","m":2,"q":"Range.","sol":[{"m":"90-45=\\boxed{45}"}]},
-      {"l":"খ","m":4,"q":"Mean and median.","sol":[{"m":"\\bar{x}=\\frac{675}{10}=\\boxed{67.5}"},{"t":"Sorted: 45,50,55,60,65,70,75,80,85,90 → (65+70)/2"},{"m":"\\text{Median}=\\boxed{67.5}"}]},
-      {"l":"গ","m":4,"q":"Variance.","sol":[{"t":"Each deviation from 67.5: ±22.5,±17.5,±12.5,±7.5,±2.5"},{"m":"\\sigma^2=\\frac{2\\times(506.25+306.25+156.25+56.25+6.25)}{10}=\\frac{2062.5}{10}=\\boxed{206.25}"}]}
-    ]},
-    {"n":6,"ch":"Trigonometry","stem":"Two buildings are 30 m apart. One is 20 m tall. Angle of elevation from top of shorter to top of taller is 30°.","stemBn":"","viz":"right_triangle_trig","vizData":{"opp":17,"adj":30,"hyp":34,"angle":30},"parts":[
-      {"l":"ক","m":2,"q":"\\(\\tan 30° = ?\\)","sol":[{"m":"\\tan 30^\\circ=\\frac{1}{\\sqrt{3}}"}]},
-      {"l":"খ","m":4,"q":"Height difference between buildings.","sol":[{"m":"\\tan 30^\\circ=\\frac{h}{30} \\implies h=\\frac{30}{\\sqrt{3}}=10\\sqrt{3}\\approx\\boxed{17.32\\text{ m}}"}]},
-      {"l":"গ","m":4,"q":"Height of taller building.","sol":[{"m":"\\text{Height}=20+10\\sqrt{3}\\approx20+17.32=\\boxed{37.32\\text{ m}}"}]}
-    ]},
-    {"n":7,"ch":"Functions","stem":"\\(k(x)=x^2-6x+9\\)","stemBn":"","parts":[
-      {"l":"ক","m":2,"q":"Find \\(k(3)\\).","sol":[{"m":"k(3)=9-18+9=\\boxed{0}"}]},
-      {"l":"খ","m":4,"q":"Factorize \\(k(x)\\) and state minimum.","sol":[{"m":"k(x)=(x-3)^2"},{"t":"Minimum = 0 at x=3."}]},
-      {"l":"গ","m":4,"q":"For which \\(x\\) is \\(k(x)\\leq16\\)?","sol":[{"m":"(x-3)^2\\leq16 \\implies |x-3|\\leq4"},{"m":"\\boxed{-1\\leq x\\leq7}"}]}
-    ]}
+    {
+      "n": 1,
+      "ch": "Real Numbers",
+      "stem": "\\(m=\\sqrt{7}+\\sqrt{3},\\quad n=\\sqrt{7}-\\sqrt{3}\\)",
+      "stemBn": "",
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Find \\(mn\\).",
+          "sol": [
+            {
+              "m": "mn=(\\sqrt{7})^2-(\\sqrt{3})^2=7-3=\\boxed{4}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Find \\(m^2+n^2\\).",
+          "sol": [
+            {
+              "m": "m+n=2\\sqrt{7},\\ mn=4"
+            },
+            {
+              "m": "m^2+n^2=(2\\sqrt{7})^2-2(4)=28-8=\\boxed{20}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Find \\(\\frac{m}{n}+\\frac{n}{m}\\).",
+          "sol": [
+            {
+              "m": "\\frac{m^2+n^2}{mn}=\\frac{20}{4}=\\boxed{5}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "ch": "Exponents and Logarithms",
+      "stem": "\\(\\log_3(2x+1)=3\\)",
+      "stemBn": "",
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Find \\(\\log_3 27\\).",
+          "sol": [
+            {
+              "m": "\\log_3 27=\\log_3 3^3=\\boxed{3}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Find \\(x\\).",
+          "sol": [
+            {
+              "m": "2x+1=3^3=27"
+            },
+            {
+              "m": "x=\\frac{26}{2}=\\boxed{13}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Verify.",
+          "sol": [
+            {
+              "m": "\\log_3(2\\times13+1)=\\log_3 27=\\boxed{3}\\checkmark"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "ch": "Algebraic Ratio and Proportion",
+      "stem": "\\(A(0,0)\\), \\(B(8,0)\\), \\(C(8,6)\\)",
+      "stemBn": "",
+      "viz": "coordplane",
+      "vizData": {
+        "points": [
+          [
+            0,
+            0,
+            "A"
+          ],
+          [
+            8,
+            0,
+            "B"
+          ],
+          [
+            8,
+            6,
+            "C"
+          ]
+        ],
+        "lines": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              6
+            ]
+          ]
+        ]
+      },
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Find AB.",
+          "sol": [
+            {
+              "m": "AB=8"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Find BC and AC. Verify 6-8-10 right triangle.",
+          "sol": [
+            {
+              "m": "BC=6,\\quad AC=\\sqrt{64+36}=10"
+            },
+            {
+              "m": "8^2+6^2=64+36=100=10^2\\checkmark"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Area of △ABC.",
+          "sol": [
+            {
+              "m": "A=\\frac{1}{2}\\times8\\times6=\\boxed{24\\text{ sq. units}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "ch": "Sets and Functions",
+      "stem": "90 students: 50 play chess (C), 40 play carrom (K), 15 play both.",
+      "stemBn": "",
+      "viz": "venn",
+      "vizData": {
+        "A": 50,
+        "B": 40,
+        "AB": 15,
+        "total": 90
+      },
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Chess only.",
+          "sol": [
+            {
+              "m": "50-15=\\boxed{35}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "\\(n(C\\cup K)\\).",
+          "sol": [
+            {
+              "m": "50+40-15=\\boxed{75}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Neither game.",
+          "sol": [
+            {
+              "m": "90-75=\\boxed{15}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "ch": "Statistics",
+      "stem": "Marks: 60, 65, 70, 75, 80, 85, 90, 55, 50, 45",
+      "stemBn": "",
+      "viz": "histogram",
+      "vizData": {
+        "labels": [
+          "40-50",
+          "50-60",
+          "60-70",
+          "70-80",
+          "80-90"
+        ],
+        "freq": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Range.",
+          "sol": [
+            {
+              "m": "90-45=\\boxed{45}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Mean and median.",
+          "sol": [
+            {
+              "m": "\\bar{x}=\\frac{675}{10}=\\boxed{67.5}"
+            },
+            {
+              "t": "Sorted: 45,50,55,60,65,70,75,80,85,90 → (65+70)/2"
+            },
+            {
+              "m": "\\text{Median}=\\boxed{67.5}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Variance.",
+          "sol": [
+            {
+              "t": "Each deviation from 67.5: ±22.5,±17.5,±12.5,±7.5,±2.5"
+            },
+            {
+              "m": "\\sigma^2=\\frac{2\\times(506.25+306.25+156.25+56.25+6.25)}{10}=\\frac{2062.5}{10}=\\boxed{206.25}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "ch": "Trigonometric Ratio",
+      "stem": "Two buildings are 30 m apart. One is 20 m tall. Angle of elevation from top of shorter to top of taller is 30°.",
+      "stemBn": "",
+      "viz": "right_triangle_trig",
+      "vizData": {
+        "opp": 17,
+        "adj": 30,
+        "hyp": 34,
+        "angle": 30
+      },
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "\\(\\tan 30° = ?\\)",
+          "sol": [
+            {
+              "m": "\\tan 30^\\circ=\\frac{1}{\\sqrt{3}}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Height difference between buildings.",
+          "sol": [
+            {
+              "m": "\\tan 30^\\circ=\\frac{h}{30} \\implies h=\\frac{30}{\\sqrt{3}}=10\\sqrt{3}\\approx\\boxed{17.32\\text{ m}}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Height of taller building.",
+          "sol": [
+            {
+              "m": "\\text{Height}=20+10\\sqrt{3}\\approx20+17.32=\\boxed{37.32\\text{ m}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "ch": "Sets and Functions",
+      "stem": "\\(k(x)=x^2-6x+9\\)",
+      "stemBn": "",
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Find \\(k(3)\\).",
+          "sol": [
+            {
+              "m": "k(3)=9-18+9=\\boxed{0}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Factorize \\(k(x)\\) and state minimum.",
+          "sol": [
+            {
+              "m": "k(x)=(x-3)^2"
+            },
+            {
+              "t": "Minimum = 0 at x=3."
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "For which \\(x\\) is \\(k(x)\\leq16\\)?",
+          "sol": [
+            {
+              "m": "(x-3)^2\\leq16 \\implies |x-3|\\leq4"
+            },
+            {
+              "m": "\\boxed{-1\\leq x\\leq7}"
+            }
+          ]
+        }
+      ]
+    }
   ]
 }

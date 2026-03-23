@@ -1,0 +1,178 @@
+---
+import Main from '../../layouts/Main.astro';
+import QuestionCard from '../../components/QuestionCard.svelte';
+import { chapters } from '../../data/chapters.js';
+
+export async function getStaticPaths() {
+  return chapters.map(ch => ({
+    params: { chapter: ch.toLowerCase().replace(/ /g, '-') },
+    props: { chapterName: ch }
+  }));
+}
+
+const { chapter } = Astro.params;
+const { chapterName } = Astro.props;
+
+// Load all data files
+const allDataFiles = await Astro.glob('../../data/ssc-*.json');
+
+// Filter questions for this chapter
+const mcqs = [];
+const cqs = [];
+
+allDataFiles.forEach(file => {
+  const board = file.label;
+  const year = file.year;
+  const boardKey = `${board.toLowerCase()}-${year}`;
+
+  if (file.mcq) {
+    file.mcq.forEach(q => {
+      if (q.ch === chapterName) {
+        mcqs.push({ ...q, board, year, boardKey });
+      }
+    });
+  }
+
+  if (file.cq) {
+    file.cq.forEach(q => {
+      if (q.ch === chapterName) {
+        cqs.push({ ...q, board, year, boardKey });
+      }
+    });
+  }
+});
+
+// Sort by year (desc) then board
+const sortFn = (a, b) => {
+  if (b.year !== a.year) return b.year - a.year;
+  return a.board.localeCompare(b.board);
+};
+
+mcqs.sort(sortFn);
+cqs.sort(sortFn);
+---
+
+<Main title={`${chapterName} - SSC Math Solutions`} description={`Step-by-step solutions for SSC Math Chapter: ${chapterName}. Questions from all boards 2020-2025.`}>
+  <div class="chapter-hero">
+    <a href="/ssc" class="back-link">&larr; Back to SSC</a>
+    <h1>{chapterName}</h1>
+    <p>Collection of board questions from 2020 to 2025 across all 9 education boards.</p>
+  </div>
+
+  <div class="content-wrap">
+    <div class="stats-bar">
+      <div class="stat"><strong>{mcqs.length}</strong> MCQs</div>
+      <div class="stat"><strong>{cqs.length}</strong> Creative Questions</div>
+    </div>
+
+    {cqs.length > 0 && (
+      <section class="q-section">
+        <h2 class="section-title">Creative Questions (CQ)</h2>
+        <div class="q-grid">
+          {cqs.map(q => (
+            <div class="q-item">
+              <div class="q-meta">{q.board} Board {q.year}</div>
+              <QuestionCard client:load q={q} boardKey={q.boardKey} type="cq" />
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {mcqs.length > 0 && (
+      <section class="q-section">
+        <h2 class="section-title">Multiple Choice Questions (MCQ)</h2>
+        <div class="q-grid">
+          {mcqs.map(q => (
+            <div class="q-item">
+              <div class="q-meta">{q.board} Board {q.year}</div>
+              <QuestionCard client:load q={q} boardKey={q.boardKey} type="mcq" />
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {mcqs.length === 0 && cqs.length === 0 && (
+      <div class="empty-state">
+        <p>No questions found for this chapter yet. We are currently populating the database.</p>
+      </div>
+    )}
+  </div>
+</Main>
+
+<style>
+  .chapter-hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem 1.5rem;
+  }
+  .back-link {
+    display: inline-block;
+    color: var(--teal);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .chapter-hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--txt); }
+  .chapter-hero p { color: var(--txt2); font-size: 1rem; }
+
+  .content-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--bdr);
+    margin-bottom: 2rem;
+  }
+  .stat { font-size: 0.9rem; color: var(--txt2); }
+  .stat strong { color: var(--teal); font-size: 1.1rem; }
+
+  .q-section { margin-bottom: 3rem; }
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--amb);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .q-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .q-item {
+    border-left: 3px solid var(--bdr);
+    padding-left: 1rem;
+  }
+  .q-meta {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--txt2);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .empty-state {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: var(--surf);
+    border-radius: 12px;
+    border: 1px dashed var(--bdr);
+    color: var(--txt2);
+  }
+
+  @media (max-width: 600px) {
+    .chapter-hero, .content-wrap { padding-left: 1rem; padding-right: 1rem; }
+  }
+</style>

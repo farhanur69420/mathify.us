@@ -1,75 +1,915 @@
 {
   "label": "Barisal",
   "year": 2024,
-  "mcqImgs": ["https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-barishal-1.jpg","https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-barishal-2.jpg"],
-  "cqImgs": ["https://i0.wp.com/i.ibb.co/xSNY9TdW/pdf-Download-2.jpg","https://i0.wp.com/i.ibb.co/WN4PPr8c/pdf-Download-1.jpg"],
+  "mcqImgs": [
+    "https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-barishal-1.jpg",
+    "https://edudaily24.files.wordpress.com/2024/02/ssc-math-2024-barishal-2.jpg"
+  ],
+  "cqImgs": [
+    "https://i0.wp.com/i.ibb.co/xSNY9TdW/pdf-Download-2.jpg",
+    "https://i0.wp.com/i.ibb.co/WN4PPr8c/pdf-Download-1.jpg"
+  ],
   "mcq": [
-    {"n":1,"ch":"Algebra","en":"\\((3a+2b)^2 = ?\\)","bn":"","opts":["\\(9a^2+12ab+4b^2\\)","\\(9a^2+4b^2\\)","\\(9a^2-12ab+4b^2\\)","\\(6a^2+4b^2\\)"],"ans":0,"sol":[{"m":"(3a)^2+2(3a)(2b)+(2b)^2=9a^2+12ab+4b^2"}]},
-    {"n":2,"ch":"Real Numbers","en":"The decimal \\(0.1010101...\\) is:","bn":"","opts":["Rational","Irrational","Integer","Natural"],"ans":0,"sol":[{"m":"0.\\overline{10}=\\frac{10}{99} \\text{ — rational (repeating decimal)}"}]},
-    {"n":3,"ch":"Logarithms","en":"\\(\\log_6 216 = ?\\)","bn":"","opts":["2","3","4","6"],"ans":1,"sol":[{"m":"6^3=216 \\implies \\log_6 216=\\boxed{3}"}]},
-    {"n":4,"ch":"Sets","en":"\\(n(A)=4,n(B)=3,n(A\\cup B)=6\\). Find \\(n(A\\cap B)\\).","bn":"","opts":["0","1","2","3"],"ans":1,"sol":[{"m":"n(A\\cap B)=4+3-6=\\boxed{1}"}]},
-    {"n":5,"ch":"Functions","en":"\\(g(x)=2x^2+3\\). Find \\(g(-1)\\).","bn":"","opts":["1","5","−1","3"],"ans":1,"sol":[{"m":"g(-1)=2(1)+3=\\boxed{5}"}]},
-    {"n":6,"ch":"Algebra","en":"\\(x^2+kx+9\\) is a perfect square when \\(k=\\)?","bn":"","opts":["3","6","9","12"],"ans":1,"sol":[{"m":"(x+3)^2=x^2+6x+9 \\implies k=\\boxed{6}"}]},
-    {"n":7,"ch":"Logarithms","en":"\\(\\log_2\\frac{1}{8} = ?\\)","bn":"","opts":["−2","−3","2","3"],"ans":1,"sol":[{"m":"\\frac{1}{8}=2^{-3} \\implies \\log_2\\frac{1}{8}=\\boxed{-3}"}]},
-    {"n":8,"ch":"Algebra","en":"\\(x^3-8 = ?\\)","bn":"","opts":["\\((x-2)^3\\)","\\((x-2)(x^2+2x+4)\\)","\\((x+2)(x^2-2x+4)\\)","\\((x-2)(x^2-2x+4)\\)"],"ans":1,"sol":[{"m":"a^3-b^3=(a-b)(a^2+ab+b^2) \\implies (x-2)(x^2+2x+4)"}]},
-    {"n":9,"ch":"Exponents","en":"\\(16^{0.75} = ?\\)","bn":"","opts":["4","6","8","12"],"ans":2,"sol":[{"m":"16^{3/4}=(16^{1/4})^3=2^3=\\boxed{8}"}]},
-    {"n":10,"ch":"Logarithms","en":"\\(\\frac{\\log 8}{\\log 2} = ?\\)","bn":"","opts":["2","3","4","8"],"ans":1,"sol":[{"m":"\\frac{3\\log 2}{\\log 2}=\\boxed{3}"}]},
-    {"n":11,"ch":"Geometry","en":"Sum of exterior angles of any polygon:","bn":"","opts":["180°","270°","360°","540°"],"ans":2,"sol":[{"m":"\\text{Sum of exterior angles always} = 360^\\circ"}]},
-    {"n":12,"ch":"Geometry","en":"Vertical angles are:","bn":"","opts":["Supplementary","Complementary","Equal","Adjacent"],"ans":2,"sol":[{"t":"Vertically opposite angles are equal."}]},
-    {"n":13,"ch":"Circle","en":"Circumradius of right triangle with hypotenuse 10:","bn":"","opts":["5","8","10","20"],"ans":0,"sol":[{"m":"\\text{Circumradius}=\\frac{\\text{hypotenuse}}{2}=\\boxed{5}"}]},
-    {"n":14,"ch":"Triangles","en":"Centroid divides each median in ratio:","bn":"","opts":["1:1","1:2","2:1","3:1"],"ans":2,"sol":[{"m":"\\text{Centroid divides median } \\boxed{2:1} \\text{ from vertex}"}]},
-    {"n":15,"ch":"Coordinate Geometry","en":"Equation of the x-axis:","bn":"","opts":["x=0","y=0","x=1","y=1"],"ans":1,"sol":[{"m":"\\text{x-axis: } y=0"}]},
-    {"n":16,"ch":"Trigonometry","en":"\\(\\sin(90°-\\theta) = ?\\)","bn":"","opts":["\\(\\sin\\theta\\)","\\(\\cos\\theta\\)","\\(-\\cos\\theta\\)","\\(-\\sin\\theta\\)"],"ans":1,"sol":[{"m":"\\sin(90^\\circ-\\theta)=\\cos\\theta \\text{ (co-function identity)}"}]},
-    {"n":17,"ch":"Trigonometry","en":"In a right triangle with legs 6 and 8, hypotenuse =","bn":"","opts":["10","12","14","6"],"ans":0,"sol":[{"m":"\\sqrt{6^2+8^2}=\\sqrt{100}=\\boxed{10}"}]},
-    {"n":18,"ch":"Geometry","en":"An angle is 40°. Its supplement is:","bn":"","opts":["50°","60°","140°","150°"],"ans":2,"sol":[{"m":"180^\\circ-40^\\circ=\\boxed{140^\\circ}"}]},
-    {"n":19,"ch":"Coordinate Geometry","en":"Points A(2,3) and B(2,7) share same x-coordinate. AB is:","bn":"","opts":["Horizontal","Vertical","Diagonal","Oblique"],"ans":1,"sol":[{"t":"Same x-coordinate → vertical line."}]},
-    {"n":20,"ch":"Exponents","en":"\\(a^0 = ?\\)","bn":"","opts":["0","1","a","undefined"],"ans":1,"sol":[{"m":"a^0=1 \\text{ for } a\\neq0"}]},
-    {"n":21,"ch":"Statistics","en":"Variance is always:","bn":"","opts":["Negative","Zero","Positive","Non-negative"],"ans":3,"sol":[{"m":"\\sigma^2=\\frac{\\sum(x-\\bar{x})^2}{n}\\geq0"}]},
-    {"n":22,"ch":"Exponents","en":"\\(2^8 = ?\\)","bn":"","opts":["64","128","256","512"],"ans":2,"sol":[{"m":"2^8=\\boxed{256}"}]},
-    {"n":23,"ch":"Exponents","en":"\\(x^{1/3} = ?\\)","bn":"","opts":["\\(x^3\\)","\\(\\sqrt{x}\\)","\\(\\sqrt[3]{x}\\)","\\(3x\\)"],"ans":2,"sol":[{"m":"x^{1/3}=\\sqrt[3]{x}"}]},
-    {"n":24,"ch":"Mensuration","en":"Total surface area of cube side \\(a\\):","bn":"","opts":["\\(4a^2\\)","\\(5a^2\\)","\\(6a^2\\)","\\(a^3\\)"],"ans":2,"sol":[{"m":"6 \\text{ faces}\\times a^2=\\boxed{6a^2}"}]},
-    {"n":25,"ch":"Functions","en":"If \\(y=\\frac{1}{x}\\), when \\(x=4\\), \\(y=?\\)","bn":"","opts":["4","2","1/2","1/4"],"ans":3,"sol":[{"m":"y=\\frac{1}{4}"}]},
-    {"n":26,"ch":"Trigonometry","en":"\\(\\cos(90°-\\theta) = ?\\)","bn":"","opts":["\\(\\cos\\theta\\)","\\(-\\cos\\theta\\)","\\(\\sin\\theta\\)","\\(-\\sin\\theta\\)"],"ans":2,"sol":[{"m":"\\cos(90^\\circ-\\theta)=\\sin\\theta"}]},
-    {"n":27,"ch":"Statistics","en":"Frequency density = frequency ÷ ?","bn":"","opts":["Mean","Median","Class width","Class mark"],"ans":2,"sol":[{"m":"\\text{Frequency density}=\\frac{\\text{frequency}}{\\text{class width}}"}]},
-    {"n":28,"ch":"Arithmetic","en":"HCF(a²b, ab²):","bn":"","opts":["ab","a²b²","a","b"],"ans":0,"sol":[{"m":"\\text{HCF}(a^2b,ab^2)=\\boxed{ab}"}]},
-    {"n":29,"ch":"Exponents","en":"\\((-2)^5 = ?\\)","bn":"","opts":["32","−32","10","−10"],"ans":1,"sol":[{"m":"(-2)^5=-32 \\text{ (odd power of negative)}"}]},
-    {"n":30,"ch":"Statistics","en":"If 5 is added to each value, mean:","bn":"","opts":["Stays same","Increases by 5","Decreases by 5","Doubles"],"ans":1,"sol":[{"t":"Adding constant c to all values: mean increases by c."}]}
+    {
+      "n": 1,
+      "ch": "Algebraic Expressions",
+      "en": "\\((3a+2b)^2 = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(9a^2+12ab+4b^2\\)",
+        "\\(9a^2+4b^2\\)",
+        "\\(9a^2-12ab+4b^2\\)",
+        "\\(6a^2+4b^2\\)"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "(3a)^2+2(3a)(2b)+(2b)^2=9a^2+12ab+4b^2"
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "ch": "Real Numbers",
+      "en": "The decimal \\(0.1010101...\\) is:",
+      "bn": "",
+      "opts": [
+        "Rational",
+        "Irrational",
+        "Integer",
+        "Natural"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "0.\\overline{10}=\\frac{10}{99} \\text{ — rational (repeating decimal)}"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(\\log_6 216 = ?\\)",
+      "bn": "",
+      "opts": [
+        "2",
+        "3",
+        "4",
+        "6"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "6^3=216 \\implies \\log_6 216=\\boxed{3}"
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "ch": "Sets and Functions",
+      "en": "\\(n(A)=4,n(B)=3,n(A\\cup B)=6\\). Find \\(n(A\\cap B)\\).",
+      "bn": "",
+      "opts": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "n(A\\cap B)=4+3-6=\\boxed{1}"
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "ch": "Sets and Functions",
+      "en": "\\(g(x)=2x^2+3\\). Find \\(g(-1)\\).",
+      "bn": "",
+      "opts": [
+        "1",
+        "5",
+        "−1",
+        "3"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "g(-1)=2(1)+3=\\boxed{5}"
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "ch": "Algebraic Expressions",
+      "en": "\\(x^2+kx+9\\) is a perfect square when \\(k=\\)?",
+      "bn": "",
+      "opts": [
+        "3",
+        "6",
+        "9",
+        "12"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "(x+3)^2=x^2+6x+9 \\implies k=\\boxed{6}"
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(\\log_2\\frac{1}{8} = ?\\)",
+      "bn": "",
+      "opts": [
+        "−2",
+        "−3",
+        "2",
+        "3"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "\\frac{1}{8}=2^{-3} \\implies \\log_2\\frac{1}{8}=\\boxed{-3}"
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "ch": "Algebraic Expressions",
+      "en": "\\(x^3-8 = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\((x-2)^3\\)",
+        "\\((x-2)(x^2+2x+4)\\)",
+        "\\((x+2)(x^2-2x+4)\\)",
+        "\\((x-2)(x^2-2x+4)\\)"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "a^3-b^3=(a-b)(a^2+ab+b^2) \\implies (x-2)(x^2+2x+4)"
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(16^{0.75} = ?\\)",
+      "bn": "",
+      "opts": [
+        "4",
+        "6",
+        "8",
+        "12"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "16^{3/4}=(16^{1/4})^3=2^3=\\boxed{8}"
+        }
+      ]
+    },
+    {
+      "n": 10,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(\\frac{\\log 8}{\\log 2} = ?\\)",
+      "bn": "",
+      "opts": [
+        "2",
+        "3",
+        "4",
+        "8"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "\\frac{3\\log 2}{\\log 2}=\\boxed{3}"
+        }
+      ]
+    },
+    {
+      "n": 11,
+      "ch": "Lines, Angles and Triangles",
+      "en": "Sum of exterior angles of any polygon:",
+      "bn": "",
+      "opts": [
+        "180°",
+        "270°",
+        "360°",
+        "540°"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\text{Sum of exterior angles always} = 360^\\circ"
+        }
+      ]
+    },
+    {
+      "n": 12,
+      "ch": "Lines, Angles and Triangles",
+      "en": "Vertical angles are:",
+      "bn": "",
+      "opts": [
+        "Supplementary",
+        "Complementary",
+        "Equal",
+        "Adjacent"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "t": "Vertically opposite angles are equal."
+        }
+      ]
+    },
+    {
+      "n": 13,
+      "ch": "Circle",
+      "en": "Circumradius of right triangle with hypotenuse 10:",
+      "bn": "",
+      "opts": [
+        "5",
+        "8",
+        "10",
+        "20"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "\\text{Circumradius}=\\frac{\\text{hypotenuse}}{2}=\\boxed{5}"
+        }
+      ]
+    },
+    {
+      "n": 14,
+      "ch": "Lines, Angles and Triangles",
+      "en": "Centroid divides each median in ratio:",
+      "bn": "",
+      "opts": [
+        "1:1",
+        "1:2",
+        "2:1",
+        "3:1"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\text{Centroid divides median } \\boxed{2:1} \\text{ from vertex}"
+        }
+      ]
+    },
+    {
+      "n": 15,
+      "ch": "Algebraic Ratio and Proportion",
+      "en": "Equation of the x-axis:",
+      "bn": "",
+      "opts": [
+        "x=0",
+        "y=0",
+        "x=1",
+        "y=1"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "\\text{x-axis: } y=0"
+        }
+      ]
+    },
+    {
+      "n": 16,
+      "ch": "Trigonometric Ratio",
+      "en": "\\(\\sin(90°-\\theta) = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(\\sin\\theta\\)",
+        "\\(\\cos\\theta\\)",
+        "\\(-\\cos\\theta\\)",
+        "\\(-\\sin\\theta\\)"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "\\sin(90^\\circ-\\theta)=\\cos\\theta \\text{ (co-function identity)}"
+        }
+      ]
+    },
+    {
+      "n": 17,
+      "ch": "Trigonometric Ratio",
+      "en": "In a right triangle with legs 6 and 8, hypotenuse =",
+      "bn": "",
+      "opts": [
+        "10",
+        "12",
+        "14",
+        "6"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "\\sqrt{6^2+8^2}=\\sqrt{100}=\\boxed{10}"
+        }
+      ]
+    },
+    {
+      "n": 18,
+      "ch": "Lines, Angles and Triangles",
+      "en": "An angle is 40°. Its supplement is:",
+      "bn": "",
+      "opts": [
+        "50°",
+        "60°",
+        "140°",
+        "150°"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "180^\\circ-40^\\circ=\\boxed{140^\\circ}"
+        }
+      ]
+    },
+    {
+      "n": 19,
+      "ch": "Algebraic Ratio and Proportion",
+      "en": "Points A(2,3) and B(2,7) share same x-coordinate. AB is:",
+      "bn": "",
+      "opts": [
+        "Horizontal",
+        "Vertical",
+        "Diagonal",
+        "Oblique"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "t": "Same x-coordinate → vertical line."
+        }
+      ]
+    },
+    {
+      "n": 20,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(a^0 = ?\\)",
+      "bn": "",
+      "opts": [
+        "0",
+        "1",
+        "a",
+        "undefined"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "a^0=1 \\text{ for } a\\neq0"
+        }
+      ]
+    },
+    {
+      "n": 21,
+      "ch": "Statistics",
+      "en": "Variance is always:",
+      "bn": "",
+      "opts": [
+        "Negative",
+        "Zero",
+        "Positive",
+        "Non-negative"
+      ],
+      "ans": 3,
+      "sol": [
+        {
+          "m": "\\sigma^2=\\frac{\\sum(x-\\bar{x})^2}{n}\\geq0"
+        }
+      ]
+    },
+    {
+      "n": 22,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(2^8 = ?\\)",
+      "bn": "",
+      "opts": [
+        "64",
+        "128",
+        "256",
+        "512"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "2^8=\\boxed{256}"
+        }
+      ]
+    },
+    {
+      "n": 23,
+      "ch": "Exponents and Logarithms",
+      "en": "\\(x^{1/3} = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(x^3\\)",
+        "\\(\\sqrt{x}\\)",
+        "\\(\\sqrt[3]{x}\\)",
+        "\\(3x\\)"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "x^{1/3}=\\sqrt[3]{x}"
+        }
+      ]
+    },
+    {
+      "n": 24,
+      "ch": "Mensuration",
+      "en": "Total surface area of cube side \\(a\\):",
+      "bn": "",
+      "opts": [
+        "\\(4a^2\\)",
+        "\\(5a^2\\)",
+        "\\(6a^2\\)",
+        "\\(a^3\\)"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "6 \\text{ faces}\\times a^2=\\boxed{6a^2}"
+        }
+      ]
+    },
+    {
+      "n": 25,
+      "ch": "Sets and Functions",
+      "en": "If \\(y=\\frac{1}{x}\\), when \\(x=4\\), \\(y=?\\)",
+      "bn": "",
+      "opts": [
+        "4",
+        "2",
+        "1/2",
+        "1/4"
+      ],
+      "ans": 3,
+      "sol": [
+        {
+          "m": "y=\\frac{1}{4}"
+        }
+      ]
+    },
+    {
+      "n": 26,
+      "ch": "Trigonometric Ratio",
+      "en": "\\(\\cos(90°-\\theta) = ?\\)",
+      "bn": "",
+      "opts": [
+        "\\(\\cos\\theta\\)",
+        "\\(-\\cos\\theta\\)",
+        "\\(\\sin\\theta\\)",
+        "\\(-\\sin\\theta\\)"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\cos(90^\\circ-\\theta)=\\sin\\theta"
+        }
+      ]
+    },
+    {
+      "n": 27,
+      "ch": "Statistics",
+      "en": "Frequency density = frequency ÷ ?",
+      "bn": "",
+      "opts": [
+        "Mean",
+        "Median",
+        "Class width",
+        "Class mark"
+      ],
+      "ans": 2,
+      "sol": [
+        {
+          "m": "\\text{Frequency density}=\\frac{\\text{frequency}}{\\text{class width}}"
+        }
+      ]
+    },
+    {
+      "n": 28,
+      "ch": "Real Numbers",
+      "en": "HCF(a²b, ab²):",
+      "bn": "",
+      "opts": [
+        "ab",
+        "a²b²",
+        "a",
+        "b"
+      ],
+      "ans": 0,
+      "sol": [
+        {
+          "m": "\\text{HCF}(a^2b,ab^2)=\\boxed{ab}"
+        }
+      ]
+    },
+    {
+      "n": 29,
+      "ch": "Exponents and Logarithms",
+      "en": "\\((-2)^5 = ?\\)",
+      "bn": "",
+      "opts": [
+        "32",
+        "−32",
+        "10",
+        "−10"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "m": "(-2)^5=-32 \\text{ (odd power of negative)}"
+        }
+      ]
+    },
+    {
+      "n": 30,
+      "ch": "Statistics",
+      "en": "If 5 is added to each value, mean:",
+      "bn": "",
+      "opts": [
+        "Stays same",
+        "Increases by 5",
+        "Decreases by 5",
+        "Doubles"
+      ],
+      "ans": 1,
+      "sol": [
+        {
+          "t": "Adding constant c to all values: mean increases by c."
+        }
+      ]
+    }
   ],
   "cq": [
-    {"n":1,"ch":"Surds","stem":"\\(u=\\sqrt{3}+\\sqrt{2},\\quad v=\\sqrt{3}-\\sqrt{2}\\)","stemBn":"","parts":[
-      {"l":"ক","m":2,"q":"Find \\(uv\\).","sol":[{"m":"uv=(\\sqrt{3})^2-(\\sqrt{2})^2=3-2=\\boxed{1}"}]},
-      {"l":"খ","m":4,"q":"Find \\(u^2+v^2\\).","sol":[{"m":"u+v=2\\sqrt{3},\\ uv=1"},{"m":"u^2+v^2=(2\\sqrt{3})^2-2(1)=12-2=\\boxed{10}"}]},
-      {"l":"গ","m":4,"q":"Find \\(u^3+v^3\\).","sol":[{"t":"\\(u^3+v^3=(u+v)(u^2-uv+v^2)\\)"},{"m":"=(2\\sqrt{3})(10-1)=2\\sqrt{3}\\times9=18\\sqrt{3}"}]}
-    ]},
-    {"n":2,"ch":"Logarithms","stem":"\\(\\log_2(x+1)+\\log_2 4=4\\)","stemBn":"","parts":[
-      {"l":"ক","m":2,"q":"Find \\(\\log_2 4\\).","sol":[{"m":"\\log_2 4=2"}]},
-      {"l":"খ","m":4,"q":"Find \\(x\\).","sol":[{"m":"\\log_2[4(x+1)]=4 \\implies 4(x+1)=16"},{"m":"x+1=4 \\implies x=\\boxed{3}"}]},
-      {"l":"গ","m":4,"q":"Verify.","sol":[{"m":"\\log_2 4+\\log_2 4=2+2=\\boxed{4}\\checkmark"}]}
-    ]},
-    {"n":3,"ch":"Coordinate Geometry","stem":"\\(A(0,0)\\), \\(B(9,0)\\), \\(C(9,12)\\)","stemBn":"","viz":"coordplane","vizData":{"points":[[0,0,"A"],[9,0,"B"],[9,12,"C"]],"lines":[[[0,0],[9,12]]]},"parts":[
-      {"l":"ক","m":2,"q":"Find AB.","sol":[{"m":"AB=9"}]},
-      {"l":"খ","m":4,"q":"Find BC and AC. Show right-angled at B.","sol":[{"m":"BC=12,\\quad AC=\\sqrt{81+144}=15"},{"m":"9^2+12^2=81+144=225=15^2\\checkmark"},{"note":"9-12-15 is a 3-4-5 triple scaled by 3."}]},
-      {"l":"গ","m":4,"q":"Area of △ABC.","sol":[{"m":"A=\\frac{1}{2}\\times9\\times12=\\boxed{54\\text{ sq. units}}"}]}
-    ]},
-    {"n":4,"ch":"Sets","stem":"70 students: 40 like Science (S), 35 like Arts (A), 15 like both.","stemBn":"","viz":"venn","vizData":{"A":40,"B":35,"AB":15,"total":70},"parts":[
-      {"l":"ক","m":2,"q":"Science only.","sol":[{"m":"40-15=\\boxed{25}"}]},
-      {"l":"খ","m":4,"q":"\\(n(S\\cup A)\\).","sol":[{"m":"40+35-15=\\boxed{60}"}]},
-      {"l":"গ","m":4,"q":"Neither subject.","sol":[{"m":"70-60=\\boxed{10}"}]}
-    ]},
-    {"n":5,"ch":"Statistics","stem":"Marks: 50, 55, 60, 65, 70, 75, 80, 85, 90, 95","stemBn":"","viz":"histogram","vizData":{"labels":["50-60","60-70","70-80","80-90","90-100"],"freq":[2,2,2,2,2]},"parts":[
-      {"l":"ক","m":2,"q":"Range.","sol":[{"m":"95-50=\\boxed{45}"}]},
-      {"l":"খ","m":4,"q":"Mean and median.","sol":[{"m":"\\bar{x}=\\frac{725}{10}=\\boxed{72.5}"},{"t":"n=10 even: 5th=70, 6th=75"},{"m":"\\text{Median}=\\frac{70+75}{2}=\\boxed{72.5}"}]},
-      {"l":"গ","m":4,"q":"Variance.","sol":[{"t":"Deviations from 72.5: ±22.5,±17.5,±12.5,±7.5,±2.5"},{"m":"\\sigma^2=\\frac{2\\times(506.25+306.25+156.25+56.25+6.25)}{10}=\\boxed{206.25}"}]}
-    ]},
-    {"n":6,"ch":"Trigonometry","stem":"A kite flies at 100 m height. The string makes 30° with the ground.","stemBn":"","viz":"right_triangle_trig","vizData":{"opp":100,"adj":173,"hyp":200,"angle":30},"parts":[
-      {"l":"ক","m":2,"q":"\\(\\sin 30° = ?\\)","sol":[{"m":"\\sin 30^\\circ=\\frac{1}{2}"}]},
-      {"l":"খ","m":4,"q":"Length of string.","sol":[{"m":"\\sin 30^\\circ=\\frac{100}{L} \\implies \\frac{1}{2}=\\frac{100}{L} \\implies L=\\boxed{200\\text{ m}}"}]},
-      {"l":"গ","m":4,"q":"Horizontal distance.","sol":[{"m":"d=\\frac{100}{\\tan 30^\\circ}=100\\sqrt{3}\\approx\\boxed{173.2\\text{ m}}"}]}
-    ]},
-    {"n":7,"ch":"Functions","stem":"\\(p(x)=x^2-4x+4\\)","stemBn":"","parts":[
-      {"l":"ক","m":2,"q":"Find \\(p(2)\\).","sol":[{"m":"p(2)=4-8+4=\\boxed{0}"}]},
-      {"l":"খ","m":4,"q":"Factorize and find minimum.","sol":[{"m":"p(x)=(x-2)^2"},{"t":"Minimum = 0 at x=2."}]},
-      {"l":"গ","m":4,"q":"For which \\(x\\) is \\(p(x)\\leq25\\)?","sol":[{"m":"(x-2)^2\\leq25 \\implies |x-2|\\leq5"},{"m":"\\boxed{-3\\leq x\\leq7}"}]}
-    ]}
+    {
+      "n": 1,
+      "ch": "Real Numbers",
+      "stem": "\\(u=\\sqrt{3}+\\sqrt{2},\\quad v=\\sqrt{3}-\\sqrt{2}\\)",
+      "stemBn": "",
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Find \\(uv\\).",
+          "sol": [
+            {
+              "m": "uv=(\\sqrt{3})^2-(\\sqrt{2})^2=3-2=\\boxed{1}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Find \\(u^2+v^2\\).",
+          "sol": [
+            {
+              "m": "u+v=2\\sqrt{3},\\ uv=1"
+            },
+            {
+              "m": "u^2+v^2=(2\\sqrt{3})^2-2(1)=12-2=\\boxed{10}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Find \\(u^3+v^3\\).",
+          "sol": [
+            {
+              "t": "\\(u^3+v^3=(u+v)(u^2-uv+v^2)\\)"
+            },
+            {
+              "m": "=(2\\sqrt{3})(10-1)=2\\sqrt{3}\\times9=18\\sqrt{3}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "ch": "Exponents and Logarithms",
+      "stem": "\\(\\log_2(x+1)+\\log_2 4=4\\)",
+      "stemBn": "",
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Find \\(\\log_2 4\\).",
+          "sol": [
+            {
+              "m": "\\log_2 4=2"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Find \\(x\\).",
+          "sol": [
+            {
+              "m": "\\log_2[4(x+1)]=4 \\implies 4(x+1)=16"
+            },
+            {
+              "m": "x+1=4 \\implies x=\\boxed{3}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Verify.",
+          "sol": [
+            {
+              "m": "\\log_2 4+\\log_2 4=2+2=\\boxed{4}\\checkmark"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "ch": "Algebraic Ratio and Proportion",
+      "stem": "\\(A(0,0)\\), \\(B(9,0)\\), \\(C(9,12)\\)",
+      "stemBn": "",
+      "viz": "coordplane",
+      "vizData": {
+        "points": [
+          [
+            0,
+            0,
+            "A"
+          ],
+          [
+            9,
+            0,
+            "B"
+          ],
+          [
+            9,
+            12,
+            "C"
+          ]
+        ],
+        "lines": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              9,
+              12
+            ]
+          ]
+        ]
+      },
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Find AB.",
+          "sol": [
+            {
+              "m": "AB=9"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Find BC and AC. Show right-angled at B.",
+          "sol": [
+            {
+              "m": "BC=12,\\quad AC=\\sqrt{81+144}=15"
+            },
+            {
+              "m": "9^2+12^2=81+144=225=15^2\\checkmark"
+            },
+            {
+              "note": "9-12-15 is a 3-4-5 triple scaled by 3."
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Area of △ABC.",
+          "sol": [
+            {
+              "m": "A=\\frac{1}{2}\\times9\\times12=\\boxed{54\\text{ sq. units}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "ch": "Sets and Functions",
+      "stem": "70 students: 40 like Science (S), 35 like Arts (A), 15 like both.",
+      "stemBn": "",
+      "viz": "venn",
+      "vizData": {
+        "A": 40,
+        "B": 35,
+        "AB": 15,
+        "total": 70
+      },
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Science only.",
+          "sol": [
+            {
+              "m": "40-15=\\boxed{25}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "\\(n(S\\cup A)\\).",
+          "sol": [
+            {
+              "m": "40+35-15=\\boxed{60}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Neither subject.",
+          "sol": [
+            {
+              "m": "70-60=\\boxed{10}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "ch": "Statistics",
+      "stem": "Marks: 50, 55, 60, 65, 70, 75, 80, 85, 90, 95",
+      "stemBn": "",
+      "viz": "histogram",
+      "vizData": {
+        "labels": [
+          "50-60",
+          "60-70",
+          "70-80",
+          "80-90",
+          "90-100"
+        ],
+        "freq": [
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Range.",
+          "sol": [
+            {
+              "m": "95-50=\\boxed{45}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Mean and median.",
+          "sol": [
+            {
+              "m": "\\bar{x}=\\frac{725}{10}=\\boxed{72.5}"
+            },
+            {
+              "t": "n=10 even: 5th=70, 6th=75"
+            },
+            {
+              "m": "\\text{Median}=\\frac{70+75}{2}=\\boxed{72.5}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Variance.",
+          "sol": [
+            {
+              "t": "Deviations from 72.5: ±22.5,±17.5,±12.5,±7.5,±2.5"
+            },
+            {
+              "m": "\\sigma^2=\\frac{2\\times(506.25+306.25+156.25+56.25+6.25)}{10}=\\boxed{206.25}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "ch": "Trigonometric Ratio",
+      "stem": "A kite flies at 100 m height. The string makes 30° with the ground.",
+      "stemBn": "",
+      "viz": "right_triangle_trig",
+      "vizData": {
+        "opp": 100,
+        "adj": 173,
+        "hyp": 200,
+        "angle": 30
+      },
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "\\(\\sin 30° = ?\\)",
+          "sol": [
+            {
+              "m": "\\sin 30^\\circ=\\frac{1}{2}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Length of string.",
+          "sol": [
+            {
+              "m": "\\sin 30^\\circ=\\frac{100}{L} \\implies \\frac{1}{2}=\\frac{100}{L} \\implies L=\\boxed{200\\text{ m}}"
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "Horizontal distance.",
+          "sol": [
+            {
+              "m": "d=\\frac{100}{\\tan 30^\\circ}=100\\sqrt{3}\\approx\\boxed{173.2\\text{ m}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "ch": "Sets and Functions",
+      "stem": "\\(p(x)=x^2-4x+4\\)",
+      "stemBn": "",
+      "parts": [
+        {
+          "l": "ক",
+          "m": 2,
+          "q": "Find \\(p(2)\\).",
+          "sol": [
+            {
+              "m": "p(2)=4-8+4=\\boxed{0}"
+            }
+          ]
+        },
+        {
+          "l": "খ",
+          "m": 4,
+          "q": "Factorize and find minimum.",
+          "sol": [
+            {
+              "m": "p(x)=(x-2)^2"
+            },
+            {
+              "t": "Minimum = 0 at x=2."
+            }
+          ]
+        },
+        {
+          "l": "গ",
+          "m": 4,
+          "q": "For which \\(x\\) is \\(p(x)\\leq25\\)?",
+          "sol": [
+            {
+              "m": "(x-2)^2\\leq25 \\implies |x-2|\\leq5"
+            },
+            {
+              "m": "\\boxed{-3\\leq x\\leq7}"
+            }
+          ]
+        }
+      ]
+    }
   ]
 }

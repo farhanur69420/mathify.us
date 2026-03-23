@@ -5,541 +5,977 @@
   "cqImgs": [],
   "mcq": [
     {
-      "n": 1, "ch": "Sets",
+      "n": 1,
+      "ch": "Sets and Functions",
       "en": "If \\(A = \\{a, b, c\\}\\) and \\(B = \\{b, c, d, e\\}\\), then \\(A - B = ?\\)",
       "bn": "\\(A = \\{a, b, c\\}\\) এবং \\(B = \\{b, c, d, e\\}\\) হলে \\(A - B = ?\\)",
-      "opts": ["\\(\\{a\\}\\)", "\\(\\{d, e\\}\\)", "\\(\\{a, d, e\\}\\)", "\\(\\{b, c\\}\\)"],
+      "opts": [
+        "\\(\\{a\\}\\)",
+        "\\(\\{d, e\\}\\)",
+        "\\(\\{a, d, e\\}\\)",
+        "\\(\\{b, c\\}\\)"
+      ],
       "ans": 0,
       "sol": [
-        {"t": "\\(A - B\\) contains elements in \\(A\\) but not in \\(B\\)."},
-        {"m": "A - B = \\boxed{\\{a\\}}"}
+        {
+          "t": "\\(A - B\\) contains elements in \\(A\\) but not in \\(B\\)."
+        },
+        {
+          "m": "A - B = \\boxed{\\{a\\}}"
+        }
       ]
     },
     {
-      "n": 2, "ch": "Sets",
+      "n": 2,
+      "ch": "Sets and Functions",
       "en": "For any set \\(A\\), \\(A \\cap \\emptyset = ?\\)",
       "bn": "যেকোনো সেট \\(A\\) এর জন্য \\(A \\cap \\emptyset = ?\\)",
-      "opts": ["\\(A\\)", "\\(U\\)", "\\(\\emptyset\\)", "\\(A'\\)"],
+      "opts": [
+        "\\(A\\)",
+        "\\(U\\)",
+        "\\(\\emptyset\\)",
+        "\\(A'\\)"
+      ],
       "ans": 2,
       "sol": [
-        {"t": "The empty set has no elements, so intersection with any set is empty."},
-        {"m": "A \\cap \\emptyset = \\boxed{\\emptyset}"}
+        {
+          "t": "The empty set has no elements, so intersection with any set is empty."
+        },
+        {
+          "m": "A \\cap \\emptyset = \\boxed{\\emptyset}"
+        }
       ]
     },
     {
-      "n": 3, "ch": "Functions",
+      "n": 3,
+      "ch": "Sets and Functions",
       "en": "If \\(g(x) = \\frac{x+1}{x-1}\\), then \\(g(3) = ?\\)",
       "bn": "\\(g(x) = \\frac{x+1}{x-1}\\) হলে \\(g(3) = ?\\)",
-      "opts": ["1", "2", "3", "4"],
+      "opts": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
       "ans": 1,
       "sol": [
-        {"m": "g(3) = \\frac{3+1}{3-1} = \\frac{4}{2} = \\boxed{2}"}
+        {
+          "m": "g(3) = \\frac{3+1}{3-1} = \\frac{4}{2} = \\boxed{2}"
+        }
       ]
     },
     {
-      "n": 4, "ch": "Functions",
+      "n": 4,
+      "ch": "Sets and Functions",
       "en": "The domain of \\(f(x) = \\sqrt{x - 3}\\) is:",
       "bn": "\\(f(x) = \\sqrt{x - 3}\\) এর ডোমেইন:",
-      "opts": ["\\(x > 3\\)", "\\(x \\geq 3\\)", "\\(x \\leq 3\\)", "All real numbers"],
+      "opts": [
+        "\\(x > 3\\)",
+        "\\(x \\geq 3\\)",
+        "\\(x \\leq 3\\)",
+        "All real numbers"
+      ],
       "ans": 1,
       "sol": [
-        {"t": "The expression under the square root must be non-negative."},
-        {"m": "x - 3 \\geq 0 \\implies x \\geq 3"}
+        {
+          "t": "The expression under the square root must be non-negative."
+        },
+        {
+          "m": "x - 3 \\geq 0 \\implies x \\geq 3"
+        }
       ]
     },
     {
-      "n": 5, "ch": "Algebra",
+      "n": 5,
+      "ch": "Algebraic Expressions",
       "en": "\\((x + y)^2 + (x - y)^2 = ?\\)",
       "bn": "\\((x + y)^2 + (x - y)^2 = ?\\)",
-      "opts": ["\\(2x^2\\)", "\\(2y^2\\)", "\\(2(x^2 + y^2)\\)", "\\(4xy\\)"],
+      "opts": [
+        "\\(2x^2\\)",
+        "\\(2y^2\\)",
+        "\\(2(x^2 + y^2)\\)",
+        "\\(4xy\\)"
+      ],
       "ans": 2,
       "sol": [
-        {"m": "(x+y)^2 + (x-y)^2 = (x^2+2xy+y^2) + (x^2-2xy+y^2) = \\boxed{2(x^2+y^2)}"}
+        {
+          "m": "(x+y)^2 + (x-y)^2 = (x^2+2xy+y^2) + (x^2-2xy+y^2) = \\boxed{2(x^2+y^2)}"
+        }
       ]
     },
     {
-      "n": 6, "ch": "Algebra",
+      "n": 6,
+      "ch": "Algebraic Expressions",
       "en": "Factorize: \\(x^2 + 5x + 6\\)",
       "bn": "\\(x^2 + 5x + 6\\) এর উৎপাদক:",
-      "opts": ["\\((x+1)(x+6)\\)", "\\((x+2)(x+3)\\)", "\\((x-2)(x-3)\\)", "\\((x+2)(x-3)\\)"],
+      "opts": [
+        "\\((x+1)(x+6)\\)",
+        "\\((x+2)(x+3)\\)",
+        "\\((x-2)(x-3)\\)",
+        "\\((x+2)(x-3)\\)"
+      ],
       "ans": 1,
       "sol": [
-        {"t": "Find two numbers whose product is 6 and sum is 5: 2 and 3."},
-        {"m": "x^2 + 5x + 6 = \\boxed{(x+2)(x+3)}"}
+        {
+          "t": "Find two numbers whose product is 6 and sum is 5: 2 and 3."
+        },
+        {
+          "m": "x^2 + 5x + 6 = \\boxed{(x+2)(x+3)}"
+        }
       ]
     },
     {
-      "n": 7, "ch": "Algebra",
+      "n": 7,
+      "ch": "Algebraic Expressions",
       "en": "If \\(a + b = 6\\) and \\(a - b = 2\\), then \\(a^2 - b^2 = ?\\)",
       "bn": "\\(a + b = 6\\) এবং \\(a - b = 2\\) হলে \\(a^2 - b^2 = ?\\)",
-      "opts": ["8", "10", "12", "16"],
+      "opts": [
+        "8",
+        "10",
+        "12",
+        "16"
+      ],
       "ans": 2,
       "sol": [
-        {"m": "a^2 - b^2 = (a+b)(a-b) = 6 \\times 2 = \\boxed{12}"}
+        {
+          "m": "a^2 - b^2 = (a+b)(a-b) = 6 \\times 2 = \\boxed{12}"
+        }
       ]
     },
     {
-      "n": 8, "ch": "Real Numbers",
+      "n": 8,
+      "ch": "Real Numbers",
       "en": "Between \\(\\sqrt{2}\\) and \\(\\sqrt{3}\\), which is true?",
       "bn": "\\(\\sqrt{2}\\) ও \\(\\sqrt{3}\\) এর মধ্যে কোনটি সত্য?",
-      "opts": ["\\(\\sqrt{2} > \\sqrt{3}\\)", "\\(\\sqrt{2} = \\sqrt{3}\\)", "\\(\\sqrt{2} < \\sqrt{3}\\)", "Cannot compare"],
+      "opts": [
+        "\\(\\sqrt{2} > \\sqrt{3}\\)",
+        "\\(\\sqrt{2} = \\sqrt{3}\\)",
+        "\\(\\sqrt{2} < \\sqrt{3}\\)",
+        "Cannot compare"
+      ],
       "ans": 2,
       "sol": [
-        {"t": "Since \\(2 < 3\\), and square root is an increasing function:"},
-        {"m": "\\sqrt{2} < \\sqrt{3}"}
+        {
+          "t": "Since \\(2 < 3\\), and square root is an increasing function:"
+        },
+        {
+          "m": "\\sqrt{2} < \\sqrt{3}"
+        }
       ]
     },
     {
-      "n": 9, "ch": "Exponents",
+      "n": 9,
+      "ch": "Exponents and Logarithms",
       "en": "\\(5^0 + 5^{-1} = ?\\)",
       "bn": "\\(5^0 + 5^{-1} = ?\\)",
-      "opts": ["\\(\\frac{4}{5}\\)", "\\(\\frac{6}{5}\\)", "\\(0\\)", "\\(2\\)"],
+      "opts": [
+        "\\(\\frac{4}{5}\\)",
+        "\\(\\frac{6}{5}\\)",
+        "\\(0\\)",
+        "\\(2\\)"
+      ],
       "ans": 1,
       "sol": [
-        {"m": "5^0 + 5^{-1} = 1 + \\frac{1}{5} = \\boxed{\\frac{6}{5}}"}
+        {
+          "m": "5^0 + 5^{-1} = 1 + \\frac{1}{5} = \\boxed{\\frac{6}{5}}"
+        }
       ]
     },
     {
-      "n": 10, "ch": "Exponents",
+      "n": 10,
+      "ch": "Exponents and Logarithms",
       "en": "\\(\\frac{a^5}{a^2} = ?\\)",
       "bn": "\\(\\frac{a^5}{a^2} = ?\\)",
-      "opts": ["\\(a^{10}\\)", "\\(a^3\\)", "\\(a^{2.5}\\)", "\\(a^7\\)"],
+      "opts": [
+        "\\(a^{10}\\)",
+        "\\(a^3\\)",
+        "\\(a^{2.5}\\)",
+        "\\(a^7\\)"
+      ],
       "ans": 1,
       "sol": [
-        {"m": "\\frac{a^5}{a^2} = a^{5-2} = \\boxed{a^3}"},
-        {"note": "Rule: \\(\\frac{a^m}{a^n} = a^{m-n}\\)"}
+        {
+          "m": "\\frac{a^5}{a^2} = a^{5-2} = \\boxed{a^3}"
+        },
+        {
+          "note": "Rule: \\(\\frac{a^m}{a^n} = a^{m-n}\\)"
+        }
       ]
     },
     {
-      "n": 11, "ch": "Surds",
+      "n": 11,
+      "ch": "Real Numbers",
       "en": "\\(\\sqrt{8} \\times \\sqrt{2} = ?\\)",
       "bn": "\\(\\sqrt{8} \\times \\sqrt{2} = ?\\)",
-      "opts": ["2", "4", "8", "16"],
+      "opts": [
+        "2",
+        "4",
+        "8",
+        "16"
+      ],
       "ans": 1,
       "sol": [
-        {"m": "\\sqrt{8} \\times \\sqrt{2} = \\sqrt{16} = \\boxed{4}"}
+        {
+          "m": "\\sqrt{8} \\times \\sqrt{2} = \\sqrt{16} = \\boxed{4}"
+        }
       ]
     },
     {
-      "n": 12, "ch": "Surds",
+      "n": 12,
+      "ch": "Real Numbers",
       "en": "\\((\\sqrt{5} + 2)(\\sqrt{5} - 2) = ?\\)",
       "bn": "\\((\\sqrt{5} + 2)(\\sqrt{5} - 2) = ?\\)",
-      "opts": ["1", "3", "5", "9"],
+      "opts": [
+        "1",
+        "3",
+        "5",
+        "9"
+      ],
       "ans": 0,
       "sol": [
-        {"m": "(\\sqrt{5})^2 - 2^2 = 5 - 4 = \\boxed{1}"}
+        {
+          "m": "(\\sqrt{5})^2 - 2^2 = 5 - 4 = \\boxed{1}"
+        }
       ]
     },
     {
-      "n": 13, "ch": "Logarithms",
+      "n": 13,
+      "ch": "Exponents and Logarithms",
       "en": "If \\(\\log x = 2\\), then \\(x = ?\\)",
       "bn": "\\(\\log x = 2\\) হলে \\(x = ?\\)",
-      "opts": ["2", "10", "20", "100"],
+      "opts": [
+        "2",
+        "10",
+        "20",
+        "100"
+      ],
       "ans": 3,
       "sol": [
-        {"m": "x = 10^2 = \\boxed{100}"}
+        {
+          "m": "x = 10^2 = \\boxed{100}"
+        }
       ]
     },
     {
-      "n": 14, "ch": "Logarithms",
+      "n": 14,
+      "ch": "Exponents and Logarithms",
       "en": "\\(\\log_5 125 = ?\\)",
       "bn": "\\(\\log_5 125 = ?\\)",
-      "opts": ["2", "3", "5", "25"],
+      "opts": [
+        "2",
+        "3",
+        "5",
+        "25"
+      ],
       "ans": 1,
       "sol": [
-        {"m": "5^3 = 125 \\implies \\log_5 125 = \\boxed{3}"}
+        {
+          "m": "5^3 = 125 \\implies \\log_5 125 = \\boxed{3}"
+        }
       ]
     },
     {
-      "n": 15, "ch": "Algebra",
+      "n": 15,
+      "ch": "Algebraic Expressions",
       "en": "If \\(\\frac{x}{3} + \\frac{x}{6} = 5\\), then \\(x = ?\\)",
       "bn": "\\(\\frac{x}{3} + \\frac{x}{6} = 5\\) হলে \\(x = ?\\)",
-      "opts": ["6", "8", "10", "15"],
+      "opts": [
+        "6",
+        "8",
+        "10",
+        "15"
+      ],
       "ans": 2,
       "sol": [
-        {"m": "\\frac{2x + x}{6} = 5 \\implies 3x = 30 \\implies x = \\boxed{10}"}
+        {
+          "m": "\\frac{2x + x}{6} = 5 \\implies 3x = 30 \\implies x = \\boxed{10}"
+        }
       ]
     },
     {
-      "n": 16, "ch": "Algebra",
+      "n": 16,
+      "ch": "Algebraic Expressions",
       "en": "The discriminant of \\(x^2 + 4x + 4 = 0\\) is:",
       "bn": "\\(x^2 + 4x + 4 = 0\\) এর নিশ্চায়ক:",
-      "opts": ["0", "4", "8", "16"],
+      "opts": [
+        "0",
+        "4",
+        "8",
+        "16"
+      ],
       "ans": 0,
       "sol": [
-        {"m": "D = b^2 - 4ac = 16 - 16 = \\boxed{0}"},
-        {"note": "D = 0 means the equation has two equal (repeated) roots."}
+        {
+          "m": "D = b^2 - 4ac = 16 - 16 = \\boxed{0}"
+        },
+        {
+          "note": "D = 0 means the equation has two equal (repeated) roots."
+        }
       ]
     },
     {
-      "n": 17, "ch": "Coordinate Geometry",
+      "n": 17,
+      "ch": "Algebraic Ratio and Proportion",
       "en": "In which quadrant does the point \\((-3, 5)\\) lie?",
       "bn": "\\((-3, 5)\\) বিন্দুটি কোন চতুর্থাংশে অবস্থিত?",
-      "opts": ["I", "II", "III", "IV"],
+      "opts": [
+        "I",
+        "II",
+        "III",
+        "IV"
+      ],
       "ans": 1,
       "sol": [
-        {"t": "x is negative, y is positive: that is Quadrant II."}
+        {
+          "t": "x is negative, y is positive: that is Quadrant II."
+        }
       ]
     },
     {
-      "n": 18, "ch": "Coordinate Geometry",
+      "n": 18,
+      "ch": "Algebraic Ratio and Proportion",
       "en": "The distance between \\((0, 0)\\) and \\((5, 12)\\) is:",
       "bn": "\\((0, 0)\\) ও \\((5, 12)\\) এর মধ্যে দূরত্ব:",
-      "opts": ["13", "15", "17", "7"],
+      "opts": [
+        "13",
+        "15",
+        "17",
+        "7"
+      ],
       "ans": 0,
       "viz": "coordplane",
-      "vizData": {"points": [[0,0,"O"],[5,12,"P"]]},
+      "vizData": {
+        "points": [
+          [
+            0,
+            0,
+            "O"
+          ],
+          [
+            5,
+            12,
+            "P"
+          ]
+        ]
+      },
       "sol": [
-        {"m": "d = \\sqrt{25 + 144} = \\sqrt{169} = \\boxed{13}"},
-        {"note": "5-12-13 Pythagorean triple."}
+        {
+          "m": "d = \\sqrt{25 + 144} = \\sqrt{169} = \\boxed{13}"
+        },
+        {
+          "note": "5-12-13 Pythagorean triple."
+        }
       ]
     },
     {
-      "n": 19, "ch": "Geometry",
+      "n": 19,
+      "ch": "Lines, Angles and Triangles",
       "en": "Two angles of a triangle are 50° and 60°. The third angle is:",
       "bn": "একটি ত্রিভুজের দুটি কোণ 50° ও 60°। তৃতীয় কোণটি:",
-      "opts": ["60°", "70°", "80°", "110°"],
+      "opts": [
+        "60°",
+        "70°",
+        "80°",
+        "110°"
+      ],
       "ans": 1,
       "sol": [
-        {"m": "\\theta = 180° - 50° - 60° = \\boxed{70°}"}
+        {
+          "m": "\\theta = 180° - 50° - 60° = \\boxed{70°}"
+        }
       ]
     },
     {
-      "n": 20, "ch": "Triangles",
+      "n": 20,
+      "ch": "Lines, Angles and Triangles",
       "en": "The area of an equilateral triangle with side \\(a\\) is:",
       "bn": "\\(a\\) বাহুবিশিষ্ট সমবাহু ত্রিভুজের ক্ষেত্রফল:",
-      "opts": ["\\(\\frac{a^2}{2}\\)", "\\(\\frac{\\sqrt{3}}{4}a^2\\)", "\\(\\frac{a^2}{4}\\)", "\\(\\sqrt{3}a^2\\)"],
+      "opts": [
+        "\\(\\frac{a^2}{2}\\)",
+        "\\(\\frac{\\sqrt{3}}{4}a^2\\)",
+        "\\(\\frac{a^2}{4}\\)",
+        "\\(\\sqrt{3}a^2\\)"
+      ],
       "ans": 1,
       "sol": [
-        {"m": "A = \\frac{\\sqrt{3}}{4}a^2"}
+        {
+          "m": "A = \\frac{\\sqrt{3}}{4}a^2"
+        }
       ]
     },
     {
-      "n": 21, "ch": "Circle",
+      "n": 21,
+      "ch": "Circle",
       "en": "The area of a circle with radius 14 cm is (\\(\\pi = \\frac{22}{7}\\)):",
       "bn": "14 সেমি ব্যাসার্ধের বৃত্তের ক্ষেত্রফল (\\(\\pi = \\frac{22}{7}\\)):",
-      "opts": ["154 cm²", "308 cm²", "616 cm²", "88 cm²"],
+      "opts": [
+        "154 cm²",
+        "308 cm²",
+        "616 cm²",
+        "88 cm²"
+      ],
       "ans": 2,
       "sol": [
-        {"m": "A = \\pi r^2 = \\frac{22}{7} \\times 196 = 22 \\times 28 = \\boxed{616 \\text{ cm}^2}"}
+        {
+          "m": "A = \\pi r^2 = \\frac{22}{7} \\times 196 = 22 \\times 28 = \\boxed{616 \\text{ cm}^2}"
+        }
       ]
     },
     {
-      "n": 22, "ch": "Trigonometry",
+      "n": 22,
+      "ch": "Trigonometric Ratio",
       "en": "\\(\\cos 0° = ?\\)",
       "bn": "\\(\\cos 0° = ?\\)",
-      "opts": ["0", "\\(\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "1"],
+      "opts": [
+        "0",
+        "\\(\\frac{1}{2}\\)",
+        "\\(\\frac{\\sqrt{3}}{2}\\)",
+        "1"
+      ],
       "ans": 3,
       "sol": [
-        {"m": "\\cos 0° = \\boxed{1}"}
+        {
+          "m": "\\cos 0° = \\boxed{1}"
+        }
       ]
     },
     {
-      "n": 23, "ch": "Trigonometry",
+      "n": 23,
+      "ch": "Trigonometric Ratio",
       "en": "\\(1 + \\tan^2\\theta = ?\\)",
       "bn": "\\(1 + \\tan^2\\theta = ?\\)",
-      "opts": ["\\(\\sin^2\\theta\\)", "\\(\\cos^2\\theta\\)", "\\(\\sec^2\\theta\\)", "\\(\\csc^2\\theta\\)"],
+      "opts": [
+        "\\(\\sin^2\\theta\\)",
+        "\\(\\cos^2\\theta\\)",
+        "\\(\\sec^2\\theta\\)",
+        "\\(\\csc^2\\theta\\)"
+      ],
       "ans": 2,
       "sol": [
-        {"m": "1 + \\tan^2\\theta = \\boxed{\\sec^2\\theta}"},
-        {"note": "This follows from dividing \\(\\sin^2\\theta + \\cos^2\\theta = 1\\) by \\(\\cos^2\\theta\\)."}
+        {
+          "m": "1 + \\tan^2\\theta = \\boxed{\\sec^2\\theta}"
+        },
+        {
+          "note": "This follows from dividing \\(\\sin^2\\theta + \\cos^2\\theta = 1\\) by \\(\\cos^2\\theta\\)."
+        }
       ]
     },
     {
-      "n": 24, "ch": "Trigonometry",
+      "n": 24,
+      "ch": "Trigonometric Ratio",
       "en": "\\(\\sin 60° \\times \\cos 30° + \\cos 60° \\times \\sin 30° = ?\\)",
       "bn": "\\(\\sin 60° \\times \\cos 30° + \\cos 60° \\times \\sin 30° = ?\\)",
-      "opts": ["\\(\\frac{1}{2}\\)", "\\(\\frac{\\sqrt{3}}{2}\\)", "1", "\\(\\frac{3}{4}\\)"],
+      "opts": [
+        "\\(\\frac{1}{2}\\)",
+        "\\(\\frac{\\sqrt{3}}{2}\\)",
+        "1",
+        "\\(\\frac{3}{4}\\)"
+      ],
       "ans": 2,
       "sol": [
-        {"t": "This is \\(\\sin(60° + 30°) = \\sin 90°\\)"},
-        {"m": "= \\frac{\\sqrt{3}}{2} \\times \\frac{\\sqrt{3}}{2} + \\frac{1}{2} \\times \\frac{1}{2} = \\frac{3}{4} + \\frac{1}{4} = \\boxed{1}"}
+        {
+          "t": "This is \\(\\sin(60° + 30°) = \\sin 90°\\)"
+        },
+        {
+          "m": "= \\frac{\\sqrt{3}}{2} \\times \\frac{\\sqrt{3}}{2} + \\frac{1}{2} \\times \\frac{1}{2} = \\frac{3}{4} + \\frac{1}{4} = \\boxed{1}"
+        }
       ]
     },
     {
-      "n": 25, "ch": "Statistics",
+      "n": 25,
+      "ch": "Statistics",
       "en": "The mean of 4, 6, 8, 10, 12 is:",
       "bn": "4, 6, 8, 10, 12 এর গড়:",
-      "opts": ["6", "7", "8", "10"],
+      "opts": [
+        "6",
+        "7",
+        "8",
+        "10"
+      ],
       "ans": 2,
       "sol": [
-        {"m": "\\bar{x} = \\frac{4+6+8+10+12}{5} = \\frac{40}{5} = \\boxed{8}"}
+        {
+          "m": "\\bar{x} = \\frac{4+6+8+10+12}{5} = \\frac{40}{5} = \\boxed{8}"
+        }
       ]
     },
     {
-      "n": 26, "ch": "Statistics",
+      "n": 26,
+      "ch": "Statistics",
       "en": "If the mean of 5 values is 20, their sum is:",
       "bn": "5টি মানের গড় 20 হলে তাদের যোগফল:",
-      "opts": ["25", "50", "80", "100"],
+      "opts": [
+        "25",
+        "50",
+        "80",
+        "100"
+      ],
       "ans": 3,
       "sol": [
-        {"m": "\\text{Sum} = n \\times \\bar{x} = 5 \\times 20 = \\boxed{100}"}
+        {
+          "m": "\\text{Sum} = n \\times \\bar{x} = 5 \\times 20 = \\boxed{100}"
+        }
       ]
     },
     {
-      "n": 27, "ch": "Mensuration",
+      "n": 27,
+      "ch": "Mensuration",
       "en": "The volume of a sphere with radius 3 cm is (\\(\\pi \\approx 3.14\\)):",
       "bn": "3 সেমি ব্যাসার্ধের গোলকের আয়তন (\\(\\pi \\approx 3.14\\)):",
-      "opts": ["36π cm³", "\\(36\\pi\\) cm³", "108 cm³", "113.04 cm³"],
+      "opts": [
+        "36π cm³",
+        "\\(36\\pi\\) cm³",
+        "108 cm³",
+        "113.04 cm³"
+      ],
       "ans": 0,
       "sol": [
-        {"m": "V = \\frac{4}{3}\\pi r^3 = \\frac{4}{3}\\pi(27) = \\boxed{36\\pi \\approx 113.1 \\text{ cm}^3}"}
+        {
+          "m": "V = \\frac{4}{3}\\pi r^3 = \\frac{4}{3}\\pi(27) = \\boxed{36\\pi \\approx 113.1 \\text{ cm}^3}"
+        }
       ]
     },
     {
-      "n": 28, "ch": "Mensuration",
+      "n": 28,
+      "ch": "Mensuration",
       "en": "The perimeter of a rectangle with length 12 cm and width 5 cm is:",
       "bn": "12 সেমি দৈর্ঘ্য ও 5 সেমি প্রস্থ বিশিষ্ট আয়তক্ষেত্রের পরিসীমা:",
-      "opts": ["17 cm", "34 cm", "60 cm", "120 cm"],
+      "opts": [
+        "17 cm",
+        "34 cm",
+        "60 cm",
+        "120 cm"
+      ],
       "ans": 1,
       "sol": [
-        {"m": "P = 2(l + w) = 2(12 + 5) = 2 \\times 17 = \\boxed{34 \\text{ cm}}"}
+        {
+          "m": "P = 2(l + w) = 2(12 + 5) = 2 \\times 17 = \\boxed{34 \\text{ cm}}"
+        }
       ]
     },
     {
-      "n": 29, "ch": "Arithmetic",
+      "n": 29,
+      "ch": "Real Numbers",
       "en": "If \\(a : b = 2 : 3\\) and \\(b : c = 4 : 5\\), then \\(a : b : c = ?\\)",
       "bn": "\\(a : b = 2 : 3\\) এবং \\(b : c = 4 : 5\\) হলে \\(a : b : c = ?\\)",
-      "opts": ["2 : 3 : 5", "8 : 12 : 15", "4 : 6 : 5", "2 : 4 : 5"],
+      "opts": [
+        "2 : 3 : 5",
+        "8 : 12 : 15",
+        "4 : 6 : 5",
+        "2 : 4 : 5"
+      ],
       "ans": 1,
       "sol": [
-        {"t": "Make \\(b\\) equal: \\(a:b = 8:12\\) and \\(b:c = 12:15\\)"},
-        {"m": "a : b : c = \\boxed{8 : 12 : 15}"}
+        {
+          "t": "Make \\(b\\) equal: \\(a:b = 8:12\\) and \\(b:c = 12:15\\)"
+        },
+        {
+          "m": "a : b : c = \\boxed{8 : 12 : 15}"
+        }
       ]
     },
     {
-      "n": 30, "ch": "Algebra",
+      "n": 30,
+      "ch": "Algebraic Expressions",
       "en": "If \\(a^2 + b^2 = 25\\) and \\(ab = 12\\), then \\((a + b)^2 = ?\\)",
       "bn": "\\(a^2 + b^2 = 25\\) এবং \\(ab = 12\\) হলে \\((a + b)^2 = ?\\)",
-      "opts": ["37", "49", "61", "144"],
+      "opts": [
+        "37",
+        "49",
+        "61",
+        "144"
+      ],
       "ans": 1,
       "sol": [
-        {"m": "(a+b)^2 = a^2 + 2ab + b^2 = 25 + 24 = \\boxed{49}"}
+        {
+          "m": "(a+b)^2 = a^2 + 2ab + b^2 = 25 + 24 = \\boxed{49}"
+        }
       ]
     }
   ],
   "cq": [
     {
-      "n": 1, "ch": "Algebra",
+      "n": 1,
+      "ch": "Algebraic Expressions",
       "stem": "\\(a - b = 4\\) and \\(ab = 21\\)",
       "stemBn": "\\(a - b = 4\\) এবং \\(ab = 21\\)",
       "parts": [
         {
-          "l": "ক", "m": 2,
+          "l": "ক",
+          "m": 2,
           "q": "Find \\(a^2 + b^2\\). \\(a^2 + b^2\\) নির্ণয় করো।",
           "sol": [
-            {"m": "a^2 + b^2 = (a-b)^2 + 2ab = 16 + 42 = \\boxed{58}"}
+            {
+              "m": "a^2 + b^2 = (a-b)^2 + 2ab = 16 + 42 = \\boxed{58}"
+            }
           ]
         },
         {
-          "l": "খ", "m": 4,
+          "l": "খ",
+          "m": 4,
           "q": "Find \\(a + b\\) and hence the values of \\(a\\) and \\(b\\). \\(a + b\\) এবং \\(a\\), \\(b\\) নির্ণয় করো।",
           "sol": [
-            {"m": "(a+b)^2 = a^2 + 2ab + b^2 = 58 + 42 = 100"},
-            {"m": "a + b = 10 \\quad (\\text{taking positive root})"},
-            {"m": "a = \\frac{(a+b)+(a-b)}{2} = \\frac{10+4}{2} = 7"},
-            {"m": "b = \\frac{(a+b)-(a-b)}{2} = \\frac{10-4}{2} = 3"},
-            {"t": "Verification: \\(7 - 3 = 4\\) and \\(7 \\times 3 = 21\\) \\(\\checkmark\\)"}
+            {
+              "m": "(a+b)^2 = a^2 + 2ab + b^2 = 58 + 42 = 100"
+            },
+            {
+              "m": "a + b = 10 \\quad (\\text{taking positive root})"
+            },
+            {
+              "m": "a = \\frac{(a+b)+(a-b)}{2} = \\frac{10+4}{2} = 7"
+            },
+            {
+              "m": "b = \\frac{(a+b)-(a-b)}{2} = \\frac{10-4}{2} = 3"
+            },
+            {
+              "t": "Verification: \\(7 - 3 = 4\\) and \\(7 \\times 3 = 21\\) \\(\\checkmark\\)"
+            }
           ]
         },
         {
-          "l": "গ", "m": 4,
+          "l": "গ",
+          "m": 4,
           "q": "Find \\(a^3 - b^3\\). \\(a^3 - b^3\\) নির্ণয় করো।",
           "sol": [
-            {"t": "Use: \\(a^3 - b^3 = (a-b)(a^2 + ab + b^2)\\)"},
-            {"m": "= 4(58 + 21) = 4 \\times 79 = \\boxed{316}"}
+            {
+              "t": "Use: \\(a^3 - b^3 = (a-b)(a^2 + ab + b^2)\\)"
+            },
+            {
+              "m": "= 4(58 + 21) = 4 \\times 79 = \\boxed{316}"
+            }
           ]
         }
       ]
     },
     {
-      "n": 2, "ch": "Surds",
+      "n": 2,
+      "ch": "Real Numbers",
       "stem": "\\(p = 2 + \\sqrt{3}\\)",
       "stemBn": "\\(p = 2 + \\sqrt{3}\\)",
       "parts": [
         {
-          "l": "ক", "m": 2,
+          "l": "ক",
+          "m": 2,
           "q": "Find \\(\\frac{1}{p}\\) by rationalizing. \\(\\frac{1}{p}\\) এর হর মূলদ করো।",
           "sol": [
-            {"m": "\\frac{1}{2+\\sqrt{3}} \\times \\frac{2-\\sqrt{3}}{2-\\sqrt{3}} = \\frac{2-\\sqrt{3}}{4-3} = \\boxed{2 - \\sqrt{3}}"}
+            {
+              "m": "\\frac{1}{2+\\sqrt{3}} \\times \\frac{2-\\sqrt{3}}{2-\\sqrt{3}} = \\frac{2-\\sqrt{3}}{4-3} = \\boxed{2 - \\sqrt{3}}"
+            }
           ]
         },
         {
-          "l": "খ", "m": 4,
+          "l": "খ",
+          "m": 4,
           "q": "Find \\(p + \\frac{1}{p}\\) and \\(p - \\frac{1}{p}\\). \\(p + \\frac{1}{p}\\) ও \\(p - \\frac{1}{p}\\) নির্ণয় করো।",
           "sol": [
-            {"m": "p + \\frac{1}{p} = (2+\\sqrt{3}) + (2-\\sqrt{3}) = \\boxed{4}"},
-            {"m": "p - \\frac{1}{p} = (2+\\sqrt{3}) - (2-\\sqrt{3}) = \\boxed{2\\sqrt{3}}"}
+            {
+              "m": "p + \\frac{1}{p} = (2+\\sqrt{3}) + (2-\\sqrt{3}) = \\boxed{4}"
+            },
+            {
+              "m": "p - \\frac{1}{p} = (2+\\sqrt{3}) - (2-\\sqrt{3}) = \\boxed{2\\sqrt{3}}"
+            }
           ]
         },
         {
-          "l": "গ", "m": 4,
+          "l": "গ",
+          "m": 4,
           "q": "Find \\(p^2 + \\frac{1}{p^2}\\). \\(p^2 + \\frac{1}{p^2}\\) নির্ণয় করো।",
           "sol": [
-            {"m": "p^2 + \\frac{1}{p^2} = \\left(p + \\frac{1}{p}\\right)^2 - 2 = 16 - 2 = \\boxed{14}"}
+            {
+              "m": "p^2 + \\frac{1}{p^2} = \\left(p + \\frac{1}{p}\\right)^2 - 2 = 16 - 2 = \\boxed{14}"
+            }
           ]
         }
       ]
     },
     {
-      "n": 3, "ch": "Logarithms",
+      "n": 3,
+      "ch": "Exponents and Logarithms",
       "stem": "Simplify: \\(\\log_2 16 + \\log_3 27 - \\log_5 25\\)",
       "stemBn": "সরলীকরণ করো: \\(\\log_2 16 + \\log_3 27 - \\log_5 25\\)",
       "parts": [
         {
-          "l": "ক", "m": 2,
+          "l": "ক",
+          "m": 2,
           "q": "Find \\(\\log_2 16\\). \\(\\log_2 16\\) নির্ণয় করো।",
           "sol": [
-            {"m": "2^4 = 16 \\implies \\log_2 16 = \\boxed{4}"}
+            {
+              "m": "2^4 = 16 \\implies \\log_2 16 = \\boxed{4}"
+            }
           ]
         },
         {
-          "l": "খ", "m": 4,
+          "l": "খ",
+          "m": 4,
           "q": "Find the value of the complete expression. সম্পূর্ণ রাশিটির মান নির্ণয় করো।",
           "sol": [
-            {"m": "\\log_3 27 = 3 \\quad (3^3 = 27)"},
-            {"m": "\\log_5 25 = 2 \\quad (5^2 = 25)"},
-            {"m": "4 + 3 - 2 = \\boxed{5}"}
+            {
+              "m": "\\log_3 27 = 3 \\quad (3^3 = 27)"
+            },
+            {
+              "m": "\\log_5 25 = 2 \\quad (5^2 = 25)"
+            },
+            {
+              "m": "4 + 3 - 2 = \\boxed{5}"
+            }
           ]
         },
         {
-          "l": "গ", "m": 4,
+          "l": "গ",
+          "m": 4,
           "q": "If \\(\\log_{10} 2 = 0.301\\) and \\(\\log_{10} 3 = 0.477\\), find \\(\\log_{10} 72\\). \\(\\log_{10} 72\\) নির্ণয় করো।",
           "sol": [
-            {"m": "72 = 8 \\times 9 = 2^3 \\times 3^2"},
-            {"m": "\\log_{10} 72 = 3\\log_{10} 2 + 2\\log_{10} 3 = 3(0.301) + 2(0.477)"},
-            {"m": "= 0.903 + 0.954 = \\boxed{1.857}"}
+            {
+              "m": "72 = 8 \\times 9 = 2^3 \\times 3^2"
+            },
+            {
+              "m": "\\log_{10} 72 = 3\\log_{10} 2 + 2\\log_{10} 3 = 3(0.301) + 2(0.477)"
+            },
+            {
+              "m": "= 0.903 + 0.954 = \\boxed{1.857}"
+            }
           ]
         }
       ]
     },
     {
-      "n": 4, "ch": "Coordinate Geometry",
+      "n": 4,
+      "ch": "Algebraic Ratio and Proportion",
       "stem": "The line \\(y = 2x - 3\\) intersects the x-axis at \\(A\\) and the y-axis at \\(B\\).",
       "stemBn": "\\(y = 2x - 3\\) রেখাটি x-অক্ষকে \\(A\\) বিন্দুতে এবং y-অক্ষকে \\(B\\) বিন্দুতে ছেদ করে।",
       "viz": "coordplane",
-      "vizData": {"points": [[1.5,0,"A"],[0,-3,"B"]], "lines": [[[0,-3],[3,3]]]},
+      "vizData": {
+        "points": [
+          [
+            1.5,
+            0,
+            "A"
+          ],
+          [
+            0,
+            -3,
+            "B"
+          ]
+        ],
+        "lines": [
+          [
+            [
+              0,
+              -3
+            ],
+            [
+              3,
+              3
+            ]
+          ]
+        ]
+      },
       "parts": [
         {
-          "l": "ক", "m": 2,
+          "l": "ক",
+          "m": 2,
           "q": "Find the coordinates of \\(B\\). \\(B\\) এর স্থানাঙ্ক নির্ণয় করো।",
           "sol": [
-            {"t": "At the y-axis, \\(x = 0\\):"},
-            {"m": "y = 2(0) - 3 = -3, \\quad B = \\boxed{(0, -3)}"}
+            {
+              "t": "At the y-axis, \\(x = 0\\):"
+            },
+            {
+              "m": "y = 2(0) - 3 = -3, \\quad B = \\boxed{(0, -3)}"
+            }
           ]
         },
         {
-          "l": "খ", "m": 4,
+          "l": "খ",
+          "m": 4,
           "q": "Find the coordinates of \\(A\\). \\(A\\) এর স্থানাঙ্ক নির্ণয় করো।",
           "sol": [
-            {"t": "At the x-axis, \\(y = 0\\):"},
-            {"m": "0 = 2x - 3 \\implies x = \\frac{3}{2}, \\quad A = \\boxed{\\left(\\frac{3}{2}, 0\\right)}"}
+            {
+              "t": "At the x-axis, \\(y = 0\\):"
+            },
+            {
+              "m": "0 = 2x - 3 \\implies x = \\frac{3}{2}, \\quad A = \\boxed{\\left(\\frac{3}{2}, 0\\right)}"
+            }
           ]
         },
         {
-          "l": "গ", "m": 4,
+          "l": "গ",
+          "m": 4,
           "q": "Find the area of the triangle formed by the line and the two axes. রেখা ও দুই অক্ষ দ্বারা গঠিত ত্রিভুজের ক্ষেত্রফল নির্ণয় করো।",
           "sol": [
-            {"m": "\\text{Base} = OA = \\frac{3}{2}, \\quad \\text{Height} = |OB| = 3"},
-            {"m": "\\text{Area} = \\frac{1}{2} \\times \\frac{3}{2} \\times 3 = \\boxed{\\frac{9}{4} \\text{ sq. units}}"}
+            {
+              "m": "\\text{Base} = OA = \\frac{3}{2}, \\quad \\text{Height} = |OB| = 3"
+            },
+            {
+              "m": "\\text{Area} = \\frac{1}{2} \\times \\frac{3}{2} \\times 3 = \\boxed{\\frac{9}{4} \\text{ sq. units}}"
+            }
           ]
         }
       ]
     },
     {
-      "n": 5, "ch": "Trigonometry",
+      "n": 5,
+      "ch": "Trigonometric Ratio",
       "stem": "A 12 m ladder leans against a wall making a 60° angle with the ground.",
       "stemBn": "12 মি লম্বা একটি মই একটি দেওয়ালে ভূমির সাথে 60° কোণে হেলান দেওয়া আছে।",
       "viz": "right_triangle_trig",
-      "vizData": {"opp": 10, "adj": 6, "hyp": 12, "angle": 60},
+      "vizData": {
+        "opp": 10,
+        "adj": 6,
+        "hyp": 12,
+        "angle": 60
+      },
       "parts": [
         {
-          "l": "ক", "m": 2,
+          "l": "ক",
+          "m": 2,
           "q": "Find \\(\\cos 60°\\). \\(\\cos 60°\\) এর মান নির্ণয় করো।",
           "sol": [
-            {"m": "\\cos 60° = \\boxed{\\frac{1}{2}}"}
+            {
+              "m": "\\cos 60° = \\boxed{\\frac{1}{2}}"
+            }
           ]
         },
         {
-          "l": "খ", "m": 4,
+          "l": "খ",
+          "m": 4,
           "q": "How far is the foot of the ladder from the wall? মইয়ের পাদদেশ দেওয়াল থেকে কত দূরে?",
           "sol": [
-            {"m": "\\cos 60° = \\frac{d}{12}"},
-            {"m": "d = 12 \\times \\frac{1}{2} = \\boxed{6 \\text{ m}}"}
+            {
+              "m": "\\cos 60° = \\frac{d}{12}"
+            },
+            {
+              "m": "d = 12 \\times \\frac{1}{2} = \\boxed{6 \\text{ m}}"
+            }
           ]
         },
         {
-          "l": "গ", "m": 4,
+          "l": "গ",
+          "m": 4,
           "q": "How high on the wall does the ladder reach? মই দেওয়ালের কত উচ্চতায় পৌঁছায়?",
           "sol": [
-            {"m": "\\sin 60° = \\frac{h}{12}"},
-            {"m": "h = 12 \\times \\frac{\\sqrt{3}}{2} = 6\\sqrt{3} \\approx \\boxed{10.39 \\text{ m}}"}
+            {
+              "m": "\\sin 60° = \\frac{h}{12}"
+            },
+            {
+              "m": "h = 12 \\times \\frac{\\sqrt{3}}{2} = 6\\sqrt{3} \\approx \\boxed{10.39 \\text{ m}}"
+            }
           ]
         }
       ]
     },
     {
-      "n": 6, "ch": "Statistics",
+      "n": 6,
+      "ch": "Statistics",
       "stem": "Class intervals and frequencies: 0-10 (4), 10-20 (7), 20-30 (12), 30-40 (5), 40-50 (2)",
       "stemBn": "শ্রেণি ব্যবধান ও গণসংখ্যা: 0-10 (4), 10-20 (7), 20-30 (12), 30-40 (5), 40-50 (2)",
       "viz": "histogram",
-      "vizData": {"labels": ["0-10","10-20","20-30","30-40","40-50"], "freq": [4,7,12,5,2]},
+      "vizData": {
+        "labels": [
+          "0-10",
+          "10-20",
+          "20-30",
+          "30-40",
+          "40-50"
+        ],
+        "freq": [
+          4,
+          7,
+          12,
+          5,
+          2
+        ]
+      },
       "parts": [
         {
-          "l": "ক", "m": 2,
+          "l": "ক",
+          "m": 2,
           "q": "What is the modal class? প্রচুরক শ্রেণি কোনটি?",
           "sol": [
-            {"t": "The class with the highest frequency (12) is 20-30."},
-            {"m": "\\text{Modal class} = \\boxed{20\\text{-}30}"}
+            {
+              "t": "The class with the highest frequency (12) is 20-30."
+            },
+            {
+              "m": "\\text{Modal class} = \\boxed{20\\text{-}30}"
+            }
           ]
         },
         {
-          "l": "খ", "m": 4,
+          "l": "খ",
+          "m": 4,
           "q": "Find the mean using the class mark method. শ্রেণি-মধ্যমান পদ্ধতিতে গড় নির্ণয় করো।",
           "sol": [
-            {"t": "Class marks: 5, 15, 25, 35, 45"},
-            {"m": "\\bar{x} = \\frac{4(5)+7(15)+12(25)+5(35)+2(45)}{30}"},
-            {"m": "= \\frac{20+105+300+175+90}{30} = \\frac{690}{30} = \\boxed{23}"}
+            {
+              "t": "Class marks: 5, 15, 25, 35, 45"
+            },
+            {
+              "m": "\\bar{x} = \\frac{4(5)+7(15)+12(25)+5(35)+2(45)}{30}"
+            },
+            {
+              "m": "= \\frac{20+105+300+175+90}{30} = \\frac{690}{30} = \\boxed{23}"
+            }
           ]
         },
         {
-          "l": "গ", "m": 4,
+          "l": "গ",
+          "m": 4,
           "q": "Find the median. মধ্যমা নির্ণয় করো।",
           "sol": [
-            {"t": "Total frequency = 30, so median position = 15th observation."},
-            {"t": "Cumulative frequencies: 4, 11, 23, 28, 30. The 15th value falls in class 20-30."},
-            {"m": "\\text{Median} = 20 + \\frac{\\frac{30}{2} - 11}{12} \\times 10 = 20 + \\frac{4}{12} \\times 10 = 20 + 3.33 = \\boxed{23.33}"}
+            {
+              "t": "Total frequency = 30, so median position = 15th observation."
+            },
+            {
+              "t": "Cumulative frequencies: 4, 11, 23, 28, 30. The 15th value falls in class 20-30."
+            },
+            {
+              "m": "\\text{Median} = 20 + \\frac{\\frac{30}{2} - 11}{12} \\times 10 = 20 + \\frac{4}{12} \\times 10 = 20 + 3.33 = \\boxed{23.33}"
+            }
           ]
         }
       ]
     },
     {
-      "n": 7, "ch": "Geometry",
+      "n": 7,
+      "ch": "Lines, Angles and Triangles",
       "stem": "In \\(\\triangle ABC\\), \\(\\angle B = 90°\\), \\(AB = 8\\) cm, \\(BC = 6\\) cm.",
       "stemBn": "\\(\\triangle ABC\\)-তে \\(\\angle B = 90°\\), \\(AB = 8\\) সেমি, \\(BC = 6\\) সেমি।",
       "parts": [
         {
-          "l": "ক", "m": 2,
+          "l": "ক",
+          "m": 2,
           "q": "Find \\(AC\\). \\(AC\\) নির্ণয় করো।",
           "sol": [
-            {"m": "AC = \\sqrt{AB^2 + BC^2} = \\sqrt{64 + 36} = \\sqrt{100} = \\boxed{10 \\text{ cm}}"}
+            {
+              "m": "AC = \\sqrt{AB^2 + BC^2} = \\sqrt{64 + 36} = \\sqrt{100} = \\boxed{10 \\text{ cm}}"
+            }
           ]
         },
         {
-          "l": "খ", "m": 4,
+          "l": "খ",
+          "m": 4,
           "q": "Find \\(\\sin A\\), \\(\\cos A\\), and \\(\\tan A\\). \\(\\sin A\\), \\(\\cos A\\) ও \\(\\tan A\\) নির্ণয় করো।",
           "sol": [
-            {"t": "With respect to angle A: opposite = BC = 6, adjacent = AB = 8, hypotenuse = AC = 10"},
-            {"m": "\\sin A = \\frac{6}{10} = \\boxed{\\frac{3}{5}}"},
-            {"m": "\\cos A = \\frac{8}{10} = \\boxed{\\frac{4}{5}}"},
-            {"m": "\\tan A = \\frac{6}{8} = \\boxed{\\frac{3}{4}}"}
+            {
+              "t": "With respect to angle A: opposite = BC = 6, adjacent = AB = 8, hypotenuse = AC = 10"
+            },
+            {
+              "m": "\\sin A = \\frac{6}{10} = \\boxed{\\frac{3}{5}}"
+            },
+            {
+              "m": "\\cos A = \\frac{8}{10} = \\boxed{\\frac{4}{5}}"
+            },
+            {
+              "m": "\\tan A = \\frac{6}{8} = \\boxed{\\frac{3}{4}}"
+            }
           ]
         },
         {
-          "l": "গ", "m": 4,
+          "l": "গ",
+          "m": 4,
           "q": "Verify that \\(\\sin^2 A + \\cos^2 A = 1\\). যাচাই করো যে \\(\\sin^2 A + \\cos^2 A = 1\\)।",
           "sol": [
-            {"m": "\\sin^2 A + \\cos^2 A = \\left(\\frac{3}{5}\\right)^2 + \\left(\\frac{4}{5}\\right)^2 = \\frac{9}{25} + \\frac{16}{25} = \\frac{25}{25} = \\boxed{1} \\quad \\checkmark"}
+            {
+              "m": "\\sin^2 A + \\cos^2 A = \\left(\\frac{3}{5}\\right)^2 + \\left(\\frac{4}{5}\\right)^2 = \\frac{9}{25} + \\frac{16}{25} = \\frac{25}{25} = \\boxed{1} \\quad \\checkmark"
+            }
           ]
         }
       ]

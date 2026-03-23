@@ -1,5 +1,6 @@
 ---
 import Main from '../layouts/Main.astro';
+import { chapters } from '../data/chapters.js';
 
 const years = [2025, 2024, 2023, 2022, 2021, 2020];
 const boards = ['Dhaka', 'Rajshahi', 'Chittagong', 'Jessore', 'Comilla', 'Barisal', 'Sylhet', 'Dinajpur', 'Mymensingh'];
@@ -65,6 +66,46 @@ const boards = ['Dhaka', 'Rajshahi', 'Chittagong', 'Jessore', 'Comilla', 'Barisa
   }
   .all-link:hover { opacity: .85; }
 
+  .chapter-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .clabel {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+  }
+  .chapters {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: .75rem;
+  }
+  .clink {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 8px;
+    padding: 1rem;
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--txt);
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .clink:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .clink span { color: var(--teal); font-size: 1.2rem; }
+
   @media (max-width: 600px) {
     .ssc-hero, .year-section { padding-left: 1rem; padding-right: 1rem; }
     .boards { grid-template-columns: repeat(3, 1fr); }
@@ -74,6 +115,22 @@ const boards = ['Dhaka', 'Rajshahi', 'Chittagong', 'Jessore', 'Comilla', 'Barisa
 <div class="ssc-hero">
   <h1>SSC Question Solutions</h1>
   <p>All 9 boards &middot; Mathematics &middot; Step-by-step solutions with visualizations.</p>
+</div>
+
+<div class="chapter-section">
+  <div class="clabel">Browse by Chapter</div>
+  <div class="chapters">
+    {chapters.map(ch => (
+      <a href={`/ssc-math-chapter/${ch.toLowerCase().replace(/ /g, '-')}`} class="clink">
+        {ch}
+        <span>&rarr;</span>
+      </a>
+    ))}
+  </div>
+</div>
+
+<div class="year-section">
+  <div class="ylabel">Browse by Year & Board</div>
 </div>
 
 {years.map(year => (
