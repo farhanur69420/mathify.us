@@ -366,5 +366,68 @@
   .cqm { font-size:.56rem;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);padding:.1rem .35rem;border-radius:2px;margin-left:.35rem; }
   .cqq { font-size:.76rem;color:var(--txt2);margin-bottom:.45rem; }
   .hdiv { border:none;border-top:1px solid var(--bdr);margin:.55rem 0; }
-  @media (max-width:600px) { .opts{grid-template-columns:1fr;} }
+
+  @media (max-width:768px) {
+    .qhdr { padding:.6rem .8rem;gap:.5rem; }
+    .qnum { padding:.15rem .35rem;font-size:.55rem; }
+    .qtype { padding:.1rem .3rem;font-size:.5rem; }
+    .qen { font-size:.73rem; }
+    .qbn { font-size:.77rem; }
+    .opts { padding:.3rem .8rem .55rem 2rem;gap:.2rem; }
+    .opt { font-size:.68rem;padding:.2rem .3rem; }
+    .spanel { padding:.7rem .8rem .7rem 2rem; }
+    .step { font-size:.7rem;gap:.4rem; }
+    .abadge { font-size:.55rem;padding:.12rem .4rem;margin-bottom:.5rem; }
+    .viz-wrap canvas { max-width:100%;height:auto; }
+    .mblk { font-size:.7rem;padding:.35rem .6rem;margin:.25rem 0; }
+  }
+
+  @media (max-width:600px) {
+    .opts { grid-template-columns:1fr; }
+    .qhdr { flex-wrap:wrap;padding:.5rem .7rem;gap:.4rem; }
+    .qnum { padding:.12rem .3rem;font-size:.5rem; }
+    .qtype { padding:.08rem .25rem;font-size:.48rem; }
+    .qtxt { flex-basis:100%; }
+    .ico { position:absolute;right:.7rem;top:.7rem; }
+    .qen { font-size:.7rem;margin-bottom:.15rem; }
+    .qbn { font-size:.72rem; }
+    .qch { font-size:.52rem; }
+    .opts { padding:.25rem .6rem .5rem 1.8rem;gap:.15rem; }
+    .opt { font-size:.65rem;padding:.15rem .25rem; }
+    .opt-k { font-size:.58rem; }
+    .spanel { padding:.6rem .6rem .6rem 1.8rem; }
+    .steps { gap:.25rem; }
+    .step { font-size:.65rem;gap:.3rem; }
+    .sn { font-size:.55rem;margin-top:2px; }
+    .abadge { font-size:.5rem;padding:.1rem .3rem;margin-bottom:.4rem; }
+    .cqlbl { font-size:.55rem; }
+    .cqm { font-size:.5rem;padding:.08rem .25rem; }
+    .cqq { font-size:.7rem; }
+    .cqpart { padding:.6rem 0; }
+    .mblk { font-size:.65rem;padding:.25rem .5rem;margin:.2rem 0; }
+    .viz-wrap { margin:.3rem 0; }
+    .viz-wrap canvas {
+      border-radius:2px;
+      max-width:100%;
+      height:auto;
+      width:100% !important;
+      background:var(--surf2);
+    }
+  }
+
+  @media (max-width:480px) {
+    .qcard { margin-bottom:.35rem; }
+    .qhdr { padding:.4rem .5rem; }
+    .qnum { padding:.1rem .25rem;font-size:.45rem; }
+    .qtype { padding:.08rem .2rem;font-size:.42rem; }
+    .qen { font-size:.65rem; }
+    .qbn { font-size:.68rem; }
+    .qch { font-size:.48rem; }
+    .opts { padding:.2rem .5rem .4rem 1.5rem; }
+    .opt { font-size:.6rem;padding:.1rem .2rem; }
+    .spanel { padding:.5rem .5rem .5rem 1.5rem; }
+    .step { font-size:.6rem; }
+    .abadge { font-size:.45rem;padding:.08rem .25rem; }
+    .mblk { font-size:.6rem;padding:.2rem .4rem; }
+  }
 </style>
