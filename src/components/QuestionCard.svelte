@@ -1,11 +1,13 @@
 <script>
   import { onMount, tick } from 'svelte';
+  import LoadingIndicator from './LoadingIndicator.svelte';
 
   export let q;        // question object
   export let boardKey; // e.g. 'dhaka'
   export let type;     // 'mcq' | 'cq'
 
   let open = false;
+  let isLoading = false;
   const id = `${boardKey}-${type}-${q.n}`;
 
   const KEYS = ['ক', 'খ', 'গ', 'ঘ'];
@@ -13,10 +15,15 @@
   async function toggle() {
     open = !open;
     if (open) {
+      isLoading = true;
       await tick();
-      if (window.MathJax?.typesetPromise) {
-        MathJax.typesetPromise([document.getElementById(id)]).catch(() => {});
-      }
+      // Simulate a brief loading state for responsiveness
+      setTimeout(() => {
+        if (window.MathJax?.typesetPromise) {
+          MathJax.typesetPromise([document.getElementById(id)]).catch(() => {});
+        }
+        isLoading = false;
+      }, 50);
     }
   }
 
@@ -50,6 +57,13 @@
     </div>
     <span class="ico" aria-hidden="true">▼</span>
   </div>
+
+  <!-- LOADING STATE -->
+  {#if isLoading}
+    <div class="loading-wrapper">
+      <LoadingIndicator visible={isLoading} size="small" message="Loading solution..." />
+    </div>
+  {/if}
 
   <!-- MCQ OPTIONS -->
   {#if type === 'mcq'}
@@ -366,6 +380,16 @@
   .cqm { font-size:.56rem;color:var(--mut);background:var(--surf);border:1px solid var(--bdr);padding:.1rem .35rem;border-radius:2px;margin-left:.35rem; }
   .cqq { font-size:.76rem;color:var(--txt2);margin-bottom:.45rem; }
   .hdiv { border:none;border-top:1px solid var(--bdr);margin:.55rem 0; }
+
+  /* Loading wrapper */
+  .loading-wrapper {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:1.5rem;
+    background:var(--surf3);
+    border-top:1px solid var(--bdr);
+  }
 
   @media (max-width:768px) {
     .qhdr { padding:.6rem .8rem;gap:.5rem; }
