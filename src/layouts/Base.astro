@@ -110,12 +110,37 @@ const { title, description = 'Free, intuition-first math and engineering educati
     .z1 { position: relative; z-index: 1; }
     .mblk {
       font-family: 'Space Mono', monospace;
-      background: rgba(78,201,176,.06);
+      background: var(--surf2);
       border: 1px solid rgba(78,201,176,.14);
       border-left: 3px solid var(--teal);
       padding: .55rem .9rem; border-radius: 3px;
       font-size: .8rem; color: var(--teal);
       margin: .35rem 0; overflow-x: auto; display: block;
+    }
+    code {
+      font-family: 'Space Mono', monospace;
+      background: var(--surf2);
+      color: var(--teal);
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+      border: 1px solid var(--bdr2);
+    }
+    pre {
+      background: var(--surf2);
+      border: 1px solid var(--bdr);
+      border-left: 3px solid var(--teal);
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 0.5rem 0;
+      font-family: 'Space Mono', monospace;
+    }
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--txt);
     }
     .nbox {
       font-size: .72rem; color: var(--amb);
