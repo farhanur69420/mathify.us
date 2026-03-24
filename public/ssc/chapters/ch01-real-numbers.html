@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Numbers · SSC Math · Mathify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ssc-styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <a class="logo" href="/">mathify<em>.us</em></a>
+      <span class="logo-tag">SSC MATH</span>
+    </div>
+    <nav class="nav-links">
+      <a class="nl" href="../">All Boards</a>
+      <a class="nl active" href="./">Chapters</a>
+      <a class="nl" href="../boards/dhaka-2025.html">Past Papers</a>
+      <a class="nl" href="/" style="color:var(--dim)">&#8592; Main Site</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="breadcrumb">
+      <a href="../">SSC Math</a><span class="sep">/</span>
+      <a href="./">Chapters</a><span class="sep">/</span>
+      <span>Chapter 01</span>
+    </div>
+    <p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin:18px 0 8px">Chapter 01</p>
+    <h1>Real Numbers</h1>
+    <p class="hero-sub">The complete landscape of numbers &mdash; from counting to irrationals &mdash; and why the distinctions matter.</p>
+    <div class="hero-chips">
+      <span class="chip sky">Natural Numbers</span>
+      <span class="chip blue">Rational Numbers</span>
+      <span class="chip violet">Irrational Numbers</span>
+      <span class="chip gold">Surds</span>
+      <span class="chip mint">Number Properties</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <aside class="sidebar">
+      <nav class="stoc">
+        <div class="stoc-heading">Contents</div>
+        <a href="#why">Why This Matters</a>
+        <a href="#intuition">Build Intuition</a>
+        <a href="#concepts">The Concepts</a>
+        <a href="#formulas">Key Formulas</a>
+        <a href="#mistakes">Common Mistakes</a>
+        <a href="#interactive">Try It Yourself</a>
+        <a href="#questions">Board Questions</a>
+        <a href="#quickref">Quick Reference</a>
+      </nav>
+    </aside>
+    <main class="content">
+
+      <!-- WHY -->
+      <section class="topic" id="why">
+        <div class="why-banner">
+          <div class="why-icon">&#127758;</div>
+          <div>
+            <h2>Why Does This Matter?</h2>
+            <p>Every number you encounter in real life &mdash; a temperature of &minus;5&deg;C, a GPS coordinate of 23.81&deg;N, a bank balance of Tk&nbsp;1,250.75, the diagonal of a 1&nbsp;m&times;1&nbsp;m tile (&radic;2 &asymp; 1.414&nbsp;m) &mdash; is a <strong>real number</strong>. Before you can do any mathematics, you need to know the landscape: what types of numbers exist, what rules apply to each, and why some numbers (like &radic;2 and &pi;) cannot be expressed as simple fractions. This chapter is the foundation every other chapter builds on.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- INTUITION -->
+      <section class="topic" id="intuition">
+        <h2>Build Your Intuition First</h2>
+        <div class="analogy">
+          <strong>Think of the number line as an infinitely long ruler.</strong> The tick marks at 1, 2, 3&hellip; are the natural numbers. Zero is the starting point. Negatives go left. Between every two integers live all the fractions. And even after you squeeze in <em>every single fraction</em>, there are still tiny gaps &mdash; that is where irrational numbers like &radic;2 and &pi; live. Together they make the real number line perfectly continuous, with absolutely no gaps.
+        </div>
+
+        <div class="visual-box">
+          <div class="visual-label">The Number Family Tree &mdash; each set is contained in all sets below it</div>
+          <div class="set-hierarchy">
+            <div class="set-row" style="background:rgba(56,200,245,0.07);border-left:3px solid var(--sky)">
+              <span class="set-name" style="color:var(--sky)">&#8469;* Natural</span>
+              <span class="set-example">1, 2, 3, 4, 5 &hellip;</span>
+            </div>
+            <div class="set-row" style="margin-left:14px;background:rgba(240,180,41,0.07);border-left:3px solid var(--gold)">
+              <span class="set-name" style="color:var(--gold)">&#8469; Whole</span>
+              <span class="set-example">0, 1, 2, 3 &hellip; (adds zero)</span>
+            </div>
+            <div class="set-row" style="margin-left:28px;background:rgba(47,224,180,0.07);border-left:3px solid var(--mint)">
+              <span class="set-name" style="color:var(--mint)">&#8484; Integer</span>
+              <span class="set-example">&hellip; &minus;3, &minus;2, &minus;1, 0, 1, 2, 3 &hellip; (adds negatives)</span>
+            </div>
+            <div class="set-row" style="margin-left:42px;background:rgba(79,142,247,0.07);border-left:3px solid var(--blue)">
+              <span class="set-name" style="color:var(--blue)">&#8474; Rational</span>
+              <span class="set-example">3/4, &minus;7/2, 0.5, 0.333&hellip; (adds fractions &amp; recurring decimals)</span>
+            </div>
+            <div class="set-row" style="margin-left:56px;background:rgba(155,127,255,0.08);border-left:3px solid var(--violet)">
+              <span class="set-name" style="color:var(--violet)">&#8477; Real</span>
+              <span class="set-example">+ irrationals: &radic;2, &radic;3, &pi;, e (adds the &ldquo;gaps&rdquo;)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONCEPTS -->
+      <section class="topic" id="concepts">
+        <h2>The Concepts, Explained</h2>
+
+        <div class="concept-block">
+          <h3>Rational Numbers</h3>
+          <div class="concept-real-world">&#127836; Real-world: money, measurements, fractions of anything</div>
+          <p>A number is <strong>rational</strong> if it can be written as <span class="se">p/q</span> where p and q are integers and q &ne; 0. As a decimal, it either <em>terminates</em> (3/4&nbsp;=&nbsp;0.75) or <em>recurs forever</em> (1/3&nbsp;=&nbsp;0.333&hellip;).</p>
+          <div class="concept-why"><strong>Why does a rational decimal always terminate or recur?</strong> When dividing p by q, each remainder must be one of 0, 1, 2, &hellip;, (q&minus;1). After at most q steps a remainder must repeat &mdash; so the decimal repeats. If the remainder hits 0, it terminates.</div>
+        </div>
+
+        <div class="concept-block">
+          <h3>Irrational Numbers</h3>
+          <div class="concept-real-world">&#128207; Real-world: diagonal of a square is &radic;2; circumference uses &pi;</div>
+          <p>A number is <strong>irrational</strong> if it <em>cannot</em> be written as p/q. Its decimal expansion is non-terminating and non-recurring. Famous irrationals: &radic;2 &asymp; 1.41421356&hellip;, &pi; &asymp; 3.14159265&hellip;, e &asymp; 2.71828182&hellip;</p>
+          <div class="insight"><strong>Historic insight:</strong> Ancient Greek mathematicians proved &radic;2 is irrational. Assume &radic;2 = p/q in lowest terms. Then p&sup2; = 2q&sup2;, so p is even (p = 2k). Substituting: 4k&sup2; = 2q&sup2; &rarr; q&sup2; = 2k&sup2; &rarr; q is also even. Both p and q are even &mdash; contradicting &ldquo;lowest terms.&rdquo; &#10004;</div>
+        </div>
+
+        <div class="concept-block">
+          <h3>Surds</h3>
+          <div class="concept-real-world">&#128203; Real-world: exact diagonal lengths without rounding errors</div>
+          <p>A <strong>surd</strong> is an irrational root kept in exact form: &radic;2, &radic;3, &#8731;5. Surds let you work with exact values instead of messy approximations.</p>
+          <p>Key surd rules: <span class="se">&radic;a &times; &radic;b = &radic;(ab)</span> &nbsp;|&nbsp; <span class="se">(&radic;a)&sup2; = a</span> &nbsp;|&nbsp; <span class="se">&radic;(a/b) = &radic;a / &radic;b</span></p>
+          <p><strong>Rationalising the denominator</strong> means removing surds from the bottom of a fraction. Multiply top and bottom by the conjugate: <span class="se">1/(&radic;3+1) &times; (&radic;3&minus;1)/(&radic;3&minus;1) = (&radic;3&minus;1)/2</span>.</p>
+          <div class="concept-why"><strong>Why rationalise?</strong> Convention and convenience. &radic;3/3 is easier to add to other fractions than 1/&radic;3. Both are mathematically equal.</div>
+        </div>
+
+        <div class="concept-block">
+          <h3>Properties of Real Numbers</h3>
+          <div class="concept-real-world">&#9881; Real-world: why you can rearrange terms in any calculation without changing the answer</div>
+          <ul style="margin:10px 0 0 18px;font-size:.9rem;color:var(--dim);line-height:2.2">
+            <li><strong style="color:var(--ink)">Closure:</strong> a + b and a &times; b are still real numbers.</li>
+            <li><strong style="color:var(--ink)">Commutativity:</strong> a + b = b + a; &nbsp; a &times; b = b &times; a. (Order doesn&rsquo;t matter.)</li>
+            <li><strong style="color:var(--ink)">Associativity:</strong> (a + b) + c = a + (b + c). (Grouping doesn&rsquo;t matter.)</li>
+            <li><strong style="color:var(--ink)">Distributivity:</strong> a(b + c) = ab + ac. (This is the engine of all algebra.)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- FORMULAS -->
+      <section class="topic" id="formulas">
+        <h2>Key Formulas</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="formula-card">
+            <div class="fc-title">Surd multiplication</div>
+            <div class="fc-eq">&radic;a &times; &radic;b = &radic;(ab)</div>
+            <div class="fc-note">e.g. &radic;3 &times; &radic;12 = &radic;36 = 6</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Rationalise (simple)</div>
+            <div class="fc-eq">1/&radic;a = &radic;a / a</div>
+            <div class="fc-note">Multiply top &amp; bottom by &radic;a</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Rationalise (binomial)</div>
+            <div class="fc-eq">1/(a+&radic;b) = (a&minus;&radic;b)/(a&sup2;&minus;b)</div>
+            <div class="fc-note">Multiply by conjugate; uses (a+&radic;b)(a&minus;&radic;b) = a&sup2;&minus;b</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Recurring decimal &rarr; fraction</div>
+            <div class="fc-eq">0.&#773;a&#773;b = ab / 99</div>
+            <div class="fc-note">e.g. 0.45&#773; = 45/99 = 5/11</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MISTAKES -->
+      <section class="topic" id="mistakes">
+        <h2>Common Mistakes</h2>
+        <div class="mistake-grid">
+          <div class="mistake-card">
+            <div class="mistake-label bad">&#10008; Wrong</div>
+            <span class="wrong">&radic;(a+b) = &radic;a + &radic;b</span>
+            <div class="mistake-label good">&#10004; Correct</div>
+            <span class="right">&radic;(a+b) &ne; &radic;a + &radic;b</span>
+            <p style="font-size:.8rem;color:var(--muted);margin-top:8px">Try: &radic;(9+16)=5, but &radic;9+&radic;16=7. Never split a root over addition!</p>
+          </div>
+          <div class="mistake-card">
+            <div class="mistake-label bad">&#10008; Wrong</div>
+            <span class="wrong">&pi; = 22/7 exactly</span>
+            <div class="mistake-label good">&#10004; Correct</div>
+            <span class="right">22/7 &asymp; &pi; (approximation only)</span>
+            <p style="font-size:.8rem;color:var(--muted);margin-top:8px">&pi; is irrational. 22/7 &asymp; 3.142857 while &pi; &asymp; 3.141593 &mdash; not the same.</p>
+          </div>
+          <div class="mistake-card">
+            <div class="mistake-label bad">&#10008; Wrong</div>
+            <span class="wrong">All decimals are irrational</span>
+            <div class="mistake-label good">&#10004; Correct</div>
+            <span class="right">Only non-term, non-recur ones are</span>
+            <p style="font-size:.8rem;color:var(--muted);margin-top:8px">0.5 = 1/2 and 0.333&hellip; = 1/3 are both perfectly rational.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- INTERACTIVE -->
+      <section class="topic" id="interactive">
+        <h2>Try It Yourself</h2>
+        <p>Enter a number to see exactly which number sets it belongs to.</p>
+        <div class="sim-box">
+          <div class="sim-title">Number Set Classifier</div>
+          <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
+            <input id="numIn" type="text" placeholder="e.g. 3, -2, 0.5, 1/3, sqrt(2), pi" style="flex:1;min-width:180px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px 14px;color:var(--ink);font-family:inherit;font-size:.9rem">
+            <button onclick="classifyNum()" style="background:var(--blue);color:#fff;border:none;border-radius:6px;padding:10px 20px;font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer">Classify</button>
+          </div>
+          <div id="classRes" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:16px;font-size:.9rem;color:var(--dim);min-height:64px">
+            Enter a number above to see its classification&hellip;
+          </div>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:10px">Tip: type <code style="background:var(--bg3);padding:1px 5px;border-radius:3px">sqrt(2)</code> for &radic;2, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px">pi</code> for &pi;, or <code style="background:var(--bg3);padding:1px 5px;border-radius:3px">1/3</code> for fractions.</p>
+        </div>
+      </section>
+
+      <!-- BOARD QUESTIONS -->
+      <section class="topic" id="questions">
+        <h2>Board Questions</h2>
+
+        <div class="problem">
+          <div class="ph"><span class="q-num">Q1</span><span class="board-tag">Dhaka 2024</span><span style="font-size:.85rem;color:var(--ink);font-weight:500">Classify numbers</span><span class="q-marks">4 Marks</span></div>
+          <div class="pb">Classify each number as natural, integer, rational, or irrational: (a)&nbsp;&minus;3 &nbsp;(b)&nbsp;7/2 &nbsp;(c)&nbsp;&radic;5 &nbsp;(d)&nbsp;0.232323&hellip;</div>
+          <button class="sol-toggle" onclick="toggleSol(this)">&#9654; Show Solution</button>
+          <div class="solution"><div class="ss">
+            <div><span class="sn">a</span><div class="sc">&minus;3 is an <strong>integer</strong> (and also rational, since &minus;3 = &minus;3/1). It is <em>not</em> natural or whole.</div></div>
+            <div><span class="sn">b</span><div class="sc">7/2 = 3.5 &mdash; terminates &rarr; <strong>rational</strong>. Not an integer.</div></div>
+            <div><span class="sn">c</span><div class="sc"><span class="se">&radic;5 &asymp; 2.2360679&hellip;</span> non-terminating, non-recurring &rarr; <strong>irrational</strong>.</div></div>
+            <div><span class="sn">d</span><div class="sc">0.232323&hellip; = 23/99 &mdash; a recurring decimal &rarr; <strong>rational</strong>.</div></div>
+            <div><span class="sn">Ans</span><div class="sc"><span class="sr2">&minus;3: Integer &amp; Rational &nbsp;|&nbsp; 7/2: Rational &nbsp;|&nbsp; &radic;5: Irrational &nbsp;|&nbsp; 0.23&#773;: Rational &#10003;</span></div></div>
+          </div></div>
+        </div>
+
+        <div class="problem">
+          <div class="ph"><span class="q-num">Q2</span><span class="board-tag">Rajshahi 2023</span><span style="font-size:.85rem;color:var(--ink);font-weight:500">Rationalise denominator</span><span class="q-marks">4 Marks</span></div>
+          <div class="pb">Simplify: 1 / (&radic;3 + &radic;2)</div>
+          <button class="sol-toggle" onclick="toggleSol(this)">&#9654; Show Solution</button>
+          <div class="solution"><div class="ss">
+            <div><span class="sn">1</span><div class="sc">Multiply top and bottom by the conjugate <span class="se">(&radic;3 &minus; &radic;2)</span>.</div></div>
+            <div><span class="sn">2</span><div class="sc"><span class="se">= (&radic;3 &minus; &radic;2) / ((&radic;3)&sup2; &minus; (&radic;2)&sup2;) = (&radic;3 &minus; &radic;2) / (3 &minus; 2)</span></div></div>
+            <div><span class="sn">3</span><div class="sc"><span class="se">= (&radic;3 &minus; &radic;2) / 1 = &radic;3 &minus; &radic;2</span></div></div>
+            <div><span class="sn">Ans</span><div class="sc"><span class="sr2">1/(&radic;3+&radic;2) = &radic;3 &minus; &radic;2 &#10003;</span></div></div>
+          </div></div>
+        </div>
+
+        <div class="problem">
+          <div class="ph"><span class="q-num">Q3</span><span class="board-tag">Chittagong 2022</span><span style="font-size:.85rem;color:var(--ink);font-weight:500">Recurring decimal to fraction</span><span class="q-marks">4 Marks</span></div>
+          <div class="pb">Express 0.454545&hellip; as a fraction in lowest terms.</div>
+          <button class="sol-toggle" onclick="toggleSol(this)">&#9654; Show Solution</button>
+          <div class="solution"><div class="ss">
+            <div><span class="sn">1</span><div class="sc">Let <span class="se">x = 0.454545&hellip;</span></div></div>
+            <div><span class="sn">2</span><div class="sc">Multiply by 100 (2 recurring digits): <span class="se">100x = 45.454545&hellip;</span></div></div>
+            <div><span class="sn">3</span><div class="sc">Subtract: <span class="se">99x = 45 &rarr; x = 45/99</span></div></div>
+            <div><span class="sn">4</span><div class="sc">Simplify: GCD(45, 99) = 9, so <span class="se">45/99 = 5/11</span></div></div>
+            <div><span class="sn">Ans</span><div class="sc"><span class="sr2">0.45&#773; = 5/11 &#10003;</span></div></div>
+          </div></div>
+        </div>
+
+        <div class="problem">
+          <div class="ph"><span class="q-num">Q4</span><span class="board-tag">Comilla 2024</span><span style="font-size:.85rem;color:var(--ink);font-weight:500">Simplify surds</span><span class="q-marks">5 Marks</span></div>
+          <div class="pb">Simplify: (&radic;75 &minus; &radic;48) &divide; &radic;3</div>
+          <button class="sol-toggle" onclick="toggleSol(this)">&#9654; Show Solution</button>
+          <div class="solution"><div class="ss">
+            <div><span class="sn">1</span><div class="sc"><span class="se">&radic;75 = &radic;(25&times;3) = 5&radic;3</span></div></div>
+            <div><span class="sn">2</span><div class="sc"><span class="se">&radic;48 = &radic;(16&times;3) = 4&radic;3</span></div></div>
+            <div><span class="sn">3</span><div class="sc"><span class="se">(5&radic;3 &minus; 4&radic;3) &divide; &radic;3 = &radic;3 &divide; &radic;3 = 1</span></div></div>
+            <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Answer = 1 &#10003;</span></div></div>
+          </div></div>
+        </div>
+
+        <div class="problem">
+          <div class="ph"><span class="q-num">Q5</span><span class="board-tag">Jessore 2023</span><span style="font-size:.85rem;color:var(--ink);font-weight:500">Prove irrationality</span><span class="q-marks">6 Marks</span></div>
+          <div class="pb">Prove that &radic;3 is irrational.</div>
+          <button class="sol-toggle" onclick="toggleSol(this)">&#9654; Show Solution</button>
+          <div class="solution"><div class="ss">
+            <div><span class="sn">1</span><div class="sc">Assume for contradiction that <span class="se">&radic;3 = p/q</span> where p, q are integers in lowest terms (no common factor).</div></div>
+            <div><span class="sn">2</span><div class="sc">Squaring: <span class="se">p&sup2; = 3q&sup2;</span>. So 3 divides p&sup2;. Since 3 is prime, 3 divides p. Write <span class="se">p = 3k</span>.</div></div>
+            <div><span class="sn">3</span><div class="sc">Substituting: <span class="se">(3k)&sup2; = 3q&sup2; &rarr; 9k&sup2; = 3q&sup2; &rarr; q&sup2; = 3k&sup2;</span>. So 3 divides q.</div></div>
+            <div><span class="sn">4</span><div class="sc">Both p and q are divisible by 3 &mdash; contradicting our assumption that p/q is in lowest terms.</div></div>
+            <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Contradiction! Therefore &radic;3 is irrational. &#10003;</span></div></div>
+          </div></div>
+        </div>
+
+        <div class="problem">
+          <div class="ph"><span class="q-num">Q6</span><span class="board-tag">Barisal 2022</span><span style="font-size:.85rem;color:var(--ink);font-weight:500">Distributive property</span><span class="q-marks">4 Marks</span></div>
+          <div class="pb">Evaluate 53 &times; 97 + 53 &times; 3 without a calculator, using a number property.</div>
+          <button class="sol-toggle" onclick="toggleSol(this)">&#9654; Show Solution</button>
+          <div class="solution"><div class="ss">
+            <div><span class="sn">1</span><div class="sc">Factor out 53 using the <strong>distributive law</strong>: <span class="se">53(97 + 3) = 53 &times; 100</span></div></div>
+            <div><span class="sn">2</span><div class="sc"><span class="se">= 5300</span></div></div>
+            <div><span class="sn">Ans</span><div class="sc"><span class="sr2">5300 &#10003; &nbsp; (That&rsquo;s what the distributive law is for!)</span></div></div>
+          </div></div>
+        </div>
+
+      </section>
+
+      <!-- QUICK REF -->
+      <section class="topic" id="quickref">
+        <h2>Quick Reference Card</h2>
+        <div class="qref-grid">
+          <div class="qref-card"><div class="qref-title">Rational decimal</div><div class="qref-eq">terminates OR recurs</div></div>
+          <div class="qref-card"><div class="qref-title">Irrational decimal</div><div class="qref-eq">non-term, non-recur</div></div>
+          <div class="qref-card"><div class="qref-title">Surd product</div><div class="qref-eq">&radic;a &middot; &radic;b = &radic;(ab)</div></div>
+          <div class="qref-card"><div class="qref-title">Rationalise simple</div><div class="qref-eq">1/&radic;a = &radic;a / a</div></div>
+          <div class="qref-card"><div class="qref-title">Recurring &rarr; fraction</div><div class="qref-eq">multiply by 10&sup2;, subtract</div></div>
+          <div class="qref-card"><div class="qref-title">Distributive</div><div class="qref-eq">a(b+c) = ab + ac</div></div>
+        </div>
+      </section>
+
+      <div class="chapter-nav">
+        <a href="./">&#8592; All Chapters</a>
+        <a href="ch02-sets-functions.html">Chapter 2: Sets &amp; Functions &#8594;</a>
+      </div>
+    </main>
+  </div>
+
+  <script>
+  function toggleSol(el){var s=el.nextElementSibling;s.classList.toggle('open');el.textContent=s.classList.contains('open')?'\u25bc Hide Solution':'\u25b6 Show Solution';}
+  (function(){var L=document.querySelectorAll('.stoc a'),I=Array.from(L).map(function(l){return l.getAttribute('href').slice(1);});function u(){var y=window.scrollY+130;for(var i=I.length-1;i>=0;i--){var e=document.getElementById(I[i]);if(e&&e.offsetTop<=y){L.forEach(function(l){l.classList.remove('active');});L[i].classList.add('active');break;}}}window.addEventListener('scroll',u,{passive:true});u();})();
+
+  function classifyNum(){
+    var raw=document.getElementById('numIn').value.trim().toLowerCase();
+    var el=document.getElementById('classRes');
+    if(!raw){el.innerHTML='Please enter a number.';return;}
+    var val,display=raw,isRat=true;
+    if(raw==='pi'||raw==='\u03c0'){val=Math.PI;isRat=false;display='\u03c0';}
+    else if(raw==='e'){val=Math.E;isRat=false;}
+    else if(raw.startsWith('sqrt(')){
+      var n=parseFloat(raw.slice(5,-1));
+      if(isNaN(n)||n<0){el.innerHTML='Invalid.';return;}
+      val=Math.sqrt(n);
+      var sq=Math.round(val);isRat=(sq*sq===n);
+      display='\u221a'+n;
+    } else if(raw.indexOf('/')>0){
+      var p=raw.split('/');val=parseFloat(p[0])/parseFloat(p[1]);
+    } else {val=parseFloat(raw);}
+    if(isNaN(val)){el.innerHTML='Could not parse. Try: 3, -2, 0.5, 1/3, sqrt(2), pi';return;}
+    var isInt=Math.abs(val-Math.round(val))<1e-10;
+    var tags=[];
+    if(isInt&&val>=1) tags.push('<span style="background:rgba(56,200,245,0.15);color:var(--sky);padding:4px 12px;border-radius:99px">Natural \u2115*</span>');
+    if(isInt&&val>=0) tags.push('<span style="background:rgba(240,180,41,0.12);color:var(--gold);padding:4px 12px;border-radius:99px">Whole \u2115</span>');
+    if(isInt) tags.push('<span style="background:rgba(47,224,180,0.12);color:var(--mint);padding:4px 12px;border-radius:99px">Integer \u2124</span>');
+    if(isRat) tags.push('<span style="background:rgba(79,142,247,0.12);color:var(--blue);padding:4px 12px;border-radius:99px">Rational \u211a</span>');
+    else tags.push('<span style="background:rgba(155,127,255,0.15);color:var(--violet);padding:4px 12px;border-radius:99px">Irrational</span>');
+    tags.push('<span style="background:rgba(155,127,255,0.08);color:var(--violet);padding:4px 12px;border-radius:99px">Real \u211d</span>');
+    el.innerHTML='<strong style="color:var(--ink)">'+display+'</strong> \u2248 '+val.toFixed(8)+'<br><br><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">'+tags.join('')+'</div>';
+  }
+  document.getElementById('numIn').addEventListener('keydown',function(e){if(e.key==='Enter')classifyNum();});
+  </script>
+</body>
+</html>

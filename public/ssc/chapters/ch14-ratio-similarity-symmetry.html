@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ratio, Similarity &amp; Symmetry · SSC Math · Mathify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ssc-styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <a class="logo" href="/">mathify<em>.us</em></a>
+      <span class="logo-tag">SSC MATH</span>
+    </div>
+    <nav class="nav-links">
+      <a class="nl" href="../">All Boards</a>
+      <a class="nl active" href="./">Chapters</a>
+      <a class="nl" href="../boards/dhaka-2025.html">Past Papers</a>
+      <a class="nl" href="/" style="color:var(--dim)">← Main Site</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="breadcrumb">
+      <a href="../">SSC Math</a><span class="sep">/</span>
+      <a href="./">Chapters</a><span class="sep">/</span>
+      <span>Chapter 14</span>
+    </div>
+    <p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin:18px 0 8px">Chapter 14</p>
+    <h1>Ratio, Similarity &amp; Symmetry</h1>
+    <p class="hero-sub">How shapes can be proportionally scaled, when triangles are "the same shape", and the beautiful patterns of symmetry.</p>
+    <div class="hero-chips">
+      <span class="chip blue">AA / SSS / SAS Similarity</span>
+      <span class="chip mint">Basic Proportionality Theorem</span>
+      <span class="chip gold">Scale Factor k</span>
+      <span class="chip violet">Lines of Symmetry</span>
+      <span class="chip">8 Board Questions</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <aside class="sidebar">
+      <nav class="stoc">
+        <div class="stoc-heading">Contents</div>
+        <a href="#concepts">Core Concepts</a>
+        <a href="#formulas">Key Formulas</a>
+        <a href="#simulator">Scale Explorer</a>
+        <a href="#board-questions">Board Questions</a>
+        <a href="#formula-sheet">Formula Sheet</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+
+      <section class="topic" id="concepts">
+        <h2>Core Concepts</h2>
+
+        <h3>Similar Figures</h3>
+        <p>Two figures are <strong>similar</strong> if they have exactly the same shape but can be different sizes. All corresponding angles are equal, and all corresponding sides are in the same ratio (the scale factor k).</p>
+        <div class="analogy">
+          <strong>Think of a photo:</strong> A 4×6 print and a 8×12 enlargement of the same photo are similar — every measurement doubles (k=2), every angle stays the same, but the area becomes 4× larger.
+        </div>
+
+        <h3>Similarity Criteria for Triangles</h3>
+        <p><strong>AA (Angle-Angle):</strong> If two angles of one triangle equal two angles of another, the triangles are similar. (The third angle must also match since angles sum to 180°.)</p>
+        <p><strong>SSS Similarity:</strong> If all three pairs of corresponding sides are proportional (a/d = b/e = c/f = k), the triangles are similar.</p>
+        <p><strong>SAS Similarity:</strong> If two pairs of corresponding sides are proportional AND the included angle is equal, the triangles are similar.</p>
+
+        <h3>Properties of Similar Triangles</h3>
+        <p>If △ABC ~ △DEF with scale factor k (meaning AB/DE = BC/EF = CA/FD = k):</p>
+        <p>Ratio of <strong>perimeters</strong> = k (linear — same as sides ratio)</p>
+        <p>Ratio of <strong>areas</strong> = k² (squared — area scales with the square of linear dimensions)</p>
+
+        <h3>Basic Proportionality Theorem (Thales' Theorem)</h3>
+        <p>If a line is drawn parallel to one side of a triangle, it divides the other two sides in the same ratio. In △ABC, if DE ∥ BC (D on AB, E on AC), then AD/DB = AE/EC.</p>
+        <div class="analogy">
+          <strong>Visualise it:</strong> Imagine railway tracks (the parallel lines) crossing two roads (the sides AB and AC). The tracks cut the roads at the same ratio, no matter how far apart the roads diverge.
+        </div>
+        <p>The <strong>converse</strong> is also true: if DE divides AB and AC proportionally (AD/DB = AE/EC), then DE ∥ BC.</p>
+
+        <h3>Lines of Symmetry</h3>
+        <p>A line of symmetry divides a figure into two mirror-image halves. A regular polygon with n sides has exactly n lines of symmetry. An equilateral triangle has 3; a square has 4; a regular hexagon has 6.</p>
+
+        <h3>Rotational Symmetry</h3>
+        <p>A figure has rotational symmetry of order n if it looks identical after rotating by 360°/n. A regular hexagon has order 6 (rotate by 60° each time). The order equals the number of sides for regular polygons.</p>
+      </section>
+
+      <section class="topic" id="formulas">
+        <h2>Key Formulas</h2>
+
+        <div class="formula-card">
+          <div class="fc-title">Scale Factor</div>
+          <div class="fc-eq">k = AB/DE = BC/EF = CA/FD</div>
+          <div class="fc-note">All corresponding side ratios equal k for similar triangles</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="fc-title">Area Ratio</div>
+          <div class="fc-eq">Area(△ABC) / Area(△DEF) = k²</div>
+          <div class="fc-note">Area scales as the square of the linear scale factor</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="fc-title">Basic Proportionality Theorem</div>
+          <div class="fc-eq">AD/DB = AE/EC  (when DE ∥ BC)</div>
+          <div class="fc-note">Also: AD/AB = AE/AC = DE/BC = 1/k</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="fc-title">Altitude on Hypotenuse</div>
+          <div class="fc-eq">CD² = AD · DB  (geometric mean)</div>
+          <div class="fc-note">In right △ABC with altitude CD to hypotenuse AB</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="fc-title">Symmetry Count</div>
+          <div class="fc-eq">Lines of symmetry = n  (regular n-gon)</div>
+          <div class="fc-note">Order of rotational symmetry = n for regular n-gon</div>
+        </div>
+      </section>
+
+      <section class="topic" id="simulator">
+        <h2>Similar Triangle Scale Explorer</h2>
+        <p>Enter the three sides of Triangle 1 and adjust the scale factor to see Triangle 2. The simulator checks similarity and shows area and perimeter ratios.</p>
+
+        <div class="sim-box">
+          <div class="sim-title">Interactive Similarity Explorer</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr) 1fr;gap:12px;margin-bottom:16px;align-items:end">
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:.82rem;color:var(--dim)">
+              Side a (cm)
+              <input id="sa" type="number" value="3" min="0.1" step="0.1" style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);font-family:inherit;font-size:.9rem">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:.82rem;color:var(--dim)">
+              Side b (cm)
+              <input id="sb" type="number" value="4" min="0.1" step="0.1" style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);font-family:inherit;font-size:.9rem">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:.82rem;color:var(--dim)">
+              Side c (cm)
+              <input id="sc" type="number" value="5" min="0.1" step="0.1" style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);font-family:inherit;font-size:.9rem">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:.82rem;color:var(--dim)">
+              Scale k
+              <input id="sk" type="range" min="0.5" max="3" step="0.05" value="1.5" style="accent-color:var(--mint)">
+              <span id="skVal" style="color:var(--mint);font-family:'JetBrains Mono',monospace;font-size:.85rem">1.50</span>
+            </label>
+          </div>
+
+          <svg id="simSvg" viewBox="0 0 520 220" style="width:100%;background:var(--bg3);border-radius:8px;margin-bottom:16px"></svg>
+
+          <div id="simStats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:.85rem"></div>
+        </div>
+      </section>
+
+      <section class="topic" id="board-questions">
+        <h2>Board Questions</h2>
+
+        <!-- Q1 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q1</span>
+            <span class="board-tag">Dhaka 2024</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">BPT Application</span>
+            <span class="q-marks">4 Marks</span>
+          </div>
+          <div class="pb">
+            In △ABC, DE ∥ BC where D is on AB and E is on AC. If AD = 3 cm, DB = 5 cm, AE = 4.5 cm, find EC.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">By the Basic Proportionality Theorem (Thales), since DE ∥ BC: <span class="se">AD/DB = AE/EC</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc">Substitute values: <span class="se">3/5 = 4.5/EC</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">Cross-multiply: <span class="se">EC = (4.5 × 5) / 3 = 22.5 / 3 = 7.5 cm</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">EC = 7.5 cm ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q2</span>
+            <span class="board-tag">Rajshahi 2023</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">AA Similarity Proof</span>
+            <span class="q-marks">6 Marks</span>
+          </div>
+          <div class="pb">
+            Prove: If two triangles are equiangular (all three pairs of corresponding angles are equal), they are similar.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc"><strong>Given:</strong> △ABC and △DEF with ∠A = ∠D, ∠B = ∠E, ∠C = ∠F. <strong>To prove:</strong> AB/DE = BC/EF = CA/FD.</div></div>
+              <div><span class="sn">2</span><div class="sc"><strong>Construction:</strong> On DE, mark point P such that DP = AB. Draw PQ ∥ EF meeting DF at Q.</div></div>
+              <div><span class="sn">3</span><div class="sc">In △DPQ: since PQ ∥ EF, by corresponding angles, ∠DPQ = ∠DEF = ∠B, and ∠D = ∠D. So △DPQ ≅ △ABC by ASA (since ∠D=∠A, DP=AB, ∠DPQ=∠B → ∠PQD = ∠C).</div></div>
+              <div><span class="sn">4</span><div class="sc">Therefore <span class="se">PQ = BC and DQ = AC</span>. Since PQ ∥ EF in △DEF, by BPT: <span class="se">DP/PE = DQ/QF → AB/PE = AC/QF</span>.</div></div>
+              <div><span class="sn">5</span><div class="sc">Also DP/DE = DQ/DF, so AB/DE = AC/DF. Similarly (applying the same argument for side BC), AB/DE = BC/EF = CA/FD. Hence the triangles are similar. <span class="sr2">QED ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q3</span>
+            <span class="board-tag">Chittagong 2022</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Scale Factor — Find Sides</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            △ABC ~ △DEF. AB = 4 cm, BC = 6 cm, CA = 8 cm, DE = 6 cm. Find EF and FD.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">Scale factor: <span class="se">k = DE/AB = 6/4 = 3/2 = 1.5</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc">EF corresponds to BC: <span class="se">EF = k × BC = 1.5 × 6 = 9 cm</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">FD corresponds to CA: <span class="se">FD = k × CA = 1.5 × 8 = 12 cm</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">EF = 9 cm, FD = 12 cm ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q4</span>
+            <span class="board-tag">Jessore 2025</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Altitude on Hypotenuse</span>
+            <span class="q-marks">6 Marks</span>
+          </div>
+          <div class="pb">
+            In right △ABC with right angle at C, CD ⊥ AB. Prove △ACD ~ △ABC and find CD if AC = 6 cm and AB = 10 cm.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc"><strong>Proof:</strong> In △ACD and △ABC: ∠A is common. ∠ACD = ∠ABC (both = 90° − ∠A, since ∠ACB = 90° and ∠ADC = 90°). By AA, <span class="se">△ACD ~ △ABC ✓</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc">From similarity: AC/AB = CD/BC = AD/AC, so <span class="se">AC² = AD × AB</span> (geometric mean relation).</div></div>
+              <div><span class="sn">3</span><div class="sc">Find BC: <span class="se">BC = √(AB² − AC²) = √(100 − 36) = √64 = 8 cm</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">From ratio AC/AB = CD/BC: <span class="se">CD = AC × BC / AB = 6 × 8 / 10 = 48/10 = 4.8 cm</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">CD = 4.8 cm ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q5</span>
+            <span class="board-tag">Comilla 2021</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Area Ratio</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            Two similar polygons have perimeters 24 cm and 36 cm. If the area of the smaller polygon is 48 cm², find the area of the larger polygon.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">Ratio of perimeters (= scale factor k): <span class="se">k = 36/24 = 3/2</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc">Ratio of areas = k²: <span class="se">Area(larger)/Area(smaller) = (3/2)² = 9/4</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">Area of larger = <span class="se">48 × 9/4 = 432/4 = 108 cm²</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Area of larger polygon = 108 cm² ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q6</span>
+            <span class="board-tag">Barisal 2023</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Shadow Problem</span>
+            <span class="q-marks">4 Marks</span>
+          </div>
+          <div class="pb">
+            A 6 m pole casts a 4 m shadow. At the same time, a nearby tree casts a 14 m shadow. Find the height of the tree.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">At the same time of day, the sun is at the same angle. The pole and its shadow form a right triangle similar to the tree and its shadow triangle.</div></div>
+              <div><span class="sn">2</span><div class="sc">Corresponding sides are proportional: <span class="se">height/shadow = 6/4 = tree height/14</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">Tree height = <span class="se">6 × 14 / 4 = 84 / 4 = 21 m</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Height of tree = 21 m ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q7</span>
+            <span class="board-tag">Sylhet 2024</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Lines of Symmetry</span>
+            <span class="q-marks">4 Marks</span>
+          </div>
+          <div class="pb">
+            How many lines of symmetry does a regular hexagon have? Describe them and explain why.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">A regular hexagon has 6 equal sides and 6 equal interior angles (each 120°).</div></div>
+              <div><span class="sn">2</span><div class="sc"><strong>Type 1 — Vertex to vertex (3 lines):</strong> Lines passing through opposite vertices. Each line connects vertex 1 to vertex 4, vertex 2 to vertex 5, and vertex 3 to vertex 6.</div></div>
+              <div><span class="sn">3</span><div class="sc"><strong>Type 2 — Midpoint to midpoint (3 lines):</strong> Lines passing through midpoints of opposite sides. Each such line bisects one pair of opposite sides.</div></div>
+              <div><span class="sn">4</span><div class="sc">Total = 3 + 3 = <span class="se">6 lines of symmetry</span>. In general, a regular n-gon has exactly n lines of symmetry.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">A regular hexagon has 6 lines of symmetry ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q8</span>
+            <span class="board-tag">Dinajpur 2022</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Verify BPT</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            In △PQR, a line parallel to QR cuts PQ at S and PR at T. PS = 3 cm, SQ = 5 cm, PT = 4.5 cm. Verify BPT and find TR.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">BPT states: PS/SQ = PT/TR.</div></div>
+              <div><span class="sn">2</span><div class="sc">Find TR: <span class="se">TR = PT × SQ / PS = 4.5 × 5 / 3 = 22.5 / 3 = 7.5 cm</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc"><strong>Verification:</strong> PS/SQ = 3/5 = 0.6. PT/TR = 4.5/7.5 = 0.6. Since both ratios are equal, <span class="se">BPT is verified ✓</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">TR = 7.5 cm; BPT verified (PS/SQ = PT/TR = 3/5) ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="topic" id="formula-sheet">
+        <h2>Formula Sheet</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="formula-card">
+            <div class="fc-title">BPT (Thales)</div>
+            <div class="fc-eq">AD/DB = AE/EC  (DE ∥ BC)</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Scale Factor</div>
+            <div class="fc-eq">k = side₂ / side₁</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Perimeter Ratio</div>
+            <div class="fc-eq">P₂ / P₁ = k</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Area Ratio</div>
+            <div class="fc-eq">A₂ / A₁ = k²</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Altitude on Hypotenuse</div>
+            <div class="fc-eq">CD² = AD × DB</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Symmetry</div>
+            <div class="fc-eq">Regular n-gon → n lines of symmetry</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="chapter-nav">
+        <a href="ch13-distance-elevation.html">← Chapter 13: Distance &amp; Elevation</a>
+        <a href="ch15-area-theorems-constructions.html">Chapter 15: Area Theorems →</a>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+  function toggleSol(el){el.nextElementSibling.classList.toggle('open');el.textContent=el.nextElementSibling.classList.contains('open')?'▼ Hide Solution':'▶ Show Solution';}
+
+  // Similarity Simulator
+  const saEl = document.getElementById('sa');
+  const sbEl = document.getElementById('sb');
+  const scEl = document.getElementById('sc');
+  const skEl = document.getElementById('sk');
+  const skVal = document.getElementById('skVal');
+  const simSvg = document.getElementById('simSvg');
+  const simStats = document.getElementById('simStats');
+
+  function drawTriangle(svg, cx, cy, a, b, c, col, label, maxSize) {
+    // Place triangle with side c as base
+    // Using cosine rule to find angles then place vertices
+    const cosA = (b*b + c*c - a*a) / (2*b*c);
+    const cosB = (a*a + c*c - b*b) / (2*a*c);
+    if (Math.abs(cosA) > 1 || Math.abs(cosB) > 1) return null;
+    const scale = maxSize / Math.max(a, b, c);
+    const sc2 = c * scale;
+    const sb2 = b * scale;
+    const angleA = Math.acos(Math.max(-1, Math.min(1, cosA)));
+    const x0 = cx - sc2/2;
+    const y0 = cy;
+    const x1 = cx + sc2/2;
+    const y1 = cy;
+    const x2 = x0 + sb2 * Math.cos(angleA);
+    const y2 = y0 - sb2 * Math.sin(angleA);
+    return {x0,y0,x1,y1,x2,y2,scale};
+  }
+
+  function updateSim() {
+    const a = parseFloat(saEl.value) || 3;
+    const b = parseFloat(sbEl.value) || 4;
+    const c = parseFloat(scEl.value) || 5;
+    const k = parseFloat(skEl.value) || 1.5;
+    skVal.textContent = k.toFixed(2);
+
+    const a2 = a*k, b2 = b*k, c2 = c*k;
+    const W = 520, H = 220;
+    const t1 = drawTriangle(simSvg, 130, 180, a, b, c, '#4f8ef7', '△1', 80);
+    const t2 = drawTriangle(simSvg, 390, 180, a2, b2, c2, '#2fe0b4', '△2', 110);
+
+    if (!t1 || !t2) { simSvg.innerHTML = `<text x="${W/2}" y="${H/2}" fill="var(--dim)" text-anchor="middle" font-family="Inter,sans-serif">Invalid triangle sides</text>`; return; }
+
+    const p1 = a+b+c;
+    const p2 = a2+b2+c2;
+    const s1 = (a+b+c)/2;
+    const A1 = Math.sqrt(Math.max(0, s1*(s1-a)*(s1-b)*(s1-c)));
+    const A2 = A1 * k * k;
+
+    simSvg.innerHTML = `
+      <rect width="${W}" height="${H}" fill="var(--bg3)" rx="8"/>
+      <!-- Triangle 1 -->
+      <polygon points="${t1.x0},${t1.y0} ${t1.x1},${t1.y1} ${t1.x2},${t1.y2}" fill="rgba(79,142,247,0.12)" stroke="#4f8ef7" stroke-width="2"/>
+      <text x="${(t1.x0+t1.x1)/2}" y="${t1.y0+16}" fill="#4f8ef7" font-size="10" font-family="JetBrains Mono,monospace" text-anchor="middle">${c}</text>
+      <text x="${(t1.x0+t1.x2)/2-12}" y="${(t1.y0+t1.y2)/2}" fill="#4f8ef7" font-size="10" font-family="JetBrains Mono,monospace">${b}</text>
+      <text x="${(t1.x1+t1.x2)/2+4}" y="${(t1.y1+t1.y2)/2}" fill="#4f8ef7" font-size="10" font-family="JetBrains Mono,monospace">${a}</text>
+      <text x="${(t1.x0+t1.x1+t1.x2)/3}" y="${(t1.y0+t1.y1+t1.y2)/3}" fill="#4f8ef7" font-size="11" font-family="Inter,sans-serif" text-anchor="middle">△1</text>
+      <!-- Triangle 2 -->
+      <polygon points="${t2.x0},${t2.y0} ${t2.x1},${t2.y1} ${t2.x2},${t2.y2}" fill="rgba(47,224,180,0.12)" stroke="#2fe0b4" stroke-width="2"/>
+      <text x="${(t2.x0+t2.x1)/2}" y="${t2.y0+16}" fill="#2fe0b4" font-size="10" font-family="JetBrains Mono,monospace" text-anchor="middle">${c2.toFixed(2)}</text>
+      <text x="${(t2.x0+t2.x2)/2-14}" y="${(t2.y0+t2.y2)/2}" fill="#2fe0b4" font-size="10" font-family="JetBrains Mono,monospace">${b2.toFixed(2)}</text>
+      <text x="${(t2.x1+t2.x2)/2+4}" y="${(t2.y1+t2.y2)/2}" fill="#2fe0b4" font-size="10" font-family="JetBrains Mono,monospace">${a2.toFixed(2)}</text>
+      <text x="${(t2.x0+t2.x1+t2.x2)/3}" y="${(t2.y0+t2.y1+t2.y2)/3}" fill="#2fe0b4" font-size="11" font-family="Inter,sans-serif" text-anchor="middle">△2</text>
+      <!-- Labels -->
+      <text x="130" y="20" fill="#4f8ef7" font-size="12" font-family="Inter,sans-serif" text-anchor="middle" font-weight="600">Triangle 1</text>
+      <text x="390" y="20" fill="#2fe0b4" font-size="12" font-family="Inter,sans-serif" text-anchor="middle" font-weight="600">Triangle 2</text>
+      <text x="${W/2}" y="${H/2+5}" fill="#8b949e" font-size="11" font-family="Inter,sans-serif" text-anchor="middle">k = ${k.toFixed(2)}</text>
+    `;
+
+    simStats.innerHTML = `
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center">
+        <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em">Scale Factor</div>
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:1rem">${k.toFixed(2)}</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center">
+        <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em">Perimeter Ratio</div>
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--blue);font-size:1rem">${(p2/p1).toFixed(2)}</div>
+        <div style="font-size:.72rem;color:var(--muted)">${p1.toFixed(1)} → ${p2.toFixed(1)}</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center">
+        <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em">Area Ratio</div>
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--mint);font-size:1rem">${(A2/A1).toFixed(2)} = k²</div>
+        <div style="font-size:.72rem;color:var(--muted)">${A1.toFixed(1)} → ${A2.toFixed(1)} cm²</div>
+      </div>
+    `;
+  }
+
+  [saEl, sbEl, scEl, skEl].forEach(el => el.addEventListener('input', updateSim));
+  updateSim();
+  </script>
+</body>
+</html>

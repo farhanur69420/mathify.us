@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jessore Board SSC Math 2025 · Mathify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ssc-styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <a class="logo" href="/">mathify<em>.us</em></a>
+      <span class="logo-tag">SSC MATH</span>
+    </div>
+    <nav class="nav-links">
+      <a class="nl" href="../">All Boards</a>
+      <a class="nl" href="../chapters/ch01-real-numbers.html">Chapters</a>
+      <a class="nl active" href="./">Past Papers</a>
+      <a class="nl" href="/" style="color:var(--dim)">← Main Site</a>
+    </nav>
+  </header>
+
+  <main class="main-wrap">
+    <section class="paper-hero">
+      <div class="breadcrumb"><a href="../">SSC Math</a> › <a href="./">Past Papers</a> › Jessore 2025</div>
+      <h1 class="paper-title">Jessore Board · SSC Mathematics · 2025</h1>
+      <div class="paper-chips">
+        <span class="chip chip-board">Jessore</span>
+        <span class="chip chip-year">2025</span>
+        <span class="chip chip-marks">Total: 100 Marks</span>
+        <span class="chip chip-time">3 Hours</span>
+        <span class="chip chip-qs">8 Questions</span>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h2 class="section-title">Chapter Coverage</h2>
+      <table class="cov-table">
+        <thead><tr><th>Q</th><th>Chapter</th><th>Topic</th><th>Marks</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Ch 2 · Sets</td><td>Venn diagram — agricultural survey</td><td>10</td></tr>
+          <tr><td>2</td><td>Ch 3 · Algebra</td><td>Crop yield formula — algebraic expressions</td><td>10</td></tr>
+          <tr><td>3</td><td>Ch 6 · Equations</td><td>Farmer profit optimization</td><td>10</td></tr>
+          <tr><td>4</td><td>Ch 9 · Series</td><td>Irrigation schedule — AP</td><td>10</td></tr>
+          <tr><td>5</td><td>Ch 12 · Triangles</td><td>Triangle congruence and similarity</td><td>10</td></tr>
+          <tr><td>6</td><td>Ch 12 · Area</td><td>Field division — area theorem</td><td>10</td></tr>
+          <tr><td>7</td><td>Ch 15 · Statistics</td><td>Crop yield grouped frequency — mean/SD</td><td>10</td></tr>
+          <tr><td>8</td><td>Ch 16 · Mensuration</td><td>Agricultural irrigation tank (cylinder)</td><td>10</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <nav class="q-nav">
+      <a href="#q1">Q1</a><a href="#q2">Q2</a><a href="#q3">Q3</a><a href="#q4">Q4</a>
+      <a href="#q5">Q5</a><a href="#q6">Q6</a><a href="#q7">Q7</a><a href="#q8">Q8</a>
+    </nav>
+
+    <section class="questions-section">
+
+      <div class="q-card" id="q1">
+        <div class="q-header">
+          <span class="q-num">Question 1</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 2 · Sets</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">In a village of 200 farming households, 120 grow rice (R), 90 grow wheat (W), and 40 grow both rice and wheat. Some households grow neither.</p>
+          <p>(a) Find |R ∪ W| using the inclusion-exclusion principle. [2 marks]</p>
+          <p>(b) How many households grow only rice? Only wheat? [4 marks]</p>
+          <p>(c) How many households grow neither? Express the data as a completed Venn diagram with all regions labeled. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Inclusion-exclusion</span><div class="sc">|R ∪ W| = |R|+|W|−|R ∩ W| = 120+90−40 = <span class="sr2">170 ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Only rice</span><div class="sc">|R only| = 120−40 = 80 households</div></div>
+          <div class="ss"><span class="sn">Only wheat</span><div class="sc">|W only| = 90−40 = 50 households</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Only rice: 80, Only wheat: 50 ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Neither</span><div class="sc">200 − |R ∪ W| = 200−170 = 30 households</div></div>
+          <div class="ss"><span class="sn">Venn diagram regions</span><div class="sc">Only R = 80, Both = 40, Only W = 50, Neither = 30 (total = 200 ✓)</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Neither = 30 households ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q2">
+        <div class="q-header">
+          <span class="q-num">Question 2</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 3 · Algebraic Expressions</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">A farmer models crop yield Y (in quintals) as Y = (a+b)² − (a−b)², where a = land area (bigha) and b = fertilizer units.</p>
+          <p>(a) Simplify Y = (a+b)² − (a−b)². [2 marks]</p>
+          <p>(b) If a = 5 bigha and b = 3 fertilizer units, find Y. [4 marks]</p>
+          <p>(c) For what ratio a:b does the yield Y equal 4 times the product ab? Verify. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Expand</span><div class="sc">(a+b)²−(a−b)² = (a²+2ab+b²)−(a²−2ab+b²)</div></div>
+          <div class="ss"><span class="sn">Simplify</span><div class="sc"><span class="sr2">Y = 4ab ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Substitute</span><div class="sc">Y = 4×5×3 = <span class="sr2">60 quintals ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Condition</span><div class="sc">Y = 4ab, and we want Y = 4ab → this is always true for any ratio a:b</div></div>
+          <div class="ss"><span class="sn">Correct interpretation</span><div class="sc">The yield already equals 4ab. For a specific yield of, say, 100 quintals: 4ab=100, so ab=25. One solution: a=5, b=5 (ratio 1:1)</div></div>
+          <div class="ss"><span class="sn">Verification</span><div class="sc">Y = 4×5×5 = 100, and (5+5)²−(5−5)² = 100−0 = <span class="sr2">100 ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q3">
+        <div class="q-header">
+          <span class="q-num">Question 3</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 6 · Equations</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">A farmer sells mangoes and jackfruits. 3 kg of mangoes and 2 kg of jackfruit sell for 440 taka. 5 kg of mangoes and 3 kg of jackfruit sell for 710 taka.</p>
+          <p>(a) Set up the simultaneous equations for price per kg of mango (m) and jackfruit (j). [2 marks]</p>
+          <p>(b) Solve the system. [4 marks]</p>
+          <p>(c) A second farmer wants to maximize revenue from 20 kg of mangoes and 10 kg of jackfruit. Calculate total revenue. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Equation 1</span><div class="sc"><span class="se">3m + 2j = 440</span></div></div>
+          <div class="ss"><span class="sn">Equation 2</span><div class="sc"><span class="se">5m + 3j = 710</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Multiply Eq1×3 and Eq2×2</span><div class="sc">9m+6j=1320 and 10m+6j=1420</div></div>
+          <div class="ss"><span class="sn">Subtract</span><div class="sc">m = 100 taka/kg</div></div>
+          <div class="ss"><span class="sn">Substitute</span><div class="sc">3(100)+2j=440  →  2j=140  →  j=70 taka/kg</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Mango = 100 taka/kg, Jackfruit = 70 taka/kg ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Revenue</span><div class="sc">= 20×100 + 10×70 = 2000+700 = <span class="sr2">2700 taka ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q4">
+        <div class="q-header">
+          <span class="q-num">Question 4</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 9 · Finite Series</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">An irrigation pump waters fields on a schedule. On the first day it pumps 300 litres, and each day increases by 50 litres (arithmetic progression).</p>
+          <p>(a) Find the amount pumped on day 8. [2 marks]</p>
+          <p>(b) Find the total water pumped in 3 weeks (21 days). [4 marks]</p>
+          <p>(c) The tank holds 20,000 litres. On which day will the cumulative total first exceed half the tank capacity? [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">T₈ = a+(n−1)d</span><div class="sc">= 300 + 7×50 = 300+350 = <span class="sr2">650 litres ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">S₂₁</span><div class="sc">= 21/2 × [2(300)+20(50)] = 21/2 × [600+1000] = 21/2 × 1600</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">S₂₁ = 21×800 = 16,800 litres ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Half tank</span><div class="sc">= 10,000 litres</div></div>
+          <div class="ss"><span class="sn">S_n > 10000</span><div class="sc">n/2[600+(n−1)50] > 10000  →  n[600+50n−50] > 20000  →  n(550+50n) > 20000</div></div>
+          <div class="ss"><span class="sn">Simplify</span><div class="sc">50n²+550n−20000 > 0  →  n²+11n−400 > 0</div></div>
+          <div class="ss"><span class="sn">Solve n²+11n−400=0</span><div class="sc">n = (−11+√(121+1600))/2 = (−11+√1721)/2 ≈ (−11+41.48)/2 ≈ 15.24</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Day 16 (S₁₆ = 16/2×[600+750] = 8×1350 = 10,800 > 10,000) ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q5">
+        <div class="q-header">
+          <span class="q-num">Question 5</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 12 · Triangles</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">In two triangles △ABC and △DEF: AB = 6 cm, BC = 8 cm, AC = 10 cm, DE = 9 cm, EF = 12 cm, DF = 15 cm.</p>
+          <p>(a) Show that △ABC ~ △DEF. [2 marks]</p>
+          <p>(b) Find the ratio of their perimeters. [4 marks]</p>
+          <p>(c) Find the ratio of their areas and calculate both areas. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Check ratios</span><div class="sc">AB/DE = 6/9 = 2/3, BC/EF = 8/12 = 2/3, AC/DF = 10/15 = 2/3</div></div>
+          <div class="ss"><span class="sn">Conclusion</span><div class="sc"><span class="sr2">All sides in ratio 2:3, so △ABC ~ △DEF (SSS similarity) ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Perimeter ABC</span><div class="sc">= 6+8+10 = 24 cm</div></div>
+          <div class="ss"><span class="sn">Perimeter DEF</span><div class="sc">= 9+12+15 = 36 cm</div></div>
+          <div class="ss"><span class="sn">Ratio</span><div class="sc"><span class="sr2">24:36 = 2:3 (same as side ratio) ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Area ratio</span><div class="sc">= (2/3)² = 4/9</div></div>
+          <div class="ss"><span class="sn">Area of △ABC (right triangle: 6²+8²=100=10²)</span><div class="sc">= (1/2)×6×8 = 24 cm²</div></div>
+          <div class="ss"><span class="sn">Area of △DEF</span><div class="sc">= 24 × (9/4) = 54 cm²</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Area ratio = 4:9, Areas = 24 cm² and 54 cm² ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q6">
+        <div class="q-header">
+          <span class="q-num">Question 6</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 12 · Area Theorems</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">A trapezoidal paddy field ABCD has AB ∥ CD. AB = 24 m, CD = 16 m, and the perpendicular height is 10 m. E is the midpoint of BC.</p>
+          <p>(a) Find the area of trapezoid ABCD. [2 marks]</p>
+          <p>(b) AE divides the trapezoid. Find the area of triangle ABE. [4 marks]</p>
+          <p>(c) Prove that triangle ADE and the remaining region AECD have specific areas and find them. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Trapezoid area</span><div class="sc">= (1/2)(AB+CD)×h = (1/2)(24+16)×10 = (1/2)×40×10 = <span class="sr2">200 m² ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Set up coordinates</span><div class="sc">A=(0,0), B=(24,0), C=(20,10), D=(4,10) [one valid configuration]</div></div>
+          <div class="ss"><span class="sn">E = midpoint of BC</span><div class="sc">E = ((24+20)/2, (0+10)/2) = (22, 5)</div></div>
+          <div class="ss"><span class="sn">Area △ABE</span><div class="sc">= (1/2)|base×height|. Using shoelace: A(0,0), B(24,0), E(22,5): = (1/2)|0(0−5)+24(5−0)+22(0−0)| = (1/2)|120| = 60 m²</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Area △ABE = 60 m² ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Area △ADE</span><div class="sc">= Total area − Area△ABE − Area△AECD... use: Area△ADE = Area trapezoid − Area△ABE − Area△ECD</div></div>
+          <div class="ss"><span class="sn">Area △ECD</span><div class="sc">E=(22,5), C=(20,10), D=(4,10): = (1/2)|22(10−10)+20(10−5)+4(5−10)| = (1/2)|0+100−20| = 40 m²</div></div>
+          <div class="ss"><span class="sn">Area △ADE</span><div class="sc">= 200−60−40 = 100 m²</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Area △ADE = 100 m², Area region AECD = 140 m² ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q7">
+        <div class="q-header">
+          <span class="q-num">Question 7</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 15 · Statistics</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">The following table shows crop yield (quintals/bigha) for 50 farms in Jessore district:</p>
+          <table style="margin:1rem 0;border-collapse:collapse;font-size:.9rem">
+            <tr><th style="padding:.3rem .7rem;border:1px solid var(--border)">Yield (q/bigha)</th><th style="padding:.3rem .7rem;border:1px solid var(--border)">Frequency</th></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">10–14</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">5</td></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">14–18</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">12</td></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">18–22</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">18</td></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">22–26</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">10</td></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">26–30</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">5</td></tr>
+          </table>
+          <p>(a) Find the modal class and the mode. [2 marks]</p>
+          <p>(b) Calculate the mean yield using the assumed mean method (assumed mean = 20). [4 marks]</p>
+          <p>(c) Calculate the standard deviation. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Modal class</span><div class="sc">Highest frequency = 18, in class 18–22</div></div>
+          <div class="ss"><span class="sn">Mode (formula)</span><div class="sc">Mode = L + [(f₁−f₀)/(2f₁−f₀−f₂)] × h = 18 + [(18−12)/(36−12−10)] × 4 = 18 + (6/14)×4 = 18+1.71 ≈ <span class="sr2">19.71 ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Midpoints and deviations d=x−20</span><div class="sc">x: 12,16,20,24,28; d: −8,−4,0,4,8; f: 5,12,18,10,5</div></div>
+          <div class="ss"><span class="sn">Σfd</span><div class="sc">5(−8)+12(−4)+18(0)+10(4)+5(8) = −40−48+0+40+40 = −8</div></div>
+          <div class="ss"><span class="sn">Mean</span><div class="sc">x̄ = 20 + (−8/50) = 20−0.16 = <span class="sr2">19.84 q/bigha ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Σfd²</span><div class="sc">5(64)+12(16)+18(0)+10(16)+5(64) = 320+192+0+160+320 = 992</div></div>
+          <div class="ss"><span class="sn">Variance</span><div class="sc">σ² = Σfd²/n − (Σfd/n)² = 992/50 − (−8/50)² = 19.84 − 0.0256 = 19.814</div></div>
+          <div class="ss"><span class="sn">SD</span><div class="sc"><span class="sr2">σ = √19.814 ≈ 4.45 q/bigha ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q8">
+        <div class="q-header">
+          <span class="q-num">Question 8</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 16 · Mensuration</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">An agricultural irrigation tank is cylindrical with a hemispherical bottom. The cylinder has inner radius 2.1 m and height 4 m. The hemispherical base has the same radius. (π = 22/7)</p>
+          <p>(a) Find the volume of the cylindrical section. [2 marks]</p>
+          <p>(b) Find the total water capacity (cylinder + hemisphere). [4 marks]</p>
+          <p>(c) Find the total inner curved surface area of the tank (cylinder CSA + hemisphere CSA). [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">V_cyl</span><div class="sc">= πr²h = (22/7)×(2.1)²×4 = (22/7)×4.41×4 = (22/7)×17.64</div></div>
+          <div class="ss"><span class="sn">Calculate</span><div class="sc">= 22×2.52 = <span class="sr2">55.44 m³ ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">V_hemisphere</span><div class="sc">= (2/3)πr³ = (2/3)×(22/7)×(2.1)³ = (2/3)×(22/7)×9.261</div></div>
+          <div class="ss"><span class="sn">Calculate</span><div class="sc">= (2/3)×(22×1.323) = (2/3)×29.106 = 19.404 m³</div></div>
+          <div class="ss"><span class="sn">Total</span><div class="sc"><span class="sr2">55.44 + 19.404 = 74.844 m³ ≈ 74.84 m³ ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">CSA cylinder</span><div class="sc">= 2πrh = 2×(22/7)×2.1×4 = 2×(22/7)×8.4 = 2×26.4 = 52.8 m²</div></div>
+          <div class="ss"><span class="sn">CSA hemisphere</span><div class="sc">= 2πr² = 2×(22/7)×4.41 = 2×13.86 = 27.72 m²</div></div>
+          <div class="ss"><span class="sn">Total</span><div class="sc"><span class="sr2">52.8+27.72 = 80.52 m² ✓</span></div></div>
+        </div>
+      </div>
+
+    </section>
+
+    <nav class="year-nav">
+      <span class="yn-label">Jessore Board:</span>
+      <span class="yn-current">2025</span>
+      <a class="yn-link" href="jessore-2024.html">2024</a>
+      <a class="yn-link" href="jessore-2023.html">2023</a>
+      <a class="yn-link" href="jessore-2022.html">2022</a>
+      <a class="yn-link" href="jessore-2021.html">2021</a>
+      <a class="yn-link" href="jessore-2020.html">2020</a>
+    </nav>
+
+    <section class="cross-boards">
+      <h3>Same Year — Other Boards</h3>
+      <div class="cb-links">
+        <a class="cb-card" href="chittagong-2025.html">Chittagong 2025</a>
+        <a class="cb-card" href="comilla-2025.html">Comilla 2025</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  function toggleSol(el){el.nextElementSibling.classList.toggle('open');el.textContent=el.nextElementSibling.classList.contains('open')?'▼ Hide Solution':'▶ Show Solution';}
+  </script>
+</body>
+</html>
