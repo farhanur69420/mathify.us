@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jessore Board SSC Math 2021 · Mathify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ssc-styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <a class="logo" href="/">mathify<em>.us</em></a>
+      <span class="logo-tag">SSC MATH</span>
+    </div>
+    <nav class="nav-links">
+      <a class="nl" href="../">All Boards</a>
+      <a class="nl" href="../chapters/ch01-real-numbers.html">Chapters</a>
+      <a class="nl active" href="./">Past Papers</a>
+      <a class="nl" href="/" style="color:var(--dim)">← Main Site</a>
+    </nav>
+  </header>
+
+  <main class="main-wrap">
+    <section class="paper-hero">
+      <div class="breadcrumb"><a href="../">SSC Math</a> › <a href="./">Past Papers</a> › Jessore 2021</div>
+      <h1 class="paper-title">Jessore Board · SSC Mathematics · 2021</h1>
+      <div class="paper-chips">
+        <span class="chip chip-board">Jessore</span>
+        <span class="chip chip-year">2021</span>
+        <span class="chip chip-marks">Total: 100 Marks</span>
+        <span class="chip chip-time">3 Hours</span>
+        <span class="chip chip-qs">8 Questions</span>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h2 class="section-title">Chapter Coverage</h2>
+      <table class="cov-table">
+        <thead><tr><th>Q</th><th>Chapter</th><th>Topic</th><th>Marks</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Ch 2 · Sets</td><td>Set operations — crop survey</td><td>10</td></tr>
+          <tr><td>2</td><td>Ch 3 · Algebra</td><td>HCF and LCM of expressions</td><td>10</td></tr>
+          <tr><td>3</td><td>Ch 6 · Quadratic</td><td>Sum and product of roots</td><td>10</td></tr>
+          <tr><td>4</td><td>Ch 9 · Series</td><td>Yield progression — GP</td><td>10</td></tr>
+          <tr><td>5</td><td>Ch 11 · Geometry</td><td>Congruence of triangles (SAS)</td><td>10</td></tr>
+          <tr><td>6</td><td>Ch 13 · Circle</td><td>Equal chords and equal arcs</td><td>10</td></tr>
+          <tr><td>7</td><td>Ch 14 · Trigonometry</td><td>Height of a tree</td><td>10</td></tr>
+          <tr><td>8</td><td>Ch 15 · Statistics</td><td>Histogram and mean</td><td>10</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <nav class="q-nav">
+      <a href="#q1">Q1</a><a href="#q2">Q2</a><a href="#q3">Q3</a><a href="#q4">Q4</a>
+      <a href="#q5">Q5</a><a href="#q6">Q6</a><a href="#q7">Q7</a><a href="#q8">Q8</a>
+    </nav>
+
+    <section class="questions-section">
+
+      <div class="q-card" id="q1">
+        <div class="q-header">
+          <span class="q-num">Question 1</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 2 · Sets</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">In a survey of 150 farmers: 80 grow jute (J), 70 grow paddy (P), and 30 grow both.</p>
+          <p>(a) Find |J ∪ P|. [2 marks]</p>
+          <p>(b) Find the number who grow only jute and only paddy. [4 marks]</p>
+          <p>(c) Represent this data in a Venn diagram and find the number who grow neither crop. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Inclusion-exclusion</span><div class="sc">|J ∪ P| = 80+70−30 = <span class="sr2">120 ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Only jute</span><div class="sc">80−30 = 50</div></div>
+          <div class="ss"><span class="sn">Only paddy</span><div class="sc">70−30 = 40</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Only jute: 50, Only paddy: 40 ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Neither</span><div class="sc">150−120 = 30</div></div>
+          <div class="ss"><span class="sn">Venn regions</span><div class="sc"><span class="sr2">Only J=50, Both=30, Only P=40, Neither=30. Check: 50+30+40+30=150 ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q2">
+        <div class="q-header">
+          <span class="q-num">Question 2</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 3 · Algebra</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">Let p(x) = x² + 5x + 6 and q(x) = x² + 7x + 12.</p>
+          <p>(a) Factorize p(x) and q(x). [2 marks]</p>
+          <p>(b) Find the HCF and LCM of p(x) and q(x). [4 marks]</p>
+          <p>(c) Verify that HCF × LCM = p(x) × q(x). [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">p(x)</span><div class="sc">= (x+2)(x+3)</div></div>
+          <div class="ss"><span class="sn">q(x)</span><div class="sc"><span class="sr2">= (x+3)(x+4) ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">HCF</span><div class="sc">= common factor = (x+3)</div></div>
+          <div class="ss"><span class="sn">LCM</span><div class="sc">= (x+2)(x+3)(x+4)</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">HCF = (x+3), LCM = (x+2)(x+3)(x+4) ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">HCF × LCM</span><div class="sc">= (x+3)(x+2)(x+3)(x+4) = (x+2)(x+3)²(x+4)</div></div>
+          <div class="ss"><span class="sn">p(x)×q(x)</span><div class="sc">= (x+2)(x+3)×(x+3)(x+4) = (x+2)(x+3)²(x+4)</div></div>
+          <div class="ss"><span class="sn">Verified</span><div class="sc"><span class="sr2">HCF × LCM = p(x) × q(x) ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q3">
+        <div class="q-header">
+          <span class="q-num">Question 3</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 6 · Quadratic</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">For the equation 3x² − 11x + k = 0, the roots are α and β.</p>
+          <p>(a) Write expressions for α+β and αβ in terms of k. [2 marks]</p>
+          <p>(b) If α − β = 1, find k. [4 marks]</p>
+          <p>(c) For that value of k, find α and β individually, and verify your answer. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Vieta's formulas</span><div class="sc"><span class="sr2">α+β = 11/3, αβ = k/3 ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Identity</span><div class="sc">(α−β)² = (α+β)²−4αβ  →  1 = (11/3)²−4(k/3)</div></div>
+          <div class="ss"><span class="sn">Solve</span><div class="sc">1 = 121/9 − 4k/3  →  4k/3 = 121/9−1 = 112/9  →  k = 112/12 = 28/3</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">k = 28/3 ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">α+β=11/3, α−β=1</span><div class="sc">Adding: 2α=11/3+1=14/3 → α=7/3</div></div>
+          <div class="ss"><span class="sn">β</span><div class="sc">= 11/3−7/3 = 4/3</div></div>
+          <div class="ss"><span class="sn">Verify αβ</span><div class="sc">= (7/3)(4/3)=28/9=k/3=28/9 ✓</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">α=7/3, β=4/3 ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q4">
+        <div class="q-header">
+          <span class="q-num">Question 4</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 9 · Series</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">A new crop variety increases yield by 20% each season. The first season gives 500 kg.</p>
+          <p>(a) Write the first four terms of the GP. [2 marks]</p>
+          <p>(b) Find the yield in the 6th season. (1.2⁵ = 2.48832) [4 marks]</p>
+          <p>(c) Find the total yield over 5 seasons. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">GP terms</span><div class="sc"><span class="sr2">500, 600, 720, 864 (a=500, r=1.2) ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">T₆ = ar⁵</span><div class="sc">= 500 × 1.2⁵ = 500×2.48832</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">T₆ = 1244.16 kg ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">S₅ = a(r⁵−1)/(r−1)</span><div class="sc">= 500(2.48832−1)/(0.2) = 500×1.48832/0.2 = 500×7.4416</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">S₅ = 3720.8 kg ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q5">
+        <div class="q-header">
+          <span class="q-num">Question 5</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 11 · Geometry</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">In triangles ABC and DEF: AB = DE = 8 cm, BC = EF = 10 cm, ∠B = ∠E = 55°.</p>
+          <p>(a) State the SAS congruence criterion. [2 marks]</p>
+          <p>(b) Prove △ABC ≅ △DEF and state all corresponding equal elements. [4 marks]</p>
+          <p>(c) If the area of △ABC = 32.77 cm², find AC and DF. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">SAS criterion</span><div class="sc"><span class="sr2">If two sides and the included angle of one triangle equal two sides and the included angle of another, the triangles are congruent. ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Given</span><div class="sc">AB=DE=8, BC=EF=10, ∠B=∠E=55°</div></div>
+          <div class="ss"><span class="sn">By SAS</span><div class="sc">△ABC ≅ △DEF</div></div>
+          <div class="ss"><span class="sn">Equal elements</span><div class="sc"><span class="sr2">AB=DE, BC=EF, AC=DF, ∠A=∠D, ∠B=∠E, ∠C=∠F ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Using area = (1/2)ab sin C</span><div class="sc">32.77 = (1/2)×8×10×sin 55°  → sin55°=0.8192 → Area=(1/2)×80×0.8192=32.77 ✓</div></div>
+          <div class="ss"><span class="sn">Find AC by cosine rule</span><div class="sc">AC² = AB²+BC²−2(AB)(BC)cos B = 64+100−160×0.5736 = 164−91.78 = 72.22</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">AC = DF = √72.22 ≈ 8.5 cm ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q6">
+        <div class="q-header">
+          <span class="q-num">Question 6</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 13 · Circle</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">Two chords AB and CD of a circle with center O are equal in length (AB = CD = 20 cm). The radius is 13 cm.</p>
+          <p>(a) Find the distance of each chord from the center. [2 marks]</p>
+          <p>(b) Prove that equal chords of a circle are equidistant from the center. [4 marks]</p>
+          <p>(c) If PQ is a chord with distance 12 cm from center, find PQ. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Half chord = 10</span><div class="sc">OM = √(r²−10²) = √(169−100) = √69 ≈ <span class="sr2">8.31 cm ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Given: AB=CD</span><div class="sc">Let OM⊥AB and ON⊥CD. OA=OC=r, AM=AB/2, CN=CD/2. Since AB=CD, AM=CN.</div></div>
+          <div class="ss"><span class="sn">In right triangles OAM and OCN</span><div class="sc">OA=OC (radii), AM=CN. By Pythagoras, OM²=OA²−AM²=OC²−CN²=ON²</div></div>
+          <div class="ss"><span class="sn">Conclusion</span><div class="sc"><span class="sr2">OM=ON, equal chords are equidistant ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Half PQ</span><div class="sc">= √(r²−d²) = √(169−144) = √25 = 5 cm</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">PQ = 10 cm ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q7">
+        <div class="q-header">
+          <span class="q-num">Question 7</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 14 · Trigonometry</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">A person standing 40 m from a tree observes the top at 45°. A bird on a branch observes the same person at an angle of depression of 30°.</p>
+          <p>(a) Find the height of the tree. (tan 45° = 1) [2 marks]</p>
+          <p>(b) Find the height of the branch the bird is on. (tan 30° = 1/√3) [4 marks]</p>
+          <p>(c) Find the straight-line distance from the person to the bird. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Tree height</span><div class="sc">h = 40×tan45° = 40×1 = <span class="sr2">40 m ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Depression angle from branch</span><div class="sc">tan 30° = h_branch/40  →  h_branch = 40/√3 = 40√3/3 ≈ 23.1 m</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Branch height ≈ 23.1 m ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Distance to bird</span><div class="sc">= √(40²+h_branch²) = √(1600+(40/√3)²) = √(1600+1600/3) = √(6400/3) = 80/√3</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">= 80√3/3 ≈ 46.19 m ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q8">
+        <div class="q-header">
+          <span class="q-num">Question 8</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 15 · Statistics</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">Jute production (bales) in 35 farms of Jessore district:</p>
+          <table style="margin:1rem 0;border-collapse:collapse;font-size:.9rem">
+            <tr><th style="padding:.3rem .7rem;border:1px solid var(--border)">Bales</th><th style="padding:.3rem .7rem;border:1px solid var(--border)">Farms</th></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">10–20</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">5</td></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">20–30</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">8</td></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">30–40</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">12</td></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">40–50</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">7</td></tr>
+            <tr><td style="padding:.3rem .7rem;border:1px solid var(--border)">50–60</td><td style="padding:.3rem .7rem;border:1px solid var(--border)">3</td></tr>
+          </table>
+          <p>(a) Find the mean using mid-interval values. [2 marks]</p>
+          <p>(b) Find the median. [4 marks]</p>
+          <p>(c) Find the range and the inter-quartile range. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Σfx</span><div class="sc">5(15)+8(25)+12(35)+7(45)+3(55) = 75+200+420+315+165 = 1175</div></div>
+          <div class="ss"><span class="sn">Mean</span><div class="sc"><span class="sr2">x̄ = 1175/35 = 33.57 bales ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">CF: 5,13,25,32,35; n/2=17.5</span><div class="sc">Median class: 30–40</div></div>
+          <div class="ss"><span class="sn">Median</span><div class="sc">= 30+[(17.5−13)/12]×10 = 30+(4.5/12)×10 = 30+3.75 = <span class="sr2">33.75 bales ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Range</span><div class="sc">= 60−10 = 50 bales</div></div>
+          <div class="ss"><span class="sn">Q1 (n/4=8.75, class 20–30)</span><div class="sc">Q1 = 20+[(8.75−5)/8]×10 = 20+4.69 = 24.69</div></div>
+          <div class="ss"><span class="sn">Q3 (3n/4=26.25, class 40–50)</span><div class="sc">Q3 = 40+[(26.25−25)/7]×10 = 40+1.79 = 41.79</div></div>
+          <div class="ss"><span class="sn">IQR</span><div class="sc"><span class="sr2">= Q3−Q1 = 41.79−24.69 = 17.1 bales ✓</span></div></div>
+        </div>
+      </div>
+
+    </section>
+
+    <nav class="year-nav">
+      <span class="yn-label">Jessore Board:</span>
+      <a class="yn-link" href="jessore-2025.html">2025</a>
+      <a class="yn-link" href="jessore-2024.html">2024</a>
+      <a class="yn-link" href="jessore-2023.html">2023</a>
+      <a class="yn-link" href="jessore-2022.html">2022</a>
+      <span class="yn-current">2021</span>
+      <a class="yn-link" href="jessore-2020.html">2020</a>
+    </nav>
+
+    <section class="cross-boards">
+      <h3>Same Year — Other Boards</h3>
+      <div class="cb-links">
+        <a class="cb-card" href="chittagong-2021.html">Chittagong 2021</a>
+        <a class="cb-card" href="comilla-2021.html">Comilla 2021</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  function toggleSol(el){el.nextElementSibling.classList.toggle('open');el.textContent=el.nextElementSibling.classList.contains('open')?'▼ Hide Solution':'▶ Show Solution';}
+  </script>
+</body>
+</html>

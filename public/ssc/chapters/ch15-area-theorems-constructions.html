@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Area Theorems &amp; Constructions · SSC Math · Mathify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ssc-styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <a class="logo" href="/">mathify<em>.us</em></a>
+      <span class="logo-tag">SSC MATH</span>
+    </div>
+    <nav class="nav-links">
+      <a class="nl" href="../">All Boards</a>
+      <a class="nl active" href="./">Chapters</a>
+      <a class="nl" href="../boards/dhaka-2025.html">Past Papers</a>
+      <a class="nl" href="/" style="color:var(--dim)">← Main Site</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="breadcrumb">
+      <a href="../">SSC Math</a><span class="sep">/</span>
+      <a href="./">Chapters</a><span class="sep">/</span>
+      <span>Chapter 15</span>
+    </div>
+    <p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin:18px 0 8px">Chapter 15</p>
+    <h1>Area Related Theorems &amp; Constructions</h1>
+    <p class="hero-sub">Why triangles between the same parallels always have equal area — and how to construct equivalent figures.</p>
+    <div class="hero-chips">
+      <span class="chip blue">Parallelogram Theorem</span>
+      <span class="chip mint">Same Base, Same Parallels</span>
+      <span class="chip gold">Median Area Theorem</span>
+      <span class="chip violet">Area Constructions</span>
+      <span class="chip">8 Board Questions</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <aside class="sidebar">
+      <nav class="stoc">
+        <div class="stoc-heading">Contents</div>
+        <a href="#concepts">Core Concepts</a>
+        <a href="#formulas">Key Theorems</a>
+        <a href="#simulator">Area Visualiser</a>
+        <a href="#board-questions">Board Questions</a>
+        <a href="#formula-sheet">Formula Sheet</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+
+      <section class="topic" id="concepts">
+        <h2>Core Concepts</h2>
+
+        <h3>Parallelogram Area Theorem</h3>
+        <p>Two parallelograms that share the same base and lie between the same pair of parallel lines have <strong>equal areas</strong>. This is because they have the same base length and the same perpendicular height (the distance between the parallel lines).</p>
+        <div class="analogy">
+          <strong>Picture this:</strong> Imagine a deck of cards. Push the deck sideways — you get a leaning parallelogram. The area of the cross-section stays the same as the upright rectangle, because the base and height don't change.
+        </div>
+
+        <h3>Triangle and Parallelogram (Same Base)</h3>
+        <p>If a triangle and a parallelogram share the same base and lie between the same parallel lines, then:</p>
+        <p style="text-align:center"><strong>Area of Triangle = ½ × Area of Parallelogram</strong></p>
+        <p>This follows directly from the fact that a diagonal divides a parallelogram into two equal triangles.</p>
+
+        <h3>Triangles on Same Base Between Same Parallels</h3>
+        <p>Any two triangles that share the same base (or equal bases) and have their apex on the same line parallel to that base have <strong>equal areas</strong>. Moving the apex horizontally along the parallel line doesn't change the base or height.</p>
+
+        <h3>Median Divides Triangle into Equal Areas</h3>
+        <p>A median is a line from a vertex to the midpoint of the opposite side. Every median divides the triangle into two smaller triangles of <strong>exactly equal area</strong>. This is because both triangles share the same height from the vertex, and their bases (the two halves of the divided side) are equal.</p>
+
+        <h3>Area Division by a Cevian</h3>
+        <p>If a point D divides BC in ratio m:n, then: Area(△ABD) / Area(△ACD) = m/n. This is because both triangles share the same height from A, and their bases BD and DC are in ratio m:n.</p>
+
+        <h3>Construction: Triangle Equal in Area to Quadrilateral</h3>
+        <p>To construct a triangle with the same area as quadrilateral ABCD: Draw diagonal AC. Through D, draw a line parallel to AC meeting BC extended at E. Then △ABE has the same area as quadrilateral ABCD. (△ADE = △ACE since they share base AE and are between same parallels, so removing △ACE from the quad and replacing with △ADE gives the same area.)</p>
+      </section>
+
+      <section class="topic" id="formulas">
+        <h2>Key Theorems</h2>
+
+        <div class="formula-card">
+          <div class="fc-title">Triangle Area</div>
+          <div class="fc-eq">A = ½ × base × height</div>
+          <div class="fc-note">Height must be perpendicular to the base</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="fc-title">Parallelogram Area</div>
+          <div class="fc-eq">A = base × height</div>
+          <div class="fc-note">Height = perpendicular distance between parallel sides</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="fc-title">Triangle = ½ Parallelogram</div>
+          <div class="fc-eq">A(△) = ½ · A(▱)  (same base, same parallels)</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="fc-title">Cevian Area Division</div>
+          <div class="fc-eq">A(△ABD) / A(△ACD) = BD / DC</div>
+          <div class="fc-note">D divides BC; both triangles share height from A</div>
+        </div>
+
+        <div class="formula-card">
+          <div class="fc-title">Median</div>
+          <div class="fc-eq">A(△ABM) = A(△ACM) = ½ · A(△ABC)</div>
+          <div class="fc-note">M is midpoint of BC</div>
+        </div>
+      </section>
+
+      <section class="topic" id="simulator">
+        <h2>Area Preservation Visualiser</h2>
+        <p>Drag the apex point horizontally. The area stays constant because the base and height are unchanged — demonstrating the "same parallels" theorem.</p>
+
+        <div class="sim-box">
+          <div class="sim-title">Interactive Area Invariant Demo</div>
+          <svg id="areaSvg" viewBox="0 0 500 300" style="width:100%;background:var(--bg3);border-radius:8px;cursor:ew-resize;touch-action:none"></svg>
+          <div id="areaInfo" style="margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:.9rem;color:var(--gold);text-align:center"></div>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:8px;text-align:center">Drag the apex left or right — notice the area never changes!</p>
+        </div>
+      </section>
+
+      <section class="topic" id="board-questions">
+        <h2>Board Questions</h2>
+
+        <!-- Q1 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q1</span>
+            <span class="board-tag">Dhaka 2023</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Parallelogram = Rectangle Area</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            Parallelogram ABCD and rectangle ABEF are on the same base AB and between the same parallels AB ∥ EF (where EF passes through D and C). Prove that they have equal area.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc"><strong>Given:</strong> ABCD is a parallelogram and ABEF is a rectangle, both on base AB and between parallels AB and DC (= EF line).</div></div>
+              <div><span class="sn">2</span><div class="sc">In △ADF and △BCE: AD = BC (opp. sides of parallelogram), AE = BF (opp. sides of rectangle), ∠DAF = ∠CBE = 90° (rectangle has right angles).</div></div>
+              <div><span class="sn">3</span><div class="sc">Wait — more directly: Both figures share the same base AB and lie between the same parallel lines AB and EF (= DC extended). By the parallelogram area theorem, <span class="se">Area(ABCD) = base × height = AB × h</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Area of rectangle ABEF = <span class="se">AB × h</span> (where h = perpendicular distance between AB and EF). Both equal AB × h.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Area(ABCD) = Area(ABEF) = AB × h ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q2</span>
+            <span class="board-tag">Rajshahi 2024</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Median Theorem</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            In △ABC, D is the midpoint of BC. Prove that Area(△ABD) = Area(△ACD).
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc"><strong>Given:</strong> D is midpoint of BC, so BD = DC. AD is the median.</div></div>
+              <div><span class="sn">2</span><div class="sc">Draw AE ⊥ BC (height from A). Let AE = h. This height is common to both △ABD and △ACD.</div></div>
+              <div><span class="sn">3</span><div class="sc">Area(△ABD) = <span class="se">½ × BD × h</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Area(△ACD) = <span class="se">½ × DC × h</span>.</div></div>
+              <div><span class="sn">5</span><div class="sc">Since D is midpoint, BD = DC. Therefore <span class="se">Area(△ABD) = Area(△ACD)</span>. <span class="sr2">QED ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q3</span>
+            <span class="board-tag">Chittagong 2022</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Triangle = ½ Parallelogram</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            ABCD is a parallelogram. E is any point on CD. Prove that Area(△ABE) = ½ × Area(parallelogram ABCD).
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">△ABE has base AB (same as parallelogram ABCD). E lies on CD, which is parallel to AB.</div></div>
+              <div><span class="sn">2</span><div class="sc">The height of △ABE from E to AB equals the perpendicular distance h between AB and CD (the parallel sides of the parallelogram).</div></div>
+              <div><span class="sn">3</span><div class="sc">Area(△ABE) = <span class="se">½ × AB × h</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Area(ABCD) = <span class="se">AB × h</span>.</div></div>
+              <div><span class="sn">5</span><div class="sc">Therefore <span class="se">Area(△ABE) = ½ × Area(ABCD)</span>. This holds for any position of E on CD. <span class="sr2">QED ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q4</span>
+            <span class="board-tag">Jessore 2021</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Median Proof (Detailed)</span>
+            <span class="q-marks">6 Marks</span>
+          </div>
+          <div class="pb">
+            In △ABC, median AM is drawn to BC. Prove that the median divides the triangle into two triangles of equal area.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc"><strong>Given:</strong> △ABC with AM as median, so M is midpoint of BC → BM = MC.</div></div>
+              <div><span class="sn">2</span><div class="sc"><strong>To prove:</strong> Area(△ABM) = Area(△ACM) = ½ Area(△ABC).</div></div>
+              <div><span class="sn">3</span><div class="sc"><strong>Construction:</strong> Draw AN ⊥ BC, the altitude from A. Let AN = h.</div></div>
+              <div><span class="sn">4</span><div class="sc">Area(△ABM) = <span class="se">½ × BM × h</span> (base BM, height h).</div></div>
+              <div><span class="sn">5</span><div class="sc">Area(△ACM) = <span class="se">½ × MC × h</span> (base MC, same height h from A).</div></div>
+              <div><span class="sn">6</span><div class="sc">Since M is midpoint, <span class="se">BM = MC</span>. Therefore Area(△ABM) = Area(△ACM).</div></div>
+              <div><span class="sn">7</span><div class="sc">Also Area(△ABM) + Area(△ACM) = Area(△ABC), so each = <span class="se">½ × Area(△ABC)</span>. <span class="sr2">QED ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q5</span>
+            <span class="board-tag">Comilla 2023</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Area Ratio — Parallelogram and Triangle</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            Parallelogram PQRS and triangle PQT share the same base PQ. T lies between lines PQ and SR. Find the ratio of areas Area(PQRS) : Area(△PQT).
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">Both PQRS and △PQT lie between parallels PQ and SR (since T is between them).</div></div>
+              <div><span class="sn">2</span><div class="sc">Let PQ = b and perpendicular distance between parallels = h.</div></div>
+              <div><span class="sn">3</span><div class="sc">Area(PQRS) = <span class="se">b × h</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Area(△PQT) = <span class="se">½ × b × h'</span> where h' is the distance from T to PQ. Since T is between the parallels, h' ≤ h.</div></div>
+              <div><span class="sn">5</span><div class="sc">If T lies exactly on SR, then h' = h and Area(△PQT) = ½bh. In this case <span class="se">Area(PQRS) : Area(△PQT) = bh : ½bh = 2 : 1</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Area(PQRS) : Area(△PQT) = 2 : 1 (when T is on line SR) ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q6</span>
+            <span class="board-tag">Barisal 2024</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Construction — Triangle = Quadrilateral</span>
+            <span class="q-marks">8 Marks</span>
+          </div>
+          <div class="pb">
+            Construct a triangle equal in area to quadrilateral ABCD where AB = 5 cm, BC = 4 cm, CD = 3 cm, DA = 6 cm, diagonal AC = 7 cm.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc"><strong>Method:</strong> Draw the quadrilateral ABCD using the given measurements. Draw diagonal AC.</div></div>
+              <div><span class="sn">2</span><div class="sc"><strong>Step 2:</strong> Through vertex D, draw a line DE parallel to diagonal AC (using ruler and compass: draw a line through D parallel to AC).</div></div>
+              <div><span class="sn">3</span><div class="sc"><strong>Step 3:</strong> Extend side BC to meet this parallel line at point E.</div></div>
+              <div><span class="sn">4</span><div class="sc"><strong>Why it works:</strong> △ACD and △ACE have the same base AC and lie between the same parallels AC and DE, so Area(△ACD) = Area(△ACE).</div></div>
+              <div><span class="sn">5</span><div class="sc">Therefore Area(△ABE) = Area(△ABC) + Area(△ACE) = Area(△ABC) + Area(△ACD) = Area(ABCD).</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">△ABE is the required triangle with Area(△ABE) = Area(ABCD) ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q7</span>
+            <span class="board-tag">Sylhet 2022</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Equal Areas — Height Relationship</span>
+            <span class="q-marks">4 Marks</span>
+          </div>
+          <div class="pb">
+            Two triangles have equal areas and share the same base but have different heights. What can you conclude about their heights? Explain.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">Let both triangles have base b. Let heights be h₁ and h₂.</div></div>
+              <div><span class="sn">2</span><div class="sc">Area₁ = ½ × b × h₁ and Area₂ = ½ × b × h₂.</div></div>
+              <div><span class="sn">3</span><div class="sc">If Area₁ = Area₂, then <span class="se">½bh₁ = ½bh₂ → h₁ = h₂</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc"><strong>Conclusion:</strong> If two triangles on the same base have equal areas, their heights must be equal. This means their apex points lie on the same line parallel to the base (the "same parallels" condition).</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Their heights must be equal — apex points lie on a line parallel to the base ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q8</span>
+            <span class="board-tag">Dinajpur 2023</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Cevian Area Division</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            △ABC has area 48 cm². D divides BC in ratio 1:2. Find the area of △ABD.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">D divides BC such that BD:DC = 1:2. So BD = (1/3) × BC and DC = (2/3) × BC.</div></div>
+              <div><span class="sn">2</span><div class="sc">△ABD and △ABC share the same height from vertex A (let it be h).</div></div>
+              <div><span class="sn">3</span><div class="sc">Area(△ABD) / Area(△ABC) = <span class="se">BD / BC = 1/3</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Area(△ABD) = <span class="se">(1/3) × 48 = 16 cm²</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Area of △ABD = 16 cm² ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="topic" id="formula-sheet">
+        <h2>Formula Sheet</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="formula-card">
+            <div class="fc-title">Triangle</div>
+            <div class="fc-eq">A = ½ × b × h</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Parallelogram</div>
+            <div class="fc-eq">A = b × h</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Triangle = ½ Parallelogram</div>
+            <div class="fc-eq">A(△) = ½ A(▱)  (same base, same parallels)</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Cevian Division</div>
+            <div class="fc-eq">A(△ABD)/A(△ACD) = BD/DC</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Median</div>
+            <div class="fc-eq">A(△ABM) = A(△ACM) = ½A(△ABC)</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Heron's Formula</div>
+            <div class="fc-eq">A = √(s(s-a)(s-b)(s-c))  s=(a+b+c)/2</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="chapter-nav">
+        <a href="ch14-ratio-similarity-symmetry.html">← Chapter 14: Similarity</a>
+        <a href="ch16-mensuration.html">Chapter 16: Mensuration →</a>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+  function toggleSol(el){el.nextElementSibling.classList.toggle('open');el.textContent=el.nextElementSibling.classList.contains('open')?'▼ Hide Solution':'▶ Show Solution';}
+
+  // Area Preservation Visualiser
+  const areaSvg = document.getElementById('areaSvg');
+  const areaInfo = document.getElementById('areaInfo');
+  const W = 500, H = 300;
+  const baseY = 240;
+  const baseX1 = 80, baseX2 = 420;
+  const parallelY = 80;
+  let apexX = 250;
+  let dragging = false;
+
+  function drawArea() {
+    const base = baseX2 - baseX1;
+    const height = baseY - parallelY;
+    const area = 0.5 * base * height;
+    const scalePx = 1; // 1px = 1 unit for display
+
+    areaSvg.innerHTML = `
+      <defs>
+        <linearGradient id="triGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(79,142,247,0.3)"/>
+          <stop offset="100%" stop-color="rgba(79,142,247,0.05)"/>
+        </linearGradient>
+      </defs>
+      <rect width="${W}" height="${H}" fill="var(--bg3)" rx="8"/>
+      <!-- Parallel lines -->
+      <line x1="20" y1="${baseY}" x2="${W-20}" y2="${baseY}" stroke="#2fe0b4" stroke-width="1.5" stroke-dasharray="6,4" opacity=".5"/>
+      <line x1="20" y1="${parallelY}" x2="${W-20}" y2="${parallelY}" stroke="#9b7fff" stroke-width="1.5" stroke-dasharray="6,4" opacity=".5"/>
+      <!-- Base -->
+      <line x1="${baseX1}" y1="${baseY}" x2="${baseX2}" y2="${baseY}" stroke="#2fe0b4" stroke-width="3"/>
+      <!-- Triangle fill -->
+      <polygon points="${baseX1},${baseY} ${baseX2},${baseY} ${apexX},${parallelY}" fill="url(#triGrad)" stroke="#4f8ef7" stroke-width="2"/>
+      <!-- Height indicator -->
+      <line x1="${apexX}" y1="${parallelY}" x2="${apexX}" y2="${baseY}" stroke="#f0b429" stroke-width="1.5" stroke-dasharray="4,3" opacity=".7"/>
+      <!-- Drag handle -->
+      <circle cx="${apexX}" cy="${parallelY}" r="8" fill="#4f8ef7" stroke="#fff" stroke-width="2" style="cursor:ew-resize"/>
+      <!-- Labels -->
+      <text x="${(baseX1+baseX2)/2}" y="${baseY+20}" fill="#2fe0b4" font-size="12" font-family="JetBrains Mono,monospace" text-anchor="middle">base = ${base} units</text>
+      <text x="${apexX+14}" y="${(baseY+parallelY)/2}" fill="#f0b429" font-size="11" font-family="JetBrains Mono,monospace">h = ${height} units</text>
+      <text x="${W-30}" y="${parallelY-10}" fill="#9b7fff" font-size="10" font-family="Inter,sans-serif" text-anchor="end">← apex moves along this line</text>
+      <text x="${W-30}" y="${baseY-10}" fill="#2fe0b4" font-size="10" font-family="Inter,sans-serif" text-anchor="end">base line</text>
+    `;
+    areaInfo.textContent = `Area = ½ × base × height = ½ × ${base} × ${height} = ${area} square units  (constant regardless of apex position)`;
+  }
+
+  function getSvgX(e) {
+    const rect = areaSvg.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    return (clientX - rect.left) * (W / rect.width);
+  }
+
+  areaSvg.addEventListener('mousedown', e => { dragging = true; });
+  areaSvg.addEventListener('touchstart', e => { dragging = true; e.preventDefault(); }, {passive:false});
+  window.addEventListener('mousemove', e => { if(dragging){ apexX = Math.max(40, Math.min(W-40, getSvgX(e))); drawArea(); }});
+  window.addEventListener('touchmove', e => { if(dragging){ apexX = Math.max(40, Math.min(W-40, getSvgX(e))); drawArea(); e.preventDefault(); }}, {passive:false});
+  window.addEventListener('mouseup', () => dragging = false);
+  window.addEventListener('touchend', () => dragging = false);
+
+  drawArea();
+  </script>
+</body>
+</html>

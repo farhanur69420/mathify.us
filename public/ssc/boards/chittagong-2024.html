@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chittagong Board SSC Math 2024 · Mathify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ssc-styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <a class="logo" href="/">mathify<em>.us</em></a>
+      <span class="logo-tag">SSC MATH</span>
+    </div>
+    <nav class="nav-links">
+      <a class="nl" href="../">All Boards</a>
+      <a class="nl" href="../chapters/ch01-real-numbers.html">Chapters</a>
+      <a class="nl active" href="./">Past Papers</a>
+      <a class="nl" href="/" style="color:var(--dim)">← Main Site</a>
+    </nav>
+  </header>
+
+  <main class="main-wrap">
+    <section class="paper-hero">
+      <div class="breadcrumb"><a href="../">SSC Math</a> › <a href="./">Past Papers</a> › Chittagong 2024</div>
+      <h1 class="paper-title">Chittagong Board · SSC Mathematics · 2024</h1>
+      <div class="paper-chips">
+        <span class="chip chip-board">Chittagong</span>
+        <span class="chip chip-year">2024</span>
+        <span class="chip chip-marks">Total: 100 Marks</span>
+        <span class="chip chip-time">3 Hours</span>
+        <span class="chip chip-qs">8 Questions</span>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h2 class="section-title">Chapter Coverage</h2>
+      <table class="cov-table">
+        <thead><tr><th>Q</th><th>Chapter</th><th>Topic</th><th>Marks</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Ch 3 · Algebraic Expressions</td><td>Sophie Germain identity — x⁴+4</td><td>10</td></tr>
+          <tr><td>2</td><td>Ch 4 · Logarithms</td><td>Log properties and simplification</td><td>10</td></tr>
+          <tr><td>3</td><td>Ch 6 · Quadratic Equations</td><td>Boat speed problem</td><td>10</td></tr>
+          <tr><td>4</td><td>Ch 9 · Series</td><td>Geometric progression — practical context</td><td>10</td></tr>
+          <tr><td>5</td><td>Ch 11 · Lines &amp; Angles</td><td>Parallel lines and transversal angle proof</td><td>10</td></tr>
+          <tr><td>6</td><td>Ch 13 · Circle</td><td>Cyclic quadrilateral angle problems</td><td>10</td></tr>
+          <tr><td>7</td><td>Ch 14 · Trigonometry</td><td>Harbor crane height</td><td>10</td></tr>
+          <tr><td>8</td><td>Ch 15 · Statistics</td><td>Fish catch data analysis</td><td>10</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <nav class="q-nav">
+      <a href="#q1">Q1</a><a href="#q2">Q2</a><a href="#q3">Q3</a><a href="#q4">Q4</a>
+      <a href="#q5">Q5</a><a href="#q6">Q6</a><a href="#q7">Q7</a><a href="#q8">Q8</a>
+    </nav>
+
+    <section class="questions-section">
+
+      <div class="q-card" id="q1">
+        <div class="q-header">
+          <span class="q-num">Question 1</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 3 · Algebraic Expressions</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">Consider the expression x⁴ + 4y⁴.</p>
+          <p>(a) Factorize x⁴ + 4 completely using the Sophie Germain identity. [2 marks]</p>
+          <p>(b) Factorize x⁴ + 4y⁴ into two quadratic factors. [4 marks]</p>
+          <p>(c) If x = 2 and y = 1, verify your factorization numerically and find the value of each factor. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Sophie Germain identity</span><div class="sc">a⁴ + 4b⁴ = (a²+2b²+2ab)(a²+2b²−2ab). Here a = x, b = 1.</div></div>
+          <div class="ss"><span class="sn">Result</span><div class="sc"><span class="sr2">x⁴+4 = (x²+2x+2)(x²−2x+2) ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Apply with b = y</span><div class="sc">x⁴+4y⁴ = (x²+2y²+2xy)(x²+2y²−2xy)</div></div>
+          <div class="ss"><span class="sn">Verification</span><div class="sc">Expanding (x²+2y²+2xy)(x²+2y²−2xy) = (x²+2y²)² − (2xy)² = x⁴+4x²y²+4y⁴ − 4x²y² = x⁴+4y⁴ ✓</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">x⁴+4y⁴ = (x²+2y²+2xy)(x²+2y²−2xy) ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">LHS (x=2, y=1)</span><div class="sc">2⁴ + 4(1)⁴ = 16 + 4 = 20</div></div>
+          <div class="ss"><span class="sn">Factor 1</span><div class="sc">(4+2+4) = 10</div></div>
+          <div class="ss"><span class="sn">Factor 2</span><div class="sc">(4+2−4) = 2</div></div>
+          <div class="ss"><span class="sn">Check</span><div class="sc"><span class="sr2">10 × 2 = 20 = LHS ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q2">
+        <div class="q-header">
+          <span class="q-num">Question 2</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 4 · Logarithms</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">Use logarithm laws to simplify and evaluate the following expressions. (log 2 = 0.3010, log 3 = 0.4771, log 7 = 0.8451)</p>
+          <p>(a) Prove that log(ab²) = log a + 2 log b. [2 marks]</p>
+          <p>(b) Simplify: log 12 + log 18 − log 6 + log 25 − log 75. [4 marks]</p>
+          <p>(c) Find the value of: log₅ 8 × log₂ 625. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Product rule</span><div class="sc">log(ab²) = log a + log b²</div></div>
+          <div class="ss"><span class="sn">Power rule</span><div class="sc"><span class="sr2">= log a + 2 log b ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Combine logs</span><div class="sc">log(12 × 18 / 6 × 25 / 75) = log(12×18×25 / 6×75)</div></div>
+          <div class="ss"><span class="sn">Numerator</span><div class="sc">12×18×25 = 5400</div></div>
+          <div class="ss"><span class="sn">Denominator</span><div class="sc">6×75 = 450</div></div>
+          <div class="ss"><span class="sn">Simplify</span><div class="sc">5400/450 = 12</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc">log 12 = log(4×3) = 2 log 2 + log 3 = 0.6020+0.4771 = <span class="sr2">1.0791 ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Change of base</span><div class="sc">log₅ 8 = log 8/log 5, log₂ 625 = log 625/log 2</div></div>
+          <div class="ss"><span class="sn">Product</span><div class="sc">log₅ 8 × log₂ 625 = (log 8/log 5) × (log 625/log 2)</div></div>
+          <div class="ss"><span class="sn">Simplify</span><div class="sc">log 8 = log 2³ = 3 log 2, log 625 = log 5⁴ = 4 log 5</div></div>
+          <div class="ss"><span class="sn">Cancel</span><div class="sc">= (3 log 2/log 5) × (4 log 5/log 2) = 3×4 = <span class="sr2">12 ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q3">
+        <div class="q-header">
+          <span class="q-num">Question 3</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 6 · Quadratic Equations</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">A motorboat travels 36 km upstream and 36 km downstream. The total journey takes 9 hours. The speed of the river current is 3 km/h.</p>
+          <p>(a) If the boat's speed in still water is x km/h, write expressions for the upstream and downstream speeds. [2 marks]</p>
+          <p>(b) Form a quadratic equation for x and solve it. [4 marks]</p>
+          <p>(c) Find the time taken for each leg of the journey. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Speeds</span><div class="sc"><span class="sr2">Upstream speed = (x−3) km/h, Downstream speed = (x+3) km/h ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Time equation</span><div class="sc">36/(x−3) + 36/(x+3) = 9</div></div>
+          <div class="ss"><span class="sn">Multiply through</span><div class="sc">36(x+3) + 36(x−3) = 9(x−3)(x+3)</div></div>
+          <div class="ss"><span class="sn">Simplify LHS</span><div class="sc">36x+108+36x−108 = 72x</div></div>
+          <div class="ss"><span class="sn">Simplify RHS</span><div class="sc">9(x²−9) = 9x²−81</div></div>
+          <div class="ss"><span class="sn">Equation</span><div class="sc">9x²−72x−81 = 0  →  x²−8x−9 = 0</div></div>
+          <div class="ss"><span class="sn">Factor</span><div class="sc">(x−9)(x+1) = 0  →  x = 9 or x = −1</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">x = 9 km/h (rejecting negative) ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Upstream time</span><div class="sc">36/(9−3) = 36/6 = 6 hours</div></div>
+          <div class="ss"><span class="sn">Downstream time</span><div class="sc">36/(9+3) = 36/12 = 3 hours</div></div>
+          <div class="ss"><span class="sn">Check total</span><div class="sc"><span class="sr2">6 + 3 = 9 hours ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q4">
+        <div class="q-header">
+          <span class="q-num">Question 4</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 9 · Series</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">A shipping company at Chittagong Port starts with 4 vessels and doubles its fleet every 3 years.</p>
+          <p>(a) Write the geometric sequence for the number of vessels after 0, 3, 6, 9 years. [2 marks]</p>
+          <p>(b) How many vessels will the company have after 18 years? [4 marks]</p>
+          <p>(c) In how many years will the fleet first exceed 100 vessels? (log 2 = 0.3010) [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Sequence</span><div class="sc"><span class="sr2">4, 8, 16, 32 (with first term a = 4, common ratio r = 2) ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Number of terms</span><div class="sc">18 years = 6 periods of 3 years, so n = 7 (including start)</div></div>
+          <div class="ss"><span class="sn">GP formula</span><div class="sc">T_n = ar^(n−1) = 4 × 2⁶ = 4 × 64</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">256 vessels ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Inequality</span><div class="sc">4 × 2^k > 100 where k is number of 3-year periods</div></div>
+          <div class="ss"><span class="sn">Simplify</span><div class="sc">2^k > 25  →  k log 2 > log 25</div></div>
+          <div class="ss"><span class="sn">log 25</span><div class="sc">log 25 = log(100/4) = 2 − 2×0.3010 = 1.3980</div></div>
+          <div class="ss"><span class="sn">Solve k</span><div class="sc">k > 1.3980/0.3010 = 4.644  →  k = 5 periods</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">5 × 3 = 15 years (fleet = 4×2⁵ = 128 > 100) ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q5">
+        <div class="q-header">
+          <span class="q-num">Question 5</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 11 · Lines &amp; Angles</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">Two parallel lines PQ and RS are cut by a transversal TU at points A and B respectively.</p>
+          <p>(a) State the relationship between alternate interior angles when two parallel lines are cut by a transversal. [2 marks]</p>
+          <p>(b) If ∠PAT = 65°, find all other angles formed at point A and point B. [4 marks]</p>
+          <p>(c) Prove that co-interior angles (same-side interior angles) are supplementary. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Theorem</span><div class="sc"><span class="sr2">When two parallel lines are cut by a transversal, alternate interior angles are equal. ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">∠PAT = 65°</span><div class="sc">∠QAT = 180°−65° = 115° (linear pair)</div></div>
+          <div class="ss"><span class="sn">Vertically opposite</span><div class="sc">∠PAU = 115°, ∠QAU = 65°</div></div>
+          <div class="ss"><span class="sn">At B (alternate)</span><div class="sc">∠RBU = ∠PAU = 65° (alternate interior angles, PQ ∥ RS)</div></div>
+          <div class="ss"><span class="sn">Remaining at B</span><div class="sc"><span class="sr2">∠SBU = 65°, ∠RBT = 115°, ∠SBT = 115° ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Given</span><div class="sc">PQ ∥ RS, transversal TU. Let ∠QAB = α (interior angle at A on same side)</div></div>
+          <div class="ss"><span class="sn">Alternate angles</span><div class="sc">∠ABR = ∠PAB (alternate interior angles) = 180°−α (since ∠PAB+∠QAB = 180°)</div></div>
+          <div class="ss"><span class="sn">Co-interior sum</span><div class="sc">∠QAB + ∠ABR = α + (180°−α) = 180°</div></div>
+          <div class="ss"><span class="sn">Conclusion</span><div class="sc"><span class="sr2">∴ Co-interior angles are supplementary ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q6">
+        <div class="q-header">
+          <span class="q-num">Question 6</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 13 · Circle</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">ABCD is a cyclic quadrilateral inscribed in a circle. ∠A = (3x+10)° and ∠C = (5x−30)°.</p>
+          <p>(a) State the property of opposite angles in a cyclic quadrilateral. [2 marks]</p>
+          <p>(b) Find x and then find all four angles if ∠B = (2y+15)° and ∠D = (3y−5)°. [4 marks]</p>
+          <p>(c) Find the angle ∠B subtended by arc DAB at the center, if ∠DAB = 75°. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Property</span><div class="sc"><span class="sr2">Opposite angles of a cyclic quadrilateral are supplementary (sum = 180°). ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">∠A + ∠C = 180°</span><div class="sc">(3x+10) + (5x−30) = 180  →  8x−20 = 180  →  x = 25</div></div>
+          <div class="ss"><span class="sn">Angles A and C</span><div class="sc">∠A = 85°, ∠C = 95°</div></div>
+          <div class="ss"><span class="sn">∠B + ∠D = 180°</span><div class="sc">(2y+15)+(3y−5) = 180  →  5y+10 = 180  →  y = 34</div></div>
+          <div class="ss"><span class="sn">Angles B and D</span><div class="sc"><span class="sr2">∠B = 83°, ∠D = 97° ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Central angle theorem</span><div class="sc">Central angle = 2 × inscribed angle</div></div>
+          <div class="ss"><span class="sn">Arc DAB</span><div class="sc">∠DAB = 75° is the inscribed angle subtended by arc DCB (the arc not containing A)</div></div>
+          <div class="ss"><span class="sn">Central angle for arc DCB</span><div class="sc">= 2 × 75° = 150°</div></div>
+          <div class="ss"><span class="sn">Central angle for arc DAB</span><div class="sc"><span class="sr2">= 360° − 150° = 210° ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q7">
+        <div class="q-header">
+          <span class="q-num">Question 7</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 14 · Trigonometry</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">A harbor crane at Chittagong Port has its base at ground level. A ship captain observes the crane's top from a point 80 m away at sea level. The angle of elevation is 51°20'.</p>
+          <p>(a) Set up the trigonometric equation to find the crane height. [2 marks]</p>
+          <p>(b) Find the height of the crane. (tan 51°20' = 1.25) [4 marks]</p>
+          <p>(c) Find the straight-line distance from the observation point to the crane's top. (sin 51°20' = 0.7808) [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Setup</span><div class="sc">Let h = crane height, d = 80 m</div></div>
+          <div class="ss"><span class="sn">Equation</span><div class="sc"><span class="sr2">tan(51°20') = h/80  →  h = 80 × tan(51°20') ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Calculate</span><div class="sc">h = 80 × 1.25 = 100 m</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Height of crane = 100 m ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Using sin</span><div class="sc">sin(51°20') = h/L  →  L = h/sin(51°20')</div></div>
+          <div class="ss"><span class="sn">Calculate</span><div class="sc">L = 100/0.7808 ≈ 128.1 m</div></div>
+          <div class="ss"><span class="sn">Alternative (Pythagoras)</span><div class="sc">L = √(80²+100²) = √(6400+10000) = √16400 ≈ 128.1 m</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Slant distance ≈ 128.1 m ✓</span></div></div>
+        </div>
+      </div>
+
+      <div class="q-card" id="q8">
+        <div class="q-header">
+          <span class="q-num">Question 8</span><span class="q-marks">[10 marks]</span><span class="q-chapter-tag">Ch 15 · Statistics</span>
+        </div>
+        <div class="q-text">
+          <p class="q-stem">A fishing cooperative records daily catches (in tonnes) for 10 days: 12, 15, 18, 14, 20, 16, 22, 19, 17, 17.</p>
+          <p>(a) Find the mean daily catch. [2 marks]</p>
+          <p>(b) Find the median of the data. [4 marks]</p>
+          <p>(c) Calculate the mean deviation from the mean. [4 marks]</p>
+        </div>
+        <div class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</div>
+        <div class="solution">
+          <h4>(a) [2 marks]</h4>
+          <div class="ss"><span class="sn">Sum</span><div class="sc">12+15+18+14+20+16+22+19+17+17 = 170</div></div>
+          <div class="ss"><span class="sn">Mean</span><div class="sc"><span class="sr2">x̄ = 170/10 = 17 tonnes ✓</span></div></div>
+
+          <h4>(b) [4 marks]</h4>
+          <div class="ss"><span class="sn">Sort data</span><div class="sc">12, 14, 15, 16, 17, 17, 18, 19, 20, 22</div></div>
+          <div class="ss"><span class="sn">n = 10 (even)</span><div class="sc">Median = (5th + 6th)/2 = (17+17)/2</div></div>
+          <div class="ss"><span class="sn">Answer</span><div class="sc"><span class="sr2">Median = 17 tonnes ✓</span></div></div>
+
+          <h4>(c) [4 marks]</h4>
+          <div class="ss"><span class="sn">Deviations |xᵢ − x̄|</span><div class="sc">|12−17|=5, |15−17|=2, |18−17|=1, |14−17|=3, |20−17|=3, |16−17|=1, |22−17|=5, |19−17|=2, |17−17|=0, |17−17|=0</div></div>
+          <div class="ss"><span class="sn">Sum of deviations</span><div class="sc">5+2+1+3+3+1+5+2+0+0 = 22</div></div>
+          <div class="ss"><span class="sn">Mean deviation</span><div class="sc"><span class="sr2">MD = 22/10 = 2.2 tonnes ✓</span></div></div>
+        </div>
+      </div>
+
+    </section>
+
+    <nav class="year-nav">
+      <span class="yn-label">Chittagong Board:</span>
+      <a class="yn-link" href="chittagong-2025.html">2025</a>
+      <span class="yn-current">2024</span>
+      <a class="yn-link" href="chittagong-2023.html">2023</a>
+      <a class="yn-link" href="chittagong-2022.html">2022</a>
+      <a class="yn-link" href="chittagong-2021.html">2021</a>
+      <a class="yn-link" href="chittagong-2020.html">2020</a>
+    </nav>
+
+    <section class="cross-boards">
+      <h3>Same Year — Other Boards</h3>
+      <div class="cb-links">
+        <a class="cb-card" href="jessore-2024.html">Jessore 2024</a>
+        <a class="cb-card" href="comilla-2024.html">Comilla 2024</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  function toggleSol(el){el.nextElementSibling.classList.toggle('open');el.textContent=el.nextElementSibling.classList.contains('open')?'▼ Hide Solution':'▶ Show Solution';}
+  </script>
+</body>
+</html>

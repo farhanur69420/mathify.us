@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensuration · SSC Math · Mathify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../ssc-styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <a class="logo" href="/">mathify<em>.us</em></a>
+      <span class="logo-tag">SSC MATH</span>
+    </div>
+    <nav class="nav-links">
+      <a class="nl" href="../">All Boards</a>
+      <a class="nl active" href="./">Chapters</a>
+      <a class="nl" href="../boards/dhaka-2025.html">Past Papers</a>
+      <a class="nl" href="/" style="color:var(--dim)">← Main Site</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="breadcrumb">
+      <a href="../">SSC Math</a><span class="sep">/</span>
+      <a href="./">Chapters</a><span class="sep">/</span>
+      <span>Chapter 16</span>
+    </div>
+    <p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin:18px 0 8px">Chapter 16</p>
+    <h1>Mensuration</h1>
+    <p class="hero-sub">Calculating areas, surface areas, and volumes for 2D and 3D shapes — from circles to cones and spheres.</p>
+    <div class="hero-chips">
+      <span class="chip blue">2D Areas</span>
+      <span class="chip mint">3D Volumes</span>
+      <span class="chip gold">Surface Areas</span>
+      <span class="chip violet">Combined Solids</span>
+      <span class="chip">9 Board Questions</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <aside class="sidebar">
+      <nav class="stoc">
+        <div class="stoc-heading">Contents</div>
+        <a href="#concepts-2d">2D Shapes</a>
+        <a href="#concepts-3d">3D Solids</a>
+        <a href="#simulator">3D Calculator</a>
+        <a href="#board-questions">Board Questions</a>
+        <a href="#formula-sheet">Formula Sheet</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+
+      <section class="topic" id="concepts-2d">
+        <h2>2D Shapes</h2>
+
+        <h3>Rectangle and Square</h3>
+        <p>Rectangle: Area = l × w, Perimeter = 2(l + w). Square: Area = a², Perimeter = 4a.</p>
+
+        <h3>Triangle</h3>
+        <p>Area = ½ × base × height. When all sides are known, use Heron's formula: A = √(s(s-a)(s-b)(s-c)) where s = (a+b+c)/2 is the semi-perimeter.</p>
+
+        <h3>Circle and Sector</h3>
+        <p>Circle: Area = πr², Circumference = 2πr.</p>
+        <p>Sector with central angle θ (degrees): Area = πr²θ/360, Arc length = 2πrθ/360 = πrθ/180.</p>
+        <div class="analogy">
+          <strong>Sector analogy:</strong> A sector is a "pie slice." Its area is the fraction θ/360 of the full circle. A 90° sector is exactly a quarter circle.
+        </div>
+
+        <h3>Trapezium</h3>
+        <p>Area = ½ × (sum of parallel sides) × height = ½(a + b) × h.</p>
+
+        <h3>Annular Ring (Path around a rectangle)</h3>
+        <p>Area of path = Area of outer rectangle − Area of inner rectangle. For a path of width w around a l × b field: Outer = (l+2w)(b+2w), Inner = l×b.</p>
+      </section>
+
+      <section class="topic" id="concepts-3d">
+        <h2>3D Solids</h2>
+
+        <h3>Cube and Cuboid</h3>
+        <p>Cube (side a): SA = 6a², V = a³. Cuboid (l×b×h): SA = 2(lb + bh + lh), V = lbh.</p>
+
+        <h3>Cylinder</h3>
+        <p>Curved SA = 2πrh. Total SA = 2πr(r + h). Volume = πr²h.</p>
+
+        <h3>Cone</h3>
+        <p>Slant height l = √(r² + h²). Curved SA = πrl. Total SA = πr(r + l). Volume = ⅓πr²h.</p>
+        <div class="analogy">
+          <strong>Remember:</strong> A cone has ⅓ the volume of a cylinder with the same base and height. Fill a cone and pour it into a cylinder — you'd need to pour 3 times to fill the cylinder.
+        </div>
+
+        <h3>Sphere and Hemisphere</h3>
+        <p>Sphere: SA = 4πr², V = (4/3)πr³. Hemisphere: Curved SA = 2πr², Total SA = 3πr² (curved + flat base), V = (2/3)πr³.</p>
+
+        <h3>Frustum (Truncated Cone)</h3>
+        <p>A frustum is a cone with its top cut off. If R = bottom radius, r = top radius, h = vertical height, then slant height l = √(h² + (R−r)²). Curved SA = π(R+r)l. Volume = (1/3)πh(R² + Rr + r²).</p>
+
+        <h3>Combined Solids</h3>
+        <p>For combined solids (e.g., cone on cylinder, hemisphere on cuboid), compute SA and V of each part separately, then add. Be careful not to include the hidden joining face in SA.</p>
+      </section>
+
+      <section class="topic" id="simulator">
+        <h2>3D Solid Calculator</h2>
+        <p>Select a solid type, enter dimensions, and see surface area and volume calculated instantly with the formula shown.</p>
+
+        <div class="sim-box">
+          <div class="sim-title">Interactive 3D Solid Calculator</div>
+          <div style="margin-bottom:16px">
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:.82rem;color:var(--dim)">
+              Solid Type
+              <select id="solidType" style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);font-family:inherit;font-size:.9rem">
+                <option value="cube">Cube</option>
+                <option value="cuboid">Cuboid</option>
+                <option value="cylinder" selected>Cylinder</option>
+                <option value="cone">Cone</option>
+                <option value="sphere">Sphere</option>
+                <option value="hemisphere">Hemisphere</option>
+                <option value="frustum">Frustum</option>
+              </select>
+            </label>
+          </div>
+          <div id="dimInputs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:20px"></div>
+          <div id="solidResult" style="display:grid;grid-template-columns:1fr 1fr;gap:12px"></div>
+          <div id="solidFormula" style="margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--dim)"></div>
+        </div>
+      </section>
+
+      <section class="topic" id="board-questions">
+        <h2>Board Questions</h2>
+
+        <!-- Q1 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q1</span>
+            <span class="board-tag">Dhaka 2025</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Cylinder to Cone Volume</span>
+            <span class="q-marks">6 Marks</span>
+          </div>
+          <div class="pb">
+            A cylindrical tank has radius 1.4 m and height 3 m. It is filled with water. If the water is pumped into a conical vessel with the same base radius, find the height of the cone. (Use π = 22/7)
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">Volume of cylinder: <span class="se">V = πr²h = (22/7) × 1.4² × 3 = (22/7) × 1.96 × 3</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc"><span class="se">V = (22 × 1.96 × 3) / 7 = 129.36 / 7 = 18.48 m³</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">Volume of cone = ⅓πr²H where r = 1.4 m. Setting equal to cylinder volume:</div></div>
+              <div><span class="sn">4</span><div class="sc"><span class="se">⅓ × (22/7) × 1.96 × H = 18.48</span>.</div></div>
+              <div><span class="sn">5</span><div class="sc"><span class="se">H = 18.48 × 3 × 7 / (22 × 1.96) = 388.08 / 43.12 = 9 m</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Height of cone = 9 m ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q2</span>
+            <span class="board-tag">Rajshahi 2024</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Hemisphere + Cone</span>
+            <span class="q-marks">7 Marks</span>
+          </div>
+          <div class="pb">
+            A solid consists of a hemisphere of radius 7 cm surmounted by a cone of the same base radius. The total height of the solid is 16 cm. Find the total surface area and volume.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">r = 7 cm. Height of cone = total height − radius of hemisphere = 16 − 7 = 9 cm.</div></div>
+              <div><span class="sn">2</span><div class="sc">Slant height of cone: <span class="se">l = √(r² + h²) = √(49 + 81) = √130 ≈ 11.4 cm</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc"><strong>Surface Area:</strong> curved surface of hemisphere + curved surface of cone (the flat base is hidden). <span class="se">SA = 2πr² + πrl = πr(2r + l)</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc"><span class="se">SA = (22/7) × 7 × (14 + √130) = 22 × (14 + 11.40) ≈ 22 × 25.40 ≈ 558.8 cm²</span>.</div></div>
+              <div><span class="sn">5</span><div class="sc"><strong>Volume:</strong> <span class="se">V = ⅔πr³ + ⅓πr²h = ⅓πr²(2r + h)</span>.</div></div>
+              <div><span class="sn">6</span><div class="sc"><span class="se">V = ⅓ × (22/7) × 49 × (14 + 9) = ⅓ × 22 × 7 × 23 = ⅓ × 3542 ≈ 1180.7 cm³</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">SA ≈ 558.8 cm²; Volume ≈ 1180.7 cm³ ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q3</span>
+            <span class="board-tag">Chittagong 2023</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Room Whitewashing Cost</span>
+            <span class="q-marks">6 Marks</span>
+          </div>
+          <div class="pb">
+            A room is 12 m long, 10 m wide, and 4 m high. Find the cost of whitewashing the walls and ceiling at 8 Tk/m², given that the total area of doors and windows is 50 m².
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">Lateral (wall) area = perimeter of floor × height = <span class="se">2(12+10) × 4 = 2 × 22 × 4 = 176 m²</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc">Ceiling area = <span class="se">12 × 10 = 120 m²</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">Total area to whitewash = 176 + 120 − 50 = <span class="se">246 m²</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Cost = 246 × 8 = <span class="se">1968 Tk</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Cost of whitewashing = 1968 Tk ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q4</span>
+            <span class="board-tag">Jessore 2022</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Cone — CSA and Volume</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            Find the curved surface area and volume of a cone with diameter 14 cm and slant height 15 cm. Use π = 22/7.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">r = diameter/2 = 7 cm, l = 15 cm.</div></div>
+              <div><span class="sn">2</span><div class="sc">Vertical height: <span class="se">h = √(l² − r²) = √(225 − 49) = √176 ≈ 13.27 cm</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">Curved Surface Area: <span class="se">CSA = πrl = (22/7) × 7 × 15 = 22 × 15 = 330 cm²</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Volume: <span class="se">V = ⅓πr²h = ⅓ × (22/7) × 49 × 13.27 = ⅓ × 22 × 7 × 13.27 ≈ ⅓ × 2043.5 ≈ 681.2 cm³</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">CSA = 330 cm²; Volume ≈ 681.2 cm³ ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q5</span>
+            <span class="board-tag">Comilla 2024</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Sphere Melted into Smaller Spheres</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            A sphere of radius 6 cm is melted and recast into 6 equal smaller spheres. Find the radius of each small sphere.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">Volume of large sphere: <span class="se">V = (4/3)πR³ = (4/3)π × 216 = 288π cm³</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc">Volume of one small sphere: <span class="se">v = V/6 = 288π/6 = 48π cm³</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">For small sphere: <span class="se">(4/3)πr³ = 48π → r³ = 48 × 3/4 = 36</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc"><span class="se">r = ∛36 ≈ 3.30 cm</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Radius of each small sphere = ∛36 ≈ 3.30 cm ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q6</span>
+            <span class="board-tag">Barisal 2021</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Well — Earth Ring</span>
+            <span class="q-marks">7 Marks</span>
+          </div>
+          <div class="pb">
+            A well 14 m deep has an inner radius of 2 m. Find the volume of earth removed. If this earth is spread uniformly in a ring 5 m wide around the well, find the height of the ring.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">Volume of earth removed = volume of cylinder: <span class="se">V = πr²h = (22/7) × 4 × 14 = (22/7) × 56 = 176 m³</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc">The ring has inner radius r = 2 m and outer radius R = 2 + 5 = 7 m.</div></div>
+              <div><span class="sn">3</span><div class="sc">Area of annular ring: <span class="se">A = π(R² − r²) = (22/7)(49 − 4) = (22/7) × 45 = 990/7 ≈ 141.4 m²</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Height of ring: <span class="se">H = V / A = 176 / (990/7) = 176 × 7/990 = 1232/990 ≈ 1.245 m</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Earth removed = 176 m³; Ring height ≈ 1.24 m ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q7</span>
+            <span class="board-tag">Sylhet 2023</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Frustum</span>
+            <span class="q-marks">6 Marks</span>
+          </div>
+          <div class="pb">
+            A frustum has top radius 4 cm, bottom radius 7 cm, and height 9 cm. Find its volume and curved surface area.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">R = 7 cm, r = 4 cm, h = 9 cm. Slant height: <span class="se">l = √(h² + (R−r)²) = √(81 + 9) = √90 = 3√10 ≈ 9.49 cm</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc">Volume: <span class="se">V = ⅓πh(R² + Rr + r²) = ⅓ × (22/7) × 9 × (49 + 28 + 16)</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc"><span class="se">V = ⅓ × (22/7) × 9 × 93 = (22 × 9 × 93) / (3 × 7) = 18414/21 = 877 cm³</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Curved SA: <span class="se">CSA = π(R + r)l = (22/7) × 11 × 3√10 = (22 × 11 × 3√10)/7 ≈ (726 × 3.162)/7 ≈ 328 cm²</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Volume ≈ 877 cm³; Curved SA ≈ 328 cm² ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q8</span>
+            <span class="board-tag">Dinajpur 2024</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Sector Area and Perimeter</span>
+            <span class="q-marks">5 Marks</span>
+          </div>
+          <div class="pb">
+            A sector of a circle has radius 12 cm and central angle 60°. Find the area and perimeter of the sector.
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">r = 12 cm, θ = 60°.</div></div>
+              <div><span class="sn">2</span><div class="sc">Area of sector: <span class="se">A = πr²θ/360 = (22/7) × 144 × 60/360 = (22/7) × 144 × 1/6 = (22 × 24)/7 = 528/7 ≈ 75.43 cm²</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">Arc length: <span class="se">L = 2πrθ/360 = 2 × (22/7) × 12 × 60/360 = (44 × 12)/(7 × 3) = 528/21 = 176/7 ≈ 25.14 cm</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Perimeter of sector = arc length + 2r = <span class="se">25.14 + 24 = 49.14 cm</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Area ≈ 75.43 cm²; Perimeter ≈ 49.14 cm ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="problem">
+          <div class="ph">
+            <span class="q-num">Q9</span>
+            <span class="board-tag">Mymensingh 2023</span>
+            <span style="font-size:.85rem;color:var(--ink);font-weight:500">Path Area and Cost</span>
+            <span class="q-marks">6 Marks</span>
+          </div>
+          <div class="pb">
+            A farmer has a rectangular field 80 m × 60 m. A path 2 m wide runs along the inside border. Find the area of the path and the cost to tile it at 50 Tk/m².
+          </div>
+          <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+          <div class="solution">
+            <div class="ss">
+              <div><span class="sn">1</span><div class="sc">Outer dimensions: 80 m × 60 m. Area = <span class="se">80 × 60 = 4800 m²</span>.</div></div>
+              <div><span class="sn">2</span><div class="sc">Inner dimensions (path 2 m inside): (80 − 2×2) × (60 − 2×2) = <span class="se">76 × 56 = 4256 m²</span>.</div></div>
+              <div><span class="sn">3</span><div class="sc">Area of path = 4800 − 4256 = <span class="se">544 m²</span>.</div></div>
+              <div><span class="sn">4</span><div class="sc">Cost = 544 × 50 = <span class="se">27200 Tk</span>.</div></div>
+              <div><span class="sn">Ans</span><div class="sc"><span class="sr2">Path area = 544 m²; Tiling cost = 27,200 Tk ✓</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="topic" id="formula-sheet">
+        <h2>Formula Sheet</h2>
+        <h3>2D Shapes</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+          <div class="formula-card">
+            <div class="fc-title">Circle</div>
+            <div class="fc-eq">A = πr²   C = 2πr</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Sector</div>
+            <div class="fc-eq">A = πr²θ/360   L = πrθ/180</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Triangle (Heron's)</div>
+            <div class="fc-eq">A = √(s(s-a)(s-b)(s-c))</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Trapezium</div>
+            <div class="fc-eq">A = ½(a+b)h</div>
+          </div>
+        </div>
+        <h3>3D Solids</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="formula-card">
+            <div class="fc-title">Cylinder</div>
+            <div class="fc-eq">V = πr²h   SA = 2πr(r+h)</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Cone</div>
+            <div class="fc-eq">V = ⅓πr²h   l = √(r²+h²)</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Sphere</div>
+            <div class="fc-eq">V = (4/3)πr³   SA = 4πr²</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Hemisphere</div>
+            <div class="fc-eq">V = (2/3)πr³   SA = 3πr²</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Frustum</div>
+            <div class="fc-eq">V = ⅓πh(R²+Rr+r²)</div>
+          </div>
+          <div class="formula-card">
+            <div class="fc-title">Cuboid</div>
+            <div class="fc-eq">V = lbh   SA = 2(lb+bh+lh)</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="chapter-nav">
+        <a href="ch15-area-theorems-constructions.html">← Chapter 15: Area Theorems</a>
+        <a href="ch17-statistics.html">Chapter 17: Statistics →</a>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+  function toggleSol(el){el.nextElementSibling.classList.toggle('open');el.textContent=el.nextElementSibling.classList.contains('open')?'▼ Hide Solution':'▶ Show Solution';}
+
+  const solidType = document.getElementById('solidType');
+  const dimInputs = document.getElementById('dimInputs');
+  const solidResult = document.getElementById('solidResult');
+  const solidFormula = document.getElementById('solidFormula');
+  const PI = Math.PI;
+
+  const solids = {
+    cube:      { dims: [['a','Side (cm)','5']], },
+    cuboid:    { dims: [['l','Length (cm)','6'],['b','Width (cm)','4'],['h','Height (cm)','3']], },
+    cylinder:  { dims: [['r','Radius (cm)','7'],['h','Height (cm)','10']], },
+    cone:      { dims: [['r','Radius (cm)','7'],['h','Height (cm)','10']], },
+    sphere:    { dims: [['r','Radius (cm)','6']], },
+    hemisphere:{ dims: [['r','Radius (cm)','6']], },
+    frustum:   { dims: [['R','Bottom Radius (cm)','7'],['r','Top Radius (cm)','4'],['h','Height (cm)','9']], },
+  };
+
+  function buildInputs() {
+    const type = solidType.value;
+    const dims = solids[type].dims;
+    dimInputs.innerHTML = dims.map(([id, label, val]) => `
+      <label style="display:flex;flex-direction:column;gap:4px;font-size:.82rem;color:var(--dim)">
+        ${label}
+        <input id="dim_${id}" type="number" value="${val}" min="0.1" step="0.1" style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);font-family:inherit;font-size:.9rem">
+      </label>
+    `).join('');
+    dims.forEach(([id]) => {
+      document.getElementById('dim_'+id).addEventListener('input', calcSolid);
+    });
+    calcSolid();
+  }
+
+  function getVal(id) { const el = document.getElementById('dim_'+id); return el ? parseFloat(el.value)||0 : 0; }
+
+  function calcSolid() {
+    const type = solidType.value;
+    let SA = 0, V = 0, formulaText = '';
+    const pi = PI;
+
+    if (type === 'cube') {
+      const a = getVal('a');
+      SA = 6*a*a; V = a*a*a;
+      formulaText = `SA = 6a² = 6×${a}² = ${SA.toFixed(2)} cm²\nV = a³ = ${a}³ = ${V.toFixed(2)} cm³`;
+    } else if (type === 'cuboid') {
+      const l=getVal('l'),b=getVal('b'),h=getVal('h');
+      SA = 2*(l*b+b*h+l*h); V = l*b*h;
+      formulaText = `SA = 2(lb+bh+lh) = 2(${l*b}+${b*h}+${l*h}) = ${SA.toFixed(2)} cm²\nV = lbh = ${l}×${b}×${h} = ${V.toFixed(2)} cm³`;
+    } else if (type === 'cylinder') {
+      const r=getVal('r'),h=getVal('h');
+      SA = 2*pi*r*(r+h); V = pi*r*r*h;
+      formulaText = `SA = 2πr(r+h) = 2π×${r}×(${r}+${h}) = ${SA.toFixed(2)} cm²\nV = πr²h = π×${r}²×${h} = ${V.toFixed(2)} cm³`;
+    } else if (type === 'cone') {
+      const r=getVal('r'),h=getVal('h');
+      const l=Math.sqrt(r*r+h*h);
+      SA = pi*r*(r+l); V = (1/3)*pi*r*r*h;
+      formulaText = `l = √(r²+h²) = √(${r*r}+${h*h}) = ${l.toFixed(2)} cm\nSA = πr(r+l) = π×${r}×(${r}+${l.toFixed(2)}) = ${SA.toFixed(2)} cm²\nV = ⅓πr²h = ⅓×π×${r}²×${h} = ${V.toFixed(2)} cm³`;
+    } else if (type === 'sphere') {
+      const r=getVal('r');
+      SA = 4*pi*r*r; V = (4/3)*pi*r*r*r;
+      formulaText = `SA = 4πr² = 4×π×${r}² = ${SA.toFixed(2)} cm²\nV = (4/3)πr³ = (4/3)×π×${r}³ = ${V.toFixed(2)} cm³`;
+    } else if (type === 'hemisphere') {
+      const r=getVal('r');
+      SA = 3*pi*r*r; V = (2/3)*pi*r*r*r;
+      formulaText = `SA = 3πr² = 3×π×${r}² = ${SA.toFixed(2)} cm²\nV = (2/3)πr³ = (2/3)×π×${r}³ = ${V.toFixed(2)} cm³`;
+    } else if (type === 'frustum') {
+      const R=getVal('R'),r=getVal('r'),h=getVal('h');
+      const l=Math.sqrt(h*h+(R-r)*(R-r));
+      SA = pi*(R+r)*l + pi*R*R + pi*r*r; V = (1/3)*pi*h*(R*R+R*r+r*r);
+      formulaText = `l = √(h²+(R-r)²) = ${l.toFixed(2)} cm\nSA = π(R+r)l + πR² + πr² = ${SA.toFixed(2)} cm²\nV = ⅓πh(R²+Rr+r²) = ${V.toFixed(2)} cm³`;
+    }
+
+    solidResult.innerHTML = `
+      <div style="background:var(--bg);border:1px solid rgba(79,142,247,0.3);border-radius:6px;padding:14px;text-align:center">
+        <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Surface Area</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:var(--blue)">${SA.toFixed(2)}</div>
+        <div style="font-size:.75rem;color:var(--muted)">cm²</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(47,224,180,0.3);border-radius:6px;padding:14px;text-align:center">
+        <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Volume</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:var(--mint)">${V.toFixed(2)}</div>
+        <div style="font-size:.75rem;color:var(--muted)">cm³</div>
+      </div>
+    `;
+    solidFormula.textContent = formulaText;
+  }
+
+  solidType.addEventListener('change', buildInputs);
+  buildInputs();
+  </script>
+</body>
+</html>

@@ -932,3 +932,366 @@ ul, ol {
     gap: 6px;
   }
 }
+
+/* ── Pedagogical Components ──────────────────────────────── */
+
+/* Why This Matters banner */
+.why-banner {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: linear-gradient(135deg, rgba(47,224,180,0.06) 0%, rgba(79,142,247,0.06) 100%);
+  border: 1px solid rgba(47,224,180,0.2);
+  border-radius: var(--r);
+  padding: 24px;
+  margin-bottom: 8px;
+}
+
+.why-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.why-banner h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem !important;
+  font-weight: 700;
+  color: var(--mint) !important;
+  margin-bottom: 8px !important;
+}
+
+.why-banner p {
+  color: var(--dim);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Concept block — intuition-first layout */
+.concept-block {
+  border-left: 3px solid var(--blue);
+  background: var(--bg2);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 20px 22px;
+  margin: 20px 0;
+}
+
+.concept-block h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink) !important;
+  margin: 0 0 6px !important;
+}
+
+.concept-real-world {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.concept-why {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(155,127,255,0.07);
+  border-left: 2px solid var(--violet);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.84rem;
+  color: var(--dim);
+  font-style: italic;
+}
+
+.concept-why strong {
+  color: var(--violet);
+  font-style: normal;
+}
+
+/* Mistake cards */
+.mistake-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.mistake-card {
+  background: var(--bg2);
+  border: 1px solid rgba(240,80,80,0.2);
+  border-radius: var(--r);
+  padding: 16px 18px;
+}
+
+.mistake-card .wrong {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: #f07070;
+  background: rgba(240,80,80,0.08);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 6px 0;
+  display: block;
+}
+
+.mistake-card .right {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--mint);
+  background: rgba(47,224,180,0.08);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 6px 0;
+  display: block;
+}
+
+.mistake-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.mistake-label.bad  { color: #f07070; }
+.mistake-label.good { color: var(--mint); }
+
+/* Insight / aha-moment box */
+.insight {
+  border-left: 3px solid var(--gold);
+  background: rgba(240,180,41,0.06);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 0.9rem;
+  color: var(--dim);
+  line-height: 1.7;
+}
+
+.insight strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* Step-by-step build */
+.build-steps {
+  counter-reset: bstep;
+  margin: 16px 0;
+}
+
+.build-step {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.build-step::before {
+  counter-increment: bstep;
+  content: counter(bstep);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--blue);
+  background: rgba(79,142,247,0.12);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.build-step-content {
+  padding-top: 6px;
+  font-size: 0.92rem;
+  color: var(--dim);
+  line-height: 1.7;
+}
+
+/* Visual Diagram areas */
+.visual-box {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+  margin: 16px 0;
+  text-align: center;
+}
+
+.visual-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+/* Number set hierarchy */
+.set-hierarchy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 16px 0;
+}
+
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--r);
+  font-size: 0.88rem;
+}
+
+.set-row .set-name {
+  font-weight: 600;
+  min-width: 120px;
+}
+
+.set-row .set-example {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* Formula card with derivation hint */
+.formula-card .fc-derivation {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Board question topic tags */
+.q-marks {
+  font-size: 0.72rem;
+}
+
+/* Quick ref grid */
+.qref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.qref-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 14px;
+}
+
+.qref-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.qref-eq {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .why-banner { flex-direction: column; gap: 12px; }
+  .mistake-grid { grid-template-columns: 1fr; }
+  .qref-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Bilingual Toggle ────────────────────────────────────── */
+.lang-bn { display: none; }
+
+body.bn .lang-en { display: none !important; }
+body.bn .lang-bn { display: revert !important; }
+
+body.bn div.lang-bn,
+body.bn section.lang-bn,
+body.bn p.lang-bn { display: block !important; }
+
+.lang-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  background: var(--bg2);
+  color: var(--dim);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-left: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.lang-toggle-btn:hover {
+  color: var(--ink);
+  border-color: rgba(255,255,255,0.18);
+  background: var(--bg3);
+}
+
+body.bn .lang-toggle-btn {
+  color: var(--gold);
+  border-color: rgba(240,180,41,0.3);
+  background: rgba(240,180,41,0.07);
+}
+
+/* ── KaTeX Dark Theme Overrides ─────────────────────────── */
+.katex { font-size: 1em; color: var(--ink); }
+.katex-display { margin: 1rem 0; overflow-x: auto; }
+.katex-display > .katex { color: var(--gold); font-size: 1.1em; }
+
+/* Inline KaTeX inside .fc-eq gets larger */
+.fc-eq .katex { font-size: 1.05em; color: var(--gold); }
+
+/* KaTeX inside .se (inline equation spans) */
+.se .katex { font-size: 0.95em; }
+
+/* KaTeX display blocks inside formula-cards */
+.formula-card .katex-display > .katex { color: var(--gold); }
+
+/* Ensure KaTeX doesn't overflow narrow containers */
+.katex-html { overflow-x: auto; }
+
+/* ── Quick Reference Grid ────────────────────────────────── */
+.qref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.qref-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px 16px;
+}
+.qref-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--violet);
+  margin-bottom: 6px;
+}
+.qref-eq {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  color: var(--gold);
+}
