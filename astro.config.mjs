@@ -1,14 +1,12 @@
 import { defineConfig } from 'astro/config';
 import svelte from '@astrojs/svelte';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
   site: 'https://mathify.us',
   integrations: [svelte()],
   output: 'server',
-  adapter: node({
-    mode: 'standalone'
-  }),
+  adapter: vercel(),
   build: {
     assets: 'assets'
   }
