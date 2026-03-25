@@ -95,3 +95,23 @@ src/
     ├── ssc-2024-rajshahi.json
     ├── ...                     ← one file per board
 ```
+
+## Chatbot Setup (Gemini AI)
+
+The chatbot uses Google's Gemini 1.5 Flash model to provide step-by-step math tutoring.
+
+### 1. Prerequisites
+Install the Google Generative AI SDK:
+```bash
+npm install @google/generative-ai
+```
+
+### 2. API Configuration
+1. Get a free API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+2. Create a `.env` file in the root directory (copy from `.env.example`).
+3. Add your key: `GEMINI_API_KEY=your_key_here`.
+
+### 3. Architecture
+- **Backend**: `src/pages/api/chat.json.ts` handles secure communication with Gemini.
+- **Frontend**: `src/components/MathifyChatbot.svelte` is a floating Svelte widget.
+- **Rendering**: Uses MathJax (global) and custom HTML parsing for Markdown/LaTeX support.

@@ -1,14 +1,15 @@
 import type { APIRoute } from 'astro';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 export const POST: APIRoute = async (context) => {
   try {
     const { messages, systemPrompt } = await context.request.json();
 
-    if (!OPENAI_API_KEY) {
+    if (!GEMINI_API_KEY) {
       return new Response(
-        JSON.stringify({ error: 'OpenAI API key not configured' }),
+        JSON.stringify({ error: 'Gemini API key not configured' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -20,48 +21,34 @@ export const POST: APIRoute = async (context) => {
       );
     }
 
-    // Format messages for OpenAI API
-    const formattedMessages = messages.map((msg: any) => ({
-      role: msg.role,
-      content: msg.content
-    }));
-
-    // Call OpenAI API
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-4.1-mini',
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt
-          },
-          ...formattedMessages
-        ],
-        temperature: 0.4,
-        max_tokens: 1000,
-        top_p: 0.95
-      })
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ 
+      model: 'gemini-1.5-flash',
+      systemInstruction: systemPrompt
     });
 
-    if (!response.ok) {
-      const error = await response.text();
-      console.error('OpenAI API error:', error);
-      return new Response(
-        JSON.stringify({ error: 'Failed to get response from AI service' }),
-        { status: response.status, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
+    // Format history for Gemini (excluding the last message which is the new prompt)
+    const history = messages.slice(0, -1).map((msg: any) => ({
+      role: msg.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: msg.content }]
+    }));
 
-    const data = await response.json();
-    const assistantMessage = data.choices[0].message.content;
+    const lastMessage = messages[messages.length - 1].content;
 
-    // Process the message to handle LaTeX formatting
-    const processedMessage = processLaTeX(assistantMessage);
+    const chat = model.startChat({
+      history: history,
+      generationConfig: {
+        maxOutputTokens: 1000,
+        temperature: 0.4,
+        topP: 0.95,
+      },
+    });
+
+    const result = await chat.sendMessage(lastMessage);
+    const responseText = result.response.text();
+
+    // Process the message to handle formatting
+    const processedMessage = processFormatting(responseText);
 
     return new Response(
       JSON.stringify({ message: processedMessage }),
@@ -70,8 +57,17 @@ export const POST: APIRoute = async (context) => {
         headers: { 'Content-Type': 'application/json' }
       }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error('Chat API error:', error);
+    
+    // Handle rate limiting specifically
+    if (error?.message?.includes('429') || error?.status === 429) {
+      return new Response(
+        JSON.stringify({ error: 'I am receiving too many requests right now. Please wait a moment before asking again.' }),
+        { status: 429, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     return new Response(
       JSON.stringify({ error: 'Internal server error' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
@@ -79,8 +75,8 @@ export const POST: APIRoute = async (context) => {
   }
 };
 
-// Process LaTeX and markdown formatting
-function processLaTeX(text: string): string {
+// Process formatting (Markdown and LaTeX)
+function processFormatting(text: string): string {
   // Convert markdown bold to HTML
   text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   
@@ -88,16 +84,17 @@ function processLaTeX(text: string): string {
   text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
   
   // Convert markdown lists
+  // Handle bullet points
   text = text.replace(/^\* (.*?)$/gm, '<li>$1</li>');
-  text = text.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+  text = text.replace(/((?:<li>.*?<\/li>\n?)+)/gs, '<ul>$1</ul>');
   
   // Convert markdown code
   text = text.replace(/`(.*?)`/g, '<code>$1</code>');
   
-  // Preserve LaTeX formatting (already in $ or $$)
-  // The MathJax library will handle rendering
+  // Preserve LaTeX formatting ($ and $$)
+  // MathJax will handle the rendering on the frontend
   
-  // Convert line breaks to <br> for better readability
+  // Convert line breaks to <br> or <p> for better readability
   text = text.replace(/\n\n/g, '</p><p>');
   text = '<p>' + text + '</p>';
   text = text.replace(/<p><\/p>/g, '');

@@ -76,7 +76,7 @@ Formatting Rules:
     isLoading = true;
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch('/api/chat.json', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,11 +90,12 @@ Formatting Rules:
         })
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to get response from AI');
+        throw new Error(data.error || 'Failed to get response from AI');
       }
 
-      const data = await response.json();
       const assistantMessage = data.message;
 
       // Add assistant message to chat
@@ -107,7 +108,7 @@ Formatting Rules:
       console.error('Chat error:', error);
       messages = [...messages, {
         role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again or refresh the page.'
+        content: error.message || 'Sorry, I encountered an error. Please try again or refresh the page.'
       }];
       scrollToBottom();
     } finally {
