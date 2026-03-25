@@ -6,7 +6,9 @@ export default defineConfig({
   site: 'https://mathify.us',
   integrations: [svelte()],
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    nodeVersion: '20'
+  }),
   build: {
     assets: 'assets'
   }
