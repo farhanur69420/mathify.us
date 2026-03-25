@@ -2,6 +2,199 @@
 import Main from '../layouts/Main.astro';
 ---
 <Main title="Mathematics" description="Free mathematics education from Class 9 to 12 with step-by-step solutions." activeNav="math">
-<script is:inline>window.location.href='/math.html';</script>
-<noscript><a href="/math.html">Go to Mathematics</a></noscript>
+
+<style>
+  .math-hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 24px 40px;
+    text-align: center;
+  }
+
+  .math-hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .math-hero h1 span {
+    color: var(--teal);
+  }
+
+  .math-hero p {
+    color: var(--txt2);
+    font-size: 1rem;
+    max-width: 480px;
+    margin: 0 auto 40px;
+  }
+
+  .chapters-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .chapter-card {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .chapter-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(78, 201, 176, 0.1);
+  }
+
+  .chapter-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .chapter-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--txt);
+  }
+
+  .chapter-card p {
+    font-size: 14px;
+    color: var(--txt2);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .chapter-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 600;
+    transition: gap 0.2s;
+  }
+
+  .chapter-card:hover .chapter-link {
+    gap: 10px;
+  }
+
+  .section-label {
+    max-width: 900px;
+    margin: 40px auto 20px;
+    padding: 0 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mut);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--bdr);
+  }
+
+  .legacy-link {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+
+  .legacy-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 8px;
+    color: var(--txt2);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .legacy-link a:hover {
+    border-color: var(--amb);
+    color: var(--amb);
+  }
+
+  @media (max-width: 600px) {
+    .math-hero {
+      padding: 40px 16px 32px;
+    }
+
+    .chapters-grid {
+      padding: 0 16px 40px;
+    }
+
+    .section-label {
+      padding: 0 16px;
+    }
+
+    .legacy-link {
+      padding: 0 16px 40px;
+    }
+  }
+</style>
+
+<div class="math-hero">
+  <h1><span>Mathematics</span></h1>
+  <p>Free, step-by-step education from Class 9 to 12. Master fundamentals through interactive lessons and solved examples.</p>
+</div>
+
+<div class="section-label">
+  📖 Class 9 Chapters
+</div>
+
+<div class="chapters-grid">
+  <a href="/math/chapter-1-number-systems" class="chapter-card">
+    <div class="chapter-num">Chapter 1</div>
+    <h3>Number Systems</h3>
+    <p>Master natural, whole, integer, rational, irrational, and real numbers. Understand the hierarchy and operations.</p>
+    <span class="chapter-link">Read Chapter →</span>
+  </a>
+
+  <div class="chapter-card" style="opacity: 0.6; cursor: not-allowed;">
+    <div class="chapter-num">Chapter 2</div>
+    <h3>Polynomials</h3>
+    <p>Coming soon — factors, zeros, and polynomial division.</p>
+    <span class="chapter-link" style="color: var(--mut);">Coming Soon</span>
+  </div>
+
+  <div class="chapter-card" style="opacity: 0.6; cursor: not-allowed;">
+    <div class="chapter-num">Chapter 3</div>
+    <h3>Coordinate Geometry</h3>
+    <p>Coming soon — distance, section formula, and lines.</p>
+    <span class="chapter-link" style="color: var(--mut);">Coming Soon</span>
+  </div>
+</div>
+
+<div class="section-label">
+  📚 Full Mathematics Guide
+</div>
+
+<div class="legacy-link">
+  <a href="/math.html">
+    ← View Complete Mathematics Guide (Class 9–12)
+  </a>
+</div>
+
 </Main>
