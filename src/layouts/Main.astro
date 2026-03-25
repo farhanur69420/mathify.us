@@ -1,4 +1,6 @@
 ---
+import MathifyChatbot from '../components/MathifyChatbot.svelte';
+
 export interface Props {
   title: string;
   description?: string;
@@ -21,6 +23,18 @@ const { title, description = 'Free math, physics, and civil engineering educatio
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- MathJax for LaTeX rendering -->
+  <script is:inline>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        tags: 'ams'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js" defer></script>
   <style is:global>
     :root {
       --bg: #0a0a0f;
@@ -122,6 +136,9 @@ const { title, description = 'Free math, physics, and civil engineering educatio
     <p><a href="/">mathify.us</a> &middot; Free education for everyone</p>
     <p style="margin-top:.4rem;"><a href="/about">About</a> &middot; <a href="mailto:hello@mathify.us">hello@mathify.us</a></p>
   </footer>
+
+  <!-- Mathify Learning Assistant Chatbot -->
+  <MathifyChatbot client:only="svelte" />
 
   <script is:inline>
     // Mobile menu

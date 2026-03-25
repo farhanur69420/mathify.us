@@ -4,7 +4,7 @@ import svelte from '@astrojs/svelte';
 export default defineConfig({
   site: 'https://mathify.us',
   integrations: [svelte()],
-  output: 'static',
+  output: 'hybrid',
   build: {
     assets: 'assets'
   }
