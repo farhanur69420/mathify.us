@@ -176,3 +176,19 @@ cqs.sort(sortFn);
     .chapter-hero, .content-wrap { padding-left: 1rem; padding-right: 1rem; }
   }
 </style>
+
+<script is:inline>
+  // Global MathJax trigger for hydrated content
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.MathJax?.typesetPromise) {
+      MathJax.typesetPromise().catch(err => console.log('MathJax error:', err));
+    }
+  });
+
+  // Re-run MathJax after a small delay to catch Svelte-rendered content
+  setTimeout(() => {
+    if (window.MathJax?.typesetPromise) {
+      MathJax.typesetPromise().catch(err => console.log('MathJax error:', err));
+    }
+  }, 1000);
+</script>

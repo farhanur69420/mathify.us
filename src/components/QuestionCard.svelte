@@ -6,7 +6,7 @@
   export let type;     // 'mcq' | 'cq'
 
   let open = false;
-  const id = `${boardKey}-${type}-${q.n}`;
+  let cardElement;
 
   const KEYS = ['ক', 'খ', 'গ', 'ঘ'];
 
@@ -14,21 +14,26 @@
     open = !open;
     if (open) {
       await tick();
-      if (window.MathJax?.typesetPromise) {
-        MathJax.typesetPromise([document.getElementById(id)]).catch(() => {});
-      }
+      renderMath();
+    }
+  }
+
+  function renderMath() {
+    if (!cardElement) return;
+    if (window.MathJax?.typesetPromise) {
+      MathJax.typesetPromise([cardElement]).catch(() => {});
+    } else {
+      // If MathJax isn't ready yet, try again in a bit
+      setTimeout(renderMath, 200);
     }
   }
 
   onMount(() => {
-    // Render any math already visible on load
-    if (window.MathJax?.typesetPromise) {
-      MathJax.typesetPromise([document.getElementById(id)]).catch(() => {});
-    }
+    renderMath();
   });
 </script>
 
-<div class="qcard" class:open {id}>
+<div class="qcard" class:open bind:this={cardElement}>
   <!-- HEADER -->
   <div class="qhdr" on:click={toggle} role="button" tabindex="0"
        on:keydown={(e) => e.key === 'Enter' && toggle()}>
