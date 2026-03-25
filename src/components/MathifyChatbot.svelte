@@ -8,7 +8,11 @@
   let messagesContainer;
   let inputField;
 
-  const SYSTEM_PROMPT = `You are a concise math, physics, and engineering tutor. Keep all responses under 3-4 sentences. Be direct and to the point. No lengthy explanations unless specifically asked. No filler phrases. But mention all needed calculations and equations.`;
+  const SYSTEM_PROMPT = `You are a math, physics, and civil engineering tutor. Rules:
+- Max 3 sentences per response
+- Show key equations/formulas when needed
+- No greetings, filler, or repetition
+- If asked to explain more, then elaborate`;
 
   onMount(() => {
     // Load messages from localStorage if available
