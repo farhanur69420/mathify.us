@@ -26,7 +26,7 @@ export const POST = async ({ request }) => {
         }))
       ],
       temperature: 0.4,
-      max_tokens: 1000,
+      max_tokens: 500,
     });
 
     const responseText = response.choices[0].message.content || '';
