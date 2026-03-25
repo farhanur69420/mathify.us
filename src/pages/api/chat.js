@@ -1,6 +1,9 @@
 import OpenAI from 'openai';
 
-const client = new OpenAI();
+const client = new OpenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
+});
 
 export const POST = async ({ request }) => {
   try {
@@ -27,8 +30,6 @@ export const POST = async ({ request }) => {
     });
 
     const responseText = response.choices[0].message.content || '';
-
-    // Process the message to handle formatting
     const processedMessage = processFormatting(responseText);
 
     return new Response(
@@ -38,6 +39,7 @@ export const POST = async ({ request }) => {
         headers: { 'Content-Type': 'application/json' }
       }
     );
+
   } catch (error) {
     console.error('Chat API error:', error);
     
