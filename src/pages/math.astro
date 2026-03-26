@@ -45,6 +45,8 @@ import Main from '../layouts/Main.astro';
     padding: 24px;
     text-decoration: none;
     transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
   }
 
   .chapter-card:hover {
@@ -74,6 +76,7 @@ import Main from '../layouts/Main.astro';
     color: var(--txt2);
     line-height: 1.6;
     margin-bottom: 16px;
+    flex-grow: 1;
   }
 
   .chapter-link {
@@ -84,6 +87,7 @@ import Main from '../layouts/Main.astro';
     font-size: 13px;
     font-weight: 600;
     transition: gap 0.2s;
+    margin-top: auto;
   }
 
   .chapter-card:hover .chapter-link {
@@ -168,7 +172,7 @@ import Main from '../layouts/Main.astro';
   <a href="/math/chapter-1-number-systems" class="chapter-card">
     <div class="chapter-num">Chapter 1</div>
     <h3>Number Systems</h3>
-    <p>Master natural, whole, integer, rational, irrational, and real numbers. Understand the hierarchy and operations.</p>
+    <p>Master natural, whole, integer, rational, irrational, and real numbers. Understand the hierarchy and operations with interactive tools.</p>
     <span class="chapter-link">Read Chapter →</span>
   </a>
 
