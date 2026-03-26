@@ -1,13 +1,13 @@
 ---
-import Layout from '../../layouts/Layout.astro'
+import Base from '../../layouts/Base.astro'
 ---
 
-<Layout title="RC Design — Chapter 1: Introduction to Concrete & Steel">
+<Base title="RC Design — Chapter 1: Introduction to Concrete & Steel">
 
 <!-- MathJax + Fonts (add to Layout if not already present) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
 
 <!-- PAGE HEADER -->
 <header class="page-header">
@@ -59,9 +59,9 @@ import Layout from '../../layouts/Layout.astro'
       <h4>The numbers that matter</h4>
       <p>Composite action requires compatibility — both materials must strain together. This means:</p>
       <div class="eq-box">
-        \[ \varepsilon_s = \varepsilon_c \quad \text{(strain compatibility)} \]
-        \[ f_c \approx 3{,}000 \text{–} 6{,}000 \text{ psi (compression)} \]
-        \[ f_t \approx 300 \text{–} 600 \text{ psi (tension — ignored in design)} \]
+        \[ \varepsilon_s = \varepsilon_c \quad \text&#123;(strain compatibility)&#125; \]
+        \[ f_c \approx 3&#123;,&#125;000 \text&#123;–&#125; 6&#123;,&#125;000 \text&#123; psi (compression)&#125; \]
+        \[ f_t \approx 300 \text&#123;–&#125; 600 \text&#123; psi (tension — ignored in design)&#125; \]
       </div>
     </div>
   </div>
@@ -115,7 +115,7 @@ import Layout from '../../layouts/Layout.astro'
     </div>
     <p class="eg-problem"><strong>Problem:</strong> A simply-supported RC beam with span L = 20 ft carries a uniform load w = 2 k/ft. The section is 12 in × 24 in overall, with 3 × #8 bars at the bottom. Identify the stress regions and explain where each material is working.</p>
     <div class="eg-steps">
-      <div class="eg-step"><span class="step-num">1</span><div><strong>Loading condition:</strong> Simply supported → sagging moment at midspan. Midspan moment: \( M = \frac{wL^2}{8} = \frac{2(20)^2}{8} = 100 \text{ kip·ft} \)</div></div>
+      <div class="eg-step"><span class="step-num">1</span><div><strong>Loading condition:</strong> Simply supported → sagging moment at midspan. Midspan moment: \( M = \frac&#123;wL^2&#125;&#123;8&#125; = \frac&#123;2(20)^2&#125;&#123;8&#125; = 100 \text&#123; kip·ft&#125; \)</div></div>
       <div class="eg-step"><span class="step-num">2</span><div><strong>Compression zone:</strong> The top of the beam is compressed. Concrete handles this with its high f'c capacity (say 4000 psi). The compression block depth 'a' will be calculated in Chapter 2.</div></div>
       <div class="eg-step"><span class="step-num">3</span><div><strong>Tension zone:</strong> The bottom is in tension. Plain concrete (ft ≈ 400–500 psi) would crack immediately. The 3 × #8 bars (As = 3 × 0.79 = 2.37 in²) carry the entire tensile force.</div></div>
       <div class="eg-step"><span class="step-num">4</span><div><strong>Neutral axis:</strong> The boundary between compression and tension. For this section it sits above the bar centroid. Finding its exact position is the core task of flexural analysis.</div></div>
@@ -164,9 +164,9 @@ import Layout from '../../layouts/Layout.astro'
       <h4>Mix proportioning</h4>
       <p>Mix ratios are expressed as cement:sand:coarse aggregate by weight or volume. A common 1:2:4 mix means:</p>
       <div class="eq-box">
-        \[ \text{Ratio} = 1 \text{ (cement)} : 2 \text{ (sand)} : 4 \text{ (gravel)} \]
-        \[ V_\text{total} = V_c + V_{fa} + V_{ca} + V_w + V_\text{air} \]
-        \[ \text{For 1 m}^3\text{: } M_c = \frac{\rho_c \cdot 1}{1 + 2 + 4} \approx 280 \text{ kg/m}^3 \]
+        \[ \text&#123;Ratio&#125; = 1 \text&#123; (cement)&#125; : 2 \text&#123; (sand)&#125; : 4 \text&#123; (gravel)&#125; \]
+        \[ V_\text&#123;total&#125; = V_c + V_&#123;fa&#125; + V_&#123;ca&#125; + V_w + V_\text&#123;air&#125; \]
+        \[ \text&#123;For 1 m&#125;^3\text&#123;: &#125; M_c = \frac&#123;\rho_c \cdot 1&#125;&#123;1 + 2 + 4&#125; \approx 280 \text&#123; kg/m&#125;^3 \]
       </div>
     </div>
   </div>
@@ -244,11 +244,11 @@ import Layout from '../../layouts/Layout.astro'
     <p class="eg-problem"><strong>Problem:</strong> Calculate the mass of cement, sand, and coarse aggregate required for 1 m³ of nominal mix concrete using a 1:2:4 ratio by weight. Assume bulk unit weight of dry concrete ingredients = 1500 kg/m³. W/C = 0.50.</p>
     <div class="eg-steps">
       <div class="eg-step"><span class="step-num">1</span><div><strong>Sum of ratios:</strong> \( 1 + 2 + 4 = 7 \)</div></div>
-      <div class="eg-step"><span class="step-num">2</span><div><strong>Total dry mass for 1 m³:</strong> \( M_\text{total} = 1500 \times 1 = 1500 \text{ kg} \)</div></div>
-      <div class="eg-step"><span class="step-num">3</span><div><strong>Cement:</strong> \( M_c = \frac{1}{7} \times 1500 = 214 \text{ kg} \approx 4.3 \text{ bags (50 kg each)} \)</div></div>
-      <div class="eg-step"><span class="step-num">4</span><div><strong>Fine aggregate (sand):</strong> \( M_{fa} = \frac{2}{7} \times 1500 = 429 \text{ kg} \)</div></div>
-      <div class="eg-step"><span class="step-num">5</span><div><strong>Coarse aggregate:</strong> \( M_{ca} = \frac{4}{7} \times 1500 = 857 \text{ kg} \)</div></div>
-      <div class="eg-step"><span class="step-num">6</span><div><strong>Water:</strong> \( M_w = 0.50 \times 214 = 107 \text{ kg} = 107 \text{ liters} \)</div></div>
+      <div class="eg-step"><span class="step-num">2</span><div><strong>Total dry mass for 1 m³:</strong> \( M_\text&#123;total&#125; = 1500 \times 1 = 1500 \text&#123; kg&#125; \)</div></div>
+      <div class="eg-step"><span class="step-num">3</span><div><strong>Cement:</strong> \( M_c = \frac&#123;1&#125;&#123;7&#125; \times 1500 = 214 \text&#123; kg&#125; \approx 4.3 \text&#123; bags (50 kg each)&#125; \)</div></div>
+      <div class="eg-step"><span class="step-num">4</span><div><strong>Fine aggregate (sand):</strong> \( M_&#123;fa&#125; = \frac&#123;2&#125;&#123;7&#125; \times 1500 = 429 \text&#123; kg&#125; \)</div></div>
+      <div class="eg-step"><span class="step-num">5</span><div><strong>Coarse aggregate:</strong> \( M_&#123;ca&#125; = \frac&#123;4&#125;&#123;7&#125; \times 1500 = 857 \text&#123; kg&#125; \)</div></div>
+      <div class="eg-step"><span class="step-num">6</span><div><strong>Water:</strong> \( M_w = 0.50 \times 214 = 107 \text&#123; kg&#125; = 107 \text&#123; liters&#125; \)</div></div>
     </div>
     <div class="eg-answer">
       <strong>Answer:</strong> Cement = 214 kg, Sand = 429 kg, Coarse Agg = 857 kg, Water = 107 L per 1 m³ of concrete.
@@ -293,10 +293,10 @@ import Layout from '../../layouts/Layout.astro'
       <div class="view-tag">Math View</div>
       <h4>Abrams' Law</h4>
       <div class="eq-box">
-        \[ w/c = \frac{W_w}{W_c} \]
-        \[ f'_c \approx \frac{A}{B^{w/c}} \quad \text{(Abrams, 1918)} \]
-        \[ \text{General range: } w/c = 0.40 \text{ to } 0.60 \]
-        \[ \text{High strength: } w/c \leq 0.35 \]
+        \[ w/c = \frac&#123;W_w&#125;&#123;W_c&#125; \]
+        \[ f'_c \approx \frac&#123;A&#125;&#123;B^&#123;w/c&#125;&#125; \quad \text&#123;(Abrams, 1918)&#125; \]
+        \[ \text&#123;General range: &#125; w/c = 0.40 \text&#123; to &#125; 0.60 \]
+        \[ \text&#123;High strength: &#125; w/c \leq 0.35 \]
       </div>
       <p>Where A and B are empirical constants depending on cement type and curing.</p>
     </div>
@@ -348,9 +348,9 @@ import Layout from '../../layouts/Layout.astro'
     </div>
     <p class="eg-problem"><strong>Problem:</strong> A structural engineer specifies f'c = 4000 psi for a column. Using Abrams' law approximation and ACI guidance, estimate the required W/C ratio and calculate the water content if cement = 380 kg/m³. Also check if workability will be acceptable for placement.</p>
     <div class="eg-steps">
-      <div class="eg-step"><span class="step-num">1</span><div><strong>Target strength with margin:</strong> Required average \( f'_{cr} = f'_c + 1200 = 5200 \text{ psi} \) (ACI 301 margin for unknown variability)</div></div>
+      <div class="eg-step"><span class="step-num">1</span><div><strong>Target strength with margin:</strong> Required average \( f'_&#123;cr&#125; = f'_c + 1200 = 5200 \text&#123; psi&#125; \) (ACI 301 margin for unknown variability)</div></div>
       <div class="eg-step"><span class="step-num">2</span><div><strong>Estimate W/C from ACI Table 6.3.4.3:</strong> For f'cr ≈ 5200 psi, W/C ≈ <strong>0.44</strong> (interpolating between 5000 psi → 0.48 and 6000 psi → 0.41)</div></div>
-      <div class="eg-step"><span class="step-num">3</span><div><strong>Water content:</strong> \( W_w = 0.44 \times 380 = 167 \text{ kg/m}^3 = 167 \text{ liters} \)</div></div>
+      <div class="eg-step"><span class="step-num">3</span><div><strong>Water content:</strong> \( W_w = 0.44 \times 380 = 167 \text&#123; kg/m&#125;^3 = 167 \text&#123; liters&#125; \)</div></div>
       <div class="eg-step"><span class="step-num">4</span><div><strong>Workability check:</strong> For 167 L/m³ with moderate cement content → slump likely 50–75 mm. Acceptable for beam/column placement. If rebar is congested, consider adding superplasticizer, not more water.</div></div>
     </div>
     <div class="eg-answer">
@@ -396,9 +396,9 @@ import Layout from '../../layouts/Layout.astro'
       <div class="view-tag">Math View</div>
       <h4>Cylinder test and acceptance criteria</h4>
       <div class="eq-box">
-        \[ f'_c = \frac{P}{A} = \frac{P}{\pi r^2} \quad \text{(6×12 in cylinder)} \]
-        \[ \varepsilon_{cu} \approx 0.003 \quad \text{(ACI ultimate strain)} \]
-        \[ \text{Acceptance: } \bar{f}_{c,3} \geq f'_c \text{ AND min} \geq f'_c - 500 \text{ psi} \]
+        \[ f'_c = \frac&#123;P&#125;&#123;A&#125; = \frac&#123;P&#125;&#123;\pi r^2&#125; \quad \text&#123;(6×12 in cylinder)&#125; \]
+        \[ \varepsilon_&#123;cu&#125; \approx 0.003 \quad \text&#123;(ACI ultimate strain)&#125; \]
+        \[ \text&#123;Acceptance: &#125; \bar&#123;f&#125;_&#123;c,3&#125; \geq f'_c \text&#123; AND min&#125; \geq f'_c - 500 \text&#123; psi&#125; \]
       </div>
     </div>
   </div>
@@ -449,11 +449,11 @@ import Layout from '../../layouts/Layout.astro'
     </div>
     <p class="eg-problem"><strong>Problem:</strong> Three consecutive 6×12 in cylinders from a batch were tested at 28 days: P₁ = 122 k, P₂ = 135 k, P₃ = 128 k. The specified f'c = 4000 psi. Check ACI acceptance criteria.</p>
     <div class="eg-steps">
-      <div class="eg-step"><span class="step-num">1</span><div><strong>Cylinder area:</strong> \( A = \pi(3)^2 = 28.27 \text{ in}^2 \)</div></div>
+      <div class="eg-step"><span class="step-num">1</span><div><strong>Cylinder area:</strong> \( A = \pi(3)^2 = 28.27 \text&#123; in&#125;^2 \)</div></div>
       <div class="eg-step"><span class="step-num">2</span><div><strong>Individual strengths:</strong>
-        \( f_1 = \frac{122{,}000}{28.27} = 4315 \text{ psi}, \quad f_2 = \frac{135{,}000}{28.27} = 4776 \text{ psi}, \quad f_3 = \frac{128{,}000}{28.27} = 4529 \text{ psi} \)
+        \( f_1 = \frac&#123;122&#123;,&#125;000&#125;&#123;28.27&#125; = 4315 \text&#123; psi&#125;, \quad f_2 = \frac&#123;135&#123;,&#125;000&#125;&#123;28.27&#125; = 4776 \text&#123; psi&#125;, \quad f_3 = \frac&#123;128&#123;,&#125;000&#125;&#123;28.27&#125; = 4529 \text&#123; psi&#125; \)
       </div></div>
-      <div class="eg-step"><span class="step-num">3</span><div><strong>Average of 3:</strong> \( \bar{f}_c = \frac{4315 + 4776 + 4529}{3} = 4540 \text{ psi} \geq 4000 \text{ psi} \checkmark \)</div></div>
+      <div class="eg-step"><span class="step-num">3</span><div><strong>Average of 3:</strong> \( \bar&#123;f&#125;_c = \frac&#123;4315 + 4776 + 4529&#125;&#123;3&#125; = 4540 \text&#123; psi&#125; \geq 4000 \text&#123; psi&#125; \checkmark \)</div></div>
       <div class="eg-step"><span class="step-num">4</span><div><strong>Min individual check:</strong> Min = 4315 psi. Required min = 4000 − 500 = 3500 psi. 4315 ≥ 3500 ✓</div></div>
     </div>
     <div class="eg-answer">
@@ -499,10 +499,10 @@ import Layout from '../../layouts/Layout.astro'
       <div class="view-tag">Math View</div>
       <h4>ACI Formula</h4>
       <div class="eq-box">
-        \[ E_c = 57{,}000\sqrt{f'_c} \quad \text{(psi, normal-weight)} \]
-        \[ E_c = 33 w_c^{1.5} \sqrt{f'_c} \quad \text{(general, } w_c \text{ in pcf)} \]
-        \[ E_c = 4700\sqrt{f'_c} \quad \text{(MPa, SI)} \]
-        \[ n = \frac{E_s}{E_c} = \frac{29{,}000{,}000}{E_c} \quad \text{(modular ratio)} \]
+        \[ E_c = 57&#123;,&#125;000\sqrt&#123;f'_c&#125; \quad \text&#123;(psi, normal-weight)&#125; \]
+        \[ E_c = 33 w_c^&#123;1.5&#125; \sqrt&#123;f'_c&#125; \quad \text&#123;(general, &#125; w_c \text&#123; in pcf)&#125; \]
+        \[ E_c = 4700\sqrt&#123;f'_c&#125; \quad \text&#123;(MPa, SI)&#125; \]
+        \[ n = \frac&#123;E_s&#125;&#123;E_c&#125; = \frac&#123;29&#123;,&#125;000&#123;,&#125;000&#125;&#123;E_c&#125; \quad \text&#123;(modular ratio)&#125; \]
       </div>
     </div>
   </div>
@@ -576,13 +576,13 @@ import Layout from '../../layouts/Layout.astro'
     <p class="eg-problem"><strong>Problem:</strong> A normal-weight concrete column uses f'c = 4000 psi. Find Ec using both the simplified and general ACI formulas, then compute the modular ratio n. Es = 29,000,000 psi.</p>
     <div class="eg-steps">
       <div class="eg-step"><span class="step-num">1</span><div><strong>Simplified ACI formula (normal-weight, wc ≈ 145 pcf):</strong>
-        \( E_c = 57{,}000\sqrt{4000} = 57{,}000 \times 63.25 = 3{,}605{,}000 \text{ psi} \approx 3605 \text{ ksi} \)
+        \( E_c = 57&#123;,&#125;000\sqrt&#123;4000&#125; = 57&#123;,&#125;000 \times 63.25 = 3&#123;,&#125;605&#123;,&#125;000 \text&#123; psi&#125; \approx 3605 \text&#123; ksi&#125; \)
       </div></div>
       <div class="eg-step"><span class="step-num">2</span><div><strong>General ACI formula check:</strong>
-        \( E_c = 33(145)^{1.5}\sqrt{4000} = 33 \times 1746.0 \times 63.25 = 3{,}645{,}000 \text{ psi} \) (≈ 1% difference — acceptable)
+        \( E_c = 33(145)^&#123;1.5&#125;\sqrt&#123;4000&#125; = 33 \times 1746.0 \times 63.25 = 3&#123;,&#125;645&#123;,&#125;000 \text&#123; psi&#125; \) (≈ 1% difference — acceptable)
       </div></div>
       <div class="eg-step"><span class="step-num">3</span><div><strong>Modular ratio:</strong>
-        \( n = \frac{E_s}{E_c} = \frac{29{,}000{,}000}{3{,}605{,}000} = 8.04 \approx 8 \)
+        \( n = \frac&#123;E_s&#125;&#123;E_c&#125; = \frac&#123;29&#123;,&#125;000&#123;,&#125;000&#125;&#123;3&#123;,&#125;605&#123;,&#125;000&#125; = 8.04 \approx 8 \)
       </div></div>
     </div>
     <div class="eg-answer">
@@ -628,10 +628,10 @@ import Layout from '../../layouts/Layout.astro'
       <div class="view-tag">Math View</div>
       <h4>Key stress-strain points</h4>
       <div class="eq-box">
-        \[ E_s = 29{,}000{,}000 \text{ psi} = 29{,}000 \text{ ksi} \]
-        \[ \varepsilon_y = \frac{f_y}{E_s} = \frac{60{,}000}{29{,}000{,}000} = 0.00207 \]
-        \[ f_s = E_s \cdot \varepsilon_s \quad (\text{for } \varepsilon_s \leq \varepsilon_y) \]
-        \[ f_s = f_y \quad (\text{for } \varepsilon_s > \varepsilon_y, \text{ perfect plasticity}) \]
+        \[ E_s = 29&#123;,&#125;000&#123;,&#125;000 \text&#123; psi&#125; = 29&#123;,&#125;000 \text&#123; ksi&#125; \]
+        \[ \varepsilon_y = \frac&#123;f_y&#125;&#123;E_s&#125; = \frac&#123;60&#123;,&#125;000&#125;&#123;29&#123;,&#125;000&#123;,&#125;000&#125; = 0.00207 \]
+        \[ f_s = E_s \cdot \varepsilon_s \quad (\text&#123;for &#125; \varepsilon_s \leq \varepsilon_y) \]
+        \[ f_s = f_y \quad (\text&#123;for &#125; \varepsilon_s > \varepsilon_y, \text&#123; perfect plasticity&#125;) \]
       </div>
     </div>
   </div>
@@ -734,7 +734,7 @@ import Layout from '../../layouts/Layout.astro'
         Cover = 1.5 in, stirrup = 0.375 in, bar dia = 1.0 in.
         Available width = 12 − 2(1.5) − 2(0.375) − 3(1.0) = 12 − 3 − 0.75 − 3 = 5.25 in for 2 gaps → spacing = 5.25/2 = 2.63 in ≥ 1.5 × 1.0 = 1.5 in ✓
       </div></div>
-      <div class="eg-step"><span class="step-num">4</span><div><strong>Tensile force provided:</strong> \( T = A_s \cdot f_y = 2.37 \times 60 = 142.2 \text{ kips} \)</div></div>
+      <div class="eg-step"><span class="step-num">4</span><div><strong>Tensile force provided:</strong> \( T = A_s \cdot f_y = 2.37 \times 60 = 142.2 \text&#123; kips&#125; \)</div></div>
     </div>
     <div class="eg-answer">
       <strong>Answer:</strong> Use 3 × #8 bars (As = 2.37 in²). Spacing = 2.63 in > minimum. T = 142 kips available.
@@ -764,12 +764,12 @@ import Layout from '../../layouts/Layout.astro'
   </div>
 </footer>
 
-</Layout>
+</Base>
 
 <!-- ═══════════════════════════════════════════════════════════
      STYLES
 ═══════════════════════════════════════════════════════════ -->
-<style>
+<style is:inline>
   :root {
     --bg: #0d0d14;
     --surface: #111118;
@@ -1376,7 +1376,7 @@ import Layout from '../../layouts/Layout.astro'
 <!-- ═══════════════════════════════════════════════════════════
      SCRIPTS
 ═══════════════════════════════════════════════════════════ -->
-<script>
+<script is:inline>
 // ─── SHARED CANVAS UTILS ────────────────────────────────────
 function dpr(canvas) {
   const r = window.devicePixelRatio || 1;
