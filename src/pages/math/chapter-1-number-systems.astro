@@ -298,212 +298,166 @@ import Main from '../../layouts/Main.astro';
   }
 </style>
 
-<div class="chapter-theme chapter-body">
+<div class="chapter-body">
   <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
 
-  <header class="hero">
-    <div class="chapter-tag">Chapter <em>01</em> &bull; Mathematics</div>
-    <h1>Number <span>Systems</span></h1>
-    <p class="hero-sub">From basic counting to the infinite complexity of real numbers. A visual, interactive guide to understanding how we classify the world.</p>
-    <div class="hero-pills">
-      <div class="pill">Board: <strong>NCERT / CBSE</strong></div>
-      <div class="pill">Grade: <strong>Class 9</strong></div>
-      <div class="pill">Level: <strong>Core</strong></div>
+  <main>
+    <header class="hero">
+      <div class="chapter-tag">Chapter <em>01</em></div>
+      <h1>Number <span>Systems</span></h1>
+      <p class="hero-sub">From basic counting to the infinite complexity of real numbers. A visual, interactive guide to understanding how we classify the world.</p>
+      <div class="hero-pills">
+        <div class="pill">Status: <strong>Complete</strong></div>
+        <div class="pill">Difficulty: <strong>Beginner</strong></div>
+        <div class="pill">Interactive: <strong>Yes</strong></div>
+      </div>
+    </header>
+
+    <div class="toc-wrap">
+      <div class="toc">
+        <div class="toc-title">Table of Contents</div>
+        <div class="toc-grid">
+          <a href="#s1" class="toc-link"><span class="toc-n">1</span> Introduction</a>
+          <a href="#s2" class="toc-link"><span class="toc-n">2</span> Rational Numbers</a>
+          <a href="#s3" class="toc-link"><span class="toc-n">3</span> Irrational Numbers</a>
+          <a href="#s4" class="toc-link"><span class="toc-n">4</span> Number Line</a>
+          <a href="#ex" class="toc-link"><span class="toc-n">5</span> Exercises</a>
+        </div>
+      </div>
     </div>
-  </header>
 
-  <nav class="toc-wrap">
-    <div class="toc">
-      <div class="toc-title">Inside this chapter</div>
-      <div class="toc-grid">
-        <a href="#s1" class="toc-link"><span class="toc-n">01</span> Classification</a>
-        <a href="#s2" class="toc-link"><span class="toc-n">02</span> Rational Numbers</a>
-        <a href="#s3" class="toc-link"><span class="toc-n">03</span> Irrational Numbers</a>
-        <a href="#s4" class="toc-link"><span class="toc-n">04</span> Real Numbers & Line</a>
-        <a href="#ex" class="toc-link"><span class="toc-n">05</span> Exercises</a>
-      </div>
-    </div>
-  </nav>
-
-  <main class="content">
-    <!-- SECTION 1 -->
-    <section class="ch-section" id="s1">
-      <div class="sec-hdr">
-        <div class="sec-num">01</div>
-        <div class="sec-meta">
-          <h2>Classification of Numbers</h2>
-          <div class="sub">The hierarchy from ℕ to ℝ</div>
-        </div>
-      </div>
-
-      <div class="why">
-        <div class="why-label">⚡ Why does this matter?</div>
-        <p>Before solving equations, you must know what kind of "tools" you are using. Just as a biologist classifies animals, a mathematician classifies numbers to know which rules apply. <strong>Integers behave differently than decimals.</strong></p>
-      </div>
-
-      <p>Numbers aren't just a random list; they are a nested hierarchy. Think of them like folders on a computer: <em>Natural numbers</em> are inside <em>Whole numbers</em>, which are inside <em>Integers</em>, and so on.</p>
-
-      <div class="sim" id="vennsim">
-        <div class="sim-title">🔵 Interactive Number Venn Diagram</div>
-        <div class="sim-desc">Click any ring to see its definition and examples.</div>
-        <div class="venn-wrap">
-          <svg class="venn-svg" viewBox="0 0 620 340" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="gReal" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#7c6aff" stop-opacity=".12"/>
-                <stop offset="100%" stop-color="#7c6aff" stop-opacity=".04"/>
-              </radialGradient>
-              <radialGradient id="gRat" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#5dffa8" stop-opacity=".15"/>
-                <stop offset="100%" stop-color="#5dffa8" stop-opacity=".05"/>
-              </radialGradient>
-              <radialGradient id="gInt" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#ffaa5a" stop-opacity=".18"/>
-                <stop offset="100%" stop-color="#ffaa5a" stop-opacity=".06"/>
-              </radialGradient>
-              <radialGradient id="gWhole" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#ff6a9a" stop-opacity=".2"/>
-                <stop offset="100%" stop-color="#ff6a9a" stop-opacity=".07"/>
-              </radialGradient>
-              <radialGradient id="gNat" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#ffd75a" stop-opacity=".25"/>
-                <stop offset="100%" stop-color="#ffd75a" stop-opacity=".1"/>
-              </radialGradient>
-            </defs>
-
-            <ellipse cx="505" cy="170" rx="88" ry="68" fill="none" stroke="#7c6aff" stroke-width="1.5" stroke-dasharray="6,4" opacity=".5"/>
-            <text x="505" y="145" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#7c6aff" opacity=".8">Irrational</text>
-            <text x="505" y="162" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#9090b0">√2, π, e, √3</text>
-
-            <ellipse cx="280" cy="170" rx="272" ry="158" fill="url(#gReal)" stroke="#7c6aff" stroke-width="2" class="venn-ring" data-id="real" style="cursor:pointer"/>
-            <text x="38" y="56" font-family="Space Mono,monospace" font-size="11" fill="#7c6aff" font-weight="bold">ℝ Real</text>
-
-            <ellipse cx="256" cy="170" rx="195" ry="120" fill="url(#gRat)" stroke="#5dffa8" stroke-width="1.8" class="venn-ring" data-id="rational" style="cursor:pointer"/>
-            <text x="76" y="84" font-family="Space Mono,monospace" font-size="10" fill="#5dffa8" font-weight="bold">ℚ Rational</text>
-
-            <ellipse cx="248" cy="170" rx="135" ry="84" fill="url(#gInt)" stroke="#ffaa5a" stroke-width="1.6" class="venn-ring" data-id="integer" style="cursor:pointer"/>
-            <text x="122" y="106" font-family="Space Mono,monospace" font-size="10" fill="#ffaa5a" font-weight="bold">ℤ Integer</text>
-
-            <ellipse cx="248" cy="175" rx="84" ry="56" fill="url(#gWhole)" stroke="#ff6a9a" stroke-width="1.4" class="venn-ring" data-id="whole" style="cursor:pointer"/>
-            <text x="174" y="135" font-family="Space Mono,monospace" font-size="10" fill="#ff6a9a" font-weight="bold">𝕎</text>
-
-            <ellipse cx="255" cy="178" rx="44" ry="30" fill="url(#gNat)" stroke="#ffd75a" stroke-width="1.8" class="venn-ring" data-id="natural" style="cursor:pointer"/>
-            <text x="255" y="182" text-anchor="middle" font-family="Space Mono,monospace" font-size="10" fill="#ffd75a" font-weight="bold">ℕ</text>
-          </svg>
-        </div>
-        <div class="ctrl-out" id="venn-info" style="font-family:'Space Mono',monospace;font-size:13px; text-align:center; margin-top:10px;">
-          👆 Click any ring to learn about that number type
-        </div>
-      </div>
-
-      <table class="ctable">
-        <thead>
-          <tr><th>Number</th><th>ℕ Natural</th><th>𝕎 Whole</th><th>ℤ Integer</th><th>ℚ Rational</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>7</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>0</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>−4</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>3/5</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- SECTION 2 -->
-    <section class="ch-section" id="s2">
-      <div class="sec-hdr">
-        <div class="sec-num">02</div>
-        <div class="sec-meta">
-          <h2>Rational Numbers</h2>
-          <div class="sub">Fractions and density</div>
-        </div>
-      </div>
-      <p>A rational number is any number of the form \(\frac{p}{q}\) where \(p, q\) are integers and \(q \neq 0\).</p>
-      
-      <div class="sim">
-        <div class="sim-title">🔬 Decimal Expansion Visualizer</div>
-        <div class="sim-desc">Enter a fraction to see its decimal expansion.</div>
-        <div class="ctrl-row">
-          <input class="ctrl-inp" id="dec-p" type="number" value="1">
-          <span class="ctrl-lbl">/</span>
-          <input class="ctrl-inp" id="dec-q" type="number" value="7">
-          <button class="ctrl-btn" id="btn-expand">Expand →</button>
-        </div>
-        <div id="dec-visual"></div>
-      </div>
-    </section>
-
-    <!-- SECTION 4 (Real Number Line) -->
-    <section class="ch-section" id="s4">
-      <div class="sec-hdr">
-        <div class="sec-num">04</div>
-        <div class="sec-meta">
-          <h2>The Real Number Line</h2>
-          <div class="sub">Visualizing every number</div>
-        </div>
-      </div>
-      
-      <div class="sim">
-        <div class="sim-title">📏 Interactive Number Line</div>
-        <div class="sim-desc">Filter number types and zoom in to see density.</div>
-        <div class="ctrl-row">
-          <button class="ctrl-btn on" id="btn-nl-all">All</button>
-          <button class="ctrl-btn" id="btn-nl-nat">Natural</button>
-          <button class="ctrl-btn" id="btn-nl-int">Integer</button>
-          <button class="ctrl-btn" id="btn-nl-rat">Rational</button>
-          <button class="ctrl-btn" id="btn-nl-irr">Irrational</button>
-        </div>
-        <div class="ctrl-row" style="align-items:center">
-          <label class="ctrl-lbl">Zoom:</label>
-          <input type="range" id="nlZoom" min="1" max="50" value="1" step="0.5" style="flex:1">
-          <span class="ctrl-lbl" id="nlZoomVal">1.0×</span>
-        </div>
-        <div class="nl-wrap">
-          <canvas id="nlCanvas" width="800" height="120"></canvas>
-          <div id="nl-hover">Position: 0.0000</div>
-        </div>
-      </div>
-
-      <div class="quiz-card">
-        <div class="sim-title">🧠 Knowledge Check</div>
-        <div id="qtext">Loading question...</div>
-        <div class="q-opts">
-          <div class="q-opt" data-ans="natural">Natural</div>
-          <div class="q-opt" data-ans="integer">Integer</div>
-          <div class="q-opt" data-ans="rational">Rational</div>
-          <div class="q-opt" data-ans="irrational">Irrational</div>
-        </div>
-        <div id="qfb"></div>
-        <button id="qnext">Next Question</button>
-        <div id="qscore" style="margin-top:10px; font-family:'Space Mono',monospace; font-size:11px; color:var(--text3-page);">Score: 0 / 0</div>
-      </div>
-    </section>
-    
-    <!-- EXERCISES -->
-    <section class="ex-section" id="ex">
-      <div class="ex-hero">
-        <h2>✍ Exercises</h2>
-        <p>Test your understanding with these practice problems.</p>
-      </div>
-
-      <div class="ex-set">
-        <div class="ex-card">
-          <div class="ex-card-hdr"><span class="ex-num">Q1</span><span class="badge-solved">✓ Solved</span></div>
-          <div class="ex-q">Is zero a rational number?</div>
-          <div class="ex-sol">
-            <p><strong>Yes</strong>. Zero can be written as \(\frac{0}{1}\), which fits the \(\frac{p}{q}\) definition.</p>
+    <section class="content">
+      <!-- SECTION 1 -->
+      <section class="ch-section" id="s1">
+        <div class="sec-hdr">
+          <div class="sec-num">01</div>
+          <div class="sec-meta">
+            <h2>Introduction</h2>
+            <div class="sub">The hierarchy of numbers</div>
           </div>
         </div>
 
-        <div class="ex-card">
-          <div class="ex-card-hdr"><span class="ex-num">Q2</span><span class="badge-try">✎ Try It</span></div>
-          <div class="ex-q">State whether true or false: Every integer is a whole number.</div>
-          <div class="reveal-wrap">
-            <button class="reveal-btn">👁 Show Answer</button>
-            <div class="reveal-ans"><strong>False</strong>. Negative integers (like -1) are not whole numbers.</div>
+        <div class="why">
+          <div class="why-label">Why this matters</div>
+          <p>Before solving equations, you must know what kind of "tools" you are using. Just as a biologist classifies animals, a mathematician classifies numbers to know which rules apply. <strong>Integers behave differently than decimals.</strong></p>
+        </div>
+
+        <p>Numbers aren't just a random list; they are a nested hierarchy. Think of them like folders on a computer: <em>Natural numbers</em> are inside <em>Whole numbers</em>, which are inside <em>Integers</em>, and so on.</p>
+
+        <div class="sim">
+          <div class="sim-title">🗺 The Number Map (Venn Diagram)</div>
+          <div class="sim-desc">Click each ring to explore the classification.</div>
+          <div class="venn-wrap">
+            <svg class="venn-svg" viewBox="0 0 400 300">
+              <circle class="venn-ring" data-id="real" cx="200" cy="150" r="140" fill="rgba(124,106,255,0.05)" stroke="var(--accent-page)" stroke-width="1" />
+              <circle class="venn-ring" data-id="rational" cx="200" cy="160" r="110" fill="rgba(124,106,255,0.08)" stroke="var(--accent-page)" stroke-width="1" />
+              <circle class="venn-ring" data-id="integer" cx="200" cy="170" r="85" fill="rgba(124,106,255,0.12)" stroke="var(--accent-page)" stroke-width="1" />
+              <circle class="venn-ring" data-id="whole" cx="200" cy="180" r="60" fill="rgba(124,106,255,0.15)" stroke="var(--accent-page)" stroke-width="1" />
+              <circle class="venn-ring" data-id="natural" cx="200" cy="190" r="35" fill="rgba(124,106,255,0.2)" stroke="var(--accent-page)" stroke-width="1" />
+            </svg>
+            <div id="venn-info" style="margin-top:20px; padding:15px; background:var(--bg2-page); border-radius:8px; font-size:14px; min-height:60px;">
+              Click a ring to see details...
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section class="ch-section" id="s2">
+        <div class="sec-hdr">
+          <div class="sec-num">02</div>
+          <div class="sec-meta">
+            <h2>Rational Numbers</h2>
+            <div class="sub">Fractions and density</div>
+          </div>
+        </div>
+        <p>A rational number is any number of the form {"\\(\\frac{p}{q}\\)"} where {"\\(p, q\\)"} are integers and {"\\(q \\neq 0\\)"}.</p>
+        
+        <div class="sim">
+          <div class="sim-title">🔬 Decimal Expansion Visualizer</div>
+          <div class="sim-desc">Enter a fraction to see its decimal expansion.</div>
+          <div class="ctrl-row">
+            <input class="ctrl-inp" id="dec-p" type="number" value="1">
+            <span class="ctrl-lbl">/</span>
+            <input class="ctrl-inp" id="dec-q" type="number" value="7">
+            <button class="ctrl-btn" id="btn-expand">Expand →</button>
+          </div>
+          <div id="dec-visual"></div>
+        </div>
+      </section>
+
+      <!-- SECTION 4 (Real Number Line) -->
+      <section class="ch-section" id="s4">
+        <div class="sec-hdr">
+          <div class="sec-num">04</div>
+          <div class="sec-meta">
+            <h2>The Real Number Line</h2>
+            <div class="sub">Visualizing every number</div>
+          </div>
+        </div>
+        
+        <div class="sim">
+          <div class="sim-title">📏 Interactive Number Line</div>
+          <div class="sim-desc">Filter number types and zoom in to see density.</div>
+          <div class="ctrl-row">
+            <button class="ctrl-btn on" id="btn-nl-all">All</button>
+            <button class="ctrl-btn" id="btn-nl-nat">Natural</button>
+            <button class="ctrl-btn" id="btn-nl-int">Integer</button>
+            <button class="ctrl-btn" id="btn-nl-rat">Rational</button>
+            <button class="ctrl-btn" id="btn-nl-irr">Irrational</button>
+          </div>
+          <div class="ctrl-row" style="align-items:center">
+            <label class="ctrl-lbl">Zoom:</label>
+            <input type="range" id="nlZoom" min="1" max="50" value="1" step="0.5" style="flex:1">
+            <span class="ctrl-lbl" id="nlZoomVal">1.0×</span>
+          </div>
+          <div class="nl-wrap">
+            <canvas id="nlCanvas" width="800" height="120"></canvas>
+            <div id="nl-hover">Position: 0.0000</div>
+          </div>
+        </div>
+
+        <div class="quiz-card">
+          <div class="sim-title">🧠 Knowledge Check</div>
+          <div id="qtext">Loading question...</div>
+          <div class="q-opts">
+            <div class="q-opt" data-ans="natural">Natural</div>
+            <div class="q-opt" data-ans="integer">Integer</div>
+            <div class="q-opt" data-ans="rational">Rational</div>
+            <div class="q-opt" data-ans="irrational">Irrational</div>
+          </div>
+          <div id="qfb"></div>
+          <button id="qnext">Next Question</button>
+          <div id="qscore" style="margin-top:10px; font-family:'Space Mono',monospace; font-size:11px; color:var(--text3-page);">Score: 0 / 0</div>
+        </div>
+      </section>
+      
+      <!-- EXERCISES -->
+      <section class="ex-section" id="ex">
+        <div class="ex-hero">
+          <h2>✍ Exercises</h2>
+          <p>Test your understanding with these practice problems.</p>
+        </div>
+
+        <div class="ex-set">
+          <div class="ex-card">
+            <div class="ex-card-hdr"><span class="ex-num">Q1</span><span class="badge-solved">✓ Solved</span></div>
+            <div class="ex-q">Is zero a rational number?</div>
+            <div class="ex-sol">
+              <p><strong>Yes</strong>. Zero can be written as {"\\(\\frac{0}{1}\\)"}, which fits the {"\\(\\frac{p}{q}\\)"} definition.</p>
+            </div>
+          </div>
+
+          <div class="ex-card">
+            <div class="ex-card-hdr"><span class="ex-num">Q2</span><span class="badge-try">✎ Try It</span></div>
+            <div class="ex-q">State whether true or false: Every integer is a whole number.</div>
+            <div class="reveal-wrap">
+              <button class="reveal-btn">👁 Show Answer</button>
+              <div class="reveal-ans"><strong>False</strong>. Negative integers (like -1) are not whole numbers.</div>
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
   </main>
 </div>
@@ -514,7 +468,8 @@ import Main from '../../layouts/Main.astro';
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (winScroll / height) * 100;
-    document.getElementById('pfill').style.width = scrolled + '%';
+    const pfill = document.getElementById('pfill');
+    if (pfill) pfill.style.width = scrolled + '%';
   });
 
   // Venn Interaction
@@ -530,21 +485,22 @@ import Main from '../../layouts/Main.astro';
     ring.addEventListener('click', () => {
       const id = ring.getAttribute('data-id');
       const data = vennData[id];
-      document.getElementById('venn-info').innerHTML = `<strong>${data.t}</strong>: ${data.d} <br> <span style="color:var(--text3-page)">Examples: ${data.e}</span>`;
+      const info = document.getElementById('venn-info');
+      if (info) info.innerHTML = `<strong>${data.t}</strong>: ${data.d} <br> <span style="color:var(--text3-page)">Examples: ${data.e}</span>`;
     });
   });
 
   // Decimal Expander
   function runDecimal() {
-    const p = parseInt(document.getElementById('dec-p').value) || 1;
-    const q = parseInt(document.getElementById('dec-q').value) || 7;
+    const pVal = parseInt(document.getElementById('dec-p').value) || 1;
+    const qVal = parseInt(document.getElementById('dec-q').value) || 7;
     const el = document.getElementById('dec-visual');
     
-    let res = (p / q).toString();
+    let res = (pVal / qVal).toString();
     if (res.length > 15) res = res.substring(0, 15) + '...';
     
-    el.innerHTML = `<div style="background:var(--bg2-page); padding:15px; border-radius:8px; margin-top:10px; font-family:'Space Mono',monospace;">
-      ${p} ÷ ${q} = ${res}
+    if (el) el.innerHTML = `<div style="background:var(--bg2-page); padding:15px; border-radius:8px; margin-top:10px; font-family:'Space Mono',monospace;">
+      ${pVal} ÷ ${qVal} = ${res}
     </div>`;
   }
   document.getElementById('btn-expand')?.addEventListener('click', runDecimal);
@@ -557,7 +513,8 @@ import Main from '../../layouts/Main.astro';
     const ctx = cv.getContext('2d');
     const W = cv.width, H = cv.height;
     const zoom = parseFloat(document.getElementById('nlZoom').value);
-    document.getElementById('nlZoomVal').textContent = zoom.toFixed(1) + '×';
+    const zoomVal = document.getElementById('nlZoomVal');
+    if (zoomVal) zoomVal.textContent = zoom.toFixed(1) + '×';
 
     ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = '#0f0f1a';
@@ -603,26 +560,32 @@ import Main from '../../layouts/Main.astro';
   let qi = 0, qs = 0;
   function loadQ() {
     const q = quizQ[qi % quizQ.length];
-    document.getElementById('qtext').textContent = q.q;
-    document.getElementById('qfb').textContent = '';
-    document.getElementById('qnext').style.display = 'none';
+    const qtext = document.getElementById('qtext');
+    const qfb = document.getElementById('qfb');
+    const qnext = document.getElementById('qnext');
+    if (qtext) qtext.textContent = q.q;
+    if (qfb) qfb.textContent = '';
+    if (qnext) qnext.style.display = 'none';
     document.querySelectorAll('.q-opt').forEach(o => o.className = 'q-opt');
   }
   document.querySelectorAll('.q-opt').forEach(opt => {
     opt.addEventListener('click', () => {
       const chosen = opt.getAttribute('data-ans');
       const correct = quizQ[qi % quizQ.length].a;
+      const qfb = document.getElementById('qfb');
+      const qscore = document.getElementById('qscore');
+      const qnext = document.getElementById('qnext');
       if (chosen === correct) {
         opt.classList.add('right');
         qs++;
-        document.getElementById('qfb').innerHTML = '<span style="color:var(--acc3-page)">Correct!</span>';
+        if (qfb) qfb.innerHTML = '<span style="color:var(--acc3-page)">Correct!</span>';
       } else {
         opt.classList.add('wrong');
-        document.getElementById('qfb').innerHTML = `<span style="color:var(--acc2-page)">Wrong. It is ${correct}.</span>`;
+        if (qfb) qfb.innerHTML = `<span style="color:var(--acc2-page)">Wrong. It is ${correct}.</span>`;
       }
       qi++;
-      document.getElementById('qscore').textContent = `Score: ${qs} / ${qi}`;
-      document.getElementById('qnext').style.display = 'block';
+      if (qscore) qscore.textContent = `Score: ${qs} / ${qi}`;
+      if (qnext) qnext.style.display = 'block';
     });
   });
   document.getElementById('qnext')?.addEventListener('click', loadQ);
@@ -632,8 +595,10 @@ import Main from '../../layouts/Main.astro';
   document.querySelectorAll('.reveal-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const ans = btn.nextElementSibling;
-      ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
-      btn.textContent = ans.style.display === 'block' ? '🙈 Hide Answer' : '👁 Show Answer';
+      if (ans) {
+        ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+        btn.textContent = ans.style.display === 'block' ? '🙈 Hide Answer' : '👁 Show Answer';
+      }
     });
   });
 </script>
