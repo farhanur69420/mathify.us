@@ -34,6 +34,7 @@ import Main from '../layouts/Main.astro';
     transition: border-color .2s;
   }
   .topic:hover { border-color: var(--teal); }
+  a.topic { cursor: pointer; }
   .topic .icon { font-size: 2rem; margin-bottom: .6rem; display: block; }
   .topic h3 { font-size: .9rem; font-weight: 700; margin-bottom: .2rem; }
   .topic p { font-size: .75rem; color: var(--mut); }
@@ -94,6 +95,11 @@ import Main from '../layouts/Main.astro';
     <p>Recommendations and reading lists.</p>
     <span class="soon">Coming Soon</span>
   </div>
+  <a href="/roulette-calculator" class="topic" style="text-decoration:none;">
+    <span class="icon">&#127922;</span>
+    <h3>Roulette Calculator</h3>
+    <p>Smart bet suggestions with Martingale engine.</p>
+  </a>
 </div>
 
 </Main>
