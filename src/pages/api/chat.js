@@ -1,13 +1,13 @@
 import OpenAI from 'openai';
 
-const client = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
-});
-
 export const POST = async ({ request }) => {
   try {
     const { messages, systemPrompt } = await request.json();
+
+    const client = new OpenAI({
+      apiKey: process.env.GEMINI_API_KEY,
+      baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
+    });
 
     if (!messages || !Array.isArray(messages)) {
       return new Response(
