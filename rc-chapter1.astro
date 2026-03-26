@@ -1,0 +1,2256 @@
+---
+import Layout from '../../layouts/Layout.astro'
+---
+
+<Layout title="RC Design — Chapter 1: Introduction to Concrete & Steel">
+
+<!-- MathJax + Fonts (add to Layout if not already present) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="header-tag">CEE / RC Design</div>
+  <h1 class="page-title">Introduction to Concrete &amp; Steel</h1>
+  <p class="page-subtitle">Chapter 1 — Before you design anything, you have to know your materials cold. This chapter covers what concrete is, how it's made, what makes it strong (or weak), and why steel is its perfect partner.</p>
+  <div class="chapter-meta">
+    <span class="meta-pill">6 Core Topics</span>
+    <span class="meta-pill">6 Calculators</span>
+    <span class="meta-pill">6 Animations</span>
+  </div>
+</header>
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc-card">
+  <h3 class="toc-title">In This Chapter</h3>
+  <ol class="toc-list">
+    <li><a href="#sec-rc">What is Reinforced Concrete?</a></li>
+    <li><a href="#sec-constituents">Concrete Constituents &amp; Cement</a></li>
+    <li><a href="#sec-wc">Water-Cement Ratio</a></li>
+    <li><a href="#sec-fc">Compressive Strength f'c</a></li>
+    <li><a href="#sec-ec">Modulus of Elasticity Ec</a></li>
+    <li><a href="#sec-steel">Steel Reinforcement</a></li>
+  </ol>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 1: WHAT IS REINFORCED CONCRETE
+═══════════════════════════════════════════════════════════ -->
+<section class="topic-section" id="sec-rc">
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <h2 class="section-title">What is Reinforced Concrete?</h2>
+  </div>
+
+  <div class="teaching-grid">
+    <div class="view-card civil-view">
+      <div class="view-tag">Civil View</div>
+      <h4>Why engineers love it</h4>
+      <p>Concrete is cheap, fireproof, moldable into any shape, and excellent in compression. But you can't build a beam from plain concrete — it'll crack the moment it bends. Steel bars embedded in the tension zone fix that. The result is a material that's strong everywhere, economical, and durable for 100+ year service lives.</p>
+    </div>
+    <div class="view-card physics-view">
+      <div class="view-tag">Physics View</div>
+      <h4>What's happening inside</h4>
+      <p>Under bending, a beam develops a <em>neutral axis</em>. Above it, the material is squeezed (compression). Below it, the material is stretched (tension). Concrete can handle the squeezing — its aggregate particles interlock and resist crushing. But tension pulls the brittle cement matrix apart. Steel, being ductile, handles the pulling with ease.</p>
+    </div>
+    <div class="view-card math-view">
+      <div class="view-tag">Math View</div>
+      <h4>The numbers that matter</h4>
+      <p>Composite action requires compatibility — both materials must strain together. This means:</p>
+      <div class="eq-box">
+        \[ \varepsilon_s = \varepsilon_c \quad \text{(strain compatibility)} \]
+        \[ f_c \approx 3{,}000 \text{–} 6{,}000 \text{ psi (compression)} \]
+        \[ f_t \approx 300 \text{–} 600 \text{ psi (tension — ignored in design)} \]
+      </div>
+    </div>
+  </div>
+
+  <div class="core-idea-box">
+    <span class="core-label">Core Idea</span>
+    <p>Reinforced concrete is a composite: concrete resists compression, steel resists tension — together they handle everything a structure can throw at them.</p>
+  </div>
+
+  <div class="why-matters">
+    <span class="wm-icon">⚡</span>
+    <div>
+      <strong>Why it matters:</strong> Every RC design decision — bar placement, cover, section depth — traces back to this fundamental division of labor between the two materials.
+    </div>
+  </div>
+
+  <!-- CANVAS ANIMATION 1 -->
+  <div class="canvas-wrapper">
+    <div class="canvas-header">
+      <h4 class="canvas-title">Animation: RC Beam Under Load</h4>
+      <div class="canvas-controls">
+        <button class="btn-control" id="btn-beam-toggle">⏸ Pause</button>
+        <button class="btn-control" id="btn-beam-reset">↺ Reset</button>
+      </div>
+    </div>
+    <canvas id="canvas-beam" width="780" height="340"></canvas>
+    <p class="canvas-caption">Watch how the neutral axis stays at mid-height for a symmetric section. Compression zone (top) resists crushing; tension zone (bottom) relies on steel bars.</p>
+  </div>
+
+  <!-- CALCULATOR 1 -->
+  <div class="calc-card" id="calc-rc">
+    <h4 class="calc-title">Calculator: Concrete Cover &amp; Effective Depth</h4>
+    <p class="calc-desc">Find the effective depth <em>d</em> from overall beam depth, cover, stirrup size, and bar diameter.</p>
+    <div class="calc-grid">
+      <label class="calc-label">Overall depth h (in)<input type="number" id="rc-h" value="18" min="4" class="calc-input"></label>
+      <label class="calc-label">Clear cover (in)<input type="number" id="rc-cover" value="1.5" step="0.25" min="0.5" class="calc-input"></label>
+      <label class="calc-label">Stirrup diameter (in)<input type="number" id="rc-stirrup" value="0.375" step="0.125" min="0.25" class="calc-input"></label>
+      <label class="calc-label">Main bar diameter (in)<input type="number" id="rc-bar" value="0.75" step="0.125" min="0.375" class="calc-input"></label>
+    </div>
+    <button class="btn-calc" onclick="calcRCDepth()">Calculate Effective Depth</button>
+    <div class="calc-result" id="result-rc" style="display:none"></div>
+    <div class="calc-steps" id="steps-rc" style="display:none"></div>
+    <button class="btn-steps" id="toggle-steps-rc" onclick="toggleSteps('rc')" style="display:none">▼ Show Steps</button>
+  </div>
+
+  <!-- WORKED EXAMPLE 1 -->
+  <div class="example-card">
+    <div class="example-header">
+      <span class="eg-tag">Worked Example 1.1</span>
+      <h4>Identifying Tension &amp; Compression Zones</h4>
+    </div>
+    <p class="eg-problem"><strong>Problem:</strong> A simply-supported RC beam with span L = 20 ft carries a uniform load w = 2 k/ft. The section is 12 in × 24 in overall, with 3 × #8 bars at the bottom. Identify the stress regions and explain where each material is working.</p>
+    <div class="eg-steps">
+      <div class="eg-step"><span class="step-num">1</span><div><strong>Loading condition:</strong> Simply supported → sagging moment at midspan. Midspan moment: \( M = \frac{wL^2}{8} = \frac{2(20)^2}{8} = 100 \text{ kip·ft} \)</div></div>
+      <div class="eg-step"><span class="step-num">2</span><div><strong>Compression zone:</strong> The top of the beam is compressed. Concrete handles this with its high f'c capacity (say 4000 psi). The compression block depth 'a' will be calculated in Chapter 2.</div></div>
+      <div class="eg-step"><span class="step-num">3</span><div><strong>Tension zone:</strong> The bottom is in tension. Plain concrete (ft ≈ 400–500 psi) would crack immediately. The 3 × #8 bars (As = 3 × 0.79 = 2.37 in²) carry the entire tensile force.</div></div>
+      <div class="eg-step"><span class="step-num">4</span><div><strong>Neutral axis:</strong> The boundary between compression and tension. For this section it sits above the bar centroid. Finding its exact position is the core task of flexural analysis.</div></div>
+    </div>
+    <div class="eg-answer">
+      <strong>Conclusion:</strong> Top 40–50% of section → concrete in compression. Bottom → steel in tension, concrete ignored. This is the fundamental RC assumption.
+    </div>
+  </div>
+
+  <!-- QUICK REF 1 -->
+  <div class="qref-card">
+    <h4 class="qref-title">Quick Reference — RC Material Properties</h4>
+    <div class="qref-grid">
+      <div class="qref-item"><span class="qref-label">Concrete compressive strength</span><span class="qref-val">f'c = 3000–6000 psi</span></div>
+      <div class="qref-item"><span class="qref-label">Concrete tensile strength</span><span class="qref-val">fr ≈ 7.5√f'c psi (ignored in flexure)</span></div>
+      <div class="qref-item"><span class="qref-label">Steel yield strength</span><span class="qref-val">fy = 40, 60, or 75 ksi</span></div>
+      <div class="qref-item"><span class="qref-label">Thermal expansion (steel)</span><span class="qref-val">6.5 × 10⁻⁶ per °F</span></div>
+      <div class="qref-item"><span class="qref-label">Thermal expansion (concrete)</span><span class="qref-val">5.5 × 10⁻⁶ per °F (compatible!)</span></div>
+      <div class="qref-item"><span class="qref-label">Unit weight of RC</span><span class="qref-val">wc = 150 pcf (normal weight)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 2: CONCRETE CONSTITUENTS & CEMENT
+═══════════════════════════════════════════════════════════ -->
+<section class="topic-section" id="sec-constituents">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2 class="section-title">Concrete Constituents &amp; Cement</h2>
+  </div>
+
+  <div class="teaching-grid">
+    <div class="view-card civil-view">
+      <div class="view-tag">Civil View</div>
+      <h4>What goes into the mix</h4>
+      <p>Concrete = cement + coarse aggregate + fine aggregate + water + (optional) admixtures. In Bangladesh, coarse aggregate is typically brick chips or stone chips. Fine aggregate is sylhet sand or river sand. Each ingredient has a job: cement binds, aggregates provide bulk and economy, water triggers hydration, admixtures tune properties.</p>
+    </div>
+    <div class="view-card physics-view">
+      <div class="view-tag">Physics View</div>
+      <h4>Hydration: the chemistry that hardens concrete</h4>
+      <p>Cement (CaO, SiO₂, Al₂O₃) reacts with water in a process called <strong>hydration</strong>. This produces calcium silicate hydrate (C-S-H) gel — the glue that binds everything together. The gel fills voids and continues to gain strength for years, though 28 days is the standard design benchmark. More water = more pores = weaker matrix.</p>
+    </div>
+    <div class="view-card math-view">
+      <div class="view-tag">Math View</div>
+      <h4>Mix proportioning</h4>
+      <p>Mix ratios are expressed as cement:sand:coarse aggregate by weight or volume. A common 1:2:4 mix means:</p>
+      <div class="eq-box">
+        \[ \text{Ratio} = 1 \text{ (cement)} : 2 \text{ (sand)} : 4 \text{ (gravel)} \]
+        \[ V_\text{total} = V_c + V_{fa} + V_{ca} + V_w + V_\text{air} \]
+        \[ \text{For 1 m}^3\text{: } M_c = \frac{\rho_c \cdot 1}{1 + 2 + 4} \approx 280 \text{ kg/m}^3 \]
+      </div>
+    </div>
+  </div>
+
+  <div class="core-idea-box">
+    <span class="core-label">Core Idea</span>
+    <p>Every ingredient in a concrete mix has a specific purpose — change one and you change the balance between strength, workability, durability, and cost.</p>
+  </div>
+
+  <div class="why-matters">
+    <span class="wm-icon">⚡</span>
+    <div>
+      <strong>Cement type matters:</strong> OPC (Grade 43/53) for general structures. PPC for marine/mass concrete (lower heat, better sulfate resistance). Rapid hardening for urgent repairs. Low heat for dams. Choosing wrong adds cost or risks premature failure.
+    </div>
+  </div>
+
+  <!-- CEMENT TYPES TABLE -->
+  <div class="table-wrapper">
+    <h4 class="table-title">Cement Types at a Glance</h4>
+    <table class="styled-table">
+      <thead>
+        <tr><th>Type</th><th>Key Property</th><th>Use Case</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>OPC (33/43/53 grade)</td><td>Standard strength gain</td><td>Buildings, bridges, pavements</td></tr>
+        <tr><td>Portland Pozzolana (PPC)</td><td>Low heat, sulfate resistant</td><td>Marine works, hydraulic structures</td></tr>
+        <tr><td>Rapid Hardening</td><td>Early high strength</td><td>Precast, urgent repairs, road work</td></tr>
+        <tr><td>Low Heat</td><td>Minimal hydration heat</td><td>Mass concrete (dams, retaining walls)</td></tr>
+        <tr><td>Sulphate Resisting</td><td>Resists sulfate attack</td><td>Foundations in sulfate-rich soil</td></tr>
+        <tr><td>White / Colored</td><td>Aesthetic finish</td><td>Decorative, architectural</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CANVAS ANIMATION 2 -->
+  <div class="canvas-wrapper">
+    <div class="canvas-header">
+      <h4 class="canvas-title">Animation: Concrete Mix — Aggregate Packing &amp; Hydration</h4>
+      <div class="canvas-controls">
+        <button class="btn-control" id="btn-hydrate-toggle">⏸ Pause</button>
+        <button class="btn-control" id="btn-hydrate-reset">↺ Reset</button>
+      </div>
+    </div>
+    <canvas id="canvas-hydration" width="780" height="320"></canvas>
+    <p class="canvas-caption">Left: dry mix (cement, coarse &amp; fine aggregate). Right: after water addition — hydration gel forms and fills voids, binding everything into an artificial stone.</p>
+  </div>
+
+  <!-- CALCULATOR 2 -->
+  <div class="calc-card" id="calc-mix">
+    <h4 class="calc-title">Calculator: Mix Proportioning (Gravimetric)</h4>
+    <p class="calc-desc">Given a target volume and mix ratio, find the mass of each ingredient.</p>
+    <div class="calc-grid">
+      <label class="calc-label">Target volume (m³)<input type="number" id="mix-vol" value="1" step="0.5" min="0.1" class="calc-input"></label>
+      <label class="calc-label">Mix ratio (c:fa:ca)<select id="mix-ratio" class="calc-input">
+        <option value="1:1.5:3">1:1.5:3 (Rich)</option>
+        <option value="1:2:4" selected>1:2:4 (Standard)</option>
+        <option value="1:3:6">1:3:6 (Lean)</option>
+        <option value="custom">Custom</option>
+      </select></label>
+      <label class="calc-label" id="mix-custom-row" style="display:none">Custom (c:fa:ca)<input type="text" id="mix-custom" value="1:2:4" class="calc-input"></label>
+      <label class="calc-label">W/C ratio<input type="number" id="mix-wc" value="0.50" step="0.05" min="0.35" max="0.70" class="calc-input"></label>
+    </div>
+    <button class="btn-calc" onclick="calcMix()">Calculate Mix Quantities</button>
+    <div class="calc-result" id="result-mix" style="display:none"></div>
+    <div class="calc-steps" id="steps-mix" style="display:none"></div>
+    <button class="btn-steps" id="toggle-steps-mix" onclick="toggleSteps('mix')" style="display:none">▼ Show Steps</button>
+  </div>
+
+  <!-- WORKED EXAMPLE 2 -->
+  <div class="example-card">
+    <div class="example-header">
+      <span class="eg-tag">Worked Example 2.1</span>
+      <h4>Materials for 1 m³ of 1:2:4 Concrete</h4>
+    </div>
+    <p class="eg-problem"><strong>Problem:</strong> Calculate the mass of cement, sand, and coarse aggregate required for 1 m³ of nominal mix concrete using a 1:2:4 ratio by weight. Assume bulk unit weight of dry concrete ingredients = 1500 kg/m³. W/C = 0.50.</p>
+    <div class="eg-steps">
+      <div class="eg-step"><span class="step-num">1</span><div><strong>Sum of ratios:</strong> \( 1 + 2 + 4 = 7 \)</div></div>
+      <div class="eg-step"><span class="step-num">2</span><div><strong>Total dry mass for 1 m³:</strong> \( M_\text{total} = 1500 \times 1 = 1500 \text{ kg} \)</div></div>
+      <div class="eg-step"><span class="step-num">3</span><div><strong>Cement:</strong> \( M_c = \frac{1}{7} \times 1500 = 214 \text{ kg} \approx 4.3 \text{ bags (50 kg each)} \)</div></div>
+      <div class="eg-step"><span class="step-num">4</span><div><strong>Fine aggregate (sand):</strong> \( M_{fa} = \frac{2}{7} \times 1500 = 429 \text{ kg} \)</div></div>
+      <div class="eg-step"><span class="step-num">5</span><div><strong>Coarse aggregate:</strong> \( M_{ca} = \frac{4}{7} \times 1500 = 857 \text{ kg} \)</div></div>
+      <div class="eg-step"><span class="step-num">6</span><div><strong>Water:</strong> \( M_w = 0.50 \times 214 = 107 \text{ kg} = 107 \text{ liters} \)</div></div>
+    </div>
+    <div class="eg-answer">
+      <strong>Answer:</strong> Cement = 214 kg, Sand = 429 kg, Coarse Agg = 857 kg, Water = 107 L per 1 m³ of concrete.
+    </div>
+  </div>
+
+  <!-- QUICK REF 2 -->
+  <div class="qref-card">
+    <h4 class="qref-title">Quick Reference — Concrete Constituents</h4>
+    <div class="qref-grid">
+      <div class="qref-item"><span class="qref-label">Coarse aggregate (CA)</span><span class="qref-val">Size > ¼ in (6 mm); stone/brick chips</span></div>
+      <div class="qref-item"><span class="qref-label">Fine aggregate (FA)</span><span class="qref-val">Size ≤ ¼ in; sylhet/river sand</span></div>
+      <div class="qref-item"><span class="qref-label">Cement hydration time</span><span class="qref-val">~28 days for full design strength</span></div>
+      <div class="qref-item"><span class="qref-label">Cement raw materials</span><span class="qref-val">CaO, SiO₂, Al₂O₃ (limestone, shale)</span></div>
+      <div class="qref-item"><span class="qref-label">Portland cement patent</span><span class="qref-val">Joseph Aspdin, 1824 (England)</span></div>
+      <div class="qref-item"><span class="qref-label">RC patent</span><span class="qref-val">Joseph Monier, 1867 (France)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 3: WATER-CEMENT RATIO
+═══════════════════════════════════════════════════════════ -->
+<section class="topic-section" id="sec-wc">
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <h2 class="section-title">Water-Cement Ratio</h2>
+  </div>
+
+  <div class="teaching-grid">
+    <div class="view-card civil-view">
+      <div class="view-tag">Civil View</div>
+      <h4>The most important single number in mix design</h4>
+      <p>Every spec sheet for structural concrete includes a maximum W/C ratio. ACI 318 requires W/C ≤ 0.45 for exposure to freezing/thawing, ≤ 0.50 for moderate sulfate exposure. Why? Because W/C controls durability and strength simultaneously. Reducing it is the single most effective way to produce better concrete.</p>
+    </div>
+    <div class="view-card physics-view">
+      <div class="view-tag">Physics View</div>
+      <h4>Water creates pores — pores kill strength</h4>
+      <p>Only about W/C = 0.25 of water is needed for complete hydration. Any water beyond that creates capillary pores that remain empty after evaporation. These voids are stress concentrators — cracks initiate there under load. More excess water → more pores → lower strength. Think of it like Swiss cheese: more holes = weaker cheese.</p>
+    </div>
+    <div class="view-card math-view">
+      <div class="view-tag">Math View</div>
+      <h4>Abrams' Law</h4>
+      <div class="eq-box">
+        \[ w/c = \frac{W_w}{W_c} \]
+        \[ f'_c \approx \frac{A}{B^{w/c}} \quad \text{(Abrams, 1918)} \]
+        \[ \text{General range: } w/c = 0.40 \text{ to } 0.60 \]
+        \[ \text{High strength: } w/c \leq 0.35 \]
+      </div>
+      <p>Where A and B are empirical constants depending on cement type and curing.</p>
+    </div>
+  </div>
+
+  <div class="core-idea-box">
+    <span class="core-label">Core Idea</span>
+    <p>Lower W/C = more strength and durability, but less workability. Mix design is about finding the sweet spot for your specific job conditions.</p>
+  </div>
+
+  <div class="why-matters">
+    <span class="wm-icon">⚡</span>
+    <div>
+      <strong>The workability tradeoff:</strong> A concrete mix with W/C = 0.40 might give you f'c = 6000 psi but will be stiff and hard to place in congested rebar cages. Superplasticizers (admixtures) break this tradeoff — they fluidize the mix without adding water.
+    </div>
+  </div>
+
+  <!-- CANVAS ANIMATION 3 -->
+  <div class="canvas-wrapper">
+    <div class="canvas-header">
+      <h4 class="canvas-title">Animation: W/C Ratio vs. Strength &amp; Workability</h4>
+      <div class="canvas-controls">
+        <label class="slider-label">W/C Ratio: <span id="wc-display">0.50</span></label>
+        <input type="range" id="wc-slider" min="30" max="70" value="50" class="slider">
+      </div>
+    </div>
+    <canvas id="canvas-wc" width="780" height="300"></canvas>
+    <p class="canvas-caption">Drag the slider to change W/C ratio. Watch how compressive strength (blueprint bars) and workability (amber bars) respond inversely.</p>
+  </div>
+
+  <!-- CALCULATOR 3 -->
+  <div class="calc-card" id="calc-wc">
+    <h4 class="calc-title">Calculator: Water-Cement Ratio &amp; Water Content</h4>
+    <div class="calc-grid">
+      <label class="calc-label">Target W/C ratio<input type="number" id="wc-ratio" value="0.50" step="0.01" min="0.30" max="0.75" class="calc-input"></label>
+      <label class="calc-label">Cement content (kg/m³)<input type="number" id="wc-cement" value="350" step="10" min="200" class="calc-input"></label>
+    </div>
+    <button class="btn-calc" onclick="calcWC()">Calculate Water Content</button>
+    <div class="calc-result" id="result-wc" style="display:none"></div>
+    <div class="calc-steps" id="steps-wc" style="display:none"></div>
+    <button class="btn-steps" id="toggle-steps-wc" onclick="toggleSteps('wc')" style="display:none">▼ Show Steps</button>
+  </div>
+
+  <!-- WORKED EXAMPLE 3 -->
+  <div class="example-card">
+    <div class="example-header">
+      <span class="eg-tag">Worked Example 3.1</span>
+      <h4>W/C Ratio for Target Strength</h4>
+    </div>
+    <p class="eg-problem"><strong>Problem:</strong> A structural engineer specifies f'c = 4000 psi for a column. Using Abrams' law approximation and ACI guidance, estimate the required W/C ratio and calculate the water content if cement = 380 kg/m³. Also check if workability will be acceptable for placement.</p>
+    <div class="eg-steps">
+      <div class="eg-step"><span class="step-num">1</span><div><strong>Target strength with margin:</strong> Required average \( f'_{cr} = f'_c + 1200 = 5200 \text{ psi} \) (ACI 301 margin for unknown variability)</div></div>
+      <div class="eg-step"><span class="step-num">2</span><div><strong>Estimate W/C from ACI Table 6.3.4.3:</strong> For f'cr ≈ 5200 psi, W/C ≈ <strong>0.44</strong> (interpolating between 5000 psi → 0.48 and 6000 psi → 0.41)</div></div>
+      <div class="eg-step"><span class="step-num">3</span><div><strong>Water content:</strong> \( W_w = 0.44 \times 380 = 167 \text{ kg/m}^3 = 167 \text{ liters} \)</div></div>
+      <div class="eg-step"><span class="step-num">4</span><div><strong>Workability check:</strong> For 167 L/m³ with moderate cement content → slump likely 50–75 mm. Acceptable for beam/column placement. If rebar is congested, consider adding superplasticizer, not more water.</div></div>
+    </div>
+    <div class="eg-answer">
+      <strong>Answer:</strong> W/C = 0.44, Water = 167 kg/m³. Workability is acceptable; if not, use superplasticizer — never increase water.
+    </div>
+  </div>
+
+  <!-- QUICK REF 3 -->
+  <div class="qref-card">
+    <h4 class="qref-title">Quick Reference — W/C Ratio</h4>
+    <div class="qref-grid">
+      <div class="qref-item"><span class="qref-label">Formula</span><span class="qref-val">W/C = Weight of water ÷ Weight of cement</span></div>
+      <div class="qref-item"><span class="qref-label">General structural range</span><span class="qref-val">0.40 – 0.60</span></div>
+      <div class="qref-item"><span class="qref-label">High-strength concrete</span><span class="qref-val">W/C ≤ 0.35 (with HRWR)</span></div>
+      <div class="qref-item"><span class="qref-label">Freeze-thaw exposure (ACI)</span><span class="qref-val">W/C ≤ 0.45</span></div>
+      <div class="qref-item"><span class="qref-label">Min. water for hydration only</span><span class="qref-val">W/C ≈ 0.25 (not workable)</span></div>
+      <div class="qref-item"><span class="qref-label">Workability measure</span><span class="qref-val">Slump test (ASTM C143)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 4: COMPRESSIVE STRENGTH f'c
+═══════════════════════════════════════════════════════════ -->
+<section class="topic-section" id="sec-fc">
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <h2 class="section-title">Compressive Strength f'c</h2>
+  </div>
+
+  <div class="teaching-grid">
+    <div class="view-card civil-view">
+      <div class="view-tag">Civil View</div>
+      <h4>The master design variable</h4>
+      <p>f'c is the 28-day compressive strength of a standard 6×12 in cylinder, tested in a compression machine. Every formula in ACI 318 — for flexure, shear, development length, deflection — references f'c. It's the number your concrete mix design must hit, and what your QC program must verify batch by batch.</p>
+    </div>
+    <div class="view-card physics-view">
+      <div class="view-tag">Physics View</div>
+      <h4>What happens when concrete crushes</h4>
+      <p>Initially the concrete is elastic — stress and strain increase proportionally. Around 30–40% of f'c, microcracks begin forming at aggregate-paste interfaces. By 70–80% of f'c, cracks propagate and link up. At f'c, the specimen suddenly fractures in a cone-and-shear pattern (brittle failure). The post-peak behavior is very sensitive to loading rate and confinement.</p>
+    </div>
+    <div class="view-card math-view">
+      <div class="view-tag">Math View</div>
+      <h4>Cylinder test and acceptance criteria</h4>
+      <div class="eq-box">
+        \[ f'_c = \frac{P}{A} = \frac{P}{\pi r^2} \quad \text{(6×12 in cylinder)} \]
+        \[ \varepsilon_{cu} \approx 0.003 \quad \text{(ACI ultimate strain)} \]
+        \[ \text{Acceptance: } \bar{f}_{c,3} \geq f'_c \text{ AND min} \geq f'_c - 500 \text{ psi} \]
+      </div>
+    </div>
+  </div>
+
+  <div class="core-idea-box">
+    <span class="core-label">Core Idea</span>
+    <p>f'c is the fundamental material property of concrete — everything in RC design is calibrated around it. Know it, specify it, test it, and never guess it.</p>
+  </div>
+
+  <!-- CANVAS ANIMATION 4 -->
+  <div class="canvas-wrapper">
+    <div class="canvas-header">
+      <h4 class="canvas-title">Animation: Concrete Stress-Strain Curve in Compression</h4>
+      <div class="canvas-controls">
+        <button class="btn-control" id="btn-fc-toggle">▶ Play</button>
+        <button class="btn-control" id="btn-fc-reset">↺ Reset</button>
+        <select id="fc-select" class="btn-control" style="padding:6px 10px">
+          <option value="3000">f'c = 3000 psi</option>
+          <option value="4000" selected>f'c = 4000 psi</option>
+          <option value="6000">f'c = 6000 psi</option>
+        </select>
+      </div>
+    </div>
+    <canvas id="canvas-fc" width="780" height="360"></canvas>
+    <p class="canvas-caption">The curve climbs linearly (elastic range), curves over near peak (microcracking), reaches f'c at ε ≈ 0.002, then drops. ACI assumes the design limit at εcu = 0.003.</p>
+  </div>
+
+  <!-- CALCULATOR 4 -->
+  <div class="calc-card" id="calc-fc">
+    <h4 class="calc-title">Calculator: Cylinder Compressive Strength</h4>
+    <p class="calc-desc">Given cylinder dimensions and failure load, compute f'c. Also check ACI acceptance.</p>
+    <div class="calc-grid">
+      <label class="calc-label">Cylinder diameter (in)<input type="number" id="cyl-d" value="6" step="1" min="4" class="calc-input"></label>
+      <label class="calc-label">Failure load P (kips)<input type="number" id="cyl-p" value="127" step="1" min="1" class="calc-input"></label>
+      <label class="calc-label">Specified f'c (psi)<input type="number" id="cyl-fc-spec" value="4000" step="500" min="2000" class="calc-input"></label>
+    </div>
+    <button class="btn-calc" onclick="calcFC()">Compute f'c &amp; Check</button>
+    <div class="calc-result" id="result-fc" style="display:none"></div>
+    <div class="calc-steps" id="steps-fc" style="display:none"></div>
+    <button class="btn-steps" id="toggle-steps-fc" onclick="toggleSteps('fc')" style="display:none">▼ Show Steps</button>
+  </div>
+
+  <!-- WORKED EXAMPLE 4 -->
+  <div class="example-card">
+    <div class="example-header">
+      <span class="eg-tag">Worked Example 4.1</span>
+      <h4>Cylinder Test Result &amp; ACI Acceptance Check</h4>
+    </div>
+    <p class="eg-problem"><strong>Problem:</strong> Three consecutive 6×12 in cylinders from a batch were tested at 28 days: P₁ = 122 k, P₂ = 135 k, P₃ = 128 k. The specified f'c = 4000 psi. Check ACI acceptance criteria.</p>
+    <div class="eg-steps">
+      <div class="eg-step"><span class="step-num">1</span><div><strong>Cylinder area:</strong> \( A = \pi(3)^2 = 28.27 \text{ in}^2 \)</div></div>
+      <div class="eg-step"><span class="step-num">2</span><div><strong>Individual strengths:</strong>
+        \( f_1 = \frac{122{,}000}{28.27} = 4315 \text{ psi}, \quad f_2 = \frac{135{,}000}{28.27} = 4776 \text{ psi}, \quad f_3 = \frac{128{,}000}{28.27} = 4529 \text{ psi} \)
+      </div></div>
+      <div class="eg-step"><span class="step-num">3</span><div><strong>Average of 3:</strong> \( \bar{f}_c = \frac{4315 + 4776 + 4529}{3} = 4540 \text{ psi} \geq 4000 \text{ psi} \checkmark \)</div></div>
+      <div class="eg-step"><span class="step-num">4</span><div><strong>Min individual check:</strong> Min = 4315 psi. Required min = 4000 − 500 = 3500 psi. 4315 ≥ 3500 ✓</div></div>
+    </div>
+    <div class="eg-answer">
+      <strong>Answer:</strong> Both ACI criteria satisfied. Batch accepted. f'c ≈ 4315–4776 psi, well above the 4000 psi spec.
+    </div>
+  </div>
+
+  <!-- QUICK REF 4 -->
+  <div class="qref-card">
+    <h4 class="qref-title">Quick Reference — Compressive Strength f'c</h4>
+    <div class="qref-grid">
+      <div class="qref-item"><span class="qref-label">Standard cylinder</span><span class="qref-val">6 × 12 in or 4 × 8 in (ASTM C39)</span></div>
+      <div class="qref-item"><span class="qref-label">Test age</span><span class="qref-val">28 days (standard)</span></div>
+      <div class="qref-item"><span class="qref-label">ACI: average of 3</span><span class="qref-val">≥ f'c required</span></div>
+      <div class="qref-item"><span class="qref-label">ACI: min individual</span><span class="qref-val">≥ f'c − 500 psi (if f'c ≤ 5000 psi)</span></div>
+      <div class="qref-item"><span class="qref-label">Ultimate strain (ACI)</span><span class="qref-val">εcu = 0.003</span></div>
+      <div class="qref-item"><span class="qref-label">Strain at peak stress</span><span class="qref-val">ε₀ ≈ 0.002</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 5: MODULUS OF ELASTICITY Ec
+═══════════════════════════════════════════════════════════ -->
+<section class="topic-section" id="sec-ec">
+  <div class="section-header">
+    <span class="section-number">05</span>
+    <h2 class="section-title">Modulus of Elasticity, E<sub>c</sub></h2>
+  </div>
+
+  <div class="teaching-grid">
+    <div class="view-card civil-view">
+      <div class="view-tag">Civil View</div>
+      <h4>Why Ec matters for deflection</h4>
+      <p>Ec controls how much a beam deflects under service loads. ACI 318 limits live-load deflection to L/360 for floors, L/480 for floors supporting brittle partitions. If you calculate the wrong Ec, your deflection prediction is off. In Bangladesh, where most concrete is normal-weight with modest f'c, Ec typically runs 2.5–3.5 million psi.</p>
+    </div>
+    <div class="view-card physics-view">
+      <div class="view-tag">Physics View</div>
+      <h4>What Ec represents physically</h4>
+      <p>Ec is the slope of the initial linear portion of the stress-strain curve. A stiffer concrete (higher f'c, denser aggregates) resists deformation more — higher Ec. Normal-weight concrete (wc = 145–150 pcf) follows ACI's empirical formula closely. Lightweight concrete (wc = 90–115 pcf) has significantly lower Ec and needs a modified expression.</p>
+    </div>
+    <div class="view-card math-view">
+      <div class="view-tag">Math View</div>
+      <h4>ACI Formula</h4>
+      <div class="eq-box">
+        \[ E_c = 57{,}000\sqrt{f'_c} \quad \text{(psi, normal-weight)} \]
+        \[ E_c = 33 w_c^{1.5} \sqrt{f'_c} \quad \text{(general, } w_c \text{ in pcf)} \]
+        \[ E_c = 4700\sqrt{f'_c} \quad \text{(MPa, SI)} \]
+        \[ n = \frac{E_s}{E_c} = \frac{29{,}000{,}000}{E_c} \quad \text{(modular ratio)} \]
+      </div>
+    </div>
+  </div>
+
+  <div class="core-idea-box">
+    <span class="core-label">Core Idea</span>
+    <p>Ec links f'c to stiffness: stronger concrete is stiffer concrete. Ec grows only as the square root of f'c — doubling f'c only increases Ec by ~41%.</p>
+  </div>
+
+  <div class="why-matters">
+    <span class="wm-icon">⚡</span>
+    <div>
+      <strong>The modular ratio n = Es/Ec</strong> is used in transformed-section analysis (WSD method). For f'c = 3000 psi, n ≈ 9. For f'c = 4000 psi, n ≈ 8. ACI permits rounding n to the nearest whole number.
+    </div>
+  </div>
+
+  <!-- EC TABLE -->
+  <div class="table-wrapper">
+    <h4 class="table-title">Ec &amp; n Values for Common Concrete Grades</h4>
+    <table class="styled-table">
+      <thead>
+        <tr><th>f'c (psi)</th><th>Ec (psi)</th><th>Ec (ksi)</th><th>n = Es/Ec</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>3,000</td><td>3,122,000</td><td>3,122</td><td>9.3 → use 9</td></tr>
+        <tr><td>4,000</td><td>3,605,000</td><td>3,605</td><td>8.0 → use 8</td></tr>
+        <tr><td>5,000</td><td>4,031,000</td><td>4,031</td><td>7.2 → use 7</td></tr>
+        <tr><td>6,000</td><td>4,415,000</td><td>4,415</td><td>6.6 → use 7</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CANVAS ANIMATION 5 -->
+  <div class="canvas-wrapper">
+    <div class="canvas-header">
+      <h4 class="canvas-title">Animation: Ec as the Slope of the Stress-Strain Curve</h4>
+      <div class="canvas-controls">
+        <select id="ec-fc-select" class="btn-control" style="padding:6px 10px">
+          <option value="3000">f'c = 3000 psi</option>
+          <option value="4000" selected>f'c = 4000 psi</option>
+          <option value="5000">f'c = 5000 psi</option>
+          <option value="6000">f'c = 6000 psi</option>
+        </select>
+        <span class="ec-display" id="ec-display-val">Ec = 3,605 ksi</span>
+      </div>
+    </div>
+    <canvas id="canvas-ec" width="780" height="340"></canvas>
+    <p class="canvas-caption">The dashed blueprint line is the chord from origin — its slope is Ec. The amber lines mark f'c and εcu = 0.003.</p>
+  </div>
+
+  <!-- CALCULATOR 5 -->
+  <div class="calc-card" id="calc-ec">
+    <h4 class="calc-title">Calculator: Modulus of Elasticity Ec &amp; Modular Ratio n</h4>
+    <div class="calc-grid">
+      <label class="calc-label">f'c (psi)<input type="number" id="ec-fc" value="4000" step="500" min="2000" class="calc-input"></label>
+      <label class="calc-label">Unit weight wc (pcf)<input type="number" id="ec-wc" value="145" step="5" min="90" max="160" class="calc-input"></label>
+      <label class="calc-label">Es (psi)<input type="number" id="ec-es" value="29000000" step="1000000" class="calc-input"></label>
+    </div>
+    <button class="btn-calc" onclick="calcEc()">Compute Ec &amp; n</button>
+    <div class="calc-result" id="result-ec" style="display:none"></div>
+    <div class="calc-steps" id="steps-ec" style="display:none"></div>
+    <button class="btn-steps" id="toggle-steps-ec" onclick="toggleSteps('ec')" style="display:none">▼ Show Steps</button>
+  </div>
+
+  <!-- WORKED EXAMPLE 5 -->
+  <div class="example-card">
+    <div class="example-header">
+      <span class="eg-tag">Worked Example 5.1</span>
+      <h4>Computing Ec and n for a Column Design</h4>
+    </div>
+    <p class="eg-problem"><strong>Problem:</strong> A normal-weight concrete column uses f'c = 4000 psi. Find Ec using both the simplified and general ACI formulas, then compute the modular ratio n. Es = 29,000,000 psi.</p>
+    <div class="eg-steps">
+      <div class="eg-step"><span class="step-num">1</span><div><strong>Simplified ACI formula (normal-weight, wc ≈ 145 pcf):</strong>
+        \( E_c = 57{,}000\sqrt{4000} = 57{,}000 \times 63.25 = 3{,}605{,}000 \text{ psi} \approx 3605 \text{ ksi} \)
+      </div></div>
+      <div class="eg-step"><span class="step-num">2</span><div><strong>General ACI formula check:</strong>
+        \( E_c = 33(145)^{1.5}\sqrt{4000} = 33 \times 1746.0 \times 63.25 = 3{,}645{,}000 \text{ psi} \) (≈ 1% difference — acceptable)
+      </div></div>
+      <div class="eg-step"><span class="step-num">3</span><div><strong>Modular ratio:</strong>
+        \( n = \frac{E_s}{E_c} = \frac{29{,}000{,}000}{3{,}605{,}000} = 8.04 \approx 8 \)
+      </div></div>
+    </div>
+    <div class="eg-answer">
+      <strong>Answer:</strong> Ec = 3,605 ksi, n = 8. Use n = 8 in transformed-section calculations for this column.
+    </div>
+  </div>
+
+  <!-- QUICK REF 5 -->
+  <div class="qref-card">
+    <h4 class="qref-title">Quick Reference — Ec</h4>
+    <div class="qref-grid">
+      <div class="qref-item"><span class="qref-label">ACI simplified (normal-weight)</span><span class="qref-val">Ec = 57,000√f'c (psi)</span></div>
+      <div class="qref-item"><span class="qref-label">ACI general</span><span class="qref-val">Ec = 33 wc^1.5 √f'c (pcf, psi)</span></div>
+      <div class="qref-item"><span class="qref-label">SI version</span><span class="qref-val">Ec = 4700√f'c (MPa)</span></div>
+      <div class="qref-item"><span class="qref-label">Modular ratio n</span><span class="qref-val">n = Es/Ec = 29,000,000 / Ec</span></div>
+      <div class="qref-item"><span class="qref-label">Es (steel)</span><span class="qref-val">29,000 ksi (constant, all grades)</span></div>
+      <div class="qref-item"><span class="qref-label">Normal-weight unit weight</span><span class="qref-val">wc = 145–150 pcf</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 6: STEEL REINFORCEMENT
+═══════════════════════════════════════════════════════════ -->
+<section class="topic-section" id="sec-steel">
+  <div class="section-header">
+    <span class="section-number">06</span>
+    <h2 class="section-title">Steel Reinforcement</h2>
+  </div>
+
+  <div class="teaching-grid">
+    <div class="view-card civil-view">
+      <div class="view-tag">Civil View</div>
+      <h4>Choosing bars for the job</h4>
+      <p>ACI recognizes 11 standard bar sizes: #3 through #11, plus #14 and #18 (number = 1/8" increments of diameter). Grade 60 (fy = 60 ksi) dominates structural work. Grade 40 is used for light stirrups. Grade 75 for high-strength applications. For seismic design, ASTM A706 (controlled chemistry) is specified instead of A615 to ensure ductility.</p>
+    </div>
+    <div class="view-card physics-view">
+      <div class="view-tag">Physics View</div>
+      <h4>Why steel works so well with concrete</h4>
+      <p>Three reasons: (1) Bond — deformed bar ribs mechanically interlock with concrete, preventing slip. (2) Thermal compatibility — steel expands at 6.5×10⁻⁶/°F, concrete at 5.5×10⁻⁶/°F — close enough to avoid differential cracking. (3) Protection — the alkaline concrete environment (pH ≈ 12.5) passivates the steel surface, preventing corrosion for decades.</p>
+    </div>
+    <div class="view-card math-view">
+      <div class="view-tag">Math View</div>
+      <h4>Key stress-strain points</h4>
+      <div class="eq-box">
+        \[ E_s = 29{,}000{,}000 \text{ psi} = 29{,}000 \text{ ksi} \]
+        \[ \varepsilon_y = \frac{f_y}{E_s} = \frac{60{,}000}{29{,}000{,}000} = 0.00207 \]
+        \[ f_s = E_s \cdot \varepsilon_s \quad (\text{for } \varepsilon_s \leq \varepsilon_y) \]
+        \[ f_s = f_y \quad (\text{for } \varepsilon_s > \varepsilon_y, \text{ perfect plasticity}) \]
+      </div>
+    </div>
+  </div>
+
+  <div class="core-idea-box">
+    <span class="core-label">Core Idea</span>
+    <p>Steel's perfectly plastic yield behavior is what makes RC design predictable and safe — a bar at yield gives the structure warning (large deflections) before it fails, unlike brittle concrete.</p>
+  </div>
+
+  <div class="why-matters">
+    <span class="wm-icon">⚡</span>
+    <div>
+      <strong>Tension-controlled failure:</strong> ACI requires RC beams to fail in a ductile tension-controlled mode (steel yields first, large deflection warns occupants) rather than a brittle compression-controlled mode (sudden concrete crushing, no warning). This is why there's a maximum reinforcement ratio ρmax.
+    </div>
+  </div>
+
+  <!-- REBAR TABLE -->
+  <div class="table-wrapper">
+    <h4 class="table-title">Standard Rebar Sizes (ASTM A615 / A706)</h4>
+    <table class="styled-table">
+      <thead>
+        <tr><th>Bar #</th><th>Diameter (in)</th><th>Area (in²)</th><th>Weight (lb/ft)</th><th>Common Use</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>#3</td><td>0.375</td><td>0.11</td><td>0.376</td><td>Stirrups, ties, light slabs</td></tr>
+        <tr><td>#4</td><td>0.500</td><td>0.20</td><td>0.668</td><td>Slabs, footings</td></tr>
+        <tr><td>#5</td><td>0.625</td><td>0.31</td><td>1.043</td><td>Beams, columns (light)</td></tr>
+        <tr><td>#6</td><td>0.750</td><td>0.44</td><td>1.502</td><td>Beams, columns</td></tr>
+        <tr><td>#7</td><td>0.875</td><td>0.60</td><td>2.044</td><td>Beams, columns</td></tr>
+        <tr><td>#8</td><td>1.000</td><td>0.79</td><td>2.670</td><td>Beams, columns (heavy)</td></tr>
+        <tr><td>#9</td><td>1.128</td><td>1.00</td><td>3.400</td><td>Heavy beams, columns</td></tr>
+        <tr><td>#10</td><td>1.270</td><td>1.27</td><td>4.303</td><td>Large columns, foundations</td></tr>
+        <tr><td>#11</td><td>1.410</td><td>1.56</td><td>5.313</td><td>Heavy members</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CANVAS ANIMATION 6 -->
+  <div class="canvas-wrapper">
+    <div class="canvas-header">
+      <h4 class="canvas-title">Animation: Steel Stress-Strain Curve (Grade Comparison)</h4>
+      <div class="canvas-controls">
+        <button class="btn-control" id="btn-steel-toggle">▶ Play</button>
+        <button class="btn-control" id="btn-steel-reset">↺ Reset</button>
+        <label style="color:var(--text-muted);font-size:0.8rem;display:flex;align-items:center;gap:6px">
+          <input type="checkbox" id="chk-gr40" checked> Grade 40
+        </label>
+        <label style="color:var(--text-muted);font-size:0.8rem;display:flex;align-items:center;gap:6px">
+          <input type="checkbox" id="chk-gr60" checked> Grade 60
+        </label>
+        <label style="color:var(--text-muted);font-size:0.8rem;display:flex;align-items:center;gap:6px">
+          <input type="checkbox" id="chk-gr75" checked> Grade 75
+        </label>
+      </div>
+    </div>
+    <canvas id="canvas-steel" width="780" height="360"></canvas>
+    <p class="canvas-caption">Notice the well-defined yield plateau in all grades. After yielding, stress stays at fy while strain keeps increasing — this is the ductility that makes RC safe.</p>
+  </div>
+
+  <!-- CALCULATOR 6 -->
+  <div class="calc-card" id="calc-steel">
+    <h4 class="calc-title">Calculator: Rebar Area &amp; Yield Force</h4>
+    <p class="calc-desc">Select bar size and quantity to get total steel area and the maximum tensile force T = As × fy.</p>
+    <div class="calc-grid">
+      <label class="calc-label">Bar size<select id="steel-bar" class="calc-input">
+        <option value="3,0.11">#3 (0.11 in²)</option>
+        <option value="4,0.20">#4 (0.20 in²)</option>
+        <option value="5,0.31">#5 (0.31 in²)</option>
+        <option value="6,0.44">#6 (0.44 in²)</option>
+        <option value="7,0.60">#7 (0.60 in²)</option>
+        <option value="8,0.79" selected>#8 (0.79 in²)</option>
+        <option value="9,1.00">#9 (1.00 in²)</option>
+        <option value="10,1.27">#10 (1.27 in²)</option>
+        <option value="11,1.56">#11 (1.56 in²)</option>
+      </select></label>
+      <label class="calc-label">Number of bars<input type="number" id="steel-n" value="3" min="1" max="20" class="calc-input"></label>
+      <label class="calc-label">Grade / fy (ksi)<select id="steel-grade" class="calc-input">
+        <option value="40">Grade 40 (fy = 40 ksi)</option>
+        <option value="60" selected>Grade 60 (fy = 60 ksi)</option>
+        <option value="75">Grade 75 (fy = 75 ksi)</option>
+      </select></label>
+    </div>
+    <button class="btn-calc" onclick="calcSteel()">Calculate As &amp; T</button>
+    <div class="calc-result" id="result-steel" style="display:none"></div>
+    <div class="calc-steps" id="steps-steel" style="display:none"></div>
+    <button class="btn-steps" id="toggle-steps-steel" onclick="toggleSteps('steel')" style="display:none">▼ Show Steps</button>
+  </div>
+
+  <!-- WORKED EXAMPLE 6 -->
+  <div class="example-card">
+    <div class="example-header">
+      <span class="eg-tag">Worked Example 6.1</span>
+      <h4>Rebar Selection for a Required Tensile Force</h4>
+    </div>
+    <p class="eg-problem"><strong>Problem:</strong> A beam tensile force at midspan requires As ≥ 2.15 in². Using Grade 60 steel, select a suitable bar arrangement. Check that bars fit within a 12-in wide beam with adequate spacing.</p>
+    <div class="eg-steps">
+      <div class="eg-step"><span class="step-num">1</span><div><strong>Required As = 2.15 in².</strong> Try 3 × #8: As = 3 × 0.79 = 2.37 in² ≥ 2.15 ✓ (10% over — acceptable)</div></div>
+      <div class="eg-step"><span class="step-num">2</span><div><strong>Alternate: 4 × #7:</strong> As = 4 × 0.60 = 2.40 in² ✓. More bars, smaller diameter.</div></div>
+      <div class="eg-step"><span class="step-num">3</span><div><strong>Spacing check for 3 × #8 in 12-in beam:</strong>
+        Cover = 1.5 in, stirrup = 0.375 in, bar dia = 1.0 in.
+        Available width = 12 − 2(1.5) − 2(0.375) − 3(1.0) = 12 − 3 − 0.75 − 3 = 5.25 in for 2 gaps → spacing = 5.25/2 = 2.63 in ≥ 1.5 × 1.0 = 1.5 in ✓
+      </div></div>
+      <div class="eg-step"><span class="step-num">4</span><div><strong>Tensile force provided:</strong> \( T = A_s \cdot f_y = 2.37 \times 60 = 142.2 \text{ kips} \)</div></div>
+    </div>
+    <div class="eg-answer">
+      <strong>Answer:</strong> Use 3 × #8 bars (As = 2.37 in²). Spacing = 2.63 in > minimum. T = 142 kips available.
+    </div>
+  </div>
+
+  <!-- QUICK REF 6 -->
+  <div class="qref-card">
+    <h4 class="qref-title">Quick Reference — Steel Reinforcement</h4>
+    <div class="qref-grid">
+      <div class="qref-item"><span class="qref-label">Es (all grades)</span><span class="qref-val">29,000 ksi (constant)</span></div>
+      <div class="qref-item"><span class="qref-label">Grade 40</span><span class="qref-val">fy = 40 ksi, εy = 0.00138</span></div>
+      <div class="qref-item"><span class="qref-label">Grade 60</span><span class="qref-val">fy = 60 ksi, εy = 0.00207</span></div>
+      <div class="qref-item"><span class="qref-label">Grade 75</span><span class="qref-val">fy = 75 ksi, εy = 0.00259</span></div>
+      <div class="qref-item"><span class="qref-label">Bar # = diameter in</span><span class="qref-val">N × (1/8) in (e.g. #8 = 1.0 in dia)</span></div>
+      <div class="qref-item"><span class="qref-label">Min clear spacing</span><span class="qref-val">max(1.5db, 1.5 in, 4/3 × max aggregate)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE FOOTER -->
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span class="footer-chapter">Chapter 1 Complete</span>
+    <p>Next: <strong>Chapter 2 — Flexural Analysis &amp; Design (WSD)</strong></p>
+    <p class="footer-note">All formulas per ACI 318. Imperial units unless otherwise noted.</p>
+  </div>
+</footer>
+
+</Layout>
+
+<!-- ═══════════════════════════════════════════════════════════
+     STYLES
+═══════════════════════════════════════════════════════════ -->
+<style>
+  :root {
+    --bg: #0d0d14;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --surface3: #222230;
+    --blueprint: #4ec9b0;
+    --blueprint-dim: rgba(78,201,176,0.15);
+    --blueprint-glow: rgba(78,201,176,0.35);
+    --rust: #c0392b;
+    --rust-dim: rgba(192,57,43,0.15);
+    --amber: #d4a94a;
+    --amber-dim: rgba(212,169,74,0.15);
+    --text: #e8e8f0;
+    --text-muted: #9090a8;
+    --text-dim: #5a5a72;
+    --border: rgba(255,255,255,0.07);
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* PAGE HEADER */
+  .page-header {
+    padding: 60px 40px 40px;
+    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .header-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--blueprint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 16px;
+    line-height: 1.15;
+  }
+  .page-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 640px;
+    margin: 0 0 24px;
+  }
+  .chapter-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .meta-pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--blueprint);
+    background: var(--blueprint-dim);
+    border: 1px solid var(--blueprint);
+    border-radius: 20px;
+    padding: 4px 12px;
+  }
+
+  /* TABLE OF CONTENTS */
+  .toc-card {
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 28px 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    border-left: 3px solid var(--amber);
+  }
+  .toc-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    margin: 0 0 16px;
+  }
+  .toc-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: toc;
+  }
+  .toc-list li { counter-increment: toc; }
+  .toc-list a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .toc-list a:hover { color: var(--blueprint); }
+  .toc-list li::before {
+    content: "0" counter(toc) "  ";
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+  }
+
+  /* TOPIC SECTION */
+  .topic-section {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 40px 0 20px;
+    border-bottom: 1px solid var(--blueprint);
+    margin-bottom: 32px;
+  }
+  .section-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--blueprint);
+    opacity: 0.6;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+  }
+
+  /* TEACHING GRID */
+  .teaching-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .view-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+  }
+  .civil-view { border-top: 2px solid var(--blueprint); }
+  .physics-view { border-top: 2px solid var(--amber); }
+  .math-view { border-top: 2px solid var(--rust); }
+  .view-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .civil-view .view-tag { color: var(--blueprint); }
+  .physics-view .view-tag { color: var(--amber); }
+  .math-view .view-tag { color: var(--rust); }
+  .view-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    margin: 0 0 8px;
+    color: var(--text);
+  }
+  .view-card p { margin: 0; font-size: 0.88rem; color: var(--text-muted); }
+
+  /* EQUATION BOX */
+  .eq-box {
+    background: var(--bg);
+    border-left: 2px solid var(--rust);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 0.82rem;
+    overflow-x: auto;
+  }
+
+  /* CORE IDEA */
+  .core-idea-box {
+    background: linear-gradient(135deg, var(--surface2) 0%, var(--surface) 100%);
+    border: 1px solid var(--blueprint);
+    border-radius: var(--radius);
+    padding: 22px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin: 24px 0;
+  }
+  .core-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--blueprint);
+    background: var(--blueprint-dim);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .core-idea-box p {
+    margin: 0;
+    font-size: 1.02rem;
+    font-style: italic;
+    color: var(--text);
+  }
+
+  /* WHY IT MATTERS */
+  .why-matters {
+    background: var(--amber-dim);
+    border: 1px solid rgba(212,169,74,0.3);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 28px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  .wm-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+  .why-matters strong { color: var(--amber); }
+
+  /* CANVAS */
+  .canvas-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .canvas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .canvas-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+  .canvas-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--bg);
+  }
+  .canvas-caption {
+    padding: 10px 20px;
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    border-top: 1px solid var(--border);
+    font-style: italic;
+  }
+
+  /* CONTROLS */
+  .btn-control {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    background: var(--surface3);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-control:hover {
+    background: var(--blueprint-dim);
+    border-color: var(--blueprint);
+    color: var(--blueprint);
+  }
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--surface3);
+    border-radius: 2px;
+    outline: none;
+    width: 160px;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--blueprint);
+    cursor: pointer;
+  }
+  .slider-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+  .ec-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--blueprint);
+    background: var(--blueprint-dim);
+    padding: 5px 12px;
+    border-radius: 4px;
+  }
+
+  /* CALCULATOR */
+  .calc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+  .calc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    margin: 0 0 6px;
+    color: var(--text);
+  }
+  .calc-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0 0 18px;
+  }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .calc-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .calc-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 9px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  .calc-input:focus {
+    outline: none;
+    border-color: var(--blueprint);
+  }
+  .btn-calc {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    background: var(--blueprint-dim);
+    color: var(--blueprint);
+    border: 1px solid var(--blueprint);
+    border-radius: 6px;
+    padding: 10px 24px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+  .btn-calc:hover {
+    background: var(--blueprint);
+    color: var(--bg);
+  }
+  .btn-steps {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    background: transparent;
+    color: var(--text-dim);
+    border: none;
+    cursor: pointer;
+    padding: 6px 0;
+    margin-top: 8px;
+  }
+  .btn-steps:hover { color: var(--text-muted); }
+  .calc-result {
+    margin-top: 16px;
+    background: var(--blueprint-dim);
+    border: 1px solid var(--blueprint);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--blueprint);
+    white-space: pre-wrap;
+  }
+  .calc-steps {
+    margin-top: 14px;
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+    border-left: 2px solid var(--text-dim);
+  }
+
+  /* TABLE */
+  .table-wrapper {
+    margin-bottom: 28px;
+    overflow-x: auto;
+  }
+  .table-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin: 0 0 12px;
+  }
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  .styled-table th {
+    background: var(--surface2);
+    color: var(--blueprint);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .styled-table td {
+    padding: 9px 14px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .styled-table tr:hover td { background: var(--surface2); color: var(--text); }
+
+  /* WORKED EXAMPLE */
+  .example-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+  .example-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .eg-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    background: var(--amber-dim);
+    padding: 3px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .example-header h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    margin: 0;
+    color: var(--text);
+  }
+  .eg-problem {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 0 0 16px;
+  }
+  .eg-steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+  .eg-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 0.86rem;
+    color: var(--text-muted);
+  }
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--bg);
+    background: var(--blueprint);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .eg-answer {
+    background: var(--amber-dim);
+    border: 1px solid rgba(212,169,74,0.4);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    color: var(--amber);
+  }
+  .eg-answer strong { color: var(--amber); }
+
+  /* QUICK REFERENCE */
+  .qref-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .qref-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin: 0 0 16px;
+  }
+  .qref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .qref-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+  }
+  .qref-label { color: var(--text-muted); }
+  .qref-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--blueprint);
+    text-align: right;
+  }
+
+  /* PAGE FOOTER */
+  .page-footer {
+    border-top: 1px solid var(--border);
+    padding: 40px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .footer-chapter {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--blueprint);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .footer-inner p { color: var(--text-muted); margin: 4px 0; }
+  .footer-note { font-size: 0.8rem; color: var(--text-dim) !important; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .page-header { padding: 40px 20px 28px; }
+    .page-title { font-size: 2rem; }
+    .topic-section { padding: 0 20px; }
+    .teaching-grid { grid-template-columns: 1fr; }
+    .calc-grid { grid-template-columns: 1fr; }
+    .qref-grid { grid-template-columns: 1fr; }
+    .toc-list { grid-template-columns: 1fr; }
+    .core-idea-box { flex-direction: column; }
+    .canvas-header { flex-direction: column; align-items: flex-start; }
+    canvas { height: 260px !important; }
+  }
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════════════ -->
+<script>
+// ─── SHARED CANVAS UTILS ────────────────────────────────────
+function dpr(canvas) {
+  const r = window.devicePixelRatio || 1;
+  canvas.width = canvas.clientWidth * r;
+  canvas.height = canvas.clientHeight * r;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(r, r);
+  return { ctx, w: canvas.clientWidth, h: canvas.clientHeight };
+}
+const C = {
+  bg:        '#0d0d14',
+  surface:   '#111118',
+  surface2:  '#1a1a24',
+  blueprint: '#4ec9b0',
+  blueprintD:'rgba(78,201,176,0.2)',
+  rust:      '#c0392b',
+  rustD:     'rgba(192,57,43,0.25)',
+  amber:     '#d4a94a',
+  amberD:    'rgba(212,169,74,0.2)',
+  text:      '#e8e8f0',
+  textMuted: '#9090a8',
+  textDim:   '#5a5a72',
+  grid:      'rgba(255,255,255,0.05)',
+};
+
+function drawGrid(ctx, w, h, padL, padT, padR, padB) {
+  const iw = w - padL - padR, ih = h - padT - padB;
+  ctx.strokeStyle = C.grid;
+  ctx.lineWidth = 1;
+  const nx = 8, ny = 6;
+  for (let i = 0; i <= nx; i++) {
+    const x = padL + (i / nx) * iw;
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + ih); ctx.stroke();
+  }
+  for (let i = 0; i <= ny; i++) {
+    const y = padT + (i / ny) * ih;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + iw, y); ctx.stroke();
+  }
+}
+
+function label(ctx, txt, x, y, color, size, align) {
+  ctx.font = `${size || 11}px 'Space Mono', monospace`;
+  ctx.fillStyle = color || C.textMuted;
+  ctx.textAlign = align || 'center';
+  ctx.fillText(txt, x, y);
+}
+
+// ─── CANVAS 1: RC BEAM ──────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('canvas-beam');
+  let animId, running = true, t = 0;
+
+  function draw() {
+    const cw = canvas.clientWidth || 780, ch = canvas.clientHeight || 340;
+    canvas.width = cw; canvas.height = ch;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, cw, ch);
+
+    const load = (Math.sin(t * 0.7) * 0.5 + 0.5);
+    const bx = cw * 0.12, bw = cw * 0.76;
+    const by = ch * 0.25, bh = ch * 0.35;
+    const cx = bx + bw / 2, na = by + bh * 0.4;
+    const deflect = load * ch * 0.04;
+
+    // Compression zone gradient
+    const cg = ctx.createLinearGradient(bx, by, bx, na);
+    cg.addColorStop(0, `rgba(78,201,176,${0.15 + load * 0.25})`);
+    cg.addColorStop(1, 'rgba(78,201,176,0)');
+    ctx.fillStyle = cg;
+    ctx.fillRect(bx, by, bw, na - by);
+
+    // Tension zone gradient
+    const tg = ctx.createLinearGradient(bx, na, bx, by + bh + deflect);
+    tg.addColorStop(0, 'rgba(192,57,43,0)');
+    tg.addColorStop(1, `rgba(192,57,43,${0.12 + load * 0.3})`);
+    ctx.fillStyle = tg;
+    ctx.fillRect(bx, na, bw, bh - (na - by) + deflect);
+
+    // Beam outline with deflection
+    ctx.beginPath();
+    ctx.moveTo(bx, by);
+    ctx.lineTo(bx + bw, by);
+    const midBot = by + bh + deflect;
+    ctx.lineTo(bx + bw, by + bh);
+    ctx.quadraticCurveTo(cx, midBot, bx, by + bh);
+    ctx.closePath();
+    ctx.strokeStyle = C.textDim;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Neutral axis
+    ctx.setLineDash([8, 5]);
+    ctx.beginPath();
+    ctx.moveTo(bx, na);
+    ctx.lineTo(bx + bw, na);
+    ctx.strokeStyle = C.amber;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    label(ctx, 'Neutral Axis', bx + bw + 8, na + 4, C.amber, 10, 'left');
+
+    // Steel bars (3 bars in tension zone)
+    [0.2, 0.5, 0.8].forEach(xf => {
+      const bxp = bx + bw * xf;
+      const byp = by + bh + deflect - ch * 0.06;
+      ctx.beginPath();
+      ctx.arc(bxp, byp, 5, 0, Math.PI * 2);
+      ctx.fillStyle = C.blueprint;
+      ctx.fill();
+      ctx.strokeStyle = C.bg;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+    label(ctx, '3 × #8 Steel Bars', cx, by + bh + deflect - ch * 0.03, C.blueprint, 10);
+
+    // Load arrow
+    const arrowLen = 30 + load * 30;
+    ctx.beginPath();
+    ctx.moveTo(cx, by - arrowLen - 20);
+    ctx.lineTo(cx, by - 8);
+    ctx.strokeStyle = C.rust;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx - 7, by - 14);
+    ctx.lineTo(cx, by - 4);
+    ctx.lineTo(cx + 7, by - 14);
+    ctx.strokeStyle = C.rust;
+    ctx.stroke();
+    label(ctx, `P = ${(load * 80 + 20).toFixed(0)} kips`, cx + 14, by - arrowLen / 2 - 8, C.rust, 10, 'left');
+
+    // Support triangles
+    [[bx, by + bh + deflect], [bx + bw, by + bh]].forEach(([sx, sy]) => {
+      ctx.beginPath();
+      ctx.moveTo(sx, sy + 2);
+      ctx.lineTo(sx - 12, sy + 22);
+      ctx.lineTo(sx + 12, sy + 22);
+      ctx.closePath();
+      ctx.fillStyle = C.textDim;
+      ctx.fill();
+    });
+
+    // Labels
+    label(ctx, 'COMPRESSION (concrete works)', cx, by + (na - by) / 2, C.blueprint, 11);
+    label(ctx, 'TENSION (steel works)', cx, na + (bh - (na - by)) / 2 + deflect * 0.6, C.rust, 11);
+
+    if (running) { t += 0.025; animId = requestAnimationFrame(draw); }
+  }
+
+  document.getElementById('btn-beam-toggle').addEventListener('click', function() {
+    running = !running;
+    this.textContent = running ? '⏸ Pause' : '▶ Play';
+    if (running) draw();
+  });
+  document.getElementById('btn-beam-reset').addEventListener('click', () => {
+    t = 0; running = true;
+    document.getElementById('btn-beam-toggle').textContent = '⏸ Pause';
+    cancelAnimationFrame(animId); draw();
+  });
+
+  draw();
+})();
+
+// ─── CANVAS 2: HYDRATION ────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('canvas-hydration');
+  let animId, running = true, t = 0;
+
+  const particles = [];
+  function initParticles(cw, ch) {
+    particles.length = 0;
+    const N = 60;
+    for (let i = 0; i < N; i++) {
+      const type = i < 20 ? 'cement' : i < 35 ? 'coarse' : i < 55 ? 'fine' : 'water';
+      particles.push({
+        x: Math.random() * cw,
+        y: Math.random() * ch,
+        r: type === 'coarse' ? 9 + Math.random() * 6
+           : type === 'fine' ? 3 + Math.random() * 3
+           : type === 'cement' ? 4 + Math.random() * 3
+           : 3,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        type,
+      });
+    }
+  }
+
+  function draw() {
+    const cw = canvas.clientWidth || 780, ch = 320;
+    if (!particles.length) initParticles(cw, ch);
+    canvas.width = cw; canvas.height = ch;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, cw, ch);
+
+    const hydrated = Math.min(1, t / 300);
+
+    // Divider
+    const divX = cw * 0.48;
+    ctx.fillStyle = C.textDim;
+    ctx.fillRect(divX - 0.5, 10, 1, ch - 20);
+    label(ctx, 'DRY MIX', divX * 0.5, 22, C.textMuted, 10);
+    label(ctx, 'HYDRATING', divX + (cw - divX) * 0.5, 22, C.blueprint, 10);
+
+    // Background gel on right
+    if (hydrated > 0) {
+      const grd = ctx.createRadialGradient(cw * 0.74, ch / 2, 10, cw * 0.74, ch / 2, (cw - divX) * 0.7);
+      grd.addColorStop(0, `rgba(78,201,176,${hydrated * 0.12})`);
+      grd.addColorStop(1, 'rgba(78,201,176,0)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(divX, 0, cw - divX, ch);
+    }
+
+    particles.forEach(p => {
+      const side = p.x < divX ? 'left' : 'right';
+
+      // Colors
+      const colorMap = {
+        cement: side === 'right' && hydrated > 0.2 ? C.blueprint : '#b0a090',
+        coarse: '#8090a0',
+        fine:   '#c0b090',
+        water:  side === 'right' ? `rgba(78,201,176,${0.5 + hydrated * 0.5})` : 'rgba(100,160,220,0.7)',
+      };
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = colorMap[p.type];
+      ctx.fill();
+      if (p.type === 'coarse') {
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Gel tendrils on right when hydrated
+      if (side === 'right' && hydrated > 0.3 && p.type === 'cement') {
+        const numTendrils = 3;
+        for (let i = 0; i < numTendrils; i++) {
+          const angle = (i / numTendrils) * Math.PI * 2 + t * 0.01;
+          const len = p.r * 2 * hydrated;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x + Math.cos(angle) * len, p.y + Math.sin(angle) * len);
+          ctx.strokeStyle = `rgba(78,201,176,${hydrated * 0.4})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      // Move
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < p.r || p.x > cw - p.r) p.vx *= -1;
+      if (p.y < p.r || p.y > ch - p.r) p.vy *= -1;
+      // Right-side particles slow down as they hydrate
+      if (p.x > divX) { p.vx *= (1 - hydrated * 0.008); p.vy *= (1 - hydrated * 0.008); }
+    });
+
+    // Legend
+    [['Cement', '#b0a090'], ['Coarse Agg', '#8090a0'], ['Fine Agg', '#c0b090'], ['Water', 'rgba(100,160,220,0.9)']].forEach(([txt, col], i) => {
+      const lx = 12, ly = ch - 12 - (3 - i) * 20;
+      ctx.beginPath(); ctx.arc(lx + 6, ly, 5, 0, Math.PI * 2); ctx.fillStyle = col; ctx.fill();
+      label(ctx, txt, lx + 16, ly + 4, C.textMuted, 9, 'left');
+    });
+
+    if (running) { t++; animId = requestAnimationFrame(draw); }
+  }
+
+  document.getElementById('btn-hydrate-toggle').addEventListener('click', function() {
+    running = !running;
+    this.textContent = running ? '⏸ Pause' : '▶ Play';
+    if (running) draw();
+  });
+  document.getElementById('btn-hydrate-reset').addEventListener('click', () => {
+    t = 0; running = true;
+    particles.length = 0;
+    document.getElementById('btn-hydrate-toggle').textContent = '⏸ Pause';
+    cancelAnimationFrame(animId); draw();
+  });
+
+  draw();
+})();
+
+// ─── CANVAS 3: W/C vs STRENGTH SLIDER ───────────────────────
+(function() {
+  const canvas = document.getElementById('canvas-wc');
+  const slider = document.getElementById('wc-slider');
+  const display = document.getElementById('wc-display');
+
+  function wcToFc(wc) {
+    // Abrams-style: exponential decay
+    return 12000 * Math.pow(0.6, wc * 10);
+  }
+  function wcToSlump(wc) {
+    return Math.min(200, 20 + wc * 280);
+  }
+
+  function draw() {
+    const wc = parseInt(slider.value) / 100;
+    display.textContent = wc.toFixed(2);
+    const cw = canvas.clientWidth || 780, ch = 300;
+    canvas.width = cw; canvas.height = ch;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, cw, ch);
+
+    const pad = 50, mid = cw / 2;
+    const chartW = mid - pad - 20;
+    const chartH = ch - 80;
+
+    // Left chart: f'c bar
+    const fc = wcToFc(wc);
+    const maxFc = wcToFc(0.3);
+    const fcBarH = (fc / maxFc) * chartH;
+
+    label(ctx, "COMPRESSIVE STRENGTH f'c", mid * 0.5, 20, C.blueprint, 10);
+    ctx.fillStyle = C.blueprintD;
+    ctx.fillRect(mid * 0.5 - 30, pad + chartH - fcBarH, 60, fcBarH);
+    ctx.fillStyle = C.blueprint;
+    ctx.fillRect(mid * 0.5 - 30, pad + chartH - fcBarH, 60, 3);
+    label(ctx, `${(fc).toFixed(0)} psi`, mid * 0.5, pad + chartH - fcBarH - 10, C.blueprint, 13);
+    ctx.strokeStyle = C.textDim;
+    ctx.strokeRect(mid * 0.5 - 30, pad, 60, chartH);
+
+    // Right chart: workability bar
+    const sl = wcToSlump(wc);
+    const maxSl = wcToSlump(0.70);
+    const slBarH = (sl / maxSl) * chartH;
+    label(ctx, 'WORKABILITY (Slump)', mid + (cw - mid) * 0.5, 20, C.amber, 10);
+    ctx.fillStyle = C.amberD;
+    ctx.fillRect(mid + (cw - mid) * 0.5 - 30, pad + chartH - slBarH, 60, slBarH);
+    ctx.fillStyle = C.amber;
+    ctx.fillRect(mid + (cw - mid) * 0.5 - 30, pad + chartH - slBarH, 60, 3);
+    label(ctx, `${sl.toFixed(0)} mm`, mid + (cw - mid) * 0.5, pad + chartH - slBarH - 10, C.amber, 13);
+    ctx.strokeStyle = C.textDim;
+    ctx.strokeRect(mid + (cw - mid) * 0.5 - 30, pad, 60, chartH);
+
+    // W/C label center
+    label(ctx, `W/C = ${wc.toFixed(2)}`, mid, pad + chartH + 28, C.textMuted, 11);
+
+    // Axis labels
+    label(ctx, '0', mid * 0.5 - 42, pad + chartH + 4, C.textDim, 9, 'right');
+    label(ctx, `${maxFc.toFixed(0)}`, mid * 0.5 - 42, pad + 4, C.textDim, 9, 'right');
+    label(ctx, '0 mm', mid + (cw - mid) * 0.5 + 42, pad + chartH + 4, C.textDim, 9, 'left');
+    label(ctx, '200 mm', mid + (cw - mid) * 0.5 + 42, pad + 4, C.textDim, 9, 'left');
+  }
+
+  slider.addEventListener('input', draw);
+  draw();
+})();
+
+// ─── CANVAS 4: CONCRETE STRESS-STRAIN ───────────────────────
+(function() {
+  const canvas = document.getElementById('canvas-fc');
+  let animId, running = false, progress = 0;
+
+  function getSS(fc) {
+    // Hognestad parabola approximation
+    const eo = 2 * fc / (57000 * Math.sqrt(fc));
+    const pts = [];
+    for (let e = 0; e <= 0.004; e += 0.0001) {
+      let f;
+      if (e <= eo) {
+        f = fc * (2 * e / eo - (e / eo) ** 2);
+      } else {
+        f = fc * (1 - 0.15 * (e - eo) / (0.004 - eo));
+      }
+      pts.push({ e, f: Math.max(0, f) });
+    }
+    return pts;
+  }
+
+  function draw() {
+    const fc = parseInt(document.getElementById('fc-select').value);
+    const cw = canvas.clientWidth || 780, ch = 360;
+    canvas.width = cw; canvas.height = ch;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, cw, ch);
+
+    const pad = { l: 70, r: 40, t: 40, b: 60 };
+    const iw = cw - pad.l - pad.r, ih = ch - pad.t - pad.b;
+    const maxE = 0.004, maxF = fc * 1.1;
+
+    drawGrid(ctx, cw, ch, pad.l, pad.t, pad.r, pad.b);
+
+    // Axes
+    ctx.strokeStyle = C.textDim;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + ih);
+    ctx.lineTo(pad.l + iw, pad.t + ih);
+    ctx.stroke();
+
+    // Axis labels
+    label(ctx, 'fc (psi)', pad.l - 50, pad.t + ih / 2, C.textMuted, 10);
+    label(ctx, 'Strain ε (in/in)', pad.l + iw / 2, pad.t + ih + 40, C.textMuted, 10);
+
+    const toX = e => pad.l + (e / maxE) * iw;
+    const toY = f => pad.t + ih - (f / maxF) * ih;
+
+    // εcu line
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(toX(0.003), pad.t);
+    ctx.lineTo(toX(0.003), pad.t + ih);
+    ctx.strokeStyle = C.amber;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    label(ctx, 'εcu=0.003', toX(0.003), pad.t + 14, C.amber, 9);
+
+    // f'c line
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pad.l, toY(fc));
+    ctx.lineTo(pad.l + iw, toY(fc));
+    ctx.strokeStyle = C.rust;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    label(ctx, `f'c=${fc}`, pad.l - 8, toY(fc), C.rust, 9, 'right');
+
+    // Stress-strain curve (animated)
+    const pts = getSS(fc);
+    const end = Math.floor(progress * pts.length);
+    if (end > 1) {
+      ctx.beginPath();
+      ctx.moveTo(toX(pts[0].e), toY(pts[0].f));
+      for (let i = 1; i < end; i++) {
+        ctx.lineTo(toX(pts[i].e), toY(pts[i].f));
+      }
+      ctx.strokeStyle = C.blueprint;
+      ctx.lineWidth = 2.5;
+      ctx.shadowColor = C.blueprint;
+      ctx.shadowBlur = 8;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    // Tick marks
+    [0.001, 0.002, 0.003, 0.004].forEach(e => {
+      const x = toX(e);
+      ctx.fillStyle = C.textDim;
+      ctx.fillRect(x - 0.5, pad.t + ih, 1, 6);
+      label(ctx, e.toFixed(3), x, pad.t + ih + 18, C.textDim, 9);
+    });
+    [fc * 0.25, fc * 0.5, fc * 0.75, fc].forEach(f => {
+      const y = toY(f);
+      ctx.fillStyle = C.textDim;
+      ctx.fillRect(pad.l - 6, y - 0.5, 6, 1);
+      label(ctx, `${(f / 1000).toFixed(1)}k`, pad.l - 8, y + 4, C.textDim, 9, 'right');
+    });
+
+    if (running && progress < 1) {
+      progress = Math.min(1, progress + 0.006);
+      animId = requestAnimationFrame(draw);
+    } else if (progress >= 1) {
+      running = false;
+      document.getElementById('btn-fc-toggle').textContent = '↺ Replay';
+    }
+  }
+
+  document.getElementById('btn-fc-toggle').addEventListener('click', function() {
+    if (progress >= 1) { progress = 0; running = true; this.textContent = '⏸ Pause'; draw(); return; }
+    running = !running;
+    this.textContent = running ? '⏸ Pause' : '▶ Play';
+    if (running) draw();
+  });
+  document.getElementById('btn-fc-reset').addEventListener('click', () => {
+    progress = 0; running = false;
+    document.getElementById('btn-fc-toggle').textContent = '▶ Play';
+    cancelAnimationFrame(animId); draw();
+  });
+  document.getElementById('fc-select').addEventListener('change', () => {
+    progress = 0; running = false;
+    document.getElementById('btn-fc-toggle').textContent = '▶ Play';
+    draw();
+  });
+
+  draw();
+})();
+
+// ─── CANVAS 5: EC VISUALIZATION ─────────────────────────────
+(function() {
+  const canvas = document.getElementById('canvas-ec');
+  const sel = document.getElementById('ec-fc-select');
+
+  function getSS(fc) {
+    const eo = 2 * fc / (57000 * Math.sqrt(fc));
+    const pts = [];
+    for (let e = 0; e <= 0.004; e += 0.0001) {
+      let f = e <= eo
+        ? fc * (2 * e / eo - (e / eo) ** 2)
+        : fc * (1 - 0.15 * (e - eo) / (0.004 - eo));
+      pts.push({ e, f: Math.max(0, f) });
+    }
+    return pts;
+  }
+
+  function draw() {
+    const fc = parseInt(sel.value);
+    const Ec = 57000 * Math.sqrt(fc);
+    document.getElementById('ec-display-val').textContent = `Ec = ${(Ec / 1000).toFixed(0)} ksi`;
+
+    const cw = canvas.clientWidth || 780, ch = 340;
+    canvas.width = cw; canvas.height = ch;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = C.bg; ctx.fillRect(0, 0, cw, ch);
+
+    const pad = { l: 70, r: 60, t: 40, b: 60 };
+    const iw = cw - pad.l - pad.r, ih = ch - pad.t - pad.b;
+    const maxE = 0.004, maxF = fc * 1.1;
+    drawGrid(ctx, cw, ch, pad.l, pad.t, pad.r, pad.b);
+
+    // Axes
+    ctx.strokeStyle = C.textDim; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + ih);
+    ctx.lineTo(pad.l + iw, pad.t + ih); ctx.stroke();
+
+    const toX = e => pad.l + (e / maxE) * iw;
+    const toY = f => pad.t + ih - (f / maxF) * ih;
+
+    const pts = getSS(fc);
+    ctx.beginPath();
+    ctx.moveTo(toX(pts[0].e), toY(pts[0].f));
+    pts.forEach(p => ctx.lineTo(toX(p.e), toY(p.f)));
+    ctx.strokeStyle = C.textMuted; ctx.lineWidth = 2; ctx.stroke();
+
+    // Ec chord line (origin to ~0.4f'c)
+    const eChord = fc * 0.4 / Ec;
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(0));
+    ctx.lineTo(toX(eChord), toY(fc * 0.4));
+    ctx.setLineDash([10, 5]);
+    ctx.strokeStyle = C.blueprint; ctx.lineWidth = 2.5;
+    ctx.shadowColor = C.blueprint; ctx.shadowBlur = 8;
+    ctx.stroke();
+    ctx.shadowBlur = 0; ctx.setLineDash([]);
+
+    // Extend Ec line faintly
+    const eExt = maxF * 0.85 / Ec;
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(0));
+    ctx.lineTo(toX(eExt), toY(maxF * 0.85));
+    ctx.setLineDash([4, 8]);
+    ctx.strokeStyle = 'rgba(78,201,176,0.25)'; ctx.lineWidth = 1.5;
+    ctx.stroke(); ctx.setLineDash([]);
+
+    // Slope angle label
+    const mx = toX(eChord / 2), my = toY(fc * 0.2) + 18;
+    label(ctx, `Ec = ${(Ec / 1000).toFixed(0)} ksi`, mx + 30, my, C.blueprint, 11, 'left');
+
+    // f'c and εcu markers
+    ctx.setLineDash([5, 4]);
+    ctx.strokeStyle = C.amber; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad.l, toY(fc)); ctx.lineTo(toX(0.003), toY(fc)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(toX(0.003), pad.t); ctx.lineTo(toX(0.003), toY(fc)); ctx.stroke();
+    ctx.setLineDash([]);
+    label(ctx, `f'c`, pad.l - 6, toY(fc) + 4, C.amber, 9, 'right');
+    label(ctx, 'εcu', toX(0.003), pad.t + ih + 18, C.amber, 9);
+
+    label(ctx, 'Stress fc (psi)', pad.l - 50, pad.t + ih / 2, C.textMuted, 10);
+    label(ctx, 'Strain ε', pad.l + iw / 2, pad.t + ih + 40, C.textMuted, 10);
+
+    [fc * 0.5, fc].forEach(f => {
+      label(ctx, `${(f/1000).toFixed(1)}k`, pad.l - 8, toY(f) + 4, C.textDim, 9, 'right');
+    });
+    [0.001, 0.002, 0.003].forEach(e => {
+      label(ctx, e.toFixed(3), toX(e), pad.t + ih + 18, C.textDim, 9);
+    });
+  }
+
+  sel.addEventListener('change', draw);
+  draw();
+})();
+
+// ─── CANVAS 6: STEEL STRESS-STRAIN ──────────────────────────
+(function() {
+  const canvas = document.getElementById('canvas-steel');
+  let animId, running = false, progress = 0;
+
+  const grades = [
+    { fy: 40000, color: C.amber,     label: 'Grade 40', id: 'chk-gr40' },
+    { fy: 60000, color: C.blueprint, label: 'Grade 60', id: 'chk-gr60' },
+    { fy: 75000, color: C.rust,      label: 'Grade 75', id: 'chk-gr75' },
+  ];
+
+  function getSteelCurve(fy) {
+    const Es = 29e6, ey = fy / Es;
+    const pts = [];
+    for (let e = 0; e <= 0.02; e += 0.0002) {
+      let f = e < ey ? Es * e : fy;
+      pts.push({ e, f });
+    }
+    return pts;
+  }
+
+  function draw() {
+    const cw = canvas.clientWidth || 780, ch = 360;
+    canvas.width = cw; canvas.height = ch;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = C.bg; ctx.fillRect(0, 0, cw, ch);
+
+    const pad = { l: 70, r: 40, t: 40, b: 60 };
+    const iw = cw - pad.l - pad.r, ih = ch - pad.t - pad.b;
+    const maxE = 0.02, maxF = 80000;
+    drawGrid(ctx, cw, ch, pad.l, pad.t, pad.r, pad.b);
+
+    ctx.strokeStyle = C.textDim; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + ih);
+    ctx.lineTo(pad.l + iw, pad.t + ih); ctx.stroke();
+
+    const toX = e => pad.l + (e / maxE) * iw;
+    const toY = f => pad.t + ih - (f / maxF) * ih;
+
+    grades.forEach((g) => {
+      const chk = document.getElementById(g.id);
+      if (chk && !chk.checked) return;
+
+      const pts = getSteelCurve(g.fy);
+      const end = Math.floor(progress * pts.length);
+      if (end > 1) {
+        ctx.beginPath();
+        ctx.moveTo(toX(pts[0].e), toY(pts[0].f));
+        for (let i = 1; i < end; i++) ctx.lineTo(toX(pts[i].e), toY(pts[i].f));
+        ctx.strokeStyle = g.color; ctx.lineWidth = 2.5;
+        ctx.shadowColor = g.color; ctx.shadowBlur = 6;
+        ctx.stroke(); ctx.shadowBlur = 0;
+
+        // fy label
+        if (end > 20) {
+          ctx.setLineDash([5, 4]);
+          ctx.strokeStyle = g.color + '55'; ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(pad.l, toY(g.fy)); ctx.lineTo(pad.l + iw, toY(g.fy)); ctx.stroke();
+          ctx.setLineDash([]);
+          label(ctx, `fy=${g.fy/1000}k`, pad.l + iw + 4, toY(g.fy) + 4, g.color, 9, 'left');
+        }
+      }
+    });
+
+    // Legend
+    let lx = pad.l + 20, ly = pad.t + 14;
+    grades.forEach(g => {
+      const chk = document.getElementById(g.id);
+      if (chk && !chk.checked) return;
+      ctx.fillStyle = g.color; ctx.fillRect(lx, ly - 8, 24, 2);
+      label(ctx, g.label, lx + 30, ly, g.color, 9, 'left');
+      lx += 100;
+    });
+
+    label(ctx, 'Stress fs (psi)', pad.l - 52, pad.t + ih / 2, C.textMuted, 10);
+    label(ctx, 'Strain ε (in/in)', pad.l + iw / 2, pad.t + ih + 40, C.textMuted, 10);
+
+    [20000, 40000, 60000, 75000].forEach(f => {
+      const y = toY(f);
+      ctx.fillStyle = C.textDim; ctx.fillRect(pad.l - 6, y - 0.5, 6, 1);
+      label(ctx, `${f / 1000}k`, pad.l - 8, y + 4, C.textDim, 9, 'right');
+    });
+    [0.005, 0.01, 0.015, 0.02].forEach(e => {
+      const x = toX(e);
+      ctx.fillStyle = C.textDim; ctx.fillRect(x - 0.5, pad.t + ih, 1, 6);
+      label(ctx, e.toFixed(3), x, pad.t + ih + 18, C.textDim, 9);
+    });
+
+    if (running && progress < 1) {
+      progress = Math.min(1, progress + 0.005);
+      animId = requestAnimationFrame(draw);
+    } else if (progress >= 1) {
+      running = false;
+      document.getElementById('btn-steel-toggle').textContent = '↺ Replay';
+    }
+  }
+
+  document.getElementById('btn-steel-toggle').addEventListener('click', function() {
+    if (progress >= 1) { progress = 0; running = true; this.textContent = '⏸ Pause'; draw(); return; }
+    running = !running;
+    this.textContent = running ? '⏸ Pause' : '▶ Play';
+    if (running) draw();
+  });
+  document.getElementById('btn-steel-reset').addEventListener('click', () => {
+    progress = 0; running = false;
+    document.getElementById('btn-steel-toggle').textContent = '▶ Play';
+    cancelAnimationFrame(animId); draw();
+  });
+  ['chk-gr40','chk-gr60','chk-gr75'].forEach(id => {
+    document.getElementById(id).addEventListener('change', draw);
+  });
+
+  draw();
+})();
+
+// ─── CALCULATORS ────────────────────────────────────────────
+function showResult(id, html) {
+  const el = document.getElementById(`result-${id}`);
+  el.innerHTML = html; el.style.display = 'block';
+  const btn = document.getElementById(`toggle-steps-${id}`);
+  btn.style.display = 'block';
+}
+function showStepsContent(id, html) {
+  const el = document.getElementById(`steps-${id}`);
+  el.innerHTML = html;
+}
+function toggleSteps(id) {
+  const el = document.getElementById(`steps-${id}`);
+  const btn = document.getElementById(`toggle-steps-${id}`);
+  if (el.style.display === 'none' || !el.style.display) {
+    el.style.display = 'block';
+    btn.textContent = '▲ Hide Steps';
+  } else {
+    el.style.display = 'none';
+    btn.textContent = '▼ Show Steps';
+  }
+}
+
+// Calc 1: Effective depth
+function calcRCDepth() {
+  const h = parseFloat(document.getElementById('rc-h').value);
+  const cov = parseFloat(document.getElementById('rc-cover').value);
+  const stir = parseFloat(document.getElementById('rc-stirrup').value);
+  const bar = parseFloat(document.getElementById('rc-bar').value);
+  const d = h - cov - stir - bar / 2;
+  showResult('rc', `Effective Depth  d = ${d.toFixed(2)} in\n( d/h ratio = ${(d/h).toFixed(3)} )`);
+  showStepsContent('rc',
+    `h  = ${h} in (overall depth)\n` +
+    `Cover = ${cov} in\n` +
+    `Stirrup ø = ${stir} in\n` +
+    `Main bar ø = ${bar} in\n\n` +
+    `d = h − cover − stirrup − bar/2\n` +
+    `d = ${h} − ${cov} − ${stir} − ${(bar/2).toFixed(3)}\n` +
+    `d = ${d.toFixed(2)} in`
+  );
+}
+
+// Calc 2: Mix proportioning
+document.getElementById('mix-ratio').addEventListener('change', function() {
+  document.getElementById('mix-custom-row').style.display =
+    this.value === 'custom' ? 'flex' : 'none';
+});
+function calcMix() {
+  const vol = parseFloat(document.getElementById('mix-vol').value);
+  let ratioStr = document.getElementById('mix-ratio').value;
+  if (ratioStr === 'custom') ratioStr = document.getElementById('mix-custom').value;
+  const parts = ratioStr.split(':').map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) { alert('Invalid ratio format. Use c:fa:ca'); return; }
+  const [c, fa, ca] = parts, sum = c + fa + ca;
+  const wc = parseFloat(document.getElementById('mix-wc').value);
+  const density = 1500;
+  const totalMass = density * vol;
+  const Mc = (c / sum) * totalMass, Mfa = (fa / sum) * totalMass, Mca = (ca / sum) * totalMass;
+  const Mw = wc * Mc;
+  showResult('mix',
+    `Cement        = ${Mc.toFixed(1)} kg  (${(Mc/50).toFixed(1)} bags)\n` +
+    `Fine Agg      = ${Mfa.toFixed(1)} kg\n` +
+    `Coarse Agg    = ${Mca.toFixed(1)} kg\n` +
+    `Water         = ${Mw.toFixed(1)} kg = ${Mw.toFixed(0)} L`
+  );
+  showStepsContent('mix',
+    `Ratio ${ratioStr}  →  sum of parts = ${sum}\n` +
+    `Total dry mass = ${density} × ${vol} = ${totalMass.toFixed(0)} kg\n\n` +
+    `Cement  = (${c}/${sum}) × ${totalMass.toFixed(0)} = ${Mc.toFixed(1)} kg\n` +
+    `Fine Agg = (${fa}/${sum}) × ${totalMass.toFixed(0)} = ${Mfa.toFixed(1)} kg\n` +
+    `Coarse Agg = (${ca}/${sum}) × ${totalMass.toFixed(0)} = ${Mca.toFixed(1)} kg\n` +
+    `Water = W/C × Cement = ${wc} × ${Mc.toFixed(1)} = ${Mw.toFixed(1)} kg`
+  );
+}
+
+// Calc 3: W/C ratio
+function calcWC() {
+  const wc = parseFloat(document.getElementById('wc-ratio').value);
+  const cement = parseFloat(document.getElementById('wc-cement').value);
+  const water = wc * cement;
+  let strength = 12000 * Math.pow(0.6, wc * 10);
+  let cat = wc < 0.40 ? 'High strength — may need HRWR admixture for workability'
+          : wc < 0.50 ? 'Structural concrete — good balance'
+          : wc < 0.60 ? 'General use — adequate for most applications'
+          : 'Lean mix — low strength, use only for non-structural';
+  showResult('wc',
+    `Water content = ${water.toFixed(1)} kg/m³ = ${water.toFixed(0)} L/m³\n` +
+    `Est. f'c ≈ ${strength.toFixed(0)} psi  (Abrams approximation)\n` +
+    `Category: ${cat}`
+  );
+  showStepsContent('wc',
+    `W/C = ${wc}\n` +
+    `Cement content = ${cement} kg/m³\n\n` +
+    `Water = W/C × Cement = ${wc} × ${cement} = ${water.toFixed(1)} kg/m³\n\n` +
+    `Strength estimate (Abrams-type):\n` +
+    `f'c ≈ 12000 × 0.6^(${wc}×10) = ${strength.toFixed(0)} psi`
+  );
+}
+
+// Calc 4: Cylinder f'c
+function calcFC() {
+  const d = parseFloat(document.getElementById('cyl-d').value);
+  const P = parseFloat(document.getElementById('cyl-p').value) * 1000;
+  const fcSpec = parseFloat(document.getElementById('cyl-fc-spec').value);
+  const A = Math.PI * (d / 2) ** 2;
+  const fc = P / A;
+  const pass1 = fc >= fcSpec;
+  const pass2 = fc >= fcSpec - 500;
+  showResult('fc',
+    `f'c measured = ${fc.toFixed(0)} psi\n` +
+    `Cylinder area A = ${A.toFixed(2)} in²\n\n` +
+    `ACI Check #1 (avg ≥ f'c): ${fc.toFixed(0)} ≥ ${fcSpec}  →  ${pass1 ? '✓ PASS' : '✗ FAIL'}\n` +
+    `ACI Check #2 (min ≥ f'c−500): ${fc.toFixed(0)} ≥ ${fcSpec - 500}  →  ${pass2 ? '✓ PASS' : '✗ FAIL'}`
+  );
+  showStepsContent('fc',
+    `Cylinder diameter d = ${d} in\n` +
+    `Area A = π(d/2)² = π(${d/2})² = ${A.toFixed(2)} in²\n` +
+    `Failure load P = ${(P/1000).toFixed(0)} kips = ${P.toFixed(0)} lb\n\n` +
+    `f'c = P/A = ${P.toFixed(0)} / ${A.toFixed(2)} = ${fc.toFixed(1)} psi`
+  );
+}
+
+// Calc 5: Ec
+function calcEc() {
+  const fc = parseFloat(document.getElementById('ec-fc').value);
+  const wc = parseFloat(document.getElementById('ec-wc').value);
+  const Es = parseFloat(document.getElementById('ec-es').value);
+  const Ec_simple = 57000 * Math.sqrt(fc);
+  const Ec_general = 33 * Math.pow(wc, 1.5) * Math.sqrt(fc);
+  const isNW = wc >= 140;
+  const Ec = isNW ? Ec_simple : Ec_general;
+  const n = Math.round(Es / Ec * 10) / 10;
+  const nRound = Math.round(n);
+  showResult('ec',
+    `Ec (simplified) = ${(Ec_simple / 1000).toFixed(1)} ksi\n` +
+    `Ec (general)    = ${(Ec_general / 1000).toFixed(1)} ksi\n` +
+    `Modular ratio n = Es/Ec = ${n.toFixed(2)}  →  use n = ${nRound}`
+  );
+  showStepsContent('ec',
+    `f'c = ${fc} psi,  wc = ${wc} pcf\n\n` +
+    `Simplified (NW): Ec = 57,000 × √${fc} = 57,000 × ${Math.sqrt(fc).toFixed(2)} = ${(Ec_simple).toFixed(0)} psi\n\n` +
+    `General: Ec = 33 × ${wc}^1.5 × √${fc} = 33 × ${Math.pow(wc,1.5).toFixed(1)} × ${Math.sqrt(fc).toFixed(2)} = ${Ec_general.toFixed(0)} psi\n\n` +
+    `n = Es/Ec = ${Es.toLocaleString()} / ${Ec.toFixed(0)} = ${n.toFixed(2)}\n` +
+    `Use n = ${nRound} (round to nearest integer per ACI)`
+  );
+}
+
+// Calc 6: Rebar
+function calcSteel() {
+  const [barNum, areaStr] = document.getElementById('steel-bar').value.split(',');
+  const area = parseFloat(areaStr);
+  const N = parseInt(document.getElementById('steel-n').value);
+  const fy = parseInt(document.getElementById('steel-grade').value);
+  const As = N * area;
+  const T = As * fy;
+  const C_ = As * fy;
+  showResult('steel',
+    `${N} × #${barNum} bars\n` +
+    `Total As = ${N} × ${area} = ${As.toFixed(2)} in²\n` +
+    `Yield force T = As × fy = ${As.toFixed(2)} × ${fy} = ${T.toFixed(1)} kips`
+  );
+  showStepsContent('steel',
+    `Bar #${barNum}: area per bar = ${area} in²\n` +
+    `Number of bars = ${N}\n` +
+    `fy = ${fy} ksi (Grade ${fy === 40 ? 40 : fy === 60 ? 60 : 75})\n\n` +
+    `As = N × Abar = ${N} × ${area} = ${As.toFixed(2)} in²\n` +
+    `T = As × fy = ${As.toFixed(2)} × ${fy} = ${T.toFixed(1)} kips\n` +
+    `(This is the force the bars can carry at yield — used in Mn calculation)`
+  );
+}
+
+// ─── RESIZE HANDLER ─────────────────────────────────────────
+window.addEventListener('resize', () => {
+  // The canvas sizing functions will be called when the
+  // loops run again; trigger the non-animated ones manually
+  document.getElementById('wc-slider').dispatchEvent(new Event('input'));
+  document.getElementById('ec-fc-select').dispatchEvent(new Event('change'));
+});
+</script>
