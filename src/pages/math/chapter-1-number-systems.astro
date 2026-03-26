@@ -1,12 +1,12 @@
 ---
-import Main from '../../layouts/Main.astro';
+import Base from '../../layouts/Base.astro';
 ---
 
-<Main title="Chapter 1 — Number Systems" description="Master number systems: natural, whole, integer, rational, irrational, and real numbers." activeNav="math">
+<Base title="Chapter 1 — Number Systems">
 
-<!-- ==========================================
+<!-- ══════════════════════════════════════════
      HERO
-========================================== -->
+══════════════════════════════════════════ -->
 <header class="m-hero">
   <div class="m-hero__tag">
     <span class="tag-dot"></span>
@@ -24,9 +24,9 @@ import Main from '../../layouts/Main.astro';
   </div>
 </header>
 
-<!-- ==========================================
+<!-- ══════════════════════════════════════════
      TABLE OF CONTENTS
-========================================== -->
+══════════════════════════════════════════ -->
 <nav class="m-toc">
   <div class="toc-label">Contents</div>
   <div class="toc-grid">
@@ -40,9 +40,9 @@ import Main from '../../layouts/Main.astro';
 </nav>
 
 
-<!-- ==========================================
+<!-- ══════════════════════════════════════════
      SECTION 1 — NUMBER CLASSIFICATION
-========================================== -->
+══════════════════════════════════════════ -->
 <section class="m-section" id="s1">
   <div class="sec-hdr">
     <div class="sec-num">01</div>
@@ -65,7 +65,7 @@ import Main from '../../layouts/Main.astro';
     <div class="teach-card math">
       <div class="teach-label">∑ Math View</div>
       <p>The sets nest like Russian dolls:</p>
-      <div class="eq-box">\[\mathbb{N} \subset \mathbb{W} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R}\]</div>
+      <div class="eq-box">\[\mathbb&#123;N&#125; \subset \mathbb&#123;W&#125; \subset \mathbb&#123;Z&#125; \subset \mathbb&#123;Q&#125; \subset \mathbb&#123;R&#125;\]</div>
       <p>Every natural number is a whole number, every whole number is an integer, and so on — the arrow flows <em>only outward</em>.</p>
     </div>
     <div class="teach-card core">
@@ -73,6 +73,7 @@ import Main from '../../layouts/Main.astro';
       <p>Every number you'll ever use in engineering is a real number — knowing which <em>subset</em> it belongs to tells you exactly what operations and properties are valid.</p>
     </div>
   </div>
+
   <!-- Canvas Animation -->
   <div class="sim-shell">
     <div class="sim-header">
@@ -156,9 +157,9 @@ import Main from '../../layouts/Main.astro';
     </div>
     <div class="teach-card math">
       <div class="teach-label">∑ Math View</div>
-      <p>A rational number is any number of the form \(\dfrac{p}{q}\) where \(p, q \in \mathbb{Z},\ q \neq 0\).</p>
-      <div class="eq-box">\[\frac{1}{4}=0.25\;\text{(terminates)}\qquad\frac{1}{3}=0.\overline{3}\;\text{(repeats)}\]</div>
-      <p><strong>Density:</strong> Between any two distinct rationals \(a\) and \(b\), there exists another rational \(\dfrac{a+b}{2}\). This process never ends — there are infinitely many.</p>
+      <p>A rational number is any number of the form \(\dfrac&#123;p&#125;&#123;q&#125;\) where \(p, q \in \mathbb&#123;Z&#125;,\ q \neq 0\).</p>
+      <div class="eq-box">\[\frac&#123;1&#125;&#123;4&#125;=0.25\;\text&#123;(terminates)&#125;\qquad\frac&#123;1&#125;&#123;3&#125;=0.\overline&#123;3&#125;\;\text&#123;(repeats)&#125;\]</div>
+      <p><strong>Density:</strong> Between any two distinct rationals \(a\) and \(b\), there exists another rational \(\dfrac&#123;a+b&#125;&#123;2&#125;\). This process never ends — there are infinitely many.</p>
     </div>
     <div class="teach-card core">
       <div class="teach-label">💡 Core Idea</div>
@@ -205,14 +206,14 @@ import Main from '../../layouts/Main.astro';
       <div class="steps">
         <div class="step"><div class="step-n">1</div><div class="step-c">
           <p>Rewrite 3 and 4 with denominator 7:</p>
-          <div class="step-math">\[3 = \frac{21}{7} \qquad 4 = \frac{28}{7}\]</div>
+          <div class="step-math">\[3 = \frac&#123;21&#125;&#123;7&#125; \qquad 4 = \frac&#123;28&#125;&#123;7&#125;\]</div>
         </div></div>
         <div class="step"><div class="step-n">2</div><div class="step-c">
-          <p>List all fractions with denominator 7 strictly between \(\frac{21}{7}\) and \(\frac{28}{7}\):</p>
-          <div class="step-math">\[\frac{22}{7},\ \frac{23}{7},\ \frac{24}{7},\ \frac{25}{7},\ \frac{26}{7},\ \frac{27}{7}\]</div>
+          <p>List all fractions with denominator 7 strictly between \(\frac&#123;21&#125;&#123;7&#125;\) and \(\frac&#123;28&#125;&#123;7&#125;\):</p>
+          <div class="step-math">\[\frac&#123;22&#125;&#123;7&#125;,\ \frac&#123;23&#125;&#123;7&#125;,\ \frac&#123;24&#125;&#123;7&#125;,\ \frac&#123;25&#125;&#123;7&#125;,\ \frac&#123;26&#125;&#123;7&#125;,\ \frac&#123;27&#125;&#123;7&#125;\]</div>
         </div></div>
         <div class="step"><div class="step-n">3</div><div class="step-c">
-          <div class="step-ans">\(\dfrac{22}{7},\ \dfrac{23}{7},\ \dfrac{24}{7},\ \dfrac{25}{7},\ \dfrac{26}{7},\ \dfrac{27}{7}\) — all valid. Infinitely many other answers exist.</div>
+          <div class="step-ans">\(\dfrac&#123;22&#125;&#123;7&#125;,\ \dfrac&#123;23&#125;&#123;7&#125;,\ \dfrac&#123;24&#125;&#123;7&#125;,\ \dfrac&#123;25&#125;&#123;7&#125;,\ \dfrac&#123;26&#125;&#123;7&#125;,\ \dfrac&#123;27&#125;&#123;7&#125;\) — all valid. Infinitely many other answers exist.</div>
         </div></div>
       </div>
     </div>
@@ -255,8 +256,8 @@ import Main from '../../layouts/Main.astro';
     <div class="teach-card math">
       <div class="teach-label">∑ Math View</div>
       <p>A number is irrational if it <em>cannot</em> be written as p/q. Its decimal is <strong>non-terminating AND non-repeating</strong>.</p>
-      <div class="eq-box">\[\sqrt{2}=1.41421356\ldots \quad \pi=3.14159265\ldots \quad e=2.71828182\ldots\]</div>
-      <p><strong>Quick test:</strong> \(\sqrt{n}\) is irrational if and only if \(n\) is not a perfect square.</p>
+      <div class="eq-box">\[\sqrt&#123;2&#125;=1.41421356\ldots \quad \pi=3.14159265\ldots \quad e=2.71828182\ldots\]</div>
+      <p><strong>Quick test:</strong> \(\sqrt&#123;n&#125;\) is irrational if and only if \(n\) is not a perfect square.</p>
     </div>
     <div class="teach-card core">
       <div class="teach-label">💡 Core Idea</div>
@@ -297,10 +298,10 @@ import Main from '../../layouts/Main.astro';
     <div class="worked-body">
       <div class="steps">
         <div class="step"><div class="step-n">1</div><div class="step-c">
-          <p><strong>Assume the opposite:</strong> Suppose \(\sqrt{2} = \dfrac{p}{q}\) where \(\gcd(p,q)=1\) (lowest terms).</p>
+          <p><strong>Assume the opposite:</strong> Suppose \(\sqrt&#123;2&#125; = \dfrac&#123;p&#125;&#123;q&#125;\) where \(\gcd(p,q)=1\) (lowest terms).</p>
         </div></div>
         <div class="step"><div class="step-n">2</div><div class="step-c">
-          <p>Square both sides: \(\quad 2 = \dfrac{p^2}{q^2} \;\Rightarrow\; p^2 = 2q^2\).</p>
+          <p>Square both sides: \(\quad 2 = \dfrac&#123;p^2&#125;&#123;q^2&#125; \;\Rightarrow\; p^2 = 2q^2\).</p>
           <p>So \(p^2\) is even. Since odd² = odd, \(p\) is even. Write \(p = 2m\).</p>
         </div></div>
         <div class="step"><div class="step-n">3</div><div class="step-c">
@@ -308,7 +309,7 @@ import Main from '../../layouts/Main.astro';
         </div></div>
         <div class="step"><div class="step-n">4</div><div class="step-c">
           <p><strong>Contradiction:</strong> Both p and q are even, so gcd(p,q) ≥ 2, contradicting our assumption of lowest terms.</p>
-          <div class="step-ans">∴ Our assumption was false. \(\sqrt{2}\) is irrational. \(\blacksquare\)</div>
+          <div class="step-ans">∴ Our assumption was false. \(\sqrt&#123;2&#125;\) is irrational. \(\blacksquare\)</div>
         </div></div>
       </div>
     </div>
@@ -350,9 +351,9 @@ import Main from '../../layouts/Main.astro';
     </div>
     <div class="teach-card math">
       <div class="teach-label">∑ Math View</div>
-      <div class="eq-box">\[\mathbb{R} = \mathbb{Q} \cup \text{Irrational}\]</div>
+      <div class="eq-box">\[\mathbb&#123;R&#125; = \mathbb&#123;Q&#125; \cup \text&#123;Irrational&#125;\]</div>
       <p>Every real number corresponds to exactly one point on the number line. Every point corresponds to exactly one real number. The line is <em>complete</em> — no holes, no missing addresses.</p>
-      <p>The Spiral of Theodorus gives a geometric construction for <strong>every \(\sqrt{n}\)</strong>: the hypotenuse of the \(n\)th right triangle equals \(\sqrt{n+1}\).</p>
+      <p>The Spiral of Theodorus gives a geometric construction for <strong>every \(\sqrt&#123;n&#125;\)</strong>: the hypotenuse of the \(n\)th right triangle equals \(\sqrt&#123;n+1&#125;\).</p>
     </div>
     <div class="teach-card core">
       <div class="teach-label">💡 Core Idea</div>
@@ -399,11 +400,11 @@ import Main from '../../layouts/Main.astro';
         </div></div>
         <div class="step"><div class="step-n">2</div><div class="step-c">
           <p>Apply Pythagoras on triangle OAB:</p>
-          <div class="step-math">\[OB = \sqrt{OA^2 + AB^2} = \sqrt{1^2 + 1^2} = \sqrt{2}\]</div>
+          <div class="step-math">\[OB = \sqrt&#123;OA^2 + AB^2&#125; = \sqrt&#123;1^2 + 1^2&#125; = \sqrt&#123;2&#125;\]</div>
         </div></div>
         <div class="step"><div class="step-n">3</div><div class="step-c">
           <p>Set compass to length OB. With centre O, draw an arc to cut the number line at C.</p>
-          <div class="step-ans">Point C sits at exactly \(\sqrt{2} \approx 1.414\ldots\) on the number line.</div>
+          <div class="step-ans">Point C sits at exactly \(\sqrt&#123;2&#125; \approx 1.414\ldots\) on the number line.</div>
         </div></div>
       </div>
       <div class="tip">💡 Extend this: use OB as the base of the next right triangle with unit height → hypotenuse = √3. This is the Spiral of Theodorus above.</div>
@@ -442,13 +443,13 @@ import Main from '../../layouts/Main.astro';
     </div>
     <div class="teach-card physics">
       <div class="teach-label">⚛ Physics View</div>
-      <p>Wave interference amplitudes routinely produce expressions like \(\dfrac{A}{\sqrt{2}}\) (amplitude of each component in equal-amplitude superposition). Rationalization gives \(\dfrac{A\sqrt{2}}{2}\) — cleaner for squaring to get intensity. <strong>Rationalized forms propagate through calculations more cleanly</strong> than surds in denominators.</p>
+      <p>Wave interference amplitudes routinely produce expressions like \(\dfrac&#123;A&#125;&#123;\sqrt&#123;2&#125;&#125;\) (amplitude of each component in equal-amplitude superposition). Rationalization gives \(\dfrac&#123;A\sqrt&#123;2&#125;&#125;&#123;2&#125;\) — cleaner for squaring to get intensity. <strong>Rationalized forms propagate through calculations more cleanly</strong> than surds in denominators.</p>
     </div>
     <div class="teach-card math">
       <div class="teach-label">∑ Math View</div>
-      <div class="eq-box">\[\sqrt{a}\cdot\sqrt{b}=\sqrt{ab},\quad \tfrac{\sqrt{a}}{\sqrt{b}}=\sqrt{\tfrac{a}{b}},\quad (\sqrt{a})^2=a\]</div>
-      <div class="eq-box">\[(a+\sqrt{b})(a-\sqrt{b}) = a^2-b \quad \leftarrow \text{key for rationalizing}\]</div>
-      <p>To rationalize \(\dfrac{c}{a+\sqrt{b}}\), multiply top and bottom by the <em>conjugate</em> \((a-\sqrt{b})\).</p>
+      <div class="eq-box">\[\sqrt&#123;a&#125;\cdot\sqrt&#123;b&#125;=\sqrt&#123;ab&#125;,\quad \tfrac&#123;\sqrt&#123;a&#125;&#125;&#123;\sqrt&#123;b&#125;&#125;=\sqrt&#123;\tfrac&#123;a&#125;&#123;b&#125;&#125;,\quad (\sqrt&#123;a&#125;)^2=a\]</div>
+      <div class="eq-box">\[(a+\sqrt&#123;b&#125;)(a-\sqrt&#123;b&#125;) = a^2-b \quad \leftarrow \text&#123;key for rationalizing&#125;\]</div>
+      <p>To rationalize \(\dfrac&#123;c&#125;&#123;a+\sqrt&#123;b&#125;&#125;\), multiply top and bottom by the <em>conjugate</em> \((a-\sqrt&#123;b&#125;)\).</p>
     </div>
     <div class="teach-card core">
       <div class="teach-label">💡 Core Idea</div>
@@ -477,7 +478,7 @@ import Main from '../../layouts/Main.astro';
   <!-- Calculator -->
   <div class="calc-shell">
     <div class="calc-header">⚡ Rationalization Calculator</div>
-    <p class="calc-desc">Rationalize \(\dfrac{c}{a + \sqrt{b}}\) step by step.</p>
+    <p class="calc-desc">Rationalize \(\dfrac&#123;c&#125;&#123;a + \sqrt&#123;b&#125;&#125;\) step by step.</p>
     <div class="calc-row" style="flex-wrap:wrap;gap:10px;">
       <label class="calc-lbl">c =</label>
       <input class="calc-inp" id="rat-c" type="number" value="1" style="width:80px;">
@@ -492,18 +493,18 @@ import Main from '../../layouts/Main.astro';
 
   <!-- Worked Example -->
   <div class="worked">
-    <div class="worked-hdr"><span class="we-tag">Technique</span><span class="we-title">Rationalize \(\dfrac{1}{\sqrt{5}+\sqrt{2}}\)</span></div>
+    <div class="worked-hdr"><span class="we-tag">Technique</span><span class="we-title">Rationalize \(\dfrac&#123;1&#125;&#123;\sqrt&#123;5&#125;+\sqrt&#123;2&#125;&#125;\)</span></div>
     <div class="worked-body">
       <div class="steps">
         <div class="step"><div class="step-n">1</div><div class="step-c">
-          <p>Conjugate of \((\sqrt{5}+\sqrt{2})\) is \((\sqrt{5}-\sqrt{2})\). Multiply top and bottom:</p>
-          <div class="step-math">\[\frac{1}{\sqrt{5}+\sqrt{2}} \times \frac{\sqrt{5}-\sqrt{2}}{\sqrt{5}-\sqrt{2}}\]</div>
+          <p>Conjugate of \((\sqrt&#123;5&#125;+\sqrt&#123;2&#125;)\) is \((\sqrt&#123;5&#125;-\sqrt&#123;2&#125;)\). Multiply top and bottom:</p>
+          <div class="step-math">\[\frac&#123;1&#125;&#123;\sqrt&#123;5&#125;+\sqrt&#123;2&#125;&#125; \times \frac&#123;\sqrt&#123;5&#125;-\sqrt&#123;2&#125;&#125;&#123;\sqrt&#123;5&#125;-\sqrt&#123;2&#125;&#125;\]</div>
         </div></div>
         <div class="step"><div class="step-n">2</div><div class="step-c">
-          <p>Denominator: \((\sqrt{5})^2 - (\sqrt{2})^2 = 5 - 2 = 3\)</p>
+          <p>Denominator: \((\sqrt&#123;5&#125;)^2 - (\sqrt&#123;2&#125;)^2 = 5 - 2 = 3\)</p>
         </div></div>
         <div class="step"><div class="step-n">3</div><div class="step-c">
-          <div class="step-ans">\[\dfrac{\sqrt{5}-\sqrt{2}}{3}\]</div>
+          <div class="step-ans">\[\dfrac&#123;\sqrt&#123;5&#125;-\sqrt&#123;2&#125;&#125;&#123;3&#125;\]</div>
         </div></div>
       </div>
     </div>
@@ -543,12 +544,12 @@ import Main from '../../layouts/Main.astro';
     </div>
     <div class="teach-card physics">
       <div class="teach-label">⚛ Physics View</div>
-      <p>Radioactive decay: \(N(t) = N_0 \cdot 2^{-t/T_{1/2}}\). Inverse-square law: \(F = k/r^2 = kr^{-2}\). Signal attenuation: \(P = P_0 \cdot e^{-\alpha x}\). Every exponential in physics traces back to one of these eight laws. <strong>Negative and fractional exponents are not abstract — they are reciprocals and roots.</strong></p>
+      <p>Radioactive decay: \(N(t) = N_0 \cdot 2^&#123;-t/T_&#123;1/2&#125;&#125;\). Inverse-square law: \(F = k/r^2 = kr^&#123;-2&#125;\). Signal attenuation: \(P = P_0 \cdot e^&#123;-\alpha x&#125;\). Every exponential in physics traces back to one of these eight laws. <strong>Negative and fractional exponents are not abstract — they are reciprocals and roots.</strong></p>
     </div>
     <div class="teach-card math">
       <div class="teach-label">∑ Math View</div>
-      <div class="eq-box">\[a^m\cdot a^n=a^{m+n}\quad \frac{a^m}{a^n}=a^{m-n}\quad (a^m)^n=a^{mn}\]</div>
-      <div class="eq-box">\[a^0=1\quad a^{-n}=\frac{1}{a^n}\quad a^{1/n}=\sqrt[n]{a}\quad a^{m/n}=\sqrt[n]{a^m}\]</div>
+      <div class="eq-box">\[a^m\cdot a^n=a^&#123;m+n&#125;\quad \frac&#123;a^m&#125;&#123;a^n&#125;=a^&#123;m-n&#125;\quad (a^m)^n=a^&#123;mn&#125;\]</div>
+      <div class="eq-box">\[a^0=1\quad a^&#123;-n&#125;=\frac&#123;1&#125;&#123;a^n&#125;\quad a^&#123;1/n&#125;=\sqrt[n]&#123;a&#125;\quad a^&#123;m/n&#125;=\sqrt[n]&#123;a^m&#125;\]</div>
     </div>
     <div class="teach-card core">
       <div class="teach-label">💡 Core Idea</div>
@@ -574,14 +575,14 @@ import Main from '../../layouts/Main.astro';
 
   <!-- Laws Grid -->
   <div class="laws-grid">
-    <div class="law-card"><div class="law-label">Product Rule</div><div class="law-formula">\(a^m \cdot a^n = a^{m+n}\)</div><div class="law-eg">2³·2⁴ = 2⁷ = 128</div></div>
-    <div class="law-card"><div class="law-label">Quotient Rule</div><div class="law-formula">\(\dfrac{a^m}{a^n} = a^{m-n}\)</div><div class="law-eg">3⁵ ÷ 3² = 3³ = 27</div></div>
-    <div class="law-card"><div class="law-label">Power of Power</div><div class="law-formula">\((a^m)^n = a^{mn}\)</div><div class="law-eg">(5²)³ = 5⁶ = 15625</div></div>
+    <div class="law-card"><div class="law-label">Product Rule</div><div class="law-formula">\(a^m \cdot a^n = a^&#123;m+n&#125;\)</div><div class="law-eg">2³·2⁴ = 2⁷ = 128</div></div>
+    <div class="law-card"><div class="law-label">Quotient Rule</div><div class="law-formula">\(\dfrac&#123;a^m&#125;&#123;a^n&#125; = a^&#123;m-n&#125;\)</div><div class="law-eg">3⁵ ÷ 3² = 3³ = 27</div></div>
+    <div class="law-card"><div class="law-label">Power of Power</div><div class="law-formula">\((a^m)^n = a^&#123;mn&#125;\)</div><div class="law-eg">(5²)³ = 5⁶ = 15625</div></div>
     <div class="law-card"><div class="law-label">Zero Exponent</div><div class="law-formula">\(a^0 = 1\)</div><div class="law-eg">999⁰ = 1, (√2)⁰ = 1</div></div>
-    <div class="law-card"><div class="law-label">Negative Exponent</div><div class="law-formula">\(a^{-n} = \dfrac{1}{a^n}\)</div><div class="law-eg">2⁻³ = 1/8 = 0.125</div></div>
-    <div class="law-card"><div class="law-label">Fractional Exponent</div><div class="law-formula">\(a^{1/n} = \sqrt[n]{a}\)</div><div class="law-eg">8^(1/3) = ∛8 = 2</div></div>
+    <div class="law-card"><div class="law-label">Negative Exponent</div><div class="law-formula">\(a^&#123;-n&#125; = \dfrac&#123;1&#125;&#123;a^n&#125;\)</div><div class="law-eg">2⁻³ = 1/8 = 0.125</div></div>
+    <div class="law-card"><div class="law-label">Fractional Exponent</div><div class="law-formula">\(a^&#123;1/n&#125; = \sqrt[n]&#123;a&#125;\)</div><div class="law-eg">8^(1/3) = ∛8 = 2</div></div>
     <div class="law-card"><div class="law-label">Product of Bases</div><div class="law-formula">\((ab)^n = a^n b^n\)</div><div class="law-eg">(2·3)⁴ = 2⁴·3⁴ = 1296</div></div>
-    <div class="law-card"><div class="law-label">General Form</div><div class="law-formula">\(a^{m/n} = \sqrt[n]{a^m}\)</div><div class="law-eg">8^(2/3) = (∛8)² = 4</div></div>
+    <div class="law-card"><div class="law-label">General Form</div><div class="law-formula">\(a^&#123;m/n&#125; = \sqrt[n]&#123;a^m&#125;\)</div><div class="law-eg">8^(2/3) = (∛8)² = 4</div></div>
   </div>
 
   <!-- Calculator -->
@@ -609,11 +610,11 @@ import Main from '../../layouts/Main.astro';
           <p>Recognise perfect powers: \(125=5^3,\; 64=4^3,\; 32=2^5\)</p>
         </div></div>
         <div class="step"><div class="step-n">2</div><div class="step-c">
-          <p>Apply \(a^{m/n}=(\sqrt[n]{a})^m\):</p>
-          <div class="step-math">\[(5^3)^{2/3}=5^2=25\qquad (4^3)^{1/2}: \text{wait — } 64=8^2,\; (8^2)^{1/2}=8\qquad (2^5)^{3/5}=2^3=8\]</div>
+          <p>Apply \(a^&#123;m/n&#125;=(\sqrt[n]&#123;a&#125;)^m\):</p>
+          <div class="step-math">\[(5^3)^&#123;2/3&#125;=5^2=25\qquad (4^3)^&#123;1/2&#125;: \text&#123;wait — &#125; 64=8^2,\; (8^2)^&#123;1/2&#125;=8\qquad (2^5)^&#123;3/5&#125;=2^3=8\]</div>
         </div></div>
         <div class="step"><div class="step-n">3</div><div class="step-c">
-          <div class="step-ans">\[25 + 8 - 8 = \mathbf{25}\]</div>
+          <div class="step-ans">\[25 + 8 - 8 = \mathbf&#123;25&#125;\]</div>
         </div></div>
       </div>
     </div>
@@ -642,17 +643,17 @@ import Main from '../../layouts/Main.astro';
 <div class="summary">
   <h3 class="sum-title">📌 Chapter Summary</h3>
   <ul class="sum-list">
-    <li><span class="sum-ico">🔢</span>Sets nest: \(\mathbb{N} \subset \mathbb{W} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R}\)</li>
-    <li><span class="sum-ico">🔀</span>Rational \(= \tfrac{p}{q}\), \(q\neq 0\) — decimal terminates or repeats forever</li>
-    <li><span class="sum-ico">♾️</span>Irrational = non-terminating AND non-repeating. Famous: \(\sqrt{2}, \pi, e, \varphi\)</li>
-    <li><span class="sum-ico">🏗</span>\(\mathbb{R} = \mathbb{Q} \cup \text{Irrational}\) — every point on the number line is real</li>
-    <li><span class="sum-ico">📐</span>Every irrational \(\sqrt{n}\) can be <em>located exactly</em> via geometric construction</li>
-    <li><span class="sum-ico">✖</span>Rationalize with conjugate: \((a+\sqrt{b})(a-\sqrt{b}) = a^2-b\)</li>
+    <li><span class="sum-ico">🔢</span>Sets nest: \(\mathbb&#123;N&#125; \subset \mathbb&#123;W&#125; \subset \mathbb&#123;Z&#125; \subset \mathbb&#123;Q&#125; \subset \mathbb&#123;R&#125;\)</li>
+    <li><span class="sum-ico">🔀</span>Rational \(= \tfrac&#123;p&#125;&#123;q&#125;\), \(q\neq 0\) — decimal terminates or repeats forever</li>
+    <li><span class="sum-ico">♾️</span>Irrational = non-terminating AND non-repeating. Famous: \(\sqrt&#123;2&#125;, \pi, e, \varphi\)</li>
+    <li><span class="sum-ico">🏗</span>\(\mathbb&#123;R&#125; = \mathbb&#123;Q&#125; \cup \text&#123;Irrational&#125;\) — every point on the number line is real</li>
+    <li><span class="sum-ico">📐</span>Every irrational \(\sqrt&#123;n&#125;\) can be <em>located exactly</em> via geometric construction</li>
+    <li><span class="sum-ico">✖</span>Rationalize with conjugate: \((a+\sqrt&#123;b&#125;)(a-\sqrt&#123;b&#125;) = a^2-b\)</li>
     <li><span class="sum-ico">⚡</span>8 exponent laws — the grammar of all algebraic power expressions</li>
   </ul>
 </div>
 
-</Main>
+</Base>
 
 
 <!-- ══════════════════════════════════════════
@@ -1283,7 +1284,7 @@ canvas { border-radius: 8px; display: block; background: var(--sur2); }
 <!-- ══════════════════════════════════════════
      SCRIPTS
 ══════════════════════════════════════════ -->
-<script>
+<script is:inline>
 /* ════════════════════════════════════════
    MathJax config (before CDN load)
 ════════════════════════════════════════ */
