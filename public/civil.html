@@ -47,8 +47,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .quick-pill .qp-icon{font-size:1rem;}
 .quick-pill .qp-badge{font-family:'Space Mono',monospace;font-size:0.55rem;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--success);color:#fff;letter-spacing:0.05em;}
 
+/* ── SECTION DIVIDER ── */
+.section-divider{display:flex;align-items:center;gap:1rem;margin:2rem 0 1.5rem;}
+.section-divider-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--blueprint);white-space:nowrap;font-weight:700;}
+.section-divider::after{content:'';flex:1;height:1px;background:var(--card-border);}
+
 /* ── COURSE CARDS ── */
-.courses{display:flex;flex-direction:column;gap:2rem;margin-bottom:3rem;}
+.courses{display:flex;flex-direction:column;gap:2rem;margin-bottom:1rem;}
+.courses + .section-divider{margin-top:2.5rem;}
 .course-card{background:var(--card-bg);border:2px solid var(--card-border);border-radius:14px;overflow:hidden;transition:all 0.3s;animation:fadeUp 0.5s ease;}
 .course-card:hover{border-color:var(--blueprint);box-shadow:0 8px 32px rgba(0,0,0,0.1);}
 [data-theme="dark"] .course-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.4);}
@@ -78,23 +84,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 @media(max-width:700px){
   nav{padding:0.85rem 1.2rem;}
   .container{padding:4.5rem 1rem 2rem;}
-
-  /* Features: 2×2 grid on mobile */
   .features{grid-template-columns:repeat(2,1fr);gap:0.7rem;}
-
-  /* Show quick-strip on mobile */
   .quick-strip{display:flex;}
-
-  /* Hide topic grid on mobile; show as collapsed summary */
   .topics-list{padding:0 1.1rem 1rem;}
   .topic-grid{grid-template-columns:1fr 1fr;gap:0.4rem;}
   .topic-item{font-size:0.78rem;padding:0.4rem 0.55rem;}
-
   .course-header{padding:1.1rem 1.1rem 0.9rem;gap:0.9rem;}
   .course-icon{font-size:1.8rem;}
   .course-info h2{font-size:1.15rem;}
   .course-info p{font-size:0.84rem;}
-
   .course-cta{font-size:0.72rem;padding:0.85rem 1rem;}
 }
 
@@ -177,9 +175,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
       <span>Traffic Eng.</span>
       <span class="qp-badge">LIVE</span>
     </a>
+    <a href="/civil/rc-chapter1" class="quick-pill">
+      <span class="qp-icon">&#127979;</span>
+      <span>CEE335 L1</span>
+      <span class="qp-badge">LIVE</span>
+    </a>
   </div>
 
-  <!-- COURSE CARDS -->
+  <!-- ══════════════════════════════════════════
+       SECTION 1: WORKBOOK
+  ══════════════════════════════════════════ -->
+  <div class="section-divider">
+    <span class="section-divider-label">Design of Concrete Structures 15e Workbook</span>
+  </div>
+
   <div class="courses">
 
     <!-- RC DESIGN CH1 -->
@@ -261,10 +270,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
           <div class="topic-item"><span class="topic-num">3.4</span>Fundamental Assumptions</div>
           <div class="topic-item"><span class="topic-num">3.5</span>Behavior Under Axial Loads</div>
           <div class="topic-item"><span class="topic-num">3.6</span>Bending of Homogeneous Beams</div>
-          <div class="topic-item"><span class="topic-num">★</span>Column Load Calculator</div>
-          <div class="topic-item"><span class="topic-num">★</span>Bending Stress Visualizer</div>
-          <div class="topic-item"><span class="topic-num">★</span>3 Quick-Check Quizzes</div>
-          <div class="topic-item"><span class="topic-num">★</span>ACI Load Factor Examples</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>Column Load Calculator</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>Bending Stress Visualizer</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>3 Quick-Check Quizzes</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>ACI Load Factor Examples</div>
         </div>
       </div>
       <a href="chapter3-concrete.html" class="course-cta">Open Chapter 3 Guide &rarr;</a>
@@ -285,15 +294,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
           <div class="topic-item"><span class="topic-num">4.1</span>Introduction &amp; Design Goals</div>
           <div class="topic-item"><span class="topic-num">4.2</span>RC Beam Behavior (3 Stages)</div>
           <div class="topic-item"><span class="topic-num">4.3</span>Whitney Stress Block</div>
-          <div class="topic-item"><span class="topic-num">4.4</span>Failure Modes &amp; φ Factors</div>
-          <div class="topic-item"><span class="topic-num">4.5</span>ρ Limits &amp; ACI Rules</div>
+          <div class="topic-item"><span class="topic-num">4.4</span>Failure Modes &amp; &phi; Factors</div>
+          <div class="topic-item"><span class="topic-num">4.5</span>&rho; Limits &amp; ACI Rules</div>
           <div class="topic-item"><span class="topic-num">4.6</span>Analysis &amp; Design Procedure</div>
           <div class="topic-item"><span class="topic-num">4.7</span>Rn Design Aid Tables</div>
-          <div class="topic-item"><span class="topic-num">4.8</span>Rn–ρ Chart</div>
-          <div class="topic-item"><span class="topic-num">★</span>3-Stage Beam Visualizer</div>
-          <div class="topic-item"><span class="topic-num">★</span>Live Mn Calculator</div>
-          <div class="topic-item"><span class="topic-num">★</span>ρ Limits Visualizer</div>
-          <div class="topic-item"><span class="topic-num">★</span>4 Quick-Check Quizzes</div>
+          <div class="topic-item"><span class="topic-num">4.8</span>Rn&ndash;&rho; Chart</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>3-Stage Beam Visualizer</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>Live Mn Calculator</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>&rho; Limits Visualizer</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>4 Quick-Check Quizzes</div>
         </div>
       </div>
       <a href="chapter4-concrete.html" class="course-cta">Open Chapter 4 Guide &rarr;</a>
@@ -301,6 +310,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 
     <!-- TRAFFIC ENGINEERING -->
     <div class="course-card" style="animation-delay:0.25s;">
+      <div class="course-header">
+        <div class="course-icon">&#128678;</div>
         <div class="course-info">
           <h2>Traffic Engineering <span class="course-badge badge-live">LIVE</span></h2>
           <p>Traffic Analysis &amp; Design (CEE 350). Signal timing, level of service, trip generation, gravity model, mode split. Animated traffic signals, live simulations, and 20+ practice problems with solutions.</p>
@@ -328,8 +339,47 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
       <a href="cee350-traffic-analysis.html" class="course-cta">Open Traffic Engineering Guide &rarr;</a>
     </div>
 
+  </div><!-- end .courses (workbook) -->
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2: CEE335 LECTURES
+  ══════════════════════════════════════════ -->
+  <div class="section-divider">
+    <span class="section-divider-label">Mr. Mohammad Nazmul Islam — CEE335 Lectures</span>
   </div>
-</div>
+
+  <div class="courses">
+
+    <!-- CEE335 LECTURE 1 -->
+    <div class="course-card" style="animation-delay:0.05s;">
+      <div class="course-header">
+        <div class="course-icon">&#127963;</div>
+        <div class="course-info">
+          <h2>Introduction to Concrete &amp; Steel <span class="course-badge badge-live">LIVE</span></h2>
+          <p>Chapter 1 — Materials fundamentals for RC design. Covers what concrete is, how it's made, what governs its strength, and why steel is its ideal reinforcing partner. Includes 6 interactive calculators and 6 canvas animations.</p>
+        </div>
+      </div>
+      <div class="topics-list">
+        <h3>Key Topics Covered</h3>
+        <div class="topic-grid">
+          <div class="topic-item"><span class="topic-num">01</span>What is Reinforced Concrete?</div>
+          <div class="topic-item"><span class="topic-num">02</span>Concrete Constituents &amp; Cement</div>
+          <div class="topic-item"><span class="topic-num">03</span>Water-Cement Ratio</div>
+          <div class="topic-item"><span class="topic-num">04</span>Compressive Strength f&prime;c</div>
+          <div class="topic-item"><span class="topic-num">05</span>Modulus of Elasticity Ec</div>
+          <div class="topic-item"><span class="topic-num">06</span>Steel Reinforcement</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>RC Beam Animation</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>Hydration Animation</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>Stress-Strain Curves</div>
+          <div class="topic-item"><span class="topic-num">&#9733;</span>6 Interactive Calculators</div>
+        </div>
+      </div>
+      <a href="/civil/rc-chapter1" class="course-cta">Open Lecture 1 Guide &rarr;</a>
+    </div>
+
+  </div><!-- end .courses (cee335) -->
+
+</div><!-- end .container -->
 
 <script>
 const toggleBtn=document.getElementById('themeToggle');const root=document.documentElement;
