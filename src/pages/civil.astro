@@ -1,0 +1,758 @@
+---
+import Main from '../layouts/Main.astro';
+const title = "Civil Engineering";
+const description = "Interactive civil engineering learning: RC design, structural analysis, fluid mechanics, geotechnical engineering. Free simulations, calculators, and worked examples.";
+---
+<Main title={title} description={description} activeNav="civil">
+
+<style>
+  /* ── LAYOUT UTILITIES ── */
+  .page-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: .58rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--mut);
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--bdr);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 4rem 1.5rem 3rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: .62rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    color: var(--txt);
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--teal);
+  }
+  .hero-sub {
+    font-size: .95rem;
+    color: var(--txt2);
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 1.6rem;
+  }
+  .hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: 1.8rem;
+  }
+  .stat-chip {
+    font-family: 'Space Mono', monospace;
+    font-size: .64rem;
+    letter-spacing: .06em;
+    color: var(--teal);
+    background: var(--tdim);
+    border: 1px solid var(--tline);
+    border-radius: 100px;
+    padding: .3rem .75rem;
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    background: var(--teal);
+    color: #0a0a0f;
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .04em;
+    text-decoration: none;
+    padding: .65rem 1.25rem;
+    border-radius: 6px;
+    transition: opacity .2s, transform .2s;
+  }
+  .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    background: transparent;
+    color: var(--txt2);
+    font-size: .8rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding: .65rem 1.25rem;
+    border: 1px solid var(--bdr);
+    border-radius: 6px;
+    transition: border-color .2s, color .2s;
+  }
+  .btn-secondary:hover { border-color: var(--amb); color: var(--amb); }
+
+  /* ── DISCIPLINES GRID ── */
+  .disciplines {
+    padding: 1rem 1.5rem 3.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .disc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .9rem;
+  }
+  .disc-card {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 10px;
+    padding: 1.3rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .disc-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(78,201,176,.08);
+  }
+  .disc-card.coming-soon {
+    opacity: .6;
+    cursor: default;
+  }
+  .disc-card.coming-soon:hover {
+    transform: none;
+    border-color: var(--bdr);
+    box-shadow: none;
+  }
+  .disc-card.live {
+    border-color: rgba(78,201,176,.35);
+    background: linear-gradient(135deg, var(--surf) 0%, rgba(78,201,176,.04) 100%);
+  }
+  .disc-card.live:hover {
+    border-color: var(--teal);
+    box-shadow: 0 8px 32px rgba(78,201,176,.14);
+  }
+  .live-badge {
+    position: absolute;
+    top: .8rem;
+    right: .8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: .52rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #0a0a0f;
+    background: var(--teal);
+    padding: .2rem .5rem;
+    border-radius: 100px;
+    font-weight: 700;
+  }
+  .coming-badge {
+    position: absolute;
+    top: .8rem;
+    right: .8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: .52rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--mut);
+    background: var(--surf2);
+    border: 1px solid var(--bdr);
+    padding: .2rem .5rem;
+    border-radius: 100px;
+  }
+  .disc-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    margin-bottom: .1rem;
+  }
+  .disc-title {
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--txt);
+    padding-right: 3.5rem;
+  }
+  .disc-desc {
+    font-size: .76rem;
+    color: var(--txt2);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .disc-level {
+    font-family: 'Space Mono', monospace;
+    font-size: .56rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--mut);
+    margin-top: .3rem;
+  }
+  .disc-link {
+    font-size: .72rem;
+    color: var(--teal);
+    font-weight: 600;
+    margin-top: .3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    transition: gap .2s;
+  }
+  .disc-card:not(.coming-soon):hover .disc-link { gap: .6rem; }
+
+  /* ── FORMULAS SECTION ── */
+  .formulas {
+    padding: 1rem 1.5rem 3.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .9rem;
+  }
+  .formula-card {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: border-color .2s, transform .2s;
+  }
+  .formula-card:hover {
+    border-color: rgba(78,201,176,.3);
+    transform: translateY(-2px);
+  }
+  .formula-card.accent {
+    border-color: rgba(212,169,74,.35);
+    background: linear-gradient(135deg, var(--surf) 0%, rgba(212,169,74,.04) 100%);
+  }
+  .formula-card.accent:hover { border-color: var(--amb); }
+  .formula-category {
+    font-family: 'Space Mono', monospace;
+    font-size: .55rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: .5rem;
+  }
+  .formula-card.accent .formula-category { color: var(--amb); }
+  .formula-name {
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--txt);
+    margin-bottom: .75rem;
+  }
+  .formula-math {
+    font-family: 'Space Mono', monospace;
+    font-size: .95rem;
+    color: var(--txt);
+    background: var(--surf2);
+    border: 1px solid var(--bdr);
+    border-radius: 6px;
+    padding: .75rem 1rem;
+    margin-bottom: .75rem;
+    text-align: center;
+    min-height: 2.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.6;
+  }
+  .formula-math.tall { flex-direction: column; gap: .25rem; }
+  .formula-desc {
+    font-size: .75rem;
+    color: var(--txt2);
+    line-height: 1.6;
+  }
+
+  /* ── COURSE CALLOUT ── */
+  .course-callout {
+    max-width: 960px;
+    margin: 0 auto 3.5rem;
+    padding: 0 1.5rem;
+  }
+  .callout-inner {
+    background: var(--surf);
+    border: 1px solid rgba(78,201,176,.25);
+    border-radius: 10px;
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .callout-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    margin-top: .1rem;
+  }
+  .callout-content { flex: 1; }
+  .callout-label {
+    font-family: 'Space Mono', monospace;
+    font-size: .58rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: .35rem;
+  }
+  .callout-content h3 {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--txt);
+    margin-bottom: .4rem;
+  }
+  .callout-content p {
+    font-size: .78rem;
+    color: var(--txt2);
+    line-height: 1.6;
+    margin-bottom: .9rem;
+  }
+  .btn-callout {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    background: var(--teal);
+    color: #0a0a0f;
+    font-weight: 700;
+    font-size: .75rem;
+    letter-spacing: .04em;
+    text-decoration: none;
+    padding: .5rem 1rem;
+    border-radius: 6px;
+    transition: opacity .2s;
+  }
+  .btn-callout:hover { opacity: .88; }
+
+  /* ── CALCULATORS ── */
+  .calculators {
+    padding: 1rem 1.5rem 3.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .6rem;
+  }
+  .calc-item {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 8px;
+    padding: .9rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    transition: border-color .2s;
+  }
+  .calc-item.live-tool { border-color: rgba(78,201,176,.2); }
+  .calc-item.live-tool:hover { border-color: var(--teal); }
+  .calc-item.dim { opacity: .55; }
+  .calc-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--mut);
+    flex-shrink: 0;
+    margin-top: .35rem;
+  }
+  .calc-dot.green { background: var(--teal); box-shadow: 0 0 6px rgba(78,201,176,.5); }
+  .calc-info { flex: 1; }
+  .calc-name {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--txt);
+    margin-bottom: .2rem;
+  }
+  .calc-desc {
+    font-size: .7rem;
+    color: var(--txt2);
+    line-height: 1.5;
+  }
+  .calc-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: .52rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: var(--tdim);
+    border: 1px solid var(--tline);
+    border-radius: 100px;
+    padding: .15rem .45rem;
+    flex-shrink: 0;
+    margin-top: .1rem;
+    white-space: nowrap;
+  }
+  .calc-badge.soon { color: var(--mut); background: transparent; border-color: var(--bdr); }
+
+  /* ── PHILOSOPHY ── */
+  .philosophy {
+    padding: 1rem 1.5rem 3.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .phil-inner {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 10px;
+    padding: 2rem;
+  }
+  .phil-text {
+    font-size: .88rem;
+    color: var(--txt2);
+    line-height: 1.8;
+    max-width: 560px;
+    margin-bottom: 1.75rem;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .stat-block {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--teal);
+    line-height: 1;
+    margin-bottom: .3rem;
+  }
+  .stat-label {
+    font-size: .7rem;
+    color: var(--mut);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .disc-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 2.5rem 1.25rem 2rem; }
+    .disc-grid { grid-template-columns: 1fr; }
+    .disciplines, .formulas, .calculators, .philosophy, .course-callout {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+    .formula-grid { grid-template-columns: 1fr; }
+    .calc-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .callout-inner { flex-direction: column; gap: .75rem; }
+    .phil-inner { padding: 1.25rem; }
+    .hero-stats { gap: .4rem; }
+    .hero-ctas { flex-direction: column; }
+    .btn-primary, .btn-secondary { justify-content: center; width: 100%; }
+  }
+</style>
+
+<!-- SKIP TO CONTENT -->
+<a href="#main-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;background:var(--teal);color:#0a0a0f;padding:.5rem 1rem;border-radius:0 0 6px 6px;font-weight:700;text-decoration:none;" onfocus="this.style.left='50%';this.style.transform='translateX(-50%)';this.style.width='auto';this.style.height='auto';" onblur="this.style.left='-9999px';this.style.transform='';this.style.width='1px';this.style.height='1px';">Skip to content</a>
+
+<main id="main-content">
+
+  <!-- ── 1. HERO ── -->
+  <section class="hero" aria-label="Civil Engineering — Introduction">
+    <div class="hero-eyebrow">&#8721; mathify.us &middot; Civil Engineering</div>
+    <h1>The Math Behind<br><em>What Stands.</em></h1>
+    <p class="hero-sub">From reinforced concrete to fluid dynamics &mdash; every formula exists because of a physical truth. Explore civil engineering concepts with interactive simulations, live calculators, and worked examples.</p>
+    <div class="hero-stats" role="list">
+      <span class="stat-chip" role="listitem">&#10003; 6 Core Disciplines</span>
+      <span class="stat-chip" role="listitem">&#10003; 8+ Interactive Simulations</span>
+      <span class="stat-chip" role="listitem">&#10003; 7 Essential Formulas</span>
+      <span class="stat-chip" role="listitem">&#10003; Live Calculators</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="/civil/rc-chapter1" class="btn-primary">Start with RC Design &#8594;</a>
+      <a href="#formulas" class="btn-secondary">View All Formulas &#8595;</a>
+    </div>
+  </section>
+
+  <!-- ── 2. DISCIPLINES GRID ── -->
+  <section class="disciplines" aria-labelledby="disc-heading">
+    <div class="section-label" id="disc-heading">01 &mdash; Core Disciplines</div>
+    <div class="disc-grid">
+
+      <!-- RC Design — LIVE -->
+      <a href="/civil/rc-chapter1" class="disc-card live" aria-label="Reinforced Concrete Design — Live">
+        <span class="live-badge">Live Now</span>
+        <span class="disc-icon" aria-hidden="true">&#127963;</span>
+        <span class="disc-title">Reinforced Concrete Design</span>
+        <span class="disc-desc">Working Stress Design, cracked section analysis, k &amp; j method, Whitney stress block, beam design &mdash; 8 interactive simulations from CEE335. Based on Darwin &amp; Dolan 15th Ed.</span>
+        <span class="disc-level">University &rarr; Professional</span>
+        <span class="disc-link">Open Chapter 1 &#8594;</span>
+      </a>
+
+      <!-- Structural -->
+      <div class="disc-card coming-soon" aria-label="Structural Engineering — Coming Soon">
+        <span class="coming-badge">Coming Soon</span>
+        <span class="disc-icon" aria-hidden="true">&#127959;</span>
+        <span class="disc-title">Structural Engineering</span>
+        <span class="disc-desc">Beams, trusses, frames, stress and strain &mdash; how structures carry load. Bending, shear, axial analysis.</span>
+        <span class="disc-level">University &rarr; Professional</span>
+      </div>
+
+      <!-- Fluid -->
+      <div class="disc-card coming-soon" aria-label="Fluid Mechanics — Coming Soon">
+        <span class="coming-badge">Coming Soon</span>
+        <span class="disc-icon" aria-hidden="true">&#128167;</span>
+        <span class="disc-title">Fluid Mechanics</span>
+        <span class="disc-desc">Hydraulics, pipe flow, open channels, Bernoulli&rsquo;s equation, and the mathematics of fluids in motion.</span>
+        <span class="disc-level">University &rarr; Professional</span>
+      </div>
+
+      <!-- Geotechnical -->
+      <div class="disc-card coming-soon" aria-label="Geotechnical Engineering — Coming Soon">
+        <span class="coming-badge">Coming Soon</span>
+        <span class="disc-icon" aria-hidden="true">&#127757;</span>
+        <span class="disc-title">Geotechnical Engineering</span>
+        <span class="disc-desc">Soil mechanics, bearing capacity, Terzaghi&rsquo;s equation, settlement analysis, and how the ground beneath a structure behaves under load.</span>
+        <span class="disc-level">University &rarr; Professional</span>
+      </div>
+
+      <!-- Geometry & Surveying -->
+      <div class="disc-card coming-soon" aria-label="Geometry & Surveying — Coming Soon">
+        <span class="coming-badge">Coming Soon</span>
+        <span class="disc-icon" aria-hidden="true">&#128207;</span>
+        <span class="disc-title">Geometry &amp; Surveying</span>
+        <span class="disc-desc">Trigonometry applied to surveying and the math behind mapping the physical world. Leveling, traversing, curve layout.</span>
+        <span class="disc-level">All Levels</span>
+      </div>
+
+      <!-- Transportation -->
+      <div class="disc-card coming-soon" aria-label="Transportation Engineering — Coming Soon">
+        <span class="coming-badge">Coming Soon</span>
+        <span class="disc-icon" aria-hidden="true">&#128390;</span>
+        <span class="disc-title">Transportation Engineering</span>
+        <span class="disc-desc">Traffic analysis, highway design, level of service, signal timing.</span>
+        <span class="disc-level">University &rarr; Professional</span>
+      </div>
+
+      <!-- Construction Materials -->
+      <div class="disc-card coming-soon" aria-label="Construction Materials — Coming Soon">
+        <span class="coming-badge">Coming Soon</span>
+        <span class="disc-icon" aria-hidden="true">&#128295;</span>
+        <span class="disc-title">Construction Materials</span>
+        <span class="disc-desc">Properties, applications, and comparisons of concrete, steel, timber, masonry, and modern composites.</span>
+        <span class="disc-level">All Levels</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 3. FORMULAS ── -->
+  <section class="formulas" id="formulas" aria-labelledby="formula-heading">
+    <div class="section-label" id="formula-heading">02 &mdash; Essential Formulas</div>
+    <div class="formula-grid">
+
+      <!-- Bending Stress -->
+      <div class="formula-card">
+        <div class="formula-category">Structural Engineering</div>
+        <div class="formula-name">Bending Stress</div>
+        <div class="formula-math">$$\sigma = \dfrac{M \cdot y}{I}$$</div>
+        <div class="formula-desc">Bending stress at distance <em>y</em> from the neutral axis, where <em>M</em> is the bending moment and <em>I</em> is the second moment of area.</div>
+      </div>
+
+      <!-- Bernoulli -->
+      <div class="formula-card">
+        <div class="formula-category">Fluid Mechanics</div>
+        <div class="formula-name">Bernoulli&rsquo;s Equation</div>
+        <div class="formula-math">$$P + \tfrac{1}{2}\rho v^2 + \rho g h = \text{const}$$</div>
+        <div class="formula-desc">Energy conservation along a streamline &mdash; relates pressure, velocity, and elevation in ideal fluid flow.</div>
+      </div>
+
+      <!-- Euler Buckling -->
+      <div class="formula-card">
+        <div class="formula-category">Structural Engineering</div>
+        <div class="formula-name">Euler&rsquo;s Buckling Load</div>
+        <div class="formula-math">$$P_{cr} = \dfrac{\pi^2 EI}{(KL)^2}$$</div>
+        <div class="formula-desc">The critical compressive load at which a slender column will buckle, depending on stiffness <em>EI</em> and effective length <em>KL</em>.</div>
+      </div>
+
+      <!-- Terzaghi -->
+      <div class="formula-card">
+        <div class="formula-category">Geotechnical</div>
+        <div class="formula-name">Terzaghi Bearing Capacity</div>
+        <div class="formula-math">$$q_u = cN_c + qN_q + \tfrac{1}{2}\gamma B N_\gamma$$</div>
+        <div class="formula-desc">The ultimate bearing capacity of shallow foundations in soil, combining cohesion, surcharge, and soil weight contributions.</div>
+      </div>
+
+      <!-- k & j WSD — ACCENT -->
+      <div class="formula-card accent">
+        <div class="formula-category">Reinforced Concrete (WSD)</div>
+        <div class="formula-name">Cracked Section k &amp; j</div>
+        <div class="formula-math tall">
+          <span>$$k = \sqrt{(\rho n)^2 + 2\rho n} - \rho n$$</span>
+          <span>$$j = 1 - k/3$$</span>
+        </div>
+        <div class="formula-desc">Neutral axis depth ratio <em>k</em> and moment arm ratio <em>j</em> for a cracked RC section under WSD. &rho; = A<sub>s</sub>/(bd), n = E<sub>s</sub>/E<sub>c</sub>.</div>
+      </div>
+
+      <!-- Euler's Identity -->
+      <div class="formula-card">
+        <div class="formula-category">Mathematics</div>
+        <div class="formula-name">Euler&rsquo;s Identity</div>
+        <div class="formula-math">$$e^{i\pi} + 1 = 0$$</div>
+        <div class="formula-desc">The most beautiful equation in mathematics &mdash; connecting five fundamental constants in one elegant expression.</div>
+      </div>
+
+      <!-- Taylor Series -->
+      <div class="formula-card">
+        <div class="formula-category">Mathematics</div>
+        <div class="formula-name">Taylor Series</div>
+        <div class="formula-math">$$f(x) = \sum_{n=0}^{\infty} \dfrac{f^{(n)}(a)}{n!}(x-a)^n$$</div>
+        <div class="formula-desc">Approximating any smooth function as an infinite polynomial &mdash; the foundation of numerical methods in engineering.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 4. COURSE CALLOUT ── -->
+  <div class="course-callout">
+    <div class="callout-inner">
+      <span class="callout-icon" aria-hidden="true">&#127979;</span>
+      <div class="callout-content">
+        <div class="callout-label">Currently Studying</div>
+        <h3>CEE335: Reinforced Concrete Design I</h3>
+        <p>Spring 2026, North South University. Following Darwin &amp; Dolan&rsquo;s <em>Design of Concrete Structures</em>, 15th Edition. Chapter 1 is fully built with 8 interactive simulations.</p>
+        <a href="/civil/rc-chapter1" class="btn-callout">Open Chapter 1 &#8594;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5. CALCULATORS ── -->
+  <section class="calculators" aria-labelledby="calc-heading">
+    <div class="section-label" id="calc-heading">03 &mdash; Engineering Calculators</div>
+    <div class="calc-grid">
+
+      <div class="calc-item live-tool">
+        <span class="calc-dot green" aria-label="Live"></span>
+        <div class="calc-info">
+          <div class="calc-name">Whitney Stress Block Visualizer</div>
+          <div class="calc-desc">Adjust A<sub>s</sub>, b, d &rarr; see a, c, &epsilon;<sub>t</sub>, &phi;, M<sub>n</sub> update live</div>
+        </div>
+        <span class="calc-badge">Live &middot; RC Ch.1</span>
+      </div>
+
+      <div class="calc-item live-tool">
+        <span class="calc-dot green" aria-label="Live"></span>
+        <div class="calc-info">
+          <div class="calc-name">Beam Loading Simulator</div>
+          <div class="calc-desc">Drag slider to watch stress distribution across 3 stages</div>
+        </div>
+        <span class="calc-badge">Live &middot; RC Ch.1</span>
+      </div>
+
+      <div class="calc-item live-tool">
+        <span class="calc-dot green" aria-label="Live"></span>
+        <div class="calc-info">
+          <div class="calc-name">k &amp; j Calculator</div>
+          <div class="calc-desc">Enter &rho; and n, get k, j, and moment capacity step-by-step</div>
+        </div>
+        <span class="calc-badge">Live &middot; RC Ch.1</span>
+      </div>
+
+      <div class="calc-item live-tool">
+        <span class="calc-dot green" aria-label="Live"></span>
+        <div class="calc-info">
+          <div class="calc-name">Shear &amp; Stirrup Calculator</div>
+          <div class="calc-desc">Compute V<sub>c</sub>, required V<sub>s</sub>, stirrup spacing</div>
+        </div>
+        <span class="calc-badge">Live &middot; RC Ch.1</span>
+      </div>
+
+      <div class="calc-item dim">
+        <span class="calc-dot" aria-label="Coming soon"></span>
+        <div class="calc-info">
+          <div class="calc-name">Bernoulli Pipe Flow</div>
+          <div class="calc-desc">Solve for velocity, pressure, or elevation given other values</div>
+        </div>
+        <span class="calc-badge soon">Soon</span>
+      </div>
+
+      <div class="calc-item dim">
+        <span class="calc-dot" aria-label="Coming soon"></span>
+        <div class="calc-info">
+          <div class="calc-name">Terzaghi Bearing Capacity</div>
+          <div class="calc-desc">Enter soil params, get q<sub>u</sub> with N<sub>c</sub>, N<sub>q</sub>, N<sub>&gamma;</sub> factors</div>
+        </div>
+        <span class="calc-badge soon">Soon</span>
+      </div>
+
+      <div class="calc-item dim">
+        <span class="calc-dot" aria-label="Coming soon"></span>
+        <div class="calc-info">
+          <div class="calc-name">Mohr&rsquo;s Circle</div>
+          <div class="calc-desc">Interactive stress transformation visualization</div>
+        </div>
+        <span class="calc-badge soon">Soon</span>
+      </div>
+
+      <div class="calc-item dim">
+        <span class="calc-dot" aria-label="Coming soon"></span>
+        <div class="calc-info">
+          <div class="calc-name">Beam Deflection</div>
+          <div class="calc-desc">Simple/cantilever beam deflection under various loads</div>
+        </div>
+        <span class="calc-badge soon">Soon</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 6. PHILOSOPHY ── -->
+  <section class="philosophy" aria-labelledby="phil-heading">
+    <div class="section-label" id="phil-heading">04 &mdash; About This Section</div>
+    <div class="phil-inner">
+      <p class="phil-text">Mathify approaches civil engineering from first principles. Every formula exists because of a physical reason &mdash; we start with intuition, build through physics, and arrive at equations that feel inevitable. Free for students and engineers everywhere.</p>
+      <div class="stats-grid">
+        <div class="stat-block">
+          <div class="stat-num">7</div>
+          <div class="stat-label">Discipline Areas</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num">7</div>
+          <div class="stat-label">Key Formulas</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num">8+</div>
+          <div class="stat-label">Simulations</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num">&infin;</div>
+          <div class="stat-label">Things to Learn</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</Main>
