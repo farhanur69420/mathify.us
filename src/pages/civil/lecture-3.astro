@@ -11,7 +11,7 @@
   <title>Lecture 3 — RC Theory Assumptions | Mathify</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
-  <script>
+  <script is:inline>
     MathJax = {
       tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
       startup: { typeset: true }
@@ -159,7 +159,7 @@
   <div class="eq-box">
     <div class="eq-title">Strain Compatibility &amp; Modular Ratio</div>
     <div class="eq-main">\[ \varepsilon_s = \varepsilon_c \]</div>
-    <div class="eq-main">\[ n = \frac{E_s}{E_c} \approx \frac{200{,}000}{4700\sqrt{f'_c}} \]</div>
+    <div class="eq-main">\[ n = \frac&#123;E_s&#125;&#123;E_c&#125; \approx \frac&#123;200&#123;,&#125;000&#125;&#123;4700\sqrt&#123;f'_c&#125;&#125; \]</div>
     <table class="var-table">
       <tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr>
       <tr><td>ε<sub>s</sub>, ε<sub>c</sub></td><td>Strain in steel / surrounding concrete — they're equal</td><td>dimensionless</td></tr>
@@ -185,7 +185,7 @@
   <div class="watchout">
     <div class="wo-title">Common Mistake</div>
     <ul>
-      <li><strong>Same strain ≠ same stress.</strong> Steel and concrete at the same height have equal strain but very different stress — because \(E_s \approx 200{,}000\) MPa while \(E_c \approx 25{,}000\) MPa. The stress ratio is exactly \(n \approx 8\).</li>
+      <li><strong>Same strain ≠ same stress.</strong> Steel and concrete at the same height have equal strain but very different stress — because \(E_s \approx 200&#123;,&#125;000\) MPa while \(E_c \approx 25&#123;,&#125;000\) MPa. The stress ratio is exactly \(n \approx 8\).</li>
       <li>Bond failure can occur near bar ends without adequate development length, or under high cyclic loading. When it does, composite action is lost and the beam loses significant capacity suddenly.</li>
     </ul>
   </div>
@@ -226,7 +226,7 @@
 
   <div class="eq-box">
     <div class="eq-title">Linear Strain Distribution</div>
-    <div class="eq-main">\[ \varepsilon(y) = \phi \cdot y = \frac{y}{\rho} \]</div>
+    <div class="eq-main">\[ \varepsilon(y) = \phi \cdot y = \frac&#123;y&#125;&#123;\rho&#125; \]</div>
     <table class="var-table">
       <tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr>
       <tr><td>ε(y)</td><td>Strain at distance y from neutral axis</td><td>dimensionless</td></tr>
@@ -454,7 +454,7 @@
 
   <div class="eq-box">
     <div class="eq-title">The Three Formulas</div>
-    <div class="eq-main">\[ \sigma_{\text{axial}} = \frac{P}{A} \qquad \sigma_{\text{bending}} = \frac{Mc}{I} \qquad \tau_{\text{shear}} = \frac{VQ}{It} \]</div>
+    <div class="eq-main">\[ \sigma_&#123;\text&#123;axial&#125;&#125; = \frac&#123;P&#125;&#123;A&#125; \qquad \sigma_&#123;\text&#123;bending&#125;&#125; = \frac&#123;Mc&#125;&#123;I&#125; \qquad \tau_&#123;\text&#123;shear&#125;&#125; = \frac&#123;VQ&#125;&#123;It&#125; \]</div>
     <table class="var-table">
       <tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr>
       <tr><td>P, A</td><td>Axial force; cross-sectional area</td><td>N; mm²</td></tr>
@@ -501,18 +501,18 @@
   <div class="worked">
     <div class="problem-card">
       <h4>Worked Example — Full Bending Stress Check</h4>
-      <p>A rectangular RC beam: \(b = 300\) mm, effective depth \(d = 450\) mm. Neutral axis at \(\bar{y} = 180\) mm from top. Cracked transformed \(I_{\text{cr}} = 2.1 \times 10^9\) mm⁴. Service moment \(M = 120\) kN·m. Find concrete stress at top fibre and steel stress. \(n = 8\).</p>
+      <p>A rectangular RC beam: \(b = 300\) mm, effective depth \(d = 450\) mm. Neutral axis at \(\bar&#123;y&#125; = 180\) mm from top. Cracked transformed \(I_&#123;\text&#123;cr&#125;&#125; = 2.1 \times 10^9\) mm⁴. Service moment \(M = 120\) kN·m. Find concrete stress at top fibre and steel stress. \(n = 8\).</p>
     </div>
 
     <div class="step-item">
       <div class="step-head">Step 1 — Identify distances from the neutral axis</div>
-      <p>Concrete top fibre: \(c_{\text{top}} = \bar{y} = 180\) mm. Steel level: \(d - \bar{y} = 450 - 180 = 270\) mm below N.A.</p>
+      <p>Concrete top fibre: \(c_&#123;\text&#123;top&#125;&#125; = \bar&#123;y&#125; = 180\) mm. Steel level: \(d - \bar&#123;y&#125; = 450 - 180 = 270\) mm below N.A.</p>
       <p class="why">The N.A. divides the section. Every stress calculation needs a distance measured from the N.A., not the top or bottom of the beam.</p>
     </div>
 
     <div class="step-item">
       <div class="step-head">Step 2 — Convert moment to N·mm</div>
-      <p>\( M = 120 \text{ kN·m} = 120 \times 10^6 \text{ N·mm} \)</p>
+      <p>\( M = 120 \text&#123; kN·m&#125; = 120 \times 10^6 \text&#123; N·mm&#125; \)</p>
       <p class="why">I is in mm⁴, c is in mm — M must be in N·mm or units don't cancel to MPa. This unit conversion causes most numerical errors.</p>
     </div>
 
@@ -520,14 +520,14 @@
 
     <div class="step-item">
       <div class="step-head">Step 3 — Concrete stress at top fibre</div>
-      <p>\[ \sigma_c = \frac{Mc}{I} = \frac{120 \times 10^6 \times 180}{2.1 \times 10^9} = \mathbf{10.3 \text{ MPa}} \]</p>
+      <p>\[ \sigma_c = \frac&#123;Mc&#125;&#123;I&#125; = \frac&#123;120 \times 10^6 \times 180&#125;&#123;2.1 \times 10^9&#125; = \mathbf&#123;10.3 \text&#123; MPa&#125;&#125; \]</p>
       <p class="why">This is the governing compression in the concrete. Compare to allowable ≈ 0.45f'<sub>c</sub>.</p>
     </div>
 
     <div class="step-item">
       <div class="step-head">Step 4 — Steel stress (via modular ratio)</div>
-      <p>Concrete "stress" at steel level: \( \dfrac{120 \times 10^6 \times 270}{2.1 \times 10^9} = 15.43 \text{ MPa} \)</p>
-      <p>Actual steel stress: \( f_s = n \times 15.43 = 8 \times 15.43 = \mathbf{123 \text{ MPa}} \)</p>
+      <p>Concrete "stress" at steel level: \( \dfrac&#123;120 \times 10^6 \times 270&#125;&#123;2.1 \times 10^9&#125; = 15.43 \text&#123; MPa&#125; \)</p>
+      <p>Actual steel stress: \( f_s = n \times 15.43 = 8 \times 15.43 = \mathbf&#123;123 \text&#123; MPa&#125;&#125; \)</p>
       <p class="why">The transformed section pretends steel is n × more concrete. To recover the real steel stress, multiply the "concrete equivalent" stress back by n.</p>
     </div>
 
@@ -546,7 +546,7 @@
       <tr><td>σ = Mc/I</td><td>Bending — elastic range, WSD</td><td>Plane sections, linear material</td></tr>
       <tr><td>τ = VQ/It</td><td>Shear stress at any point</td><td>Elastic, no torsion</td></tr>
     </table>
-    <div class="qr-thumb">For RC in bending: use the <em>cracked</em> transformed \(I_{\text{cr}}\) and its neutral axis — not the gross section \(I_g\). Using \(I_g\) after cracking overestimates stiffness and underestimates deflections.</div>
+    <div class="qr-thumb">For RC in bending: use the <em>cracked</em> transformed \(I_&#123;\text&#123;cr&#125;&#125;\) and its neutral axis — not the gross section \(I_g\). Using \(I_g\) after cracking overestimates stiffness and underestimates deflections.</div>
   </div>
 </section>
 
@@ -640,7 +640,7 @@
 <!-- ══════════════════════════════════════════
      STYLES
 ══════════════════════════════════════════ -->
-<style is:global>
+<style is:inline>
   /* ── Mathify Design System ──────────────────────────────── */
   :root {
     --blueprint:      #0a1628;
