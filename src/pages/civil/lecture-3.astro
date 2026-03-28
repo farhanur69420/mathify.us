@@ -1,0 +1,1503 @@
+---
+// src/pages/civil/lecture-3.astro
+// CEE 350 — Lecture 3: Fundamental Assumptions of RC Theory
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lecture 3 — RC Theory Assumptions | Mathify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+      startup: { typeset: true }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+
+<body>
+
+<!-- ═══════════════════════ SITE NAV ═══════════════════════ -->
+<div class="site-nav">
+  <a href="https://www.mathify.us/" class="nav-logo">← Mathify</a>
+  <nav class="site-links">
+    <a href="https://www.mathify.us/civil.html" class="active">Civil</a>
+    <a href="https://www.mathify.us/math">Math</a>
+    <a href="https://www.mathify.us/physics">Physics</a>
+    <a href="https://www.mathify.us/about">About</a>
+  </nav>
+</div>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<header class="page-header">
+  <div class="header-inner">
+    <div class="eyebrow">CEE 350 · Reinforced Concrete Design · Lecture 3</div>
+    <h1>Fundamental Assumptions<br class="title-break" /><em>of RC Theory</em></h1>
+    <p class="subtitle">Two materials. One structure. Five agreements that make it designable.</p>
+    <div class="header-tags">
+      <span class="tag">Equilibrium</span>
+      <span class="tag">Bond</span>
+      <span class="tag">Plane Sections</span>
+      <span class="tag">No Tension</span>
+      <span class="tag">Stress-Strain</span>
+    </div>
+  </div>
+  <div class="header-grid-accent"></div>
+</header>
+
+<!-- ═══════════════════════ TOC ═══════════════════════ -->
+<nav class="toc-bar">
+  <a href="#intro">The Problem</a>
+  <span class="toc-sep">·</span>
+  <a href="#a1">A1 · Equilibrium</a>
+  <span class="toc-sep">·</span>
+  <a href="#a2">A2 · Bond</a>
+  <span class="toc-sep">·</span>
+  <a href="#a3">A3 · Plane Sections</a>
+  <span class="toc-sep">·</span>
+  <a href="#a4">A4 · No Tension</a>
+  <span class="toc-sep">·</span>
+  <a href="#a5">A5 · Stress-Strain</a>
+  <span class="toc-sep">·</span>
+  <a href="#stress-calc">Stress Formulas</a>
+  <span class="toc-sep">·</span>
+  <a href="#design-proc">Design Process</a>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════ INTRO ═══════════════════════ -->
+<section id="intro">
+  <div class="intro-box">
+    <p class="intro-lead">Here's the problem. Steel is clean: one material, linear elastic, predictable. You write \(\sigma = E\varepsilon\), go home, sleep well.</p>
+    <p>Reinforced concrete hands you <em>two</em> materials — one that cracks under tension, one that doesn't; one with a parabolic stress-strain curve, one with a linear one. There is no tidy closed-form formula that falls out of first principles.</p>
+    <p>So engineers did what engineers do: they made a set of carefully chosen simplifications. Five of them. Backed by decades of physical tests. Conservative enough to keep you safe. Simple enough to actually use.</p>
+    <p>These aren't wild guesses — they're the foundation of every RC beam ever designed. Learn them deeply and the rest of the course clicks into place.</p>
+    <ul class="assumption-list">
+      <li><span class="num">A1</span> Internal forces balance external loads (always)</li>
+      <li><span class="num">A2</span> Steel and concrete strain together — no slip</li>
+      <li><span class="num">A3</span> Flat cross-sections stay flat after bending</li>
+      <li><span class="num">A4</span> Cracked concrete carries zero tension</li>
+      <li><span class="num">A5</span> Actual (nonlinear) material behavior governs</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════ A1 — EQUILIBRIUM ═══════════════════════ -->
+<section class="topic-block" id="a1">
+  <div class="topic-label">
+    <span class="topic-number">Assumption 1</span>
+    <div class="topic-rule"></div>
+  </div>
+  <h2 class="topic-title">Equilibrium — Internal Forces Balance External Loads</h2>
+
+  <div class="tutor-moment">
+    <div class="tm-label">Start here — the intuition</div>
+    <p>Stand on a scale. The scale pushes up on you with exactly the force equal to your weight. If it pushed less, you'd sink through it. If it pushed more, you'd fly off. The forces <em>must</em> balance. Structures obey the same law — every single moment of every single day.</p>
+  </div>
+
+  <p>When you cut through a beam and draw a free body diagram, the bending moment \(M\), shear \(V\), and axial force \(P\) that appear on the cut face must exactly equal the external load effects on the other side. No exceptions. No special RC clause. Newton's laws don't care what material you're using.</p>
+
+  <p>The lecture notes call this an "assumption" but it's really a <em>law</em> — it's mentioned explicitly because students sometimes lose track of it as RC analysis gets complicated. Stress redistribution happens, cracks form, steel yields — and through all of it, equilibrium holds perfectly at every section.</p>
+
+  <div class="view-grid">
+    <div class="view-card civil">
+      <div class="view-label">Why the Engineer Cares</div>
+      <p>Every shear force diagram, every bending moment diagram, every reaction calculation flows from equilibrium. Violate it and your design isn't just wrong — it's physically impossible. The structure <em>cannot exist</em> in the state you've drawn.</p>
+    </div>
+    <div class="view-card math">
+      <div class="view-label">The Equations</div>
+      <p>\(\sum F_x = 0,\quad \sum F_y = 0,\quad \sum M = 0\)</p>
+      <p style="margin-top:0.5rem; font-size:0.82rem;">Cut the beam anywhere. The stresses on the cut face integrate to give \(N, V, M\) — those must balance everything on the other side of the cut.</p>
+    </div>
+  </div>
+
+  <div class="watchout">
+    <div class="wo-title">Common Mistake</div>
+    <ul>
+      <li>When drawing a free body diagram and cutting a section, students forget to include internal forces \((N, V, M)\) on the cut face. Without those, equilibrium equations are missing terms — and the numbers won't work.</li>
+      <li>A cracked, yielding RC beam still satisfies equilibrium — stress just <em>redistributes</em>. "This section yielded" doesn't mean equilibrium was violated; it means the force diagram changed shape.</li>
+    </ul>
+  </div>
+
+  <p class="bridge">Equilibrium tells us that internal forces exist at every section. But how do those forces split between the steel and the surrounding concrete? That depends on Assumption 2.</p>
+</section>
+
+<hr class="section-div" />
+
+<!-- ═══════════════════════ A2 — BOND ═══════════════════════ -->
+<section class="topic-block" id="a2">
+  <div class="topic-label">
+    <span class="topic-number">Assumption 2</span>
+    <div class="topic-rule"></div>
+  </div>
+  <h2 class="topic-title">Perfect Bond — Steel and Concrete Strain Together</h2>
+
+  <div class="tutor-moment">
+    <div class="tm-label">Start here — the intuition</div>
+    <p>Glue a stiff rubber band and a soft rubber band side by side. Stretch them together. Even though one resists much more than the other, they both stretch the same <em>amount</em>. Now imagine the glue fails. Each band stretches independently — they fight each other, the assembly buckles, and everything falls apart. That's what slip between steel and concrete would do to a beam.</p>
+  </div>
+
+  <p>Modern deformed (ribbed) bars provide mechanical interlocking with the surrounding concrete on top of natural surface adhesion. The result: the strain in the steel bar equals the strain in the concrete immediately surrounding it — at every point along the bar. This shared deformation is what makes them act as a <em>composite</em> rather than two separate materials fighting over the same space.</p>
+
+  <div class="view-grid">
+    <div class="view-card civil">
+      <div class="view-label">Why the Engineer Cares</div>
+      <p>Without perfect bond, you can't predict how load distributes between the two materials. The entire "transformed section" concept — replacing steel with \(n\) times its area of equivalent concrete — only works because equal strain lets you use one modulus ratio to relate stresses. Bond failure causes sudden, brittle collapse.</p>
+    </div>
+    <div class="view-card physics">
+      <div class="view-label">What's Happening</div>
+      <p>The ribs on a deformed bar interlock mechanically with the concrete paste. When the beam bends, the concrete deforms — and drags the bar with it, pixel-for-pixel. The force each material exerts then depends on its own stiffness: \(\sigma = E\varepsilon\).</p>
+    </div>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-title">Strain Compatibility &amp; Modular Ratio</div>
+    <div class="eq-main">\[ \varepsilon_s = \varepsilon_c \]</div>
+    <div class="eq-main">\[ n = \frac{E_s}{E_c} \approx \frac{200{,}000}{4700\sqrt{f'_c}} \]</div>
+    <table class="var-table">
+      <tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr>
+      <tr><td>ε<sub>s</sub>, ε<sub>c</sub></td><td>Strain in steel / surrounding concrete — they're equal</td><td>dimensionless</td></tr>
+      <tr><td>n</td><td>Modular ratio — how many times stiffer steel is vs concrete</td><td>—</td></tr>
+      <tr><td>E<sub>s</sub></td><td>Steel modulus ≈ 200,000 MPa (constant for all steel)</td><td>MPa</td></tr>
+      <tr><td>E<sub>c</sub></td><td>Concrete modulus — varies with \(f'_c\)</td><td>MPa</td></tr>
+    </table>
+    <p class="assumption-note">Requires: deformed bars with adequate anchorage. Breaks down near bar cutoffs or under severe cyclic loading.</p>
+  </div>
+
+  <div class="canvas-card">
+    <div class="canvas-label">Interactive Simulation</div>
+    <div class="canvas-question">Watch: steel and concrete deform together as curvature builds — strain diagram stays linear.</div>
+    <canvas id="canvasStrain" height="280"></canvas>
+    <div class="canvas-controls">
+      <button class="ctrl-btn" id="btnStrainPlay">▶ Play</button>
+      <label>Applied Curvature:</label>
+      <input type="range" id="sliderStrain" min="0" max="100" value="0" />
+      <span class="canvas-readout" id="readoutStrain">ε = 0.000</span>
+    </div>
+  </div>
+
+  <div class="watchout">
+    <div class="wo-title">Common Mistake</div>
+    <ul>
+      <li><strong>Same strain ≠ same stress.</strong> Steel and concrete at the same height have equal strain but very different stress — because \(E_s \approx 200{,}000\) MPa while \(E_c \approx 25{,}000\) MPa. The stress ratio is exactly \(n \approx 8\).</li>
+      <li>Bond failure can occur near bar ends without adequate development length, or under high cyclic loading. When it does, composite action is lost and the beam loses significant capacity suddenly.</li>
+    </ul>
+  </div>
+
+  <p class="bridge">Steel and concrete now move together. The next question: how does strain vary from the top of the beam to the bottom?</p>
+</section>
+
+<hr class="section-div" />
+
+<!-- ═══════════════════════ A3 — PLANE SECTIONS ═══════════════════════ -->
+<section class="topic-block" id="a3">
+  <div class="topic-label">
+    <span class="topic-number">Assumption 3</span>
+    <div class="topic-rule"></div>
+  </div>
+  <h2 class="topic-title">Plane Sections Remain Plane — Bernoulli's Hypothesis</h2>
+
+  <div class="tutor-moment">
+    <div class="tm-label">Start here — the intuition</div>
+    <p>Take a rubber eraser. Draw a perfectly vertical line across its face. Now bend it. Look at the line — it's still straight. It tilted, but it didn't bow or wave or develop a kink. That straight line staying straight is the entire content of Assumption 3, applied to a beam cross-section.</p>
+  </div>
+
+  <p>A cross-section that was flat before bending remains flat after bending — it just rotates. The consequence is powerful: strain varies <em>linearly</em> across the section height. The top fibre (farthest from the neutral axis in compression) gets the most strain. The neutral axis gets zero. The bottom fibre gets the most strain in the other direction.</p>
+
+  <p>Double the distance from the neutral axis? Double the strain. That clean proportionality is why the flexure formula \(\sigma = Mc/I\) works — and why RC design can predict stress at any point in the cross-section without solving a full elasticity problem.</p>
+
+  <div class="view-grid">
+    <div class="view-card civil">
+      <div class="view-label">Why the Engineer Cares</div>
+      <p>Linear strain distribution is the geometric foundation of everything. Without it, there's no rational way to predict stress at any point in the cross-section. It's also why the extreme fibre governs — that's where strain (and therefore stress) is highest, so that's where failure initiates.</p>
+    </div>
+    <div class="view-card math">
+      <div class="view-label">The Equation</div>
+      <p>\[ \varepsilon(y) = \phi \cdot y \]</p>
+      <p style="margin-top:0.5rem; font-size:0.82rem;">Strain at height \(y\) from the neutral axis equals curvature \(\phi\) times \(y\). Linear. The farthest fibre from the N.A. always has the highest strain.</p>
+    </div>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-title">Linear Strain Distribution</div>
+    <div class="eq-main">\[ \varepsilon(y) = \phi \cdot y = \frac{y}{\rho} \]</div>
+    <table class="var-table">
+      <tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr>
+      <tr><td>ε(y)</td><td>Strain at distance y from neutral axis</td><td>dimensionless</td></tr>
+      <tr><td>φ</td><td>Curvature of the beam at that section</td><td>rad/mm</td></tr>
+      <tr><td>y</td><td>Distance from neutral axis (+ toward compression)</td><td>mm</td></tr>
+      <tr><td>ρ</td><td>Radius of curvature = 1/φ</td><td>mm</td></tr>
+    </table>
+    <p class="assumption-note">Valid far from supports or point loads, no torsion, moderate deflections. Slight deviation near ultimate — but errors are minor and well-tested.</p>
+  </div>
+
+  <div class="canvas-card">
+    <div class="canvas-label">Interactive Simulation</div>
+    <div class="canvas-question">Watch the strain diagram form as curvature increases — note the linear distribution.</div>
+    <canvas id="canvasPlane" height="310"></canvas>
+    <div class="canvas-controls">
+      <button class="ctrl-btn" id="btnPlanePlay">▶ Play</button>
+      <label>Curvature φ:</label>
+      <input type="range" id="sliderPlane" min="0" max="100" value="0" />
+      <span class="canvas-readout" id="readoutPlane">ε_max = 0.000</span>
+    </div>
+  </div>
+
+  <div class="watchout">
+    <div class="wo-title">Critical Distinction</div>
+    <ul>
+      <li>Plane sections → <strong>linear strain</strong> diagram. But in RC, the <em>stress</em> diagram is <strong>not</strong> linear — because concrete's stress-strain curve is nonlinear (Assumption 5). Strain stays linear; stress doesn't. This trips up almost every student at first.</li>
+      <li>The rectangular stress block used in strength design is a simplified approximation of the curved stress distribution that results from nonlinear concrete behavior under a linear strain diagram.</li>
+    </ul>
+  </div>
+
+  <p class="bridge">We know strain is linear from top to bottom. But what happens in the tension zone below the neutral axis — where concrete is being pulled apart? That's where Assumption 4 makes a bold, practical decision.</p>
+</section>
+
+<hr class="section-div" />
+
+<!-- ═══════════════════════ A4 — NO TENSION ═══════════════════════ -->
+<section class="topic-block" id="a4">
+  <div class="topic-label">
+    <span class="topic-number">Assumption 4</span>
+    <div class="topic-rule"></div>
+  </div>
+  <h2 class="topic-title">Cracked Concrete Carries Zero Tension</h2>
+
+  <div class="tutor-moment">
+    <div class="tm-label">Start here — the intuition</div>
+    <p>Imagine trying to pull apart a dry sand castle. You can push on it all day, but the moment you try to pull it apart, the grains just separate. Concrete isn't quite that bad — but it's in that spirit. Its tensile strength is roughly 10% of its compressive strength. In a bending beam, the tension zone cracks at service loads. A crack is a gap. A gap can't transfer tension. So we stop counting on it.</p>
+  </div>
+
+  <p>This is the structural logic of reinforcement: concrete handles compression above the neutral axis; steel handles tension below it. The cracked concrete below the neutral axis is still physically there — it provides cover to the bars, helps with shear — but it contributes <strong>zero tensile resistance</strong> in our calculations.</p>
+
+  <p>It's a conservative assumption (concrete between cracks does resist some tension) but the simplification is enormous and the error is small. It's also why you put steel at the <em>bottom</em> of a simply-supported beam and at the <em>top</em> over a continuous support — wherever the tension zone is, that's where the bars go.</p>
+
+  <div class="view-grid view-grid-4">
+    <div class="view-card civil">
+      <div class="view-label">Why the Engineer Cares</div>
+      <p>Forgetting this and trusting concrete in tension leads to sudden brittle failure at loads far below design capacity. Hairline cracks at service load are <em>expected</em> — they're not a failure.</p>
+    </div>
+    <div class="view-card physics">
+      <div class="view-label">What's Happening</div>
+      <p>As tension stress reaches the modulus of rupture (~3–5 MPa), a hairline crack forms and propagates upward. The crack faces can't transfer tension. The steel bar is the only thing keeping the faces from separating.</p>
+    </div>
+    <div class="view-card math">
+      <div class="view-label">The Simplification</div>
+      <p>In the tension zone: \(\sigma_c = 0\). The full tensile resultant is carried by steel:</p>
+      <p style="margin-top:0.4rem;">\[ T = A_s \cdot f_s \]</p>
+    </div>
+    <div class="view-card core">
+      <div class="view-label">The One-Liner</div>
+      <p>Below the neutral axis, the concrete is cracked and contributes nothing in tension. Only the steel carries it — which is precisely why it's there.</p>
+    </div>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-title">Tensile Force in Steel</div>
+    <div class="eq-main">\[ T = A_s \cdot f_s \]</div>
+    <table class="var-table">
+      <tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr>
+      <tr><td>T</td><td>Total tensile force resultant in the tension zone</td><td>N or kN</td></tr>
+      <tr><td>A<sub>s</sub></td><td>Cross-sectional area of steel reinforcement</td><td>mm²</td></tr>
+      <tr><td>f<sub>s</sub></td><td>Stress in steel at the section of interest</td><td>MPa</td></tr>
+    </table>
+    <p class="assumption-note">Concrete in tension zone = fully cracked, zero stress. Steel bars bonded (Assumption 2 applies).</p>
+  </div>
+
+  <div class="canvas-card">
+    <div class="canvas-label">Interactive Simulation</div>
+    <div class="canvas-question">Watch cracks form as load increases — notice the neutral axis and how the tension zone becomes fully cracked.</div>
+    <canvas id="canvasCrack" height="310"></canvas>
+    <div class="canvas-controls">
+      <button class="ctrl-btn" id="btnCrackPlay">▶ Play</button>
+      <label>Load Level (%):</label>
+      <input type="range" id="sliderCrack" min="0" max="100" value="0" />
+      <span class="canvas-readout" id="readoutCrack">Uncracked</span>
+    </div>
+  </div>
+
+  <div class="calc-card">
+    <div class="calc-header">
+      <h3>Calculator — Tensile Force T = A<sub>s</sub> · f<sub>s</sub></h3>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-field">
+        <label>Steel Area A<sub>s</sub> (mm²)</label>
+        <input type="number" id="cAs" value="1520" />
+      </div>
+      <div class="calc-field">
+        <label>Steel Stress f<sub>s</sub> (MPa)</label>
+        <input type="number" id="cFs" value="140" />
+      </div>
+    </div>
+    <button class="calc-btn" id="btnCalcT">Calculate T</button>
+    <div class="calc-result" id="resT">
+      <div class="result-value" id="resT-val"></div>
+      <div class="result-label">Total tension force in steel</div>
+      <button class="show-steps-btn" id="btnStepsT">▸ Show Steps</button>
+      <div class="steps-panel" id="stepsT">
+        <div class="step-row"><span class="sn">1</span><span id="stepsT-1"></span></div>
+        <div class="step-row"><span class="sn">2</span><span id="stepsT-2"></span></div>
+        <div class="step-row"><span class="sn">3</span><span id="stepsT-3"></span></div>
+      </div>
+      <div class="whatif-row" id="whatif-T"></div>
+    </div>
+  </div>
+
+  <div class="watchout">
+    <div class="wo-title">Common Mistake</div>
+    <ul>
+      <li>The cracked concrete in the tension zone still physically exists — it provides cover to the bars, contributes to shear resistance via the "compression strut" mechanism, and limits crack widths. We only set its tensile stress to zero. We don't pretend it isn't there.</li>
+      <li>Service-load cracks are not structural failures. They are designed and expected. The code limits crack width to protect the steel from corrosion and maintain appearance — not because the crack itself is catastrophic.</li>
+    </ul>
+  </div>
+
+  <p class="bridge">We've handled tension. Now what about the compression zone above the neutral axis — specifically, how does the compressive stress actually vary, and why can't we just use \(\sigma = E\varepsilon\) there?</p>
+</section>
+
+<hr class="section-div" />
+
+<!-- ═══════════════════════ A5 — STRESS-STRAIN ═══════════════════════ -->
+<section class="topic-block" id="a5">
+  <div class="topic-label">
+    <span class="topic-number">Assumption 5</span>
+    <div class="topic-rule"></div>
+  </div>
+  <h2 class="topic-title">Nonlinear Stress-Strain — The Parabolic Truth</h2>
+
+  <div class="tutor-moment">
+    <div class="tm-label">Start here — the intuition</div>
+    <p>Steel has a beautiful stress-strain curve: a straight line up to yield, then a flat shelf. You could set your watch to it. Concrete? It peaks around a strain of 0.002, curves over gently, then crushes somewhere around 0.003. And the shape of that curve changes with every concrete mix. There's no simple formula — just the curve. Assumption 5 says: use the real curve, or a good engineering approximation of it.</p>
+  </div>
+
+  <p>In practice this creates two design philosophies:</p>
+  <ul class="prose-list">
+    <li><strong>Working Stress Design (WSD) / Elastic:</strong> Pretend both materials are linear elastic and stay within their elastic ranges. Use the transformed section. Simple and conservative — but leaves strength on the table.</li>
+    <li><strong>Strength Design (ACI/USD):</strong> Accept the nonlinearity. At ultimate load, the parabolic compressive stress block is approximated as an equivalent <em>rectangle</em> of depth \(a = \beta_1 c\) and intensity \(0.85f'_c\). This is more accurate near failure and gives more economical designs. It's the modern standard.</li>
+  </ul>
+
+  <div class="view-grid">
+    <div class="view-card civil">
+      <div class="view-label">Why the Engineer Cares</div>
+      <p>You cannot apply \(M = \sigma I/c\) to an RC beam at ultimate load — the stress distribution is no longer triangular. The ACI rectangular block replaces the curved reality with a rectangle that has the same area (same resultant force \(C\)) placed at the same effective centroid — giving you accurate capacity calculations without integrating a parabola.</p>
+    </div>
+    <div class="view-card math">
+      <div class="view-label">ACI Stress Block</div>
+      <p>\[ C = 0.85\,f'_c \cdot a \cdot b \]</p>
+      <p style="margin-top:0.4rem;">\[ a = \beta_1 \cdot c \]</p>
+      <p style="margin-top:0.4rem; font-size:0.82rem;">\(\beta_1 = 0.85\) for \(f'_c \leq 28\) MPa, decreasing by 0.05 per 7 MPa above 28 MPa, min 0.65.</p>
+    </div>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-title">ACI Equivalent Rectangular Stress Block</div>
+    <div class="eq-main">\[ C = 0.85\,f'_c \cdot a \cdot b \qquad a = \beta_1 \cdot c \]</div>
+    <table class="var-table">
+      <tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr>
+      <tr><td>C</td><td>Compressive resultant in concrete</td><td>N</td></tr>
+      <tr><td>0.85 f'<sub>c</sub></td><td>Equivalent uniform compressive stress intensity</td><td>MPa</td></tr>
+      <tr><td>a</td><td>Depth of equivalent rectangular block</td><td>mm</td></tr>
+      <tr><td>b</td><td>Width of compression zone</td><td>mm</td></tr>
+      <tr><td>β<sub>1</sub></td><td>Block depth ratio (0.85 for f'<sub>c</sub> ≤ 28 MPa)</td><td>—</td></tr>
+      <tr><td>c</td><td>Neutral axis depth from compression face</td><td>mm</td></tr>
+    </table>
+    <p class="assumption-note">Valid at or near ultimate load. For service-level checks (WSD), use elastic linear stress-strain instead.</p>
+  </div>
+
+  <div class="canvas-card">
+    <div class="canvas-label">Interactive Simulation</div>
+    <div class="canvas-question">Watch the compressive stress distribution evolve from elastic (triangle) → parabolic → ACI rectangle as load increases.</div>
+    <canvas id="canvasStress" height="310"></canvas>
+    <div class="canvas-controls">
+      <button class="ctrl-btn" id="btnStressPlay">▶ Play</button>
+      <label>Load Level (%):</label>
+      <input type="range" id="sliderStress" min="0" max="100" value="0" />
+      <span class="canvas-readout" id="readoutStress">Elastic — σ ≈ 0 MPa</span>
+    </div>
+  </div>
+
+  <div class="watchout">
+    <div class="wo-title">Common Mistakes</div>
+    <ul>
+      <li><strong>β₁ is not always 0.85.</strong> For \(f'_c > 28\) MPa, it reduces by 0.05 per 7 MPa, with a floor of 0.65. Always verify before using the rectangular block for higher-strength concretes.</li>
+      <li>The rectangular stress block is only valid near <em>ultimate</em> load. For service-load stress checks and deflection calculations, use elastic (linear) stress distribution — the two regimes require different tools.</li>
+    </ul>
+  </div>
+
+  <div class="core-idea">
+    <strong>The Synthesis</strong>
+    Strain stays linear (A3). But because concrete's stress-strain curve is nonlinear (A5), stress is <em>not</em> linear — it's parabolic, approximated by the ACI rectangle at ultimate. That rectangle underpins every strength design calculation in this course.
+  </div>
+</section>
+
+<hr class="section-div" />
+
+<!-- ═══════════════════════ STRESS FORMULAS ═══════════════════════ -->
+<section class="topic-block" id="stress-calc">
+  <div class="topic-label">
+    <span class="topic-number">Stress Determination</span>
+    <div class="topic-rule"></div>
+  </div>
+  <h2 class="topic-title">The Three Core Stress Formulas</h2>
+
+  <div class="tutor-moment">
+    <div class="tm-label">Before the formulas — why these three?</div>
+    <p>Any internal force in a structure is some combination of axial, bending, and shear. Each one creates a different stress pattern on the cross-section. These three formulas are the translators: they convert force diagrams into stress numbers you can check against material limits.</p>
+  </div>
+
+  <div class="eq-box">
+    <div class="eq-title">The Three Formulas</div>
+    <div class="eq-main">\[ \sigma_{\text{axial}} = \frac{P}{A} \qquad \sigma_{\text{bending}} = \frac{Mc}{I} \qquad \tau_{\text{shear}} = \frac{VQ}{It} \]</div>
+    <table class="var-table">
+      <tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr>
+      <tr><td>P, A</td><td>Axial force; cross-sectional area</td><td>N; mm²</td></tr>
+      <tr><td>M, c, I</td><td>Moment; distance from N.A. to fibre; 2nd moment of area</td><td>N·mm; mm; mm⁴</td></tr>
+      <tr><td>V, Q, t</td><td>Shear force; 1st moment of area above point; section width at point</td><td>N; mm³; mm</td></tr>
+    </table>
+    <p class="assumption-note">All three assume homogeneous elastic material + plane sections. For RC, apply to the <em>transformed</em> cracked section — not the gross section.</p>
+  </div>
+
+  <div class="calc-card">
+    <div class="calc-header">
+      <h3>Calculator — Bending Stress σ = Mc / I</h3>
+    </div>
+    <div class="calc-grid calc-grid-3">
+      <div class="calc-field">
+        <label>Bending Moment M (kN·m)</label>
+        <input type="number" id="cM" value="80" />
+      </div>
+      <div class="calc-field">
+        <label>Distance c (mm)</label>
+        <input type="number" id="cC" value="250" />
+      </div>
+      <div class="calc-field">
+        <label>Moment of Inertia I (×10⁶ mm⁴)</label>
+        <input type="number" id="cI" value="1200" />
+      </div>
+    </div>
+    <button class="calc-btn" id="btnCalcBend">Calculate σ</button>
+    <div class="calc-result" id="resBend">
+      <div class="result-value" id="resBend-val"></div>
+      <div class="result-label">Maximum bending stress at extreme fibre</div>
+      <button class="show-steps-btn" id="btnStepsBend">▸ Show Steps</button>
+      <div class="steps-panel" id="stepsBend">
+        <div class="step-row"><span class="sn">1</span><span id="stepsBend-1"></span></div>
+        <div class="step-row"><span class="sn">2</span><span id="stepsBend-2"></span></div>
+        <div class="step-row"><span class="sn">3</span><span id="stepsBend-3"></span></div>
+        <div class="step-row"><span class="sn">4</span><span id="stepsBend-4"></span></div>
+      </div>
+      <div class="whatif-row" id="whatif-Bend"></div>
+    </div>
+  </div>
+
+  <!-- Worked Example -->
+  <div class="worked">
+    <div class="problem-card">
+      <h4>Worked Example — Full Bending Stress Check</h4>
+      <p>A rectangular RC beam: \(b = 300\) mm, effective depth \(d = 450\) mm. Neutral axis at \(\bar{y} = 180\) mm from top. Cracked transformed \(I_{\text{cr}} = 2.1 \times 10^9\) mm⁴. Service moment \(M = 120\) kN·m. Find concrete stress at top fibre and steel stress. \(n = 8\).</p>
+    </div>
+
+    <div class="step-item">
+      <div class="step-head">Step 1 — Identify distances from the neutral axis</div>
+      <p>Concrete top fibre: \(c_{\text{top}} = \bar{y} = 180\) mm. Steel level: \(d - \bar{y} = 450 - 180 = 270\) mm below N.A.</p>
+      <p class="why">The N.A. divides the section. Every stress calculation needs a distance measured from the N.A., not the top or bottom of the beam.</p>
+    </div>
+
+    <div class="step-item">
+      <div class="step-head">Step 2 — Convert moment to N·mm</div>
+      <p>\( M = 120 \text{ kN·m} = 120 \times 10^6 \text{ N·mm} \)</p>
+      <p class="why">I is in mm⁴, c is in mm — M must be in N·mm or units don't cancel to MPa. This unit conversion causes most numerical errors.</p>
+    </div>
+
+    <div class="watch-flag">Always convert moments to N·mm before plugging into σ = Mc/I. Write the unit check explicitly until it becomes automatic.</div>
+
+    <div class="step-item">
+      <div class="step-head">Step 3 — Concrete stress at top fibre</div>
+      <p>\[ \sigma_c = \frac{Mc}{I} = \frac{120 \times 10^6 \times 180}{2.1 \times 10^9} = \mathbf{10.3 \text{ MPa}} \]</p>
+      <p class="why">This is the governing compression in the concrete. Compare to allowable ≈ 0.45f'<sub>c</sub>.</p>
+    </div>
+
+    <div class="step-item">
+      <div class="step-head">Step 4 — Steel stress (via modular ratio)</div>
+      <p>Concrete "stress" at steel level: \( \dfrac{120 \times 10^6 \times 270}{2.1 \times 10^9} = 15.43 \text{ MPa} \)</p>
+      <p>Actual steel stress: \( f_s = n \times 15.43 = 8 \times 15.43 = \mathbf{123 \text{ MPa}} \)</p>
+      <p class="why">The transformed section pretends steel is n × more concrete. To recover the real steel stress, multiply the "concrete equivalent" stress back by n.</p>
+    </div>
+
+    <div class="final-answer">
+      <div class="fa-label">Final Answer</div>
+      <div class="fa-value">σ<sub>c</sub> = 10.3 MPa (compression) &nbsp;·&nbsp; f<sub>s</sub> = 123 MPa (tension)</div>
+      <div class="fa-interp">Both within allowable limits (0.45f'<sub>c</sub> ≈ 13.5 MPa for f'<sub>c</sub> = 30 MPa; WSD allowable for steel ≈ 0.4f<sub>y</sub> ≈ 160 MPa for Grade 400). Section is adequate at service load.</div>
+    </div>
+  </div>
+
+  <div class="qr-card">
+    <h3>Quick Reference — When to Use Each Formula</h3>
+    <table>
+      <tr><th>Formula</th><th>Use When</th><th>Key Condition</th></tr>
+      <tr><td>σ = P/A</td><td>Pure axial (column, tie member)</td><td>Uniform stress; no bending</td></tr>
+      <tr><td>σ = Mc/I</td><td>Bending — elastic range, WSD</td><td>Plane sections, linear material</td></tr>
+      <tr><td>τ = VQ/It</td><td>Shear stress at any point</td><td>Elastic, no torsion</td></tr>
+    </table>
+    <div class="qr-thumb">For RC in bending: use the <em>cracked</em> transformed \(I_{\text{cr}}\) and its neutral axis — not the gross section \(I_g\). Using \(I_g\) after cracking overestimates stiffness and underestimates deflections.</div>
+  </div>
+</section>
+
+<hr class="section-div" />
+
+<!-- ═══════════════════════ DESIGN PROCEDURE ═══════════════════════ -->
+<section class="topic-block" id="design-proc">
+  <div class="topic-label">
+    <span class="topic-number">Design Procedure</span>
+    <div class="topic-rule"></div>
+  </div>
+  <h2 class="topic-title">From Blank Paper to Built Structure — The Two Phases</h2>
+
+  <div class="tutor-moment">
+    <div class="tm-label">The thing students miss</div>
+    <p>Most students think structural design starts with a load and a beam size. It doesn't. It starts with a person asking: "I need a hospital that can serve 500 patients a day." Everything structural flows from that. Understanding what Phase 1 demands is what makes Phase 2 possible.</p>
+  </div>
+
+  <div class="view-grid">
+    <div class="view-card civil">
+      <div class="view-label">Phase 1 — Functional Planning</div>
+      <p><strong>What the building does:</strong> Adequate working spaces and clearances. Ventilation and HVAC routing. Vertical transportation (elevators, stairs). Lighting and acoustic requirements. Aesthetics and code compliance. The architect and owner drive this — the structural engineer listens and adapts.</p>
+    </div>
+    <div class="view-card physics">
+      <div class="view-label">Phase 2 — Structural Design</div>
+      <p><strong>How the building stands:</strong> Column/beam layout from Phase 1 constraints. Load determination. Preliminary member sizing. Structural analysis (V, M diagrams). Section design (reinforcement sizing). Iteration until all checks pass. Final construction documents.</p>
+    </div>
+  </div>
+
+  <p>Phase 2 is an <em>iterative loop</em> — not a one-pass calculation. You estimate member sizes, run the analysis, check stresses and deflections, find something doesn't work, adjust, and re-run. The first trial section is a trial — don't over-optimize it before you've confirmed the layout works.</p>
+
+  <div class="qr-card">
+    <h3>Phase 2 — The Iterative Loop</h3>
+    <table>
+      <tr><th>Step</th><th>What You Do</th><th>Output</th></tr>
+      <tr><td>Layout</td><td>Column/beam grid from Phase 1 architecture</td><td>Structural configuration</td></tr>
+      <tr><td>Loads</td><td>Dead + live + lateral loads per code</td><td>Factored load combinations</td></tr>
+      <tr><td>Prelim. size</td><td>Rules of thumb for member dimensions</td><td>Trial cross-sections</td></tr>
+      <tr><td>Analysis</td><td>Shear, moment, axial diagrams</td><td>V(x), M(x), P(x)</td></tr>
+      <tr><td>Design</td><td>Size reinforcement; check capacity ≥ demand</td><td>Bar schedule and layout</td></tr>
+      <tr><td>Iterate</td><td>Adjust if checks fail; optimize if over-designed</td><td>Revised member sizes</td></tr>
+      <tr><td>Final</td><td>All members pass all code checks</td><td>Construction drawings</td></tr>
+    </table>
+    <div class="qr-thumb">Rule of thumb for preliminary beam depth: d ≈ L/10 to L/12 for simply-supported spans, where L is the clear span. Use this to start Phase 2 — then verify with analysis.</div>
+  </div>
+
+  <div class="watchout">
+    <div class="wo-title">Watch Out</div>
+    <ul>
+      <li>Phase 1 constraints can make Phase 2 very difficult. If the architect forces a column grid that requires 12 m spans with a shallow floor-to-floor height, you're in for a challenging Phase 2. The best structural engineers negotiate Phase 1 early — not after the layout is fixed.</li>
+      <li>The iterative nature of design is not a sign that something is wrong. It's the nature of structural engineering. Build the iteration into your process rather than hoping the first trial works.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SUMMARY ═══════════════════════ -->
+<hr class="section-div" />
+<section>
+  <div class="topic-label">
+    <span class="topic-number">Summary</span>
+    <div class="topic-rule"></div>
+  </div>
+  <h2 class="topic-title">The Five Assumptions — The Full Picture</h2>
+  <div class="qr-card">
+    <h3>Cheat Sheet</h3>
+    <table>
+      <tr><th>#</th><th>Assumption</th><th>Key Equation</th><th>When It Governs</th></tr>
+      <tr><td>A1</td><td>Equilibrium — internal = external</td><td>\(\sum F = 0,\; \sum M = 0\)</td><td>Every FBD, always</td></tr>
+      <tr><td>A2</td><td>Perfect bond — equal strain</td><td>\(\varepsilon_s = \varepsilon_c\); \(n = E_s/E_c\)</td><td>Transformed section, anchorage</td></tr>
+      <tr><td>A3</td><td>Plane sections remain plane</td><td>\(\varepsilon = \phi \cdot y\) (linear)</td><td>Any bending calculation</td></tr>
+      <tr><td>A4</td><td>Cracked concrete = zero tension</td><td>\(T = A_s f_s\) only</td><td>Below N.A. in tension zone</td></tr>
+      <tr><td>A5</td><td>Nonlinear stress-strain governs</td><td>\(C = 0.85 f'_c \cdot a \cdot b\)</td><td>Strength design, ultimate load</td></tr>
+    </table>
+    <div class="qr-thumb">A1–A3 are universally valid. A4 activates after first cracking. A5 replaces linear stress-strain at ultimate loads — strain stays linear (A3 still holds), but stress does not.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer class="page-footer">
+  <div class="footer-inner">
+    <span class="footer-logo">Mathify</span>
+    <span class="footer-sep">·</span>
+    <a href="https://www.mathify.us/civil.html">← Back to Civil Engineering</a>
+    <span class="footer-sep">·</span>
+    <span class="footer-note">Free education for everyone</span>
+  </div>
+</footer>
+
+</main>
+
+<!-- ══════════════════════════════════════════
+     STYLES
+══════════════════════════════════════════ -->
+<style is:global>
+  /* ── Mathify Design System ──────────────────────────────── */
+  :root {
+    --blueprint:      #0a1628;
+    --blueprint-mid:  #0e1d35;
+    --blueprint-deep: #060e1a;
+    --blueprint-line: rgba(100, 160, 255, 0.10);
+    --blueprint-line2: rgba(100, 160, 255, 0.04);
+
+    --teal:     #1abc9c;
+    --teal-dim: rgba(26, 188, 156, 0.14);
+    --teal-glow: rgba(26, 188, 156, 0.06);
+    --rust:     #c0392b;
+    --rust-dim: rgba(192, 57, 43, 0.14);
+    --gold:     #d4a017;
+    --gold-dim: rgba(212, 160, 23, 0.14);
+    --accent:   #4a90d9;
+
+    --text:      #e4e8f0;
+    --text-dim:  #8a9bb8;
+    --text-mute: #4a5a72;
+    --border:    rgba(100, 140, 200, 0.14);
+    --border-hi: rgba(100, 160, 255, 0.22);
+    --surf:      rgba(14, 29, 53, 0.70);
+    --surf2:     rgba(10, 22, 40, 0.80);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--blueprint);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* Blueprint grid */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--blueprint-line) 1px, transparent 1px),
+      linear-gradient(var(--blueprint-line2) 1px, transparent 1px),
+      linear-gradient(90deg, var(--blueprint-line2) 1px, transparent 1px);
+    background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  }
+
+  /* ── Site Nav ──────────────────────────────────────────── */
+  .site-nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(6, 14, 26, 0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--teal);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: opacity 0.2s;
+  }
+  .nav-logo:hover { opacity: 0.7; }
+  .site-links { display: flex; gap: 1.8rem; }
+  .site-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .site-links a:hover, .site-links a.active { color: var(--text); }
+
+  /* ── Page Header ───────────────────────────────────────── */
+  .page-header {
+    position: relative; overflow: hidden;
+    background: linear-gradient(160deg, #0b1e3a 0%, #07111f 60%, #0a1628 100%);
+    border-bottom: 1px solid var(--border-hi);
+    padding: 5rem 2rem 3.5rem;
+    text-align: center;
+    z-index: 1;
+  }
+  /* Decorative corner grid accent */
+  .header-grid-accent {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(100,160,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100,160,255,0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    -webkit-mask-image: radial-gradient(ellipse 60% 80% at 50% 100%, transparent 30%, black 100%);
+    mask-image: radial-gradient(ellipse 60% 80% at 50% 100%, transparent 30%, black 100%);
+  }
+  .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--teal);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .page-header h1 em {
+    font-style: italic;
+    color: var(--teal);
+    font-weight: 700;
+  }
+  .title-break { display: block; }
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 1rem;
+    max-width: 540px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+  }
+  .header-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: var(--teal-dim);
+    border: 1px solid rgba(26,188,156,0.25);
+    border-radius: 3px;
+    padding: 0.22rem 0.65rem;
+  }
+
+  /* ── TOC Bar ───────────────────────────────────────────── */
+  .toc-bar {
+    position: sticky; top: 48px; z-index: 100;
+    background: rgba(8, 18, 34, 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.65rem 2rem;
+    display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; justify-content: center;
+  }
+  .toc-bar a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .toc-bar a:hover { color: var(--teal); }
+  .toc-sep { color: var(--text-mute); font-size: 0.65rem; }
+
+  /* ── Main ──────────────────────────────────────────────── */
+  main { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 3.5rem 1.5rem 6rem; }
+
+  /* ── Sections ──────────────────────────────────────────── */
+  .topic-block { margin-bottom: 5rem; }
+
+  .topic-label {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 0.6rem;
+  }
+  .topic-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--teal);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .topic-rule {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--teal-dim), transparent);
+  }
+
+  .topic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.45rem, 3vw, 2.1rem);
+    font-weight: 700;
+    margin-bottom: 1.6rem;
+    line-height: 1.25;
+    color: var(--text);
+  }
+
+  hr.section-div {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3.5rem 0;
+  }
+
+  p { margin-bottom: 1rem; font-size: 0.95rem; color: #ccd4e0; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── Tutor Moment ──────────────────────────────────────── */
+  .tutor-moment {
+    background: linear-gradient(135deg, rgba(26,188,156,0.06), rgba(10,22,40,0));
+    border: 1px solid rgba(26,188,156,0.20);
+    border-left: 3px solid var(--teal);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.6rem;
+  }
+  .tm-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--teal);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    opacity: 0.8;
+  }
+  .tutor-moment p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #c8ede8;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ── Intro box ─────────────────────────────────────────── */
+  .intro-box {
+    background: var(--surf);
+    border: 1px solid var(--border-hi);
+    border-radius: 10px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 3.5rem;
+    backdrop-filter: blur(8px);
+  }
+  .intro-lead {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 0.9rem;
+    font-weight: 700;
+  }
+  .intro-box p { font-size: 0.92rem; color: #b8c4d4; }
+  .assumption-list {
+    list-style: none; padding: 0; margin-top: 1.2rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem 2rem;
+  }
+  @media (max-width: 560px) { .assumption-list { grid-template-columns: 1fr; } }
+  .assumption-list li {
+    font-size: 0.84rem; color: #b0bcd0;
+    padding: 0.28rem 0; display: flex; gap: 0.65rem; align-items: flex-start;
+    border-bottom: 1px solid rgba(100,140,200,0.08);
+  }
+  .assumption-list li .num {
+    font-family: 'Space Mono', monospace;
+    color: var(--teal); font-size: 0.75rem; flex-shrink: 0; margin-top: 0.1rem;
+  }
+
+  /* ── View Grid Cards ───────────────────────────────────── */
+  .view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.6rem 0; }
+  .view-grid-4 { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 640px) { .view-grid, .view-grid-4 { grid-template-columns: 1fr; } }
+
+  .view-card {
+    background: var(--surf2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem;
+    transition: border-color 0.2s;
+  }
+  .view-card:hover { border-color: var(--border-hi); }
+  .view-card .view-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.6rem;
+  }
+  .view-card.civil .view-label  { color: var(--gold); }
+  .view-card.physics .view-label { color: var(--teal); }
+  .view-card.math .view-label   { color: #a78bfa; }
+  .view-card.core .view-label   { color: var(--rust); }
+  .view-card p { font-size: 0.85rem; color: #b0bcd0; line-height: 1.65; margin: 0; }
+
+  /* ── Equation Box ──────────────────────────────────────── */
+  .eq-box {
+    background: var(--surf2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--teal);
+    border-radius: 8px;
+    padding: 1.4rem 1.6rem;
+    margin: 1.6rem 0;
+  }
+  .eq-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; color: var(--teal);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .eq-main { font-size: 1.05rem; margin: 1rem 0; text-align: center; color: var(--text); }
+  .var-table { width: 100%; border-collapse: collapse; margin-top: 1.1rem; font-size: 0.82rem; }
+  .var-table th {
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    color: var(--text-mute); text-transform: uppercase; text-align: left;
+    padding: 0.35rem 0.6rem; border-bottom: 1px solid var(--border);
+  }
+  .var-table td { padding: 0.35rem 0.6rem; border-bottom: 1px solid rgba(100,140,200,0.06); color: #aab8cc; }
+  .var-table td:first-child { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 0.8rem; }
+  .assumption-note { margin-top: 0.9rem; font-size: 0.76rem; color: var(--text-mute); font-style: italic; }
+
+  /* ── Watch Out ─────────────────────────────────────────── */
+  .watchout {
+    background: rgba(192,57,43,0.05);
+    border: 1px solid rgba(192,57,43,0.20);
+    border-left: 3px solid var(--rust);
+    border-radius: 8px;
+    padding: 1.1rem 1.4rem;
+    margin: 1.6rem 0;
+  }
+  .wo-title {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    color: var(--rust); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 0.7rem;
+  }
+  .watchout ul { list-style: none; padding: 0; }
+  .watchout ul li {
+    font-size: 0.86rem; color: #c4aaa8;
+    padding: 0.3rem 0 0.3rem 1.3rem;
+    position: relative; line-height: 1.65;
+  }
+  .watchout ul li::before { content: '⚠'; position: absolute; left: 0; color: var(--rust); font-size: 0.72rem; top: 0.35rem; }
+  .watchout ul li + li { border-top: 1px solid rgba(192,57,43,0.08); margin-top: 0.3rem; padding-top: 0.6rem; }
+
+  /* ── Core Idea ─────────────────────────────────────────── */
+  .core-idea {
+    background: var(--teal-glow);
+    border: 1px solid rgba(26,188,156,0.18);
+    border-left: 3px solid var(--teal);
+    border-radius: 8px;
+    padding: 1rem 1.4rem;
+    margin: 1.6rem 0;
+    font-style: italic; color: #9dd8cc; font-size: 0.93rem;
+  }
+  .core-idea strong {
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    color: var(--text-mute); letter-spacing: 0.12em;
+    text-transform: uppercase; display: block;
+    margin-bottom: 0.4rem; font-style: normal;
+  }
+
+  /* ── Bridge ────────────────────────────────────────────── */
+  .bridge {
+    font-size: 0.86rem; color: var(--text-mute);
+    font-style: italic; text-align: right;
+    margin-top: 1.6rem; padding-top: 1rem;
+    border-top: 1px dashed var(--border);
+  }
+
+  /* ── Prose list ────────────────────────────────────────── */
+  .prose-list { margin: 0.6rem 0 1rem 1.4rem; color: #b0bcd0; font-size: 0.92rem; }
+  .prose-list li { margin-bottom: 0.55rem; line-height: 1.7; }
+
+  /* ── Canvas Card ───────────────────────────────────────── */
+  .canvas-card {
+    background: rgba(6,14,26,0.8);
+    border: 1px solid var(--border-hi);
+    border-radius: 10px;
+    padding: 1.4rem;
+    margin: 1.6rem 0;
+  }
+  .canvas-label {
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    color: var(--text-mute); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 0.4rem;
+  }
+  .canvas-question {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 0.93rem; color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  canvas {
+    display: block; width: 100%; border-radius: 6px;
+    background: #040c18;
+    border: 1px solid rgba(100,140,200,0.10);
+  }
+  .canvas-controls {
+    display: flex; align-items: center; gap: 1rem;
+    flex-wrap: wrap; margin-top: 0.9rem;
+  }
+  .canvas-controls label {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem;
+    color: var(--text-mute); white-space: nowrap;
+  }
+  .canvas-controls input[type=range] { flex: 1; min-width: 80px; accent-color: var(--teal); }
+  .canvas-readout {
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    color: var(--teal); background: var(--surf2);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 0.28rem 0.75rem; white-space: nowrap;
+  }
+  .ctrl-btn {
+    background: var(--surf); border: 1px solid var(--border);
+    color: var(--text-dim); font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; padding: 0.3rem 0.9rem;
+    border-radius: 4px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .ctrl-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* ── Calculator ────────────────────────────────────────── */
+  .calc-card {
+    background: rgba(6,14,26,0.8);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1.6rem 0;
+  }
+  .calc-header {
+    background: rgba(26,188,156,0.06);
+    border-bottom: 1px solid rgba(26,188,156,0.14);
+    padding: 0.9rem 1.4rem;
+  }
+  .calc-header h3, .calc-card h3 {
+    font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    color: var(--teal); letter-spacing: 0.08em;
+    text-transform: uppercase; margin: 0;
+  }
+  .calc-card > .calc-grid,
+  .calc-card > .calc-btn,
+  .calc-card > .calc-result { padding-left: 1.4rem; padding-right: 1.4rem; }
+  .calc-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.8rem; padding: 1.2rem 1.4rem 0.8rem;
+  }
+  .calc-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 560px) { .calc-grid, .calc-grid-3 { grid-template-columns: 1fr; } }
+  .calc-field label {
+    font-size: 0.75rem; color: var(--text-dim);
+    display: block; margin-bottom: 0.3rem;
+  }
+  .calc-field input {
+    width: 100%; background: var(--surf2);
+    border: 1px solid var(--border); color: var(--text);
+    font-family: 'Space Mono', monospace; font-size: 0.88rem;
+    padding: 0.5rem 0.75rem; border-radius: 5px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .calc-field input:focus { border-color: var(--teal); }
+  .calc-btn {
+    display: block; margin: 0.8rem 1.4rem 1.2rem;
+    background: var(--teal); color: #040e0c;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    font-weight: 700; padding: 0.6rem 1.5rem;
+    border: none; border-radius: 5px; cursor: pointer;
+    transition: opacity 0.2s;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .calc-btn:hover { opacity: 0.85; }
+  .calc-result {
+    background: rgba(26,188,156,0.05);
+    border-top: 1px solid rgba(26,188,156,0.14);
+    padding: 1rem 1.4rem 1.2rem;
+    display: none;
+  }
+  .calc-result.visible { display: block; }
+  .result-value { font-family: 'Space Mono', monospace; font-size: 1.3rem; color: var(--teal); }
+  .result-label { font-size: 0.74rem; color: var(--text-dim); margin-top: 0.2rem; }
+  .show-steps-btn {
+    background: none; border: 1px solid var(--border);
+    color: var(--text-dim); font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; padding: 0.28rem 0.65rem;
+    border-radius: 4px; cursor: pointer; margin-top: 0.7rem;
+    transition: all 0.2s; letter-spacing: 0.04em;
+  }
+  .show-steps-btn:hover { color: var(--teal); border-color: var(--teal); }
+  .steps-panel { display: none; margin-top: 0.8rem; border-top: 1px solid var(--border); padding-top: 0.8rem; }
+  .steps-panel.open { display: block; }
+  .step-row { font-size: 0.82rem; color: #aab8cc; padding: 0.3rem 0; display: flex; gap: 0.65rem; }
+  .step-row .sn { font-family: 'Space Mono', monospace; color: var(--gold); flex-shrink: 0; font-size: 0.78rem; }
+  .whatif-row { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px dashed var(--border); display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .whatif-chip {
+    background: var(--surf2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 0.22rem 0.8rem;
+    font-size: 0.72rem; color: var(--text-dim);
+  }
+  .whatif-chip span { color: var(--gold); }
+
+  /* ── Worked Example ────────────────────────────────────── */
+  .worked { margin: 1.6rem 0; }
+  .problem-card {
+    background: rgba(26,188,156,0.05);
+    border: 1px solid rgba(26,188,156,0.22);
+    border-radius: 8px; padding: 1.2rem 1.4rem; margin-bottom: 1.4rem;
+  }
+  .problem-card h4 {
+    font-family: 'Space Mono', monospace; font-size: 0.68rem;
+    color: var(--teal); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .problem-card p { font-size: 0.88rem; margin: 0; color: #b8c8d8; }
+  .step-item { margin-bottom: 1.1rem; padding-left: 1.1rem; border-left: 2px solid var(--border); }
+  .step-head {
+    font-family: 'Space Mono', monospace; font-size: 0.73rem;
+    color: var(--gold); margin-bottom: 0.35rem; letter-spacing: 0.04em;
+  }
+  .step-item p { font-size: 0.86rem; margin-bottom: 0.3rem; }
+  .why { font-style: italic; color: var(--text-mute); font-size: 0.78rem; margin-top: 0.25rem; }
+  .watch-flag {
+    background: rgba(192,57,43,0.07);
+    border: 1px solid rgba(192,57,43,0.22);
+    border-radius: 5px; padding: 0.6rem 1rem;
+    font-size: 0.81rem; color: #d4a8a4; margin: 0.7rem 0;
+  }
+  .watch-flag::before { content: '⚑  '; color: var(--rust); }
+  .final-answer {
+    background: rgba(212,160,23,0.07);
+    border: 1px solid rgba(212,160,23,0.30);
+    border-radius: 8px; padding: 1.1rem 1.4rem; margin-top: 1.1rem;
+  }
+  .fa-label {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    color: var(--gold); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.45rem;
+  }
+  .fa-value { font-family: 'Space Mono', monospace; font-size: 0.98rem; color: var(--gold); }
+  .fa-interp { font-size: 0.78rem; color: var(--text-dim); font-style: italic; margin-top: 0.45rem; }
+
+  /* ── Quick Ref Card ────────────────────────────────────── */
+  .qr-card {
+    background: var(--surf2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.4rem; margin: 1.6rem 0;
+  }
+  .qr-card h3 {
+    font-family: 'Space Mono', monospace; font-size: 0.68rem;
+    color: var(--gold); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .qr-card table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-bottom: 0.8rem; }
+  .qr-card th {
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    color: var(--text-mute); text-transform: uppercase; text-align: left;
+    padding: 0.35rem 0.65rem; border-bottom: 1px solid var(--border);
+  }
+  .qr-card td { padding: 0.35rem 0.65rem; border-bottom: 1px solid rgba(100,140,200,0.06); color: #a8b8cc; }
+  .qr-card td:first-child { font-family: 'Space Mono', monospace; color: var(--gold); font-size: 0.78rem; white-space: nowrap; }
+  .qr-thumb {
+    font-size: 0.83rem; color: var(--teal); font-style: italic;
+    margin-top: 0.6rem; padding: 0.6rem 0.9rem;
+    background: var(--teal-glow);
+    border-radius: 5px; border: 1px solid rgba(26,188,156,0.12);
+  }
+  .qr-thumb::before { content: '💡  '; }
+
+  /* ── Footer ────────────────────────────────────────────── */
+  .page-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 4rem; padding: 1.5rem 0 2rem;
+    text-align: center;
+  }
+  .footer-inner { display: flex; gap: 1rem; align-items: center; justify-content: center; flex-wrap: wrap; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; color: var(--teal); }
+  .footer-sep { color: var(--text-mute); }
+  .page-footer a { font-size: 0.82rem; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .page-footer a:hover { color: var(--teal); }
+  .footer-note { font-size: 0.78rem; color: var(--text-mute); font-style: italic; }
+
+  /* ── Scrollbar ─────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--blueprint-deep); }
+  ::-webkit-scrollbar-thumb { background: rgba(100,160,255,0.20); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(26,188,156,0.40); }
+</style>
+
+<!-- ══════════════════════════════════════════
+     SCRIPTS  (all canvas + calc logic unchanged)
+══════════════════════════════════════════ -->
+<script is:inline>
+const _H = {};
+document.querySelectorAll('canvas[id]').forEach(el => {
+  _H[el.id] = parseInt(el.getAttribute('height') || '300');
+});
+
+function gc(id) {
+  const el = document.getElementById(id);
+  const dpr = window.devicePixelRatio || 1;
+  const w = el.clientWidth || el.offsetWidth || 700;
+  const h = _H[id];
+  el.width  = w * dpr;
+  el.height = h * dpr;
+  const ctx = el.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx, w, h };
+}
+
+const T = '#1abc9c', R = '#c0392b', A = '#d4a017', M = '#4a5a72', BG = '#040c18';
+
+function makeAnim(sliderId, btnId, drawFn) {
+  let raf, playing = false, t = 0;
+  const sl = document.getElementById(sliderId);
+  const btn = document.getElementById(btnId);
+  sl.addEventListener('input', () => drawFn(+sl.value));
+  btn.addEventListener('click', () => {
+    playing = !playing;
+    btn.textContent = playing ? '⏸ Pause' : '▶ Play';
+    if (playing) {
+      let dir = 1;
+      (function step() {
+        if (!playing) return;
+        t += dir * 0.7;
+        if (t >= 100) { t = 100; dir = -1; }
+        if (t <= 0)   { t = 0;   dir =  1; }
+        sl.value = t;
+        drawFn(t);
+        raf = requestAnimationFrame(step);
+      })();
+    } else cancelAnimationFrame(raf);
+  });
+  drawFn(0);
+}
+
+// ── Canvas 1: Strain Compatibility ──────────────────────────
+makeAnim('sliderStrain', 'btnStrainPlay', function(val) {
+  const { ctx, w, h } = gc('canvasStrain');
+  const strain = val / 100 * 0.003;
+  ctx.fillStyle = BG; ctx.fillRect(0, 0, w, h);
+
+  const bW = 110, bH = h * 0.72, bx = w * 0.22, by = (h - h*0.72) / 2;
+  ctx.fillStyle = '#111828'; ctx.fillRect(bx, by, bW, bH);
+  ctx.strokeStyle = '#2a3a54'; ctx.lineWidth = 1; ctx.strokeRect(bx, by, bW, bH);
+
+  [bx+16, bx+bW/2, bx+bW-16].forEach(sx => {
+    ctx.beginPath(); ctx.arc(sx, by+bH-22, 7, 0, Math.PI*2);
+    ctx.fillStyle = A+'cc'; ctx.fill();
+    ctx.strokeStyle = '#8a6a1a'; ctx.lineWidth = 1.5; ctx.stroke();
+  });
+
+  const naY = by + bH * 0.44;
+  ctx.setLineDash([6,4]); ctx.strokeStyle = T; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(bx-10, naY); ctx.lineTo(bx+bW+10, naY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = T; ctx.font = '10px Space Mono'; ctx.fillText('N.A.', bx+bW+14, naY+4);
+
+  for (let i=0; i<=5; i++) {
+    const lx=bx+(bW/5)*i, f=i===0||i===5?1:0.7;
+    ctx.strokeStyle = i===0||i===5 ? A : '#2a3a54';
+    ctx.lineWidth = i===0||i===5 ? 2 : 1;
+    ctx.beginPath();
+    ctx.moveTo(lx - strain*(naY-by)*400*f, by);
+    ctx.lineTo(lx, naY);
+    ctx.lineTo(lx + strain*(by+bH-naY)*400*f, by+bH);
+    ctx.stroke();
+  }
+
+  const sdX = w*0.62, mW = 100*strain/0.003;
+  ctx.beginPath(); ctx.moveTo(sdX,by); ctx.lineTo(sdX+mW,by); ctx.lineTo(sdX,naY); ctx.closePath();
+  ctx.fillStyle = T+'44'; ctx.fill(); ctx.strokeStyle = T; ctx.lineWidth = 2; ctx.stroke();
+  const bW2 = mW*(by+bH-naY)/(naY-by);
+  ctx.beginPath(); ctx.moveTo(sdX,naY); ctx.lineTo(sdX+bW2,naY); ctx.lineTo(sdX,by+bH); ctx.closePath();
+  ctx.fillStyle = R+'44'; ctx.fill(); ctx.strokeStyle = R; ctx.lineWidth = 2; ctx.stroke();
+  ctx.strokeStyle = M; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(sdX,by); ctx.lineTo(sdX,by+bH); ctx.stroke();
+  ctx.font = '10px Space Mono';
+  ctx.fillStyle = T; ctx.fillText('ε comp', sdX+3, by+14);
+  ctx.fillStyle = R; ctx.fillText('ε tens', sdX+3, by+bH-8);
+  ctx.fillStyle = M; ctx.fillText('Strain Diagram', sdX, by-10);
+  document.getElementById('readoutStrain').textContent = `ε_max = ${strain.toFixed(4)}`;
+});
+
+// ── Canvas 2: Plane Sections ──────────────────────────
+makeAnim('sliderPlane', 'btnPlanePlay', function(val) {
+  const { ctx, w, h } = gc('canvasPlane');
+  const phi = val / 100 * 0.008;
+  ctx.fillStyle = BG; ctx.fillRect(0, 0, w, h);
+
+  const bH=h*0.68, bW=80, bx=w*0.20, by=(h-h*0.68)/2;
+  const naF=0.38, naY=by+bH*naF;
+  ctx.fillStyle='#111828'; ctx.fillRect(bx,by,bW,bH);
+  ctx.strokeStyle='#2a3a54'; ctx.lineWidth=1; ctx.strokeRect(bx,by,bW,bH);
+
+  for (let i=0; i<=10; i++) {
+    const fy=by+(bH/10)*i, shift=phi*(fy-naY)*30;
+    ctx.strokeStyle = i===Math.round(naF*10) ? T : '#222e42';
+    ctx.lineWidth   = i===Math.round(naF*10) ? 2 : 1;
+    ctx.beginPath(); ctx.moveTo(bx,fy); ctx.lineTo(bx+bW+shift,fy); ctx.stroke();
+  }
+  ctx.setLineDash([6,4]); ctx.strokeStyle=T; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(bx-8,naY); ctx.lineTo(bx+bW+22,naY); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=T; ctx.font='10px Space Mono'; ctx.fillText('N.A.',bx+bW+26,naY+4);
+  [bx+14,bx+bW-14].forEach(sx=>{
+    ctx.beginPath(); ctx.arc(sx,by+bH-18,6,0,Math.PI*2);
+    ctx.fillStyle=A+'cc'; ctx.fill();
+  });
+
+  const sdX=w*0.60, mS=phi*bH*0.5*30;
+  ctx.beginPath(); ctx.moveTo(sdX,by); ctx.lineTo(sdX+mS*naF/0.5,by); ctx.lineTo(sdX,naY); ctx.closePath();
+  ctx.fillStyle=T+'44'; ctx.fill(); ctx.strokeStyle=T; ctx.lineWidth=2; ctx.stroke();
+  const tM=mS*(1-naF)/0.5;
+  ctx.beginPath(); ctx.moveTo(sdX,naY); ctx.lineTo(sdX+tM,naY); ctx.lineTo(sdX,by+bH); ctx.closePath();
+  ctx.fillStyle=R+'44'; ctx.fill(); ctx.strokeStyle=R; ctx.lineWidth=2; ctx.stroke();
+  ctx.strokeStyle=M; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(sdX,by); ctx.lineTo(sdX,by+bH); ctx.stroke();
+  ctx.font='10px Space Mono';
+  ctx.fillStyle=T; ctx.fillText('ε comp',sdX+4,by+14);
+  ctx.fillStyle=R; ctx.fillText('ε tens',sdX+4,by+bH-8);
+  ctx.fillStyle=M; ctx.fillText('Linear Distribution',sdX,by-10);
+  ctx.fillStyle=A; ctx.fillText('← steel',bx+bW+4,by+bH-14);
+  document.getElementById('readoutPlane').textContent=`ε_max = ${(phi*bH*0.001).toFixed(4)}`;
+});
+
+// ── Canvas 3: Crack Formation ──────────────────────────
+const crackXs = [0.20,0.38,0.52,0.67,0.81];
+makeAnim('sliderCrack', 'btnCrackPlay', function(val) {
+  const { ctx, w, h } = gc('canvasCrack');
+  ctx.fillStyle=BG; ctx.fillRect(0,0,w,h);
+  const bH=h*0.64, bW=w*0.72, bx=w*0.14, by=(h-h*0.64)/2;
+  const naF=0.40, naY=by+bH*naF;
+
+  ctx.fillStyle='#111828'; ctx.fillRect(bx,by,bW,bH);
+  ctx.strokeStyle='#2a3a54'; ctx.lineWidth=1; ctx.strokeRect(bx,by,bW,bH);
+  ctx.fillStyle=T+'10'; ctx.fillRect(bx,by,bW,bH*naF);
+
+  const barY=by+bH-20;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(bx+12,barY-7,bW-24,14,3);
+  else ctx.rect(bx+12,barY-7,bW-24,14);
+  ctx.fillStyle=A+'bb'; ctx.fill();
+  ctx.strokeStyle='#8a6a1a'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#8a6a1a'; ctx.font='9px Space Mono';
+  ctx.fillText('Steel Reinforcement',bx+bW/2-52,barY+4);
+
+  const n=Math.floor(val/20);
+  for(let i=0;i<n;i++){
+    const cx=bx+crackXs[i]*bW, mH=bH*(1-naF)*0.85, cH=mH*Math.min(1,(val-i*20)/15);
+    ctx.globalAlpha=0.9; ctx.strokeStyle=R; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(cx,by+bH);
+    let cy=by+bH; const segs=8;
+    for(let s=0;s<segs;s++){
+      const p=(s+1)/segs; if(p*mH>cH) break;
+      cy-=cH/segs; ctx.lineTo(cx+Math.sin(i*10+s*3)*3,cy);
+    }
+    ctx.stroke(); ctx.globalAlpha=1;
+  }
+  if(n<crackXs.length&&val>n*20){
+    const cx=bx+crackXs[n]*bW, frac=(val%20)/20, cH=bH*(1-naF)*0.85*frac*0.5;
+    ctx.globalAlpha=frac; ctx.strokeStyle=R; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(cx,by+bH); ctx.lineTo(cx,by+bH-cH); ctx.stroke(); ctx.globalAlpha=1;
+  }
+
+  ctx.setLineDash([8,5]); ctx.strokeStyle=T; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(bx,naY); ctx.lineTo(bx+bW,naY); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=T; ctx.font='10px Space Mono'; ctx.fillText('Neutral Axis',bx+bW+6,naY+4);
+  ctx.fillText('COMPRESSION ZONE',bx+8,by+16);
+  ctx.fillStyle=val>10?R:M; ctx.fillText('TENSION ZONE'+(val>10?' (cracked)':''),bx+8,naY+20);
+
+  const s=val<10?'Uncracked':val<40?`${n} crack${n===1?'':'s'} forming`:val<70?`${n} cracks — service load range`:'Multiple cracks — steel carrying all tension';
+  document.getElementById('readoutCrack').textContent=s;
+});
+
+// ── Canvas 4: Stress Block Evolution ──────────────────────────
+makeAnim('sliderStress', 'btnStressPlay', function(val) {
+  const { ctx, w, h } = gc('canvasStress');
+  ctx.fillStyle=BG; ctx.fillRect(0,0,w,h);
+  const bH=h*0.68, bW=86, bx=w*0.10, by=(h-h*0.68)/2;
+  const naF=0.38, naY=by+bH*naF, fpc=30;
+
+  ctx.fillStyle='#111828'; ctx.fillRect(bx,by,bW,bH);
+  ctx.strokeStyle='#2a3a54'; ctx.lineWidth=1; ctx.strokeRect(bx,by,bW,bH);
+  [bx+14,bx+bW-14].forEach(sx=>{
+    ctx.beginPath(); ctx.arc(sx,by+bH-18,6,0,Math.PI*2);
+    ctx.fillStyle=A+'cc'; ctx.fill();
+  });
+  ctx.setLineDash([6,4]); ctx.strokeStyle=T; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(bx,naY); ctx.lineTo(bx+bW,naY); ctx.stroke(); ctx.setLineDash([]);
+
+  const sdX=bx+bW+20, mW=120, compH=bH*naF;
+  if(val<40){
+    const tW=mW*(val/40)*0.65;
+    ctx.beginPath(); ctx.moveTo(sdX,by); ctx.lineTo(sdX+tW,by); ctx.lineTo(sdX,naY); ctx.closePath();
+    ctx.fillStyle=T+'44'; ctx.fill(); ctx.strokeStyle=T; ctx.lineWidth=2; ctx.stroke();
+    document.getElementById('readoutStress').textContent=`Elastic — σ ≈ ${(fpc*0.45*val/40).toFixed(1)} MPa`;
+  } else if(val<80){
+    const fr=(val-40)/40, tW=mW*(0.65+fr*0.25);
+    ctx.beginPath();
+    for(let i=0;i<=40;i++){
+      const p=i/40, y=by+compH*p, x=sdX+tW*(1-Math.pow(1-p,1.5));
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.lineTo(sdX,naY); ctx.closePath();
+    ctx.fillStyle=T+'44'; ctx.fill(); ctx.strokeStyle=T; ctx.lineWidth=2; ctx.stroke();
+    document.getElementById('readoutStress').textContent=`Parabolic — σ_max ≈ ${(fpc*0.45+fpc*0.3*fr).toFixed(1)} MPa`;
+  } else {
+    const rW=mW*0.85, rH=compH*(0.85+(val-80)/20*0.1);
+    ctx.fillStyle=T+'44'; ctx.fillRect(sdX,by,rW,rH);
+    ctx.strokeStyle=T; ctx.lineWidth=2; ctx.strokeRect(sdX,by,rW,rH);
+    ctx.fillStyle=T; ctx.font='10px Space Mono';
+    ctx.fillText("0.85f'c",sdX+rW/2-22,by+rH/2+4);
+    ctx.fillText('← a →',sdX+rW+4,by+rH/2);
+    document.getElementById('readoutStress').textContent=`ACI Rect. Block — 0.85f'c = ${(fpc*0.85).toFixed(1)} MPa`;
+  }
+
+  ctx.fillStyle=R+'18'; ctx.fillRect(bx,naY,bW,bH-bH*naF);
+  ctx.font='10px Space Mono';
+  ctx.fillStyle=T; ctx.fillText('Comp.',bx+4,by+15);
+  ctx.fillStyle=R; ctx.fillText('Tension',bx+4,naY+18);
+  ctx.fillStyle=M; ctx.fillText('Stress Distribution',sdX,by-10);
+  ctx.fillStyle=T; ctx.fillText('N.A.',bx+bW+4,naY+4);
+  ctx.fillStyle=A; ctx.font='11px Space Mono';
+  ctx.fillText(val<40?'Elastic (WSD range)':val<80?'Inelastic — parabolic':'Ultimate — ACI rect. block', w*0.06, h-10);
+});
+
+// ── Calculator: T = As * fs ──────────────────────────
+document.getElementById('btnCalcT').addEventListener('click',()=>{
+  const As=+document.getElementById('cAs').value, fs=+document.getElementById('cFs').value;
+  if(isNaN(As)||isNaN(fs)) return;
+  const Tv=As*fs, res=document.getElementById('resT');
+  res.classList.add('visible');
+  document.getElementById('resT-val').textContent=`T = ${(Tv/1000).toFixed(2)} kN`;
+  document.getElementById('stepsT-1').textContent=`Inputs: As = ${As} mm², fs = ${fs} MPa`;
+  document.getElementById('stepsT-2').textContent=`T = As × fs = ${As} × ${fs} = ${Tv.toFixed(0)} N`;
+  document.getElementById('stepsT-3').textContent=`T = ${(Tv/1000).toFixed(2)} kN`;
+  document.getElementById('whatif-T').innerHTML=
+    `<span class="whatif-chip">A<sub>s</sub> ×2 → <span>${(Tv/1000*2).toFixed(2)} kN</span></span>
+     <span class="whatif-chip">f<sub>s</sub> ×1.5 → <span>${(Tv/1000*1.5).toFixed(2)} kN</span></span>`;
+});
+document.getElementById('btnStepsT').addEventListener('click',function(){
+  const p=document.getElementById('stepsT'); p.classList.toggle('open');
+  this.textContent=p.classList.contains('open')?'▾ Hide Steps':'▸ Show Steps';
+});
+
+// ── Calculator: σ = Mc/I ──────────────────────────
+document.getElementById('btnCalcBend').addEventListener('click',()=>{
+  const M=+document.getElementById('cM').value, c=+document.getElementById('cC').value, I=+document.getElementById('cI').value;
+  if(isNaN(M)||isNaN(c)||isNaN(I)) return;
+  const Mn=M*1e6, In=I*1e6, sig=Mn*c/In;
+  const res=document.getElementById('resBend'); res.classList.add('visible');
+  document.getElementById('resBend-val').textContent=`σ = ${sig.toFixed(2)} MPa`;
+  document.getElementById('stepsBend-1').textContent=`Convert M: ${M} kN·m → ${Mn.toExponential(2)} N·mm`;
+  document.getElementById('stepsBend-2').textContent=`Convert I: ${I}×10⁶ mm⁴ → ${In.toExponential(2)} mm⁴`;
+  document.getElementById('stepsBend-3').textContent=`Numerator: M×c = ${(Mn*c).toExponential(3)} N·mm²`;
+  document.getElementById('stepsBend-4').textContent=`σ = ${(Mn*c).toExponential(3)} / ${In.toExponential(2)} = ${sig.toFixed(2)} MPa`;
+  document.getElementById('whatif-Bend').innerHTML=
+    `<span class="whatif-chip">c ×2 → <span>${(Mn*c*2/In).toFixed(2)} MPa</span></span>
+     <span class="whatif-chip">M ×1.5 → <span>${(Mn*1.5*c/In).toFixed(2)} MPa</span></span>`;
+});
+document.getElementById('btnStepsBend').addEventListener('click',function(){
+  const p=document.getElementById('stepsBend'); p.classList.toggle('open');
+  this.textContent=p.classList.contains('open')?'▾ Hide Steps':'▸ Show Steps';
+});
+
+// ── Resize redraw ──────────────────────────
+window.addEventListener('resize',()=>{
+  ['sliderStrain','sliderPlane','sliderCrack','sliderStress'].forEach(id=>{
+    document.getElementById(id).dispatchEvent(new Event('input'));
+  });
+});
+</script>
+
+</body>
+</html>
