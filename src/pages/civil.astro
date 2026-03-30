@@ -451,6 +451,76 @@ const description = "Interactive civil engineering learning: RC design, structur
     letter-spacing: .08em;
   }
 
+  /* ── LECTURES GRID ── */
+  .lectures {
+    padding: 1rem 1.5rem 3.5rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .lecture-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .9rem;
+  }
+  .lec-card {
+    background: var(--surf);
+    border: 1px solid var(--bdr);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+  }
+  .lec-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78,201,176,.09);
+  }
+  .lec-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: .55rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .lec-title {
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--txt);
+    line-height: 1.3;
+  }
+  .lec-desc {
+    font-size: .72rem;
+    color: var(--txt2);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .lec-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: .4rem;
+  }
+  .lec-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: .52rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--mut);
+    background: var(--surf2);
+    border: 1px solid var(--bdr);
+    padding: .18rem .5rem;
+    border-radius: 100px;
+  }
+  .lec-live {
+    font-family: 'Space Mono', monospace;
+    font-size: .56rem;
+    color: var(--teal);
+    letter-spacing: .06em;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 1024px) {
     .disc-grid { grid-template-columns: repeat(2, 1fr); }
@@ -458,6 +528,8 @@ const description = "Interactive civil engineering learning: RC design, structur
   @media (max-width: 640px) {
     .hero { padding: 2.5rem 1.25rem 2rem; }
     .disc-grid { grid-template-columns: 1fr; }
+    .lecture-grid { grid-template-columns: 1fr; }
+    .lectures { padding-left: 1.25rem; padding-right: 1.25rem; }
     .disciplines, .formulas, .calculators, .philosophy, .course-callout {
       padding-left: 1.25rem;
       padding-right: 1.25rem;
@@ -546,14 +618,15 @@ const description = "Interactive civil engineering learning: RC design, structur
         <span class="disc-level">All Levels</span>
       </div>
 
-      <!-- Transportation -->
-      <div class="disc-card coming-soon" aria-label="Transportation Engineering — Coming Soon">
-        <span class="coming-badge">Coming Soon</span>
+      <!-- Transportation — LIVE -->
+      <a href="/civil/transportation" class="disc-card live" aria-label="Transportation Engineering — Live">
+        <span class="live-badge">Live Now</span>
         <span class="disc-icon" aria-hidden="true">&#128390;</span>
         <span class="disc-title">Transportation Engineering</span>
-        <span class="disc-desc">Traffic analysis, highway design, level of service, signal timing.</span>
+        <span class="disc-desc">Traffic flow theory, LOS A&ndash;F, Webster&rsquo;s signal timing, sight distance, and gravity model &mdash; interactive calculators throughout.</span>
         <span class="disc-level">University &rarr; Professional</span>
-      </div>
+        <span class="disc-link">Open Section &#8594;</span>
+      </a>
 
       <!-- Construction Materials -->
       <div class="disc-card coming-soon" aria-label="Construction Materials — Coming Soon">
@@ -567,9 +640,57 @@ const description = "Interactive civil engineering learning: RC design, structur
     </div>
   </section>
 
-  <!-- ── 3. FORMULAS ── -->
+  <!-- ── 3. LIVE LECTURES ── -->
+  <section class="lectures" aria-labelledby="lectures-heading">
+    <div class="section-label" id="lectures-heading">02 &mdash; Live Lectures &amp; Chapters</div>
+    <div class="lecture-grid">
+
+      <a href="/civil/rc-chapter1" class="lec-card">
+        <div class="lec-tag">RC Design &middot; CEE335</div>
+        <div class="lec-title">Introduction to Concrete &amp; Steel</div>
+        <div class="lec-desc">Chapter 1 &mdash; Materials, compressive strength, stress-strain, 8 interactive simulations.</div>
+        <div class="lec-foot">
+          <span class="lec-badge">Chapter 1</span>
+          <span class="lec-live">&#9679; Live</span>
+        </div>
+      </a>
+
+      <a href="/civil/lecture-3" class="lec-card">
+        <div class="lec-tag">RC Design &middot; CEE350</div>
+        <div class="lec-title">Fundamental Assumptions of RC Theory</div>
+        <div class="lec-desc">Lecture 3 &mdash; Plane sections, strain compatibility, crack formation, stress block evolution.</div>
+        <div class="lec-foot">
+          <span class="lec-badge">Lecture 3</span>
+          <span class="lec-live">&#9679; Live</span>
+        </div>
+      </a>
+
+      <a href="/civil/traffic-design" class="lec-card">
+        <div class="lec-tag">Transportation &middot; CEE350</div>
+        <div class="lec-title">Traffic Analysis &amp; Design</div>
+        <div class="lec-desc">Flow theory, PHF, signal timing, delay &amp; LOS, queue analysis, gravity model, mode split.</div>
+        <div class="lec-foot">
+          <span class="lec-badge">Full Guide</span>
+          <span class="lec-live">&#9679; Live</span>
+        </div>
+      </a>
+
+      <a href="/civil/transportation" class="lec-card">
+        <div class="lec-tag">Transportation &middot; Hub</div>
+        <div class="lec-title">Transportation Engineering</div>
+        <div class="lec-desc">Section hub &mdash; all transportation lessons, key formulas, and calculator index.</div>
+        <div class="lec-foot">
+          <span class="lec-badge">Hub</span>
+          <span class="lec-live">&#9679; Live</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── 4. FORMULAS ── -->
   <section class="formulas" id="formulas" aria-labelledby="formula-heading">
-    <div class="section-label" id="formula-heading">02 &mdash; Essential Formulas</div>
+    <div class="section-label" id="formula-heading">03 &mdash; Essential Formulas</div>
     <div class="formula-grid">
 
       <!-- Bending Stress -->
@@ -649,7 +770,7 @@ const description = "Interactive civil engineering learning: RC design, structur
 
   <!-- ── 5. CALCULATORS ── -->
   <section class="calculators" aria-labelledby="calc-heading">
-    <div class="section-label" id="calc-heading">03 &mdash; Engineering Calculators</div>
+    <div class="section-label" id="calc-heading">04 &mdash; Engineering Calculators</div>
     <div class="calc-grid">
 
       <div class="calc-item live-tool">

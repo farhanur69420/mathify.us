@@ -1,0 +1,1702 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CEE 350 — Traffic Analysis & Design | Interactive Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060b14;--bg2:#0c1420;--bg3:#111d2e;--bg4:#162236;
+  --ink:#e8f4f8;--muted:#5a7a99;--dim:#8aabcc;
+  --green:#00ffa3;--cyan:#00d4ff;--amber:#ffb300;
+  --red:#ff4d6d;--violet:#a78bfa;
+  --border:rgba(0,212,255,.1);--border2:rgba(0,255,163,.12);
+  --glow-g:rgba(0,255,163,.15);--glow-c:rgba(0,212,255,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Lora',serif;line-height:1.7;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--cyan);opacity:.5;}
+
+/* ─── NAV ─── */
+nav{position:sticky;top:0;z-index:200;background:rgba(6,11,20,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.nlogo{font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:var(--green);text-decoration:none;letter-spacing:.05em;}
+.nlinks{display:flex;gap:6px;flex-wrap:wrap;}
+.nlinks a{color:var(--muted);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:4px 10px;border:1px solid transparent;border-radius:2px;transition:all .2s;letter-spacing:.04em;}
+.nlinks a:hover{color:var(--cyan);border-color:var(--border);}
+
+/* ─── HERO ─── */
+.hero{position:relative;z-index:1;padding:70px 60px 56px;max-width:1100px;margin:0 auto;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--cyan);border:1px solid rgba(0,212,255,.3);padding:5px 14px;border-radius:2px;margin-bottom:20px;text-transform:uppercase;}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.05;margin-bottom:18px;}
+.hero h1 span{color:var(--green);}
+.hero-lead{font-size:1.05rem;color:var(--dim);max-width:640px;margin-bottom:32px;line-height:1.8;}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
+.hs{border-left:2px solid var(--border);padding-left:14px;}
+.hs strong{display:block;font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;color:var(--green);}
+.hs span{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);}
+
+/* ─── LAYOUT ─── */
+.wrap{display:grid;grid-template-columns:200px 1fr;max-width:1200px;margin:0 auto;position:relative;z-index:1;}
+.toc{position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;padding:20px 0 20px 28px;border-right:1px solid var(--border);}
+.toclbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--muted);margin-bottom:12px;text-transform:uppercase;}
+.toc ul{list-style:none;}
+.toc li{margin-bottom:2px;}
+.toc a{display:block;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);text-decoration:none;padding:3px 8px;border-left:2px solid transparent;transition:all .15s;}
+.toc a:hover,.toc a.act{color:var(--green);border-left-color:var(--green);background:var(--glow-g);}
+.content{padding:0 48px 80px;}
+
+/* ─── SECTIONS ─── */
+.sec{padding:60px 0 20px;border-top:1px solid var(--border);}
+.sec:first-child{border-top:none;padding-top:36px;}
+.snum{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.18em;color:var(--muted);margin-bottom:8px;text-transform:uppercase;}
+.sec h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;margin-bottom:12px;}
+.sec h2 em{color:var(--green);font-style:normal;}
+.sec h2 .cy{color:var(--cyan);}
+.lead{color:var(--dim);font-size:.97rem;max-width:680px;margin-bottom:28px;line-height:1.8;}
+h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--cyan);margin:24px 0 10px;}
+
+/* ─── CARDS ─── */
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0;}
+.cc{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:18px;transition:border-color .2s,transform .2s;}
+.cc:hover{border-color:rgba(0,255,163,.3);transform:translateY(-2px);}
+.ci{font-size:1.5rem;margin-bottom:10px;}
+.cc h4{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:6px;}
+.cc p{font-size:.82rem;color:var(--dim);line-height:1.55;}
+.cval{font-family:'JetBrains Mono',monospace;color:var(--green);font-size:.8rem;margin-top:8px;display:block;}
+
+/* ─── CALLOUTS ─── */
+.analogy{background:linear-gradient(135deg,rgba(0,255,163,.05),rgba(0,212,255,.05));border:1px solid rgba(0,255,163,.2);border-left:3px solid var(--green);border-radius:4px;padding:14px 18px;margin:14px 0;font-size:.9rem;color:var(--dim);position:relative;}
+.analogy::before{content:'🧠 ANALOGY';display:block;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:var(--green);margin-bottom:5px;}
+.analogy strong{color:var(--green);}
+.infobox{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.2);border-radius:4px;padding:13px 17px;margin:12px 0;font-size:.87rem;color:var(--dim);}
+.infobox strong{color:var(--cyan);}
+.warn{background:rgba(255,179,0,.04);border:1px solid rgba(255,179,0,.2);border-radius:4px;padding:13px 17px;margin:12px 0;font-size:.87rem;color:var(--dim);}
+.warn strong{color:var(--amber);}
+
+/* ─── EQ BOX ─── */
+.eq{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:4px;padding:14px 20px;margin:12px 0;}
+.eqlbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;color:var(--amber);margin-bottom:6px;text-transform:uppercase;}
+.eqbody{font-family:'JetBrains Mono',monospace;font-size:.95rem;color:var(--ink);overflow-x:auto;padding:4px 0;}
+.eqnote{font-size:.8rem;color:var(--muted);margin-top:6px;line-height:1.5;}
+.eqnote code{font-family:'JetBrains Mono',monospace;background:var(--bg3);color:var(--green);padding:1px 5px;border-radius:2px;font-size:.78rem;}
+
+/* ─── SIM ─── */
+.sim{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin:20px 0;}
+.simhdr{background:var(--bg3);padding:10px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.simtitle{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.08em;color:var(--cyan);text-transform:uppercase;}
+.simbody{padding:18px;}
+canvas{display:block;width:100%;}
+.crow{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap;}
+.clbl{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);}
+input[type=range]{-webkit-appearance:none;height:3px;background:var(--border2);border-radius:2px;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--green);border-radius:50%;cursor:pointer;}
+.cval2{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--green);min-width:70px;}
+.sbtn{font-family:'JetBrains Mono',monospace;font-size:.68rem;padding:5px 14px;background:var(--green);color:#000;border:none;border-radius:2px;cursor:pointer;transition:opacity .2s;font-weight:600;}
+.sbtn:hover{opacity:.8;}
+.sbtn.sec2{background:transparent;color:var(--cyan);border:1px solid rgba(0,212,255,.3);}
+.sbtn.sec2:hover{background:var(--glow-c);}
+.spill{padding:3px 10px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.04em;}
+.stA{background:rgba(0,255,163,.1);color:var(--green);border:1px solid rgba(0,255,163,.3);}
+.stB{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.3);}
+.stC{background:rgba(167,139,250,.1);color:var(--violet);border:1px solid rgba(167,139,250,.3);}
+.stD{background:rgba(255,179,0,.1);color:var(--amber);border:1px solid rgba(255,179,0,.3);}
+.stE{background:rgba(255,100,0,.1);color:#ff6400;border:1px solid rgba(255,100,0,.3);}
+.stF{background:rgba(255,77,109,.1);color:var(--red);border:1px solid rgba(255,77,109,.3);}
+
+/* ─── CALC ─── */
+.calc{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:24px;margin:18px 0;}
+.calctitle{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;color:var(--cyan);text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.ig{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px;}
+.ig label{display:block;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.05em;margin-bottom:4px;text-transform:uppercase;}
+.ig input,.ig select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px 10px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.85rem;outline:none;transition:border-color .2s;}
+.ig input:focus,.ig select:focus{border-color:var(--cyan);}
+.ig select option{background:var(--bg3);}
+.cbtn{background:var(--green);color:#000;border:none;padding:10px 22px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;cursor:pointer;transition:opacity .2s;letter-spacing:.05em;}
+.cbtn:hover{opacity:.85;}
+.rg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:16px;}
+.ri{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;}
+.rilbl{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px;}
+.rival{font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--green);font-weight:600;}
+.csteps{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 16px;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--dim);line-height:2;display:none;white-space:pre-wrap;}
+
+/* ─── TABLE ─── */
+.dt{width:100%;border-collapse:collapse;font-size:.82rem;margin:14px 0;}
+.dt th{background:var(--bg3);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.08em;padding:9px 13px;text-align:left;text-transform:uppercase;border-bottom:1px solid var(--border);}
+.dt td{padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:.78rem;}
+.dt tr:hover td{background:var(--bg3);}
+.dt .hl{color:var(--green);}
+
+/* ─── LOS BADGES ─── */
+.los-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0;}
+.los-item{text-align:center;padding:12px 6px;border-radius:4px;border:1px solid transparent;}
+.los-item .los-lbl{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:3px;}
+.los-item .los-d{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.7);}
+.losA{background:rgba(0,255,163,.1);border-color:rgba(0,255,163,.3);}.losA .los-lbl{color:var(--green);}
+.losB{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.3);}.losB .los-lbl{color:var(--cyan);}
+.losC{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);}.losC .los-lbl{color:var(--violet);}
+.losD{background:rgba(255,179,0,.1);border-color:rgba(255,179,0,.3);}.losD .los-lbl{color:var(--amber);}
+.losE{background:rgba(255,100,0,.1);border-color:rgba(255,100,0,.3);}.losE .los-lbl{color:#ff6400;}
+.losF{background:rgba(255,77,109,.1);border-color:rgba(255,77,109,.3);}.losF .los-lbl{color:var(--red);}
+
+/* ─── PRACTICE PROBLEMS ─── */
+.pp-section{margin:28px 0;}
+.pp-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--amber);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.pp-title::before{content:'📝';font-size:1rem;}
+.pp{background:var(--bg2);border:1px solid rgba(255,179,0,.2);border-left:3px solid var(--amber);border-radius:4px;margin-bottom:12px;overflow:hidden;}
+.pp-q{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.pp-q:hover{background:rgba(255,179,0,.04);}
+.pp-qnum{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--amber);white-space:nowrap;margin-top:2px;}
+.pp-qtext{font-size:.88rem;color:var(--ink);line-height:1.6;flex:1;}
+.pp-arrow{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--amber);transition:transform .3s;flex-shrink:0;}
+.pp-arrow.open{transform:rotate(90deg);}
+.pp-sol{display:none;padding:0 18px 18px;border-top:1px solid rgba(255,179,0,.1);}
+.pp-sol.show{display:block;}
+.pp-hint{background:rgba(0,255,163,.05);border:1px solid rgba(0,255,163,.1);border-radius:3px;padding:10px 14px;margin:12px 0;font-size:.82rem;color:var(--dim);}
+.pp-hint strong{color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.7rem;display:block;margin-bottom:4px;}
+.pp-steps{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:.77rem;color:var(--dim);line-height:2.1;margin:10px 0;}
+.pp-steps .step{color:var(--cyan);font-weight:600;}
+.pp-ans{font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--green);font-weight:700;background:rgba(0,255,163,.08);border:1px solid rgba(0,255,163,.2);border-radius:3px;padding:8px 14px;display:inline-block;margin-top:8px;}
+
+/* ─── ANIMATED TRAFFIC LIGHT ─── */
+.tl-demo{display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:20px 0;}
+.tl-signal{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.tl-pole{width:6px;height:60px;background:linear-gradient(to bottom,var(--muted),#2a3a4a);border-radius:3px;}
+.tl-arm{width:80px;height:6px;background:linear-gradient(to right,#2a3a4a,var(--muted));border-radius:3px;align-self:flex-end;margin-bottom:-3px;}
+.tl-box{background:#1a1a1a;border:2px solid #333;border-radius:8px;padding:10px 8px;display:flex;flex-direction:column;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.6);}
+.tl-lens{width:36px;height:36px;border-radius:50%;border:2px solid #2a2a2a;position:relative;transition:all .3s;}
+.tl-lens.active-red{background:radial-gradient(circle at 35% 35%,#ff8080,#ff0000);box-shadow:0 0 20px #ff000088,0 0 40px #ff000044;}
+.tl-lens.active-yellow{background:radial-gradient(circle at 35% 35%,#ffe080,#ffb300);box-shadow:0 0 20px #ffb30088,0 0 40px #ffb30044;}
+.tl-lens.active-green{background:radial-gradient(circle at 35% 35%,#80ffc0,#00ff66);box-shadow:0 0 20px #00ff6688,0 0 40px #00ff6644;}
+.tl-lens.off{background:#1a1a1a;}
+.tl-lbl{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);text-align:center;}
+.tl-status{font-family:'JetBrains Mono',monospace;font-size:.75rem;padding:4px 12px;border-radius:2px;text-align:center;min-width:80px;}
+.tl-timer{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--green);min-width:60px;text-align:center;}
+
+/* ─── INTERSECTION ANIMATION ─── */
+.intersect-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:20px;margin:20px 0;}
+.intersect-scene{position:relative;width:100%;height:320px;overflow:hidden;}
+/* Roads */
+.road-h{position:absolute;top:50%;left:0;right:0;height:64px;transform:translateY(-50%);background:#1a2230;}
+.road-v{position:absolute;left:50%;top:0;bottom:0;width:64px;transform:translateX(-50%);background:#1a2230;}
+.road-line-h{position:absolute;top:50%;left:0;right:0;height:2px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,var(--amber) 0,var(--amber) 20px,transparent 20px,transparent 40px);opacity:.4;animation:dashH 1s linear infinite;}
+.road-line-v{position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:repeating-linear-gradient(180deg,var(--amber) 0,var(--amber) 20px,transparent 20px,transparent 40px);opacity:.4;animation:dashV 1s linear infinite;}
+@keyframes dashH{from{background-position:0 0;}to{background-position:-40px 0;}}
+@keyframes dashV{from{background-position:0 0;}to{background-position:0 -40px;}}
+.intersection-box{position:absolute;left:50%;top:50%;width:64px;height:64px;transform:translate(-50%,-50%);background:#1a2230;}
+/* Vehicles */
+.vehicle{position:absolute;width:28px;height:16px;border-radius:4px;transition:background .3s;}
+.v-going{animation-timing-function:linear;animation-iteration-count:infinite;}
+.v-east{top:calc(50% - 24px);animation-name:moveEast;}
+.v-west{top:calc(50% + 8px);animation-name:moveWest;}
+.v-south{left:calc(50% + 8px);animation-name:moveSouth;width:16px;height:28px;}
+.v-north{left:calc(50% - 24px);animation-name:moveNorth;width:16px;height:28px;}
+@keyframes moveEast{0%{left:-40px}100%{left:calc(100% + 40px)}}
+@keyframes moveWest{0%{right:-40px;left:auto;transform:scaleX(-1)}100%{right:calc(100% + 40px);left:auto;transform:scaleX(-1)}}
+@keyframes moveSouth{0%{top:-40px}100%{top:calc(100% + 40px)}}
+@keyframes moveNorth{0%{bottom:-40px;top:auto;transform:scaleY(-1)}100%{bottom:calc(100% + 40px);top:auto;transform:scaleY(-1)}}
+/* Signal heads on intersection */
+.sig-head{position:absolute;width:14px;height:36px;background:#111;border-radius:4px;border:1px solid #333;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;padding:2px;}
+.sig-dot{width:8px;height:8px;border-radius:50%;background:#1a1a1a;}
+.sig-ne{top:calc(50% - 52px);right:calc(50% - 68px);}
+.sig-sw{bottom:calc(50% - 52px);left:calc(50% - 68px);}
+.sig-nw{top:calc(50% - 52px);left:calc(50% - 68px);}
+.sig-se{bottom:calc(50% - 52px);right:calc(50% - 68px);}
+.sd-red.on{background:#ff0000;box-shadow:0 0 6px #ff0000;}
+.sd-yellow.on{background:#ffb300;box-shadow:0 0 6px #ffb300;}
+.sd-green.on{background:#00ff66;box-shadow:0 0 6px #00ff66;}
+/* Queue buildup */
+.queue-wrap{margin:16px 0;}
+.queue-car{display:inline-block;width:32px;height:18px;background:#2a4a7a;border:1px solid var(--cyan);border-radius:4px;margin:2px;position:relative;transition:transform .4s,opacity .4s;}
+.queue-car::after{content:'';position:absolute;top:2px;left:4px;right:4px;height:6px;background:rgba(0,212,255,.3);border-radius:2px;}
+
+/* ─── FORMULA SHEET ─── */
+.fsgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:18px;}
+.fscard{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:16px 20px;}
+.fscard.key{border-left:3px solid var(--green);}
+.fscat{font-family:'JetBrains Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:4px;}
+.fsname{font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;margin-bottom:8px;color:var(--ink);}
+.fseq{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:var(--bg3);padding:6px 10px;border-radius:2px;margin-bottom:4px;color:var(--amber);overflow-x:auto;}
+.fsnote{font-size:.74rem;color:var(--muted);line-height:1.5;}
+
+/* ─── EXAM TIPS ─── */
+.tip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0;}
+.tip{background:var(--bg2);border:1px solid rgba(167,139,250,.2);border-left:3px solid var(--violet);border-radius:4px;padding:14px 18px;}
+.tip-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:var(--violet);margin-bottom:6px;}
+.tip h4{font-family:'Syne',sans-serif;font-size:.88rem;color:var(--ink);margin-bottom:6px;}
+.tip p{font-size:.8rem;color:var(--dim);line-height:1.55;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){.wrap{grid-template-columns:1fr;}.toc{display:none;}.content{padding:0 20px 60px;}.hero{padding:40px 24px 36px;}.los-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:580px){nav{padding:10px 16px;}.nlinks{display:none;}.tl-demo{justify-content:center;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nlogo" href="index.html">∑ Mathify</a>
+  <div class="nlinks">
+    <a href="#basics">Basics</a>
+    <a href="#classification">Classification</a>
+    <a href="#terms">Traffic Terms</a>
+    <a href="#intersection">Intersection</a>
+    <a href="#signals">Signals</a>
+    <a href="#timing">Timing</a>
+    <a href="#delay">Delay/LOS</a>
+    <a href="#transit">Transit</a>
+    <a href="#tripdist">Trip Dist.</a>
+    <a href="#modesplit">Mode Split</a>
+    <a href="#practice">📝 Practice</a>
+    <a href="#fs">📋 Formulas</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">🎓 CEE 350 · Traffic Analysis & Design · Spring 2026</div>
+  <h1>Traffic Engineering<br><span>Explained Simply.</span></h1>
+  <p class="hero-lead">Every concept in this course comes from real-world observation. This guide breaks down the math into plain English, with live simulations, animated traffic lights, practice problems with step-by-step solutions, and analogies you'll actually remember.</p>
+  <div class="hero-stats">
+    <div class="hs"><strong>14</strong><span>CORE TOPICS</span></div>
+    <div class="hs"><strong>6</strong><span>CALCULATORS</span></div>
+    <div class="hs"><strong>5</strong><span>ANIMATIONS</span></div>
+    <div class="hs"><strong>20+</strong><span>PRACTICE PROBLEMS</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+<nav class="toc">
+  <div class="toclbl">Contents</div>
+  <ul>
+    <li><a href="#basics">01 · Traffic Engineering</a></li>
+    <li><a href="#classification">02 · Road Classification</a></li>
+    <li><a href="#terms">03 · Traffic Terms</a></li>
+    <li><a href="#intersection">04 · Intersections</a></li>
+    <li><a href="#signals">05 · Traffic Signals</a></li>
+    <li><a href="#timing">06 · Signal Timing</a></li>
+    <li><a href="#saturation">07 · Saturation Flow</a></li>
+    <li><a href="#capacity">08 · Lane Capacity</a></li>
+    <li><a href="#delay">09 · Delay & LOS</a></li>
+    <li><a href="#transit">10 · Public Transit</a></li>
+    <li><a href="#planning">11 · Planning</a></li>
+    <li><a href="#tripgen">12 · Trip Generation</a></li>
+    <li><a href="#tripdist">13 · Trip Distribution</a></li>
+    <li><a href="#modesplit">14 · Mode Split</a></li>
+    <li><a href="#practice">📝 Practice Problems</a></li>
+    <li><a href="#examtips">💡 Exam Tips</a></li>
+    <li><a href="#fs">📋 Formula Sheet</a></li>
+  </ul>
+</nav>
+
+<div class="content">
+
+<!-- ══ 01 BASICS ══ -->
+<section class="sec" id="basics">
+<div class="snum">01 — FOUNDATION</div>
+<h2>What is <em>Traffic Engineering?</em></h2>
+<p class="lead">Traffic Engineering is the branch of transportation engineering that focuses on the safe, efficient movement of people and vehicles. It covers road design, signal timing, intersection control, and flow analysis.</p>
+
+<div class="analogy">Think of the entire road network as a city's <strong>blood circulatory system</strong>. Roads are the arteries. Vehicles are blood cells. Traffic lights are valves. Too many cells (congestion) causes blockage. Traffic engineers are the cardiologists who keep the system healthy.</div>
+
+<div class="cg">
+  <div class="cc"><div class="ci">🛣️</div><h4>Mobility</h4><p>Moving efficiently from A to B at speed. Freeways maximize this — no stops, no driveways, no signals.</p><span class="cval">High speed → Low access</span></div>
+  <div class="cc"><div class="ci">🏠</div><h4>Accessibility</h4><p>Being able to pull in and out of properties. Local streets maximize this — driveways everywhere.</p><span class="cval">Low speed → High access</span></div>
+  <div class="cc"><div class="ci">⚖️</div><h4>The Tradeoff</h4><p>You can't have both at once. More access points = more friction = less mobility. This is the fundamental tension in road design.</p></div>
+</div>
+
+<h3>The Principal Goal</h3>
+<div class="infobox"><strong>Traffic Engineers</strong> design systems that provide a safe and efficient environment for roadway traffic — minimizing crashes, delays, and fuel waste simultaneously.</div>
+</section>
+
+<!-- ══ 02 CLASSIFICATION ══ -->
+<section class="sec" id="classification">
+<div class="snum">02 — HIGHWAY FUNCTIONAL CLASSIFICATION</div>
+<h2>Road <em>Hierarchy</em> — Not All Roads Are Equal</h2>
+<p class="lead">Roads are classified by their <em>function</em> — what job they do in the network. The classification determines design speed, access controls, and who uses them.</p>
+
+<div class="analogy">Think of the road system like an airport terminal. <strong>Freeways = runways</strong> (fast, no interruptions). <strong>Arterials = main terminal corridors</strong> (fast but with gates). <strong>Collectors = concourses</strong> (slower, connect to gates). <strong>Local streets = individual gates</strong> (slow, direct door access).</div>
+
+<!-- ═ LIVE ANIMATED INTERSECTION OVERVIEW ═ -->
+<div class="intersect-wrap">
+  <div class="simhdr" style="border-radius:0;margin:-20px -20px 16px;"><span class="simtitle">🎬 ANIMATION — LIVE INTERSECTION VIEW: 4-WAY SIGNALIZED INTERSECTION</span></div>
+  <div class="intersect-scene" id="intScene">
+    <!-- Roads -->
+    <div class="road-h"></div>
+    <div class="road-v"></div>
+    <div class="intersection-box"></div>
+    <div class="road-line-h" id="lineH"></div>
+    <div class="road-line-v" id="lineV"></div>
+    <!-- Signal heads -->
+    <div class="sig-head sig-ne" id="sigNE">
+      <div class="sig-dot sd-red" id="sNE-r"></div>
+      <div class="sig-dot sd-yellow" id="sNE-y"></div>
+      <div class="sig-dot sd-green" id="sNE-g"></div>
+    </div>
+    <div class="sig-head sig-sw" id="sigSW">
+      <div class="sig-dot sd-red" id="sSW-r"></div>
+      <div class="sig-dot sd-yellow" id="sSW-y"></div>
+      <div class="sig-dot sd-green" id="sSW-g"></div>
+    </div>
+    <div class="sig-head sig-nw" id="sigNW">
+      <div class="sig-dot sd-red" id="sNW-r"></div>
+      <div class="sig-dot sd-yellow" id="sNW-y"></div>
+      <div class="sig-dot sd-green" id="sNW-g"></div>
+    </div>
+    <div class="sig-head sig-se" id="sigSE">
+      <div class="sig-dot sd-red" id="sSE-r"></div>
+      <div class="sig-dot sd-yellow" id="sSE-y"></div>
+      <div class="sig-dot sd-green" id="sSE-g"></div>
+    </div>
+    <!-- Vehicles (injected by JS) -->
+  </div>
+  <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;align-items:center;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);">Phase: <span id="intPhaseLabel" style="color:var(--green);">EW GREEN</span></div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);">Timer: <span id="intTimer" style="color:var(--amber);">0s</span></div>
+    <button class="sbtn sec2" onclick="toggleIntersection()" id="intBtn">⏸ PAUSE</button>
+  </div>
+</div>
+
+<table class="dt"><thead><tr><th>Road Type</th><th>Speed (mph)</th><th>Access</th><th>Primary Function</th><th>Example</th></tr></thead>
+<tbody>
+  <tr><td class="hl">Freeway</td><td>60–75</td><td>None (controlled)</td><td>Long-distance mobility</td><td>I-95, I-90</td></tr>
+  <tr><td class="hl">Principal Arterial</td><td>45–55</td><td>Very limited</td><td>Regional movement</td><td>US-1, State highways</td></tr>
+  <tr><td>Minor Arterial</td><td>35–45</td><td>Limited</td><td>Connecting to arterials</td><td>Major city roads</td></tr>
+  <tr><td>Collector</td><td>25–35</td><td>Moderate</td><td>Collect neighborhood traffic</td><td>Shopping center roads</td></tr>
+  <tr><td>Local Street</td><td>15–25</td><td>High</td><td>Direct property access</td><td>Residential streets</td></tr>
+</tbody></table>
+
+<h3>Interrupted vs Uninterrupted Flow</h3>
+<div class="cg">
+  <div class="cc" style="border-color:rgba(0,255,163,.2);">
+    <div class="ci">🟢</div><h4>Uninterrupted Flow</h4>
+    <p>No external controls stop traffic. Vehicles only interact with each other. Freeways are the ideal case.</p>
+    <span class="cval">Freeways, expressways, highways (&gt;2mi between signals)</span>
+  </div>
+  <div class="cc" style="border-color:rgba(255,77,109,.2);">
+    <div class="ci">🔴</div><h4>Interrupted Flow</h4>
+    <p>External devices (signals, stop signs) periodically halt traffic. Flow is at the mercy of timing.</p>
+    <span class="cval">All signalized streets, STOP-controlled roads</span>
+  </div>
+</div>
+</section>
+
+<!-- ══ 03 TRAFFIC TERMS ══ -->
+<section class="sec" id="terms">
+<div class="snum">03 — TRAFFIC OPERATIONS: IMPORTANT TERMS</div>
+<h2>The <em>Language</em> of Traffic Flow</h2>
+<p class="lead">Four critical terms that look similar but mean different things. Getting these right is the foundation of every HCM analysis.</p>
+
+<div class="analogy">Imagine a coffee shop. <strong>Capacity</strong> = max customers per hour the baristas can serve. <strong>Demand</strong> = how many customers want to come. <strong>Volume</strong> = how many actually walked in this hour. <strong>Flow Rate</strong> = how fast they're arriving right now (the busy 15 minutes during morning rush).</div>
+
+<div class="cg">
+  <div class="cc" style="border-color:rgba(0,255,163,.25);">
+    <div class="ci">🏋️</div><h4>Capacity (c)</h4>
+    <p>The <em>maximum</em> vehicles a section can handle under typical conditions. A ceiling — you can't exceed it physically.</p>
+    <span class="cval">veh/hr/lane — a fixed physical limit</span>
+  </div>
+  <div class="cc">
+    <div class="ci">🙋</div><h4>Demand</h4>
+    <p>How many vehicles <em>want</em> to use the road. Demand can exceed capacity — that's when queues form.</p>
+    <span class="cval">veh/hr — what drivers want to do</span>
+  </div>
+  <div class="cc">
+    <div class="ci">📊</div><h4>Volume (V)</h4>
+    <p>How many vehicles actually <em>pass a point</em> in a given time. Measured by counting. Equals demand if no congestion.</p>
+    <span class="cval">veh/hr or veh/day — measured count</span>
+  </div>
+  <div class="cc" style="border-color:rgba(255,179,0,.25);">
+    <div class="ci">⚡</div><h4>Flow Rate (v)</h4>
+    <p>Like volume but for a sub-hour period, <em>expressed as if it lasted a full hour</em>. Captures peak intensity.</p>
+    <span class="cval">v = V/PHF — the true peak rate</span>
+  </div>
+</div>
+
+<h3>Peak Hour Factor (PHF) — Catching the Worst 15 Minutes</h3>
+<div class="analogy">The full hour total might be 3,600 vehicles. But if 1,200 came in just one 15-minute window, you actually need to design for 4,800 veh/hr equivalent. <strong>PHF catches this spike</strong>. A PHF of 1.0 = perfectly even flow. PHF of 0.8 = significant peaking.</div>
+
+<div class="eq">
+  <div class="eqlbl">Peak Hour Factor</div>
+  <div class="eqbody">PHF = V / (4 × V₁₅,max)</div>
+  <div class="eqnote"><code>V</code> = hourly volume &nbsp;|&nbsp; <code>V₁₅,max</code> = max 15-min count &nbsp;|&nbsp; Range: 0.25 to 1.00</div>
+</div>
+<div class="eq">
+  <div class="eqlbl">Maximum Flow Rate</div>
+  <div class="eqbody">v = V / PHF</div>
+  <div class="eqnote">Convert hourly volume to equivalent flow rate. Use this for capacity analysis, not raw volume.</div>
+</div>
+
+<!-- PHF CALCULATOR -->
+<div class="sim">
+  <div class="simhdr"><span class="simtitle">⚡ SIM — PHF CALCULATOR: ENTER YOUR 15-MIN COUNTS</span></div>
+  <div class="simbody">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+      <div><label style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);display:block;margin-bottom:4px;">4:30–4:45</label><input type="number" id="v1" value="859" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
+      <div><label style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);display:block;margin-bottom:4px;">4:45–5:00</label><input type="number" id="v2" value="925" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
+      <div><label style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);display:block;margin-bottom:4px;">5:00–5:15</label><input type="number" id="v3" value="949" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
+      <div><label style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);display:block;margin-bottom:4px;">5:15–5:30</label><input type="number" id="v4" value="867" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
+    </div>
+    <canvas id="cPHF" height="180"></canvas>
+    <div id="phfResult" style="margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
+  </div>
+</div>
+
+<div class="pp-section">
+  <div class="pp-title">Practice Problems — Traffic Terms & PHF</div>
+
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 1</div><div class="pp-qtext">During the evening peak hour, vehicle counts for each 15-minute interval were: 410, 480, 530, and 420 vehicles. Calculate the PHF and the maximum flow rate. What does the PHF tell you about traffic peaking?</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-hint"><strong>💡 HINT</strong>PHF = V_hourly / (4 × V_max_15min). Maximum flow rate v = V / PHF. PHF close to 1.0 means even flow; close to 0.25 means extreme peaking.</div>
+      <div class="pp-steps">
+<span class="step">Step 1 — Total hourly volume:</span>
+V = 410 + 480 + 530 + 420 = <strong>1,840 veh/hr</strong>
+
+<span class="step">Step 2 — Find maximum 15-minute count:</span>
+V₁₅,max = 530 veh (the 5:00–5:15 period)
+
+<span class="step">Step 3 — Calculate PHF:</span>
+PHF = 1,840 / (4 × 530) = 1,840 / 2,120 = <strong>0.868</strong>
+
+<span class="step">Step 4 — Maximum flow rate:</span>
+v = V / PHF = 1,840 / 0.868 = <strong>2,120 veh/hr</strong>
+
+<span class="step">Step 5 — Interpretation:</span>
+PHF = 0.868 means peaking is moderate. The worst 15 minutes 
+carries 15% more than the average 15-minute rate. Design 
+systems for 2,120 veh/hr, NOT 1,840 veh/hr.</div>
+      <div class="pp-ans">✓ PHF = 0.868 | v_max = 2,120 veh/hr</div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 2</div><div class="pp-qtext">A signalized approach counts 900 vehicles in the peak hour. The PHF is known to be 0.92. What maximum flow rate should be used for HCM capacity analysis?</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">Given:</span>  V = 900 veh/hr,  PHF = 0.92
+
+<span class="step">Maximum flow rate:</span>
+v = V / PHF = 900 / 0.92 = <strong>978 veh/hr</strong>
+
+<span class="step">Why this matters:</span>
+Using 900 underestimates peak demand by ~8%.
+Using v = 978 correctly reflects the 15-min peak intensity.</div>
+      <div class="pp-ans">✓ v = 978 veh/hr</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ 04 INTERSECTION ══ -->
+<section class="sec" id="intersection">
+<div class="snum">04 — AT-GRADE INTERSECTIONS</div>
+<h2>Where Roads <em>Meet</em></h2>
+<p class="lead">An at-grade intersection is where two or more roads cross at the same level. The key challenge: multiple streams of vehicles want to use the same space at the same time — someone must yield.</p>
+
+<div class="analogy">An intersection is like a four-way conversation. Everyone can't talk simultaneously — someone facilitates (the signal) or people take turns (yield/stop control). Without any control, it's chaos.</div>
+
+<h3>Levels of Intersection Control</h3>
+<div class="cg" style="grid-template-columns:repeat(4,1fr);">
+  <div class="cc"><div class="ci">🆓</div><h4>No Control</h4><p>Drivers adjust speed on their own. Only suitable for very low volume, good sight distance intersections.</p></div>
+  <div class="cc"><div class="ci">🔺</div><h4>Yield</h4><p>Minor road yields to major road. Driver must slow but can proceed if clear. Shared responsibility.</p></div>
+  <div class="cc"><div class="ci">🛑</div><h4>STOP</h4><p>Minor road must fully stop before entering. Must wait for a safe gap in major road traffic.</p></div>
+  <div class="cc" style="border-color:rgba(0,255,163,.25);"><div class="ci">🚦</div><h4>Signal Control</h4><p>ALL approaches stop when red. Best for high-volume, multi-modal intersections.</p></div>
+</div>
+</section>
+
+<!-- ══ 05 SIGNALS ══ -->
+<section class="sec" id="signals">
+<div class="snum">05 — TRAFFIC SIGNALS</div>
+<h2>Teaching Drivers to <em>Share Space</em></h2>
+<p class="lead">Traffic signals are the most powerful tool for managing intersection conflicts. But they must be justified — signals aren't always the solution, and a poorly-timed signal can make things worse.</p>
+
+<!-- ═ ANIMATED TRAFFIC LIGHT ═ -->
+<h3>Live Signal Demo — Watch the Cycle</h3>
+<div class="sim">
+  <div class="simhdr"><span class="simtitle">🚦 ANIMATION — LIVE TRAFFIC LIGHT CYCLE WITH COUNTDOWN</span></div>
+  <div class="simbody">
+    <div class="tl-demo">
+      <!-- Signal A: EW -->
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--cyan);margin-bottom:8px;text-align:center;">EAST-WEST ↔</div>
+        <div style="display:flex;align-items:flex-end;gap:0;">
+          <div class="tl-arm"></div>
+          <div class="tl-box" id="tlBoxEW">
+            <div class="tl-lens off" id="tlR-EW"></div>
+            <div class="tl-lens off" id="tlY-EW"></div>
+            <div class="tl-lens off" id="tlG-EW"></div>
+          </div>
+        </div>
+        <div class="tl-pole" style="margin:0 auto;"></div>
+      </div>
+      <!-- Timer + Status -->
+      <div style="flex:1;min-width:160px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);margin-bottom:6px;">CURRENT PHASE</div>
+        <div id="tlPhaseText" style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:var(--green);margin-bottom:16px;">EW GREEN</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);margin-bottom:4px;">TIME REMAINING</div>
+        <div class="tl-timer" id="tlCountdown">30</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:4px;">seconds</div>
+        <div style="margin-top:16px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);margin-bottom:4px;">CYCLE PROGRESS</div>
+          <div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;">
+            <div id="tlProgress" style="height:100%;width:0%;background:var(--green);transition:width .5s;border-radius:3px;"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Signal B: NS -->
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--violet);margin-bottom:8px;text-align:center;">NORTH-SOUTH ↕</div>
+        <div style="display:flex;align-items:flex-end;gap:0;">
+          <div class="tl-box" id="tlBoxNS">
+            <div class="tl-lens off" id="tlR-NS"></div>
+            <div class="tl-lens off" id="tlY-NS"></div>
+            <div class="tl-lens off" id="tlG-NS"></div>
+          </div>
+          <div class="tl-arm" style="align-self:flex-end;"></div>
+        </div>
+        <div class="tl-pole" style="margin:0 auto;"></div>
+      </div>
+      <!-- Legend -->
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:14px;min-width:170px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);margin-bottom:10px;letter-spacing:.1em;">TIMING PLAN</div>
+        <div id="tlTimingPlan" style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim);line-height:2.2;"></div>
+      </div>
+    </div>
+    <div class="crow">
+      <span class="clbl">Cycle C (s):</span>
+      <input type="range" id="tlCyc" min="40" max="120" value="70" style="width:130px;" oninput="document.getElementById('tlCycVal').textContent=this.value+'s';resetTL();">
+      <span class="cval2" id="tlCycVal">70s</span>
+      <span class="clbl" style="margin-left:12px;">Green Split (%):</span>
+      <input type="range" id="tlSplit" min="30" max="70" value="53" style="width:130px;" oninput="document.getElementById('tlSplitVal').textContent=this.value+'%';resetTL();">
+      <span class="cval2" id="tlSplitVal">53%</span>
+    </div>
+  </div>
+</div>
+
+<h3>Why Install a Signal? The 9 MUTCD Warrants</h3>
+<div class="infobox"><strong>A signal should only be installed if at least one warrant is met.</strong> Over-signalization increases delay and can increase rear-end crashes.</div>
+<div class="cg" style="grid-template-columns:repeat(3,1fr);">
+  <div class="cc"><h4>W1: 8-Hour Vehicular Volume</h4><p>High consistent traffic volume throughout the day.</p></div>
+  <div class="cc"><h4>W2: 4-Hour Vehicular Volume</h4><p>High volumes during multiple periods.</p></div>
+  <div class="cc"><h4>W3: Peak Hour</h4><p>Excessive delay during peak hours only.</p></div>
+  <div class="cc"><h4>W4: Pedestrian Volume</h4><p>High pedestrian demand crossing a busy road.</p></div>
+  <div class="cc"><h4>W5: School Crossing</h4><p>Children crossing near a school.</p></div>
+  <div class="cc"><h4>W7: Crash Experience</h4><p>Documented crash pattern that signals can reduce.</p></div>
+</div>
+
+<h3>Traffic Sign Types</h3>
+<table class="dt"><thead><tr><th>Sign Type</th><th>Shape</th><th>Color</th><th>Examples</th></tr></thead>
+<tbody>
+  <tr><td class="hl">Regulatory</td><td>Vertical Rectangle</td><td>Black/White</td><td>STOP, YIELD, Speed Limit, NO PARKING</td></tr>
+  <tr><td class="hl">Warning</td><td>Diamond</td><td>Black/Yellow</td><td>Curve Ahead, Railroad, Bridge</td></tr>
+  <tr><td class="hl">Guide</td><td>Horiz. Rectangle</td><td>White/Green</td><td>Destinations, Distance</td></tr>
+</tbody></table>
+</section>
+
+<!-- ══ 06 TIMING ══ -->
+<section class="sec" id="timing">
+<div class="snum">06 — SIGNAL TIMING DESIGN</div>
+<h2>The <em>Rhythm</em> of an Intersection</h2>
+<p class="lead">Signal timing is about efficiently allocating the most limited resource at an intersection: <strong>time</strong>. Every second given to one phase is a second taken from another.</p>
+
+<div class="analogy">Signal timing is like baking multiple dishes using one oven. Each dish (phase) needs oven time. The full dinner cycle repeats. You lose time switching between dishes (lost time). You want everyone done as fast as possible — that's optimal timing.</div>
+
+<h3>Key Timing Terms — Explained One By One</h3>
+<div class="cg">
+  <div class="cc"><h4>🔄 Cycle Length (C)</h4><p>Total time for ONE complete sequence of all phases. When the clock runs out, it starts over. Typically 60–120 seconds.</p><span class="cval">Longer C → more capacity, more max delay</span></div>
+  <div class="cc"><h4>🟢 Phase (Φ)</h4><p>One direction's turn: Green + Yellow + All-Red. A 2-phase signal gives N-S their turn, then E-W.</p><span class="cval">Each approach gets at least 1 phase</span></div>
+  <div class="cc"><h4>💚 Green Interval (G)</h4><p>The literal green light duration. This is what drivers see on the signal head. Design input.</p><span class="cval">G = what you set on the controller</span></div>
+  <div class="cc"><h4>✅ Effective Green (g)</h4><p>Time vehicles can actually discharge. Slightly longer than G because yellow allows some movement. Key formula input.</p><span class="cval">g = G + y + ar − tL</span></div>
+  <div class="cc"><h4>⏱️ Lost Time (tL)</h4><p>Wasted time per phase: startup (vehicles accelerating from rest) + clearance (last yellow vehicle). Usually ≈4 sec.</p><span class="cval">tL = l₁ + l₂ ≈ 4 sec/phase</span></div>
+  <div class="cc"><h4>🔴 All-Red (AR)</h4><p>Every approach red simultaneously. Safety clearance — the intersection empties before next phase starts.</p><span class="cval">Typically 1–2 seconds</span></div>
+</div>
+
+<div class="eq">
+  <div class="eqlbl">Effective Green Time</div>
+  <div class="eqbody">g = G + y + ar − tL</div>
+  <div class="eqnote"><code>G</code>=display green &nbsp; <code>y</code>=yellow &nbsp; <code>ar</code>=all-red &nbsp; <code>tL</code>=lost time per phase (~4s)</div>
+</div>
+
+<!-- SIGNAL TIMING ANIMATOR -->
+<div class="sim">
+  <div class="simhdr">
+    <span class="simtitle">⚡ SIM — SIGNAL TIMING ANIMATOR: WATCH THE CYCLE LIVE</span>
+    <span id="sigPhase" class="spill stA">PHASE 1</span>
+  </div>
+  <div class="simbody">
+    <canvas id="cSig" height="240"></canvas>
+    <div class="crow">
+      <span class="clbl">CYCLE (s):</span>
+      <input type="range" id="slCyc" min="40" max="120" value="70" style="width:140px;" oninput="document.getElementById('svCyc').textContent=this.value+'s';initSignal();">
+      <span class="cval2" id="svCyc">70s</span>
+      <span class="clbl" style="margin-left:16px;">G1 (s):</span>
+      <input type="range" id="slG1" min="10" max="60" value="37" style="width:130px;" oninput="document.getElementById('svG1').textContent=this.value+'s';initSignal();">
+      <span class="cval2" id="svG1">37s</span>
+      <button class="sbtn" id="sigBtn" onclick="toggleSignal()" style="margin-left:auto;">▶ START</button>
+    </div>
+    <div id="sigStats" style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--dim);padding:10px;background:var(--bg3);border-radius:3px;border:1px solid var(--border);"></div>
+  </div>
+</div>
+
+<div class="pp-section">
+  <div class="pp-title">Practice Problems — Signal Timing</div>
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 3</div><div class="pp-qtext">A 2-phase signal has: C = 80s, G₁ = 42s, Y = 4s, AR = 2s, tL = 4s per phase. Calculate the effective green time for both phases and the total lost time per cycle. How efficient is this cycle?</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">Phase 1 — Effective Green:</span>
+g₁ = G₁ + y + ar − tL = 42 + 4 + 2 − 4 = <strong>44s</strong>
+
+<span class="step">Phase 2 Display Green:</span>
+G₂ = C − G₁ − y − ar − y − ar = 80 − 42 − 4 − 2 − 4 − 2 = 26s
+
+<span class="step">Phase 2 — Effective Green:</span>
+g₂ = G₂ + y + ar − tL = 26 + 4 + 2 − 4 = <strong>28s</strong>
+
+<span class="step">Total Lost Time per Cycle:</span>
+L = 2 × tL = 2 × 4 = <strong>8s per cycle</strong>
+
+<span class="step">Cycle Efficiency:</span>
+Efficiency = (C − L)/C = (80 − 8)/80 = 72/80 = <strong>90%</strong>
+(Only 10% of cycle time is "wasted" on lost time)</div>
+      <div class="pp-ans">✓ g₁=44s | g₂=28s | L=8s | Efficiency=90%</div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 4</div><div class="pp-qtext">What is the effective green time for a phase with G = 35s, Y = 3.5s, AR = 1.5s, and lost time tL = 4s? If the cycle is 90s, what fraction of the cycle does this phase effectively control?</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">Effective Green:</span>
+g = G + y + ar − tL = 35 + 3.5 + 1.5 − 4 = <strong>36s</strong>
+
+<span class="step">g/C Ratio:</span>
+g/C = 36 / 90 = <strong>0.40</strong>
+
+<span class="step">Meaning:</span>
+This phase receives 40% of the cycle for vehicle discharge.
+Only 40% of the saturation flow rate becomes available capacity.</div>
+      <div class="pp-ans">✓ g = 36s | g/C = 0.40</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ 07 SATURATION ══ -->
+<section class="sec" id="saturation">
+<div class="snum">07 — SATURATION FLOW RATE</div>
+<h2>How Fast Can Vehicles <em>Actually</em> Discharge?</h2>
+<p class="lead">When a queue of vehicles gets a green light, there's a maximum rate at which they can cross the stop bar. That's the saturation flow rate — the physical throughput limit of a lane.</p>
+
+<div class="analogy">Imagine a tube of toothpaste. The saturation flow rate is the maximum paste per second that can come out when you squeeze hard. Squeeze harder = same rate (it's saturated). The saturation headway is the time between each toothpaste "droplet" (vehicle) at that maximum rate.</div>
+
+<!-- QUEUE ANIMATION -->
+<h3>Vehicle Queue Animation — Red → Green</h3>
+<div class="sim">
+  <div class="simhdr"><span class="simtitle">🎬 ANIMATION — QUEUE DISCHARGE: WATCH VEHICLES CLEAR ON GREEN</span></div>
+  <div class="simbody">
+    <canvas id="cQueue" height="160"></canvas>
+    <div class="crow">
+      <span class="clbl">Queue Size:</span>
+      <input type="range" id="slQueue" min="3" max="12" value="8" style="width:130px;" oninput="document.getElementById('svQueue').textContent=this.value+' veh';resetQueue();">
+      <span class="cval2" id="svQueue">8 veh</span>
+      <span class="clbl" style="margin-left:8px;">Headway h (s):</span>
+      <input type="range" id="slH" min="15" max="35" value="21" style="width:120px;" oninput="document.getElementById('svH').textContent=(this.value/10).toFixed(1)+'s';resetQueue();">
+      <span class="cval2" id="svH">2.1s</span>
+      <button class="sbtn" onclick="startQueue()" style="margin-left:auto;" id="qBtn">▶ GO GREEN</button>
+    </div>
+    <div id="queueResult" style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--dim);padding:10px;background:var(--bg3);border-radius:3px;border:1px solid var(--border);"></div>
+  </div>
+</div>
+
+<div class="eq">
+  <div class="eqlbl">Saturation Flow Rate</div>
+  <div class="eqbody">s = 3600 / h</div>
+  <div class="eqnote"><code>s</code> = saturation flow rate (veh/h/ln) &nbsp;|&nbsp; <code>h</code> = saturation headway (s/veh) &nbsp;|&nbsp; Typical h ≈ 2.0–2.5 s → s ≈ 1440–1800 veh/h</div>
+</div>
+
+<div class="infobox"><strong>Typical values:</strong> For a standard approach lane, s ≈ 1,800 veh/h/ln is the HCM baseline. Adjustments apply for heavy vehicles, grades, turning movements, etc.</div>
+</section>
+
+<!-- ══ 08 CAPACITY ══ -->
+<section class="sec" id="capacity">
+<div class="snum">08 — LANE GROUP CAPACITY & v/c RATIO</div>
+<h2>Capacity, Demand, and the <em>X Factor</em></h2>
+<p class="lead">At a signalized intersection, a lane group doesn't get the full hour of green — it only gets a fraction (g/C). So its effective capacity is reduced proportionally.</p>
+
+<div class="analogy">If a factory can make 1,000 widgets/hour at full speed, but it's only allowed to run for 37 out of every 70 minutes — its effective capacity is 1,000 × (37/70) = 529 widgets per period. Same logic for lanes: full saturation × green ratio = actual capacity.</div>
+
+<div class="eq">
+  <div class="eqlbl">Lane Group Capacity</div>
+  <div class="eqbody">cᵢ = sᵢ × (gᵢ / C)</div>
+  <div class="eqnote"><code>sᵢ</code>=saturation flow &nbsp; <code>gᵢ</code>=effective green &nbsp; <code>C</code>=cycle length</div>
+</div>
+<div class="eq">
+  <div class="eqlbl">v/c Ratio (X) — The Key Performance Indicator</div>
+  <div class="eqbody">X = v / c = vᵢ / [sᵢ × (gᵢ/C)]</div>
+  <div class="eqnote">X &lt; 1.0 → OK (demand &lt; capacity). X = 1.0 → at capacity. X &gt; 1.0 → FAILURE — queue grows indefinitely.</div>
+</div>
+
+<!-- CAPACITY CALCULATOR -->
+<div class="calc">
+  <div class="calctitle">⚙️ CALCULATOR — LANE GROUP CAPACITY & v/c RATIO</div>
+  <div class="ig">
+    <div><label>Volume v (veh/h)</label><input type="number" id="cv_v" value="500"></div>
+    <div><label>Saturation s (veh/h)</label><input type="number" id="cv_s" value="1800"></div>
+    <div><label>Eff. Green g (s)</label><input type="number" id="cv_g" value="37"></div>
+    <div><label>Cycle C (s)</label><input type="number" id="cv_C" value="70"></div>
+  </div>
+  <button class="cbtn" onclick="calcVC()">Compute Capacity & X</button>
+  <div class="rg" id="vcR"></div>
+</div>
+
+<div class="pp-section">
+  <div class="pp-title">Practice Problems — Capacity & v/c</div>
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 5</div><div class="pp-qtext">A lane group has: s = 1,800 veh/h, g = 28s, C = 90s, v = 450 veh/h. Find (a) lane group capacity, (b) v/c ratio, and (c) whether the approach is operating acceptably.</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">(a) Lane Group Capacity:</span>
+cᵢ = sᵢ × (gᵢ/C) = 1,800 × (28/90) = 1,800 × 0.311 = <strong>560 veh/h</strong>
+
+<span class="step">(b) v/c Ratio:</span>
+X = v / c = 450 / 560 = <strong>0.804</strong>
+
+<span class="step">(c) Assessment:</span>
+X = 0.804 &lt; 1.0 → Approach is operating within capacity ✓
+However, X &gt; 0.80 signals the approach is moderately loaded.
+As X → 1.0, delays increase rapidly.</div>
+      <div class="pp-ans">✓ c = 560 veh/h | X = 0.804 | Acceptable (barely)</div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 6</div><div class="pp-qtext">An approach operates with X = 1.15. What does this mean physically? If you want to reduce X to 0.90, and current volume is 800 veh/h with s = 1,800 veh/h and C = 80s, what effective green time g is needed?</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">X = 1.15 means:</span>
+Demand (1.15×) exceeds capacity (1.0×) by 15%.
+Queue grows every cycle and NEVER clears → breakdown → LOS F
+
+<span class="step">Solving for required g at X = 0.90:</span>
+X = v / [s × (g/C)]
+0.90 = 800 / [1,800 × (g/80)]
+1,800 × g/80 = 800 / 0.90 = 888.9
+g/80 = 888.9 / 1,800 = 0.494
+g = 0.494 × 80 = <strong>39.5s ≈ 40s</strong>
+
+<span class="step">Interpretation:</span>
+Increasing effective green from current value to 40s will 
+bring the approach within acceptable capacity.</div>
+      <div class="pp-ans">✓ X &gt; 1.0 → Failure. Required g ≈ 40s for X = 0.90</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ 09 DELAY/LOS ══ -->
+<section class="sec" id="delay">
+<div class="snum">09 — CONTROL DELAY & LEVEL OF SERVICE</div>
+<h2>How <em>Bad</em> is the Wait? The LOS System</h2>
+<p class="lead">Level of Service (LOS) is the report card of an intersection. It grades performance from A (smooth, fast) to F (failed, gridlock). The metric is average control delay per vehicle (seconds).</p>
+
+<div class="analogy">LOS is like restaurant wait times. <strong>LOS A</strong> = walk-in, seated immediately. <strong>LOS B</strong> = 5-min wait. <strong>LOS C</strong> = 20 min. <strong>LOS D</strong> = 45 min. <strong>LOS E</strong> = 1+ hour wait, people getting restless. <strong>LOS F</strong> = you're turned away.</div>
+
+<div class="los-grid">
+  <div class="los-item losA"><div class="los-lbl">A</div><div class="los-d">≤10 s/veh</div></div>
+  <div class="los-item losB"><div class="los-lbl">B</div><div class="los-d">&gt;10–20</div></div>
+  <div class="los-item losC"><div class="los-lbl">C</div><div class="los-d">&gt;20–35</div></div>
+  <div class="los-item losD"><div class="los-lbl">D</div><div class="los-d">&gt;35–55</div></div>
+  <div class="los-item losE"><div class="los-lbl">E</div><div class="los-d">&gt;55–80</div></div>
+  <div class="los-item losF"><div class="los-lbl">F</div><div class="los-d">&gt;80 s or X&gt;1</div></div>
+</div>
+
+<div class="eq">
+  <div class="eqlbl">Uniform Delay d₁ (Webster / HCM)</div>
+  <div class="eqbody">d₁ = 0.5C(1 − g/C)² / [1 − min(1,X)·(g/C)]</div>
+  <div class="eqnote"><code>C</code>=cycle length &nbsp; <code>g</code>=effective green &nbsp; <code>X</code>=v/c ratio &nbsp; Result in seconds/vehicle</div>
+</div>
+<div class="eq">
+  <div class="eqlbl">Total Control Delay</div>
+  <div class="eqbody">d = d₁ + d₂ + d₃</div>
+  <div class="eqnote"><code>d₁</code>=uniform delay &nbsp; <code>d₂</code>=incremental (random arrival) delay &nbsp; <code>d₃</code>=preexisting queue delay</div>
+</div>
+
+<!-- DELAY CALCULATOR -->
+<div class="calc">
+  <div class="calctitle">⚙️ CALCULATOR — UNIFORM DELAY + LOS</div>
+  <div class="ig">
+    <div><label>Cycle C (s)</label><input type="number" id="dc_C" value="70"></div>
+    <div><label>Eff. Green g (s)</label><input type="number" id="dc_g" value="37"></div>
+    <div><label>Volume v (veh/h)</label><input type="number" id="dc_v" value="500"></div>
+    <div><label>Saturation s (veh/h)</label><input type="number" id="dc_s" value="1800"></div>
+  </div>
+  <button class="cbtn" onclick="calcDelay()">Calculate Delay & LOS</button>
+  <div class="rg" id="dR"></div>
+  <div class="csteps" id="dSteps"></div>
+</div>
+
+<!-- DELAY CURVE -->
+<div class="sim">
+  <div class="simhdr"><span class="simtitle">⚡ SIM — DELAY vs v/c: SEE HOW DELAY EXPLODES AS X → 1.0</span></div>
+  <div class="simbody">
+    <canvas id="cDelayCurve" height="220"></canvas>
+    <div class="crow">
+      <span class="clbl">CYCLE C (s):</span>
+      <input type="range" id="slDC" min="40" max="120" value="70" style="width:160px;" oninput="document.getElementById('svDC').textContent=this.value+'s';drawDelayCurve();">
+      <span class="cval2" id="svDC">70s</span>
+      <span class="clbl">g/C RATIO:</span>
+      <input type="range" id="slGC" min="20" max="65" value="53" style="width:140px;" oninput="document.getElementById('svGC').textContent=(this.value/100).toFixed(2);drawDelayCurve();">
+      <span class="cval2" id="svGC">0.53</span>
+    </div>
+  </div>
+</div>
+
+<div class="pp-section">
+  <div class="pp-title">Practice Problems — Delay & LOS</div>
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 7 ★ (Exam Favorite)</div><div class="pp-qtext">A lane group has: C = 90s, g = 36s, v = 600 veh/h, s = 1,800 veh/h. Calculate (a) v/c ratio, (b) uniform delay d₁, and (c) LOS. Show all steps.</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-hint"><strong>💡 FORMULA</strong>d₁ = 0.5C(1 − g/C)² / [1 − min(1,X)·(g/C)]</div>
+      <div class="pp-steps">
+<span class="step">Step 1 — g/C ratio:</span>
+g/C = 36/90 = 0.400
+
+<span class="step">Step 2 — Lane group capacity:</span>
+c = s × (g/C) = 1,800 × 0.400 = 720 veh/h
+
+<span class="step">Step 3 — v/c ratio X:</span>
+X = v/c = 600/720 = 0.833
+
+<span class="step">Step 4 — Uniform delay numerator:</span>
+0.5 × C × (1 − g/C)² = 0.5 × 90 × (1 − 0.400)²
+= 45 × (0.600)² = 45 × 0.360 = 16.20
+
+<span class="step">Step 5 — Uniform delay denominator:</span>
+1 − min(1, 0.833) × (g/C) = 1 − 0.833 × 0.400
+= 1 − 0.333 = 0.667
+
+<span class="step">Step 6 — d₁:</span>
+d₁ = 16.20 / 0.667 = <strong>24.3 s/veh</strong>
+
+<span class="step">Step 7 — LOS:</span>
+d₁ = 24.3 s/veh → 20 &lt; 24.3 ≤ 35 → <strong>LOS C</strong></div>
+      <div class="pp-ans">✓ X = 0.833 | d₁ = 24.3 s/veh | LOS C</div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 8</div><div class="pp-qtext">Using the same approach as Problem 7 (g = 36s, s = 1,800 veh/h, C = 90s), if volume increases to v = 700 veh/h, recalculate d₁ and LOS. How much did delay increase with just a 100 veh/h increase?</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">Same c = 720, g/C = 0.400. New X:</span>
+X = 700/720 = 0.972 (much closer to capacity!)
+
+<span class="step">d₁ numerator (same):</span>
+0.5 × 90 × (0.600)² = 16.20
+
+<span class="step">d₁ denominator:</span>
+1 − 0.972 × 0.400 = 1 − 0.389 = 0.611
+
+<span class="step">d₁ = 16.20 / 0.611 = <strong>26.5 s/veh → LOS C</strong></span>
+
+<span class="step">Comparison:</span>
+At v=600: d₁ = 24.3 s/veh (LOS C)
+At v=700: d₁ = 26.5 s/veh (LOS C, but getting worse)
+Delta: +2.2 s/veh for +100 veh/h increase
+
+This demonstrates that as X approaches 1.0, 
+small volume increases cause disproportionate delay increases!</div>
+      <div class="pp-ans">✓ d₁ = 26.5 s/veh | LOS C | +2.2s delay for +100 veh/h</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ 10 TRANSIT ══ -->
+<section class="sec" id="transit">
+<div class="snum">10 — PUBLIC TRANSPORTATION</div>
+<h2>Moving <em>Many</em> People Efficiently</h2>
+<p class="lead">Public transportation moves people collectively, reducing the number of vehicles on roads. It ranges from taxis all the way to fully grade-separated rapid rail systems.</p>
+<div class="analogy">Public transit is like a shared rideshare vs. individual cars. One bus at 40 people = 38 fewer cars on the road. The tradeoff: less flexibility but huge capacity gains.</div>
+<table class="dt"><thead><tr><th>Mode</th><th>Right-of-Way</th><th>Capacity</th><th>Best For</th></tr></thead>
+<tbody>
+  <tr><td class="hl">Taxi/Ride-hail</td><td>Mixed traffic</td><td>1–4 pax</td><td>Door-to-door, on-demand</td></tr>
+  <tr><td class="hl">Jitneys</td><td>Mixed traffic</td><td>5–15 pax</td><td>Fixed route, flexible schedule</td></tr>
+  <tr><td class="hl">Regular Bus</td><td>Mixed traffic</td><td>40–60 pax</td><td>Urban corridors, frequent stops</td></tr>
+  <tr><td class="hl">BRT (Semi-rapid)</td><td>Dedicated lanes</td><td>60–160 pax</td><td>High-volume urban corridors</td></tr>
+  <tr><td class="hl">Light Rail (LRT)</td><td>Reserved ROW</td><td>100–200 pax</td><td>Regional corridors</td></tr>
+  <tr><td class="hl">Rapid Transit (Metro)</td><td>Fully separated</td><td>1,000+ pax/train</td><td>Dense urban networks</td></tr>
+</tbody></table>
+</section>
+
+<!-- ══ 11 PLANNING ══ -->
+<section class="sec" id="planning">
+<div class="snum">11 — TRANSPORTATION PLANNING</div>
+<h2>Planning <em>Before</em> Building</h2>
+<p class="lead">Transportation planning is the process of deciding what infrastructure to build, where, when, and for whom — before spending billions of dollars. It requires predicting future travel demand.</p>
+<div class="analogy">Planning a transit system without demand forecasting is like opening a restaurant without checking if anyone wants to eat there.</div>
+<h3>The Four-Step Travel Demand Forecasting Model</h3>
+<div class="infobox"><strong>TAZ (Traffic Analysis Zone)</strong> = The basic unit of analysis. Each zone has a centroid from which all trips originate/end. Zones are small (city blocks) in dense areas and larger in suburbs.</div>
+<div class="cg" style="grid-template-columns:repeat(4,1fr);">
+  <div class="cc" style="border-color:rgba(0,255,163,.3);">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--green);margin-bottom:8px;">1</div>
+    <h4>Trip Generation</h4><p>How many trips start and end in each zone? Based on land use, income, household size.</p>
+    <span class="cval">→ Productions & Attractions</span>
+  </div>
+  <div class="cc" style="border-color:rgba(0,212,255,.3);">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--cyan);margin-bottom:8px;">2</div>
+    <h4>Trip Distribution</h4><p>Where do those trips go? Uses the Gravity Model.</p>
+    <span class="cval">→ O-D Matrix</span>
+  </div>
+  <div class="cc" style="border-color:rgba(167,139,250,.3);">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--violet);margin-bottom:8px;">3</div>
+    <h4>Mode Split</h4><p>Which mode do people use? Car, bus, train, walk? Uses Logit model based on utility.</p>
+    <span class="cval">→ Modal shares (%)</span>
+  </div>
+  <div class="cc" style="border-color:rgba(255,179,0,.3);">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--amber);margin-bottom:8px;">4</div>
+    <h4>Traffic Assignment</h4><p>Which specific routes do they take?</p>
+    <span class="cval">→ Link volumes</span>
+  </div>
+</div>
+</section>
+
+<!-- ══ 12 TRIP GEN ══ -->
+<section class="sec" id="tripgen">
+<div class="snum">12 — STEP 1: TRIP GENERATION</div>
+<h2>Who Makes <em>How Many</em> Trips?</h2>
+<p class="lead">Trip generation predicts how many trips start or end in each zone based on zone characteristics. It answers: "how much demand will this zone generate?"</p>
+<h3>Trip Purpose Categories</h3>
+<div class="cg" style="grid-template-columns:repeat(3,1fr);">
+  <div class="cc"><h4>🏠→🏢 HBW</h4><p>Home-Based Work. Most time-sensitive. Drives morning/evening peak.</p></div>
+  <div class="cc"><h4>🏠→🛒 HBO</h4><p>Home-Based Other. Home to shopping, school, recreation. More flexible timing.</p></div>
+  <div class="cc"><h4>🏢→🏢 NHB</h4><p>Non-Home Based. Lunch trips, deliveries, errands between non-home stops.</p></div>
+</div>
+<div class="eq">
+  <div class="eqlbl">Production vs Attraction</div>
+  <div class="eqbody">Production: trip end at RESIDENTIAL land use
+Attraction: trip end at NON-RESIDENTIAL land use</div>
+  <div class="eqnote">Key constraint: ΣP = ΣA. If not balanced, scale: Aᵢ(adj) = Aᵢ × (ΣP / ΣA)</div>
+</div>
+</section>
+
+<!-- ══ 13 TRIP DIST ══ -->
+<section class="sec" id="tripdist">
+<div class="snum">13 — STEP 2: TRIP DISTRIBUTION (GRAVITY MODEL)</div>
+<h2>Where Do Those Trips <em>Actually Go?</em></h2>
+<p class="lead">Trip distribution connects origin zones to destination zones using the Gravity Model — more trips go to zones that are larger and closer.</p>
+<div class="analogy"><strong>Gravity analogy:</strong> A huge mall far away competes with a small mall nearby. The gravity model formalizes this: More mass (attractions) + less distance = more trips attracted.</div>
+<div class="eq">
+  <div class="eqlbl">Gravity Model Formula</div>
+  <div class="eqbody">Tᵢⱼ = Pᵢ × [Aⱼ × F(t)ᵢⱼ × Kᵢⱼ] / [Σⱼ Aⱼ × F(t)ᵢⱼ × Kᵢⱼ]</div>
+  <div class="eqnote">
+    <code>Tᵢⱼ</code>=trips from i to j &nbsp; <code>Pᵢ</code>=productions at i &nbsp; <code>Aⱼ</code>=attractions at j &nbsp; <code>Kᵢⱼ</code>=adj. factor (usually 1.0)<br>
+    <code>F = 1/W^c</code> where W=travel time, c=calibration parameter
+  </div>
+</div>
+
+<!-- GRAVITY MODEL CALCULATOR -->
+<div class="calc">
+  <div class="calctitle">⚙️ CALCULATOR — GRAVITY MODEL: 3-ZONE TRIP DISTRIBUTION</div>
+  <p style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);margin-bottom:12px;">Friction F = 1/t² assumed. Enter productions (P), attractions (A), travel times (min).</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);margin-bottom:8px;">ZONE P & A</div>
+      <div class="ig">
+        <div><label>P₁</label><input type="number" id="gP1" value="700"></div>
+        <div><label>P₂</label><input type="number" id="gP2" value="200"></div>
+        <div><label>P₃</label><input type="number" id="gP3" value="0"></div>
+        <div><label>A₁</label><input type="number" id="gA1" value="0"></div>
+        <div><label>A₂</label><input type="number" id="gA2" value="400"></div>
+        <div><label>A₃</label><input type="number" id="gA3" value="500"></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);margin-bottom:8px;">TRAVEL TIMES (min)</div>
+      <div class="ig">
+        <div><label>t₁₁</label><input type="number" id="gt11" value="2"></div>
+        <div><label>t₁₂</label><input type="number" id="gt12" value="4"></div>
+        <div><label>t₁₃</label><input type="number" id="gt13" value="6"></div>
+        <div><label>t₂₁</label><input type="number" id="gt21" value="4"></div>
+        <div><label>t₂₂</label><input type="number" id="gt22" value="2"></div>
+        <div><label>t₂₃</label><input type="number" id="gt23" value="8"></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);margin-bottom:8px;">FRICTION FACTORS</div>
+      <div id="gFF" style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--dim);line-height:2.1;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:10px;">Click Calculate</div>
+    </div>
+  </div>
+  <button class="cbtn" onclick="calcGravity()">Run Gravity Model</button>
+  <div id="gravityResult" style="margin-top:16px;"></div>
+</div>
+
+<div class="pp-section">
+  <div class="pp-title">Practice Problems — Gravity Model</div>
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 9 ★</div><div class="pp-qtext">Zone 1 has P₁ = 500 trips. Zones 2 and 3 have A₂ = 300 and A₃ = 700. Travel times: t₁₂ = 5 min, t₁₃ = 10 min. Using F = 1/t², find T₁₂ and T₁₃.</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">Step 1 — Friction factors:</span>
+F₁₂ = 1/5² = 1/25 = 0.0400
+F₁₃ = 1/10² = 1/100 = 0.0100
+
+<span class="step">Step 2 — Weighted attractions:</span>
+A₂·F₁₂ = 300 × 0.0400 = 12.00
+A₃·F₁₃ = 700 × 0.0100 = 7.00
+
+<span class="step">Step 3 — Denominator (sum):</span>
+Σ = 12.00 + 7.00 = 19.00
+
+<span class="step">Step 4 — Trip distribution:</span>
+T₁₂ = P₁ × (A₂·F₁₂ / Σ) = 500 × (12.00/19.00) = 500 × 0.632 = <strong>316 trips</strong>
+T₁₃ = P₁ × (A₃·F₁₃ / Σ) = 500 × (7.00/19.00) = 500 × 0.368 = <strong>184 trips</strong>
+
+<span class="step">Check:</span>
+316 + 184 = 500 = P₁ ✓</div>
+      <div class="pp-ans">✓ T₁₂ = 316 trips | T₁₃ = 184 trips</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ 14 MODE SPLIT ══ -->
+<section class="sec" id="modesplit">
+<div class="snum">14 — STEP 3: MODE SPLIT (LOGIT MODEL)</div>
+<h2>Car, Bus, or Train? The <em>Logit Model</em></h2>
+<p class="lead">Mode split predicts what fraction of trips will use each available mode. Based on <strong>utility</strong> — each mode has a perceived benefit/cost, and travelers pick the highest utility option.</p>
+<div class="analogy">Choosing between coffee shops: The closest is convenient (low travel time = high utility). The fancy one is expensive but better quality. You weigh cost vs. quality subconsciously. <strong>The logit model formalizes this weighting.</strong></div>
+<div class="eq">
+  <div class="eqlbl">Utility Function</div>
+  <div class="eqbody">U = a₀ + a₁X₁ + a₂X₂ + ... + aᵣXᵣ</div>
+  <div class="eqnote"><code>a₀</code>=mode-specific constant &nbsp; <code>X₁</code>=cost (cents) &nbsp; <code>X₂</code>=travel time (min) &nbsp; Coefficients are negative (more cost/time = lower utility)</div>
+</div>
+<div class="eq">
+  <div class="eqlbl">Multinomial Logit — Probability of Choosing Mode i</div>
+  <div class="eqbody">P(i) = e^V(i) / Σ e^V(r)</div>
+  <div class="eqnote"><code>V(i)</code>=computed utility of mode i &nbsp; Higher probability = more people choose this mode</div>
+</div>
+
+<!-- MODE SPLIT CALCULATOR -->
+<div class="calc">
+  <div class="calctitle">⚙️ CALCULATOR — LOGIT MODE SPLIT</div>
+  <p style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);margin-bottom:12px;">Utility: U = a − 0.002·X₁ − 0.05·X₂ (X₁=cost in cents, X₂=time in min)</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--green);margin-bottom:8px;">🚗 AUTOMOBILE</div>
+      <div class="ig">
+        <div><label>Constant a</label><input type="number" id="ma_a" value="-0.30" step="0.01"></div>
+        <div><label>Cost X₁ (¢)</label><input type="number" id="ma_c" value="130"></div>
+        <div><label>Time X₂ (min)</label><input type="number" id="ma_t" value="25"></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);margin-bottom:8px;">🚌 BUS</div>
+      <div class="ig">
+        <div><label>Constant a</label><input type="number" id="mb_a" value="-0.35" step="0.01"></div>
+        <div><label>Cost X₁ (¢)</label><input type="number" id="mb_c" value="75"></div>
+        <div><label>Time X₂ (min)</label><input type="number" id="mb_t" value="35"></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--violet);margin-bottom:8px;">🚈 LIGHT RAIL</div>
+      <div class="ig">
+        <div><label>Constant a</label><input type="number" id="ml_a" value="-0.40" step="0.01"></div>
+        <div><label>Cost X₁ (¢)</label><input type="number" id="ml_c" value="90"></div>
+        <div><label>Time X₂ (min)</label><input type="number" id="ml_t" value="40"></div>
+      </div>
+    </div>
+  </div>
+  <button class="cbtn" onclick="calcModeSplit()">Calculate Mode Split</button>
+  <div id="modeResult" style="margin-top:16px;"></div>
+  <canvas id="cModePie" height="180" style="margin-top:12px;"></canvas>
+</div>
+
+<div class="pp-section">
+  <div class="pp-title">Practice Problems — Logit Mode Split</div>
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">PROBLEM 10 ★</div><div class="pp-qtext">Two modes are available: Auto and Bus. Utility function: U = a − 0.025·(cost $) − 0.04·(time min). Auto: a=0, cost=$2.50, time=20min. Bus: a=0.50, cost=$1.00, time=40min. Calculate the probability of choosing each mode.</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">Step 1 — Auto utility:</span>
+V_auto = 0 − 0.025(2.50) − 0.04(20)
+= 0 − 0.0625 − 0.800 = <strong>−0.8625</strong>
+
+<span class="step">Step 2 — Bus utility:</span>
+V_bus = 0.50 − 0.025(1.00) − 0.04(40)
+= 0.50 − 0.025 − 1.600 = <strong>−1.125</strong>
+
+<span class="step">Step 3 — Exponentiate:</span>
+e^V_auto = e^(−0.8625) = 0.4222
+e^V_bus  = e^(−1.125)  = 0.3247
+
+<span class="step">Step 4 — Sum of exponentials:</span>
+Σ = 0.4222 + 0.3247 = 0.7469
+
+<span class="step">Step 5 — Probabilities:</span>
+P(Auto) = 0.4222 / 0.7469 = <strong>0.565 = 56.5%</strong>
+P(Bus)  = 0.3247 / 0.7469 = <strong>0.435 = 43.5%</strong>
+
+<span class="step">Note:</span>
+Even though auto costs more and bus has a mode constant bonus,
+auto's shorter travel time (20 vs 40 min) makes it win.
+</div>
+      <div class="pp-ans">✓ P(Auto) = 56.5% | P(Bus) = 43.5%</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ PRACTICE PROBLEMS HUB ══ -->
+<section class="sec" id="practice" style="border-top:1px solid rgba(255,179,0,.2);padding-top:44px;">
+<div class="snum">📝 PRACTICE HUB</div>
+<h2><em>More Practice Problems</em> — Mixed Topics</h2>
+<p class="lead">These problems mix multiple topics and are representative of exam-style questions.</p>
+
+<div class="pp-section">
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">MIXED PROBLEM A — Multi-Step</div><div class="pp-qtext">An intersection approach has: V = 960 veh/hr (peak hour), 15-min counts are 210, 260, 280, 210. PHF? Use PHF-adjusted flow. Then with s=1800, g=40s, C=100s, find capacity, X, uniform delay d₁, and LOS.</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">Part 1 — PHF:</span>
+V = 210+260+280+210 = 960 veh/hr
+V₁₅,max = 280
+PHF = 960/(4×280) = 960/1120 = <strong>0.857</strong>
+
+<span class="step">Part 2 — Adjusted flow rate:</span>
+v = V/PHF = 960/0.857 = <strong>1,121 veh/hr</strong>
+
+<span class="step">Part 3 — g/C ratio:</span>
+g/C = 40/100 = 0.400
+
+<span class="step">Part 4 — Capacity:</span>
+c = 1,800 × 0.400 = <strong>720 veh/hr</strong>
+
+<span class="step">Part 5 — v/c ratio:</span>
+X = 1,121/720 = <strong>1.557</strong> → OVER CAPACITY → LOS F immediately
+
+<span class="step">Part 6 — LOS F (X > 1.0):</span>
+When X > 1.0, queue grows every cycle.
+d₁ formula becomes undefined (denominator → 0 or negative).
+Report LOS F. The intersection MUST be redesigned.</div>
+      <div class="pp-ans">✓ PHF=0.857 | v=1,121 veh/h | X=1.56 | LOS F (Failure)</div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">MIXED PROBLEM B — Saturation</div><div class="pp-qtext">Vehicles depart from a queue at saturation headway h = 2.2 sec/veh. (a) What is the saturation flow rate? (b) If the effective green is 45s, how many vehicles can depart in one green phase? (c) If demand is 750 veh/hr, is the green long enough?</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">(a) Saturation flow rate:</span>
+s = 3600 / h = 3600 / 2.2 = <strong>1,636 veh/hr</strong>
+
+<span class="step">(b) Vehicles per green phase:</span>
+(Need cycle length for capacity. Assume C = 90s)
+c = s × (g/C) = 1,636 × (45/90) = 1,636 × 0.500 = <strong>818 veh/hr</strong>
+
+Vehicles per cycle = c × C/3600 = 818 × 90/3600 = <strong>20.5 veh/cycle</strong>
+
+<span class="step">(c) Sufficient capacity?</span>
+X = v/c = 750/818 = 0.917 &lt; 1.0 → YES, green is sufficient ✓
+The approach can handle 750 veh/hr with some headroom.</div>
+      <div class="pp-ans">✓ s=1636 veh/hr | 20.5 veh/cycle | X=0.917 → Sufficient</div>
+    </div>
+  </div>
+
+  <div class="pp">
+    <div class="pp-q" onclick="togglePP(this)">
+      <div><div class="pp-qnum">MIXED PROBLEM C — Planning (Gravity)</div><div class="pp-qtext">Three zones: Zone 1 (P=1000, A=0), Zone 2 (P=0, A=600), Zone 3 (P=0, A=400). Travel times: t₁₂=3min, t₁₃=5min. Using F=1/t, distribute Zone 1's 1000 trips to Zones 2 and 3.</div></div>
+      <div class="pp-arrow">▶</div>
+    </div>
+    <div class="pp-sol">
+      <div class="pp-steps">
+<span class="step">F values (F = 1/t, not 1/t²):</span>
+F₁₂ = 1/3 = 0.333
+F₁₃ = 1/5 = 0.200
+
+<span class="step">Weighted attractions:</span>
+A₂ × F₁₂ = 600 × 0.333 = 200.0
+A₃ × F₁₃ = 400 × 0.200 = 80.0
+
+<span class="step">Sum:</span>
+Σ = 200.0 + 80.0 = 280.0
+
+<span class="step">Trip distribution:</span>
+T₁₂ = 1000 × (200/280) = 1000 × 0.714 = <strong>714 trips</strong>
+T₁₃ = 1000 × (80/280)  = 1000 × 0.286 = <strong>286 trips</strong>
+
+<span class="step">Check: 714 + 286 = 1,000 = P₁ ✓</span>
+Note: Zone 2 attracts more despite fewer attractions because 
+it is much closer (3 min vs. 5 min).</div>
+      <div class="pp-ans">✓ T₁₂ = 714 trips | T₁₃ = 286 trips</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ EXAM TIPS ══ -->
+<section class="sec" id="examtips">
+<div class="snum">💡 EXAM STRATEGIES</div>
+<h2>Tips to <em>Ace</em> the Exam</h2>
+<p class="lead">The most common mistakes and how to avoid them.</p>
+
+<div class="tip-grid">
+  <div class="tip"><div class="tip-num">01</div><h4>Always Adjust for PHF First</h4><p>If given hourly volume V AND PHF, always compute v = V/PHF before any capacity analysis. Using raw V instead of v is the #1 mistake.</p></div>
+  <div class="tip"><div class="tip-num">02</div><h4>g ≠ G (effective ≠ display)</h4><p>Effective green g = G + y + ar − tL. Never plug G directly into capacity formulas. Always convert first.</p></div>
+  <div class="tip"><div class="tip-num">03</div><h4>X > 1.0 = Automatic LOS F</h4><p>If v/c > 1.0, you don't need to calculate d₁. The approach fails. Demand exceeds capacity → queue grows every cycle.</p></div>
+  <div class="tip"><div class="tip-num">04</div><h4>Gravity Model: Check Balance</h4><p>After computing Tᵢⱼ, sum each column (Dⱼ). If Dⱼ ≠ Aⱼ, you need to iterate with corrected attraction values.</p></div>
+  <div class="tip"><div class="tip-num">05</div><h4>Logit: Show All 3 Steps</h4><p>Always show: (1) Compute U for each mode, (2) Compute e^U, (3) P(i) = e^U(i) / Σe^U. Partial credit requires each step.</p></div>
+  <div class="tip"><div class="tip-num">06</div><h4>Units Are Everything</h4><p>s is in veh/hr, g and C in seconds, v in veh/hr. If g/C is dimensionless, your units are right. If not, re-check.</p></div>
+</div>
+
+<div class="warn" style="margin-top:20px;"><strong>⚠️ Common trap:</strong> The d₁ denominator is [1 − min(1,X)·(g/C)], not [1 − X·(g/C)]. When X &gt; 1, use min(1, X) = 1, not X. This prevents the formula from returning negative delay (which is physically impossible).</div>
+</section>
+
+<!-- ══ FORMULA SHEET ══ -->
+<section class="sec" id="fs" style="border-top:1px solid rgba(0,255,163,.2);padding-top:44px;">
+<div class="snum">📋 QUICK REFERENCE</div>
+<h2><em>Formula Sheet</em> — All CEE 350 Formulas</h2>
+<div class="fsgrid">
+  <div class="fscard key"><div class="fscat">Traffic Volume</div><div class="fsname">Peak Hour Factor</div><div class="fseq">PHF = V / (4 × V₁₅,max)</div><div class="fsnote">V = hourly volume, V₁₅,max = max 15-min count</div></div>
+  <div class="fscard key"><div class="fscat">Traffic Volume</div><div class="fsname">Max Flow Rate</div><div class="fseq">v = V / PHF</div><div class="fsnote">Convert hourly volume to peak flow rate for analysis</div></div>
+  <div class="fscard"><div class="fscat">Signal Timing</div><div class="fsname">Effective Green</div><div class="fseq">g = G + y + ar − tL</div><div class="fsnote">tL = l₁ + l₂ ≈ 4 s/phase typically</div></div>
+  <div class="fscard"><div class="fscat">Saturation Flow</div><div class="fsname">Sat. Flow Rate</div><div class="fseq">s = 3600 / h</div><div class="fsnote">h = saturation headway (s/veh). Typical s ≈ 1800 veh/h</div></div>
+  <div class="fscard key"><div class="fscat">★ Capacity</div><div class="fsname">Lane Group Capacity</div><div class="fseq">cᵢ = sᵢ × (gᵢ/C)</div><div class="fsnote">sᵢ = saturation flow, gᵢ = eff. green, C = cycle length</div></div>
+  <div class="fscard key"><div class="fscat">★ Performance</div><div class="fsname">v/c Ratio (X)</div><div class="fseq">Xᵢ = vᵢ / cᵢ = vᵢ / [sᵢ(gᵢ/C)]</div><div class="fsnote">X &lt; 1.0 = acceptable. X &gt; 1.0 = failure (LOS F)</div></div>
+  <div class="fscard key"><div class="fscat">★ Delay</div><div class="fsname">Uniform Delay (d₁)</div><div class="fseq">d₁ = 0.5C(1−g/C)² / [1−min(1,X)·g/C]</div><div class="fsnote">Result in s/veh. Use for LOS determination</div></div>
+  <div class="fscard"><div class="fscat">Delay</div><div class="fsname">Total Control Delay</div><div class="fseq">d = d₁ + d₂ + d₃</div><div class="fsnote">d₂=incremental, d₃=preexisting queue delay</div></div>
+  <div class="fscard key"><div class="fscat">★ Trip Distribution</div><div class="fsname">Gravity Model</div><div class="fseq">Tᵢⱼ = Pᵢ[AⱼFᵢⱼKᵢⱼ] / [ΣAⱼFᵢⱼKᵢⱼ]</div><div class="fsnote">Fᵢⱼ = 1/Wᶜ (friction factor). Kᵢⱼ = socioeconomic adj.</div></div>
+  <div class="fscard key"><div class="fscat">★ Mode Split</div><div class="fsname">Logit Model</div><div class="fseq">P(i) = e^V(i) / Σe^V(r)</div><div class="fsnote">V = a₀ + Σaᵣ·Xᵣ (utility function)</div></div>
+  <div class="fscard"><div class="fscat">LOS Thresholds</div><div class="fsname">Control Delay → LOS</div><div class="fseq">A≤10, B&gt;10-20, C&gt;20-35
+D&gt;35-55, E&gt;55-80, F&gt;80</div><div class="fsnote">Or X &gt; 1.0 automatically = LOS F</div></div>
+  <div class="fscard"><div class="fscat">Pedestrian</div><div class="fsname">Min Ped Green</div><div class="fseq">Gp = 3.2 + (2.7·Nped/WE) + (L/Sp)</div><div class="fsnote">For WE≤10ft: Gp = 3.2 + 0.27·Nped + L/Sp</div></div>
+</div>
+</section>
+
+</div><!-- .content -->
+</div><!-- .wrap -->
+
+<footer style="position:relative;z-index:1;padding:1.4rem 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.64rem;color:var(--muted);flex-wrap:wrap;gap:8px;">
+  <span>CEE 350 — Traffic Analysis & Design · Spring 2026 · <a href="index.html" style="color:var(--cyan);text-decoration:none;">∑ Mathify</a></span>
+  <span>Free for students everywhere 🚦</span>
+</footer>
+
+<script is:inline>
+/* ═══ UTILITY ═══ */
+function szC(id,pad=36){const cv=document.getElementById(id);if(!cv)return;cv.width=Math.max(200,(cv.parentElement?.offsetWidth||400)-pad);}
+window.addEventListener('resize',()=>{clearTimeout(window._rdT);window._rdT=setTimeout(()=>{szAll();redrawAll();},200);});
+function szAll(){['cPHF','cSig','cDelayCurve','cModePie','cQueue'].forEach(id=>szC(id));}
+function redrawAll(){calcPHF();drawSignal();drawDelayCurve();}
+
+/* ═══ PRACTICE PROBLEM TOGGLE ═══ */
+function togglePP(qEl){
+  const sol=qEl.nextElementSibling;
+  const arrow=qEl.querySelector('.pp-arrow');
+  sol.classList.toggle('show');
+  arrow.classList.toggle('open');
+}
+
+/* ═══ ANIMATED TRAFFIC LIGHT ═══ */
+let tlInterval=null, tlT=0, tlRunning=true;
+function getTLParams(){
+  const C=+document.getElementById('tlCyc').value;
+  const split=+document.getElementById('tlSplit').value/100;
+  const G_EW=Math.round(C*split), Y=3, AR=1;
+  const G_NS=C-G_EW-2*(Y+AR);
+  return{C,G_EW,G_NS,Y,AR};
+}
+function setLens(id,state){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.className='tl-lens '+(state==='off'?'off':'active-'+state);
+}
+function updateTL(){
+  const {C,G_EW,G_NS,Y,AR}=getTLParams();
+  const t=tlT%C;
+  // EW phase timing: 0 → G_EW (green), G_EW → G_EW+Y (yellow), G_EW+Y → G_EW+Y+AR (AR), then red
+  let ewState='red',nsState='red',phaseTxt='',remaining=0;
+  if(t<G_EW){ewState='green';nsState='red';phaseTxt='EW GREEN ↔';remaining=G_EW-t;}
+  else if(t<G_EW+Y){ewState='yellow';nsState='red';phaseTxt='EW YELLOW';remaining=G_EW+Y-t;}
+  else if(t<G_EW+Y+AR){ewState='red';nsState='red';phaseTxt='ALL RED';remaining=G_EW+Y+AR-t;}
+  else if(t<G_EW+Y+AR+G_NS){ewState='red';nsState='green';phaseTxt='NS GREEN ↕';remaining=G_EW+Y+AR+G_NS-t;}
+  else if(t<G_EW+Y+AR+G_NS+Y){ewState='red';nsState='yellow';phaseTxt='NS YELLOW';remaining=C-Y-AR-t+G_EW+Y+AR+G_NS;}
+  else{ewState='red';nsState='red';phaseTxt='ALL RED';remaining=C-t;}
+  setLens('tlR-EW',ewState==='red'?'red':'off');
+  setLens('tlY-EW',ewState==='yellow'?'yellow':'off');
+  setLens('tlG-EW',ewState==='green'?'green':'off');
+  setLens('tlR-NS',nsState==='red'?'red':'off');
+  setLens('tlY-NS',nsState==='yellow'?'yellow':'off');
+  setLens('tlG-NS',nsState==='green'?'green':'off');
+  document.getElementById('tlPhaseText').textContent=phaseTxt;
+  document.getElementById('tlPhaseText').style.color=ewState==='green'||nsState==='green'?'var(--green)':ewState==='yellow'||nsState==='yellow'?'var(--amber)':'var(--red)';
+  document.getElementById('tlCountdown').textContent=Math.ceil(remaining);
+  document.getElementById('tlProgress').style.width=(t/C*100)+'%';
+  document.getElementById('tlTimingPlan').innerHTML=
+    `G_EW = ${G_EW}s\nY    = ${Y}s\nAR   = ${AR}s\nG_NS = ${G_NS}s\nY    = ${Y}s\nAR   = ${AR}s\n─────\nC    = ${C}s`.replace(/\n/g,'<br>');
+  tlT++;
+}
+function resetTL(){tlT=0;}
+tlInterval=setInterval(updateTL,1000);
+
+/* ═══ ANIMATED INTERSECTION ═══ */
+let intRunning=true, intT=0, intLoop=null, vehicles=[];
+const VEH_COLORS=['#2a6ae0','#e04a2a','#2ae06a','#e0c42a','#a02ae0'];
+function createVehicles(){
+  const scene=document.getElementById('intScene');
+  vehicles.forEach(v=>v.el&&v.el.remove());
+  vehicles=[];
+  const W=scene.offsetWidth||400, H=scene.offsetHeight||320;
+  const cx=W/2, cy=H/2;
+  // EW vehicles
+  for(let i=0;i<3;i++){
+    const el=document.createElement('div');
+    el.className='vehicle v-east v-going';
+    el.style.cssText=`top:${cy-24}px;width:28px;height:16px;border-radius:4px;position:absolute;animation:moveEast ${3+i*1.2}s ${i*1.1}s linear infinite;background:${VEH_COLORS[i]};`;
+    scene.appendChild(el);vehicles.push({el,dir:'EW'});
+  }
+  for(let i=0;i<2;i++){
+    const el=document.createElement('div');
+    el.className='vehicle v-west v-going';
+    el.style.cssText=`top:${cy+8}px;width:28px;height:16px;border-radius:4px;position:absolute;animation:moveWest ${3.5+i*1.3}s ${i*1.4}s linear infinite;background:${VEH_COLORS[i+2]};`;
+    scene.appendChild(el);vehicles.push({el,dir:'EW'});
+  }
+  for(let i=0;i<2;i++){
+    const el=document.createElement('div');
+    el.style.cssText=`left:${cx+8}px;width:16px;height:28px;border-radius:4px;position:absolute;animation:moveSouth ${4+i*1.5}s ${i*2}s linear infinite;background:${VEH_COLORS[i+1]};`;
+    scene.appendChild(el);vehicles.push({el,dir:'NS'});
+  }
+}
+function updateIntersectionSignals(){
+  const {C,G_EW,Y,AR}=getTLParams();
+  const t=intT%C;
+  const ewGreen=t<G_EW;
+  const ewYellow=t>=G_EW&&t<G_EW+Y;
+  const nsGreen=t>=G_EW+Y+AR&&t<G_EW+Y+AR+(C-G_EW-2*(Y+AR));
+  const setDot=(id,on)=>{const el=document.getElementById(id);if(el)el.classList.toggle('on',on);};
+  ['sNE-r','sSW-r'].forEach(id=>setDot(id,!ewGreen&&!ewYellow));
+  ['sNE-y','sSW-y'].forEach(id=>setDot(id,ewYellow));
+  ['sNE-g','sSW-g'].forEach(id=>setDot(id,ewGreen));
+  ['sNW-r','sSE-r'].forEach(id=>setDot(id,!nsGreen));
+  ['sNW-y','sSE-y'].forEach(id=>setDot(id,false));
+  ['sNW-g','sSE-g'].forEach(id=>setDot(id,nsGreen));
+  // Pause EW vehicles on red, NS on red
+  vehicles.forEach(v=>{
+    if(!v.el)return;
+    if(v.dir==='EW'){v.el.style.animationPlayState=ewGreen||ewYellow?'running':'paused';}
+    else{v.el.style.animationPlayState=nsGreen?'running':'paused';}
+  });
+  document.getElementById('intPhaseLabel').textContent=ewGreen?'EW GREEN':ewYellow?'EW YELLOW':nsGreen?'NS GREEN':'ALL RED';
+  document.getElementById('intTimer').textContent=intT%C+'s';
+  intT++;
+}
+function toggleIntersection(){
+  intRunning=!intRunning;
+  document.getElementById('intBtn').textContent=intRunning?'⏸ PAUSE':'▶ RESUME';
+  if(intRunning)startIntLoop();else clearInterval(intLoop);
+}
+function startIntLoop(){clearInterval(intLoop);intLoop=setInterval(updateIntersectionSignals,1000);}
+window.addEventListener('load',()=>{createVehicles();startIntLoop();});
+
+/* ═══ PHF CALCULATOR ═══ */
+function calcPHF(){
+  const v=[+document.getElementById('v1').value,+document.getElementById('v2').value,+document.getElementById('v3').value,+document.getElementById('v4').value];
+  const V=v.reduce((a,b)=>a+b,0),Vmax=Math.max(...v);
+  const PHF=Vmax>0?V/(4*Vmax):0,flowRate=PHF>0?V/PHF:0;
+  const cv=document.getElementById('cPHF');if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
+  const labels=['4:30–4:45','4:45–5:00','5:00–5:15','5:15–5:30'];
+  const cols=['rgba(0,255,163,.5)','rgba(0,212,255,.5)','rgba(167,139,250,.5)','rgba(255,179,0,.5)'];
+  const hlCols=['#00ffa3','#00d4ff','#a78bfa','#ffb300'];
+  const maxV=Math.max(...v)*1.15;
+  const ox=50,oy=H-32,aw=W-70,ah=H-48,bw=aw/5.5,gap=aw/5.5*.4;
+  ctx.strokeStyle='rgba(0,212,255,.15)';ctx.lineWidth=.8;
+  for(let i=0;i<=5;i++){const y=oy-ah*i/5;ctx.beginPath();ctx.moveTo(ox,y);ctx.lineTo(ox+aw,y);ctx.stroke();ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='right';ctx.fillStyle='#5a7a99';ctx.fillText(Math.round(maxV*i/5),ox-4,y+3);}
+  ctx.strokeStyle='rgba(0,212,255,.3)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(ox,oy-ah-4);ctx.lineTo(ox,oy);ctx.lineTo(ox+aw+4,oy);ctx.stroke();
+  v.forEach((vi,i)=>{
+    const bx=ox+aw*.12+i*(bw+gap),bh=ah*(vi/maxV),isMax=vi===Vmax;
+    ctx.fillStyle=isMax?hlCols[i]:cols[i];ctx.fillRect(bx,oy-bh,bw,bh);
+    if(isMax){ctx.strokeStyle=hlCols[i];ctx.lineWidth=2;ctx.strokeRect(bx,oy-bh,bw,bh);}
+    ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='center';
+    ctx.fillStyle=isMax?hlCols[i]:'#5a7a99';ctx.fillText(vi,bx+bw/2,oy-bh-6);
+    ctx.fillStyle='#5a7a99';ctx.fillText(labels[i],bx+bw/2,oy+14);
+  });
+  const avgH=ah*(V/4/maxV);
+  ctx.strokeStyle='rgba(255,179,0,.4)';ctx.setLineDash([4,3]);ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(ox,oy-avgH);ctx.lineTo(ox+aw,oy-avgH);ctx.stroke();ctx.setLineDash([]);
+  ctx.font='9px JetBrains Mono,monospace';ctx.fillStyle='rgba(255,179,0,.7)';ctx.textAlign='right';
+  ctx.fillText('avg='+(V/4).toFixed(0),ox+aw-2,oy-avgH-4);
+  const lc=PHF>=.95?'#00ffa3':PHF>=.85?'#00d4ff':PHF>=.75?'#ffb300':'#ff4d6d';
+  document.getElementById('phfResult').innerHTML=
+    `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;"><div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);">HOURLY VOLUME</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--green);">${V} veh/h</div></div>
+     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;"><div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);">PHF</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:${lc};">${PHF.toFixed(3)}</div></div>
+     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;"><div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);">MAX FLOW RATE v</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--amber);">${flowRate.toFixed(0)} veh/h</div></div>`;
+}
+
+/* ═══ QUEUE ANIMATION ═══ */
+let queueInterval=null,qIdx=0,qRunning=false;
+function resetQueue(){qRunning=false;clearInterval(queueInterval);qIdx=0;drawQueueStatic();document.getElementById('qBtn').textContent='▶ GO GREEN';}
+function drawQueueStatic(){
+  const cv=document.getElementById('cQueue');if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
+  const n=+document.getElementById('slQueue').value;
+  const cw=32,ch=18,gap=6,startX=20;
+  // Road
+  ctx.fillStyle='#1a2230';ctx.fillRect(0,H/2-16,W,32);
+  ctx.strokeStyle='rgba(255,179,0,.3)';ctx.setLineDash([8,8]);ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();ctx.setLineDash([]);
+  // Stop bar
+  ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.setLineDash([]);
+  ctx.beginPath();ctx.moveTo(20+n*(cw+gap)+20,H/2-16);ctx.lineTo(20+n*(cw+gap)+20,H/2+16);ctx.stroke();
+  // Signal
+  ctx.fillStyle='#111';ctx.fillRect(20+n*(cw+gap)+30,H/2-28,12,28);
+  ctx.beginPath();ctx.arc(20+n*(cw+gap)+36,H/2-22,5,0,Math.PI*2);ctx.fillStyle='#ff0000';ctx.shadowColor='#ff0000';ctx.shadowBlur=8;ctx.fill();ctx.shadowBlur=0;
+  // Cars
+  for(let i=0;i<n;i++){
+    const x=startX+(n-1-i)*(cw+gap),y=H/2-ch/2;
+    ctx.fillStyle='#2a4a7a';ctx.strokeStyle='#00d4ff';ctx.lineWidth=1;
+    ctx.beginPath();ctx.roundRect(x,y,cw,ch,4);ctx.fill();ctx.stroke();
+    ctx.fillStyle='rgba(0,212,255,.3)';ctx.fillRect(x+3,y+2,cw-6,ch/2-2);
+  }
+  document.getElementById('queueResult').textContent=`Queue: ${n} vehicles waiting. Press "GO GREEN" to see discharge.`;
+}
+function startQueue(){
+  if(qRunning)return;
+  qRunning=true;qIdx=0;
+  const n=+document.getElementById('slQueue').value;
+  const h=+document.getElementById('slH').value/10;
+  const s=Math.round(3600/h);
+  document.getElementById('qBtn').textContent='⏳ Discharging...';
+  let t=0;
+  clearInterval(queueInterval);
+  // Green light first
+  const cv=document.getElementById('cQueue');if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  queueInterval=setInterval(()=>{
+    ctx.clearRect(0,0,W,H);
+    const remaining=n-qIdx;
+    ctx.fillStyle='#1a2230';ctx.fillRect(0,H/2-16,W,32);
+    ctx.strokeStyle='rgba(255,179,0,.3)';ctx.setLineDash([8,8]);ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();ctx.setLineDash([]);
+    ctx.strokeStyle='#fff';ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(20+n*38+20,H/2-16);ctx.lineTo(20+n*38+20,H/2+16);ctx.stroke();
+    // Green signal
+    ctx.fillStyle='#111';ctx.fillRect(20+n*38+30,H/2-28,12,28);
+    ctx.beginPath();ctx.arc(20+n*38+36,H/2-16,5,0,Math.PI*2);ctx.fillStyle='#00ff66';ctx.shadowColor='#00ff66';ctx.shadowBlur=8;ctx.fill();ctx.shadowBlur=0;
+    const cw=32,ch=18,gap=6;
+    for(let i=0;i<remaining;i++){
+      const x=20+(remaining-1-i)*38,y=H/2-ch/2;
+      ctx.fillStyle='#2a4a7a';ctx.strokeStyle='#00d4ff';ctx.lineWidth=1;
+      ctx.beginPath();ctx.roundRect(x,y,cw,ch,4);ctx.fill();ctx.stroke();
+      ctx.fillStyle='rgba(0,212,255,.3)';ctx.fillRect(x+3,y+2,cw-6,ch/2-2);
+    }
+    document.getElementById('queueResult').textContent=`🟢 GREEN — Discharged: ${qIdx} veh | Remaining: ${remaining} veh | Rate: ${s} veh/hr (h=${h}s)`;
+    if(qIdx>=n){clearInterval(queueInterval);document.getElementById('queueResult').textContent=`✓ All ${n} vehicles discharged! Saturation rate: ${s} veh/hr. Time to clear: ~${(n*h).toFixed(0)}s`;document.getElementById('qBtn').textContent='▶ GO GREEN';qRunning=false;return;}
+    qIdx++;
+    t+=h;
+  },Math.round(h*1000));
+}
+
+/* ═══ SIGNAL TIMING ANIMATOR ═══ */
+let sigRunning=false,sigT=0,sigAF=null,sigLast=null;
+function initSignal(){sigT=0;}
+function toggleSignal(){sigRunning=!sigRunning;document.getElementById('sigBtn').textContent=sigRunning?'⏸ PAUSE':'▶ START';if(sigRunning)sigLoop();else if(sigAF)cancelAnimationFrame(sigAF);}
+function sigLoop(ts){if(!sigRunning)return;if(sigLast)sigT=(sigT+(ts-sigLast)/1000)%(+document.getElementById('slCyc').value);sigLast=ts;drawSignal();sigAF=requestAnimationFrame(sigLoop);}
+function drawSignal(){
+  const cv=document.getElementById('cSig');if(!cv)return;
+  const C=+document.getElementById('slCyc').value,G1=+document.getElementById('slG1').value;
+  const y=3,ar=2,tL=4;const r1=C-G1,G2=Math.max(4,r1-y-ar-y-ar),g2=G2-tL+y+ar;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
+  const t=sigT;
+  const progW=W-80;
+  ctx.fillStyle='var(--bg3)';ctx.fillRect(40,H*.15,progW,12);
+  ctx.fillStyle='rgba(0,212,255,.3)';ctx.fillRect(40,H*.15,progW*(t/C),12);
+  ctx.font='9px JetBrains Mono,monospace';ctx.fillStyle='#5a7a99';ctx.textAlign='left';ctx.fillText('t='+t.toFixed(1)+'s / C='+C+'s',40,H*.15-6);
+  const bH=28,gap=10,bY=H*.32;
+  const drawBar=(y0,label,segs)=>{
+    ctx.font='9px JetBrains Mono,monospace';ctx.fillStyle='#5a7a99';ctx.textAlign='right';ctx.fillText(label,36,y0+bH/2+4);
+    let cx2=40;segs.forEach(s=>{const sw=progW*s.dur/C;ctx.fillStyle=s.col;ctx.fillRect(cx2,y0,sw,bH);if(sw>20){ctx.font='9px JetBrains Mono,monospace';ctx.fillStyle='rgba(0,0,0,.8)';ctx.textAlign='center';ctx.fillText(s.lbl,cx2+sw/2,y0+bH/2+4);}cx2+=sw;});
+    const tx=40+progW*(t/C);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(tx,y0-3);ctx.lineTo(tx,y0+bH+3);ctx.stroke();
+  };
+  drawBar(bY,'Φ1',[{dur:G1,col:'#00ffa3',lbl:'G='+G1+'s'},{dur:y,col:'#ffb300',lbl:'Y'},{dur:ar,col:'#444',lbl:'AR'},{dur:r1,col:'#ff4d6d',lbl:'R='+r1+'s'}]);
+  const r2=G1+y+ar;
+  drawBar(bY+bH+gap,'Φ2',[{dur:r2,col:'#ff4d6d',lbl:'R='+r2+'s'},{dur:G2,col:'#00ffa3',lbl:'G≈'+G2+'s'},{dur:y,col:'#ffb300',lbl:'Y'},{dur:ar,col:'#444',lbl:'AR'}]);
+  const headX=W-90,h1Y=bY-10,h2Y=bY+bH*2+gap+25;
+  [h1Y,h2Y].forEach((hy,pi)=>{
+    const isGreen=pi===0?t<G1:t>=G1+y+ar&&t<G1+y+ar+G2;
+    const isYellow=pi===0?(t>=G1&&t<G1+y):t>=G1+y+ar+G2&&t<G1+y+ar+G2+y;
+    const isRed=!isGreen&&!isYellow;
+    ctx.fillStyle='#111';ctx.beginPath();ctx.roundRect(headX-14,hy,28,70,4);ctx.fill();
+    [{c:'#ff4d6d',y:hy+12,on:isRed},{c:'#ffb300',y:hy+32,on:isYellow},{c:'#00ffa3',y:hy+52,on:isGreen}].forEach(l=>{
+      ctx.beginPath();ctx.arc(headX,l.y,8,0,Math.PI*2);
+      if(l.on){ctx.fillStyle=l.c;ctx.shadowColor=l.c;ctx.shadowBlur=12;}else{ctx.fillStyle='#222';ctx.shadowBlur=0;}
+      ctx.fill();ctx.shadowBlur=0;
+    });
+  });
+  const phase=t<G1?'Φ1 GREEN':t<G1+y?'Φ1 YELLOW':t<G1+y+ar?'ALL RED':t<G1+y+ar+G2?'Φ2 GREEN':t<G1+y+ar+G2+y?'Φ2 YELLOW':'ALL RED';
+  const pc=phase.includes('GREEN')?'var(--green)':phase.includes('YELLOW')?'var(--amber)':'var(--muted)';
+  document.getElementById('sigPhase').textContent=phase;document.getElementById('sigPhase').style.color=pc;
+  document.getElementById('sigStats').innerHTML=`C=${C}s | G₁=${G1}s | Y=${y}s | AR=${ar}s | g₁≈${G1-tL+y+ar}s | G₂=${G2}s | g₂≈${g2}s | Lost/cycle≈${tL*2}s`;
+}
+
+/* ═══ CALCULATORS ═══ */
+function calcVC(){
+  const v=+document.getElementById('cv_v').value,s=+document.getElementById('cv_s').value;
+  const g=+document.getElementById('cv_g').value,C=+document.getElementById('cv_C').value;
+  const cap=s*(g/C),X=v/cap;
+  const col=X<.7?'var(--green)':X<.9?'var(--cyan)':X<1?'var(--amber)':'var(--red)';
+  document.getElementById('vcR').innerHTML=
+    `<div class="ri"><div class="rilbl">g/C</div><div class="rival">${(g/C).toFixed(3)}</div></div>
+     <div class="ri"><div class="rilbl">Capacity c</div><div class="rival">${cap.toFixed(0)} veh/h</div></div>
+     <div class="ri"><div class="rilbl">X = v/c</div><div class="rival" style="color:${col}">${X.toFixed(3)}</div></div>
+     <div class="ri"><div class="rilbl">Status</div><div class="rival" style="color:${X<1?'var(--green)':'var(--red)'}">${X<1?'✓ OK':'✗ FAIL'}</div></div>`;
+}
+function calcDelay(){
+  const C=+document.getElementById('dc_C').value,g=+document.getElementById('dc_g').value;
+  const v=+document.getElementById('dc_v').value,s=+document.getElementById('dc_s').value;
+  const cap=s*(g/C),X=v/cap,gc=g/C;
+  const d1=0.5*C*Math.pow(1-gc,2)/(1-Math.min(1,X)*gc);
+  const los=d1<=10?'A':d1<=20?'B':d1<=35?'C':d1<=55?'D':d1<=80?'E':'F';
+  const lc={'A':'stA','B':'stB','C':'stC','D':'stD','E':'stE','F':'stF'};
+  document.getElementById('dR').innerHTML=
+    `<div class="ri"><div class="rilbl">v/c (X)</div><div class="rival" style="color:${X<1?'var(--green)':'var(--red)'}">${X.toFixed(3)}</div></div>
+     <div class="ri"><div class="rilbl">Capacity</div><div class="rival">${cap.toFixed(0)} veh/h</div></div>
+     <div class="ri"><div class="rilbl">d₁ (s/veh)</div><div class="rival" style="color:var(--amber)">${X>=1?'N/A (LOS F)':d1.toFixed(2)}</div></div>
+     <div class="ri"><div class="rilbl">LOS</div><div class="rival"><span class="spill ${lc[los]}">${X>1?'F':los}</span></div></div>`;
+  const s2=document.getElementById('dSteps');s2.style.display='block';
+  s2.textContent=`g/C = ${g}/${C} = ${gc.toFixed(4)}\nc = ${s}×${gc.toFixed(4)} = ${cap.toFixed(0)} veh/h\nX = ${v}/${cap.toFixed(0)} = ${X.toFixed(4)}\n`+(X>=1?'X ≥ 1.0 → LOS F (queue grows indefinitely)':
+  `d₁ = 0.5×${C}×(1−${gc.toFixed(3)})² / [1−min(1,${X.toFixed(3)})×${gc.toFixed(3)}]\n   = ${(0.5*C*Math.pow(1-gc,2)).toFixed(2)} / ${(1-Math.min(1,X)*gc).toFixed(4)}\n   = ${d1.toFixed(2)} s/veh → LOS ${los}`);
+}
+function drawDelayCurve(){
+  const cv=document.getElementById('cDelayCurve');if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
+  const C=+document.getElementById('slDC').value,gc=+document.getElementById('slGC').value/100;
+  const ox=56,oy=H-36,aw=W-76,ah=H-52,delMax=120;
+  ctx.strokeStyle='rgba(0,212,255,.08)';ctx.lineWidth=.8;
+  for(let i=0;i<=10;i++){const y=oy-ah*i/10;ctx.beginPath();ctx.moveTo(ox,y);ctx.lineTo(ox+aw,y);ctx.stroke();}
+  ctx.strokeStyle='rgba(0,212,255,.3)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(ox,oy-ah);ctx.lineTo(ox,oy);ctx.lineTo(ox+aw+6,oy);ctx.stroke();
+  ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='center';ctx.fillStyle='#5a7a99';
+  ctx.fillText('v/c ratio (X)',ox+aw/2,oy+24);
+  ctx.save();ctx.translate(13,oy-ah/2);ctx.rotate(-Math.PI/2);ctx.fillText('Delay d₁ (s/veh)',0,0);ctx.restore();
+  ctx.beginPath();
+  for(let xi=0;xi<=98;xi++){
+    const X=xi/100,d1=0.5*C*Math.pow(1-gc,2)/(1-Math.min(1,X)*gc);
+    const px=ox+aw*xi/100,py=oy-ah*Math.min(d1/delMax,1);
+    if(xi===0)ctx.moveTo(px,py);else if(d1<=delMax)ctx.lineTo(px,py);else break;
+  }
+  ctx.strokeStyle='#00ffa3';ctx.lineWidth=2;ctx.stroke();
+  [{d:10,c:'#00ffa3',l:'A'},{d:20,c:'#00d4ff',l:'B'},{d:35,c:'#a78bfa',l:'C'},{d:55,c:'#ffb300',l:'D'},{d:80,c:'#ff6400',l:'E'}].forEach(({d,c,l})=>{
+    const y=oy-ah*d/delMax;ctx.strokeStyle=c;ctx.lineWidth=.8;ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(ox,y);ctx.lineTo(ox+aw,y);ctx.stroke();ctx.setLineDash([]);
+    ctx.font='bold 9px JetBrains Mono,monospace';ctx.textAlign='left';ctx.fillStyle=c;ctx.fillText(l,ox+aw+4,y+3);
+  });
+  ctx.fillStyle='#5a7a99';ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='center';
+  [0,.2,.4,.6,.8,1.0].forEach(x=>{ctx.fillText(x.toFixed(1),ox+aw*x,oy+16);});
+  ctx.textAlign='right';[0,20,40,60,80,100].forEach(d=>{ctx.fillText(d,ox-4,oy-ah*d/delMax+3);});
+  ctx.font='bold 10px JetBrains Mono,monospace';ctx.textAlign='left';ctx.fillStyle='#00d4ff';
+  ctx.fillText(`C=${C}s, g/C=${gc.toFixed(2)}`,ox+8,oy-ah+14);
+}
+
+/* ═══ GRAVITY MODEL ═══ */
+function calcGravity(){
+  const P=[+document.getElementById('gP1').value,+document.getElementById('gP2').value,+document.getElementById('gP3').value];
+  const A=[+document.getElementById('gA1').value,+document.getElementById('gA2').value,+document.getElementById('gA3').value];
+  const t=[[+document.getElementById('gt11').value,+document.getElementById('gt12').value,+document.getElementById('gt13').value],
+           [+document.getElementById('gt21').value,+document.getElementById('gt22').value,+document.getElementById('gt23').value],
+           [2,8,2]];
+  const F=t.map(row=>row.map(tv=>tv>0?1/(tv*tv):0));
+  const T=P.map((Pi,i)=>{const denom=A.reduce((sum,Aj,j)=>sum+Aj*F[i][j],0);if(denom===0)return[0,0,0];return A.map((Aj,j)=>Math.round(Pi*Aj*F[i][j]/denom));});
+  let ffHtml='';for(let i=0;i<3;i++)for(let j=0;j<3;j++){ffHtml+=`<span style="color:var(--amber)">F${i+1}${j+1}</span>=<span style="color:var(--green)">${F[i][j].toFixed(4)}</span><br>`;}
+  document.getElementById('gFF').innerHTML=ffHtml;
+  const totCol=[0,1,2].map(j=>T.reduce((s,r)=>s+r[j],0)),grandT=totCol.reduce((a,b)=>a+b,0);
+  let html=`<table class="dt"><thead><tr><th>From\To</th><th>Zone 1</th><th>Zone 2</th><th>Zone 3</th><th>Total</th></tr></thead><tbody>`;
+  T.forEach((row,i)=>{html+=`<tr><td class="hl">Zone ${i+1}</td>${row.map(v=>`<td>${v}</td>`).join('')}<td style="color:var(--amber)">${P[i]}</td></tr>`;});
+  html+=`<tr><td style="color:var(--cyan)">Computed Dⱼ</td>${totCol.map(v=>`<td style="color:var(--green)">${v}</td>`).join('')}<td>${grandT}</td></tr>`;
+  html+=`<tr><td style="color:var(--muted)">Given Aⱼ</td>${A.map(v=>`<td style="color:var(--amber)">${v}</td>`).join('')}<td>${A.reduce((a,b)=>a+b,0)}</td></tr>`;
+  html+='</tbody></table>';
+  document.getElementById('gravityResult').innerHTML=html;
+}
+
+/* ═══ LOGIT MODE SPLIT ═══ */
+function calcModeSplit(){
+  const modes=[
+    {n:'Automobile',col:'#00ffa3',a:+document.getElementById('ma_a').value,c:+document.getElementById('ma_c').value,t:+document.getElementById('ma_t').value},
+    {n:'Bus',col:'#00d4ff',a:+document.getElementById('mb_a').value,c:+document.getElementById('mb_c').value,t:+document.getElementById('mb_t').value},
+    {n:'Light Rail',col:'#a78bfa',a:+document.getElementById('ml_a').value,c:+document.getElementById('ml_c').value,t:+document.getElementById('ml_t').value}
+  ];
+  modes.forEach(m=>{m.U=m.a-0.002*m.c-0.05*m.t;m.eU=Math.exp(m.U);});
+  const sumEU=modes.reduce((s,m)=>s+m.eU,0);
+  modes.forEach(m=>{m.P=m.eU/sumEU;m.pct=Math.round(m.P*100);});
+  let html=`<table class="dt"><thead><tr><th>Mode</th><th>U</th><th>eᵁ</th><th>P</th><th>%</th></tr></thead><tbody>`;
+  modes.forEach(m=>{html+=`<tr><td style="color:${m.col}">${m.n}</td><td>${m.U.toFixed(3)}</td><td>${m.eU.toFixed(3)}</td><td>${m.P.toFixed(3)}</td><td style="color:${m.col};font-weight:600;">${m.pct}%</td></tr>`;});
+  html+=`</tbody></table>`;
+  document.getElementById('modeResult').innerHTML=html;
+  const cv=document.getElementById('cModePie');if(!cv)return;
+  szC('cModePie');
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
+  const cxP=W*.35,cyP=H/2,r=Math.min(W*.28,H*.4);
+  let start=0;
+  modes.forEach(m=>{
+    const end=start+m.P*Math.PI*2;
+    ctx.beginPath();ctx.moveTo(cxP,cyP);ctx.arc(cxP,cyP,r,start,end);ctx.closePath();
+    ctx.fillStyle=m.col+'cc';ctx.fill();ctx.strokeStyle='#060b14';ctx.lineWidth=2;ctx.stroke();
+    const mid=(start+end)/2,lx=cxP+r*.7*Math.cos(mid),ly=cyP+r*.7*Math.sin(mid);
+    ctx.font='bold 11px JetBrains Mono,monospace';ctx.textAlign='center';ctx.fillStyle='#000';ctx.fillText(m.pct+'%',lx,ly+4);
+    start=end;
+  });
+  modes.forEach((m,i)=>{
+    const lx=W*.68,ly=H*.2+i*H*.22;
+    ctx.fillStyle=m.col;ctx.fillRect(lx,ly,14,14);
+    ctx.font='10px JetBrains Mono,monospace';ctx.textAlign='left';ctx.fillStyle='#8aabcc';ctx.fillText(m.n,lx+20,ly+10);
+    ctx.fillStyle=m.col;ctx.font='bold 13px JetBrains Mono,monospace';ctx.fillText(m.pct+'%',lx+20,ly+26);
+  });
+}
+
+/* ═══ TOC ACTIVE ═══ */
+const tocAs=document.querySelectorAll('.toc a');
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){tocAs.forEach(a=>a.classList.remove('act'));const l=document.querySelector(`.toc a[href="#${e.target.id}"]`);if(l)l.classList.add('act');}});},{rootMargin:'-10% 0px -75% 0px'});
+document.querySelectorAll('section.sec').forEach(s=>{if(s.id)obs.observe(s);});
+
+/* ═══ INIT ═══ */
+szAll();calcPHF();drawSignal();drawDelayCurve();drawQueueStatic();
+document.fonts.ready.then(()=>{szAll();redrawAll();drawQueueStatic();});
+</script>
+</body>
+</html>
