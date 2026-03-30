@@ -1,879 +1,418 @@
 ---
 import Main from '../layouts/Main.astro';
 const title = "Civil Engineering";
-const description = "Interactive civil engineering learning: RC design, structural analysis, fluid mechanics, geotechnical engineering. Free simulations, calculators, and worked examples.";
+const description = "Free civil engineering lecture guides — RC design, traffic engineering, and more. Interactive simulations, calculators, and worked examples.";
 ---
 <Main title={title} description={description} activeNav="civil">
 
 <style>
-  /* ── LAYOUT UTILITIES ── */
-  .page-wrap {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
+  .civil-page { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+
+  /* HERO */
+  .hero { text-align: center; padding: 3.5rem 0 3rem; }
+  .hero h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: -.01em;
+    margin-bottom: 1rem;
   }
+  .hero p { color: var(--txt2); font-size: .95rem; max-width: 480px; margin: 0 auto; }
+
+  /* PILLS */
+  .features {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: .75rem; margin: 2.5rem 0 3.5rem;
+  }
+  .pill {
+    display: flex; align-items: center; gap: .5rem;
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 99px; padding: .45rem 1rem;
+    font-size: .75rem; color: var(--txt2);
+  }
+  .pill span { font-size: 1rem; }
+
+  /* SECTION LABEL */
   .section-label {
     font-family: 'Space Mono', monospace;
-    font-size: .58rem;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--mut);
-    display: flex;
-    align-items: center;
-    gap: .8rem;
+    font-size: .65rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--amb);
     margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: .75rem;
   }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--bdr);
-  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--bdr); }
 
-  /* ── HERO ── */
-  .hero {
-    padding: 4rem 1.5rem 3rem;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-  .hero-eyebrow {
-    font-family: 'Space Mono', monospace;
-    font-size: .62rem;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: 1rem;
-  }
-  .hero h1 {
-    font-size: clamp(1.9rem, 5vw, 3rem);
-    font-weight: 700;
-    letter-spacing: -.025em;
-    line-height: 1.15;
-    margin-bottom: 1rem;
-    color: var(--txt);
-  }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--teal);
-  }
-  .hero-sub {
-    font-size: .95rem;
-    color: var(--txt2);
-    line-height: 1.7;
-    max-width: 600px;
-    margin-bottom: 1.6rem;
-  }
-  .hero-stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .5rem;
-    margin-bottom: 1.8rem;
-  }
-  .stat-chip {
-    font-family: 'Space Mono', monospace;
-    font-size: .64rem;
-    letter-spacing: .06em;
-    color: var(--teal);
-    background: var(--tdim);
-    border: 1px solid var(--tline);
-    border-radius: 100px;
-    padding: .3rem .75rem;
-  }
-  .hero-ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .75rem;
-  }
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-    background: var(--teal);
-    color: #0a0a0f;
-    font-weight: 700;
-    font-size: .8rem;
-    letter-spacing: .04em;
-    text-decoration: none;
-    padding: .65rem 1.25rem;
-    border-radius: 6px;
-    transition: opacity .2s, transform .2s;
-  }
-  .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-    background: transparent;
-    color: var(--txt2);
-    font-size: .8rem;
-    font-weight: 500;
-    text-decoration: none;
-    padding: .65rem 1.25rem;
-    border: 1px solid var(--bdr);
-    border-radius: 6px;
-    transition: border-color .2s, color .2s;
-  }
-  .btn-secondary:hover { border-color: var(--amb); color: var(--amb); }
+  /* CHAPTER CARDS */
+  .chapter-grid { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 3.5rem; }
 
-  /* ── DISCIPLINES GRID ── */
-  .disciplines {
-    padding: 1rem 1.5rem 3.5rem;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-  .disc-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: .9rem;
-  }
-  .disc-card {
-    background: var(--surf);
-    border: 1px solid var(--bdr);
-    border-radius: 10px;
-    padding: 1.3rem;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    transition: border-color .2s, transform .2s, box-shadow .2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .disc-card:hover {
-    border-color: var(--teal);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(78,201,176,.08);
-  }
-  .disc-card.coming-soon {
-    opacity: .6;
-    cursor: default;
-  }
-  .disc-card.coming-soon:hover {
-    transform: none;
-    border-color: var(--bdr);
-    box-shadow: none;
-  }
-  .disc-card.live {
-    border-color: rgba(78,201,176,.35);
-    background: linear-gradient(135deg, var(--surf) 0%, rgba(78,201,176,.04) 100%);
-  }
-  .disc-card.live:hover {
-    border-color: var(--teal);
-    box-shadow: 0 8px 32px rgba(78,201,176,.14);
-  }
-  .live-badge {
-    position: absolute;
-    top: .8rem;
-    right: .8rem;
-    font-family: 'Space Mono', monospace;
-    font-size: .52rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: #0a0a0f;
-    background: var(--teal);
-    padding: .2rem .5rem;
-    border-radius: 100px;
-    font-weight: 700;
-  }
-  .coming-badge {
-    position: absolute;
-    top: .8rem;
-    right: .8rem;
-    font-family: 'Space Mono', monospace;
-    font-size: .52rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--mut);
-    background: var(--surf2);
-    border: 1px solid var(--bdr);
-    padding: .2rem .5rem;
-    border-radius: 100px;
-  }
-  .disc-icon {
-    font-size: 1.5rem;
-    line-height: 1;
-    margin-bottom: .1rem;
-  }
-  .disc-title {
-    font-size: .92rem;
-    font-weight: 700;
-    color: var(--txt);
-    padding-right: 3.5rem;
-  }
-  .disc-desc {
-    font-size: .76rem;
-    color: var(--txt2);
-    line-height: 1.55;
-    flex: 1;
-  }
-  .disc-level {
-    font-family: 'Space Mono', monospace;
-    font-size: .56rem;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--mut);
-    margin-top: .3rem;
-  }
-  .disc-link {
-    font-size: .72rem;
-    color: var(--teal);
-    font-weight: 600;
-    margin-top: .3rem;
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    transition: gap .2s;
-  }
-  .disc-card:not(.coming-soon):hover .disc-link { gap: .6rem; }
-
-  /* ── FORMULAS SECTION ── */
-  .formulas {
-    padding: 1rem 1.5rem 3.5rem;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-  .formula-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: .9rem;
-  }
-  .formula-card {
-    background: var(--surf);
-    border: 1px solid var(--bdr);
-    border-radius: 10px;
-    padding: 1.25rem;
-    transition: border-color .2s, transform .2s;
-  }
-  .formula-card:hover {
-    border-color: rgba(78,201,176,.3);
-    transform: translateY(-2px);
-  }
-  .formula-card.accent {
-    border-color: rgba(212,169,74,.35);
-    background: linear-gradient(135deg, var(--surf) 0%, rgba(212,169,74,.04) 100%);
-  }
-  .formula-card.accent:hover { border-color: var(--amb); }
-  .formula-category {
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: .5rem;
-  }
-  .formula-card.accent .formula-category { color: var(--amb); }
-  .formula-name {
-    font-size: .85rem;
-    font-weight: 700;
-    color: var(--txt);
-    margin-bottom: .75rem;
-  }
-  .formula-math {
-    font-family: 'Space Mono', monospace;
-    font-size: .95rem;
-    color: var(--txt);
-    background: var(--surf2);
-    border: 1px solid var(--bdr);
-    border-radius: 6px;
-    padding: .75rem 1rem;
-    margin-bottom: .75rem;
-    text-align: center;
-    min-height: 2.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.6;
-  }
-  .formula-math.tall { flex-direction: column; gap: .25rem; }
-  .formula-desc {
-    font-size: .75rem;
-    color: var(--txt2);
-    line-height: 1.6;
-  }
-
-  /* ── COURSE CALLOUT ── */
-  .course-callout {
-    max-width: 960px;
-    margin: 0 auto 3.5rem;
-    padding: 0 1.5rem;
-  }
-  .callout-inner {
-    background: var(--surf);
-    border: 1px solid rgba(78,201,176,.25);
-    border-radius: 10px;
-    padding: 1.4rem 1.6rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 1.2rem;
-  }
-  .callout-icon {
-    font-size: 1.6rem;
-    flex-shrink: 0;
-    margin-top: .1rem;
-  }
-  .callout-content { flex: 1; }
-  .callout-label {
-    font-family: 'Space Mono', monospace;
-    font-size: .58rem;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: .35rem;
-  }
-  .callout-content h3 {
-    font-size: .95rem;
-    font-weight: 700;
-    color: var(--txt);
-    margin-bottom: .4rem;
-  }
-  .callout-content p {
-    font-size: .78rem;
-    color: var(--txt2);
-    line-height: 1.6;
-    margin-bottom: .9rem;
-  }
-  .btn-callout {
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-    background: var(--teal);
-    color: #0a0a0f;
-    font-weight: 700;
-    font-size: .75rem;
-    letter-spacing: .04em;
-    text-decoration: none;
-    padding: .5rem 1rem;
-    border-radius: 6px;
-    transition: opacity .2s;
-  }
-  .btn-callout:hover { opacity: .88; }
-
-  /* ── CALCULATORS ── */
-  .calculators {
-    padding: 1rem 1.5rem 3.5rem;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-  .calc-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: .6rem;
-  }
-  .calc-item {
-    background: var(--surf);
-    border: 1px solid var(--bdr);
-    border-radius: 8px;
-    padding: .9rem 1rem;
-    display: flex;
-    align-items: flex-start;
-    gap: .75rem;
+  .chapter-card {
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 10px; overflow: hidden;
     transition: border-color .2s;
   }
-  .calc-item.live-tool { border-color: rgba(78,201,176,.2); }
-  .calc-item.live-tool:hover { border-color: var(--teal); }
-  .calc-item.dim { opacity: .55; }
-  .calc-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--mut);
-    flex-shrink: 0;
-    margin-top: .35rem;
+  .chapter-card:hover { border-color: var(--tline); }
+
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 1.6rem 0;
   }
-  .calc-dot.green { background: var(--teal); box-shadow: 0 0 6px rgba(78,201,176,.5); }
-  .calc-info { flex: 1; }
-  .calc-name {
-    font-size: .8rem;
-    font-weight: 600;
-    color: var(--txt);
-    margin-bottom: .2rem;
-  }
-  .calc-desc {
-    font-size: .7rem;
-    color: var(--txt2);
-    line-height: 1.5;
-  }
-  .calc-badge {
+  .card-title-row { display: flex; align-items: center; gap: .75rem; }
+  .card-icon { font-size: 1.4rem; }
+  .card-title {
     font-family: 'Space Mono', monospace;
-    font-size: .52rem;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--teal);
-    background: var(--tdim);
+    font-size: .95rem; font-weight: 700; color: var(--txt); margin: 0;
+  }
+  .card-sub { font-size: .72rem; color: var(--txt2); margin-top: .15rem; }
+
+  .live-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--teal); background: var(--tdim);
     border: 1px solid var(--tline);
-    border-radius: 100px;
-    padding: .15rem .45rem;
-    flex-shrink: 0;
-    margin-top: .1rem;
+    padding: .25rem .65rem; border-radius: 99px;
     white-space: nowrap;
   }
-  .calc-badge.soon { color: var(--mut); background: transparent; border-color: var(--bdr); }
 
-  /* ── PHILOSOPHY ── */
-  .philosophy {
-    padding: 1rem 1.5rem 3.5rem;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-  .phil-inner {
-    background: var(--surf);
-    border: 1px solid var(--bdr);
-    border-radius: 10px;
-    padding: 2rem;
-  }
-  .phil-text {
-    font-size: .88rem;
-    color: var(--txt2);
-    line-height: 1.8;
-    max-width: 560px;
-    margin-bottom: 1.75rem;
-  }
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-  }
-  .stat-block {
-    text-align: center;
-  }
-  .stat-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--teal);
-    line-height: 1;
-    margin-bottom: .3rem;
-  }
-  .stat-label {
-    font-size: .7rem;
-    color: var(--mut);
-    text-transform: uppercase;
-    letter-spacing: .08em;
-  }
+  .card-desc { padding: .6rem 1.6rem .4rem; font-size: .82rem; color: var(--txt2); }
 
-  /* ── LECTURES GRID ── */
-  .lectures {
-    padding: 1rem 1.5rem 3.5rem;
-    max-width: 960px;
-    margin: 0 auto;
+  .topics-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: .35rem; padding: .6rem 1.6rem;
   }
-  .lecture-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: .9rem;
-  }
-  .lec-card {
-    background: var(--surf);
-    border: 1px solid var(--bdr);
-    border-radius: 10px;
-    padding: 1.1rem 1.25rem;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    gap: .4rem;
-    transition: border-color .2s, transform .2s, box-shadow .2s;
-  }
-  .lec-card:hover {
-    border-color: var(--teal);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(78,201,176,.09);
-  }
-  .lec-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--teal);
-  }
-  .lec-title {
-    font-size: .88rem;
-    font-weight: 700;
-    color: var(--txt);
-    line-height: 1.3;
-  }
-  .lec-desc {
-    font-size: .72rem;
-    color: var(--txt2);
-    line-height: 1.55;
-    flex: 1;
-  }
-  .lec-foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: .4rem;
-  }
-  .lec-badge {
-    font-family: 'Space Mono', monospace;
-    font-size: .52rem;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--mut);
-    background: var(--surf2);
-    border: 1px solid var(--bdr);
-    padding: .18rem .5rem;
-    border-radius: 100px;
-  }
-  .lec-live {
-    font-family: 'Space Mono', monospace;
-    font-size: .56rem;
-    color: var(--teal);
-    letter-spacing: .06em;
-  }
+  .topic { display: flex; align-items: baseline; gap: .5rem; font-size: .72rem; color: var(--txt2); }
+  .topic-num { font-family: 'Space Mono', monospace; font-size: .62rem; color: var(--mut); min-width: 1.4rem; }
+  .topic.star .topic-num { color: var(--amb); }
+  .topic.star { color: var(--txt); }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1024px) {
-    .disc-grid { grid-template-columns: repeat(2, 1fr); }
+  .card-footer {
+    padding: 1.2rem 1.6rem 1.4rem;
+    border-top: 1px solid var(--bdr); margin-top: .8rem;
   }
-  @media (max-width: 640px) {
-    .hero { padding: 2.5rem 1.25rem 2rem; }
-    .disc-grid { grid-template-columns: 1fr; }
-    .lecture-grid { grid-template-columns: 1fr; }
-    .lectures { padding-left: 1.25rem; padding-right: 1.25rem; }
-    .disciplines, .formulas, .calculators, .philosophy, .course-callout {
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
-    }
-    .formula-grid { grid-template-columns: 1fr; }
-    .calc-grid { grid-template-columns: 1fr; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .callout-inner { flex-direction: column; gap: .75rem; }
-    .phil-inner { padding: 1.25rem; }
-    .hero-stats { gap: .4rem; }
-    .hero-ctas { flex-direction: column; }
-    .btn-primary, .btn-secondary { justify-content: center; width: 100%; }
+  .card-link {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-size: .78rem; font-weight: 600; color: var(--teal);
+    text-decoration: none; letter-spacing: .02em;
+    transition: opacity .2s;
+  }
+  .card-link:hover { opacity: .75; }
+
+  /* FAQ CARD */
+  .faq-card {
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 10px; padding: 1.6rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap;
+    margin-bottom: 3.5rem;
+    transition: border-color .2s;
+  }
+  .faq-card:hover { border-color: var(--tline); }
+  .faq-left { display: flex; align-items: center; gap: 1rem; }
+  .faq-icon { font-size: 1.6rem; }
+  .faq-title { font-family: 'Space Mono', monospace; font-size: .9rem; font-weight: 700; color: var(--txt); }
+  .faq-desc { font-size: .75rem; color: var(--txt2); margin-top: .2rem; }
+
+  @media (max-width: 600px) {
+    .civil-page { padding: 2rem 1.25rem 4rem; }
+    .hero { padding: 2rem 0 2rem; }
+    .card-header { flex-direction: column; align-items: flex-start; gap: .75rem; padding: 1.2rem 1.2rem 0; }
+    .topics-grid { grid-template-columns: 1fr 1fr; padding: .6rem 1.2rem; }
+    .card-desc { padding: .6rem 1.2rem .4rem; }
+    .card-footer { padding: 1rem 1.2rem 1.2rem; }
   }
 </style>
 
-<!-- SKIP TO CONTENT -->
-<a href="#main-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:9999;background:var(--teal);color:#0a0a0f;padding:.5rem 1rem;border-radius:0 0 6px 6px;font-weight:700;text-decoration:none;" onfocus="this.style.left='50%';this.style.transform='translateX(-50%)';this.style.width='auto';this.style.height='auto';" onblur="this.style.left='-9999px';this.style.transform='';this.style.width='1px';this.style.height='1px';">Skip to content</a>
+<div class="civil-page">
 
-<main id="main-content">
-
-  <!-- ── 1. HERO ── -->
-  <section class="hero" aria-label="Civil Engineering — Introduction">
-    <div class="hero-eyebrow">&#8721; mathify.us &middot; Civil Engineering</div>
-    <h1>The Math Behind<br><em>What Stands.</em></h1>
-    <p class="hero-sub">From reinforced concrete to fluid dynamics &mdash; every formula exists because of a physical truth. Explore civil engineering concepts with interactive simulations, live calculators, and worked examples.</p>
-    <div class="hero-stats" role="list">
-      <span class="stat-chip" role="listitem">&#10003; 6 Core Disciplines</span>
-      <span class="stat-chip" role="listitem">&#10003; 8+ Interactive Simulations</span>
-      <span class="stat-chip" role="listitem">&#10003; 7 Essential Formulas</span>
-      <span class="stat-chip" role="listitem">&#10003; Live Calculators</span>
-    </div>
-    <div class="hero-ctas">
-      <a href="/civil/rc-chapter1" class="btn-primary">Start with RC Design &#8594;</a>
-      <a href="#formulas" class="btn-secondary">View All Formulas &#8595;</a>
-    </div>
-  </section>
-
-  <!-- ── 2. DISCIPLINES GRID ── -->
-  <section class="disciplines" aria-labelledby="disc-heading">
-    <div class="section-label" id="disc-heading">01 &mdash; Core Disciplines</div>
-    <div class="disc-grid">
-
-      <!-- RC Design — LIVE -->
-      <a href="/civil/rc-chapter1" class="disc-card live" aria-label="Reinforced Concrete Design — Live">
-        <span class="live-badge">Live Now</span>
-        <span class="disc-icon" aria-hidden="true">&#127963;</span>
-        <span class="disc-title">Reinforced Concrete Design</span>
-        <span class="disc-desc">Working Stress Design, cracked section analysis, k &amp; j method, Whitney stress block, beam design &mdash; 8 interactive simulations from CEE335. Based on Darwin &amp; Dolan 15th Ed.</span>
-        <span class="disc-level">University &rarr; Professional</span>
-        <span class="disc-link">Open Chapter 1 &#8594;</span>
-      </a>
-
-      <!-- Structural -->
-      <div class="disc-card coming-soon" aria-label="Structural Engineering — Coming Soon">
-        <span class="coming-badge">Coming Soon</span>
-        <span class="disc-icon" aria-hidden="true">&#127959;</span>
-        <span class="disc-title">Structural Engineering</span>
-        <span class="disc-desc">Beams, trusses, frames, stress and strain &mdash; how structures carry load. Bending, shear, axial analysis.</span>
-        <span class="disc-level">University &rarr; Professional</span>
-      </div>
-
-      <!-- Fluid -->
-      <div class="disc-card coming-soon" aria-label="Fluid Mechanics — Coming Soon">
-        <span class="coming-badge">Coming Soon</span>
-        <span class="disc-icon" aria-hidden="true">&#128167;</span>
-        <span class="disc-title">Fluid Mechanics</span>
-        <span class="disc-desc">Hydraulics, pipe flow, open channels, Bernoulli&rsquo;s equation, and the mathematics of fluids in motion.</span>
-        <span class="disc-level">University &rarr; Professional</span>
-      </div>
-
-      <!-- Geotechnical -->
-      <div class="disc-card coming-soon" aria-label="Geotechnical Engineering — Coming Soon">
-        <span class="coming-badge">Coming Soon</span>
-        <span class="disc-icon" aria-hidden="true">&#127757;</span>
-        <span class="disc-title">Geotechnical Engineering</span>
-        <span class="disc-desc">Soil mechanics, bearing capacity, Terzaghi&rsquo;s equation, settlement analysis, and how the ground beneath a structure behaves under load.</span>
-        <span class="disc-level">University &rarr; Professional</span>
-      </div>
-
-      <!-- Geometry & Surveying -->
-      <div class="disc-card coming-soon" aria-label="Geometry & Surveying — Coming Soon">
-        <span class="coming-badge">Coming Soon</span>
-        <span class="disc-icon" aria-hidden="true">&#128207;</span>
-        <span class="disc-title">Geometry &amp; Surveying</span>
-        <span class="disc-desc">Trigonometry applied to surveying and the math behind mapping the physical world. Leveling, traversing, curve layout.</span>
-        <span class="disc-level">All Levels</span>
-      </div>
-
-      <!-- Transportation — LIVE -->
-      <a href="/civil/transportation" class="disc-card live" aria-label="Transportation Engineering — Live">
-        <span class="live-badge">Live Now</span>
-        <span class="disc-icon" aria-hidden="true">&#128390;</span>
-        <span class="disc-title">Transportation Engineering</span>
-        <span class="disc-desc">Traffic flow theory, LOS A&ndash;F, Webster&rsquo;s signal timing, sight distance, and gravity model &mdash; interactive calculators throughout.</span>
-        <span class="disc-level">University &rarr; Professional</span>
-        <span class="disc-link">Open Section &#8594;</span>
-      </a>
-
-      <!-- Construction Materials -->
-      <div class="disc-card coming-soon" aria-label="Construction Materials — Coming Soon">
-        <span class="coming-badge">Coming Soon</span>
-        <span class="disc-icon" aria-hidden="true">&#128295;</span>
-        <span class="disc-title">Construction Materials</span>
-        <span class="disc-desc">Properties, applications, and comparisons of concrete, steel, timber, masonry, and modern composites.</span>
-        <span class="disc-level">All Levels</span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── 3. LIVE LECTURES ── -->
-  <section class="lectures" aria-labelledby="lectures-heading">
-    <div class="section-label" id="lectures-heading">02 &mdash; Live Lectures &amp; Chapters</div>
-    <div class="lecture-grid">
-
-      <a href="/civil/rc-chapter1" class="lec-card">
-        <div class="lec-tag">RC Design &middot; CEE335</div>
-        <div class="lec-title">Introduction to Concrete &amp; Steel</div>
-        <div class="lec-desc">Chapter 1 &mdash; Materials, compressive strength, stress-strain, 8 interactive simulations.</div>
-        <div class="lec-foot">
-          <span class="lec-badge">Chapter 1</span>
-          <span class="lec-live">&#9679; Live</span>
-        </div>
-      </a>
-
-      <a href="/civil/lecture-3" class="lec-card">
-        <div class="lec-tag">RC Design &middot; CEE350</div>
-        <div class="lec-title">Fundamental Assumptions of RC Theory</div>
-        <div class="lec-desc">Lecture 3 &mdash; Plane sections, strain compatibility, crack formation, stress block evolution.</div>
-        <div class="lec-foot">
-          <span class="lec-badge">Lecture 3</span>
-          <span class="lec-live">&#9679; Live</span>
-        </div>
-      </a>
-
-      <a href="/civil/traffic-design" class="lec-card">
-        <div class="lec-tag">Transportation &middot; CEE350</div>
-        <div class="lec-title">Traffic Analysis &amp; Design</div>
-        <div class="lec-desc">Flow theory, PHF, signal timing, delay &amp; LOS, queue analysis, gravity model, mode split.</div>
-        <div class="lec-foot">
-          <span class="lec-badge">Full Guide</span>
-          <span class="lec-live">&#9679; Live</span>
-        </div>
-      </a>
-
-      <a href="/civil/transportation" class="lec-card">
-        <div class="lec-tag">Transportation &middot; Hub</div>
-        <div class="lec-title">Transportation Engineering</div>
-        <div class="lec-desc">Section hub &mdash; all transportation lessons, key formulas, and calculator index.</div>
-        <div class="lec-foot">
-          <span class="lec-badge">Hub</span>
-          <span class="lec-live">&#9679; Live</span>
-        </div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- ── 4. FORMULAS ── -->
-  <section class="formulas" id="formulas" aria-labelledby="formula-heading">
-    <div class="section-label" id="formula-heading">03 &mdash; Essential Formulas</div>
-    <div class="formula-grid">
-
-      <!-- Bending Stress -->
-      <div class="formula-card">
-        <div class="formula-category">Structural Engineering</div>
-        <div class="formula-name">Bending Stress</div>
-        <div class="formula-math">$$\sigma = \dfrac&#123;M \cdot y&#125;&#123;I&#125;$$</div>
-        <div class="formula-desc">Bending stress at distance <em>y</em> from the neutral axis, where <em>M</em> is the bending moment and <em>I</em> is the second moment of area.</div>
-      </div>
-
-      <!-- Bernoulli -->
-      <div class="formula-card">
-        <div class="formula-category">Fluid Mechanics</div>
-        <div class="formula-name">Bernoulli&rsquo;s Equation</div>
-        <div class="formula-math">$$P + \tfrac&#123;1&#125;&#123;2&#125;\rho v^2 + \rho g h = \text&#123;const&#125;$$</div>
-        <div class="formula-desc">Energy conservation along a streamline &mdash; relates pressure, velocity, and elevation in ideal fluid flow.</div>
-      </div>
-
-      <!-- Euler Buckling -->
-      <div class="formula-card">
-        <div class="formula-category">Structural Engineering</div>
-        <div class="formula-name">Euler&rsquo;s Buckling Load</div>
-        <div class="formula-math">$$P_&#123;cr&#125; = \dfrac&#123;\pi^2 EI&#125;&#123;(KL)^2&#125;$$</div>
-        <div class="formula-desc">The critical compressive load at which a slender column will buckle, depending on stiffness <em>EI</em> and effective length <em>KL</em>.</div>
-      </div>
-
-      <!-- Terzaghi -->
-      <div class="formula-card">
-        <div class="formula-category">Geotechnical</div>
-        <div class="formula-name">Terzaghi Bearing Capacity</div>
-        <div class="formula-math">$$q_u = cN_c + qN_q + \tfrac&#123;1&#125;&#123;2&#125;\gamma B N_\gamma$$</div>
-        <div class="formula-desc">The ultimate bearing capacity of shallow foundations in soil, combining cohesion, surcharge, and soil weight contributions.</div>
-      </div>
-
-      <!-- k & j WSD — ACCENT -->
-      <div class="formula-card accent">
-        <div class="formula-category">Reinforced Concrete (WSD)</div>
-        <div class="formula-name">Cracked Section k &amp; j</div>
-        <div class="formula-math tall">
-          <span>$$k = \sqrt&#123;(\rho n)^2 + 2\rho n&#125; - \rho n$$</span>
-          <span>$$j = 1 - k/3$$</span>
-        </div>
-        <div class="formula-desc">Neutral axis depth ratio <em>k</em> and moment arm ratio <em>j</em> for a cracked RC section under WSD. &rho; = A<sub>s</sub>/(bd), n = E<sub>s</sub>/E<sub>c</sub>.</div>
-      </div>
-
-      <!-- Euler's Identity -->
-      <div class="formula-card">
-        <div class="formula-category">Mathematics</div>
-        <div class="formula-name">Euler&rsquo;s Identity</div>
-        <div class="formula-math">$$e^&#123;i\pi&#125; + 1 = 0$$</div>
-        <div class="formula-desc">The most beautiful equation in mathematics &mdash; connecting five fundamental constants in one elegant expression.</div>
-      </div>
-
-      <!-- Taylor Series -->
-      <div class="formula-card">
-        <div class="formula-category">Mathematics</div>
-        <div class="formula-name">Taylor Series</div>
-        <div class="formula-math">$$f(x) = \sum_&#123;n=0&#125;^&#123;\infty&#125; \dfrac&#123;f^&#123;(n)&#125;(a)&#125;&#123;n!&#125;(x-a)^n$$</div>
-        <div class="formula-desc">Approximating any smooth function as an infinite polynomial &mdash; the foundation of numerical methods in engineering.</div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── 4. COURSE CALLOUT ── -->
-  <div class="course-callout">
-    <div class="callout-inner">
-      <span class="callout-icon" aria-hidden="true">&#127979;</span>
-      <div class="callout-content">
-        <div class="callout-label">Currently Studying</div>
-        <h3>CEE335: Reinforced Concrete Design I</h3>
-        <p>Spring 2026, North South University. Following Darwin &amp; Dolan&rsquo;s <em>Design of Concrete Structures</em>, 15th Edition. Chapter 1 is fully built with 8 interactive simulations.</p>
-        <a href="/civil/rc-chapter1" class="btn-callout">Open Chapter 1 &#8594;</a>
-      </div>
-    </div>
+  <div class="hero">
+    <h1>Civil Engineering</h1>
+    <p>Focused lecture guides with simulations, solved problems, and visual explanations. No fluff.</p>
   </div>
 
-  <!-- ── 5. CALCULATORS ── -->
-  <section class="calculators" aria-labelledby="calc-heading">
-    <div class="section-label" id="calc-heading">04 &mdash; Engineering Calculators</div>
-    <div class="calc-grid">
+  <div class="features">
+    <div class="pill"><span>&#9881;&#65039;</span> Interactive Simulations</div>
+    <div class="pill"><span>&#128221;</span> Step-by-Step Solutions</div>
+    <div class="pill"><span>&#127891;</span> Worked Problems</div>
+    <div class="pill"><span>&#128218;</span> Formula Sheets</div>
+  </div>
 
-      <div class="calc-item live-tool">
-        <span class="calc-dot green" aria-label="Live"></span>
-        <div class="calc-info">
-          <div class="calc-name">Whitney Stress Block Visualizer</div>
-          <div class="calc-desc">Adjust A<sub>s</sub>, b, d &rarr; see a, c, &epsilon;<sub>t</sub>, &phi;, M<sub>n</sub> update live</div>
+  <!-- ── DESIGN OF CONCRETE STRUCTURES ── -->
+  <div class="section-label">Design of Concrete Structures &mdash; 15th Edition Workbook</div>
+
+  <div class="chapter-grid">
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#127963;</span>
+          <div>
+            <h2 class="card-title">RC Design &mdash; Ch. 1</h2>
+            <div class="card-sub">Working Stress Design &amp; Transformed Section Method</div>
+          </div>
         </div>
-        <span class="calc-badge">Live &middot; RC Ch.1</span>
+        <span class="live-badge">LIVE</span>
       </div>
-
-      <div class="calc-item live-tool">
-        <span class="calc-dot green" aria-label="Live"></span>
-        <div class="calc-info">
-          <div class="calc-name">Beam Loading Simulator</div>
-          <div class="calc-desc">Drag slider to watch stress distribution across 3 stages</div>
-        </div>
-        <span class="calc-badge">Live &middot; RC Ch.1</span>
+      <p class="card-desc">Cracked section analysis, the k &amp; j method, beam geometry, and design from scratch. Interactive simulations and 3 fully worked problems.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>Why Reinforced Concrete</div>
+        <div class="topic"><span class="topic-num">02</span>Mix Design &amp; Unit Weights</div>
+        <div class="topic"><span class="topic-num">03</span>Loads &amp; Safety Factors</div>
+        <div class="topic"><span class="topic-num">04</span>Beam Geometry &amp; Cover</div>
+        <div class="topic"><span class="topic-num">05</span>Three Stages of Loading</div>
+        <div class="topic"><span class="topic-num">06</span>Transformed Section Method</div>
+        <div class="topic"><span class="topic-num">07</span>WSD Analysis (k &amp; j)</div>
+        <div class="topic"><span class="topic-num">08</span>WSD Design Procedure</div>
+        <div class="topic"><span class="topic-num">09</span>Worked Problems (3)</div>
+        <div class="topic"><span class="topic-num">10</span>Formula Sheet</div>
       </div>
-
-      <div class="calc-item live-tool">
-        <span class="calc-dot green" aria-label="Live"></span>
-        <div class="calc-info">
-          <div class="calc-name">k &amp; j Calculator</div>
-          <div class="calc-desc">Enter &rho; and n, get k, j, and moment capacity step-by-step</div>
-        </div>
-        <span class="calc-badge">Live &middot; RC Ch.1</span>
-      </div>
-
-      <div class="calc-item live-tool">
-        <span class="calc-dot green" aria-label="Live"></span>
-        <div class="calc-info">
-          <div class="calc-name">Shear &amp; Stirrup Calculator</div>
-          <div class="calc-desc">Compute V<sub>c</sub>, required V<sub>s</sub>, stirrup spacing</div>
-        </div>
-        <span class="calc-badge">Live &middot; RC Ch.1</span>
-      </div>
-
-      <div class="calc-item dim">
-        <span class="calc-dot" aria-label="Coming soon"></span>
-        <div class="calc-info">
-          <div class="calc-name">Bernoulli Pipe Flow</div>
-          <div class="calc-desc">Solve for velocity, pressure, or elevation given other values</div>
-        </div>
-        <span class="calc-badge soon">Soon</span>
-      </div>
-
-      <div class="calc-item dim">
-        <span class="calc-dot" aria-label="Coming soon"></span>
-        <div class="calc-info">
-          <div class="calc-name">Terzaghi Bearing Capacity</div>
-          <div class="calc-desc">Enter soil params, get q<sub>u</sub> with N<sub>c</sub>, N<sub>q</sub>, N<sub>&gamma;</sub> factors</div>
-        </div>
-        <span class="calc-badge soon">Soon</span>
-      </div>
-
-      <div class="calc-item dim">
-        <span class="calc-dot" aria-label="Coming soon"></span>
-        <div class="calc-info">
-          <div class="calc-name">Mohr&rsquo;s Circle</div>
-          <div class="calc-desc">Interactive stress transformation visualization</div>
-        </div>
-        <span class="calc-badge soon">Soon</span>
-      </div>
-
-      <div class="calc-item dim">
-        <span class="calc-dot" aria-label="Coming soon"></span>
-        <div class="calc-info">
-          <div class="calc-name">Beam Deflection</div>
-          <div class="calc-desc">Simple/cantilever beam deflection under various loads</div>
-        </div>
-        <span class="calc-badge soon">Soon</span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── 6. PHILOSOPHY ── -->
-  <section class="philosophy" aria-labelledby="phil-heading">
-    <div class="section-label" id="phil-heading">04 &mdash; About This Section</div>
-    <div class="phil-inner">
-      <p class="phil-text">Mathify approaches civil engineering from first principles. Every formula exists because of a physical reason &mdash; we start with intuition, build through physics, and arrive at equations that feel inevitable. Free for students and engineers everywhere.</p>
-      <div class="stats-grid">
-        <div class="stat-block">
-          <div class="stat-num">7</div>
-          <div class="stat-label">Discipline Areas</div>
-        </div>
-        <div class="stat-block">
-          <div class="stat-num">7</div>
-          <div class="stat-label">Key Formulas</div>
-        </div>
-        <div class="stat-block">
-          <div class="stat-num">8+</div>
-          <div class="stat-label">Simulations</div>
-        </div>
-        <div class="stat-block">
-          <div class="stat-num">&infin;</div>
-          <div class="stat-label">Things to Learn</div>
-        </div>
+      <div class="card-footer">
+        <a href="/rc-chapter1.html" class="card-link">Open Chapter 1 Guide &rarr;</a>
       </div>
     </div>
-  </section>
 
-</main>
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#9881;&#65039;</span>
+          <div>
+            <h2 class="card-title">RC Design &mdash; Ch. 2</h2>
+            <div class="card-sub">Materials &mdash; All 17 Sections</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">Darwin, Dolan &amp; Nilson 15th Ed. All 17 sections with analogies, canvas simulations, sliders, and 4 quick-check quizzes.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">2.1</span>Introduction</div>
+        <div class="topic"><span class="topic-num">2.2</span>Cement &amp; Hydration</div>
+        <div class="topic"><span class="topic-num">2.3</span>Aggregates</div>
+        <div class="topic"><span class="topic-num">2.4</span>w/c Ratio &amp; Mix Design</div>
+        <div class="topic"><span class="topic-num">2.5</span>Placing &amp; Curing</div>
+        <div class="topic"><span class="topic-num">2.6</span>Quality Control</div>
+        <div class="topic"><span class="topic-num">2.7</span>Admixtures</div>
+        <div class="topic"><span class="topic-num">2.8</span>Compression &amp; Stress-Strain</div>
+        <div class="topic"><span class="topic-num">2.9</span>Tensile Strength</div>
+        <div class="topic"><span class="topic-num">2.10</span>Combined Stress</div>
+        <div class="topic"><span class="topic-num">2.11</span>Shrinkage &amp; Creep</div>
+        <div class="topic"><span class="topic-num">2.12</span>High-Strength Concrete</div>
+        <div class="topic"><span class="topic-num">2.13</span>Steel for Concrete</div>
+        <div class="topic"><span class="topic-num">2.14</span>Reinforcing Bars</div>
+        <div class="topic"><span class="topic-num">2.15</span>Welded Wire Reinforcement</div>
+        <div class="topic"><span class="topic-num">2.16</span>Prestressing Steels</div>
+        <div class="topic"><span class="topic-num">2.17</span>Fiber Reinforcement</div>
+      </div>
+      <div class="card-footer">
+        <a href="/cee-chapter2.html" class="card-link">Open Chapter 2 Guide &rarr;</a>
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128210;</span>
+          <div>
+            <h2 class="card-title">RC Design &mdash; Ch. 3</h2>
+            <div class="card-sub">Design Philosophy &amp; Fundamental Assumptions</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">All 6 sections &mdash; design philosophy, ACI code logic, the 4 core RC assumptions, axial load behavior, and elastic beam bending &mdash; with interactive calculators and 3 quizzes.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">3.1</span>Introduction to Design</div>
+        <div class="topic"><span class="topic-num">3.2</span>Members &amp; Sections</div>
+        <div class="topic"><span class="topic-num">3.3</span>Theory, Codes &amp; Practice</div>
+        <div class="topic"><span class="topic-num">3.4</span>Fundamental Assumptions</div>
+        <div class="topic"><span class="topic-num">3.5</span>Behavior Under Axial Loads</div>
+        <div class="topic"><span class="topic-num">3.6</span>Bending of Homogeneous Beams</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Column Load Calculator</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Bending Stress Visualizer</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>3 Quick-Check Quizzes</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>ACI Load Factor Examples</div>
+      </div>
+      <div class="card-footer">
+        <a href="/chapter3-concrete.html" class="card-link">Open Chapter 3 Guide &rarr;</a>
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128268;</span>
+          <div>
+            <h2 class="card-title">RC Design &mdash; Ch. 4</h2>
+            <div class="card-sub">Flexural Analysis &amp; Design of Beams</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">Whitney stress block, beam failure modes, &rho; limits, M<sub>n</sub> calculator, R<sub>n</sub> design aids &mdash; all 7 sections with live canvas diagrams, 4 quizzes, and interactive calculators.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">4.1</span>Introduction &amp; Design Goals</div>
+        <div class="topic"><span class="topic-num">4.2</span>RC Beam Behavior (3 Stages)</div>
+        <div class="topic"><span class="topic-num">4.3</span>Whitney Stress Block</div>
+        <div class="topic"><span class="topic-num">4.4</span>Failure Modes &amp; &phi; Factors</div>
+        <div class="topic"><span class="topic-num">4.5</span>&rho; Limits &amp; ACI Rules</div>
+        <div class="topic"><span class="topic-num">4.6</span>Analysis &amp; Design Procedure</div>
+        <div class="topic"><span class="topic-num">4.7</span>R<sub>n</sub> Design Aid Tables</div>
+        <div class="topic"><span class="topic-num">4.8</span>R<sub>n</sub>&ndash;&rho; Chart</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>3-Stage Beam Visualizer</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Live M<sub>n</sub> Calculator</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>&rho; Limits Visualizer</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>4 Quick-Check Quizzes</div>
+      </div>
+      <div class="card-footer">
+        <a href="/chapter4-concrete.html" class="card-link">Open Chapter 4 Guide &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── NAZMUL ISLAM LECTURES ── -->
+  <div class="section-label">Mr. Mohammad Nazmul Islam &mdash; CEE335 Lectures</div>
+
+  <div class="chapter-grid">
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#127979;</span>
+          <div>
+            <h2 class="card-title">Introduction to Concrete &amp; Steel</h2>
+            <div class="card-sub">Chapter 1 &mdash; Materials Fundamentals</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">What concrete is, how it&rsquo;s made, what governs its strength, and why steel is its ideal reinforcing partner. Includes 6 interactive calculators and 6 canvas animations.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>What is Reinforced Concrete?</div>
+        <div class="topic"><span class="topic-num">02</span>Concrete Constituents &amp; Cement</div>
+        <div class="topic"><span class="topic-num">03</span>Water-Cement Ratio</div>
+        <div class="topic"><span class="topic-num">04</span>Compressive Strength f&prime;c</div>
+        <div class="topic"><span class="topic-num">05</span>Modulus of Elasticity E<sub>c</sub></div>
+        <div class="topic"><span class="topic-num">06</span>Steel Reinforcement</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>RC Beam Animation</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Hydration Animation</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Stress-Strain Curves</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>6 Interactive Calculators</div>
+      </div>
+      <div class="card-footer">
+        <a href="/civil/rc-chapter1" class="card-link">Open Lecture 1 Guide &rarr;</a>
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128210;</span>
+          <div>
+            <h2 class="card-title">Fundamental Assumptions of RC Theory</h2>
+            <div class="card-sub">Lecture 3 &mdash; Design Philosophy</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">Plane sections, strain compatibility, crack formation, and the evolution of the stress block. The theoretical bedrock of every RC calculation.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>Plane Sections Assumption</div>
+        <div class="topic"><span class="topic-num">02</span>Strain Compatibility</div>
+        <div class="topic"><span class="topic-num">03</span>Crack Formation &amp; Behavior</div>
+        <div class="topic"><span class="topic-num">04</span>Stress Block Evolution</div>
+        <div class="topic"><span class="topic-num">05</span>Whitney Stress Block</div>
+        <div class="topic"><span class="topic-num">06</span>Design vs Analysis</div>
+      </div>
+      <div class="card-footer">
+        <a href="/civil/lecture-3" class="card-link">Open Lecture 3 Guide &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── TRANSPORTATION ENGINEERING ── -->
+  <div class="section-label">Transportation Engineering &mdash; CEE350</div>
+
+  <div class="chapter-grid">
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128678;</span>
+          <div>
+            <h2 class="card-title">Traffic Analysis &amp; Design</h2>
+            <div class="card-sub">Signal Timing, LOS, Trip Generation &amp; Mode Split</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">Traffic flow theory, PHF calculator, Webster&rsquo;s signal timing, delay &amp; LOS, queue analysis, gravity model, and mode split &mdash; with animated simulations and 20+ practice problems.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>Traffic Engineering Basics</div>
+        <div class="topic"><span class="topic-num">02</span>Road Classification</div>
+        <div class="topic"><span class="topic-num">03</span>Flow, Density &amp; Speed</div>
+        <div class="topic"><span class="topic-num">04</span>Intersection Types</div>
+        <div class="topic"><span class="topic-num">05</span>Signal Phasing &amp; Timing</div>
+        <div class="topic"><span class="topic-num">06</span>Green Splits &amp; Offsets</div>
+        <div class="topic"><span class="topic-num">07</span>Saturation Flow Rate</div>
+        <div class="topic"><span class="topic-num">08</span>Lane Capacity</div>
+        <div class="topic"><span class="topic-num">09</span>Delay &amp; Level of Service</div>
+        <div class="topic"><span class="topic-num">10</span>Trip Generation</div>
+        <div class="topic"><span class="topic-num">11</span>Trip Distribution</div>
+        <div class="topic"><span class="topic-num">12</span>Mode Split</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>PHF Calculator</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Signal Timing Simulator</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Queue Analysis Tool</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>20+ Practice Problems</div>
+      </div>
+      <div class="card-footer">
+        <a href="/civil/traffic-design" class="card-link">Open Traffic Engineering Guide &rarr;</a>
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128390;</span>
+          <div>
+            <h2 class="card-title">Transportation Engineering Hub</h2>
+            <div class="card-sub">Section overview &amp; all lessons</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">The transportation engineering landing page &mdash; all lessons, key formulas (Webster&rsquo;s C&sub0;, SSD, flow-density), and calculator index in one place.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>Traffic Flow Theory</div>
+        <div class="topic"><span class="topic-num">02</span>Webster&rsquo;s Signal Formula</div>
+        <div class="topic"><span class="topic-num">03</span>Sight Distance (SSD)</div>
+        <div class="topic"><span class="topic-num">04</span>Gravity Model</div>
+        <div class="topic"><span class="topic-num">05</span>Mode Split</div>
+        <div class="topic"><span class="topic-num">06</span>All Lesson Index</div>
+      </div>
+      <div class="card-footer">
+        <a href="/civil/transportation" class="card-link">Open Transportation Hub &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FAQ CARD -->
+  <div class="section-label">Frequently Asked Questions</div>
+
+  <a href="/civil/faq" style="text-decoration:none;">
+    <div class="faq-card">
+      <div class="faq-left">
+        <span class="faq-icon">&#10067;</span>
+        <div>
+          <div class="faq-title">Frequently Asked Questions (FAQ)</div>
+          <div class="faq-desc">Why does concrete fail in tension? What&rsquo;s the 10&times; rule? Visual answers to core concepts.</div>
+        </div>
+      </div>
+      <span class="live-badge">LIVE</span>
+    </div>
+  </a>
+
+</div>
 
 </Main>
