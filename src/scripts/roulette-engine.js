@@ -192,6 +192,7 @@
       history: [],
       consecutiveLosses: 0,
       betTypeLosses: {},
+      cumulativeLoss: 0, // total unrecovered losses since last peak
       lastSuggestions: [],
       acceptedBets: [],
       tier: TIERS[0],
@@ -248,21 +249,40 @@
     return Math.max(-1, Math.min(1, slope / scale));
   }
 
-  // ── BET SIZING ──
+  // ── BET SIZING (Deficit-Aware Recovery System) ──
+
+  // Calculate how much we're down from peak
+  function getDeficit() {
+    return Math.max(0, state.stats.peakBalance - state.balance);
+  }
 
   function getAdaptiveBaseBet() {
     var tier = state.tier;
-    var base = Math.max(1, Math.round(state.balance * tier.betPct));
+    var deficit = getDeficit();
     var momentum = state.momentum;
 
-    // Momentum adjustment: losing momentum → increase bet to recover faster
-    // Winning momentum → slight increase to capitalize
+    // Use peak balance for base calculation so bets don't shrink when losing
+    var referenceBalance = Math.max(state.balance, state.stats.peakBalance * 0.75);
+    var base = Math.max(1, Math.round(referenceBalance * tier.betPct));
+
+    // If we have a deficit, increase base bet to recover within ~5-8 winning rounds
+    if (deficit > 0) {
+      var recoveryTarget = Math.ceil(deficit / 6); // aim to recover in ~6 wins
+      base = Math.max(base, recoveryTarget);
+    }
+
+    // Momentum adjustment
     if (momentum < -0.3) {
-      // Losing: scale up aggressively
-      base = Math.round(base * (1 + Math.abs(momentum) * 0.8));
+      // Losing hard: scale up to fight back
+      base = Math.round(base * (1.2 + Math.abs(momentum) * 0.6));
     } else if (momentum > 0.3) {
-      // Winning: slight bump
       base = Math.round(base * (1 + momentum * 0.3));
+    }
+
+    // Consecutive loss escalation: global (not per-bet-type)
+    if (state.consecutiveLosses >= 2) {
+      var escFactor = 1 + (state.consecutiveLosses * 0.35);
+      base = Math.round(base * Math.min(escFactor, 4));
     }
 
     return Math.max(1, base);
@@ -270,24 +290,41 @@
 
   function calculateBetAmount(betKey, baseBet) {
     var tier = state.tier;
-    var maxBet = Math.floor(state.balance * tier.maxPct);
+    // Max cap uses the HIGHER of current balance ratio or a minimum floor
+    // so recovery bets aren't strangled when balance is low
+    var maxPctEffective = Math.max(tier.maxPct, state.consecutiveLosses >= 3 ? 0.35 : tier.maxPct);
+    var maxBet = Math.floor(state.balance * maxPctEffective);
     var losses = state.betTypeLosses[betKey] || 0;
     var amount = baseBet;
 
-    if (losses === 0) {
+    if (losses === 0 && state.consecutiveLosses === 0) {
       amount = baseBet;
-    } else if (tier.name === 'SURVIVAL' || tier.name === 'CRITICAL') {
-      // In critical/survival: use Fibonacci progression (safer than Martingale)
-      var fibIdx = Math.min(losses, FIBONACCI.length - 1);
-      amount = Math.round(baseBet * FIBONACCI[fibIdx]);
     } else {
-      // Standard: scaled Martingale with tier-adaptive multiplier
-      var mult = tier.name === 'AGGRESSIVE' ? 2.0 : 1.8;
-      amount = Math.round(baseBet * Math.pow(mult, Math.min(losses, 5)));
+      // Combined escalation using BOTH per-type and global consecutive losses
+      var effectiveLosses = Math.max(losses, state.consecutiveLosses);
+
+      if (tier.name === 'SURVIVAL' || tier.name === 'CRITICAL') {
+        // Fibonacci but offset by cumulative loss to be more aggressive
+        var fibIdx = Math.min(effectiveLosses + 1, FIBONACCI.length - 1);
+        amount = Math.round(baseBet * FIBONACCI[fibIdx]);
+      } else {
+        // Adaptive Martingale: multiplier increases with tier severity
+        var mult = tier.name === 'AGGRESSIVE' ? 2.2 : 2.0;
+        amount = Math.round(baseBet * Math.pow(mult, Math.min(effectiveLosses, 6)));
+      }
+
+      // Recovery floor: if we have a deficit, ensure bet can meaningfully recover
+      var deficit = getDeficit();
+      if (deficit > 0 && effectiveLosses >= 2) {
+        // Minimum bet = enough so a win recoups at least 25% of deficit
+        var payout = betKey.indexOf('dozen') !== -1 || betKey.indexOf('col') !== -1 ? 2 : 1;
+        var minRecoveryBet = Math.ceil(deficit * 0.25 / payout);
+        amount = Math.max(amount, minRecoveryBet);
+      }
     }
 
-    // Hard cap
-    amount = Math.min(amount, maxBet);
+    // Cap at max but with safety valve: never bet more than 45% even in survival
+    amount = Math.min(amount, maxBet, Math.floor(state.balance * 0.45));
     amount = Math.max(1, amount);
     return amount;
   }
@@ -444,18 +481,24 @@
 
     if (bestWindow) {
       parts.push(betData.bet + ': ' + bestWindow.observed + '/' + bestWindow.window + ' spins (expected ' + bestWindow.expected + ')');
-      parts.push('Z-score: ' + bestWindow.z);
+      parts.push('Z: ' + bestWindow.z);
     }
 
-    parts.push('Tier: ' + tier.name);
+    parts.push(tier.name);
 
     var losses = state.betTypeLosses[betData.betKey] || 0;
-    if (losses > 0) {
+    var effectiveLosses = Math.max(losses, state.consecutiveLosses);
+    if (effectiveLosses > 0) {
       if (tier.name === 'SURVIVAL' || tier.name === 'CRITICAL') {
-        parts.push('Fibonacci step ' + (losses + 1));
+        parts.push('Fib x' + (effectiveLosses + 1));
       } else {
-        parts.push('Martingale x' + (losses + 1));
+        parts.push('Mart x' + (effectiveLosses + 1));
       }
+    }
+
+    var deficit = getDeficit();
+    if (deficit > 0) {
+      parts.push('Recover: ' + deficit);
     }
 
     if (betData.payout === 2) {
@@ -543,15 +586,20 @@
       };
     }
 
-    // Check for auto-switch after 2 consecutive losses on same bet
+    // Auto-switch after 3 losses on same bet type, but KEEP escalation via consecutiveLosses
     var primaryKey = combo.primary.betKey;
     var secondaryKey = combo.secondary.betKey;
 
     if ((state.betTypeLosses[primaryKey] || 0) >= 3) {
-      // Find best alternative not currently losing
       for (var r = 0; r < ranked.length; r++) {
-        if (ranked[r].betKey !== primaryKey && ranked[r].betKey !== secondaryKey && (state.betTypeLosses[ranked[r].betKey] || 0) < 2) {
+        if (ranked[r].betKey !== primaryKey && ranked[r].betKey !== secondaryKey) {
+          // Transfer loss pressure: new bet inherits min 1 loss so it doesn't start at base
+          var oldLosses = state.betTypeLosses[primaryKey] || 0;
           combo.primary = ranked[r];
+          // Carry over partial escalation to new bet type
+          if ((state.betTypeLosses[ranked[r].betKey] || 0) < Math.floor(oldLosses / 2)) {
+            state.betTypeLosses[ranked[r].betKey] = Math.floor(oldLosses / 2);
+          }
           combo.coverage = calculateCombinedCoverage(combo.primary.betKey, secondaryKey);
           break;
         }
@@ -559,8 +607,12 @@
     }
     if ((state.betTypeLosses[secondaryKey] || 0) >= 3) {
       for (var r2 = 0; r2 < ranked.length; r2++) {
-        if (ranked[r2].betKey !== combo.primary.betKey && ranked[r2].betKey !== secondaryKey && (state.betTypeLosses[ranked[r2].betKey] || 0) < 2) {
+        if (ranked[r2].betKey !== combo.primary.betKey && ranked[r2].betKey !== secondaryKey) {
+          var oldLosses2 = state.betTypeLosses[secondaryKey] || 0;
           combo.secondary = ranked[r2];
+          if ((state.betTypeLosses[ranked[r2].betKey] || 0) < Math.floor(oldLosses2 / 2)) {
+            state.betTypeLosses[ranked[r2].betKey] = Math.floor(oldLosses2 / 2);
+          }
           combo.coverage = calculateCombinedCoverage(combo.primary.betKey, combo.secondary.betKey);
           break;
         }
@@ -688,11 +740,22 @@
       state.consecutiveLosses = 0;
       state.fibIndex = 0;
 
+      // Reduce cumulative loss by net profit (recovery)
+      if (netProfit > 0) {
+        state.cumulativeLoss = Math.max(0, state.cumulativeLoss - netProfit);
+      }
+
       // Reset bet type losses for winning types
       for (var w = 0; w < acceptedBets.length; w++) {
         if (doesBetWin(acceptedBets[w].betKey, landedNumber)) {
           state.betTypeLosses[acceptedBets[w].betKey] = 0;
         }
+      }
+
+      // If we're back at or above peak, full reset of all loss tracking
+      if (state.balance >= state.stats.peakBalance) {
+        state.cumulativeLoss = 0;
+        state.betTypeLosses = {};
       }
     } else {
       state.stats.losses++;
@@ -704,6 +767,9 @@
 
       state.consecutiveLosses++;
       state.fibIndex = Math.min(state.fibIndex + 1, FIBONACCI.length - 1);
+
+      // Track cumulative unrecovered losses
+      state.cumulativeLoss += totalBetAmount;
 
       for (var l = 0; l < acceptedBets.length; l++) {
         if (!doesBetWin(acceptedBets[l].betKey, landedNumber)) {
@@ -764,6 +830,8 @@
       tierColor: state.tier.color,
       momentum: state.momentum,
       coverage: state.lastSuggestions.length > 0 ? state.lastSuggestions[0].coverage : 0,
+      deficit: getDeficit(),
+      consecutiveLosses: state.consecutiveLosses,
     };
   }
 
