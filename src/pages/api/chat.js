@@ -1,15 +1,12 @@
-import OpenAI from 'openai';
-
 export const prerender = false;
 
 export const POST = async ({ request }) => {
-  // Instantiate inside the handler so it never runs at build time
-  const client = new OpenAI({
-    apiKey: process.env.GEMINI_API_KEY,
-    baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
-  });
-
   try {
+    const { default: OpenAI } = await import('openai');
+    const client = new OpenAI({
+      apiKey: process.env.GEMINI_API_KEY || 'dummy',
+      baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
+    });
     const { messages, systemPrompt } = await request.json();
 
     if (!messages || !Array.isArray(messages)) {
