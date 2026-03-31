@@ -105,6 +105,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 .dt tr:hover td{background:var(--surf2);}
 .dt .hl{color:var(--teal);}
 
+/* ─── BN TOGGLE ─── */
+.bn-trans{display:none;font-style:italic;color:var(--teal);font-size:.84rem;line-height:1.8;margin-top:7px;padding:8px 12px;border-left:2px solid var(--tline);background:var(--tdim);border-radius:0 4px 4px 0;}
+#midterm.bn-mode .bn-trans{display:block;}
+#bn-toggle{font-family:'Space Mono',monospace;font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:3px;border:1px solid var(--bdr);background:var(--surf2);color:var(--mut);cursor:pointer;transition:all .2s;vertical-align:middle;}
+#bn-toggle.active{background:var(--tdim);border-color:var(--tline);color:var(--teal);}
+
 /* ─── LOS BADGES ─── */
 .los-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0;}
 .los-item{text-align:center;padding:12px 6px;border-radius:4px;border:1px solid transparent;}
@@ -373,12 +379,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 
 <div class="eq">
   <div class="eqlbl">Peak Hour Factor</div>
-  <div class="eqbody">PHF = V / (4 × V₁₅,max)</div>
+  <div class="eqbody">\[ \text&#123;PHF&#125; = \dfrac&#123;V&#125;&#123;4 \cdot V_&#123;15,\max&#125;&#125; \]</div>
   <div class="eqnote"><code>V</code> = hourly volume &nbsp;|&nbsp; <code>V₁₅,max</code> = max 15-min count &nbsp;|&nbsp; Range: 0.25 to 1.00</div>
 </div>
 <div class="eq">
   <div class="eqlbl">Maximum Flow Rate</div>
-  <div class="eqbody">v = V / PHF</div>
+  <div class="eqbody">\[ v = \dfrac&#123;V&#125;&#123;\text&#123;PHF&#125;&#125; \]</div>
   <div class="eqnote">Convert hourly volume to equivalent flow rate. Use this for capacity analysis, not raw volume.</div>
 </div>
 
@@ -575,7 +581,7 @@ Using v = 978 correctly reflects the 15-min peak intensity.</div>
 
 <div class="eq">
   <div class="eqlbl">Effective Green Time</div>
-  <div class="eqbody">g = G + y + ar − tL</div>
+  <div class="eqbody">\[ g = G + y + a_r - t_L \]</div>
   <div class="eqnote"><code>G</code>=display green &nbsp; <code>y</code>=yellow &nbsp; <code>ar</code>=all-red &nbsp; <code>tL</code>=lost time per phase (~4s)</div>
 </div>
 
@@ -679,7 +685,7 @@ Only 40% of the saturation flow rate becomes available capacity.</div>
 
 <div class="eq">
   <div class="eqlbl">Saturation Flow Rate</div>
-  <div class="eqbody">s = 3600 / h</div>
+  <div class="eqbody">\[ s = \dfrac&#123;3600&#125;&#123;h&#125; \]</div>
   <div class="eqnote"><code>s</code> = saturation flow rate (veh/h/ln) &nbsp;|&nbsp; <code>h</code> = saturation headway (s/veh) &nbsp;|&nbsp; Typical h ≈ 2.0–2.5 s → s ≈ 1440–1800 veh/h</div>
 </div>
 
@@ -696,12 +702,12 @@ Only 40% of the saturation flow rate becomes available capacity.</div>
 
 <div class="eq">
   <div class="eqlbl">Lane Group Capacity</div>
-  <div class="eqbody">cᵢ = sᵢ × (gᵢ / C)</div>
+  <div class="eqbody">\[ c_i = s_i \cdot \dfrac&#123;g_i&#125;&#123;C&#125; \]</div>
   <div class="eqnote"><code>sᵢ</code>=saturation flow &nbsp; <code>gᵢ</code>=effective green &nbsp; <code>C</code>=cycle length</div>
 </div>
 <div class="eq">
   <div class="eqlbl">v/c Ratio (X) — The Key Performance Indicator</div>
-  <div class="eqbody">X = v / c = vᵢ / [sᵢ × (gᵢ/C)]</div>
+  <div class="eqbody">\[ X = \dfrac&#123;v&#125;&#123;c&#125; = \dfrac&#123;v_i&#125;&#123;s_i \cdot (g_i/C)&#125; \]</div>
   <div class="eqnote">X &lt; 1.0 → OK (demand &lt; capacity). X = 1.0 → at capacity. X &gt; 1.0 → FAILURE — queue grows indefinitely.</div>
 </div>
 
@@ -787,12 +793,12 @@ bring the approach within acceptable capacity.</div>
 
 <div class="eq">
   <div class="eqlbl">Uniform Delay d₁ (Webster / HCM)</div>
-  <div class="eqbody">d₁ = 0.5C(1 − g/C)² / [1 − min(1,X)·(g/C)]</div>
+  <div class="eqbody">\[ d_1 = \dfrac&#123;0.5C(1-g/C)^2&#125;&#123;1 - \min(1,X) \cdot (g/C)&#125; \]</div>
   <div class="eqnote"><code>C</code>=cycle length &nbsp; <code>g</code>=effective green &nbsp; <code>X</code>=v/c ratio &nbsp; Result in seconds/vehicle</div>
 </div>
 <div class="eq">
   <div class="eqlbl">Total Control Delay</div>
-  <div class="eqbody">d = d₁ + d₂ + d₃</div>
+  <div class="eqbody">\[ d = d_1 + d_2 + d_3 \]</div>
   <div class="eqnote"><code>d₁</code>=uniform delay &nbsp; <code>d₂</code>=incremental (random arrival) delay &nbsp; <code>d₃</code>=preexisting queue delay</div>
 </div>
 
@@ -955,8 +961,8 @@ small volume increases cause disproportionate delay increases!</div>
 </div>
 <div class="eq">
   <div class="eqlbl">Production vs Attraction</div>
-  <div class="eqbody">Production: trip end at RESIDENTIAL land use
-Attraction: trip end at NON-RESIDENTIAL land use</div>
+  <div class="eqbody">\[ \text&#123;Production: trip end at RESIDENTIAL land use&#125; \]
+\[ \text&#123;Attraction: trip end at NON-RESIDENTIAL land use&#125; \]</div>
   <div class="eqnote">Key constraint: ΣP = ΣA. If not balanced, scale: Aᵢ(adj) = Aᵢ × (ΣP / ΣA)</div>
 </div>
 </section>
@@ -969,7 +975,7 @@ Attraction: trip end at NON-RESIDENTIAL land use</div>
 <div class="analogy"><strong>Gravity analogy:</strong> A huge mall far away competes with a small mall nearby. The gravity model formalizes this: More mass (attractions) + less distance = more trips attracted.</div>
 <div class="eq">
   <div class="eqlbl">Gravity Model Formula</div>
-  <div class="eqbody">Tᵢⱼ = Pᵢ × [Aⱼ × F(t)ᵢⱼ × Kᵢⱼ] / [Σⱼ Aⱼ × F(t)ᵢⱼ × Kᵢⱼ]</div>
+  <div class="eqbody">\[ T_&#123;ij&#125; = P_i \cdot \dfrac&#123;A_j \cdot F(t)_&#123;ij&#125; \cdot K_&#123;ij&#125;&#125;&#123;\sum_j A_j \cdot F(t)_&#123;ij&#125; \cdot K_&#123;ij&#125;&#125; \]</div>
   <div class="eqnote">
     <code>Tᵢⱼ</code>=trips from i to j &nbsp; <code>Pᵢ</code>=productions at i &nbsp; <code>Aⱼ</code>=attractions at j &nbsp; <code>Kᵢⱼ</code>=adj. factor (usually 1.0)<br>
     <code>F = 1/W^c</code> where W=travel time, c=calibration parameter
@@ -1052,12 +1058,12 @@ T₁₃ = P₁ × (A₃·F₁₃ / Σ) = 500 × (7.00/19.00) = 500 × 0.368 = <s
 <div class="analogy">Choosing between coffee shops: The closest is convenient (low travel time = high utility). The fancy one is expensive but better quality. You weigh cost vs. quality subconsciously. <strong>The logit model formalizes this weighting.</strong></div>
 <div class="eq">
   <div class="eqlbl">Utility Function</div>
-  <div class="eqbody">U = a₀ + a₁X₁ + a₂X₂ + ... + aᵣXᵣ</div>
+  <div class="eqbody">\[ U = a_0 + a_1 X_1 + a_2 X_2 + \cdots + a_r X_r \]</div>
   <div class="eqnote"><code>a₀</code>=mode-specific constant &nbsp; <code>X₁</code>=cost (cents) &nbsp; <code>X₂</code>=travel time (min) &nbsp; Coefficients are negative (more cost/time = lower utility)</div>
 </div>
 <div class="eq">
   <div class="eqlbl">Multinomial Logit — Probability of Choosing Mode i</div>
-  <div class="eqbody">P(i) = e^V(i) / Σ e^V(r)</div>
+  <div class="eqbody">\[ P(i) = \dfrac&#123;e^&#123;V(i)&#125;&#125;&#123;\sum_r e^&#123;V(r)&#125;&#125; \]</div>
   <div class="eqnote"><code>V(i)</code>=computed utility of mode i &nbsp; Higher probability = more people choose this mode</div>
 </div>
 
@@ -1652,5 +1658,251 @@ document.querySelectorAll('section.sec').forEach(s=>{if(s.id)obs.observe(s);});
 szAll();calcPHF();drawSignal();drawDelayCurve();drawQueueStatic();
 document.fonts.ready.then(()=>{szAll();redrawAll();drawQueueStatic();});
 </script>
-</body>
-</html>
+
+<!-- ══════════════════════════════════════════════════════════
+     MIDTERM PRACTICE EXAM — CEE350 Spring 2026
+     Pattern announced March 30, 2026 · Exam: April 1, 2026
+     ══════════════════════════════════════════════════════════ -->
+<section class="sec" id="midterm" style="border-top:2px solid var(--amb);padding-top:48px;">
+  <div class="snum" style="display:flex;align-items:center;justify-content:space-between;">
+    <span>🎯 MIDTERM EXAM — APRIL 1, 2026</span>
+    <button id="bn-toggle" onclick="(function()&#123;const s=document.getElementById('midterm');s.classList.toggle('bn-mode');const b=document.getElementById('bn-toggle');b.textContent=s.classList.contains('bn-mode')?'BN ▾':'EN ▸';b.classList.toggle('active');&#125;)()">EN ▸</button>
+  </div>
+  <h2>CEE350 Practice Exam — <em>Official Pattern</em></h2>
+  <p class="lead">5–6 total questions. 1 descriptive (up to intersection/signal design lecture) + 4–5 analytical problems across PHF, signal timing, and travel demand forecasting.</p>
+  <div class="bn-trans">মোট ৫–৬টি প্রশ্ন। ১টি বর্ণনামূলক (ইন্টারসেকশন/সিগন্যাল ডিজাইন লেকচার পর্যন্ত) + ৪–৫টি বিশ্লেষণমূলক সমস্যা — PHF, সিগন্যাল টাইমিং এবং ট্রাভেল ডিমান্ড ফোরকাস্টিং।</div>
+
+  <div class="infobox" style="margin-bottom:28px;">
+    <strong style="display:block;margin-bottom:8px;">Announced Breakdown (March 30, 2026):</strong>
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem;">
+      <tr style="border-bottom:1px solid var(--bdr);">
+        <td style="padding:6px 0;color:var(--teal);font-family:'Space Mono',monospace;width:40%;">Part A — Descriptive</td>
+        <td style="padding:6px 0;color:var(--txt2);">Max 1 question · up to Intersection/Signal Design lecture</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--bdr);">
+        <td style="padding:6px 0;color:var(--amb);font-family:'Space Mono',monospace;">PHF &amp; Related</td>
+        <td style="padding:6px 0;color:var(--txt2);">Max 1 problem</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--bdr);">
+        <td style="padding:6px 0;color:var(--amb);font-family:'Space Mono',monospace;">Signal Timing Plan</td>
+        <td style="padding:6px 0;color:var(--txt2);">Max 3 problems</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;color:var(--amb);font-family:'Space Mono',monospace;">Travel Demand</td>
+        <td style="padding:6px 0;color:var(--txt2);">Step 2 (Gravity model) + Step 3 (Mode split) · Max 1 problem</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ── PART A: DESCRIPTIVE ── -->
+  <h3 style="font-size:1.05rem;border-bottom:1px solid var(--bdr);padding-bottom:8px;margin-bottom:16px;">Part A — Descriptive Question</h3>
+
+  <div class="pp">
+    <div class="pp-title">Question 1 — Intersection &amp; Signal Design</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <div class="pp-qnum">Q1</div>
+        <div class="pp-qtext">(a) Distinguish between <em>at-grade</em> and <em>grade-separated</em> intersections. Under what traffic volume conditions is each preferred?<br><br>
+        (b) For a signalized intersection with heavy left-turn demand on one approach, explain the difference between a <em>protected</em> and a <em>permitted</em> left-turn phase. What is the implication for signal timing and pedestrian safety?<br><br>
+        (c) Define Level of Service (LOS) A through F for a signalized intersection. What control delay threshold separates LOS C from LOS D?</div>
+        <div class="bn-trans">(ক) অ্যাট-গ্রেড এবং গ্রেড-বিচ্ছিন্ন ইন্টারসেকশনের মধ্যে পার্থক্য করুন। কোন ট্রাফিক ভলিউম পরিস্থিতিতে প্রতিটি পছন্দনীয়?<br><br>
+        (খ) সুরক্ষিত এবং অনুমতিপ্রাপ্ত বাম-মোড় ফেজের পার্থক্য ব্যাখ্যা করুন। সিগন্যাল টাইমিং এবং পথচারী নিরাপত্তায় এর প্রভাব কী?<br><br>
+        (গ) সিগন্যালাইজড ইন্টারসেকশনের জন্য LOS A থেকে F সংজ্ঞায়িত করুন। LOS C ও D-এর মধ্যে নিয়ন্ত্রণ বিলম্বের সীমা কত?</div>
+      </div>
+      <div class="pp-hint"><strong>KEY POINTS TO COVER —</strong> At-grade = all movements at same level, low-moderate volumes; grade-separated = flyover/underpass, high-speed/high-volume. Protected LTurn = dedicated phase, no conflict with oncoming; permitted = turns through gap in oncoming. LOS C/D boundary = 35 s/veh control delay.</div>
+      <div class="bn-trans"><strong>মূল বিষয়:</strong> অ্যাট-গ্রেড = একই উচ্চতায় সব চলাচল, কম-মাঝারি ভলিউম; গ্রেড-বিচ্ছিন্ন = ফ্লাইওভার/আন্ডারপাস, উচ্চগতি/উচ্চ ভলিউম। সুরক্ষিত বাম-মোড় = নিবেদিত ফেজ, বিপরীত ট্রাফিকের সাথে কোনো দ্বন্দ্ব নেই। LOS C/D সীমা = ৩৫ s/veh।</div>
+      <div style="display:none;" class="pp-sol">
+        <div class="pp-step">
+          <span class="step">Part (a):</span> At-grade intersections have all movements at the same elevation — appropriate for urban/suburban roads with moderate volumes (AADT &lt; 30,000 typically). Grade-separated interchanges physically separate crossing traffic — required for freeways, high-speed arterials, or where stopping traffic would cause severe delay/safety issues.
+        </div>
+        <div class="pp-step">
+          <span class="step">Part (b):</span> Protected left-turn = dedicated signal phase where left-turners have a green arrow and no conflict with oncoming traffic. Permitted = left-turn allowed on circular green by finding gaps in oncoming flow. Protected is safer and needed when left-turn volume is high, but requires extra cycle time. Pedestrian safety: during protected phase, pedestrians crossing the conflicting street can also get a walk signal safely.
+        </div>
+        <div class="pp-step">
+          <span class="step">Part (c):</span> LOS A ≤10 s/veh · LOS B 10–20 · LOS C 20–35 · LOS D 35–55 · LOS E 55–80 · LOS F &gt;80 s/veh (or X &gt; 1.0). LOS C/D boundary = <strong>35 s/veh</strong>.
+        </div>
+      </div>
+      <div class="pp-ans">→ LOS C/D = 35 s/veh | Protected LTurn = no conflict with oncoming | Grade-separated for high speed/volume</div>
+    </div>
+  </div>
+
+  <!-- ── PART B: PHF ── -->
+  <h3 style="font-size:1.05rem;border-bottom:1px solid var(--bdr);padding-bottom:8px;margin-bottom:16px;margin-top:32px;">Part B — PHF &amp; Related (Max 1 Problem)</h3>
+
+  <div class="pp">
+    <div class="pp-title">Problem 2 — Peak Hour Factor</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <div class="pp-qnum">P2</div>
+        <div class="pp-qtext">During the 4:00–5:00 PM peak hour, a traffic engineer recorded the following 15-minute counts at a signalized approach:
+        <div class="bn-trans">বিকাল ৪:০০–৫:০০ PM পিক আওয়ারে, একজন ট্রাফিক ইঞ্জিনিয়ার একটি সিগন্যালাইজড অ্যাপ্রোচে ১৫-মিনিটের গণনা রেকর্ড করেছেন:</div><br><br>
+          <table style="margin:10px 0;border-collapse:collapse;font-size:.82rem;font-family:'Space Mono',monospace;">
+            <tr style="background:var(--surf2);"><th style="padding:6px 14px;border:1px solid var(--bdr);">Interval</th><th style="padding:6px 14px;border:1px solid var(--bdr);">Volume (veh)</th></tr>
+            <tr><td style="padding:5px 14px;border:1px solid var(--bdr);">4:00–4:15</td><td style="padding:5px 14px;border:1px solid var(--bdr);text-align:center;">310</td></tr>
+            <tr><td style="padding:5px 14px;border:1px solid var(--bdr);">4:15–4:30</td><td style="padding:5px 14px;border:1px solid var(--bdr);text-align:center;">385</td></tr>
+            <tr><td style="padding:5px 14px;border:1px solid var(--bdr);">4:30–4:45</td><td style="padding:5px 14px;border:1px solid var(--bdr);text-align:center;">420</td></tr>
+            <tr><td style="padding:5px 14px;border:1px solid var(--bdr);">4:45–5:00</td><td style="padding:5px 14px;border:1px solid var(--bdr);text-align:center;">345</td></tr>
+          </table>
+          (a) Calculate the Peak Hour Factor (PHF).<br>
+          (b) Find the peak flow rate <em>v</em> for capacity analysis.<br>
+          (c) The approach has a single lane with saturation flow rate s = 1,800 veh/h and cycle length C = 90 s. What minimum effective green time <em>g</em> is needed to maintain X ≤ 0.90?
+          <div class="bn-trans">(ক) পিক আওয়ার ফ্যাক্টর (PHF) হিসাব করুন।<br>
+          (খ) ক্যাপাসিটি বিশ্লেষণের জন্য পিক ফ্লো রেট v নির্ণয় করুন।<br>
+          (গ) অ্যাপ্রোচে একটি লেন আছে, s = ১,৮০০ veh/h এবং C = ৯০ s। X ≤ ০.৯০ বজায় রাখতে ন্যূনতম কার্যকর সবুজ সময় g কত হওয়া দরকার?</div></div>
+      </div>
+      <div class="pp-hint"><strong>💡 HINT —</strong> V = sum of all 4 intervals. V₁₅,max = 420. PHF = V/(4×V₁₅,max). For part (c): X = v/c = v/[s×(g/C)] → solve for g.</div>
+      <div class="bn-trans"><strong>💡 ইঙ্গিত —</strong> V = চারটি বিরতির যোগফল। V₁₅,max = ৪২০। PHF = V/(4×V₁₅,max)। (গ) অংশের জন্য: X = v/[s×(g/C)] → g-এর জন্য সমাধান করুন।</div>
+      <div style="display:none;" class="pp-sol">
+        <div class="pp-step"><span class="step">Step 1 — Total hourly volume:</span> V = 310 + 385 + 420 + 345 = <strong>1,460 veh/h</strong></div>
+        <div class="pp-step"><span class="step">Step 2 — PHF:</span></div>
+        <div class="eq"><div class="eqlbl">PHF FORMULA</div><div class="eqbody">\[ \text&#123;PHF&#125; = \dfrac&#123;V&#125;&#123;4 \cdot V_&#123;15,\max&#125;&#125; = \dfrac&#123;1460&#125;&#123;4 \times 420&#125; = \dfrac&#123;1460&#125;&#123;1680&#125; = \mathbf&#123;0.869&#125; \]</div></div>
+        <div class="pp-step"><span class="step">Step 3 — Peak flow rate:</span></div>
+        <div class="eq"><div class="eqlbl">PEAK FLOW RATE</div><div class="eqbody">\[ v = \dfrac&#123;V&#125;&#123;\text&#123;PHF&#125;&#125; = \dfrac&#123;1460&#125;&#123;0.869&#125; = \mathbf&#123;1680 \text&#123; veh/h&#125;&#125; \]</div></div>
+        <div class="pp-step"><span class="step">Step 4 — Minimum effective green (X ≤ 0.90):</span></div>
+        <div class="eq"><div class="eqlbl">SOLVE FOR g</div><div class="eqbody">\[ X = \dfrac&#123;v&#125;&#123;s \cdot (g/C)&#125; \leq 0.90 \implies g \geq \dfrac&#123;v \cdot C&#125;&#123;s \cdot 0.90&#125; = \dfrac&#123;1680 \times 90&#125;&#123;1800 \times 0.90&#125; = \mathbf&#123;93.3 \text&#123; s&#125;&#125; \]</div><div class="eqnote">93.3 s &gt; C = 90 s → lane is <strong>over-saturated</strong> (X &gt; 1.0 even with g = C). A second lane is required.</div></div>
+      </div>
+      <div class="pp-ans">✓ PHF = 0.869 | v = 1,680 veh/h | Over-saturated — 2nd lane needed</div>
+    </div>
+  </div>
+
+  <!-- ── PART C: SIGNAL TIMING ── -->
+  <h3 style="font-size:1.05rem;border-bottom:1px solid var(--bdr);padding-bottom:8px;margin-bottom:16px;margin-top:32px;">Part C — Signal Timing Plan (Max 3 Problems)</h3>
+
+  <!-- Signal P3 -->
+  <div class="pp">
+    <div class="pp-title">Problem 3 — Webster's Optimal Cycle Length</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <div class="pp-qnum">P3</div>
+        <div class="pp-qtext">A 2-phase signalized intersection has the following peak-hour approach data:<br><br>
+          <table style="margin:10px 0;border-collapse:collapse;font-size:.82rem;font-family:'Space Mono',monospace;">
+            <tr style="background:var(--surf2);"><th style="padding:6px 12px;border:1px solid var(--bdr);">Phase</th><th style="padding:6px 12px;border:1px solid var(--bdr);">Volume v (veh/h)</th><th style="padding:6px 12px;border:1px solid var(--bdr);">Sat. Flow s (veh/h)</th><th style="padding:6px 12px;border:1px solid var(--bdr);">Lost Time tL (s)</th></tr>
+            <tr><td style="padding:5px 12px;border:1px solid var(--bdr);">1 (N-S)</td><td style="padding:5px 12px;border:1px solid var(--bdr);text-align:center;">540</td><td style="padding:5px 12px;border:1px solid var(--bdr);text-align:center;">1,800</td><td style="padding:5px 12px;border:1px solid var(--bdr);text-align:center;">4</td></tr>
+            <tr><td style="padding:5px 12px;border:1px solid var(--bdr);">2 (E-W)</td><td style="padding:5px 12px;border:1px solid var(--bdr);text-align:center;">810</td><td style="padding:5px 12px;border:1px solid var(--bdr);text-align:center;">1,800</td><td style="padding:5px 12px;border:1px solid var(--bdr);text-align:center;">4</td></tr>
+          </table>
+          Calculate the Webster optimal cycle length C₀. Use Y = yellow + all-red = 5 s per phase.
+          <div class="bn-trans">ওয়েবস্টারের সর্বোত্তম সাইকেল দৈর্ঘ্য C₀ হিসাব করুন। Y = হলুদ + অল-রেড = ৫ s প্রতি ফেজ।</div></div>
+      </div>
+      <div class="pp-hint"><strong>💡 HINT —</strong> yᵢ = vᵢ/sᵢ (critical flow ratio per phase). L = ΣtL (total lost time per cycle). C₀ = (1.5L + 5)/(1 − ΣY). Round up to nearest 5 s.</div>
+      <div class="bn-trans"><strong>💡 ইঙ্গিত —</strong> yᵢ = vᵢ/sᵢ (প্রতিটি ফেজের ক্রিটিক্যাল ফ্লো অনুপাত)। L = ΣtL (সাইকেল প্রতি মোট বিলুপ্ত সময়)। C₀ = (1.5L + 5)/(1 − ΣY)। নিকটতম ৫ s-এ গোলাকার করুন।</div>
+      <div style="display:none;" class="pp-sol">
+        <div class="pp-step"><span class="step">Step 1 — Critical flow ratios:</span></div>
+        <div class="eq"><div class="eqlbl">FLOW RATIOS</div><div class="eqbody">\[ y_1 = \dfrac&#123;540&#125;&#123;1800&#125; = 0.300 \qquad y_2 = \dfrac&#123;810&#125;&#123;1800&#125; = 0.450 \qquad \Sigma Y = 0.750 \]</div></div>
+        <div class="pp-step"><span class="step">Step 2 — Total lost time:</span> L = 4 + 4 = <strong>8 s</strong></div>
+        <div class="pp-step"><span class="step">Step 3 — Webster's formula:</span></div>
+        <div class="eq"><div class="eqlbl">WEBSTER OPTIMAL CYCLE</div><div class="eqbody">\[ C_0 = \dfrac&#123;1.5L + 5&#125;&#123;1 - \Sigma Y&#125; = \dfrac&#123;1.5(8) + 5&#125;&#123;1 - 0.750&#125; = \dfrac&#123;17&#125;&#123;0.250&#125; = 68 \text&#123; s&#125; \implies \mathbf&#123;C_0 = 70 \text&#123; s&#125;&#125; \]</div><div class="eqnote">Round up to nearest 5 s → C₀ = 70 s. Note: ΣY = 0.750 is high — intersection is near capacity.</div></div>
+      </div>
+      <div class="pp-ans">✓ y₁ = 0.300, y₂ = 0.450, ΣY = 0.750 → C₀ = 70 s</div>
+    </div>
+  </div>
+
+  <!-- Signal P4 -->
+  <div class="pp">
+    <div class="pp-title">Problem 4 — Green Time Allocation</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <div class="pp-qnum">P4</div>
+        <div class="pp-qtext">Using the intersection data from Problem 3 (C = 70 s, L = 8 s, y₁ = 0.300, y₂ = 0.450), allocate the effective green times g₁ and g₂. Then find the actual displayed green G for each phase, given Y = 3 s (yellow) and AR = 1 s (all-red) per phase.
+        <div class="bn-trans">সমস্যা ৩-এর ডেটা ব্যবহার করে কার্যকর সবুজ সময় g₁ ও g₂ বরাদ্দ করুন। প্রতিটি ফেজের প্রকৃত প্রদর্শিত সবুজ G নির্ণয় করুন, Y = ৩ s (হলুদ) এবং AR = ১ s।</div></div>
+      </div>
+      <div class="pp-hint"><strong>💡 HINT —</strong> Total effective green = C − L. Split proportionally to yᵢ/ΣY. Actual green: G = g − Y − AR + tL (since g = G + Y + AR − tL).</div>
+      <div class="bn-trans"><strong>💡 ইঙ্গিত —</strong> মোট কার্যকর সবুজ = C − L। yᵢ/ΣY অনুপাতে ভাগ করুন। প্রকৃত সবুজ: G = g − Y − AR + tL।</div>
+      <div style="display:none;" class="pp-sol">
+        <div class="pp-step"><span class="step">Step 1 — Total effective green:</span></div>
+        <div class="eq"><div class="eqlbl">EFFECTIVE GREEN AVAILABLE</div><div class="eqbody">\[ g_\text&#123;total&#125; = C - L = 70 - 8 = 62 \text&#123; s&#125; \]</div></div>
+        <div class="pp-step"><span class="step">Step 2 — Proportional split:</span></div>
+        <div class="eq"><div class="eqlbl">GREEN SPLITS</div><div class="eqbody">\[ g_1 = \dfrac&#123;y_1&#125;&#123;\Sigma Y&#125; \times g_\text&#123;total&#125; = \dfrac&#123;0.300&#125;&#123;0.750&#125; \times 62 = \mathbf&#123;24.8 \approx 25 \text&#123; s&#125;&#125; \]
+\[ g_2 = \dfrac&#123;0.450&#125;&#123;0.750&#125; \times 62 = \mathbf&#123;37.2 \approx 37 \text&#123; s&#125;&#125; \]</div></div>
+        <div class="pp-step"><span class="step">Step 3 — Displayed green (G = g − Y − AR + tL):</span></div>
+        <div class="eq"><div class="eqlbl">DISPLAYED GREEN</div><div class="eqbody">\[ G_1 = g_1 - Y - AR + t_L = 25 - 3 - 1 + 4 = \mathbf&#123;25 \text&#123; s&#125;&#125; \]
+\[ G_2 = 37 - 3 - 1 + 4 = \mathbf&#123;37 \text&#123; s&#125;&#125; \]</div><div class="eqnote">Check: (G₁ + Y + AR) + (G₂ + Y + AR) = (25+3+1)+(37+3+1) = 29+41 = 70 s ✓</div></div>
+      </div>
+      <div class="pp-ans">✓ g₁ = 25 s, g₂ = 37 s | G₁ = 25 s, G₂ = 37 s | Cycle check: 70 s ✓</div>
+    </div>
+  </div>
+
+  <!-- Signal P5 -->
+  <div class="pp">
+    <div class="pp-title">Problem 5 — v/c Ratio, Delay &amp; LOS</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <div class="pp-qnum">P5</div>
+        <div class="pp-qtext">Using C = 70 s, s = 1,800 veh/h, g₁ = 25 s, g₂ = 37 s, v₁ = 540 veh/h, v₂ = 810 veh/h:<br><br>
+          (a) Calculate the v/c ratio (X) for each phase.<br>
+          (b) Calculate the uniform delay d₁ for Phase 2 (the critical phase).<br>
+          (c) Determine the LOS for Phase 2. (Assume d₂ = d₃ = 0.)
+          <div class="bn-trans">C = ৭০ s, s = ১,৮০০ veh/h, g₁ = ২৫ s, g₂ = ৩৭ s, v₁ = ৫৪০ veh/h, v₂ = ৮১০ veh/h ব্যবহার করে:<br><br>
+          (ক) প্রতিটি ফেজের v/c অনুপাত (X) হিসাব করুন।<br>
+          (খ) ফেজ ২ (ক্রিটিক্যাল ফেজ)-এর জন্য ইউনিফর্ম বিলম্ব d₁ হিসাব করুন।<br>
+          (গ) ফেজ ২-এর LOS নির্ধারণ করুন। (ধরুন d₂ = d₃ = ০।)</div></div>
+      </div>
+      <div class="pp-hint"><strong>💡 HINT —</strong> cᵢ = sᵢ × (gᵢ/C). Xᵢ = vᵢ/cᵢ. d₁ = 0.5C(1−g/C)² / [1−min(1,X)·(g/C)]. LOS from control delay table.</div>
+      <div class="bn-trans"><strong>💡 ইঙ্গিত —</strong> cᵢ = sᵢ × (gᵢ/C)। Xᵢ = vᵢ/cᵢ। d₁ = 0.5C(1−g/C)² / [1−min(1,X)·(g/C)]। LOS নিয়ন্ত্রণ বিলম্ব সারণি থেকে।</div>
+      <div style="display:none;" class="pp-sol">
+        <div class="pp-step"><span class="step">Step 1 — Lane capacities:</span></div>
+        <div class="eq"><div class="eqlbl">CAPACITY</div><div class="eqbody">\[ c_1 = 1800 \times \dfrac&#123;25&#125;&#123;70&#125; = 642.9 \text&#123; veh/h&#125; \qquad c_2 = 1800 \times \dfrac&#123;37&#125;&#123;70&#125; = 951.4 \text&#123; veh/h&#125; \]</div></div>
+        <div class="pp-step"><span class="step">Step 2 — v/c ratios:</span></div>
+        <div class="eq"><div class="eqlbl">V/C RATIO</div><div class="eqbody">\[ X_1 = \dfrac&#123;540&#125;&#123;642.9&#125; = \mathbf&#123;0.840&#125; \qquad X_2 = \dfrac&#123;810&#125;&#123;951.4&#125; = \mathbf&#123;0.851&#125; \]</div></div>
+        <div class="pp-step"><span class="step">Step 3 — Uniform delay d₁ for Phase 2:</span></div>
+        <div class="eq"><div class="eqlbl">UNIFORM DELAY (Phase 2)</div><div class="eqbody">\[ d_1 = \dfrac&#123;0.5 \times 70 \times (1 - 37/70)^2&#125;&#123;1 - \min(1, 0.851) \times (37/70)&#125; = \dfrac&#123;35 \times (0.471)^2&#125;&#123;1 - 0.851 \times 0.529&#125; \]
+\[ = \dfrac&#123;35 \times 0.222&#125;&#123;1 - 0.450&#125; = \dfrac&#123;7.77&#125;&#123;0.550&#125; = \mathbf&#123;14.1 \text&#123; s/veh&#125;&#125; \]</div></div>
+        <div class="pp-step"><span class="step">Step 4 — LOS:</span> d = 14.1 s/veh → <strong style="color:var(--teal);">LOS B</strong> (10–20 s/veh range)</div>
+      </div>
+      <div class="pp-ans">✓ X₁ = 0.840, X₂ = 0.851 | d₁ = 14.1 s/veh | LOS B</div>
+    </div>
+  </div>
+
+  <!-- ── PART D: TRAVEL DEMAND FORECASTING ── -->
+  <h3 style="font-size:1.05rem;border-bottom:1px solid var(--bdr);padding-bottom:8px;margin-bottom:16px;margin-top:32px;">Part D — Travel Demand Forecasting (Step 2 + Step 3)</h3>
+
+  <div class="pp">
+    <div class="pp-title">Problem 6 — Gravity Model (Step 2) + Mode Split (Step 3)</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <div class="pp-qnum">P6</div>
+        <div class="pp-qtext"><strong>Step 2 — Trip Distribution (Gravity Model)</strong><br><br>
+          A study area has 3 zones. Productions and attractions have been balanced at a total of 800 trips. Friction factors Fᵢⱼ are given (K = 1.0 for all zone pairs):
+          <table style="margin:10px 0;border-collapse:collapse;font-size:.8rem;font-family:'Space Mono',monospace;">
+            <tr style="background:var(--surf2);"><th style="padding:6px 10px;border:1px solid var(--bdr);">Zone</th><th style="padding:6px 10px;border:1px solid var(--bdr);">Productions (Pᵢ)</th><th style="padding:6px 10px;border:1px solid var(--bdr);">Attractions (Aⱼ)</th></tr>
+            <tr><td style="padding:5px 10px;border:1px solid var(--bdr);">1</td><td style="padding:5px 10px;border:1px solid var(--bdr);text-align:center;">500</td><td style="padding:5px 10px;border:1px solid var(--bdr);text-align:center;">250</td></tr>
+            <tr><td style="padding:5px 10px;border:1px solid var(--bdr);">2</td><td style="padding:5px 10px;border:1px solid var(--bdr);text-align:center;">300</td><td style="padding:5px 10px;border:1px solid var(--bdr);text-align:center;">400</td></tr>
+            <tr><td style="padding:5px 10px;border:1px solid var(--bdr);">3</td><td style="padding:5px 10px;border:1px solid var(--bdr);text-align:center;">—</td><td style="padding:5px 10px;border:1px solid var(--bdr);text-align:center;">150</td></tr>
+          </table>
+          Friction factors: F₁₁ = 4.0, F₁₂ = 1.0, F₁₃ = 0.45, F₂₁ = 1.56, F₂₂ = 0.69, F₂₃ = 2.78.<br><br>
+          Find the trip distribution matrix Tᵢⱼ for Zones 1 and 2.<br><br>
+          <strong>Step 3 — Mode Split (Logit Model)</strong><br><br>
+          For the Zone 1→Zone 2 trips, a binary logit model gives utilities:<br>
+          V(auto) = −0.40 − 0.025×(travel time, min) − 0.10×(cost, BDT)<br>
+          V(transit) = 0 − 0.025×(travel time, min) − 0.10×(cost, BDT)<br>
+          Auto: 22 min, cost = 30 BDT. Transit: 38 min, cost = 8 BDT.<br>
+          Find the probability of choosing auto and transit. How many of the T₁₂ trips use each mode?
+          <div class="bn-trans">জোন ১ ও ২-এর জন্য ট্রিপ ডিস্ট্রিবিউশন ম্যাট্রিক্স Tᵢⱼ নির্ণয় করুন।<br><br>
+          <strong>ধাপ ৩ — মোড স্প্লিট (লজিট মডেল)</strong><br><br>
+          জোন ১→জোন ২ ট্রিপের জন্য বাইনারি লজিট মডেল ইউটিলিটি:<br>
+          V(অটো) = −০.৪০ − ০.০২৫×(ভ্রমণ সময়, মিনিট) − ০.১০×(খরচ, টাকা)<br>
+          V(ট্রানজিট) = ০ − ০.০২৫×(ভ্রমণ সময়) − ০.১০×(খরচ)<br>
+          অটো: ২২ মিনিট, খরচ = ৩০ টাকা। ট্রানজিট: ৩৮ মিনিট, খরচ = ৮ টাকা।<br>
+          অটো ও ট্রানজিট বেছে নেওয়ার সম্ভাবনা নির্ণয় করুন। T₁₂ ট্রিপের মধ্যে কতটি প্রতিটি মোড ব্যবহার করবে?</div></div>
+      </div>
+      <div class="pp-hint"><strong>💡 HINT —</strong> Tᵢⱼ = Pᵢ × (Aⱼ·Fᵢⱼ) / Σⱼ(Aⱼ·Fᵢⱼ). Then P(i) = eⱽ⁽ⁱ⁾ / Σeⱽ⁽ʳ⁾.</div>
+      <div class="bn-trans"><strong>💡 ইঙ্গিত —</strong> Tᵢⱼ = Pᵢ × (Aⱼ·Fᵢⱼ) / Σⱼ(Aⱼ·Fᵢⱼ)। তারপর P(i) = eⱽ⁽ⁱ⁾ / Σeⱽ⁽ʳ⁾।</div>
+      <div style="display:none;" class="pp-sol">
+        <div class="pp-step"><span class="step">STEP 2 — Gravity Model for Zone 1:</span></div>
+        <div class="eq"><div class="eqlbl">ZONE 1 DENOMINATOR</div><div class="eqbody">\[ \Sigma = A_1 F_&#123;11&#125; + A_2 F_&#123;12&#125; + A_3 F_&#123;13&#125; = 250(4.0) + 400(1.0) + 150(0.45) = 1000 + 400 + 67.5 = 1467.5 \]</div></div>
+        <div class="eq"><div class="eqlbl">ZONE 1 TRIPS</div><div class="eqbody">\[ T_&#123;11&#125; = 500 \times \dfrac&#123;1000&#125;&#123;1467.5&#125; = 341 \quad T_&#123;12&#125; = 500 \times \dfrac&#123;400&#125;&#123;1467.5&#125; = 136 \quad T_&#123;13&#125; = 500 \times \dfrac&#123;67.5&#125;&#123;1467.5&#125; = 23 \]</div><div class="eqnote">Check: 341 + 136 + 23 = 500 ✓</div></div>
+        <div class="pp-step"><span class="step">Zone 2 Denominator:</span></div>
+        <div class="eq"><div class="eqlbl">ZONE 2 DENOMINATOR</div><div class="eqbody">\[ \Sigma = 250(1.56) + 400(0.69) + 150(2.78) = 390 + 276 + 417 = 1083 \]</div></div>
+        <div class="eq"><div class="eqlbl">ZONE 2 TRIPS</div><div class="eqbody">\[ T_&#123;21&#125; = 300 \times \dfrac&#123;390&#125;&#123;1083&#125; = 108 \quad T_&#123;22&#125; = 300 \times \dfrac&#123;276&#125;&#123;1083&#125; = 76 \quad T_&#123;23&#125; = 300 \times \dfrac&#123;417&#125;&#123;1083&#125; = 116 \]</div><div class="eqnote">Check: 108 + 76 + 116 = 300 ✓</div></div>
+        <div class="pp-step"><span class="step">STEP 3 — Mode Split for T₁₂ = 136 trips:</span></div>
+        <div class="eq"><div class="eqlbl">UTILITY FUNCTIONS</div><div class="eqbody">\[ V(\text&#123;auto&#125;) = -0.40 - 0.025(22) - 0.10(30) = -0.40 - 0.55 - 3.00 = -3.95 \]
+\[ V(\text&#123;transit&#125;) = 0 - 0.025(38) - 0.10(8) = -0.95 - 0.80 = -1.75 \]</div></div>
+        <div class="eq"><div class="eqlbl">LOGIT PROBABILITIES</div><div class="eqbody">\[ P(\text&#123;auto&#125;) = \dfrac&#123;e^&#123;-3.95&#125;&#125;&#123;e^&#123;-3.95&#125; + e^&#123;-1.75&#125;&#125; = \dfrac&#123;0.01925&#125;&#123;0.01925 + 0.17377&#125; = \dfrac&#123;0.01925&#125;&#123;0.19302&#125; = \mathbf&#123;0.0998 \approx 10\%&#125; \]
+\[ P(\text&#123;transit&#125;) = 1 - 0.10 = \mathbf&#123;0.90 \approx 90\%&#125; \]</div><div class="eqnote">Auto: 136 × 0.10 = <strong>14 trips</strong> | Transit: 136 × 0.90 = <strong>122 trips</strong>. Transit dominates because auto cost (30 BDT) is much higher.</div></div>
+      </div>
+      <div class="pp-ans">✓ T₁₂ = 136, T₂₁ = 108 | P(auto) ≈ 10%, P(transit) ≈ 90% | 14 auto trips, 122 transit trips</div>
+    </div>
+  </div>
+
+</section>
+</script>
+</Main>
