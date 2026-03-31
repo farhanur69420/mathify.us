@@ -1,190 +1,164 @@
 ---
+import Main from '../../layouts/Main.astro';
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CEE 350 — Traffic Analysis & Design | Interactive Study Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#060b14;--bg2:#0c1420;--bg3:#111d2e;--bg4:#162236;
-  --ink:#e8f4f8;--muted:#5a7a99;--dim:#8aabcc;
-  --green:#00ffa3;--cyan:#00d4ff;--amber:#ffb300;
-  --red:#ff4d6d;--violet:#a78bfa;
-  --border:rgba(0,212,255,.1);--border2:rgba(0,255,163,.12);
-  --glow-g:rgba(0,255,163,.15);--glow-c:rgba(0,212,255,.15);
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--ink);font-family:'Lora',serif;line-height:1.7;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
-::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--cyan);opacity:.5;}
-
-/* ─── NAV ─── */
-nav{position:sticky;top:0;z-index:200;background:rgba(6,11,20,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.nlogo{font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:var(--green);text-decoration:none;letter-spacing:.05em;}
-.nlinks{display:flex;gap:6px;flex-wrap:wrap;}
-.nlinks a{color:var(--muted);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:4px 10px;border:1px solid transparent;border-radius:2px;transition:all .2s;letter-spacing:.04em;}
-.nlinks a:hover{color:var(--cyan);border-color:var(--border);}
-
+<Main title="Traffic Analysis & Design — CEE350" description="CEE 350 traffic flow theory, signal timing, LOS, trip generation and mode split with interactive calculators." activeNav="civil">
+<style is:inline>
 /* ─── HERO ─── */
 .hero{position:relative;z-index:1;padding:70px 60px 56px;max-width:1100px;margin:0 auto;}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--cyan);border:1px solid rgba(0,212,255,.3);padding:5px 14px;border-radius:2px;margin-bottom:20px;text-transform:uppercase;}
-.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.05;margin-bottom:18px;}
-.hero h1 span{color:var(--green);}
-.hero-lead{font-size:1.05rem;color:var(--dim);max-width:640px;margin-bottom:32px;line-height:1.8;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--teal);border:1px solid rgba(0,212,255,.3);padding:5px 14px;border-radius:2px;margin-bottom:20px;text-transform:uppercase;}
+.hero h1{font-family:'Space Mono',sans-serif;font-weight:800;font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.05;margin-bottom:18px;}
+.hero h1 span{color:var(--teal);}
+.hero-lead{font-size:1.05rem;color:var(--txt2);max-width:640px;margin-bottom:32px;line-height:1.8;}
 .hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
-.hs{border-left:2px solid var(--border);padding-left:14px;}
-.hs strong{display:block;font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;color:var(--green);}
-.hs span{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);}
+.hs{border-left:2px solid var(--bdr);padding-left:14px;}
+.hs strong{display:block;font-family:'Space Mono',sans-serif;font-weight:700;font-size:1.4rem;color:var(--teal);}
+.hs span{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--mut);}
 
 /* ─── LAYOUT ─── */
 .wrap{display:grid;grid-template-columns:200px 1fr;max-width:1200px;margin:0 auto;position:relative;z-index:1;}
-.toc{position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;padding:20px 0 20px 28px;border-right:1px solid var(--border);}
-.toclbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--muted);margin-bottom:12px;text-transform:uppercase;}
+.toc{position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;padding:20px 0 20px 28px;border-right:1px solid var(--bdr);}
+.toclbl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--mut);margin-bottom:12px;text-transform:uppercase;}
 .toc ul{list-style:none;}
 .toc li{margin-bottom:2px;}
-.toc a{display:block;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);text-decoration:none;padding:3px 8px;border-left:2px solid transparent;transition:all .15s;}
-.toc a:hover,.toc a.act{color:var(--green);border-left-color:var(--green);background:var(--glow-g);}
+.toc a{display:block;font-family:'Space Mono',monospace;font-size:.68rem;color:var(--mut);text-decoration:none;padding:3px 8px;border-left:2px solid transparent;transition:all .15s;}
+.toc a:hover,.toc a.act{color:var(--teal);border-left-color:var(--teal);background:var(--tdim);}
 .content{padding:0 48px 80px;}
 
 /* ─── SECTIONS ─── */
-.sec{padding:60px 0 20px;border-top:1px solid var(--border);}
+.sec{padding:60px 0 20px;border-top:1px solid var(--bdr);}
 .sec:first-child{border-top:none;padding-top:36px;}
-.snum{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.18em;color:var(--muted);margin-bottom:8px;text-transform:uppercase;}
-.sec h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;margin-bottom:12px;}
-.sec h2 em{color:var(--green);font-style:normal;}
-.sec h2 .cy{color:var(--cyan);}
-.lead{color:var(--dim);font-size:.97rem;max-width:680px;margin-bottom:28px;line-height:1.8;}
-h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--cyan);margin:24px 0 10px;}
+.snum{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.18em;color:var(--mut);margin-bottom:8px;text-transform:uppercase;}
+.sec h2{font-family:'Space Mono',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.15;margin-bottom:12px;}
+.sec h2 em{color:var(--teal);font-style:normal;}
+.sec h2 .cy{color:var(--teal);}
+.lead{color:var(--txt2);font-size:.97rem;max-width:680px;margin-bottom:28px;line-height:1.8;}
+h3{font-family:'Space Mono',sans-serif;font-weight:700;font-size:1rem;color:var(--teal);margin:24px 0 10px;}
 
 /* ─── CARDS ─── */
 .cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0;}
-.cc{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:18px;transition:border-color .2s,transform .2s;}
+.cc{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:18px;transition:border-color .2s,transform .2s;}
 .cc:hover{border-color:rgba(0,255,163,.3);transform:translateY(-2px);}
 .ci{font-size:1.5rem;margin-bottom:10px;}
-.cc h4{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:6px;}
-.cc p{font-size:.82rem;color:var(--dim);line-height:1.55;}
-.cval{font-family:'JetBrains Mono',monospace;color:var(--green);font-size:.8rem;margin-top:8px;display:block;}
+.cc h4{font-family:'Space Mono',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:6px;}
+.cc p{font-size:.82rem;color:var(--txt2);line-height:1.55;}
+.cval{font-family:'Space Mono',monospace;color:var(--teal);font-size:.8rem;margin-top:8px;display:block;}
 
 /* ─── CALLOUTS ─── */
-.analogy{background:linear-gradient(135deg,rgba(0,255,163,.05),rgba(0,212,255,.05));border:1px solid rgba(0,255,163,.2);border-left:3px solid var(--green);border-radius:4px;padding:14px 18px;margin:14px 0;font-size:.9rem;color:var(--dim);position:relative;}
-.analogy::before{content:'🧠 ANALOGY';display:block;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:var(--green);margin-bottom:5px;}
-.analogy strong{color:var(--green);}
-.infobox{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.2);border-radius:4px;padding:13px 17px;margin:12px 0;font-size:.87rem;color:var(--dim);}
-.infobox strong{color:var(--cyan);}
-.warn{background:rgba(255,179,0,.04);border:1px solid rgba(255,179,0,.2);border-radius:4px;padding:13px 17px;margin:12px 0;font-size:.87rem;color:var(--dim);}
-.warn strong{color:var(--amber);}
+.analogy{background:linear-gradient(135deg,rgba(0,255,163,.05),rgba(0,212,255,.05));border:1px solid rgba(0,255,163,.2);border-left:3px solid var(--teal);border-radius:4px;padding:14px 18px;margin:14px 0;font-size:.9rem;color:var(--txt2);position:relative;}
+.analogy::before{content:'🧠 ANALOGY';display:block;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:var(--teal);margin-bottom:5px;}
+.analogy strong{color:var(--teal);}
+.infobox{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.2);border-radius:4px;padding:13px 17px;margin:12px 0;font-size:.87rem;color:var(--txt2);}
+.infobox strong{color:var(--teal);}
+.warn{background:rgba(255,179,0,.04);border:1px solid rgba(255,179,0,.2);border-radius:4px;padding:13px 17px;margin:12px 0;font-size:.87rem;color:var(--txt2);}
+.warn strong{color:var(--amb);}
 
 /* ─── EQ BOX ─── */
-.eq{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:4px;padding:14px 20px;margin:12px 0;}
-.eqlbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;color:var(--amber);margin-bottom:6px;text-transform:uppercase;}
-.eqbody{font-family:'JetBrains Mono',monospace;font-size:.95rem;color:var(--ink);overflow-x:auto;padding:4px 0;}
-.eqnote{font-size:.8rem;color:var(--muted);margin-top:6px;line-height:1.5;}
-.eqnote code{font-family:'JetBrains Mono',monospace;background:var(--bg3);color:var(--green);padding:1px 5px;border-radius:2px;font-size:.78rem;}
+.eq{background:var(--surf);border:1px solid var(--bdr);border-left:3px solid var(--amb);border-radius:4px;padding:14px 20px;margin:12px 0;}
+.eqlbl{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;color:var(--amb);margin-bottom:6px;text-transform:uppercase;}
+.eqbody{font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);overflow-x:auto;padding:4px 0;}
+.eqnote{font-size:.8rem;color:var(--mut);margin-top:6px;line-height:1.5;}
+.eqnote code{font-family:'Space Mono',monospace;background:var(--surf2);color:var(--teal);padding:1px 5px;border-radius:2px;font-size:.78rem;}
 
 /* ─── SIM ─── */
-.sim{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin:20px 0;}
-.simhdr{background:var(--bg3);padding:10px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.simtitle{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.08em;color:var(--cyan);text-transform:uppercase;}
+.sim{background:var(--surf);border:1px solid var(--bdr);border-radius:6px;overflow:hidden;margin:20px 0;}
+.simhdr{background:var(--surf2);padding:10px 18px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.simtitle{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.08em;color:var(--teal);text-transform:uppercase;}
 .simbody{padding:18px;}
 canvas{display:block;width:100%;}
 .crow{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap;}
-.clbl{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);}
-input[type=range]{-webkit-appearance:none;height:3px;background:var(--border2);border-radius:2px;outline:none;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--green);border-radius:50%;cursor:pointer;}
-.cval2{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--green);min-width:70px;}
-.sbtn{font-family:'JetBrains Mono',monospace;font-size:.68rem;padding:5px 14px;background:var(--green);color:#000;border:none;border-radius:2px;cursor:pointer;transition:opacity .2s;font-weight:600;}
+.clbl{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--mut);}
+input[type=range]{-webkit-appearance:none;height:3px;background:var(--bdr);border-radius:2px;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--teal);border-radius:50%;cursor:pointer;}
+.cval2{font-family:'Space Mono',monospace;font-size:.85rem;color:var(--teal);min-width:70px;}
+.sbtn{font-family:'Space Mono',monospace;font-size:.68rem;padding:5px 14px;background:var(--teal);color:#000;border:none;border-radius:2px;cursor:pointer;transition:opacity .2s;font-weight:600;}
 .sbtn:hover{opacity:.8;}
-.sbtn.sec2{background:transparent;color:var(--cyan);border:1px solid rgba(0,212,255,.3);}
-.sbtn.sec2:hover{background:var(--glow-c);}
-.spill{padding:3px 10px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.04em;}
-.stA{background:rgba(0,255,163,.1);color:var(--green);border:1px solid rgba(0,255,163,.3);}
-.stB{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.3);}
+.sbtn.sec2{background:transparent;color:var(--teal);border:1px solid rgba(0,212,255,.3);}
+.sbtn.sec2:hover{background:var(--tdim);}
+.spill{padding:3px 10px;border-radius:2px;font-family:'Space Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.04em;}
+.stA{background:rgba(0,255,163,.1);color:var(--teal);border:1px solid rgba(0,255,163,.3);}
+.stB{background:rgba(0,212,255,.1);color:var(--teal);border:1px solid rgba(0,212,255,.3);}
 .stC{background:rgba(167,139,250,.1);color:var(--violet);border:1px solid rgba(167,139,250,.3);}
-.stD{background:rgba(255,179,0,.1);color:var(--amber);border:1px solid rgba(255,179,0,.3);}
+.stD{background:rgba(255,179,0,.1);color:var(--amb);border:1px solid rgba(255,179,0,.3);}
 .stE{background:rgba(255,100,0,.1);color:#ff6400;border:1px solid rgba(255,100,0,.3);}
 .stF{background:rgba(255,77,109,.1);color:var(--red);border:1px solid rgba(255,77,109,.3);}
 
 /* ─── CALC ─── */
-.calc{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:24px;margin:18px 0;}
-.calctitle{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;color:var(--cyan);text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.calc{background:var(--surf);border:1px solid var(--bdr);border-radius:6px;padding:24px;margin:18px 0;}
+.calctitle{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.1em;color:var(--teal);text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--bdr);}
 .ig{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px;}
-.ig label{display:block;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.05em;margin-bottom:4px;text-transform:uppercase;}
-.ig input,.ig select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px 10px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.85rem;outline:none;transition:border-color .2s;}
-.ig input:focus,.ig select:focus{border-color:var(--cyan);}
-.ig select option{background:var(--bg3);}
-.cbtn{background:var(--green);color:#000;border:none;padding:10px 22px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;cursor:pointer;transition:opacity .2s;letter-spacing:.05em;}
+.ig label{display:block;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--mut);letter-spacing:.05em;margin-bottom:4px;text-transform:uppercase;}
+.ig input,.ig select{width:100%;background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:8px 10px;color:var(--txt);font-family:'Space Mono',monospace;font-size:.85rem;outline:none;transition:border-color .2s;}
+.ig input:focus,.ig select:focus{border-color:var(--teal);}
+.ig select option{background:var(--surf2);}
+.cbtn{background:var(--teal);color:#000;border:none;padding:10px 22px;border-radius:3px;font-family:'Space Mono',monospace;font-size:.78rem;font-weight:700;cursor:pointer;transition:opacity .2s;letter-spacing:.05em;}
 .cbtn:hover{opacity:.85;}
 .rg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:16px;}
-.ri{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;}
-.rilbl{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px;}
-.rival{font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--green);font-weight:600;}
-.csteps{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 16px;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--dim);line-height:2;display:none;white-space:pre-wrap;}
+.ri{background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:12px 14px;}
+.rilbl{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--mut);letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px;}
+.rival{font-family:'Space Mono',monospace;font-size:1.05rem;color:var(--teal);font-weight:600;}
+.csteps{background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:12px 16px;margin-top:12px;font-family:'Space Mono',monospace;font-size:.73rem;color:var(--txt2);line-height:2;display:none;white-space:pre-wrap;}
 
 /* ─── TABLE ─── */
 .dt{width:100%;border-collapse:collapse;font-size:.82rem;margin:14px 0;}
-.dt th{background:var(--bg3);color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.08em;padding:9px 13px;text-align:left;text-transform:uppercase;border-bottom:1px solid var(--border);}
-.dt td{padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:.78rem;}
-.dt tr:hover td{background:var(--bg3);}
-.dt .hl{color:var(--green);}
+.dt th{background:var(--surf2);color:var(--teal);font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em;padding:9px 13px;text-align:left;text-transform:uppercase;border-bottom:1px solid var(--bdr);}
+.dt td{padding:8px 13px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--txt2);font-family:'Space Mono',monospace;font-size:.78rem;}
+.dt tr:hover td{background:var(--surf2);}
+.dt .hl{color:var(--teal);}
 
 /* ─── LOS BADGES ─── */
 .los-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0;}
 .los-item{text-align:center;padding:12px 6px;border-radius:4px;border:1px solid transparent;}
-.los-item .los-lbl{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:3px;}
-.los-item .los-d{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.7);}
-.losA{background:rgba(0,255,163,.1);border-color:rgba(0,255,163,.3);}.losA .los-lbl{color:var(--green);}
-.losB{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.3);}.losB .los-lbl{color:var(--cyan);}
+.los-item .los-lbl{font-family:'Space Mono',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:3px;}
+.los-item .los-d{font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.7);}
+.losA{background:rgba(0,255,163,.1);border-color:rgba(0,255,163,.3);}.losA .los-lbl{color:var(--teal);}
+.losB{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.3);}.losB .los-lbl{color:var(--teal);}
 .losC{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);}.losC .los-lbl{color:var(--violet);}
-.losD{background:rgba(255,179,0,.1);border-color:rgba(255,179,0,.3);}.losD .los-lbl{color:var(--amber);}
+.losD{background:rgba(255,179,0,.1);border-color:rgba(255,179,0,.3);}.losD .los-lbl{color:var(--amb);}
 .losE{background:rgba(255,100,0,.1);border-color:rgba(255,100,0,.3);}.losE .los-lbl{color:#ff6400;}
 .losF{background:rgba(255,77,109,.1);border-color:rgba(255,77,109,.3);}.losF .los-lbl{color:var(--red);}
 
 /* ─── PRACTICE PROBLEMS ─── */
 .pp-section{margin:28px 0;}
-.pp-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--amber);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.pp-title{font-family:'Space Mono',sans-serif;font-weight:700;font-size:1rem;color:var(--amb);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
 .pp-title::before{content:'📝';font-size:1rem;}
-.pp{background:var(--bg2);border:1px solid rgba(255,179,0,.2);border-left:3px solid var(--amber);border-radius:4px;margin-bottom:12px;overflow:hidden;}
+.pp{background:var(--surf);border:1px solid rgba(255,179,0,.2);border-left:3px solid var(--amb);border-radius:4px;margin-bottom:12px;overflow:hidden;}
 .pp-q{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
 .pp-q:hover{background:rgba(255,179,0,.04);}
-.pp-qnum{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--amber);white-space:nowrap;margin-top:2px;}
-.pp-qtext{font-size:.88rem;color:var(--ink);line-height:1.6;flex:1;}
-.pp-arrow{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--amber);transition:transform .3s;flex-shrink:0;}
+.pp-qnum{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--amb);white-space:nowrap;margin-top:2px;}
+.pp-qtext{font-size:.88rem;color:var(--txt);line-height:1.6;flex:1;}
+.pp-arrow{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--amb);transition:transform .3s;flex-shrink:0;}
 .pp-arrow.open{transform:rotate(90deg);}
 .pp-sol{display:none;padding:0 18px 18px;border-top:1px solid rgba(255,179,0,.1);}
 .pp-sol.show{display:block;}
-.pp-hint{background:rgba(0,255,163,.05);border:1px solid rgba(0,255,163,.1);border-radius:3px;padding:10px 14px;margin:12px 0;font-size:.82rem;color:var(--dim);}
-.pp-hint strong{color:var(--green);font-family:'JetBrains Mono',monospace;font-size:.7rem;display:block;margin-bottom:4px;}
-.pp-steps{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:.77rem;color:var(--dim);line-height:2.1;margin:10px 0;}
-.pp-steps .step{color:var(--cyan);font-weight:600;}
-.pp-ans{font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--green);font-weight:700;background:rgba(0,255,163,.08);border:1px solid rgba(0,255,163,.2);border-radius:3px;padding:8px 14px;display:inline-block;margin-top:8px;}
+.pp-hint{background:rgba(0,255,163,.05);border:1px solid rgba(0,255,163,.1);border-radius:3px;padding:10px 14px;margin:12px 0;font-size:.82rem;color:var(--txt2);}
+.pp-hint strong{color:var(--teal);font-family:'Space Mono',monospace;font-size:.7rem;display:block;margin-bottom:4px;}
+.pp-steps{background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:14px 18px;font-family:'Space Mono',monospace;font-size:.77rem;color:var(--txt2);line-height:2.1;margin:10px 0;}
+.pp-steps .step{color:var(--teal);font-weight:600;}
+.pp-ans{font-family:'Space Mono',monospace;font-size:.88rem;color:var(--teal);font-weight:700;background:rgba(0,255,163,.08);border:1px solid rgba(0,255,163,.2);border-radius:3px;padding:8px 14px;display:inline-block;margin-top:8px;}
 
 /* ─── ANIMATED TRAFFIC LIGHT ─── */
 .tl-demo{display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:20px 0;}
 .tl-signal{display:flex;flex-direction:column;align-items:center;gap:8px;}
-.tl-pole{width:6px;height:60px;background:linear-gradient(to bottom,var(--muted),#2a3a4a);border-radius:3px;}
-.tl-arm{width:80px;height:6px;background:linear-gradient(to right,#2a3a4a,var(--muted));border-radius:3px;align-self:flex-end;margin-bottom:-3px;}
+.tl-pole{width:6px;height:60px;background:linear-gradient(to bottom,var(--mut),#2a3a4a);border-radius:3px;}
+.tl-arm{width:80px;height:6px;background:linear-gradient(to right,#2a3a4a,var(--mut));border-radius:3px;align-self:flex-end;margin-bottom:-3px;}
 .tl-box{background:#1a1a1a;border:2px solid #333;border-radius:8px;padding:10px 8px;display:flex;flex-direction:column;gap:8px;box-shadow:0 4px 20px rgba(0,0,0,.6);}
 .tl-lens{width:36px;height:36px;border-radius:50%;border:2px solid #2a2a2a;position:relative;transition:all .3s;}
 .tl-lens.active-red{background:radial-gradient(circle at 35% 35%,#ff8080,#ff0000);box-shadow:0 0 20px #ff000088,0 0 40px #ff000044;}
 .tl-lens.active-yellow{background:radial-gradient(circle at 35% 35%,#ffe080,#ffb300);box-shadow:0 0 20px #ffb30088,0 0 40px #ffb30044;}
 .tl-lens.active-green{background:radial-gradient(circle at 35% 35%,#80ffc0,#00ff66);box-shadow:0 0 20px #00ff6688,0 0 40px #00ff6644;}
 .tl-lens.off{background:#1a1a1a;}
-.tl-lbl{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);text-align:center;}
-.tl-status{font-family:'JetBrains Mono',monospace;font-size:.75rem;padding:4px 12px;border-radius:2px;text-align:center;min-width:80px;}
-.tl-timer{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--green);min-width:60px;text-align:center;}
+.tl-lbl{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--mut);text-align:center;}
+.tl-status{font-family:'Space Mono',monospace;font-size:.75rem;padding:4px 12px;border-radius:2px;text-align:center;min-width:80px;}
+.tl-timer{font-family:'Space Mono',sans-serif;font-weight:800;font-size:2rem;color:var(--teal);min-width:60px;text-align:center;}
 
 /* ─── INTERSECTION ANIMATION ─── */
-.intersect-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:20px;margin:20px 0;}
+.intersect-wrap{background:var(--surf);border:1px solid var(--bdr);border-radius:6px;padding:20px;margin:20px 0;}
 .intersect-scene{position:relative;width:100%;height:320px;overflow:hidden;}
 /* Roads */
 .road-h{position:absolute;top:50%;left:0;right:0;height:64px;transform:translateY(-50%);background:#1a2230;}
 .road-v{position:absolute;left:50%;top:0;bottom:0;width:64px;transform:translateX(-50%);background:#1a2230;}
-.road-line-h{position:absolute;top:50%;left:0;right:0;height:2px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,var(--amber) 0,var(--amber) 20px,transparent 20px,transparent 40px);opacity:.4;animation:dashH 1s linear infinite;}
-.road-line-v{position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:repeating-linear-gradient(180deg,var(--amber) 0,var(--amber) 20px,transparent 20px,transparent 40px);opacity:.4;animation:dashV 1s linear infinite;}
+.road-line-h{position:absolute;top:50%;left:0;right:0;height:2px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,var(--amb) 0,var(--amb) 20px,transparent 20px,transparent 40px);opacity:.4;animation:dashH 1s linear infinite;}
+.road-line-v{position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:repeating-linear-gradient(180deg,var(--amb) 0,var(--amb) 20px,transparent 20px,transparent 40px);opacity:.4;animation:dashV 1s linear infinite;}
 @keyframes dashH{from{background-position:0 0;}to{background-position:-40px 0;}}
 @keyframes dashV{from{background-position:0 0;}to{background-position:0 -40px;}}
 .intersection-box{position:absolute;left:50%;top:50%;width:64px;height:64px;transform:translate(-50%,-50%);background:#1a2230;}
@@ -211,49 +185,29 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 .sd-green.on{background:#00ff66;box-shadow:0 0 6px #00ff66;}
 /* Queue buildup */
 .queue-wrap{margin:16px 0;}
-.queue-car{display:inline-block;width:32px;height:18px;background:#2a4a7a;border:1px solid var(--cyan);border-radius:4px;margin:2px;position:relative;transition:transform .4s,opacity .4s;}
+.queue-car{display:inline-block;width:32px;height:18px;background:#2a4a7a;border:1px solid var(--teal);border-radius:4px;margin:2px;position:relative;transition:transform .4s,opacity .4s;}
 .queue-car::after{content:'';position:absolute;top:2px;left:4px;right:4px;height:6px;background:rgba(0,212,255,.3);border-radius:2px;}
 
 /* ─── FORMULA SHEET ─── */
 .fsgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:18px;}
-.fscard{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:16px 20px;}
-.fscard.key{border-left:3px solid var(--green);}
-.fscat{font-family:'JetBrains Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:4px;}
-.fsname{font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;margin-bottom:8px;color:var(--ink);}
-.fseq{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:var(--bg3);padding:6px 10px;border-radius:2px;margin-bottom:4px;color:var(--amber);overflow-x:auto;}
-.fsnote{font-size:.74rem;color:var(--muted);line-height:1.5;}
+.fscard{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:16px 20px;}
+.fscard.key{border-left:3px solid var(--teal);}
+.fscat{font-family:'Space Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.14em;color:var(--mut);margin-bottom:4px;}
+.fsname{font-family:'Space Mono',sans-serif;font-weight:700;font-size:.88rem;margin-bottom:8px;color:var(--txt);}
+.fseq{font-family:'Space Mono',monospace;font-size:.82rem;background:var(--surf2);padding:6px 10px;border-radius:2px;margin-bottom:4px;color:var(--amb);overflow-x:auto;}
+.fsnote{font-size:.74rem;color:var(--mut);line-height:1.5;}
 
 /* ─── EXAM TIPS ─── */
 .tip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:16px 0;}
-.tip{background:var(--bg2);border:1px solid rgba(167,139,250,.2);border-left:3px solid var(--violet);border-radius:4px;padding:14px 18px;}
-.tip-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:var(--violet);margin-bottom:6px;}
-.tip h4{font-family:'Syne',sans-serif;font-size:.88rem;color:var(--ink);margin-bottom:6px;}
-.tip p{font-size:.8rem;color:var(--dim);line-height:1.55;}
+.tip{background:var(--surf);border:1px solid rgba(167,139,250,.2);border-left:3px solid var(--violet);border-radius:4px;padding:14px 18px;}
+.tip-num{font-family:'Space Mono',sans-serif;font-weight:800;font-size:1.3rem;color:var(--violet);margin-bottom:6px;}
+.tip h4{font-family:'Space Mono',sans-serif;font-size:.88rem;color:var(--txt);margin-bottom:6px;}
+.tip p{font-size:.8rem;color:var(--txt2);line-height:1.55;}
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:900px){.wrap{grid-template-columns:1fr;}.toc{display:none;}.content{padding:0 20px 60px;}.hero{padding:40px 24px 36px;}.los-grid{grid-template-columns:repeat(3,1fr);}}
-@media(max-width:580px){nav{padding:10px 16px;}.nlinks{display:none;}.tl-demo{justify-content:center;}}
+@media(max-width:580px){.tl-demo{justify-content:center;}}
 </style>
-</head>
-<body>
-
-<nav>
-  <a class="nlogo" href="index.html">∑ Mathify</a>
-  <div class="nlinks">
-    <a href="#basics">Basics</a>
-    <a href="#classification">Classification</a>
-    <a href="#terms">Traffic Terms</a>
-    <a href="#intersection">Intersection</a>
-    <a href="#signals">Signals</a>
-    <a href="#timing">Timing</a>
-    <a href="#delay">Delay/LOS</a>
-    <a href="#transit">Transit</a>
-    <a href="#tripdist">Trip Dist.</a>
-    <a href="#modesplit">Mode Split</a>
-    <a href="#practice">📝 Practice</a>
-    <a href="#fs">📋 Formulas</a>
-  </div>
-</nav>
 
 <div class="hero">
   <div class="hero-tag">🎓 CEE 350 · Traffic Analysis & Design · Spring 2026</div>
@@ -353,8 +307,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <!-- Vehicles (injected by JS) -->
   </div>
   <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;align-items:center;">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);">Phase: <span id="intPhaseLabel" style="color:var(--green);">EW GREEN</span></div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);">Timer: <span id="intTimer" style="color:var(--amber);">0s</span></div>
+    <div style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--mut);">Phase: <span id="intPhaseLabel" style="color:var(--teal);">EW GREEN</span></div>
+    <div style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--mut);">Timer: <span id="intTimer" style="color:var(--amb);">0s</span></div>
     <button class="sbtn sec2" onclick="toggleIntersection()" id="intBtn">⏸ PAUSE</button>
   </div>
 </div>
@@ -433,10 +387,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
   <div class="simhdr"><span class="simtitle">⚡ SIM — PHF CALCULATOR: ENTER YOUR 15-MIN COUNTS</span></div>
   <div class="simbody">
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
-      <div><label style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);display:block;margin-bottom:4px;">4:30–4:45</label><input type="number" id="v1" value="859" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
-      <div><label style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);display:block;margin-bottom:4px;">4:45–5:00</label><input type="number" id="v2" value="925" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
-      <div><label style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);display:block;margin-bottom:4px;">5:00–5:15</label><input type="number" id="v3" value="949" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
-      <div><label style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);display:block;margin-bottom:4px;">5:15–5:30</label><input type="number" id="v4" value="867" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
+      <div><label style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--mut);display:block;margin-bottom:4px;">4:30–4:45</label><input type="number" id="v1" value="859" style="width:100%;background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:8px;color:var(--txt);font-family:'Space Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
+      <div><label style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--mut);display:block;margin-bottom:4px;">4:45–5:00</label><input type="number" id="v2" value="925" style="width:100%;background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:8px;color:var(--txt);font-family:'Space Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
+      <div><label style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--mut);display:block;margin-bottom:4px;">5:00–5:15</label><input type="number" id="v3" value="949" style="width:100%;background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:8px;color:var(--txt);font-family:'Space Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
+      <div><label style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--mut);display:block;margin-bottom:4px;">5:15–5:30</label><input type="number" id="v4" value="867" style="width:100%;background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:8px;color:var(--txt);font-family:'Space Mono',monospace;font-size:.9rem;outline:none;" oninput="calcPHF()"></div>
     </div>
     <canvas id="cPHF" height="180"></canvas>
     <div id="phfResult" style="margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
@@ -526,7 +480,7 @@ Using v = 978 correctly reflects the 15-min peak intensity.</div>
     <div class="tl-demo">
       <!-- Signal A: EW -->
       <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--cyan);margin-bottom:8px;text-align:center;">EAST-WEST ↔</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--teal);margin-bottom:8px;text-align:center;">EAST-WEST ↔</div>
         <div style="display:flex;align-items:flex-end;gap:0;">
           <div class="tl-arm"></div>
           <div class="tl-box" id="tlBoxEW">
@@ -539,21 +493,21 @@ Using v = 978 correctly reflects the 15-min peak intensity.</div>
       </div>
       <!-- Timer + Status -->
       <div style="flex:1;min-width:160px;">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);margin-bottom:6px;">CURRENT PHASE</div>
-        <div id="tlPhaseText" style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:var(--green);margin-bottom:16px;">EW GREEN</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);margin-bottom:4px;">TIME REMAINING</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--mut);margin-bottom:6px;">CURRENT PHASE</div>
+        <div id="tlPhaseText" style="font-family:'Space Mono',sans-serif;font-weight:700;font-size:1.1rem;color:var(--teal);margin-bottom:16px;">EW GREEN</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--mut);margin-bottom:4px;">TIME REMAINING</div>
         <div class="tl-timer" id="tlCountdown">30</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:4px;">seconds</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--mut);margin-top:4px;">seconds</div>
         <div style="margin-top:16px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);margin-bottom:4px;">CYCLE PROGRESS</div>
-          <div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;">
-            <div id="tlProgress" style="height:100%;width:0%;background:var(--green);transition:width .5s;border-radius:3px;"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--mut);margin-bottom:4px;">CYCLE PROGRESS</div>
+          <div style="height:6px;background:var(--surf2);border-radius:3px;overflow:hidden;">
+            <div id="tlProgress" style="height:100%;width:0%;background:var(--teal);transition:width .5s;border-radius:3px;"></div>
           </div>
         </div>
       </div>
       <!-- Signal B: NS -->
       <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--violet);margin-bottom:8px;text-align:center;">NORTH-SOUTH ↕</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--violet);margin-bottom:8px;text-align:center;">NORTH-SOUTH ↕</div>
         <div style="display:flex;align-items:flex-end;gap:0;">
           <div class="tl-box" id="tlBoxNS">
             <div class="tl-lens off" id="tlR-NS"></div>
@@ -565,9 +519,9 @@ Using v = 978 correctly reflects the 15-min peak intensity.</div>
         <div class="tl-pole" style="margin:0 auto;"></div>
       </div>
       <!-- Legend -->
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:14px;min-width:170px;">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);margin-bottom:10px;letter-spacing:.1em;">TIMING PLAN</div>
-        <div id="tlTimingPlan" style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim);line-height:2.2;"></div>
+      <div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:4px;padding:14px;min-width:170px;">
+        <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--mut);margin-bottom:10px;letter-spacing:.1em;">TIMING PLAN</div>
+        <div id="tlTimingPlan" style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--txt2);line-height:2.2;"></div>
       </div>
     </div>
     <div class="crow">
@@ -642,7 +596,7 @@ Using v = 978 correctly reflects the 15-min peak intensity.</div>
       <span class="cval2" id="svG1">37s</span>
       <button class="sbtn" id="sigBtn" onclick="toggleSignal()" style="margin-left:auto;">▶ START</button>
     </div>
-    <div id="sigStats" style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--dim);padding:10px;background:var(--bg3);border-radius:3px;border:1px solid var(--border);"></div>
+    <div id="sigStats" style="margin-top:10px;font-family:'Space Mono',monospace;font-size:.73rem;color:var(--txt2);padding:10px;background:var(--surf2);border-radius:3px;border:1px solid var(--bdr);"></div>
   </div>
 </div>
 
@@ -719,7 +673,7 @@ Only 40% of the saturation flow rate becomes available capacity.</div>
       <span class="cval2" id="svH">2.1s</span>
       <button class="sbtn" onclick="startQueue()" style="margin-left:auto;" id="qBtn">▶ GO GREEN</button>
     </div>
-    <div id="queueResult" style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:.73rem;color:var(--dim);padding:10px;background:var(--bg3);border-radius:3px;border:1px solid var(--border);"></div>
+    <div id="queueResult" style="margin-top:10px;font-family:'Space Mono',monospace;font-size:.73rem;color:var(--txt2);padding:10px;background:var(--surf2);border-radius:3px;border:1px solid var(--bdr);"></div>
   </div>
 </div>
 
@@ -966,22 +920,22 @@ small volume increases cause disproportionate delay increases!</div>
 <div class="infobox"><strong>TAZ (Traffic Analysis Zone)</strong> = The basic unit of analysis. Each zone has a centroid from which all trips originate/end. Zones are small (city blocks) in dense areas and larger in suburbs.</div>
 <div class="cg" style="grid-template-columns:repeat(4,1fr);">
   <div class="cc" style="border-color:rgba(0,255,163,.3);">
-    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--green);margin-bottom:8px;">1</div>
+    <div style="font-family:'Space Mono',sans-serif;font-weight:800;font-size:1.8rem;color:var(--teal);margin-bottom:8px;">1</div>
     <h4>Trip Generation</h4><p>How many trips start and end in each zone? Based on land use, income, household size.</p>
     <span class="cval">→ Productions & Attractions</span>
   </div>
   <div class="cc" style="border-color:rgba(0,212,255,.3);">
-    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--cyan);margin-bottom:8px;">2</div>
+    <div style="font-family:'Space Mono',sans-serif;font-weight:800;font-size:1.8rem;color:var(--teal);margin-bottom:8px;">2</div>
     <h4>Trip Distribution</h4><p>Where do those trips go? Uses the Gravity Model.</p>
     <span class="cval">→ O-D Matrix</span>
   </div>
   <div class="cc" style="border-color:rgba(167,139,250,.3);">
-    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--violet);margin-bottom:8px;">3</div>
+    <div style="font-family:'Space Mono',sans-serif;font-weight:800;font-size:1.8rem;color:var(--violet);margin-bottom:8px;">3</div>
     <h4>Mode Split</h4><p>Which mode do people use? Car, bus, train, walk? Uses Logit model based on utility.</p>
     <span class="cval">→ Modal shares (%)</span>
   </div>
   <div class="cc" style="border-color:rgba(255,179,0,.3);">
-    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--amber);margin-bottom:8px;">4</div>
+    <div style="font-family:'Space Mono',sans-serif;font-weight:800;font-size:1.8rem;color:var(--amb);margin-bottom:8px;">4</div>
     <h4>Traffic Assignment</h4><p>Which specific routes do they take?</p>
     <span class="cval">→ Link volumes</span>
   </div>
@@ -1025,10 +979,10 @@ Attraction: trip end at NON-RESIDENTIAL land use</div>
 <!-- GRAVITY MODEL CALCULATOR -->
 <div class="calc">
   <div class="calctitle">⚙️ CALCULATOR — GRAVITY MODEL: 3-ZONE TRIP DISTRIBUTION</div>
-  <p style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);margin-bottom:12px;">Friction F = 1/t² assumed. Enter productions (P), attractions (A), travel times (min).</p>
+  <p style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--mut);margin-bottom:12px;">Friction F = 1/t² assumed. Enter productions (P), attractions (A), travel times (min).</p>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
     <div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);margin-bottom:8px;">ZONE P & A</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--teal);margin-bottom:8px;">ZONE P & A</div>
       <div class="ig">
         <div><label>P₁</label><input type="number" id="gP1" value="700"></div>
         <div><label>P₂</label><input type="number" id="gP2" value="200"></div>
@@ -1039,7 +993,7 @@ Attraction: trip end at NON-RESIDENTIAL land use</div>
       </div>
     </div>
     <div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);margin-bottom:8px;">TRAVEL TIMES (min)</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--teal);margin-bottom:8px;">TRAVEL TIMES (min)</div>
       <div class="ig">
         <div><label>t₁₁</label><input type="number" id="gt11" value="2"></div>
         <div><label>t₁₂</label><input type="number" id="gt12" value="4"></div>
@@ -1050,8 +1004,8 @@ Attraction: trip end at NON-RESIDENTIAL land use</div>
       </div>
     </div>
     <div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);margin-bottom:8px;">FRICTION FACTORS</div>
-      <div id="gFF" style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--dim);line-height:2.1;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:10px;">Click Calculate</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--teal);margin-bottom:8px;">FRICTION FACTORS</div>
+      <div id="gFF" style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--txt2);line-height:2.1;background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:10px;">Click Calculate</div>
     </div>
   </div>
   <button class="cbtn" onclick="calcGravity()">Run Gravity Model</button>
@@ -1110,10 +1064,10 @@ T₁₃ = P₁ × (A₃·F₁₃ / Σ) = 500 × (7.00/19.00) = 500 × 0.368 = <s
 <!-- MODE SPLIT CALCULATOR -->
 <div class="calc">
   <div class="calctitle">⚙️ CALCULATOR — LOGIT MODE SPLIT</div>
-  <p style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);margin-bottom:12px;">Utility: U = a − 0.002·X₁ − 0.05·X₂ (X₁=cost in cents, X₂=time in min)</p>
+  <p style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--mut);margin-bottom:12px;">Utility: U = a − 0.002·X₁ − 0.05·X₂ (X₁=cost in cents, X₂=time in min)</p>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
     <div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--green);margin-bottom:8px;">🚗 AUTOMOBILE</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--teal);margin-bottom:8px;">🚗 AUTOMOBILE</div>
       <div class="ig">
         <div><label>Constant a</label><input type="number" id="ma_a" value="-0.30" step="0.01"></div>
         <div><label>Cost X₁ (¢)</label><input type="number" id="ma_c" value="130"></div>
@@ -1121,7 +1075,7 @@ T₁₃ = P₁ × (A₃·F₁₃ / Σ) = 500 × (7.00/19.00) = 500 × 0.368 = <s
       </div>
     </div>
     <div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--cyan);margin-bottom:8px;">🚌 BUS</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--teal);margin-bottom:8px;">🚌 BUS</div>
       <div class="ig">
         <div><label>Constant a</label><input type="number" id="mb_a" value="-0.35" step="0.01"></div>
         <div><label>Cost X₁ (¢)</label><input type="number" id="mb_c" value="75"></div>
@@ -1129,7 +1083,7 @@ T₁₃ = P₁ × (A₃·F₁₃ / Σ) = 500 × (7.00/19.00) = 500 × 0.368 = <s
       </div>
     </div>
     <div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--violet);margin-bottom:8px;">🚈 LIGHT RAIL</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--violet);margin-bottom:8px;">🚈 LIGHT RAIL</div>
       <div class="ig">
         <div><label>Constant a</label><input type="number" id="ml_a" value="-0.40" step="0.01"></div>
         <div><label>Cost X₁ (¢)</label><input type="number" id="ml_c" value="90"></div>
@@ -1315,8 +1269,8 @@ D&gt;35-55, E&gt;55-80, F&gt;80</div><div class="fsnote">Or X &gt; 1.0 automatic
 </div><!-- .content -->
 </div><!-- .wrap -->
 
-<footer style="position:relative;z-index:1;padding:1.4rem 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.64rem;color:var(--muted);flex-wrap:wrap;gap:8px;">
-  <span>CEE 350 — Traffic Analysis & Design · Spring 2026 · <a href="index.html" style="color:var(--cyan);text-decoration:none;">∑ Mathify</a></span>
+<footer style="position:relative;z-index:1;padding:1.4rem 48px;border-top:1px solid var(--bdr);display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:.64rem;color:var(--mut);flex-wrap:wrap;gap:8px;">
+  <span>CEE 350 — Traffic Analysis & Design · Spring 2026 · <a href="index.html" style="color:var(--teal);text-decoration:none;">∑ Mathify</a></span>
   <span>Free for students everywhere 🚦</span>
 </footer>
 
@@ -1367,7 +1321,7 @@ function updateTL(){
   setLens('tlY-NS',nsState==='yellow'?'yellow':'off');
   setLens('tlG-NS',nsState==='green'?'green':'off');
   document.getElementById('tlPhaseText').textContent=phaseTxt;
-  document.getElementById('tlPhaseText').style.color=ewState==='green'||nsState==='green'?'var(--green)':ewState==='yellow'||nsState==='yellow'?'var(--amber)':'var(--red)';
+  document.getElementById('tlPhaseText').style.color=ewState==='green'||nsState==='green'?'var(--teal)':ewState==='yellow'||nsState==='yellow'?'var(--amb)':'var(--red)';
   document.getElementById('tlCountdown').textContent=Math.ceil(remaining);
   document.getElementById('tlProgress').style.width=(t/C*100)+'%';
   document.getElementById('tlTimingPlan').innerHTML=
@@ -1466,9 +1420,9 @@ function calcPHF(){
   ctx.fillText('avg='+(V/4).toFixed(0),ox+aw-2,oy-avgH-4);
   const lc=PHF>=.95?'#00ffa3':PHF>=.85?'#00d4ff':PHF>=.75?'#ffb300':'#ff4d6d';
   document.getElementById('phfResult').innerHTML=
-    `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;"><div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);">HOURLY VOLUME</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--green);">${V} veh/h</div></div>
-     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;"><div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);">PHF</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:${lc};">${PHF.toFixed(3)}</div></div>
-     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px 14px;"><div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);">MAX FLOW RATE v</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--amber);">${flowRate.toFixed(0)} veh/h</div></div>`;
+    `<div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:12px 14px;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--mut);">HOURLY VOLUME</div><div style="font-family:'Space Mono',monospace;font-size:1.1rem;color:var(--teal);">${V} veh/h</div></div>
+     <div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:12px 14px;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--mut);">PHF</div><div style="font-family:'Space Mono',monospace;font-size:1.1rem;color:${lc};">${PHF.toFixed(3)}</div></div>
+     <div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:12px 14px;"><div style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--mut);">MAX FLOW RATE v</div><div style="font-family:'Space Mono',monospace;font-size:1.1rem;color:var(--amb);">${flowRate.toFixed(0)} veh/h</div></div>`;
 }
 
 /* ═══ QUEUE ANIMATION ═══ */
@@ -1547,7 +1501,7 @@ function drawSignal(){
   const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
   const t=sigT;
   const progW=W-80;
-  ctx.fillStyle='var(--bg3)';ctx.fillRect(40,H*.15,progW,12);
+  ctx.fillStyle='var(--surf2)';ctx.fillRect(40,H*.15,progW,12);
   ctx.fillStyle='rgba(0,212,255,.3)';ctx.fillRect(40,H*.15,progW*(t/C),12);
   ctx.font='9px JetBrains Mono,monospace';ctx.fillStyle='#5a7a99';ctx.textAlign='left';ctx.fillText('t='+t.toFixed(1)+'s / C='+C+'s',40,H*.15-6);
   const bH=28,gap=10,bY=H*.32;
@@ -1572,7 +1526,7 @@ function drawSignal(){
     });
   });
   const phase=t<G1?'Φ1 GREEN':t<G1+y?'Φ1 YELLOW':t<G1+y+ar?'ALL RED':t<G1+y+ar+G2?'Φ2 GREEN':t<G1+y+ar+G2+y?'Φ2 YELLOW':'ALL RED';
-  const pc=phase.includes('GREEN')?'var(--green)':phase.includes('YELLOW')?'var(--amber)':'var(--muted)';
+  const pc=phase.includes('GREEN')?'var(--teal)':phase.includes('YELLOW')?'var(--amb)':'var(--mut)';
   document.getElementById('sigPhase').textContent=phase;document.getElementById('sigPhase').style.color=pc;
   document.getElementById('sigStats').innerHTML=`C=${C}s | G₁=${G1}s | Y=${y}s | AR=${ar}s | g₁≈${G1-tL+y+ar}s | G₂=${G2}s | g₂≈${g2}s | Lost/cycle≈${tL*2}s`;
 }
@@ -1582,12 +1536,12 @@ function calcVC(){
   const v=+document.getElementById('cv_v').value,s=+document.getElementById('cv_s').value;
   const g=+document.getElementById('cv_g').value,C=+document.getElementById('cv_C').value;
   const cap=s*(g/C),X=v/cap;
-  const col=X<.7?'var(--green)':X<.9?'var(--cyan)':X<1?'var(--amber)':'var(--red)';
+  const col=X<.7?'var(--teal)':X<.9?'var(--teal)':X<1?'var(--amb)':'var(--red)';
   document.getElementById('vcR').innerHTML=
     `<div class="ri"><div class="rilbl">g/C</div><div class="rival">${(g/C).toFixed(3)}</div></div>
      <div class="ri"><div class="rilbl">Capacity c</div><div class="rival">${cap.toFixed(0)} veh/h</div></div>
      <div class="ri"><div class="rilbl">X = v/c</div><div class="rival" style="color:${col}">${X.toFixed(3)}</div></div>
-     <div class="ri"><div class="rilbl">Status</div><div class="rival" style="color:${X<1?'var(--green)':'var(--red)'}">${X<1?'✓ OK':'✗ FAIL'}</div></div>`;
+     <div class="ri"><div class="rilbl">Status</div><div class="rival" style="color:${X<1?'var(--teal)':'var(--red)'}">${X<1?'✓ OK':'✗ FAIL'}</div></div>`;
 }
 function calcDelay(){
   const C=+document.getElementById('dc_C').value,g=+document.getElementById('dc_g').value;
@@ -1597,9 +1551,9 @@ function calcDelay(){
   const los=d1<=10?'A':d1<=20?'B':d1<=35?'C':d1<=55?'D':d1<=80?'E':'F';
   const lc={'A':'stA','B':'stB','C':'stC','D':'stD','E':'stE','F':'stF'};
   document.getElementById('dR').innerHTML=
-    `<div class="ri"><div class="rilbl">v/c (X)</div><div class="rival" style="color:${X<1?'var(--green)':'var(--red)'}">${X.toFixed(3)}</div></div>
+    `<div class="ri"><div class="rilbl">v/c (X)</div><div class="rival" style="color:${X<1?'var(--teal)':'var(--red)'}">${X.toFixed(3)}</div></div>
      <div class="ri"><div class="rilbl">Capacity</div><div class="rival">${cap.toFixed(0)} veh/h</div></div>
-     <div class="ri"><div class="rilbl">d₁ (s/veh)</div><div class="rival" style="color:var(--amber)">${X>=1?'N/A (LOS F)':d1.toFixed(2)}</div></div>
+     <div class="ri"><div class="rilbl">d₁ (s/veh)</div><div class="rival" style="color:var(--amb)">${X>=1?'N/A (LOS F)':d1.toFixed(2)}</div></div>
      <div class="ri"><div class="rilbl">LOS</div><div class="rival"><span class="spill ${lc[los]}">${X>1?'F':los}</span></div></div>`;
   const s2=document.getElementById('dSteps');s2.style.display='block';
   s2.textContent=`g/C = ${g}/${C} = ${gc.toFixed(4)}\nc = ${s}×${gc.toFixed(4)} = ${cap.toFixed(0)} veh/h\nX = ${v}/${cap.toFixed(0)} = ${X.toFixed(4)}\n`+(X>=1?'X ≥ 1.0 → LOS F (queue grows indefinitely)':
@@ -1643,13 +1597,13 @@ function calcGravity(){
            [2,8,2]];
   const F=t.map(row=>row.map(tv=>tv>0?1/(tv*tv):0));
   const T=P.map((Pi,i)=>{const denom=A.reduce((sum,Aj,j)=>sum+Aj*F[i][j],0);if(denom===0)return[0,0,0];return A.map((Aj,j)=>Math.round(Pi*Aj*F[i][j]/denom));});
-  let ffHtml='';for(let i=0;i<3;i++)for(let j=0;j<3;j++){ffHtml+=`<span style="color:var(--amber)">F${i+1}${j+1}</span>=<span style="color:var(--green)">${F[i][j].toFixed(4)}</span><br>`;}
+  let ffHtml='';for(let i=0;i<3;i++)for(let j=0;j<3;j++){ffHtml+=`<span style="color:var(--amb)">F${i+1}${j+1}</span>=<span style="color:var(--teal)">${F[i][j].toFixed(4)}</span><br>`;}
   document.getElementById('gFF').innerHTML=ffHtml;
   const totCol=[0,1,2].map(j=>T.reduce((s,r)=>s+r[j],0)),grandT=totCol.reduce((a,b)=>a+b,0);
   let html=`<table class="dt"><thead><tr><th>From\To</th><th>Zone 1</th><th>Zone 2</th><th>Zone 3</th><th>Total</th></tr></thead><tbody>`;
-  T.forEach((row,i)=>{html+=`<tr><td class="hl">Zone ${i+1}</td>${row.map(v=>`<td>${v}</td>`).join('')}<td style="color:var(--amber)">${P[i]}</td></tr>`;});
-  html+=`<tr><td style="color:var(--cyan)">Computed Dⱼ</td>${totCol.map(v=>`<td style="color:var(--green)">${v}</td>`).join('')}<td>${grandT}</td></tr>`;
-  html+=`<tr><td style="color:var(--muted)">Given Aⱼ</td>${A.map(v=>`<td style="color:var(--amber)">${v}</td>`).join('')}<td>${A.reduce((a,b)=>a+b,0)}</td></tr>`;
+  T.forEach((row,i)=>{html+=`<tr><td class="hl">Zone ${i+1}</td>${row.map(v=>`<td>${v}</td>`).join('')}<td style="color:var(--amb)">${P[i]}</td></tr>`;});
+  html+=`<tr><td style="color:var(--teal)">Computed Dⱼ</td>${totCol.map(v=>`<td style="color:var(--teal)">${v}</td>`).join('')}<td>${grandT}</td></tr>`;
+  html+=`<tr><td style="color:var(--mut)">Given Aⱼ</td>${A.map(v=>`<td style="color:var(--amb)">${v}</td>`).join('')}<td>${A.reduce((a,b)=>a+b,0)}</td></tr>`;
   html+='</tbody></table>';
   document.getElementById('gravityResult').innerHTML=html;
 }
