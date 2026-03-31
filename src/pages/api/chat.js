@@ -2,6 +2,11 @@ export const prerender = false;
 
 export const POST = async ({ request }) => {
   try {
+    const { default: OpenAI } = await import('openai');
+    const client = new OpenAI({
+      apiKey: process.env.GEMINI_API_KEY || 'dummy',
+      baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
+    });
     const { messages, systemPrompt } = await request.json();
 
     const { default: OpenAI } = await import('openai');

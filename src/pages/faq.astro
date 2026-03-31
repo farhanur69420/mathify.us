@@ -1,0 +1,338 @@
+---
+import Main from '../layouts/Main.astro';
+---
+<Main title="Civil Engineering FAQ" description="Visual answers to core civil engineering questions — why concrete's compressive strength is 10x its tensile strength." activeNav="civil">
+
+<style>
+  /* ── REUSE SITE TOKENS ── */
+  .faq-page { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+
+  /* BACK LINK */
+  .back {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-size: .72rem; color: var(--txt2); text-decoration: none;
+    margin-bottom: 2.5rem; transition: color .2s;
+  }
+  .back:hover { color: var(--teal); }
+
+  /* HERO */
+  .hero { margin-bottom: 3rem; }
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--amb); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .hero-label::after { content: ''; flex: 1; height: 1px; background: var(--bdr); }
+  .hero h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700;
+    color: var(--txt); line-height: 1.2; margin-bottom: .75rem;
+  }
+  .hero h1 em { color: var(--teal); font-style: normal; }
+  .hero-sub { font-size: .85rem; color: var(--txt2); }
+  .ref-chip {
+    display: inline-flex; align-items: center; gap: .5rem;
+    margin-top: 1rem; font-size: .65rem; color: var(--mut);
+    border: 1px solid var(--bdr); padding: .3rem .75rem; border-radius: 4px;
+  }
+  .ref-chip b { color: var(--amb); }
+
+  /* SECTION LABEL */
+  .sec-label {
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--amb); margin: 3rem 0 1.5rem;
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--bdr); }
+
+  /* ── RATIO HERO ── */
+  .ratio-hero {
+    display: grid; grid-template-columns: 1fr 80px 1fr;
+    background: var(--surf); border: 1px solid var(--bdr); border-radius: 8px;
+    overflow: hidden; margin-bottom: 1.5rem;
+  }
+  .r-block { text-align: center; padding: 2.5rem 1.5rem; }
+  .r-block.comp { border-right: 1px solid var(--bdr); background: linear-gradient(160deg,#0d1f35,#060e1a); }
+  .r-block.tens { background: linear-gradient(160deg,#1a0c0a,#0e0806); }
+  .r-lbl { font-size: .58rem; letter-spacing: .16em; text-transform: uppercase; margin-bottom: .75rem; }
+  .comp .r-lbl { color: #5b9fd4; } .tens .r-lbl { color: var(--teal); }
+  /* teal = site teal, blue for compression */
+  .comp .r-lbl { color: #5b9fd4; } .tens .r-lbl { color: #d9503d; }
+  .r-num {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(2.5rem,6vw,4.5rem); font-weight: 700; line-height: 1;
+  }
+  .comp .r-num { color: #5b9fd4; } .tens .r-num { color: #d9503d; }
+  .r-unit { font-size: .7rem; color: var(--mut); margin-top: .4rem; }
+  .r-note { font-size: .62rem; color: var(--mut); margin-top: .6rem; font-style: italic; }
+  .r-divider {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: var(--bg); border-left: 1px solid var(--bdr); border-right: 1px solid var(--bdr);
+    gap: .3rem;
+  }
+  .r-divider .big { font-family: 'Space Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--amb); }
+  .r-divider .small { font-size: .55rem; color: var(--mut); letter-spacing: .1em; }
+
+  /* ── BAR CHART ── */
+  .bar-wrap {
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 8px; padding: 1.6rem; margin-bottom: 1.5rem;
+  }
+  .bars { display: flex; flex-direction: column; gap: 1.1rem; }
+  .bar-row { display: grid; grid-template-columns: 110px 1fr 80px; align-items: center; gap: .8rem; }
+  .bar-name { font-size: .68rem; color: var(--mut); text-align: right; }
+  .bar-track { height: 24px; background: #0a0a0f; border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; width: 0; border-radius: 3px; transition: width 1.3s cubic-bezier(.4,0,.2,1); }
+  .bar-fill.c { background: linear-gradient(90deg,#1a3a5a,#5b9fd4); }
+  .bar-fill.t { background: linear-gradient(90deg,#4a1a12,#d9503d); }
+  .bar-val { font-size: .68rem; color: var(--txt2); }
+  .bar-sep { grid-column: 1/-1; height: 1px; background: var(--bdr); margin: .2rem 0; }
+  .bar-head { font-size: .58rem; color: var(--mut); }
+
+  /* ── MICRO PANELS ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  .panel {
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 8px; padding: 1.2rem; text-align: center;
+  }
+  .panel svg { width: 100%; height: auto; }
+  .p-label { font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; margin-top: .8rem; }
+  .panel.cp .p-label { color: #5b9fd4; } .panel.tn .p-label { color: #d9503d; }
+  .p-sub { font-size: .6rem; color: var(--mut); margin-top: .2rem; }
+
+  /* ── BEAM DIAGRAM ── */
+  .beam-wrap {
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .beam-wrap svg { width: 100%; height: auto; }
+
+  /* ── GRADE CARDS ── */
+  .grade-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: .75rem; margin-bottom: 1.5rem; }
+  .g-card {
+    background: var(--surf); border: 1px solid var(--bdr); border-radius: 8px;
+    padding: 1rem .6rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .g-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: #5b9fd4;
+  }
+  .g-card:nth-child(1)::after { opacity: .3; }
+  .g-card:nth-child(2)::after { opacity: .5; }
+  .g-card:nth-child(3)::after { opacity: .7; }
+  .g-card:nth-child(4)::after { opacity: .9; }
+  .g-card:nth-child(5)::after { opacity: 1; background: #88ccff; }
+  .g-lbl { font-size: .58rem; color: var(--mut); margin-bottom: .5rem; }
+  .g-fc { font-family: 'Space Mono', monospace; font-size: 1.2rem; font-weight: 700; color: #5b9fd4; }
+  .g-fr { font-size: .8rem; color: #d9503d; margin-top: .25rem; }
+  .g-ratio { font-size: .62rem; color: var(--amb); margin-top: .4rem; padding-top: .4rem; border-top: 1px solid var(--bdr); }
+
+  /* FORMULA CHIP */
+  .formula-chip {
+    background: var(--surf2); border: 1px solid var(--bdr); border-left: 3px solid var(--amb);
+    border-radius: 4px; padding: .9rem 1.2rem;
+    display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
+  }
+  .formula-chip .expr { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--txt); }
+  .formula-chip .meta { font-size: .62rem; color: var(--mut); }
+
+  /* FADE */
+  .fade { opacity: 0; transform: translateY(14px); transition: opacity .65s ease, transform .65s ease; }
+  .fade.in { opacity: 1; transform: none; }
+
+  @media (max-width: 620px) {
+    .ratio-hero { grid-template-columns: 1fr; }
+    .r-block.comp { border-right: none; border-bottom: 1px solid var(--bdr); }
+    .r-divider { flex-direction: row; padding: .8rem 1rem; border: none; border-top: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr); }
+    .two-col { grid-template-columns: 1fr; }
+    .grade-grid { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+
+<div class="faq-page">
+
+  <a href="/civil" class="back">← Civil Engineering</a>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Frequently Asked Questions</div>
+    <h1>Why concrete <em>crushes</em><br>but can't pull</h1>
+    <p class="hero-sub">Concrete's compressive strength is ~10× its tensile strength. Here's exactly why — visually.</p>
+    <div class="ref-chip"><b>REF</b> Wight &amp; MacGregor — Design of Concrete Structures, 15th Ed. §3-3</div>
+  </div>
+
+  <!-- RATIO -->
+  <div class="sec-label">The core numbers</div>
+  <div class="ratio-hero fade">
+    <div class="r-block comp">
+      <div class="r-lbl">Compressive Strength f′c</div>
+      <div class="r-num">4,000</div>
+      <div class="r-unit">psi</div>
+      <div class="r-note">concrete resists crushing</div>
+    </div>
+    <div class="r-divider">
+      <div class="big">10×</div>
+      <div class="small">stronger</div>
+    </div>
+    <div class="r-block tens">
+      <div class="r-lbl">Tensile Strength f<sub>r</sub></div>
+      <div class="r-num">474</div>
+      <div class="r-unit">psi</div>
+      <div class="r-note">f<sub>r</sub> = 7.5√f′c</div>
+    </div>
+  </div>
+
+  <!-- BAR CHART -->
+  <div class="sec-label">Same scale — compression vs tension</div>
+  <div class="bar-wrap fade">
+    <div class="bars" id="barChart">
+      <div class="bar-row">
+        <div class="bar-name" style="color:#5b9fd4">Compression</div>
+        <div class="bar-head" style="grid-column:2/-1;display:flex;justify-content:space-between"><span>0</span><span>12,000 psi</span></div>
+      </div>
+      <div class="bar-row"><div class="bar-name">f′c = 3,000</div><div class="bar-track"><div class="bar-fill c" data-w="25"></div></div><div class="bar-val">3,000 psi</div></div>
+      <div class="bar-row"><div class="bar-name">f′c = 4,000</div><div class="bar-track"><div class="bar-fill c" data-w="33.3"></div></div><div class="bar-val">4,000 psi</div></div>
+      <div class="bar-row"><div class="bar-name">f′c = 8,000</div><div class="bar-track"><div class="bar-fill c" data-w="66.6"></div></div><div class="bar-val">8,000 psi</div></div>
+      <div class="bar-row"><div class="bar-name">f′c = 12,000</div><div class="bar-track"><div class="bar-fill c" data-w="100"></div></div><div class="bar-val">12,000 psi</div></div>
+      <div class="bar-sep"></div>
+      <div class="bar-row">
+        <div class="bar-name" style="color:#d9503d">Tension f<sub>r</sub></div>
+        <div class="bar-head" style="grid-column:2/-1">same scale ↑</div>
+      </div>
+      <div class="bar-row"><div class="bar-name">fr @ 3,000</div><div class="bar-track"><div class="bar-fill t" data-w="3.43"></div></div><div class="bar-val">411 psi</div></div>
+      <div class="bar-row"><div class="bar-name">fr @ 4,000</div><div class="bar-track"><div class="bar-fill t" data-w="3.95"></div></div><div class="bar-val">474 psi</div></div>
+      <div class="bar-row"><div class="bar-name">fr @ 8,000</div><div class="bar-track"><div class="bar-fill t" data-w="5.59"></div></div><div class="bar-val">671 psi</div></div>
+      <div class="bar-row"><div class="bar-name">fr @ 12,000</div><div class="bar-track"><div class="bar-fill t" data-w="6.84"></div></div><div class="bar-val">821 psi</div></div>
+    </div>
+  </div>
+
+  <!-- MICROSTRUCTURE -->
+  <div class="sec-label">What happens inside the concrete</div>
+  <div class="two-col fade">
+    <div class="panel cp">
+      <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ca" markerWidth="7" markerHeight="7" refX="3.5" refY="5" orient="auto"><path d="M1,1 L3.5,5.5 L6,1" stroke="#5b9fd4" fill="none" stroke-width="1.3"/></marker>
+          <marker id="cau" markerWidth="7" markerHeight="7" refX="3.5" refY="2" orient="auto"><path d="M1,6 L3.5,1.5 L6,6" stroke="#5b9fd4" fill="none" stroke-width="1.3"/></marker>
+        </defs>
+        <rect width="300" height="240" fill="#0c1520"/>
+        <ellipse cx="95" cy="120" rx="50" ry="40" fill="#16283a" stroke="#2a4a6a" stroke-width="1.5"/>
+        <ellipse cx="205" cy="112" rx="40" ry="33" fill="#16283a" stroke="#2a4a6a" stroke-width="1.5"/>
+        <ellipse cx="158" cy="178" rx="34" ry="26" fill="#16283a" stroke="#2a4a6a" stroke-width="1.5"/>
+        <ellipse cx="50"  cy="72"  rx="26" ry="20" fill="#16283a" stroke="#2a4a6a" stroke-width="1.5"/>
+        <ellipse cx="252" cy="178" rx="28" ry="22" fill="#16283a" stroke="#2a4a6a" stroke-width="1.5"/>
+        <ellipse cx="95" cy="120" rx="55" ry="45" fill="none" stroke="#2a5a8a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+        <ellipse cx="205" cy="112" rx="45" ry="38" fill="none" stroke="#2a5a8a" stroke-width="1" stroke-dasharray="3,3" opacity=".5"/>
+        <line x1="150" y1="6"   x2="150" y2="42"  stroke="#5b9fd4" stroke-width="2.5" marker-end="url(#ca)"/>
+        <line x1="150" y1="234" x2="150" y2="198" stroke="#5b9fd4" stroke-width="2.5" marker-end="url(#cau)"/>
+        <text x="150" y="134" font-family="Inter,sans-serif" font-size="9.5" fill="#5b9fd4" text-anchor="middle">aggregate interlock ✓</text>
+        <text x="150" y="150" font-family="Inter,sans-serif" font-size="8.5" fill="#2a6090" text-anchor="middle">ITZ intact</text>
+      </svg>
+      <div class="p-label">COMPRESSION</div>
+      <div class="p-sub">aggregates locked — load spreads through bulk</div>
+    </div>
+    <div class="panel tn">
+      <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ta" markerWidth="7" markerHeight="7" refX="3.5" refY="2" orient="auto"><path d="M1,6 L3.5,1.5 L6,6" stroke="#d9503d" fill="none" stroke-width="1.3"/></marker>
+          <marker id="tad" markerWidth="7" markerHeight="7" refX="3.5" refY="5" orient="auto"><path d="M1,1 L3.5,5.5 L6,1" stroke="#d9503d" fill="none" stroke-width="1.3"/></marker>
+        </defs>
+        <rect width="300" height="240" fill="#160c0a"/>
+        <ellipse cx="95" cy="120" rx="50" ry="40" fill="#271410" stroke="#4a1e18" stroke-width="1.5"/>
+        <ellipse cx="205" cy="112" rx="40" ry="33" fill="#271410" stroke="#4a1e18" stroke-width="1.5"/>
+        <ellipse cx="158" cy="178" rx="34" ry="26" fill="#271410" stroke="#4a1e18" stroke-width="1.5"/>
+        <ellipse cx="50"  cy="72"  rx="26" ry="20" fill="#271410" stroke="#4a1e18" stroke-width="1.5"/>
+        <ellipse cx="252" cy="178" rx="28" ry="22" fill="#271410" stroke="#4a1e18" stroke-width="1.5"/>
+        <path d="M50,82 L57,74 L63,82 L70,72 L76,80" stroke="#d9503d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M134,84 L141,76 L148,84 L155,74" stroke="#d9503d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M155,86 L164,76 L172,86 L180,76 L188,84" stroke="#d9503d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M127,158 L135,148 L143,158 L150,148" stroke="#d9503d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M220,154 L228,144 L236,154 L244,144" stroke="#d9503d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M134,84 L141,76 L148,84 L155,74" stroke="#d9503d" stroke-width="6" fill="none" opacity=".1" stroke-linecap="round"/>
+        <line x1="150" y1="42"  x2="150" y2="6"   stroke="#d9503d" stroke-width="2.5" marker-end="url(#ta)"/>
+        <line x1="150" y1="198" x2="150" y2="234" stroke="#d9503d" stroke-width="2.5" marker-end="url(#tad)"/>
+        <text x="150" y="134" font-family="Inter,sans-serif" font-size="9.5" fill="#d9503d" text-anchor="middle">ITZ fails instantly ✗</text>
+        <text x="150" y="150" font-family="Inter,sans-serif" font-size="8.5" fill="#803020" text-anchor="middle">microcracks propagate</text>
+      </svg>
+      <div class="p-label">TENSION</div>
+      <div class="p-sub">paste-aggregate interface separates immediately</div>
+    </div>
+  </div>
+
+  <!-- BEAM -->
+  <div class="sec-label">Why steel exists — the reinforced beam</div>
+  <div class="beam-wrap fade">
+    <svg viewBox="0 0 780 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0d2540"/>
+          <stop offset="100%" stop-color="#0a1520" stop-opacity=".4"/>
+        </linearGradient>
+        <linearGradient id="tg2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a0806" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="#2a0c08"/>
+        </linearGradient>
+        <marker id="ld" markerWidth="8" markerHeight="8" refX="4" refY="5" orient="auto"><path d="M2,1 L4,7 L6,1" fill="none" stroke="#666" stroke-width="1.2"/></marker>
+      </defs>
+      <line x1="260" y1="16" x2="260" y2="62" stroke="#666" stroke-width="1.8" marker-end="url(#ld)"/>
+      <line x1="390" y1="16" x2="390" y2="62" stroke="#666" stroke-width="1.8" marker-end="url(#ld)"/>
+      <line x1="520" y1="16" x2="520" y2="62" stroke="#666" stroke-width="1.8" marker-end="url(#ld)"/>
+      <text x="390" y="12" font-family="Inter,sans-serif" font-size="10" fill="#555" text-anchor="middle" letter-spacing="2">LOAD</text>
+      <rect x="70" y="64" width="640" height="66" rx="2" fill="url(#cg2)" stroke="#1e4060"/>
+      <text x="390" y="90" font-family="Inter,sans-serif" font-size="10.5" fill="#5b9fd4" text-anchor="middle" letter-spacing="1">COMPRESSION</text>
+      <text x="390" y="108" font-family="Inter,sans-serif" font-size="9" fill="#2a6090" text-anchor="middle">concrete handles this — f′c ≈ 4,000 psi</text>
+      <line x1="70" y1="130" x2="710" y2="130" stroke="#222233" stroke-dasharray="6,5" stroke-width="1"/>
+      <text x="722" y="134" font-family="Inter,sans-serif" font-size="8.5" fill="#333344">N.A.</text>
+      <rect x="70" y="130" width="640" height="58" rx="2" fill="url(#tg2)" stroke="#3a1410"/>
+      <text x="390" y="153" font-family="Inter,sans-serif" font-size="10.5" fill="#d9503d" text-anchor="middle" letter-spacing="1">TENSION</text>
+      <text x="390" y="171" font-family="Inter,sans-serif" font-size="9" fill="#803020" text-anchor="middle">concrete ignored in design — cracks at ~474 psi</text>
+      <line x1="86" y1="177" x2="714" y2="177" stroke="#d4a94a" stroke-width="4.5" stroke-linecap="round"/>
+      <rect x="188" y="67" width="3" height="115" rx="1" fill="#d4a94a" opacity=".28"/>
+      <rect x="390" y="67" width="3" height="115" rx="1" fill="#d4a94a" opacity=".28"/>
+      <rect x="592" y="67" width="3" height="115" rx="1" fill="#d4a94a" opacity=".28"/>
+      <text x="390" y="208" font-family="Inter,sans-serif" font-size="10.5" fill="#d4a94a" text-anchor="middle">— STEEL REBAR (fy ≈ 60,000 psi) —</text>
+      <text x="390" y="224" font-family="Inter,sans-serif" font-size="8.5" fill="#7a5a10" text-anchor="middle">carries all tension · 126× stronger than concrete in tension</text>
+      <polygon points="70,190 50,228 90,228" fill="#1a1a24" stroke="#222233" stroke-width="1"/>
+      <polygon points="710,190 690,228 730,228" fill="#1a1a24" stroke="#222233" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <!-- GRADE CARDS -->
+  <div class="sec-label">Ratio by concrete grade — gets worse as grade increases</div>
+  <div class="grade-grid fade">
+    <div class="g-card"><div class="g-lbl">3,000 psi</div><div class="g-fc">3,000</div><div class="g-fr">411 psi</div><div class="g-ratio">7.3 ×</div></div>
+    <div class="g-card"><div class="g-lbl">4,000 psi</div><div class="g-fc">4,000</div><div class="g-fr">474 psi</div><div class="g-ratio">8.4 ×</div></div>
+    <div class="g-card"><div class="g-lbl">6,000 psi</div><div class="g-fc">6,000</div><div class="g-fr">581 psi</div><div class="g-ratio">10.3 ×</div></div>
+    <div class="g-card"><div class="g-lbl">8,000 psi</div><div class="g-fc">8,000</div><div class="g-fr">671 psi</div><div class="g-ratio">11.9 ×</div></div>
+    <div class="g-card"><div class="g-lbl">12,000 psi</div><div class="g-fc">12,000</div><div class="g-fr">821 psi</div><div class="g-ratio">14.6 ×</div></div>
+  </div>
+
+  <div class="formula-chip fade">
+    <span class="expr">f<sub>r</sub> = 7.5 λ √f′c</span>
+    <span class="meta">ACI 318-19 Eq. 19.2.3.1 &nbsp;|&nbsp; λ = 1.0 normal-weight &nbsp;|&nbsp; psi</span>
+  </div>
+
+</div>
+
+<script is:inline>
+  const barObs = new IntersectionObserver(e => {
+    e.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w + '%');
+        barObs.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.bar-fill').forEach(b => b.style.width = '0');
+  const bc = document.getElementById('barChart');
+  if (bc) barObs.observe(bc);
+
+  const fadeObs = new IntersectionObserver(e => {
+    e.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); fadeObs.unobserve(en.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade').forEach(el => fadeObs.observe(el));
+</script>
+
+</Main>

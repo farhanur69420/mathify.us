@@ -1,7 +1,418 @@
 ---
 import Main from '../layouts/Main.astro';
+const title = "Civil Engineering";
+const description = "Free civil engineering lecture guides — RC design, traffic engineering, and more. Interactive simulations, calculators, and worked examples.";
 ---
-<Main title="Civil Engineering" description="Free civil engineering education covering RC design, structural analysis, and traffic engineering." activeNav="civil">
-<script is:inline>window.location.href='/civil.html';</script>
-<noscript><a href="/civil.html">Go to Civil Engineering</a></noscript>
+<Main title={title} description={description} activeNav="civil">
+
+<style>
+  .civil-page { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+
+  /* HERO */
+  .hero { text-align: center; padding: 3.5rem 0 3rem; }
+  .hero h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: -.01em;
+    margin-bottom: 1rem;
+  }
+  .hero p { color: var(--txt2); font-size: .95rem; max-width: 480px; margin: 0 auto; }
+
+  /* PILLS */
+  .features {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: .75rem; margin: 2.5rem 0 3.5rem;
+  }
+  .pill {
+    display: flex; align-items: center; gap: .5rem;
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 99px; padding: .45rem 1rem;
+    font-size: .75rem; color: var(--txt2);
+  }
+  .pill span { font-size: 1rem; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: .65rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--amb);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--bdr); }
+
+  /* CHAPTER CARDS */
+  .chapter-grid { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 3.5rem; }
+
+  .chapter-card {
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 10px; overflow: hidden;
+    transition: border-color .2s;
+  }
+  .chapter-card:hover { border-color: var(--tline); }
+
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 1.6rem 0;
+  }
+  .card-title-row { display: flex; align-items: center; gap: .75rem; }
+  .card-icon { font-size: 1.4rem; }
+  .card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: .95rem; font-weight: 700; color: var(--txt); margin: 0;
+  }
+  .card-sub { font-size: .72rem; color: var(--txt2); margin-top: .15rem; }
+
+  .live-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: .6rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--teal); background: var(--tdim);
+    border: 1px solid var(--tline);
+    padding: .25rem .65rem; border-radius: 99px;
+    white-space: nowrap;
+  }
+
+  .card-desc { padding: .6rem 1.6rem .4rem; font-size: .82rem; color: var(--txt2); }
+
+  .topics-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: .35rem; padding: .6rem 1.6rem;
+  }
+  .topic { display: flex; align-items: baseline; gap: .5rem; font-size: .72rem; color: var(--txt2); }
+  .topic-num { font-family: 'Space Mono', monospace; font-size: .62rem; color: var(--mut); min-width: 1.4rem; }
+  .topic.star .topic-num { color: var(--amb); }
+  .topic.star { color: var(--txt); }
+
+  .card-footer {
+    padding: 1.2rem 1.6rem 1.4rem;
+    border-top: 1px solid var(--bdr); margin-top: .8rem;
+  }
+  .card-link {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-size: .78rem; font-weight: 600; color: var(--teal);
+    text-decoration: none; letter-spacing: .02em;
+    transition: opacity .2s;
+  }
+  .card-link:hover { opacity: .75; }
+
+  /* FAQ CARD */
+  .faq-card {
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 10px; padding: 1.6rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap;
+    margin-bottom: 3.5rem;
+    transition: border-color .2s;
+  }
+  .faq-card:hover { border-color: var(--tline); }
+  .faq-left { display: flex; align-items: center; gap: 1rem; }
+  .faq-icon { font-size: 1.6rem; }
+  .faq-title { font-family: 'Space Mono', monospace; font-size: .9rem; font-weight: 700; color: var(--txt); }
+  .faq-desc { font-size: .75rem; color: var(--txt2); margin-top: .2rem; }
+
+  @media (max-width: 600px) {
+    .civil-page { padding: 2rem 1.25rem 4rem; }
+    .hero { padding: 2rem 0 2rem; }
+    .card-header { flex-direction: column; align-items: flex-start; gap: .75rem; padding: 1.2rem 1.2rem 0; }
+    .topics-grid { grid-template-columns: 1fr 1fr; padding: .6rem 1.2rem; }
+    .card-desc { padding: .6rem 1.2rem .4rem; }
+    .card-footer { padding: 1rem 1.2rem 1.2rem; }
+  }
+</style>
+
+<div class="civil-page">
+
+  <div class="hero">
+    <h1>Civil Engineering</h1>
+    <p>Focused lecture guides with simulations, solved problems, and visual explanations. No fluff.</p>
+  </div>
+
+  <div class="features">
+    <div class="pill"><span>&#9881;&#65039;</span> Interactive Simulations</div>
+    <div class="pill"><span>&#128221;</span> Step-by-Step Solutions</div>
+    <div class="pill"><span>&#127891;</span> Worked Problems</div>
+    <div class="pill"><span>&#128218;</span> Formula Sheets</div>
+  </div>
+
+  <!-- ── DESIGN OF CONCRETE STRUCTURES ── -->
+  <div class="section-label">Design of Concrete Structures &mdash; 15th Edition Workbook</div>
+
+  <div class="chapter-grid">
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#127963;</span>
+          <div>
+            <h2 class="card-title">RC Design &mdash; Ch. 1</h2>
+            <div class="card-sub">Working Stress Design &amp; Transformed Section Method</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">Cracked section analysis, the k &amp; j method, beam geometry, and design from scratch. Interactive simulations and 3 fully worked problems.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>Why Reinforced Concrete</div>
+        <div class="topic"><span class="topic-num">02</span>Mix Design &amp; Unit Weights</div>
+        <div class="topic"><span class="topic-num">03</span>Loads &amp; Safety Factors</div>
+        <div class="topic"><span class="topic-num">04</span>Beam Geometry &amp; Cover</div>
+        <div class="topic"><span class="topic-num">05</span>Three Stages of Loading</div>
+        <div class="topic"><span class="topic-num">06</span>Transformed Section Method</div>
+        <div class="topic"><span class="topic-num">07</span>WSD Analysis (k &amp; j)</div>
+        <div class="topic"><span class="topic-num">08</span>WSD Design Procedure</div>
+        <div class="topic"><span class="topic-num">09</span>Worked Problems (3)</div>
+        <div class="topic"><span class="topic-num">10</span>Formula Sheet</div>
+      </div>
+      <div class="card-footer">
+        <a href="/rc-chapter1.html" class="card-link">Open Chapter 1 Guide &rarr;</a>
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#9881;&#65039;</span>
+          <div>
+            <h2 class="card-title">RC Design &mdash; Ch. 2</h2>
+            <div class="card-sub">Materials &mdash; All 17 Sections</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">Darwin, Dolan &amp; Nilson 15th Ed. All 17 sections with analogies, canvas simulations, sliders, and 4 quick-check quizzes.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">2.1</span>Introduction</div>
+        <div class="topic"><span class="topic-num">2.2</span>Cement &amp; Hydration</div>
+        <div class="topic"><span class="topic-num">2.3</span>Aggregates</div>
+        <div class="topic"><span class="topic-num">2.4</span>w/c Ratio &amp; Mix Design</div>
+        <div class="topic"><span class="topic-num">2.5</span>Placing &amp; Curing</div>
+        <div class="topic"><span class="topic-num">2.6</span>Quality Control</div>
+        <div class="topic"><span class="topic-num">2.7</span>Admixtures</div>
+        <div class="topic"><span class="topic-num">2.8</span>Compression &amp; Stress-Strain</div>
+        <div class="topic"><span class="topic-num">2.9</span>Tensile Strength</div>
+        <div class="topic"><span class="topic-num">2.10</span>Combined Stress</div>
+        <div class="topic"><span class="topic-num">2.11</span>Shrinkage &amp; Creep</div>
+        <div class="topic"><span class="topic-num">2.12</span>High-Strength Concrete</div>
+        <div class="topic"><span class="topic-num">2.13</span>Steel for Concrete</div>
+        <div class="topic"><span class="topic-num">2.14</span>Reinforcing Bars</div>
+        <div class="topic"><span class="topic-num">2.15</span>Welded Wire Reinforcement</div>
+        <div class="topic"><span class="topic-num">2.16</span>Prestressing Steels</div>
+        <div class="topic"><span class="topic-num">2.17</span>Fiber Reinforcement</div>
+      </div>
+      <div class="card-footer">
+        <a href="/cee-chapter2.html" class="card-link">Open Chapter 2 Guide &rarr;</a>
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128210;</span>
+          <div>
+            <h2 class="card-title">RC Design &mdash; Ch. 3</h2>
+            <div class="card-sub">Design Philosophy &amp; Fundamental Assumptions</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">All 6 sections &mdash; design philosophy, ACI code logic, the 4 core RC assumptions, axial load behavior, and elastic beam bending &mdash; with interactive calculators and 3 quizzes.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">3.1</span>Introduction to Design</div>
+        <div class="topic"><span class="topic-num">3.2</span>Members &amp; Sections</div>
+        <div class="topic"><span class="topic-num">3.3</span>Theory, Codes &amp; Practice</div>
+        <div class="topic"><span class="topic-num">3.4</span>Fundamental Assumptions</div>
+        <div class="topic"><span class="topic-num">3.5</span>Behavior Under Axial Loads</div>
+        <div class="topic"><span class="topic-num">3.6</span>Bending of Homogeneous Beams</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Column Load Calculator</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Bending Stress Visualizer</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>3 Quick-Check Quizzes</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>ACI Load Factor Examples</div>
+      </div>
+      <div class="card-footer">
+        <a href="/chapter3-concrete.html" class="card-link">Open Chapter 3 Guide &rarr;</a>
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128268;</span>
+          <div>
+            <h2 class="card-title">RC Design &mdash; Ch. 4</h2>
+            <div class="card-sub">Flexural Analysis &amp; Design of Beams</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">Whitney stress block, beam failure modes, &rho; limits, M<sub>n</sub> calculator, R<sub>n</sub> design aids &mdash; all 7 sections with live canvas diagrams, 4 quizzes, and interactive calculators.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">4.1</span>Introduction &amp; Design Goals</div>
+        <div class="topic"><span class="topic-num">4.2</span>RC Beam Behavior (3 Stages)</div>
+        <div class="topic"><span class="topic-num">4.3</span>Whitney Stress Block</div>
+        <div class="topic"><span class="topic-num">4.4</span>Failure Modes &amp; &phi; Factors</div>
+        <div class="topic"><span class="topic-num">4.5</span>&rho; Limits &amp; ACI Rules</div>
+        <div class="topic"><span class="topic-num">4.6</span>Analysis &amp; Design Procedure</div>
+        <div class="topic"><span class="topic-num">4.7</span>R<sub>n</sub> Design Aid Tables</div>
+        <div class="topic"><span class="topic-num">4.8</span>R<sub>n</sub>&ndash;&rho; Chart</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>3-Stage Beam Visualizer</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Live M<sub>n</sub> Calculator</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>&rho; Limits Visualizer</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>4 Quick-Check Quizzes</div>
+      </div>
+      <div class="card-footer">
+        <a href="/chapter4-concrete.html" class="card-link">Open Chapter 4 Guide &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── NAZMUL ISLAM LECTURES ── -->
+  <div class="section-label">Mr. Mohammad Nazmul Islam &mdash; CEE335 Lectures</div>
+
+  <div class="chapter-grid">
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#127979;</span>
+          <div>
+            <h2 class="card-title">Introduction to Concrete &amp; Steel</h2>
+            <div class="card-sub">Chapter 1 &mdash; Materials Fundamentals</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">What concrete is, how it&rsquo;s made, what governs its strength, and why steel is its ideal reinforcing partner. Includes 6 interactive calculators and 6 canvas animations.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>What is Reinforced Concrete?</div>
+        <div class="topic"><span class="topic-num">02</span>Concrete Constituents &amp; Cement</div>
+        <div class="topic"><span class="topic-num">03</span>Water-Cement Ratio</div>
+        <div class="topic"><span class="topic-num">04</span>Compressive Strength f&prime;c</div>
+        <div class="topic"><span class="topic-num">05</span>Modulus of Elasticity E<sub>c</sub></div>
+        <div class="topic"><span class="topic-num">06</span>Steel Reinforcement</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>RC Beam Animation</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Hydration Animation</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Stress-Strain Curves</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>6 Interactive Calculators</div>
+      </div>
+      <div class="card-footer">
+        <a href="/civil/rc-chapter1" class="card-link">Open Lecture 1 Guide &rarr;</a>
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128210;</span>
+          <div>
+            <h2 class="card-title">Fundamental Assumptions of RC Theory</h2>
+            <div class="card-sub">Lecture 3 &mdash; Design Philosophy</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">Plane sections, strain compatibility, crack formation, and the evolution of the stress block. The theoretical bedrock of every RC calculation.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>Plane Sections Assumption</div>
+        <div class="topic"><span class="topic-num">02</span>Strain Compatibility</div>
+        <div class="topic"><span class="topic-num">03</span>Crack Formation &amp; Behavior</div>
+        <div class="topic"><span class="topic-num">04</span>Stress Block Evolution</div>
+        <div class="topic"><span class="topic-num">05</span>Whitney Stress Block</div>
+        <div class="topic"><span class="topic-num">06</span>Design vs Analysis</div>
+      </div>
+      <div class="card-footer">
+        <a href="/civil/lecture-3" class="card-link">Open Lecture 3 Guide &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── TRANSPORTATION ENGINEERING ── -->
+  <div class="section-label">Transportation Engineering &mdash; CEE350</div>
+
+  <div class="chapter-grid">
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128678;</span>
+          <div>
+            <h2 class="card-title">Traffic Analysis &amp; Design</h2>
+            <div class="card-sub">Signal Timing, LOS, Trip Generation &amp; Mode Split</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">Traffic flow theory, PHF calculator, Webster&rsquo;s signal timing, delay &amp; LOS, queue analysis, gravity model, and mode split &mdash; with animated simulations and 20+ practice problems.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>Traffic Engineering Basics</div>
+        <div class="topic"><span class="topic-num">02</span>Road Classification</div>
+        <div class="topic"><span class="topic-num">03</span>Flow, Density &amp; Speed</div>
+        <div class="topic"><span class="topic-num">04</span>Intersection Types</div>
+        <div class="topic"><span class="topic-num">05</span>Signal Phasing &amp; Timing</div>
+        <div class="topic"><span class="topic-num">06</span>Green Splits &amp; Offsets</div>
+        <div class="topic"><span class="topic-num">07</span>Saturation Flow Rate</div>
+        <div class="topic"><span class="topic-num">08</span>Lane Capacity</div>
+        <div class="topic"><span class="topic-num">09</span>Delay &amp; Level of Service</div>
+        <div class="topic"><span class="topic-num">10</span>Trip Generation</div>
+        <div class="topic"><span class="topic-num">11</span>Trip Distribution</div>
+        <div class="topic"><span class="topic-num">12</span>Mode Split</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>PHF Calculator</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Signal Timing Simulator</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>Queue Analysis Tool</div>
+        <div class="topic star"><span class="topic-num">&#9733;</span>20+ Practice Problems</div>
+      </div>
+      <div class="card-footer">
+        <a href="/civil/traffic-design" class="card-link">Open Traffic Engineering Guide &rarr;</a>
+      </div>
+    </div>
+
+    <div class="chapter-card">
+      <div class="card-header">
+        <div class="card-title-row">
+          <span class="card-icon">&#128390;</span>
+          <div>
+            <h2 class="card-title">Transportation Engineering Hub</h2>
+            <div class="card-sub">Section overview &amp; all lessons</div>
+          </div>
+        </div>
+        <span class="live-badge">LIVE</span>
+      </div>
+      <p class="card-desc">The transportation engineering landing page &mdash; all lessons, key formulas (Webster&rsquo;s C&sub0;, SSD, flow-density), and calculator index in one place.</p>
+      <div class="topics-grid">
+        <div class="topic"><span class="topic-num">01</span>Traffic Flow Theory</div>
+        <div class="topic"><span class="topic-num">02</span>Webster&rsquo;s Signal Formula</div>
+        <div class="topic"><span class="topic-num">03</span>Sight Distance (SSD)</div>
+        <div class="topic"><span class="topic-num">04</span>Gravity Model</div>
+        <div class="topic"><span class="topic-num">05</span>Mode Split</div>
+        <div class="topic"><span class="topic-num">06</span>All Lesson Index</div>
+      </div>
+      <div class="card-footer">
+        <a href="/civil/transportation" class="card-link">Open Transportation Hub &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FAQ CARD -->
+  <div class="section-label">Frequently Asked Questions</div>
+
+  <a href="/faq" style="text-decoration:none;">
+    <div class="faq-card">
+      <div class="faq-left">
+        <span class="faq-icon">&#10067;</span>
+        <div>
+          <div class="faq-title">Frequently Asked Questions (FAQ)</div>
+          <div class="faq-desc">Why does concrete fail in tension? What&rsquo;s the 10&times; rule? Visual answers to core concepts.</div>
+        </div>
+      </div>
+      <span class="live-badge">LIVE</span>
+    </div>
+  </a>
+
+</div>
+
 </Main>
