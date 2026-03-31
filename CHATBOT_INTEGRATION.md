@@ -6,7 +6,7 @@ The Mathify Learning Assistant is an AI-powered chatbot integrated into the math
 
 ## Features
 
-- **AI-Powered Tutoring**: Uses OpenAI's GPT-4 API with a specialized system prompt
+- **AI-Powered Tutoring**: Uses Google Gemini API (via OpenAI-compatible SDK) with a specialized system prompt
 - **LaTeX Support**: Full support for mathematical equations using MathJax
 - **Markdown Rendering**: Formatted text with bold, italic, lists, and code blocks
 - **Persistent Chat History**: Stores conversation history in browser localStorage
@@ -24,11 +24,11 @@ The Mathify Learning Assistant is an AI-powered chatbot integrated into the math
    - Handles message history and localStorage
    - Triggers MathJax typesetting for LaTeX rendering
 
-2. **Chat API** (`src/pages/api/chat.json.ts`)
+2. **Chat API** (`src/pages/api/chat.js`)
    - Server-side API endpoint
-   - Communicates with OpenAI API
+   - Communicates with Google Gemini API via OpenAI-compatible SDK
    - Processes responses and formats markdown/LaTeX
-   - Requires `OPENAI_API_KEY` environment variable
+   - Requires `GEMINI_API_KEY` environment variable
 
 3. **Layout Integration** (`src/layouts/Main.astro`)
    - Includes MathJax script for LaTeX rendering
@@ -39,10 +39,10 @@ The Mathify Learning Assistant is an AI-powered chatbot integrated into the math
 
 ### 1. Environment Configuration
 
-Set the OpenAI API key as an environment variable:
+Set the Gemini API key as an environment variable:
 
 ```bash
-export OPENAI_API_KEY="your-api-key-here"
+export GEMINI_API_KEY="your-gemini-api-key-here"
 ```
 
 ### 2. Build Configuration
@@ -51,7 +51,7 @@ The project uses hybrid rendering (static + server-side) to support the API endp
 
 ```javascript
 // astro.config.mjs
-output: 'hybrid'
+output: 'static'
 ```
 
 ### 3. Dependencies
@@ -60,7 +60,7 @@ The chatbot uses:
 - **Astro 4.16.0+**: Framework
 - **Svelte 4.2.19+**: Component framework
 - **MathJax 3.2.2**: LaTeX rendering
-- **OpenAI API**: AI responses
+- **Google Gemini API**: AI responses (via OpenAI-compatible SDK)
 
 ## System Prompt
 
@@ -98,7 +98,7 @@ The chatbot uses a specialized system prompt that ensures:
 ```bash
 cd mathify_us
 npm install
-export OPENAI_API_KEY="your-key"
+export GEMINI_API_KEY="your-gemini-api-key"
 npm run dev
 ```
 
@@ -166,7 +166,7 @@ The chatbot inherits CSS variables from the main theme:
 1. **Lazy Loading**: Chatbot component uses `client:only` to avoid server-side rendering
 2. **Message Caching**: Stores up to 50 messages in localStorage
 3. **API Rate Limiting**: Consider implementing rate limiting for production
-4. **Token Usage**: Monitor OpenAI API token usage for cost management
+4. **Token Usage**: Monitor Gemini API token usage for cost management
 
 ## Troubleshooting
 
@@ -181,9 +181,9 @@ The chatbot inherits CSS variables from the main theme:
 - Check browser console for MathJax errors
 
 ### API errors
-- Verify `OPENAI_API_KEY` environment variable is set
-- Check API key is valid and has sufficient credits
-- Review OpenAI API documentation for rate limits
+- Verify `GEMINI_API_KEY` environment variable is set
+- Check API key is valid and has sufficient quota
+- Review Google Gemini API documentation for rate limits
 
 ### Messages not persisting
 - Check browser localStorage is enabled
@@ -203,7 +203,7 @@ The chatbot inherits CSS variables from the main theme:
 
 ## Security Considerations
 
-1. **API Key Protection**: Keep `OPENAI_API_KEY` in environment variables only
+1. **API Key Protection**: Keep `GEMINI_API_KEY` in environment variables only
 2. **Input Validation**: API endpoint validates message format
 3. **Rate Limiting**: Implement rate limiting in production
 4. **Content Filtering**: Monitor for inappropriate content

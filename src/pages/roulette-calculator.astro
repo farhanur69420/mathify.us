@@ -10,7 +10,7 @@ import '../styles/roulette-calculator.css';
   <div class="rc-setup" id="setupPanel">
     <div class="rc-panel">
       <h1 class="rc-page-title">Roulette Calculator</h1>
-      <p class="rc-subtitle">European Roulette &middot; Smart Bet Suggestions &middot; Martingale Engine</p>
+      <p class="rc-subtitle">European Roulette &middot; Adaptive AI Engine &middot; Multi-Window Analysis</p>
 
       <div class="rc-input-group">
         <label for="startBalance">Starting Balance</label>
@@ -37,9 +37,19 @@ import '../styles/roulette-calculator.css';
   <!-- ── GAME AREA ── -->
   <div class="rc-game" id="gameArea">
 
-    <!-- Recovery Mode Banner -->
-    <div class="rc-recovery-banner" id="recoveryBanner">
-      <div class="rc-recovery-text">&#9888; Recovery Mode &mdash; Reduced bets active (3+ consecutive losses)</div>
+    <!-- Tier & Momentum Banner -->
+    <div class="rc-tier-banner" id="tierBanner">
+      <div class="rc-tier-left">
+        <span class="rc-tier-badge" id="tierBadge">CONSERVATIVE</span>
+        <span class="rc-tier-label">Risk Tier</span>
+      </div>
+      <div class="rc-tier-right">
+        <div class="rc-momentum-bar">
+          <div class="rc-momentum-fill" id="momentumFill"></div>
+          <div class="rc-momentum-center"></div>
+        </div>
+        <span class="rc-momentum-label" id="momentumLabel">Momentum: 0</span>
+      </div>
     </div>
 
     <!-- Balance & Progress -->
@@ -98,7 +108,7 @@ import '../styles/roulette-calculator.css';
     <!-- Session Stats -->
     <div class="rc-panel">
       <div class="rc-panel-title">Session Statistics</div>
-      <div class="rc-stats-grid">
+      <div class="rc-stats-grid rc-stats-grid-9">
         <div class="rc-stat">
           <div class="rc-stat-value" id="statWinRate">0%</div>
           <div class="rc-stat-label">Win Rate</div>
@@ -122,6 +132,18 @@ import '../styles/roulette-calculator.css';
         <div class="rc-stat">
           <div class="rc-stat-value" id="statROI">0%</div>
           <div class="rc-stat-label">ROI</div>
+        </div>
+        <div class="rc-stat">
+          <div class="rc-stat-value" id="statPeak">0</div>
+          <div class="rc-stat-label">Peak</div>
+        </div>
+        <div class="rc-stat">
+          <div class="rc-stat-value" id="statValley">0</div>
+          <div class="rc-stat-label">Valley</div>
+        </div>
+        <div class="rc-stat">
+          <div class="rc-stat-value" id="statCoverage">0%</div>
+          <div class="rc-stat-label">Coverage</div>
         </div>
       </div>
     </div>
@@ -192,7 +214,10 @@ import '../styles/roulette-calculator.css';
   var confirmResultBtn = $('confirmResultBtn');
   var resultDisplay = $('resultDisplay');
   var resultText = $('resultText');
-  var recoveryBanner = $('recoveryBanner');
+  var tierBanner = $('tierBanner');
+  var tierBadge = $('tierBadge');
+  var momentumFill = $('momentumFill');
+  var momentumLabel = $('momentumLabel');
   var warningFlash = $('warningFlash');
   var stopLossOverlay = $('stopLossOverlay');
   var celebrationOverlay = $('celebrationOverlay');
@@ -386,12 +411,18 @@ import '../styles/roulette-calculator.css';
     // History strip
     renderHistory();
 
-    // Recovery banner
-    if (st.recoveryMode) {
-      recoveryBanner.classList.add('active');
-    } else {
-      recoveryBanner.classList.remove('active');
-    }
+    // Tier banner
+    var tier = st.tier;
+    tierBadge.textContent = tier.name;
+    tierBadge.style.background = tier.color;
+    tierBadge.style.color = '#fff';
+
+    // Momentum bar
+    var mom = st.momentum || 0;
+    var momPct = 50 + mom * 50; // -1=0%, 0=50%, +1=100%
+    momentumFill.style.width = momPct + '%';
+    momentumFill.style.background = mom > 0.2 ? 'var(--rc-green)' : mom < -0.2 ? 'var(--warn)' : 'var(--gold)';
+    momentumLabel.textContent = 'Momentum: ' + (mom >= 0 ? '+' : '') + mom.toFixed(2);
 
     // Stats
     var stats = RE.getSessionStats();
@@ -401,6 +432,9 @@ import '../styles/roulette-calculator.css';
     $('statBestStreak').textContent = '+' + stats.bestStreak;
     $('statBiggestWin').textContent = stats.biggestWin;
     $('statROI').textContent = (stats.roi >= 0 ? '+' : '') + stats.roi + '%';
+    $('statPeak').textContent = stats.peakBalance;
+    $('statValley').textContent = stats.valleyBalance;
+    $('statCoverage').textContent = stats.coverage + '%';
 
     // Color streak
     var streakEl = $('statStreak');
@@ -489,6 +523,11 @@ import '../styles/roulette-calculator.css';
           '<span class="rc-bet-confidence">' + s.confidence + '% conf</span>' +
         '</div>' +
         '<div class="rc-bet-amount">' + s.amount + '</div>' +
+        '<div class="rc-bet-meta">' +
+          '<span class="rc-meta-item">Prob: ' + (s.probability || '—') + '</span>' +
+          '<span class="rc-meta-item">Coverage: ' + (s.coverage || 0) + '%</span>' +
+          '<span class="rc-meta-item rc-meta-tier" style="color:' + (RE.getState().tier.color || '#c9a84c') + '">' + (s.tier || '') + '</span>' +
+        '</div>' +
         '<div class="rc-bet-reasoning">' + s.reasoning + '</div>' +
         '<div class="rc-bet-actions">' +
           '<button class="rc-btn rc-btn-gold rc-btn-small rc-accept-btn" data-idx="' + i + '">Accept</button>' +
@@ -602,7 +641,10 @@ import '../styles/roulette-calculator.css';
     if (sel) sel.classList.remove('selected');
     confirmResultBtn.disabled = true;
     resultDisplay.classList.remove('visible', 'win', 'loss');
-    recoveryBanner.classList.remove('active');
+    tierBadge.textContent = 'CONSERVATIVE';
+    tierBadge.style.background = '#27ae60';
+    momentumFill.style.width = '50%';
+    momentumLabel.textContent = 'Momentum: 0';
     betSlipContent.innerHTML = '<div class="rc-no-bet-msg">Suggestions will appear after first spin or with loaded history.</div>';
     betTotal.style.display = 'none';
     historyStrip.innerHTML = '<div class="rc-empty">No results yet</div>';

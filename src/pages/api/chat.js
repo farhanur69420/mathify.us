@@ -2,12 +2,13 @@ export const prerender = false;
 
 export const POST = async ({ request }) => {
   try {
+    const { messages, systemPrompt } = await request.json();
+
     const { default: OpenAI } = await import('openai');
     const client = new OpenAI({
       apiKey: process.env.GEMINI_API_KEY || 'dummy',
       baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
     });
-    const { messages, systemPrompt } = await request.json();
 
     if (!messages || !Array.isArray(messages)) {
       return new Response(
@@ -34,7 +35,7 @@ export const POST = async ({ request }) => {
 
     return new Response(
       JSON.stringify({ message: processedMessage }),
-      { 
+      {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
       }
@@ -42,7 +43,7 @@ export const POST = async ({ request }) => {
 
   } catch (error) {
     console.error('Chat API error:', error);
-    
+
     if (error?.message?.includes('429') || error?.status === 429) {
       return new Response(
         JSON.stringify({ error: 'I am receiving too many requests right now. Please wait a moment before asking again.' }),
