@@ -1,0 +1,1319 @@
+---
+// src/pages/civil/cee335l/index.astro
+const title = "CEE335L — Reinforced Concrete Design Lab";
+const description = "Learn structural analysis using ETABS. Covers RC building frames, bridge portals, BNBC wind & seismic loads, and AASHTO bridge codes. Interactive intuition-first course guide.";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | Mathify</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}]})"></script>
+
+  <style>
+    :root {
+      --bg:        #0d0d0f;
+      --bg2:       #13131a;
+      --bg3:       #1a1a24;
+      --border:    #2a2a3a;
+      --text:      #e8e8f0;
+      --muted:     #7a7a9a;
+      --accent:    #f0a500;
+      --accent2:   #3ecfcf;
+      --accent3:   #e05c5c;
+      --green:     #4ade80;
+      --mono:      'Space Mono', monospace;
+      --serif:     'Playfair Display', serif;
+      --sans:      'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,13,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex; align-items: center; gap: 2rem;
+    }
+    .nav-logo { font-family: var(--mono); font-size: 1rem; color: var(--accent); text-decoration: none; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .breadcrumb { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-left: auto; letter-spacing: 0.08em; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 5rem 2rem 3rem;
+      max-width: 900px; margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-tag {
+      font-family: var(--mono); font-size: 0.7rem;
+      color: var(--accent); letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .hero-tag::before { content: ''; width: 2rem; height: 1px; background: var(--accent); }
+    .hero h1 {
+      font-family: var(--serif); font-size: clamp(2rem,5vw,3.5rem);
+      font-weight: 900; line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted); max-width: 600px;
+      margin-bottom: 2rem;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.5rem;
+    }
+    .badge {
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em;
+      padding: 0.3rem 0.75rem; border-radius: 4px; border: 1px solid;
+    }
+    .badge-amber  { color: var(--accent);  border-color: var(--accent);  background: rgba(240,165,0,0.08); }
+    .badge-teal   { color: var(--accent2); border-color: var(--accent2); background: rgba(62,207,207,0.08); }
+    .badge-red    { color: var(--accent3); border-color: var(--accent3); background: rgba(224,92,92,0.08); }
+    .badge-green  { color: var(--green);   border-color: var(--green);   background: rgba(74,222,128,0.08); }
+    .badge-muted  { color: var(--muted);   border-color: var(--border);  background: var(--bg2); }
+
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+      gap: 1rem; margin-top: 2rem;
+    }
+    .stat-box {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; text-align: center;
+    }
+    .stat-num { font-family: var(--mono); font-size: 1.8rem; color: var(--accent); display: block; }
+    .stat-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
+
+    /* ── SECTION LAYOUT ── */
+    .section { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; border-bottom: 1px solid var(--border); }
+    .section:last-child { border-bottom: none; }
+
+    .section-num {
+      font-family: var(--mono); font-size: 0.65rem; color: var(--accent);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;
+    }
+    .section-num::after { content: ''; flex: 0 0 3rem; height: 1px; background: var(--border); }
+
+    .section h2 {
+      font-family: var(--serif); font-size: clamp(1.5rem,3vw,2.2rem);
+      font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .section-intro { color: var(--muted); margin-bottom: 2.5rem; max-width: 620px; }
+
+    /* ── VIEW CARDS (Civil / Physics / Math / Core) ── */
+    .view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+    @media(max-width:600px) { .view-grid { grid-template-columns: 1fr; } }
+
+    .view-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .view-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .view-label {
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .view-card.civil  .view-label { color: var(--accent2); }
+    .view-card.physics .view-label { color: var(--accent); }
+    .view-card.math    .view-label { color: var(--accent3); }
+    .view-card.core {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(240,165,0,0.06), rgba(62,207,207,0.06));
+      border-color: rgba(240,165,0,0.3);
+    }
+    .view-card.core .view-label { color: var(--green); }
+    .view-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .view-card p  { font-size: 0.88rem; color: var(--muted); }
+
+    /* ── INTERACTIVE: LOAD VISUALIZER ── */
+    #load-canvas-wrapper {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem;
+    }
+    .load-controls {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+    }
+    .load-btn {
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em;
+      padding: 0.35rem 0.85rem; border-radius: 6px; border: 1px solid var(--border);
+      background: var(--bg3); color: var(--muted); cursor: pointer;
+      transition: all 0.2s;
+    }
+    .load-btn.active { color: var(--bg); border-color: transparent; }
+    .load-btn[data-load="dead"].active   { background: #60a5fa; }
+    .load-btn[data-load="live"].active   { background: var(--green); }
+    .load-btn[data-load="wind"].active   { background: var(--accent2); }
+    .load-btn[data-load="seismic"].active { background: var(--accent3); }
+    #load-canvas { display: block; width: 100%; height: 320px; }
+    .load-info {
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem; color: var(--muted);
+      min-height: 70px;
+      border-top: 1px solid var(--border);
+    }
+    .load-info strong { color: var(--text); }
+
+    /* ── INTERACTIVE: ETABS PIPELINE ── */
+    .pipeline {
+      display: flex; gap: 0; margin-bottom: 1.5rem;
+      overflow-x: auto; padding-bottom: 0.5rem;
+    }
+    .pipe-step {
+      flex: 0 0 auto; min-width: 130px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-right: none; padding: 1rem; cursor: pointer;
+      transition: background 0.2s; position: relative;
+    }
+    .pipe-step:first-child { border-radius: 8px 0 0 8px; }
+    .pipe-step:last-child  { border-right: 1px solid var(--border); border-radius: 0 8px 8px 0; }
+    .pipe-step.active { background: rgba(240,165,0,0.1); border-color: var(--accent); }
+    .pipe-step::after {
+      content: '›';
+      position: absolute; right: -12px; top: 50%; transform: translateY(-50%);
+      color: var(--border); font-size: 1.2rem; z-index: 1;
+    }
+    .pipe-step:last-child::after { display: none; }
+    .pipe-num { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); margin-bottom: 0.3rem; }
+    .pipe-label { font-size: 0.78rem; font-weight: 600; }
+    .pipe-sub   { font-size: 0.68rem; color: var(--muted); margin-top: 0.2rem; }
+    .pipe-detail {
+      background: var(--bg2); border: 1px solid var(--accent);
+      border-radius: 10px; padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem; display: none;
+    }
+    .pipe-detail.visible { display: block; animation: fadeIn 0.25s ease; }
+    .pipe-detail h4 { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem; }
+    .pipe-detail ul { list-style: none; padding: 0; }
+    .pipe-detail li {
+      font-size: 0.85rem; padding: 0.3rem 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted); display: flex; align-items: flex-start; gap: 0.5rem;
+    }
+    .pipe-detail li:last-child { border-bottom: none; }
+    .pipe-detail li::before { content: '→'; color: var(--accent); flex-shrink: 0; margin-top: 0.05rem; }
+
+    /* ── INTERACTIVE: CODE EXPLORER ── */
+    .code-tabs { display: flex; gap: 0; margin-bottom: 0; border-radius: 10px 10px 0 0; overflow: hidden; }
+    .code-tab {
+      flex: 1; padding: 0.75rem 1rem; cursor: pointer; text-align: center;
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-bottom: none; color: var(--muted); transition: all 0.2s;
+    }
+    .code-tab:not(:first-child) { border-left: none; }
+    .code-tab.active { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+    .code-tab[data-code="aci"].active   { background: var(--accent2); border-color: var(--accent2); }
+    .code-tab[data-code="aashto"].active { background: var(--accent3); border-color: var(--accent3); }
+    .code-panel {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 0 0 10px 10px; padding: 1.5rem;
+      display: none;
+    }
+    .code-panel.visible { display: block; animation: fadeIn 0.2s ease; }
+    .code-panel h4 { font-family: var(--serif); font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .code-panel .code-use { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+    .code-items { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    @media(max-width:500px) { .code-items { grid-template-columns: 1fr; } }
+    .code-item {
+      background: var(--bg3); border-radius: 6px; padding: 0.75rem;
+      font-size: 0.82rem;
+    }
+    .code-item-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); margin-bottom: 0.25rem; }
+    .code-item-val   { font-weight: 600; }
+
+    /* ── INTERACTIVE: DAY TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .day-row {
+      display: flex; align-items: stretch; gap: 0;
+      cursor: pointer; transition: background 0.15s;
+      border-radius: 0; border-bottom: 1px solid var(--border);
+    }
+    .day-row:first-child { border-radius: 10px 10px 0 0; }
+    .day-row:last-child  { border-radius: 0 0 10px 10px; border-bottom: 1px solid var(--border); }
+    .day-row:hover .day-main { background: var(--bg3); }
+    .day-marker {
+      flex: 0 0 56px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: var(--bg2); border-right: 1px solid var(--border);
+      padding: 1rem 0.5rem; gap: 0.25rem;
+    }
+    .day-marker.exam { background: rgba(224,92,92,0.1); }
+    .day-num { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); }
+    .day-icon { font-size: 1.1rem; }
+    .day-main {
+      flex: 1; background: var(--bg2); padding: 1rem 1.25rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.15s;
+    }
+    .day-main.exam-main { background: rgba(224,92,92,0.04); }
+    .day-title { font-weight: 600; font-size: 0.9rem; }
+    .day-topics { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+    .day-chevron { color: var(--border); transition: transform 0.2s, color 0.2s; font-size: 1rem; }
+    .day-row.open .day-chevron { transform: rotate(90deg); color: var(--accent); }
+    .day-expand {
+      background: var(--bg3); border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem 1rem calc(56px + 1.25rem);
+      display: none; font-size: 0.83rem;
+    }
+    .day-expand.visible { display: block; animation: slideDown 0.2s ease; }
+    .day-expand ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+    .day-expand li { color: var(--muted); display: flex; gap: 0.5rem; align-items: flex-start; }
+    .day-expand li::before { content: '›'; color: var(--accent2); flex-shrink: 0; }
+    .day-expand .tip {
+      margin-top: 0.75rem; padding: 0.6rem 0.9rem;
+      background: rgba(62,207,207,0.06); border-left: 2px solid var(--accent2);
+      border-radius: 0 6px 6px 0; color: var(--text); font-size: 0.82rem;
+    }
+    .exam-badge {
+      font-family: var(--mono); font-size: 0.65rem; padding: 0.2rem 0.5rem;
+      background: rgba(224,92,92,0.15); color: var(--accent3);
+      border: 1px solid var(--accent3); border-radius: 4px;
+    }
+
+    /* ── INTERACTIVE: GRADE DONUT ── */
+    .grade-wrapper {
+      display: grid; grid-template-columns: 200px 1fr; gap: 2rem; align-items: center;
+    }
+    @media(max-width:550px) { .grade-wrapper { grid-template-columns: 1fr; } }
+    #gradeCanvas { display: block; }
+    .grade-legend { display: flex; flex-direction: column; gap: 0.75rem; }
+    .legend-item {
+      display: flex; align-items: center; gap: 0.75rem; cursor: pointer;
+      padding: 0.6rem 0.9rem; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg2); transition: border-color 0.2s, transform 0.15s;
+    }
+    .legend-item:hover { border-color: var(--accent); transform: translateX(3px); }
+    .legend-swatch { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+    .legend-text { flex: 1; }
+    .legend-name  { font-size: 0.85rem; font-weight: 600; }
+    .legend-sub   { font-size: 0.72rem; color: var(--muted); }
+    .legend-pct   { font-family: var(--mono); font-size: 1rem; color: var(--accent); }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center; padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .cta-section h2 { font-family: var(--serif); font-size: 2rem; margin-bottom: 0.75rem; }
+    .cta-section p  { color: var(--muted); margin-bottom: 2rem; }
+    .btn-primary {
+      display: inline-block; font-family: var(--mono); font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.9rem 2rem; background: var(--accent); color: var(--bg);
+      border-radius: 6px; text-decoration: none; font-weight: 700;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-block; font-family: var(--mono); font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.9rem 2rem; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 6px; text-decoration: none;
+      margin-left: 1rem; transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--text); border-color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    /* ── UTILS ── */
+    @keyframes fadeIn    { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 300px; } }
+
+    .mono { font-family: var(--mono); }
+    .accent { color: var(--accent); }
+    .teal   { color: var(--accent2); }
+    .red    { color: var(--accent3); }
+    .green  { color: var(--green); }
+    .muted  { color: var(--muted); }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="/" class="nav-logo">mathify</a>
+  <ul class="nav-links">
+    <li><a href="/math">Math</a></li>
+    <li><a href="/physics">Physics</a></li>
+    <li><a href="/civil">Civil</a></li>
+    <li><a href="/ssc">SSC</a></li>
+  </ul>
+  <span class="breadcrumb">
+    <a href="/civil.html">Civil</a> › CEE335L
+  </span>
+</nav>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-tag">CEE — Senior Year · 4th Year · 1 Credit</div>
+  <h1>Reinforced Concrete<br><span>Design Lab</span></h1>
+  <p class="hero-sub">
+    Learn to model, analyze, and design real RC structures using industry-standard ETABS software.
+    Buildings, bridges, seismic loads — all grounded in BNBC, ACI, and AASHTO codes.
+  </p>
+  <div class="hero-meta">
+    <span class="badge badge-amber">CEE335L</span>
+    <span class="badge badge-teal">ETABS</span>
+    <span class="badge badge-amber">BNBC</span>
+    <span class="badge badge-teal">ACI</span>
+    <span class="badge badge-red">AASHTO</span>
+    <span class="badge badge-muted">Prereq: CEE335</span>
+    <span class="badge badge-muted">Instructor: THK</span>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-box">
+      <span class="stat-num">11</span>
+      <span class="stat-label">Class Days</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Design Codes</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">2</span>
+      <span class="stat-label">Structure Types</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">1</span>
+      <span class="stat-label">Software: ETABS</span>
+    </div>
+  </div>
+</header>
+
+
+<!-- ── SECTION 01: WHY ── -->
+<section class="section">
+  <div class="section-num">01 — Why this lab</div>
+  <h2>Why does structural software matter?</h2>
+  <p class="section-intro">
+    Hand calculations get you through exams. Software gets you through real projects.
+    Click each load type below to see what it actually does to a building.
+  </p>
+
+  <!-- VIEW CARDS -->
+  <div class="view-grid">
+    <div class="view-card civil">
+      <div class="view-label">Civil View</div>
+      <h4>The gap between textbooks and sites</h4>
+      <p>Real buildings have irregular geometry, multiple load combinations, and 3D effects that make hand calculations impractical. ETABS handles all of this in minutes — engineers run dozens of load combos before choosing a design.</p>
+    </div>
+    <div class="view-card physics">
+      <div class="view-label">Physics View</div>
+      <h4>Forces come from many directions</h4>
+      <p>Gravity pulls down (dead + live loads). Wind pushes sideways. Earthquakes shake the base. A structure must resist all of these — simultaneously — without yielding, buckling, or excessive drift. Visualize these below.</p>
+    </div>
+    <div class="view-card math">
+      <div class="view-label">Math View</div>
+      <h4>Linear superposition in action</h4>
+      <p>ETABS applies the principle \(U = 1.2D + 1.6L + 0.5W\) (and many other combos per ACI/BNBC). The factored load envelope governs design at every section of every member simultaneously.</p>
+    </div>
+    <div class="view-card core">
+      <div class="view-label">Core Idea</div>
+      <h4>One model, infinite combinations</h4>
+      <p>You build the geometry once. Then ETABS applies every load combination the code requires and finds the worst case at every point. That's impossible by hand for a real building — and exactly why this lab exists.</p>
+    </div>
+  </div>
+
+  <!-- LOAD VISUALIZER -->
+  <div id="load-canvas-wrapper">
+    <div class="load-controls">
+      <span style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);margin-right:0.5rem;align-self:center;">LOAD TYPE →</span>
+      <button class="load-btn active" data-load="dead">Dead Load</button>
+      <button class="load-btn" data-load="live">Live Load</button>
+      <button class="load-btn" data-load="wind">Wind Load</button>
+      <button class="load-btn" data-load="seismic">Seismic Load</button>
+    </div>
+    <canvas id="load-canvas"></canvas>
+    <div class="load-info" id="load-info">
+      <strong>Dead Load (D):</strong> Permanent gravity loads — self-weight of beams, columns, slabs, finishes, and partitions. These never move. In ETABS, you assign the unit weight of concrete (24 kN/m³) and the software auto-calculates this. BNBC & ACI both require D to be included in every load combination.
+    </div>
+  </div>
+</section>
+
+
+<!-- ── SECTION 02: ETABS WORKFLOW ── -->
+<section class="section">
+  <div class="section-num">02 — The Software</div>
+  <h2>How ETABS thinks</h2>
+  <p class="section-intro">
+    ETABS isn't magic — it follows a strict workflow. Click each stage to understand what's actually happening under the hood.
+  </p>
+
+  <div class="pipeline" id="pipeline">
+    <div class="pipe-step active" data-step="0">
+      <div class="pipe-num">STEP 1</div>
+      <div class="pipe-label">Geometry</div>
+      <div class="pipe-sub">Grids & Materials</div>
+    </div>
+    <div class="pipe-step" data-step="1">
+      <div class="pipe-num">STEP 2</div>
+      <div class="pipe-label">Members</div>
+      <div class="pipe-sub">Beams, Columns, Slabs</div>
+    </div>
+    <div class="pipe-step" data-step="2">
+      <div class="pipe-num">STEP 3</div>
+      <div class="pipe-label">Supports</div>
+      <div class="pipe-sub">Boundary Conditions</div>
+    </div>
+    <div class="pipe-step" data-step="3">
+      <div class="pipe-num">STEP 4</div>
+      <div class="pipe-label">Loads</div>
+      <div class="pipe-sub">D, L, W, E</div>
+    </div>
+    <div class="pipe-step" data-step="4">
+      <div class="pipe-num">STEP 5</div>
+      <div class="pipe-label">Analyze</div>
+      <div class="pipe-sub">Run & Solve</div>
+    </div>
+    <div class="pipe-step" data-step="5">
+      <div class="pipe-num">STEP 6</div>
+      <div class="pipe-label">Results</div>
+      <div class="pipe-sub">Reactions, Forces</div>
+    </div>
+  </div>
+
+  <div class="pipe-detail visible" id="pipe-detail">
+    <h4 id="pipe-detail-title">STEP 1 — GEOMETRY DEFINITION</h4>
+    <ul id="pipe-detail-list"></ul>
+  </div>
+</section>
+
+
+<!-- ── SECTION 03: THE 3 CODES ── -->
+<section class="section">
+  <div class="section-num">03 — Design Codes</div>
+  <h2>BNBC · ACI · AASHTO — what each one governs</h2>
+  <p class="section-intro">
+    Three different codes. Three different jobs. Knowing when to use which is half the battle in practice.
+  </p>
+
+  <div class="code-tabs" id="code-tabs">
+    <div class="code-tab active" data-code="bnbc">BNBC</div>
+    <div class="code-tab" data-code="aci">ACI 318</div>
+    <div class="code-tab" data-code="aashto">AASHTO</div>
+  </div>
+  <div id="code-panels"></div>
+</section>
+
+
+<!-- ── SECTION 04: 11-DAY TIMELINE ── -->
+<section class="section">
+  <div class="section-num">04 — Course Journey</div>
+  <h2>All 11 class days — what you'll build</h2>
+  <p class="section-intro">
+    Click any day to expand what's covered. Days 6 and 11 are exams.
+  </p>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+
+<!-- ── SECTION 05: GRADING ── -->
+<section class="section">
+  <div class="section-num">05 — Grading</div>
+  <h2>How you're assessed</h2>
+  <p class="section-intro">
+    Everything is ETABS-based — quizzes test if you're following, exams test if you can actually run analysis. Hover each segment for details.
+  </p>
+  <div class="grade-wrapper">
+    <canvas id="gradeCanvas" width="200" height="200"></canvas>
+    <div class="grade-legend" id="grade-legend"></div>
+  </div>
+</section>
+
+
+<!-- ── CTA ── -->
+<div class="cta-section">
+  <h2>Ready to start?</h2>
+  <p>Day 1 begins with the ETABS environment — setting up materials, defining sections, and running your first model.</p>
+  <a href="/civil/cee335l/day1" class="btn-primary">Begin Day 1 →</a>
+  <a href="/civil.html" class="btn-secondary">← Back to Civil</a>
+</div>
+
+<footer>
+  <a href="/">mathify.us</a> · Free education for everyone ·
+  <a href="mailto:hello@mathify.us">hello@mathify.us</a>
+</footer>
+
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// 1. LOAD VISUALIZER
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const canvas = document.getElementById('load-canvas');
+  const ctx = canvas.getContext('2d');
+  const info = document.getElementById('load-info');
+  let activeLoad = 'dead';
+  let animFrame;
+  let t = 0;
+
+  function resize() {
+    const w = canvas.parentElement.offsetWidth;
+    canvas.width = w;
+    canvas.height = 320;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); draw(); });
+
+  const loadData = {
+    dead: {
+      info: '<strong>Dead Load (D):</strong> Permanent gravity loads — self-weight of beams, columns, slabs, finishes, and partitions. These never move. In ETABS you assign unit weight of concrete (24 kN/m³) and the software auto-calculates. BNBC & ACI include D in every load combo.',
+      color: '#60a5fa',
+    },
+    live: {
+      info: '<strong>Live Load (L):</strong> Occupancy-dependent loads that change over time — people, furniture, equipment. BNBC specifies minimum values: 2.0 kPa for residential, 4.0 kPa for offices. In ETABS these are assigned as uniform area loads on slabs.',
+      color: '#4ade80',
+    },
+    wind: {
+      info: '<strong>Wind Load (W):</strong> Lateral pressure from wind acting on the building facade. BNBC defines design wind speed and exposure categories. In ETABS you input wind parameters and the software distributes pressure on exposed surfaces — creating overturning moment and story shear.',
+      color: '#3ecfcf',
+    },
+    seismic: {
+      info: '<strong>Seismic Load (E):</strong> Earthquake ground motion translated to equivalent lateral forces. BNBC uses spectral acceleration curves. ETABS applies the base shear V = CsW distributed over building height — higher floors get more force because they have more inertia relative to the shaking base.',
+      color: '#e05c5c',
+    },
+  };
+
+  function drawBuilding(highlights) {
+    const W = canvas.width, H = canvas.height;
+    const bw = Math.min(220, W * 0.35);
+    const bh = 200;
+    const bx = W / 2 - bw / 2;
+    const by = H - 40 - bh;
+    const floors = 4;
+    const fh = bh / floors;
+
+    // ground
+    ctx.fillStyle = '#1a1a24';
+    ctx.fillRect(0, H - 40, W, 40);
+    ctx.strokeStyle = '#2a2a3a';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < W; i += 20) {
+      ctx.beginPath();
+      ctx.moveTo(i, H - 40);
+      ctx.lineTo(i + 10, H);
+      ctx.stroke();
+    }
+
+    // columns + floors
+    const cols = [bx, bx + bw / 2, bx + bw];
+    for (let f = 0; f <= floors; f++) {
+      const y = by + f * fh;
+      ctx.strokeStyle = '#3a3a4a';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(bx - 4, y); ctx.lineTo(bx + bw + 4, y);
+      ctx.stroke();
+    }
+    cols.forEach(cx => {
+      for (let f = 0; f < floors; f++) {
+        const y = by + f * fh;
+        ctx.strokeStyle = '#4a4a5a';
+        ctx.lineWidth = 10;
+        ctx.beginPath();
+        ctx.moveTo(cx, y + 4);
+        ctx.lineTo(cx, y + fh - 4);
+        ctx.stroke();
+      }
+    });
+
+    // slab fill
+    for (let f = 0; f < floors; f++) {
+      const y = by + f * fh;
+      ctx.fillStyle = 'rgba(255,255,255,0.02)';
+      ctx.fillRect(bx + 5, y + 2, bw - 10, fh - 4);
+    }
+
+    highlights(W, H, bx, by, bw, bh, fh, floors);
+  }
+
+  function drawDeadLoad(W, H, bx, by, bw, bh, fh, floors) {
+    ctx.fillStyle = '#60a5fa';
+    for (let f = 0; f <= floors; f++) {
+      const y = by + f * fh;
+      const arrows = 5;
+      for (let i = 0; i <= arrows; i++) {
+        const ax = bx + (bw / arrows) * i;
+        const len = 18 + Math.sin(t * 0.05 + i) * 3;
+        ctx.strokeStyle = 'rgba(96,165,250,0.7)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(ax, y - len - 8);
+        ctx.lineTo(ax, y - 4);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(ax - 4, y - 10);
+        ctx.lineTo(ax, y - 4);
+        ctx.lineTo(ax + 4, y - 10);
+        ctx.stroke();
+      }
+    }
+  }
+
+  function drawLiveLoad(W, H, bx, by, bw, bh, fh, floors) {
+    // animated people on each floor
+    for (let f = 0; f < floors; f++) {
+      const fy = by + (f + 0.5) * fh;
+      const numPeople = 3;
+      for (let p = 0; p < numPeople; p++) {
+        const px = bx + (bw / (numPeople + 1)) * (p + 1) + Math.sin(t * 0.04 + p * 2 + f) * 6;
+        // body
+        ctx.strokeStyle = '#4ade80';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(px, fy - 12, 5, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(px, fy - 7);
+        ctx.lineTo(px, fy + 4);
+        ctx.lineTo(px - 5, fy + 12);
+        ctx.moveTo(px, fy + 4);
+        ctx.lineTo(px + 5, fy + 12);
+        ctx.moveTo(px, fy - 4);
+        ctx.lineTo(px - 5, fy);
+        ctx.moveTo(px, fy - 4);
+        ctx.lineTo(px + 5, fy);
+        ctx.stroke();
+        // downward arrow
+        ctx.strokeStyle = 'rgba(74,222,128,0.4)';
+        ctx.lineWidth = 1.5;
+        const ay = by + (f + 1) * fh;
+        ctx.beginPath();
+        ctx.setLineDash([3, 3]);
+        ctx.moveTo(px, fy + 14);
+        ctx.lineTo(px, ay - 4);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+  }
+
+  function drawWindLoad(W, H, bx, by, bw, bh, fh, floors) {
+    // wind arrows from left, increasing with height (triangular distribution)
+    const side = bx;
+    for (let f = 0; f < floors; f++) {
+      const fy = by + (f + 0.5) * fh;
+      const magnitude = (floors - f) / floors; // more at top for wind
+      const len = 20 + magnitude * 50;
+      const offset = Math.sin(t * 0.08 + f * 0.5) * 4;
+      ctx.strokeStyle = `rgba(62,207,207,${0.4 + magnitude * 0.5})`;
+      ctx.lineWidth = 2 + magnitude * 2;
+      ctx.beginPath();
+      ctx.moveTo(side - len + offset, fy);
+      ctx.lineTo(side - 4, fy);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(side - 12, fy - 6);
+      ctx.lineTo(side - 4, fy);
+      ctx.lineTo(side - 12, fy + 6);
+      ctx.stroke();
+    }
+    // label
+    ctx.fillStyle = 'rgba(62,207,207,0.7)';
+    ctx.font = `10px 'Space Mono', monospace`;
+    ctx.fillText('WIND', bx - 70, by + bh / 2);
+    ctx.fillText('PRESSURE', bx - 75, by + bh / 2 + 14);
+    // pressure triangle
+    ctx.strokeStyle = 'rgba(62,207,207,0.15)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(bx - 5, by);
+    ctx.lineTo(bx - 5, by + bh);
+    ctx.stroke();
+  }
+
+  function drawSeismicLoad(W, H, bx, by, bw, bh, fh, floors) {
+    // shaking ground + lateral forces increasing up floors
+    const shake = Math.sin(t * 0.15) * 8;
+    // ground motion
+    ctx.strokeStyle = 'rgba(224,92,92,0.8)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let x = 0; x < W; x += 4) {
+      const y = H - 20 + Math.sin(x * 0.2 + t * 0.2) * 6;
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // lateral forces on each floor (inverted triangle)
+    for (let f = 0; f < floors; f++) {
+      const fy = by + (f + 0.5) * fh;
+      const heightRatio = (floors - f) / floors; // more force at top
+      const forceLen = 15 + heightRatio * 45;
+      const dir = Math.sign(Math.sin(t * 0.1)) * (0.8 + heightRatio * 0.2);
+      const fx = bx + bw / 2 + shake * heightRatio;
+      ctx.strokeStyle = `rgba(224,92,92,${0.5 + heightRatio * 0.4})`;
+      ctx.lineWidth = 2 + heightRatio * 2;
+      ctx.beginPath();
+      ctx.moveTo(fx, fy);
+      ctx.lineTo(fx + forceLen * dir, fy);
+      ctx.stroke();
+      ctx.beginPath();
+      const arrowDir = dir > 0 ? 1 : -1;
+      ctx.moveTo(fx + forceLen * dir, fy);
+      ctx.lineTo(fx + forceLen * dir - 8 * arrowDir, fy - 5);
+      ctx.moveTo(fx + forceLen * dir, fy);
+      ctx.lineTo(fx + forceLen * dir - 8 * arrowDir, fy + 5);
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = 'rgba(224,92,92,0.6)';
+    ctx.font = `9px 'Space Mono', monospace`;
+    ctx.fillText(`V = Cs × W`, bx + bw + 10, by + 20);
+    ctx.fillText('(BNBC seismic)', bx + bw + 10, by + 33);
+  }
+
+  function draw() {
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    drawBuilding((W, H, bx, by, bw, bh, fh, floors) => {
+      if (activeLoad === 'dead')    drawDeadLoad(W, H, bx, by, bw, bh, fh, floors);
+      if (activeLoad === 'live')    drawLiveLoad(W, H, bx, by, bw, bh, fh, floors);
+      if (activeLoad === 'wind')    drawWindLoad(W, H, bx, by, bw, bh, fh, floors);
+      if (activeLoad === 'seismic') drawSeismicLoad(W, H, bx, by, bw, bh, fh, floors);
+    });
+    // load label
+    const c = loadData[activeLoad].color;
+    ctx.fillStyle = c;
+    ctx.font = `bold 11px 'Space Mono', monospace`;
+    ctx.fillText(activeLoad.toUpperCase() + ' LOAD', 16, 24);
+    t++;
+    animFrame = requestAnimationFrame(draw);
+  }
+
+  draw();
+
+  document.querySelectorAll('.load-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.load-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeLoad = btn.dataset.load;
+      info.innerHTML = loadData[activeLoad].info;
+    });
+  });
+})();
+
+
+// ═══════════════════════════════════════════════════════════
+// 2. ETABS PIPELINE
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const steps = [
+    {
+      title: 'STEP 1 — GEOMETRY DEFINITION',
+      items: [
+        'Create a grid system — define column line spacings in X and Y direction',
+        'Set story heights (e.g. 3.5 m per floor × 4 floors)',
+        'Define material properties: f\'c, fy, unit weight, elastic modulus',
+        'This is the skeleton — no members yet, just coordinate system',
+      ]
+    },
+    {
+      title: 'STEP 2 — MEMBER ASSIGNMENT',
+      items: [
+        'Draw beams along grid lines using "Draw Frame Element"',
+        'Draw columns at grid intersections',
+        'Define slab/wall sections and assign as area objects',
+        'Assign frame sections (e.g. 300×600 beam, 400×400 column)',
+        'Define veranda using "Draw Line with None Properties" then expand to area',
+      ]
+    },
+    {
+      title: 'STEP 3 — BOUNDARY CONDITIONS',
+      items: [
+        'Assign fixed supports at base of all ground-floor columns',
+        'Fixed = all 6 DOFs restrained (Ux, Uy, Uz, Rx, Ry, Rz)',
+        'Incorrect supports = wrong reactions — most common student error',
+        'Replicate one story to create multi-story building using Edit > Replicate',
+      ]
+    },
+    {
+      title: 'STEP 4 — LOAD DEFINITION',
+      items: [
+        'Define static load cases: DEAD, LIVE, WINDX, WINDY, SEISMIC',
+        'Assign floor loads (kPa) on slabs using "Assign > Shell Loads > Uniform"',
+        'Input BNBC wind parameters: basic wind speed V, exposure category',
+        'Input BNBC seismic parameters: seismic zone, soil type, response spectrum',
+        'ETABS auto-generates ACI load combinations: 1.2D+1.6L, 1.2D+1.0W+1.0L, etc.',
+      ]
+    },
+    {
+      title: 'STEP 5 — ANALYSIS RUN',
+      items: [
+        'Assign Diaphragm constraint to each floor slab (rigid floor assumption)',
+        'Run Area Mesh to subdivide slabs for accurate load distribution',
+        'Analyze > Run Analysis (or F5)',
+        'ETABS solves the global stiffness matrix [K]{d} = {F} for all DOFs',
+        'Solver returns displacements at every node, reactions at every support',
+      ]
+    },
+    {
+      title: 'STEP 6 — RESULTS EXTRACTION',
+      items: [
+        'View > Show Forces/Stresses: moment diagrams, shear, axial in every member',
+        'Display > Show Tables: export numerical reactions for design checks',
+        'Support reactions → used to design foundations',
+        'Column/beam forces → used to check capacity against ACI φMn, φVn',
+        'Story drifts and displacements → check BNBC serviceability limits',
+      ]
+    },
+  ];
+
+  const detail = document.getElementById('pipe-detail');
+  const detailTitle = document.getElementById('pipe-detail-title');
+  const detailList = document.getElementById('pipe-detail-list');
+
+  function showStep(idx) {
+    document.querySelectorAll('.pipe-step').forEach((s, i) => {
+      s.classList.toggle('active', i === idx);
+    });
+    const s = steps[idx];
+    detailTitle.textContent = s.title;
+    detailList.innerHTML = s.items.map(i => `<li>${i}</li>`).join('');
+    detail.classList.add('visible');
+  }
+
+  showStep(0);
+
+  document.getElementById('pipeline').addEventListener('click', e => {
+    const step = e.target.closest('.pipe-step');
+    if (step) showStep(parseInt(step.dataset.step));
+  });
+})();
+
+
+// ═══════════════════════════════════════════════════════════
+// 3. CODE EXPLORER
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const codes = {
+    bnbc: {
+      title: 'Bangladesh National Building Code',
+      use: 'Used for: all loads on buildings in Bangladesh — dead, live, wind, and seismic. Governs building design in Days 7 & 8.',
+      items: [
+        { label: 'Live Load — Residential', val: '2.0 kPa (UDL)' },
+        { label: 'Live Load — Office',      val: '4.0 kPa (UDL)' },
+        { label: 'Basic Wind Speed (Dhaka)', val: 'V = 200 km/h (zone)' },
+        { label: 'Seismic Zone (Dhaka)',     val: 'Zone 2 (moderate)' },
+        { label: 'Seismic Base Shear',       val: 'V = C·S·W / R' },
+        { label: 'Wind Pressure Formula',    val: 'p = q·G·Cp' },
+      ]
+    },
+    aci: {
+      title: 'American Concrete Institute — ACI 318',
+      use: 'Used for: concrete member design — beam flexure, shear, column interaction. The underlying design standard for CEE335 theory course.',
+      items: [
+        { label: 'Governing Combo (gravity)', val: 'U = 1.2D + 1.6L' },
+        { label: 'With wind',                 val: 'U = 1.2D + 1.0W + 1.0L' },
+        { label: 'Flexure capacity',          val: 'φMn ≥ Mu, φ = 0.90' },
+        { label: 'Shear capacity',            val: 'φVn ≥ Vu, φ = 0.75' },
+        { label: 'Minimum steel ratio',       val: 'ρ_min = 3√f\'c / fy' },
+        { label: 'Max. usable strain (εcu)',  val: '0.003 (concrete crushes)' },
+      ]
+    },
+    aashto: {
+      title: 'American Assoc. of State Highway & Transportation Officials',
+      use: 'Used for: bridge design — slab bridges, deck girders, balanced cantilever bridges. Applied in Days 4 & 5.',
+      items: [
+        { label: 'Bridge Load: HS20 Truck',     val: '8 + 32 + 32 kips axles' },
+        { label: 'Lane Load',                   val: '0.64 k/ft + 18-k conc.' },
+        { label: 'Slab Span Direction',         val: 'Perpendicular to traffic' },
+        { label: 'Moment (slab, S ≤ 16 ft)',   val: 'M = (S+2)/32 × P' },
+        { label: 'Effective slab width (E)',    val: 'E = 4 + 0.06S (ft)' },
+        { label: 'Impact Factor (I)',           val: 'I = 50/(L+125) ≤ 0.30' },
+      ]
+    },
+  };
+
+  const panelsDiv = document.getElementById('code-panels');
+
+  Object.keys(codes).forEach(key => {
+    const d = codes[key];
+    const div = document.createElement('div');
+    div.className = 'code-panel' + (key === 'bnbc' ? ' visible' : '');
+    div.id = 'panel-' + key;
+    div.innerHTML = `
+      <h4>${d.title}</h4>
+      <p class="code-use">${d.use}</p>
+      <div class="code-items">
+        ${d.items.map(it => `
+          <div class="code-item">
+            <div class="code-item-label">${it.label}</div>
+            <div class="code-item-val">${it.val}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    panelsDiv.appendChild(div);
+  });
+
+  document.getElementById('code-tabs').addEventListener('click', e => {
+    const tab = e.target.closest('.code-tab');
+    if (!tab) return;
+    document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.code-panel').forEach(p => p.classList.remove('visible'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.code).classList.add('visible');
+  });
+})();
+
+
+// ═══════════════════════════════════════════════════════════
+// 4. DAY TIMELINE
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const days = [
+    {
+      num: 'DAY 1', icon: '🖥️', title: 'ETABS Environment Setup',
+      topics: 'Materials, sections, load cases, assignments, program procedure',
+      items: [
+        'Navigate the ETABS interface: model explorer, display, drawing toolbar',
+        'Define material properties: concrete f\'c, steel fy, unit weight',
+        'Define frame sections: rectangular beams and columns',
+        'Define wall/slab sections with thickness',
+        'Set up static load cases: DEAD, LIVE',
+        'Assign joint restraints, frame sections, slab loads',
+      ],
+      tip: 'Think of this day as "setting up your workshop" — materials and tools before you build anything.'
+    },
+    {
+      num: 'DAY 2', icon: '🏗️', title: 'Beam Modeling & Analysis',
+      topics: 'Single beam, vertical loads, bending moment & shear diagrams',
+      items: [
+        'Draw a simple beam on a one-bay grid',
+        'Assign frame section and support conditions',
+        'Apply point loads and uniform distributed loads',
+        'Run analysis and view bending moment diagram (BMD)',
+        'View shear force diagram (SFD) and verify with hand calculations',
+        'Extract reactions at supports',
+      ],
+      tip: 'Always verify ETABS results with hand calcs for simple beams — builds trust in the software.'
+    },
+    {
+      num: 'DAY 3', icon: '📝', title: 'Beam Analysis Practice',
+      topics: 'Practice problems + Quiz (20%)',
+      items: [
+        'Multiple beam configurations: propped cantilever, continuous beam',
+        'Vary section sizes and observe stiffness effects',
+        'Practice reading and interpreting moment envelopes',
+        'Quiz covers: material definition, load assignment, BMD reading',
+      ],
+      tip: 'The quiz tests basic knowledge — can you set up a model and read the results? Not design yet.'
+    },
+    {
+      num: 'DAY 4', icon: '🌉', title: 'Bridge Portal — AASHTO Loads',
+      topics: 'AASHTO code, load distribution, bridge portal analysis',
+      items: [
+        'Understand AASHTO HS-20 truck load and lane load',
+        'Calculate slab load distribution: M = (S+2)/32 × P',
+        'Effective slab width calculation',
+        'Model a single-span bridge portal in ETABS',
+        'Apply dead load (self-weight) and live load (HS-20)',
+        'Run analysis, view portal moment and shear',
+      ],
+      tip: 'Bridge slabs span perpendicular to traffic. Know this before the exam — it\'s always tested.'
+    },
+    {
+      num: 'DAY 5', icon: '🌉', title: 'Bridge Portal — Continued',
+      topics: 'Bridge analysis continuation, impact factor, reactions',
+      items: [
+        'Apply impact factor I = 50/(L+125) to live loads',
+        'Analyze deck girder bridge configuration',
+        'Balanced cantilever bridge: understand symmetry and load path',
+        'Extract and interpret support reactions for foundation design',
+        'Compare results across bridge types',
+      ],
+      tip: 'Impact factors amplify live loads because vehicles aren\'t static — they bounce and vibrate the deck.'
+    },
+    {
+      num: 'DAY 6', icon: '📋', title: 'MIDTERM EXAM',
+      topics: 'Covers Days 1–5: beams and bridge portal analysis',
+      items: [
+        'Set up a beam model from scratch in ETABS',
+        'Apply loads and run analysis',
+        'Interpret moment and shear diagrams',
+        'Bridge portal with AASHTO loads',
+      ],
+      tip: null,
+      isExam: true,
+    },
+    {
+      num: 'DAY 7', icon: '🏢', title: 'Multi-Story Building Frame',
+      topics: 'Grid creation, beams, columns, slabs, replication to multi-story',
+      items: [
+        'Create grid: define column spacings in X, Y and story heights',
+        'Draw all beams and columns on ground floor',
+        'Assign slab areas (use Draw Area Element)',
+        'Assign boundary conditions: fixed at base',
+        'Edit > Replicate story to build all floors',
+        'Model veranda: Draw Line with None Properties, then expand to area',
+      ],
+      tip: 'Replication is ETABS\'s superpower — build one floor perfectly, then multiply it. Don\'t draw each floor manually.'
+    },
+    {
+      num: 'DAY 8', icon: '🌪️', title: 'Wind, Seismic & Load Combos',
+      topics: 'BNBC wind load, BNBC seismic (base shear), ACI combinations, reactions',
+      items: [
+        'Define and assign slab loads: dead (kPa) and live (kPa) on all floors',
+        'Define BNBC wind load: input wind speed, exposure category, apply to model',
+        'Define BNBC seismic load: input zone, soil type, response spectrum',
+        'Run Area Mesh on all slabs for proper load distribution',
+        'Assign Diaphragm constraint to each floor',
+        'Run analysis → extract: support reactions, column forces, beam forces',
+        'Story drift check for lateral loads',
+      ],
+      tip: 'This day is the most exam-heavy. Know what Diaphragm constraint does: it enforces rigid floor — all nodes on a floor move together laterally.'
+    },
+    {
+      num: 'DAY 9', icon: '🔁', title: 'Building Frame Practice',
+      topics: 'Practice: full building model setup and analysis',
+      items: [
+        'Build a complete multi-story frame from a given building plan',
+        'Include all load types: D, L, W, E',
+        'Run analysis and verify reactions',
+        'Identify governing load combination at critical members',
+      ],
+      tip: 'Speed matters in the final exam. Use Day 9 to practice doing the full workflow in under 2 hours.'
+    },
+    {
+      num: 'DAY 10', icon: '🔁', title: 'Building Frame Practice (continued)',
+      topics: 'Extended practice, troubleshooting, final exam prep',
+      items: [
+        'Tackle a more complex floor plan (L-shaped or irregular)',
+        'Debug common errors: missing supports, incorrect slab assignments',
+        'Practice reading column load tables for foundation design',
+        'Review governing combinations and story drift limits',
+      ],
+      tip: 'Common errors: forgetting to run Area Mesh before analysis, not assigning Diaphragm, wrong support conditions.'
+    },
+    {
+      num: 'DAY 11', icon: '📋', title: 'FINAL EXAM',
+      topics: 'Covers Days 7–10: full multi-story building analysis',
+      items: [
+        'Build a complete multi-story RC building frame',
+        'Apply all load types including BNBC wind & seismic',
+        'Run analysis with proper mesh and diaphragm',
+        'Extract and present results: reactions, BMD, SFD, drift',
+      ],
+      tip: null,
+      isExam: true,
+    },
+  ];
+
+  const timeline = document.getElementById('timeline');
+
+  days.forEach((day, idx) => {
+    const row = document.createElement('div');
+    row.className = 'day-row' + (day.isExam ? ' exam-row' : '');
+
+    row.innerHTML = `
+      <div class="day-marker${day.isExam ? ' exam' : ''}">
+        <span class="day-num">${day.num.split(' ')[1]}</span>
+        <span class="day-icon">${day.icon}</span>
+      </div>
+      <div class="day-main${day.isExam ? ' exam-main' : ''}">
+        <div>
+          <div class="day-title">
+            ${day.title}
+            ${day.isExam ? '<span class="exam-badge" style="margin-left:0.5rem">EXAM</span>' : ''}
+          </div>
+          <div class="day-topics">${day.topics}</div>
+        </div>
+        ${!day.isExam ? '<span class="day-chevron">›</span>' : ''}
+      </div>
+    `;
+
+    if (!day.isExam) {
+      const expand = document.createElement('div');
+      expand.className = 'day-expand';
+      expand.innerHTML = `
+        <ul>${day.items.map(i => `<li>${i}</li>`).join('')}</ul>
+        ${day.tip ? `<div class="tip">💡 ${day.tip}</div>` : ''}
+      `;
+      row.appendChild(expand);
+
+      row.addEventListener('click', () => {
+        const isOpen = row.classList.contains('open');
+        // close all
+        document.querySelectorAll('.day-row.open').forEach(r => {
+          r.classList.remove('open');
+          r.querySelector('.day-expand').classList.remove('visible');
+        });
+        if (!isOpen) {
+          row.classList.add('open');
+          expand.classList.add('visible');
+        }
+      });
+    }
+
+    timeline.appendChild(row);
+  });
+})();
+
+
+// ═══════════════════════════════════════════════════════════
+// 5. GRADE DONUT CHART
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const canvas = document.getElementById('gradeCanvas');
+  const ctx = canvas.getContext('2d');
+  const legend = document.getElementById('grade-legend');
+
+  const grades = [
+    { name: 'Attendance & Performance', sub: 'Every class counts', pct: 20, color: '#60a5fa' },
+    { name: 'Quizzes',                  sub: 'Day 3 — Basic ETABS check', pct: 20, color: '#4ade80' },
+    { name: 'Midterm Exam',             sub: 'Day 6 — Beams & bridges', pct: 25, color: '#f0a500' },
+    { name: 'Final Exam',               sub: 'Day 11 — Full building',   pct: 35, color: '#e05c5c' },
+  ];
+
+  let hovered = -1;
+  let animProgress = 0;
+  let animating = true;
+
+  // legend
+  grades.forEach((g, i) => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `
+      <div class="legend-swatch" style="background:${g.color}"></div>
+      <div class="legend-text">
+        <div class="legend-name">${g.name}</div>
+        <div class="legend-sub">${g.sub}</div>
+      </div>
+      <div class="legend-pct">${g.pct}%</div>
+    `;
+    item.addEventListener('mouseenter', () => { hovered = i; drawDonut(); });
+    item.addEventListener('mouseleave', () => { hovered = -1; drawDonut(); });
+    legend.appendChild(item);
+  });
+
+  function drawDonut(progress = 1) {
+    const W = 200, H = 200;
+    ctx.clearRect(0, 0, W, H);
+    const cx = W / 2, cy = H / 2;
+    const r = 78, inner = 48;
+    let startAngle = -Math.PI / 2;
+
+    grades.forEach((g, i) => {
+      const slice = (g.pct / 100) * 2 * Math.PI * progress;
+      const endAngle = startAngle + slice;
+      const isHov = hovered === i;
+      const offset = isHov ? 6 : 0;
+      const midAngle = startAngle + slice / 2;
+      const ox = Math.cos(midAngle) * offset;
+      const oy = Math.sin(midAngle) * offset;
+
+      ctx.beginPath();
+      ctx.arc(cx + ox, cy + oy, r, startAngle, endAngle);
+      ctx.arc(cx + ox, cy + oy, inner, endAngle, startAngle, true);
+      ctx.closePath();
+      ctx.fillStyle = isHov ? g.color : g.color + 'cc';
+      ctx.fill();
+      if (isHov) {
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+      startAngle = endAngle;
+    });
+
+    // center text
+    if (hovered >= 0 && progress === 1) {
+      ctx.fillStyle = grades[hovered].color;
+      ctx.font = `bold 24px 'Space Mono', monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(`${grades[hovered].pct}%`, cx, cy);
+    } else {
+      ctx.fillStyle = '#7a7a9a';
+      ctx.font = `11px 'Space Mono', monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('CEE335L', cx, cy - 8);
+      ctx.fillText('GRADE', cx, cy + 8);
+    }
+  }
+
+  function animate() {
+    if (!animating) return;
+    animProgress += 0.04;
+    if (animProgress >= 1) { animProgress = 1; animating = false; drawDonut(1); return; }
+    drawDonut(animProgress);
+    requestAnimationFrame(animate);
+  }
+
+  // Start animation when visible
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { animate(); obs.disconnect(); }
+  }, { threshold: 0.3 });
+  obs.observe(canvas);
+
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left - 100;
+    const my = e.clientY - rect.top - 100;
+    const dist = Math.sqrt(mx*mx + my*my);
+    if (dist < 78 && dist > 48) {
+      const angle = Math.atan2(my, mx) + Math.PI / 2;
+      const normalized = (angle < 0 ? angle + 2 * Math.PI : angle) / (2 * Math.PI);
+      let cumulative = 0;
+      hovered = -1;
+      grades.forEach((g, i) => {
+        cumulative += g.pct / 100;
+        if (normalized <= cumulative && hovered === -1) hovered = i;
+      });
+    } else {
+      hovered = -1;
+    }
+    drawDonut();
+  });
+  canvas.addEventListener('mouseleave', () => { hovered = -1; drawDonut(); });
+})();
+</script>
+</body>
+</html>
