@@ -1,0 +1,198 @@
+---
+// src/pages/civil/cee335l/day8.astro
+const title = "Day 8 — Wind & Seismic Loads, BNBC, Reactions";
+const description = "Apply BNBC wind pressure and seismic base shear to the multi-story building frame. Read lateral drift and base reactions. Understand load combination requirements.";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | CEE335L | Mathify</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d0d0f;--bg2:#13131a;--border:#2a2a3a;--text:#e8e8f0;--muted:#7a7a9a;--accent:#f0a500;--accent2:#3ecfcf;--accent3:#e05c5c;--green:#4ade80;--mono:'Space Mono',monospace;--serif:'Playfair Display',serif;--sans:'Inter',sans-serif;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;overflow-x:hidden;}
+    nav{position:sticky;top:0;z-index:100;background:rgba(13,13,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:2rem;}
+    .nav-logo{font-family:var(--mono);font-size:1rem;color:var(--accent);text-decoration:none;}
+    .nav-links{display:flex;gap:1.5rem;list-style:none;}
+    .nav-links a{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-decoration:none;letter-spacing:.05em;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
+    .breadcrumb{font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-left:auto;letter-spacing:.08em;}
+    .breadcrumb a{color:var(--muted);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+    .hero{padding:4rem 2rem 3rem;max-width:900px;margin:0 auto;border-bottom:1px solid var(--border);}
+    .day-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent2);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;}
+    .day-tag::before{content:'';width:2rem;height:1px;background:var(--accent2);}
+    .hero h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.15;margin-bottom:.75rem;}
+    .hero h1 span{color:var(--accent);}
+    .hero-sub{font-size:1rem;color:var(--muted);max-width:580px;margin-bottom:1.5rem;}
+    .badge-row{display:flex;flex-wrap:wrap;gap:.6rem;}
+    .badge{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;padding:.28rem .7rem;border-radius:4px;border:1px solid;}
+    .badge-amber{color:var(--accent);border-color:var(--accent);background:rgba(240,165,0,.08);}
+    .badge-teal{color:var(--accent2);border-color:var(--accent2);background:rgba(62,207,207,.08);}
+    .badge-red{color:var(--accent3);border-color:var(--accent3);background:rgba(224,92,92,.08);}
+    .badge-green{color:var(--green);border-color:var(--green);background:rgba(74,222,128,.08);}
+    .section{max-width:900px;margin:0 auto;padding:3.5rem 2rem;border-bottom:1px solid var(--border);}
+    .section-num{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;}
+    .section-num::after{content:'';flex:0 0 3rem;height:1px;background:var(--border);}
+    .section h2{font-family:var(--serif);font-size:clamp(1.3rem,3vw,1.9rem);font-weight:700;margin-bottom:.5rem;}
+    .section-intro{color:var(--muted);margin-bottom:2rem;max-width:620px;}
+    .coming-soon{background:var(--bg2);border:1px dashed var(--border);border-radius:10px;padding:2rem;text-align:center;color:var(--muted);font-family:var(--mono);font-size:.8rem;}
+    .coming-soon strong{color:var(--accent);display:block;font-size:1rem;margin-bottom:.5rem;}
+    .code-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
+    @media(max-width:600px){.code-grid{grid-template-columns:1fr;}}
+    .code-panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;}
+    .code-label{font-family:var(--mono);font-size:.62rem;color:var(--accent2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;}
+    .code-panel h4{font-size:.9rem;font-weight:600;margin-bottom:.35rem;}
+    .code-panel p{font-size:.82rem;color:var(--muted);}
+    .steps{display:flex;flex-direction:column;gap:1rem;}
+    .step-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;display:flex;gap:1.25rem;align-items:flex-start;}
+    .step-num{font-family:var(--mono);font-size:1.1rem;color:var(--accent);font-weight:700;min-width:2rem;line-height:1.4;}
+    .step-body h4{font-size:.95rem;font-weight:600;margin-bottom:.25rem;}
+    .step-body p{font-size:.85rem;color:var(--muted);}
+    .formula-box{background:var(--bg2);border:1px solid rgba(62,207,207,.3);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1rem;font-family:var(--mono);font-size:.85rem;}
+    .formula-label{font-size:.62rem;color:var(--accent2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;}
+    .day-nav{max-width:900px;margin:0 auto;padding:2rem 2rem 3rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .nav-btn{font-family:var(--mono);font-size:.75rem;letter-spacing:.05em;padding:.6rem 1.25rem;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);text-decoration:none;transition:all .2s;}
+    .nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .nav-btn.next{background:rgba(240,165,0,.08);border-color:var(--accent);color:var(--accent);}
+    .day-center{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.1em;}
+    @media(max-width:600px){nav{padding:.75rem 1rem;}.hero,.section{padding-left:1.25rem;padding-right:1.25rem;}.day-nav{padding:1.5rem 1.25rem 2.5rem;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">mathify</a>
+  <ul class="nav-links">
+    <li><a href="/math">Math</a></li>
+    <li><a href="/physics">Physics</a></li>
+    <li><a href="/civil">Civil</a></li>
+  </ul>
+  <span class="breadcrumb">
+    <a href="/civil">Civil</a> ›
+    <a href="/civil/cee335l/">CEE335L</a> › Day 8
+  </span>
+</nav>
+
+<header class="hero">
+  <div class="day-tag">Day 8 of 11 — Class 8</div>
+  <h1>Wind &amp; Seismic Loads<br><span>BNBC · Reactions</span></h1>
+  <p class="hero-sub">
+    Add lateral loads to the Day 7 building frame. Calculate BNBC wind pressure and seismic base shear, apply them as story forces, and read lateral drift and base reactions.
+  </p>
+  <div class="badge-row">
+    <span class="badge badge-teal">BNBC 2020</span>
+    <span class="badge badge-amber">Wind Load</span>
+    <span class="badge badge-red">Seismic</span>
+    <span class="badge badge-teal">Base Shear</span>
+    <span class="badge badge-green">Lateral Drift</span>
+  </div>
+</header>
+
+<section class="section">
+  <div class="section-num">01 — Why</div>
+  <h2>Why lateral loads are the hardest part</h2>
+  <p class="section-intro">
+    Gravity is predictable — it always acts downward and scales with area and weight. Lateral loads depend on building height, shape, location, and soil type. Getting them wrong can mean a building that passes gravity checks but fails under a moderate earthquake.
+  </p>
+  <div class="code-grid">
+    <div class="code-panel">
+      <div class="code-label">BNBC 2020 — Wind</div>
+      <h4>Design Wind Pressure</h4>
+      <p>p = q<sub>z</sub> · G · C<sub>p</sub> · I<sub>w</sub><br/>where q<sub>z</sub> = 0.613 K<sub>z</sub> V² (Pa). Bangladesh basic wind speed V = 200–260 km/h depending on zone.</p>
+    </div>
+    <div class="code-panel">
+      <div class="code-label">BNBC 2020 — Seismic</div>
+      <h4>Equivalent Static Base Shear</h4>
+      <p>V = S<sub>a</sub> · W / R<br/>S<sub>a</sub> from response spectrum, W = seismic weight, R = response modification factor. Bangladesh Zone II–IV.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">02 — Concept</div>
+  <h2>How lateral forces are distributed up the building</h2>
+  <p class="section-intro">BNBC uses the Equivalent Lateral Force (ELF) method: the total base shear V is distributed to each floor as a story force proportional to that floor's height and weight.</p>
+  <div class="formula-box">
+    <div class="formula-label">Story Force Distribution — BNBC Eq. 2.5.7</div>
+    F<sub>x</sub> = C<sub>vx</sub> · V &nbsp;&nbsp; where &nbsp;&nbsp; C<sub>vx</sub> = w<sub>x</sub>h<sub>x</sub><sup>k</sup> / Σw<sub>i</sub>h<sub>i</sub><sup>k</sup>
+  </div>
+  <div class="coming-soon">
+    <strong>Content Coming Soon</strong>
+    Visual: inverted triangle force pattern for wind. Why taller floors get more force. What k = 1 vs k = 2 means (period-dependent). How the forces create overturning moment at the base.
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">03 — Walkthrough</div>
+  <h2>Step-by-step: Add lateral loads to Day 7 model</h2>
+  <p class="section-intro">Open your Day 7 building frame. Add wind and seismic load cases.</p>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <h4>Calculate wind pressure by story</h4>
+        <p>For each story height z, compute q<sub>z</sub> = 0.613 K<sub>z</sub> V². Apply as a uniform pressure on the windward face (tributary area per story). Wind zone: use Dhaka V = 210 km/h as default.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <h4>Apply wind as story point loads</h4>
+        <p>Convert face pressure × tributary height → kN per floor. Apply as joint loads at each floor level on the windward column grid. Apply in +X and −X directions (two separate load patterns: WINDX+, WINDX−).</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <h4>Define seismic mass source</h4>
+        <p>Define → Mass Source → From Loads: 1.0×DEAD + 0.25×LIVE (BNBC). This tells ETABS what the building weighs for seismic calculations.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-body">
+        <h4>Add equivalent static seismic load</h4>
+        <p>Define → Load Patterns → SEISMICX (type: Seismic). Set BNBC 2020: Zone factor Z, soil type, R factor, and I (importance). ETABS auto-calculates story forces.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">05</div>
+      <div class="step-body">
+        <h4>Define BNBC load combinations</h4>
+        <p>Key combos: 1.2D + 1.0L + 1.0W (wind governs); 1.2D + 1.0L + 1.0E (seismic governs); 0.9D ± 1.0W (check uplift). Run and compare drift.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">06</div>
+      <div class="step-body">
+        <h4>Check story drift</h4>
+        <p>Display → Show Deformed Shape (wind combo). Story drift ratio = Δ/h must be ≤ H/400 (BNBC serviceability). If drift exceeds limit, columns/shear walls are too flexible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">04 — Check Yourself</div>
+  <h2>Wind &amp; seismic calculator</h2>
+  <p class="section-intro">Compute base shear and story forces before running ETABS — then verify the software matches.</p>
+  <div class="coming-soon">
+    <strong>BNBC Calculator Coming Soon (Svelte)</strong>
+    Inputs: building height, floor area, dead load intensity, live load, wind zone, seismic zone, R factor, soil type.<br/>
+    Outputs: base shear V, story forces F₁–Fₙ, overturning moment at base.
+  </div>
+</section>
+
+<nav class="day-nav">
+  <a href="/civil/cee335l/day7" class="nav-btn">← Day 7</a>
+  <span class="day-center">CEE335L · Day 8 / 11</span>
+  <a href="/civil/cee335l/day9" class="nav-btn next">Day 9 →</a>
+</nav>
+
+</body>
+</html>
