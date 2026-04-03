@@ -1,0 +1,183 @@
+---
+// src/pages/civil/cee335l/day2.astro
+const title = "Day 2 — Beam Modelling & Analysis";
+const description = "Model a simple RC beam in ETABS, apply dead and live loads, run a linear static analysis, and read the output forces and deflections.";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | CEE335L | Mathify</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:#0d0d0f;--bg2:#13131a;--bg3:#1a1a24;--border:#2a2a3a;
+      --text:#e8e8f0;--muted:#7a7a9a;--accent:#f0a500;--accent2:#3ecfcf;
+      --accent3:#e05c5c;--green:#4ade80;
+      --mono:'Space Mono',monospace;--serif:'Playfair Display',serif;--sans:'Inter',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;overflow-x:hidden;}
+    nav{position:sticky;top:0;z-index:100;background:rgba(13,13,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:2rem;}
+    .nav-logo{font-family:var(--mono);font-size:1rem;color:var(--accent);text-decoration:none;}
+    .nav-links{display:flex;gap:1.5rem;list-style:none;}
+    .nav-links a{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-decoration:none;letter-spacing:.05em;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
+    .breadcrumb{font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-left:auto;letter-spacing:.08em;}
+    .breadcrumb a{color:var(--muted);text-decoration:none;}
+    .breadcrumb a:hover{color:var(--accent);}
+    .hero{padding:4rem 2rem 3rem;max-width:900px;margin:0 auto;border-bottom:1px solid var(--border);}
+    .day-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent2);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;}
+    .day-tag::before{content:'';width:2rem;height:1px;background:var(--accent2);}
+    .hero h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.15;margin-bottom:.75rem;}
+    .hero h1 span{color:var(--accent);}
+    .hero-sub{font-size:1rem;color:var(--muted);max-width:580px;margin-bottom:1.5rem;}
+    .badge-row{display:flex;flex-wrap:wrap;gap:.6rem;}
+    .badge{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;padding:.28rem .7rem;border-radius:4px;border:1px solid;}
+    .badge-amber{color:var(--accent);border-color:var(--accent);background:rgba(240,165,0,.08);}
+    .badge-teal{color:var(--accent2);border-color:var(--accent2);background:rgba(62,207,207,.08);}
+    .badge-green{color:var(--green);border-color:var(--green);background:rgba(74,222,128,.08);}
+    .section{max-width:900px;margin:0 auto;padding:3.5rem 2rem;border-bottom:1px solid var(--border);}
+    .section-num{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;}
+    .section-num::after{content:'';flex:0 0 3rem;height:1px;background:var(--border);}
+    .section h2{font-family:var(--serif);font-size:clamp(1.3rem,3vw,1.9rem);font-weight:700;margin-bottom:.5rem;}
+    .section-intro{color:var(--muted);margin-bottom:2rem;max-width:620px;}
+    .coming-soon{background:var(--bg2);border:1px dashed var(--border);border-radius:10px;padding:2rem;text-align:center;color:var(--muted);font-family:var(--mono);font-size:.8rem;}
+    .coming-soon strong{color:var(--accent);display:block;font-size:1rem;margin-bottom:.5rem;}
+    .steps{display:flex;flex-direction:column;gap:1rem;}
+    .step-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;display:flex;gap:1.25rem;align-items:flex-start;}
+    .step-num{font-family:var(--mono);font-size:1.1rem;color:var(--accent);font-weight:700;min-width:2rem;line-height:1.4;}
+    .step-body h4{font-size:.95rem;font-weight:600;margin-bottom:.25rem;}
+    .step-body p{font-size:.85rem;color:var(--muted);}
+    .day-nav{max-width:900px;margin:0 auto;padding:2rem 2rem 3rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .nav-btn{font-family:var(--mono);font-size:.75rem;letter-spacing:.05em;padding:.6rem 1.25rem;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);text-decoration:none;transition:all .2s;display:flex;align-items:center;gap:.5rem;}
+    .nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .nav-btn.next{background:rgba(240,165,0,.08);border-color:var(--accent);color:var(--accent);}
+    .day-center{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.1em;}
+    @media(max-width:600px){nav{padding:.75rem 1rem;}.hero,.section{padding-left:1.25rem;padding-right:1.25rem;}.day-nav{padding:1.5rem 1.25rem 2.5rem;}}
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">mathify</a>
+  <ul class="nav-links">
+    <li><a href="/math">Math</a></li>
+    <li><a href="/physics">Physics</a></li>
+    <li><a href="/civil">Civil</a></li>
+  </ul>
+  <span class="breadcrumb">
+    <a href="/civil">Civil</a> ›
+    <a href="/civil/cee335l/">CEE335L</a> › Day 2
+  </span>
+</nav>
+
+<header class="hero">
+  <div class="day-tag">Day 2 of 11 — Class 2</div>
+  <h1>Beam Modelling<br><span>&amp; Analysis</span></h1>
+  <p class="hero-sub">
+    Model a simply-supported RC beam, apply dead and live loads, run a linear static analysis, and extract moment, shear, and deflection diagrams.
+  </p>
+  <div class="badge-row">
+    <span class="badge badge-amber">ETABS</span>
+    <span class="badge badge-teal">Dead Load</span>
+    <span class="badge badge-teal">Live Load</span>
+    <span class="badge badge-green">BMD / SFD</span>
+  </div>
+</header>
+
+<section class="section">
+  <div class="section-num">01 — Why</div>
+  <h2>Why beams before buildings?</h2>
+  <p class="section-intro">Every multi-story frame is just a collection of beams and columns. Understanding beam analysis in isolation — with verified results against hand calculation — gives you the confidence to trust the software on complex models.</p>
+  <div class="coming-soon">
+    <strong>Content Coming Soon</strong>
+    Intuition: beam as the simplest structural element. Where beams appear in real buildings (floor framing, transfer beams, girders).
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">02 — Concept</div>
+  <h2>Loads, reactions, and internal forces</h2>
+  <p class="section-intro">A beam in equilibrium: external loads are balanced by support reactions; internal forces (moment, shear) are what the cross-section must resist.</p>
+  <div class="coming-soon">
+    <strong>Content Coming Soon</strong>
+    BMD and SFD derivation for UDL and point loads. Load combination intro: 1.2D + 1.6L (ACI). Interactive diagram.
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">03 — Walkthrough</div>
+  <h2>Step-by-step: Beam model in ETABS</h2>
+  <p class="section-intro">Build a 6 m simply-supported beam (300×500 mm, f'c = 25 MPa) with UDL dead = 10 kN/m, live = 8 kN/m.</p>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <h4>Create a 1-bay, 1-story grid</h4>
+        <p>New model → set 1 bay (6 m) in X, 1 story (0 to 0 — just a flat grid). No Y bays needed for a 2D beam.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <h4>Define beam section (300×500)</h4>
+        <p>Define → Section Properties → Frame Sections → Add New → Concrete Rectangular. Set b=300 mm, h=500 mm.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <h4>Assign support conditions</h4>
+        <p>Select left node → Assign → Joint → Restraints → Pin (fix UX, UY, UZ). Right node → Roller (fix UY only).</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-body">
+        <h4>Apply distributed loads</h4>
+        <p>Define → Load Patterns → add DEAD, LIVE. Select beam → Assign → Frame Loads → Distributed. Enter 10 kN/m for DEAD, 8 kN/m for LIVE.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">05</div>
+      <div class="step-body">
+        <h4>Define load combination and run</h4>
+        <p>Define → Load Combinations → Add: 1.2×DEAD + 1.6×LIVE. Analyze → Run Analysis. View → Show Forces/Stresses → Frames.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">06</div>
+      <div class="step-body">
+        <h4>Read and verify output</h4>
+        <p>Midspan moment should be ≈ wL²/8. Check against hand calc: M = (12+12.8)×6²/8. If they match, your model is correct.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">04 — Check Yourself</div>
+  <h2>Verify before you continue</h2>
+  <p class="section-intro">Answer these without looking at ETABS.</p>
+  <div class="coming-soon">
+    <strong>Interactive Quiz Coming Soon</strong>
+    Questions: What does a pin restraint fix? What load combo does ACI use for gravity? What is the formula for max moment under UDL? How do you read shear at a support from ETABS?
+  </div>
+</section>
+
+<nav class="day-nav">
+  <a href="/civil/cee335l/day1" class="nav-btn">← Day 1</a>
+  <span class="day-center">CEE335L · Day 2 / 11</span>
+  <a href="/civil/cee335l/day3" class="nav-btn next">Day 3 →</a>
+</nav>
+
+</body>
+</html>

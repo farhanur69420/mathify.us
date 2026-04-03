@@ -1,0 +1,138 @@
+---
+// src/pages/civil/cee335l/day5.astro
+const title = "Day 5 — Bridge Portal Frame Continued";
+const description = "Continue the bridge portal model: add moving load analysis, read influence line data, and interpret member forces under AASHTO combinations.";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | CEE335L | Mathify</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d0d0f;--bg2:#13131a;--border:#2a2a3a;--text:#e8e8f0;--muted:#7a7a9a;--accent:#f0a500;--accent2:#3ecfcf;--accent3:#e05c5c;--green:#4ade80;--mono:'Space Mono',monospace;--serif:'Playfair Display',serif;--sans:'Inter',sans-serif;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;overflow-x:hidden;}
+    nav{position:sticky;top:0;z-index:100;background:rgba(13,13,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:2rem;}
+    .nav-logo{font-family:var(--mono);font-size:1rem;color:var(--accent);text-decoration:none;}
+    .nav-links{display:flex;gap:1.5rem;list-style:none;}
+    .nav-links a{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-decoration:none;letter-spacing:.05em;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
+    .breadcrumb{font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-left:auto;letter-spacing:.08em;}
+    .breadcrumb a{color:var(--muted);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+    .hero{padding:4rem 2rem 3rem;max-width:900px;margin:0 auto;border-bottom:1px solid var(--border);}
+    .day-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent3);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;}
+    .day-tag::before{content:'';width:2rem;height:1px;background:var(--accent3);}
+    .hero h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.15;margin-bottom:.75rem;}
+    .hero h1 span{color:var(--accent);}
+    .hero-sub{font-size:1rem;color:var(--muted);max-width:580px;margin-bottom:1.5rem;}
+    .badge-row{display:flex;flex-wrap:wrap;gap:.6rem;}
+    .badge{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;padding:.28rem .7rem;border-radius:4px;border:1px solid;}
+    .badge-amber{color:var(--accent);border-color:var(--accent);background:rgba(240,165,0,.08);}
+    .badge-teal{color:var(--accent2);border-color:var(--accent2);background:rgba(62,207,207,.08);}
+    .badge-red{color:var(--accent3);border-color:var(--accent3);background:rgba(224,92,92,.08);}
+    .section{max-width:900px;margin:0 auto;padding:3.5rem 2rem;border-bottom:1px solid var(--border);}
+    .section-num{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;}
+    .section-num::after{content:'';flex:0 0 3rem;height:1px;background:var(--border);}
+    .section h2{font-family:var(--serif);font-size:clamp(1.3rem,3vw,1.9rem);font-weight:700;margin-bottom:.5rem;}
+    .section-intro{color:var(--muted);margin-bottom:2rem;max-width:620px;}
+    .coming-soon{background:var(--bg2);border:1px dashed var(--border);border-radius:10px;padding:2rem;text-align:center;color:var(--muted);font-family:var(--mono);font-size:.8rem;}
+    .coming-soon strong{color:var(--accent);display:block;font-size:1rem;margin-bottom:.5rem;}
+    .exam-notice{background:rgba(224,92,92,.08);border:1px solid var(--accent3);border-radius:8px;padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:var(--accent3);font-family:var(--mono);}
+    .day-nav{max-width:900px;margin:0 auto;padding:2rem 2rem 3rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .nav-btn{font-family:var(--mono);font-size:.75rem;letter-spacing:.05em;padding:.6rem 1.25rem;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);text-decoration:none;transition:all .2s;}
+    .nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .nav-btn.next{background:rgba(240,165,0,.08);border-color:var(--accent);color:var(--accent);}
+    .day-center{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.1em;}
+    @media(max-width:600px){nav{padding:.75rem 1rem;}.hero,.section{padding-left:1.25rem;padding-right:1.25rem;}.day-nav{padding:1.5rem 1.25rem 2.5rem;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">mathify</a>
+  <ul class="nav-links">
+    <li><a href="/math">Math</a></li>
+    <li><a href="/physics">Physics</a></li>
+    <li><a href="/civil">Civil</a></li>
+  </ul>
+  <span class="breadcrumb">
+    <a href="/civil">Civil</a> ›
+    <a href="/civil/cee335l/">CEE335L</a> › Day 5
+  </span>
+</nav>
+
+<header class="hero">
+  <div class="day-tag">Day 5 of 11 — Class 5</div>
+  <h1>Bridge Portal<br><span>Continued</span></h1>
+  <p class="hero-sub">
+    Complete the bridge portal model. Add moving load cases, interpret influence line output, and finalize AASHTO load combinations. Day 6 is Exam 1 — make sure your model is saved.
+  </p>
+  <div class="badge-row">
+    <span class="badge badge-red">AASHTO</span>
+    <span class="badge badge-amber">Moving Loads</span>
+    <span class="badge badge-teal">Influence Lines</span>
+    <span class="badge badge-teal">Exam Prep</span>
+  </div>
+</header>
+
+<section class="section">
+  <div class="section-num">— Note</div>
+  <h2>Day 6 is Exam 1</h2>
+  <p class="section-intro">Day 5 is the last class before Exam 1. The exam covers Days 1–5: ETABS basics, beam analysis, and bridge portal with AASHTO loading.</p>
+  <div class="exam-notice">
+    ⚠ Exam 1 — Day 6 &nbsp;|&nbsp; Topics: ETABS interface, beam models, portal frames, AASHTO HL-93, load combinations (Strength I)
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">01 — Why</div>
+  <h2>Why does truck position matter so much?</h2>
+  <p class="section-intro">The AASHTO code requires you to position moving loads to produce the maximum effect at each critical section. Doing this by hand is error-prone — ETABS does it automatically with moving load cases.</p>
+  <div class="coming-soon">
+    <strong>Content Coming Soon</strong>
+    What an influence line actually shows: if a unit load is at position x, the influence line gives you the moment/shear/reaction at the critical section. Truck loading = convolving the truck axle pattern with the influence line.
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">02 — Concept</div>
+  <h2>Moving load analysis in ETABS</h2>
+  <p class="section-intro">ETABS can automatically step the HL-93 truck across the span and find the envelope of maximum and minimum effects at every section.</p>
+  <div class="coming-soon">
+    <strong>Content Coming Soon</strong>
+    Define → Load Cases → Moving Load. Vehicle class HL-93. Lane width, direction, and step size. How ETABS reports the critical position.
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">03 — Walkthrough</div>
+  <h2>Step-by-step: Complete the bridge model</h2>
+  <p class="section-intro">Pick up from the Day 4 file. Add the moving load case and generate force envelopes.</p>
+  <div class="coming-soon">
+    <strong>Detailed Steps Coming Soon</strong>
+    Adding vehicle lane definition. Running moving load analysis. Displaying moment envelope (max + min). Reading column axial force and base moment under Strength I combo.
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">04 — Check Yourself</div>
+  <h2>Exam 1 self-assessment</h2>
+  <p class="section-intro">Run through these without ETABS open. If you can't answer, review the relevant day.</p>
+  <div class="coming-soon">
+    <strong>Exam Review Questions Coming Soon</strong>
+    10 short questions covering: ETABS grid setup, load pattern vs. load case vs. load combination, HL-93 axle weights, Strength I combination factors, portal frame behaviour under horizontal load.
+  </div>
+</section>
+
+<nav class="day-nav">
+  <a href="/civil/cee335l/day4" class="nav-btn">← Day 4</a>
+  <span class="day-center">CEE335L · Day 5 / 11</span>
+  <a href="/civil/cee335l/day7" class="nav-btn next">Day 7 → (after Exam 1)</a>
+</nav>
+
+</body>
+</html>

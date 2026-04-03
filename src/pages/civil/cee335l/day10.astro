@@ -1,0 +1,152 @@
+---
+// src/pages/civil/cee335l/day10.astro
+const title = "Day 10 — Practice Continued";
+const description = "Final practice session before Exam 2. Refine the building frame model, check all outputs, and consolidate understanding of lateral load analysis.";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | CEE335L | Mathify</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d0d0f;--bg2:#13131a;--border:#2a2a3a;--text:#e8e8f0;--muted:#7a7a9a;--accent:#f0a500;--accent2:#3ecfcf;--accent3:#e05c5c;--green:#4ade80;--mono:'Space Mono',monospace;--serif:'Playfair Display',serif;--sans:'Inter',sans-serif;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;overflow-x:hidden;}
+    nav{position:sticky;top:0;z-index:100;background:rgba(13,13,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:2rem;}
+    .nav-logo{font-family:var(--mono);font-size:1rem;color:var(--accent);text-decoration:none;}
+    .nav-links{display:flex;gap:1.5rem;list-style:none;}
+    .nav-links a{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-decoration:none;letter-spacing:.05em;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
+    .breadcrumb{font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-left:auto;letter-spacing:.08em;}
+    .breadcrumb a{color:var(--muted);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+    .hero{padding:4rem 2rem 3rem;max-width:900px;margin:0 auto;border-bottom:1px solid var(--border);}
+    .day-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;}
+    .day-tag::before{content:'';width:2rem;height:1px;background:var(--accent);}
+    .hero h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.15;margin-bottom:.75rem;}
+    .hero h1 span{color:var(--accent);}
+    .hero-sub{font-size:1rem;color:var(--muted);max-width:580px;margin-bottom:1.5rem;}
+    .badge-row{display:flex;flex-wrap:wrap;gap:.6rem;}
+    .badge{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;padding:.28rem .7rem;border-radius:4px;border:1px solid;}
+    .badge-amber{color:var(--accent);border-color:var(--accent);background:rgba(240,165,0,.08);}
+    .badge-teal{color:var(--accent2);border-color:var(--accent2);background:rgba(62,207,207,.08);}
+    .badge-red{color:var(--accent3);border-color:var(--accent3);background:rgba(224,92,92,.08);}
+    .badge-green{color:var(--green);border-color:var(--green);background:rgba(74,222,128,.08);}
+    .section{max-width:900px;margin:0 auto;padding:3.5rem 2rem;border-bottom:1px solid var(--border);}
+    .section-num{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;}
+    .section-num::after{content:'';flex:0 0 3rem;height:1px;background:var(--border);}
+    .section h2{font-family:var(--serif);font-size:clamp(1.3rem,3vw,1.9rem);font-weight:700;margin-bottom:.5rem;}
+    .section-intro{color:var(--muted);margin-bottom:2rem;max-width:620px;}
+    .coming-soon{background:var(--bg2);border:1px dashed var(--border);border-radius:10px;padding:2rem;text-align:center;color:var(--muted);font-family:var(--mono);font-size:.8rem;}
+    .coming-soon strong{color:var(--accent);display:block;font-size:1rem;margin-bottom:.5rem;}
+    .exam-notice{background:rgba(224,92,92,.08);border:1px solid var(--accent3);border-radius:8px;padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:var(--accent3);font-family:var(--mono);margin-bottom:1.5rem;}
+    .outcome-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    @media(max-width:600px){.outcome-grid{grid-template-columns:1fr;}}
+    .outcome-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;}
+    .outcome-card h4{font-size:.9rem;font-weight:600;color:var(--accent2);margin-bottom:.5rem;}
+    .outcome-card p{font-size:.82rem;color:var(--muted);}
+    .day-nav{max-width:900px;margin:0 auto;padding:2rem 2rem 3rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .nav-btn{font-family:var(--mono);font-size:.75rem;letter-spacing:.05em;padding:.6rem 1.25rem;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);text-decoration:none;transition:all .2s;}
+    .nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .nav-btn.back{background:rgba(240,165,0,.08);border-color:var(--accent);color:var(--accent);}
+    .day-center{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.1em;}
+    @media(max-width:600px){nav{padding:.75rem 1rem;}.hero,.section{padding-left:1.25rem;padding-right:1.25rem;}.day-nav{padding:1.5rem 1.25rem 2.5rem;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">mathify</a>
+  <ul class="nav-links">
+    <li><a href="/math">Math</a></li>
+    <li><a href="/physics">Physics</a></li>
+    <li><a href="/civil">Civil</a></li>
+  </ul>
+  <span class="breadcrumb">
+    <a href="/civil">Civil</a> ›
+    <a href="/civil/cee335l/">CEE335L</a> › Day 10
+  </span>
+</nav>
+
+<header class="hero">
+  <div class="day-tag">Day 10 of 11 — Class 10</div>
+  <h1>Practice<br><span>Continued</span></h1>
+  <p class="hero-sub">
+    Final session before Exam 2. Consolidate your building frame model, try an alternate geometry, and make sure you can explain every number ETABS gives you.
+  </p>
+  <div class="badge-row">
+    <span class="badge badge-amber">Practice</span>
+    <span class="badge badge-teal">Model Refinement</span>
+    <span class="badge badge-red">Exam 2 Prep</span>
+    <span class="badge badge-green">CO1 &amp; CO2</span>
+  </div>
+</header>
+
+<section class="section">
+  <div class="section-num">— Note</div>
+  <h2>Day 11 is Exam 2 (Final)</h2>
+  <p class="section-intro">The final exam covers Days 7–10. You will be asked to model, analyse, and interpret a building frame with lateral loads.</p>
+  <div class="exam-notice">
+    ⚠ Exam 2 (Final) — Day 11 &nbsp;|&nbsp; Topics: Multi-story frame, BNBC wind + seismic, load combos, drift check, design force extraction
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">01 — Why</div>
+  <h2>What good modelling looks like</h2>
+  <p class="section-intro">By now you should be able to build a 3D building frame from scratch in under 30 minutes. Use Day 10 to stress-test that skill.</p>
+  <div class="coming-soon">
+    <strong>Content Coming Soon</strong>
+    Signs of a well-built model: analysis completes without warnings, base reactions sum correctly, drift is reasonable (not zero, not absurd), moment diagrams make intuitive sense.
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">02 — Concept</div>
+  <h2>Course outcomes — what you've now achieved</h2>
+  <p class="section-intro">Days 1–10 have built toward two course outcomes. Check them off.</p>
+  <div class="outcome-grid">
+    <div class="outcome-card">
+      <h4>CO1 — Structural Analysis</h4>
+      <p>Model RC frames (beams, portal, multi-story building) in ETABS. Apply dead, live, wind, and seismic loads per BNBC. Extract moment, shear, axial forces, and drift.</p>
+    </div>
+    <div class="outcome-card">
+      <h4>CO2 — Bridge Loading</h4>
+      <p>Model bridge portal frames. Apply AASHTO HL-93 truck and lane loads. Determine critical load positions and calculate Strength I combination forces.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">03 — Walkthrough</div>
+  <h2>Day 10 challenge problems</h2>
+  <p class="section-intro">Attempt at least one of these before the exam.</p>
+  <div class="coming-soon">
+    <strong>Challenge Problems Coming Soon</strong>
+    Problem A: Irregular 4-story frame (asymmetric plan) — where does the centre of rigidity shift? Does torsion appear under symmetric wind loading?<br/><br/>
+    Problem B: Same building, change soil type from S2 to S3 in BNBC seismic. How does base shear change? Which columns are now overstressed?<br/><br/>
+    Problem C: Add a shear wall to one bay. How does the drift profile change? What fraction of base shear does the wall carry?
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">04 — Check Yourself</div>
+  <h2>Final self-assessment</h2>
+  <p class="section-intro">Without opening ETABS, answer these on paper:</p>
+  <div class="coming-soon">
+    <strong>Final Review Quiz Coming Soon</strong>
+    15 questions — mix of calculation (base shear, drift ratio, story force distribution) and conceptual (what changes if you add a floor, why corner columns attract more moment under seismic, how a shear wall changes the lateral stiffness distribution).
+  </div>
+</section>
+
+<nav class="day-nav">
+  <a href="/civil/cee335l/day9" class="nav-btn">← Day 9</a>
+  <span class="day-center">CEE335L · Day 10 / 11 · Last practice day</span>
+  <a href="/civil/cee335l/" class="nav-btn back">↑ Course Index</a>
+</nav>
+
+</body>
+</html>

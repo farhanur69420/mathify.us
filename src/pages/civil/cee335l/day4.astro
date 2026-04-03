@@ -1,0 +1,175 @@
+---
+// src/pages/civil/cee335l/day4.astro
+const title = "Day 4 — Bridge Portal Frame & AASHTO Loads";
+const description = "Model a bridge portal frame in ETABS and apply AASHTO truck and lane loads. Understand influence lines and load positioning.";
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | CEE335L | Mathify</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0d0d0f;--bg2:#13131a;--border:#2a2a3a;--text:#e8e8f0;--muted:#7a7a9a;--accent:#f0a500;--accent2:#3ecfcf;--accent3:#e05c5c;--green:#4ade80;--mono:'Space Mono',monospace;--serif:'Playfair Display',serif;--sans:'Inter',sans-serif;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;overflow-x:hidden;}
+    nav{position:sticky;top:0;z-index:100;background:rgba(13,13,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:2rem;}
+    .nav-logo{font-family:var(--mono);font-size:1rem;color:var(--accent);text-decoration:none;}
+    .nav-links{display:flex;gap:1.5rem;list-style:none;}
+    .nav-links a{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-decoration:none;letter-spacing:.05em;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
+    .breadcrumb{font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-left:auto;letter-spacing:.08em;}
+    .breadcrumb a{color:var(--muted);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+    .hero{padding:4rem 2rem 3rem;max-width:900px;margin:0 auto;border-bottom:1px solid var(--border);}
+    .day-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent3);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;}
+    .day-tag::before{content:'';width:2rem;height:1px;background:var(--accent3);}
+    .hero h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.15;margin-bottom:.75rem;}
+    .hero h1 span{color:var(--accent);}
+    .hero-sub{font-size:1rem;color:var(--muted);max-width:580px;margin-bottom:1.5rem;}
+    .badge-row{display:flex;flex-wrap:wrap;gap:.6rem;}
+    .badge{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;padding:.28rem .7rem;border-radius:4px;border:1px solid;}
+    .badge-amber{color:var(--accent);border-color:var(--accent);background:rgba(240,165,0,.08);}
+    .badge-teal{color:var(--accent2);border-color:var(--accent2);background:rgba(62,207,207,.08);}
+    .badge-red{color:var(--accent3);border-color:var(--accent3);background:rgba(224,92,92,.08);}
+    .badge-green{color:var(--green);border-color:var(--green);background:rgba(74,222,128,.08);}
+    .section{max-width:900px;margin:0 auto;padding:3.5rem 2rem;border-bottom:1px solid var(--border);}
+    .section-num{font-family:var(--mono);font-size:.65rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;}
+    .section-num::after{content:'';flex:0 0 3rem;height:1px;background:var(--border);}
+    .section h2{font-family:var(--serif);font-size:clamp(1.3rem,3vw,1.9rem);font-weight:700;margin-bottom:.5rem;}
+    .section-intro{color:var(--muted);margin-bottom:2rem;max-width:620px;}
+    .coming-soon{background:var(--bg2);border:1px dashed var(--border);border-radius:10px;padding:2rem;text-align:center;color:var(--muted);font-family:var(--mono);font-size:.8rem;}
+    .coming-soon strong{color:var(--accent);display:block;font-size:1rem;margin-bottom:.5rem;}
+    .steps{display:flex;flex-direction:column;gap:1rem;}
+    .step-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;display:flex;gap:1.25rem;align-items:flex-start;}
+    .step-num{font-family:var(--mono);font-size:1.1rem;color:var(--accent);font-weight:700;min-width:2rem;line-height:1.4;}
+    .step-body h4{font-size:.95rem;font-weight:600;margin-bottom:.25rem;}
+    .step-body p{font-size:.85rem;color:var(--muted);}
+    .code-panel{background:var(--bg2);border:1px solid var(--accent3);border-left:3px solid var(--accent3);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1rem;}
+    .code-label{font-family:var(--mono);font-size:.62rem;color:var(--accent3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;}
+    .code-panel p{font-size:.85rem;color:var(--muted);}
+    .day-nav{max-width:900px;margin:0 auto;padding:2rem 2rem 3rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .nav-btn{font-family:var(--mono);font-size:.75rem;letter-spacing:.05em;padding:.6rem 1.25rem;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);text-decoration:none;transition:all .2s;}
+    .nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+    .nav-btn.next{background:rgba(240,165,0,.08);border-color:var(--accent);color:var(--accent);}
+    .day-center{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.1em;}
+    @media(max-width:600px){nav{padding:.75rem 1rem;}.hero,.section{padding-left:1.25rem;padding-right:1.25rem;}.day-nav{padding:1.5rem 1.25rem 2.5rem;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">mathify</a>
+  <ul class="nav-links">
+    <li><a href="/math">Math</a></li>
+    <li><a href="/physics">Physics</a></li>
+    <li><a href="/civil">Civil</a></li>
+  </ul>
+  <span class="breadcrumb">
+    <a href="/civil">Civil</a> ›
+    <a href="/civil/cee335l/">CEE335L</a> › Day 4
+  </span>
+</nav>
+
+<header class="hero">
+  <div class="day-tag">Day 4 of 11 — Class 4</div>
+  <h1>Bridge Portal Frame<br><span>&amp; AASHTO Loads</span></h1>
+  <p class="hero-sub">
+    Shift from buildings to bridges. Model a single-span portal frame and apply AASHTO HL-93 truck and lane loads to find critical load positions.
+  </p>
+  <div class="badge-row">
+    <span class="badge badge-red">AASHTO</span>
+    <span class="badge badge-amber">ETABS</span>
+    <span class="badge badge-teal">HL-93 Truck</span>
+    <span class="badge badge-teal">Lane Load</span>
+    <span class="badge badge-green">Portal Frame</span>
+  </div>
+</header>
+
+<section class="section">
+  <div class="section-num">01 — Why</div>
+  <h2>Why do bridges need their own loading code?</h2>
+  <p class="section-intro">Buildings are loaded by people and furniture. Bridges are loaded by trucks — moving, dynamic, and far heavier per axle than anything in a building. AASHTO quantifies this.</p>
+  <div class="code-panel">
+    <div class="code-label">Code Reference — AASHTO LRFD</div>
+    <p>HL-93 design vehicle: tandem (2 × 110 kN axles at 1.2 m spacing) or design truck (3-axle: 35 + 145 + 145 kN), combined with lane load of 9.3 kN/m. Take the worst case.</p>
+  </div>
+  <div class="coming-soon">
+    <strong>Content Coming Soon</strong>
+    Why moving loads matter: influence lines explained visually. How the critical position of the truck changes the maximum moment location.
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">02 — Concept</div>
+  <h2>Portal frames and horizontal thrust</h2>
+  <p class="section-intro">A portal frame is a rigid frame with two columns and a beam. Unlike a simply-supported beam, it develops horizontal thrust at the base — which is why the foundations must be designed for both vertical and horizontal forces.</p>
+  <div class="coming-soon">
+    <strong>Content Coming Soon</strong>
+    Portal frame free body diagram. How rigidity at beam-column joints transfers moment. Fixed vs. pinned base and effect on thrust.
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">03 — Walkthrough</div>
+  <h2>Step-by-step: Bridge portal in ETABS</h2>
+  <p class="section-intro">Build a 20 m span portal frame (columns 4 m tall, 400×600 mm sections) and apply HL-93 loads.</p>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <h4>Set up 1-bay portal geometry</h4>
+        <p>Grid: 1 bay × 20 m (X), 1 story × 4 m (Z). Two columns and one bridge girder.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <h4>Assign fixed base to both columns</h4>
+        <p>Select bottom nodes → Assign → Joint → Restraints → Fixed (all 6 DOF). This creates moment at the base — a key portal frame behaviour.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <h4>Apply lane load (9.3 kN/m, full span)</h4>
+        <p>Define load pattern LANE. Apply distributed 9.3 kN/m along the full girder length.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-body">
+        <h4>Apply HL-93 truck as point loads</h4>
+        <p>Define load pattern TRUCK. Apply 3 point loads: 35 kN at 0 m, 145 kN at 4.3 m, 145 kN at 8.6 m from one end. Reposition to maximise midspan moment.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">05</div>
+      <div class="step-body">
+        <h4>Define AASHTO load combination</h4>
+        <p>AASHTO LRFD Strength I: 1.25×DC + 1.75×(LL+IM). Dynamic load allowance IM = 33% for truck. Run and view results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-num">04 — Check Yourself</div>
+  <h2>Bridge load quiz</h2>
+  <p class="section-intro">Test your understanding of AASHTO HL-93 loading.</p>
+  <div class="coming-soon">
+    <strong>Interactive Quiz Coming Soon</strong>
+    Questions: What is IM and why is it applied? What is the difference between tandem and design truck? Where does the truck sit to maximise midspan moment? Why does the portal frame develop horizontal thrust at the base?
+  </div>
+</section>
+
+<nav class="day-nav">
+  <a href="/civil/cee335l/day3" class="nav-btn">← Day 3</a>
+  <span class="day-center">CEE335L · Day 4 / 11</span>
+  <a href="/civil/cee335l/day5" class="nav-btn next">Day 5 →</a>
+</nav>
+
+</body>
+</html>
