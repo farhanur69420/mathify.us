@@ -878,6 +878,22 @@ function riskOfRuin() {
 // Wong out recommendation: TC <= -1 means leave the table
 function shouldWongOut() { return trueCount() <= -1 && G.totalSeen > 20; }
 
+// Shoe penetration percentage (0-100)
+function shoePenetration() { return (G.totalSeen / (G.decks * 52)) * 100; }
+
+// Online live tables (Stake.us/Evolution) shuffle at ~50% penetration
+// Signal when shuffle is likely imminent
+function shuffleImminent() { return shoePenetration() >= 45; }
+
+// Penetration-adjusted count reliability: deeper = more reliable
+// At 25% pen, count is weak; at 50%+, count is strong
+function countReliability() {
+  const pen = shoePenetration();
+  if (pen < 10) return 0;
+  if (pen >= 50) return 1;
+  return (pen - 10) / 40; // linear 0→1 from 10% to 50%
+}
+
 // Get remaining count for a card value (groups 10/J/Q/K)
 function remByVal(v) {
   if (v === 10) return remaining('10') + remaining('J') + remaining('Q') + remaining('K');
@@ -1214,7 +1230,19 @@ function calcConfidence() {
   let aceConf = Math.min(1, Math.max(0, aceRichness() - 0.5));
   aceConf = Math.max(0, Math.min(1, aceConf));
 
-  const conf = edgeConf * 0.40 + deckConf * 0.25 + omegaConf * 0.20 + a5Conf * 0.10 + aceConf * 0.05;
+  let conf = edgeConf * 0.40 + deckConf * 0.25 + omegaConf * 0.20 + a5Conf * 0.10 + aceConf * 0.05;
+
+  // Penetration damping: count-based signals are less reliable early in shoe
+  // Online tables (Stake.us/Evolution) shuffle at ~50%, so we must be aggressive
+  // early when count goes positive since we won't get deep penetration
+  const reliability = countReliability();
+  // Dampen confidence toward 0.5 (neutral) when reliability is low
+  conf = 0.5 + (conf - 0.5) * (0.3 + 0.7 * reliability);
+
+  // But if A5 count is strongly positive (>=3), trust it even early
+  // (A5 is less penetration-dependent since 5s and Aces are high-impact)
+  if (G.aceFiveCount >= 3 && conf < 0.65) conf = 0.65;
+
   G.lastConfidence = conf;
   return conf;
 }
@@ -1509,10 +1537,21 @@ function renderStats() {
   const shoePct = (totalRemaining() / (G.decks * 52) * 100).toFixed(0);
   document.getElementById('st-shoe').textContent = shoePct + '%';
 
-  // Wong alert
+  // Wong alert + shuffle warning
   const wongEl = document.getElementById('wong-alert');
   if (shouldWongOut()) {
     wongEl.style.display = 'block';
+    wongEl.textContent = 'WONG OUT — True count too negative. Consider sitting out this shoe.';
+    wongEl.style.borderColor = 'var(--red)';
+    wongEl.style.color = 'var(--red)';
+    wongEl.style.background = 'rgba(255,77,109,0.08)';
+  } else if (shuffleImminent()) {
+    wongEl.style.display = 'block';
+    wongEl.textContent = `SHUFFLE SOON — ${shoePenetration().toFixed(0)}% penetration. Online tables reshuffle around 50%. ` +
+      (trueCount() >= 2 ? 'Count is hot — bet big while you can!' : 'Count is flat — no rush.');
+    wongEl.style.borderColor = 'var(--gold)';
+    wongEl.style.color = 'var(--gold)';
+    wongEl.style.background = 'rgba(245,197,24,0.06)';
   } else {
     wongEl.style.display = 'none';
   }
@@ -1605,13 +1644,16 @@ function startRound() {
   const confPct = (conf * 100).toFixed(0);
   const ev = playerEdge();
   const thirdBal = Math.floor(G.balance / 3);
+  const pen = shoePenetration().toFixed(0);
+  const rel = (countReliability() * 100).toFixed(0);
+  const ror = (riskOfRuin() * 100).toFixed(0);
   let betNote;
   if (conf >= 0.75) {
-    betNote = `Confidence ${confPct}% · Edge ${ev >= 0 ? '+' : ''}${ev.toFixed(2)}% · Going big (up to ⅓ balance)`;
+    betNote = `Conf ${confPct}% · Edge ${ev >= 0 ? '+' : ''}${ev.toFixed(2)}% · RoR ${ror}% · Going big (⅓ balance)`;
   } else if (conf >= 0.55) {
-    betNote = `Confidence ${confPct}% · Edge ${ev >= 0 ? '+' : ''}${ev.toFixed(2)}% · Moderate bet`;
+    betNote = `Conf ${confPct}% · Edge ${ev >= 0 ? '+' : ''}${ev.toFixed(2)}% · Pen ${pen}% (rel ${rel}%) · Moderate`;
   } else {
-    betNote = `Confidence ${confPct}% · Edge ${ev.toFixed(2)}% · Minimum bet — protecting bankroll`;
+    betNote = `Conf ${confPct}% · Edge ${ev.toFixed(2)}% · Pen ${pen}% · Min bet — protecting bankroll`;
   }
 
   setCommand('bet', 'NEW ROUND · BET', `¥${G.currentBet.toLocaleString()}`, betNote);
