@@ -608,27 +608,6 @@
         <option value="8" selected>8</option>
       </select>
     </div>
-    <div class="setup-field">
-      <label>Surrender</label>
-      <select id="s-surrender">
-        <option value="late" selected>Late Surrender</option>
-        <option value="none">No Surrender</option>
-      </select>
-    </div>
-    <div class="setup-field">
-      <label>Dealer S17</label>
-      <select id="s-s17">
-        <option value="s17" selected>Stands on Soft 17</option>
-        <option value="h17">Hits Soft 17</option>
-      </select>
-    </div>
-    <div class="setup-field">
-      <label>DAS</label>
-      <select id="s-das">
-        <option value="yes" selected>Double After Split</option>
-        <option value="no">No DAS</option>
-      </select>
-    </div>
     <button class="setup-go" onclick="startSession()">Deal Me In</button>
   </div>
 </div>
@@ -752,7 +731,7 @@
 const G = {
   // Rules
   decks: 8, minBet: 200, maxBet: 2000, bankroll: 10000, startBankroll: 10000,
-  surrenderRule: 'late', s17: true, das: true,
+  surrenderRule: 'none', s17: true, das: true,
 
   // Shoe tracking
   seen: {}, totalSeen: 0, rc: 0,
@@ -1942,9 +1921,7 @@ function startSession() {
   G.bankroll = parseInt(document.getElementById('s-bankroll').value) || 10000;
   G.startBankroll = G.bankroll;
   G.balance = G.bankroll;
-  G.surrenderRule = document.getElementById('s-surrender').value;
-  G.s17 = document.getElementById('s-s17').value === 's17';
-  G.das = document.getElementById('s-das').value === 'yes';
+  // Hardcoded: late surrender, S17, DAS allowed
   G.hands = 0; G.wins = 0; G.losses = 0; G.pushes = 0;
   G.bestStreak = 0; G.curStreak = 0; G.curStreakType = null;
   G.log = [];
