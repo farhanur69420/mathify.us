@@ -165,6 +165,92 @@
     flex-shrink: 0;
   }
 
+  /* ─── SPLIT HANDS ─── */
+  .split-container { display: flex; flex-direction: column; gap: 6px; }
+  .split-hand-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: border-color 0.2s;
+  }
+  .split-hand-box.active-hand { border-color: var(--gold); box-shadow: 0 0 12px rgba(245,197,24,0.1); }
+  .split-hand-box.completed-hand { opacity: 0.6; }
+  .split-hand-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .split-hand-label .split-bet { color: var(--gold); }
+  .split-hand-label .split-status { font-size: 8px; }
+  .split-hand-label .split-status.won { color: var(--teal); }
+  .split-hand-label .split-status.lost { color: var(--red); }
+  .split-hand-label .split-status.pushed { color: var(--muted); }
+
+  /* ─── CONFIDENCE METER ─── */
+  .confidence-meter {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .conf-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .conf-track {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .conf-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease, background 0.4s ease;
+  }
+  .conf-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .ev-breakdown {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+  }
+  .ev-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+  }
+  .ev-action { color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .ev-val { font-weight: 700; }
+  .ev-val.best { color: var(--teal); }
+  .ev-val.negative { color: var(--red); }
+  .ev-val.neutral { color: var(--gold); }
+
   /* ─── CARD INPUT ─── */
   .card-input-panel {
     background: var(--surface);
@@ -566,17 +652,29 @@
     <div class="command-sub" id="cmd-sub">Place this bet, then tap cards as they're dealt</div>
   </div>
 
-  <!-- TABLE DISPLAY -->
-  <div class="table-display" id="table-display">
-    <div class="hand-section">
-      <div class="hand-who">DEALER</div>
-      <div class="hand-cards-row" id="dealer-hand"></div>
-      <div class="hand-total-badge" id="dealer-total" style="color:var(--muted)">—</div>
-    </div>
-    <div class="hand-section">
-      <div class="hand-who">YOU</div>
-      <div class="hand-cards-row" id="player-hand"></div>
-      <div class="hand-total-badge" id="player-total" style="color:var(--muted)">—</div>
+  <!-- CONFIDENCE METER (shown during bet phase) -->
+  <div class="confidence-meter" id="conf-meter" style="display:none">
+    <span class="conf-label">Confidence</span>
+    <div class="conf-track"><div class="conf-fill" id="conf-fill" style="width:0%;background:var(--muted)"></div></div>
+    <span class="conf-val" id="conf-val" style="color:var(--muted)">—</span>
+  </div>
+
+  <!-- EV BREAKDOWN (shown during play phase) -->
+  <div class="ev-breakdown" id="ev-panel" style="display:none"></div>
+
+  <!-- TABLE DISPLAY (dynamic: normal or split mode) -->
+  <div id="table-display-wrap">
+    <div class="table-display" id="table-display">
+      <div class="hand-section">
+        <div class="hand-who">DEALER</div>
+        <div class="hand-cards-row" id="dealer-hand"></div>
+        <div class="hand-total-badge" id="dealer-total" style="color:var(--muted)">—</div>
+      </div>
+      <div class="hand-section">
+        <div class="hand-who">YOU</div>
+        <div class="hand-cards-row" id="player-hand"></div>
+        <div class="hand-total-badge" id="player-total" style="color:var(--muted)">—</div>
+      </div>
     </div>
   </div>
 
@@ -619,8 +717,8 @@
       <div class="sv" id="st-wr">—</div>
     </div>
     <div class="sbox">
-      <div class="sl">Best Streak</div>
-      <div class="sv" id="st-streak">—</div>
+      <div class="sl">Confidence</div>
+      <div class="sv" id="st-conf">—</div>
     </div>
     <div class="sbox">
       <div class="sl">Shoe %</div>
@@ -656,29 +754,32 @@ const G = {
   decks: 8, minBet: 200, maxBet: 2000, bankroll: 10000, startBankroll: 10000,
   surrenderRule: 'late', s17: true, das: true,
 
-  // Shoe
-  seen: {}, // rank -> count seen
-  totalSeen: 0,
-  rc: 0, // running count
+  // Shoe tracking
+  seen: {}, totalSeen: 0, rc: 0,
 
-  // Session
+  // Session stats (preserved across shoes)
   balance: 10000, hands: 0, wins: 0, losses: 0, pushes: 0,
-  bestStreak: 0, curStreak: 0, curStreakType: null,
-  log: [],
+  bestStreak: 0, curStreak: 0, curStreakType: null, log: [],
 
   // Current hand
-  phase: 'bet', // 'bet' | 'deal-p1' | 'deal-d1' | 'deal-p2' | 'deal-d2' | 'insurance' | 'play' | 'dealer-reveal' | 'dealer-draw' | 'result'
-  playerCards: [],
-  dealerCards: [],
-  currentBet: 200,
-  doubled: false,
-  surrendered: false,
-  splitHands: null, // not implemented fully yet, but structure is here
-  handIdx: 0,
+  phase: 'bet',
+  playerCards: [], dealerCards: [],
+  currentBet: 200, doubled: false, surrendered: false,
+
+  // Split state
+  splitMode: false,
+  splitHands: null, // [{cards:[], bet:0, doubled:false, done:false, result:null}, ...]
+  activeSplitHand: 0,
+  splitAces: false,
+
+  // Confidence tracking
+  lastConfidence: 0,
+  lastEVs: null, // cached EV breakdown for display
 };
 
 const RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
 const HILO = { '2':1,'3':1,'4':1,'5':1,'6':1,'7':0,'8':0,'9':0,'10':-1,'J':-1,'Q':-1,'K':-1,'A':-1 };
+const VALS = [2,3,4,5,6,7,8,9,10,11]; // unique card values (11=Ace)
 
 function cardVal(c) { return c === 'A' ? 11 : ['K','Q','J'].includes(c) ? 10 : parseInt(c); }
 function cardClass(c) { return HILO[c] === 1 ? 'low' : HILO[c] === 0 ? 'neutral-card' : 'high'; }
@@ -690,12 +791,14 @@ function handVal(cards) {
   return t;
 }
 
-function isSoft(cards) {
+function softAceCount(cards) {
   let t = 0, a = 0;
   for (const c of cards) { t += cardVal(c); if (c === 'A') a++; }
   while (t > 21 && a > 0) { t -= 10; a--; }
-  return a > 0 && t <= 21;
+  return a;
 }
+
+function isSoft(cards) { return softAceCount(cards) > 0 && handVal(cards) <= 21; }
 
 function isPair(cards) {
   return cards.length === 2 && cardVal(cards[0]) === cardVal(cards[1]);
@@ -715,6 +818,13 @@ function seeCard(rank) {
   G.seen[rank] = (G.seen[rank] || 0) + 1;
   G.totalSeen++;
   G.rc += HILO[rank];
+}
+
+// Get remaining count for a card value (groups 10/J/Q/K)
+function remByVal(v) {
+  if (v === 10) return remaining('10') + remaining('J') + remaining('Q') + remaining('K');
+  if (v === 11) return remaining('A');
+  return remaining(v.toString());
 }
 
 // ═══════════════════════════════════════════════════════
@@ -738,202 +848,336 @@ function getProbs() {
   return result;
 }
 
-function getBustProb() {
-  if (G.playerCards.length < 2) return 0;
-  const pv = handVal(G.playerCards);
+function getBustProb(cards) {
+  if (!cards) cards = G.playerCards;
+  if (cards.length < 2) return 0;
+  const pv = handVal(cards);
   if (pv >= 21) return pv > 21 ? 1 : 0;
-  const need = 21 - pv; // max safe card value
+  const need = 21 - pv;
   const tot = totalRemaining();
   if (tot <= 0) return 0;
   let bust = 0;
   RANKS.forEach(r => {
-    const v = Math.min(cardVal(r), 10);
-    // Aces can be 1
-    const effectiveV = r === 'A' ? 1 : v;
+    const effectiveV = r === 'A' ? 1 : Math.min(cardVal(r), 10);
     if (effectiveV > need) bust += remaining(r);
   });
   return bust / tot;
 }
 
 function getDealerBustProb() {
-  // Rough estimate based on dealer upcard
   if (G.dealerCards.length === 0) return 0;
   const up = cardVal(G.dealerCards[0]);
-  // Classic dealer bust probabilities by upcard (approximate, adjusted by TC)
   const baseBust = { 2:0.35, 3:0.37, 4:0.40, 5:0.42, 6:0.42, 7:0.26, 8:0.24, 9:0.23, 10:0.23, 11:0.17 };
   const v = Math.min(up, 11);
   let prob = baseBust[v] || 0.28;
-  // TC adjustment: higher TC = more 10s = dealer busts more with stiff cards
   const tc = trueCount();
   if (v >= 2 && v <= 6) prob += tc * 0.01;
   return Math.max(0, Math.min(prob, 0.65));
 }
 
 // ═══════════════════════════════════════════════════════
-// BET CALCULATOR (Kelly + spread)
+// EV CALCULATION ENGINE (replaces basic strategy)
+// Computes expected value for each action using actual
+// deck composition. Updated after every card dealt.
 // ═══════════════════════════════════════════════════════
+let _evCache = {};
+
+function _dealerPlay(total, softAces) {
+  // Adjust bust
+  while (total > 21 && softAces > 0) { total -= 10; softAces--; }
+  if (total > 21) return { bust: 1.0 };
+
+  const key = `d:${total}:${softAces}`;
+  if (_evCache[key]) return _evCache[key];
+
+  const isSoftNow = softAces > 0;
+  const mustHit = G.s17 ? total < 17 : (total < 17 || (total === 17 && isSoftNow));
+  if (!mustHit) { _evCache[key] = { [total]: 1.0 }; return _evCache[key]; }
+
+  const tot = totalRemaining();
+  if (tot <= 0) { _evCache[key] = { [total]: 1.0 }; return _evCache[key]; }
+
+  const outcomes = {};
+  for (const v of VALS) {
+    const cnt = remByVal(v);
+    if (cnt <= 0) continue;
+    const p = cnt / tot;
+    const sub = _dealerPlay(total + v, softAces + (v === 11 ? 1 : 0));
+    for (const [o, sp] of Object.entries(sub)) {
+      outcomes[o] = (outcomes[o] || 0) + p * sp;
+    }
+  }
+  _evCache[key] = outcomes;
+  return outcomes;
+}
+
+function _dealerOutcomes(dealerUpVal) {
+  // Enumerate all possible hole cards, then play dealer hand
+  const key = `do:${dealerUpVal}`;
+  if (_evCache[key]) return _evCache[key];
+
+  const tot = totalRemaining();
+  if (tot <= 0) { _evCache[key] = { 17: 1.0 }; return _evCache[key]; }
+
+  const outcomes = {};
+  for (const hv of VALS) {
+    const cnt = remByVal(hv);
+    if (cnt <= 0) continue;
+    const p = cnt / tot;
+    let t = dealerUpVal + hv;
+    let sa = (dealerUpVal === 11 ? 1 : 0) + (hv === 11 ? 1 : 0);
+    // Check dealer BJ
+    while (t > 21 && sa > 0) { t -= 10; sa--; }
+    if (t === 21) {
+      outcomes['bj'] = (outcomes['bj'] || 0) + p;
+      continue;
+    }
+    const sub = _dealerPlay(t, sa);
+    for (const [o, sp] of Object.entries(sub)) {
+      outcomes[o] = (outcomes[o] || 0) + p * sp;
+    }
+  }
+  _evCache[key] = outcomes;
+  return outcomes;
+}
+
+function evStand(playerTotal, dealerUpVal) {
+  const key = `s:${playerTotal}:${dealerUpVal}`;
+  if (_evCache[key] !== undefined) return _evCache[key];
+
+  const outcomes = _dealerOutcomes(dealerUpVal);
+  let ev = 0;
+  for (const [o, p] of Object.entries(outcomes)) {
+    if (o === 'bust') ev += p;
+    else if (o === 'bj') ev -= p;
+    else {
+      const dt = parseInt(o);
+      if (playerTotal > dt) ev += p;
+      else if (playerTotal < dt) ev -= p;
+    }
+  }
+  _evCache[key] = ev;
+  return ev;
+}
+
+function evHit(pTotal, softAces, dealerUpVal, depth) {
+  if (depth > 5) return evStand(pTotal, dealerUpVal);
+
+  const key = `h:${pTotal}:${softAces}:${dealerUpVal}:${depth}`;
+  if (_evCache[key] !== undefined) return _evCache[key];
+
+  const tot = totalRemaining();
+  if (tot <= 0) { _evCache[key] = 0; return 0; }
+
+  let ev = 0;
+  for (const v of VALS) {
+    const cnt = remByVal(v);
+    if (cnt <= 0) continue;
+    const p = cnt / tot;
+    let nt = pTotal + v;
+    let ns = softAces + (v === 11 ? 1 : 0);
+    while (nt > 21 && ns > 0) { nt -= 10; ns--; }
+
+    if (nt > 21) {
+      ev += p * (-1);
+    } else if (nt === 21) {
+      ev += p * evStand(21, dealerUpVal);
+    } else {
+      const sev = evStand(nt, dealerUpVal);
+      const hev = evHit(nt, ns, dealerUpVal, depth + 1);
+      ev += p * Math.max(sev, hev);
+    }
+  }
+  _evCache[key] = ev;
+  return ev;
+}
+
+function evDouble(pTotal, softAces, dealerUpVal) {
+  const key = `db:${pTotal}:${softAces}:${dealerUpVal}`;
+  if (_evCache[key] !== undefined) return _evCache[key];
+
+  const tot = totalRemaining();
+  if (tot <= 0) { _evCache[key] = 0; return 0; }
+
+  let ev = 0;
+  for (const v of VALS) {
+    const cnt = remByVal(v);
+    if (cnt <= 0) continue;
+    const p = cnt / tot;
+    let nt = pTotal + v;
+    let ns = softAces + (v === 11 ? 1 : 0);
+    while (nt > 21 && ns > 0) { nt -= 10; ns--; }
+
+    if (nt > 21) ev += p * (-2);
+    else ev += p * 2 * evStand(nt, dealerUpVal);
+  }
+  _evCache[key] = ev;
+  return ev;
+}
+
+function evSplit(pairVal, dealerUpVal) {
+  // Approximate: each split hand starts with one card, gets dealt another
+  // then plays optimally. Return combined EV of two hands.
+  const key = `sp:${pairVal}:${dealerUpVal}`;
+  if (_evCache[key] !== undefined) return _evCache[key];
+
+  const tot = totalRemaining();
+  if (tot <= 0) { _evCache[key] = 0; return 0; }
+
+  let singleEV = 0;
+  const startSA = pairVal === 11 ? 1 : 0;
+
+  for (const v of VALS) {
+    const cnt = remByVal(v);
+    if (cnt <= 0) continue;
+    const p = cnt / tot;
+    let t = pairVal + v;
+    let sa = startSA + (v === 11 ? 1 : 0);
+    while (t > 21 && sa > 0) { t -= 10; sa--; }
+
+    if (t === 21) {
+      singleEV += p * evStand(21, dealerUpVal);
+    } else if (pairVal === 11) {
+      // Split aces: one card only
+      singleEV += p * evStand(t, dealerUpVal);
+    } else {
+      const sev = evStand(t, dealerUpVal);
+      const hev = evHit(t, sa, dealerUpVal, 0);
+      // Also consider double if allowed after split
+      let best = Math.max(sev, hev);
+      if (G.das) {
+        const dev = evDouble(t, sa, dealerUpVal);
+        best = Math.max(best, dev);
+      }
+      singleEV += p * best;
+    }
+  }
+  const result = 2 * singleEV; // two independent hands
+  _evCache[key] = result;
+  return result;
+}
+
+function evSurrender() { return -0.5; }
+
+// ═══════════════════════════════════════════════════════
+// CONFIDENCE & RISK-BASED BETTING
+// Engine bets up to 1/3 of balance when confident,
+// minimum when uncertain.
+// ═══════════════════════════════════════════════════════
+function calcConfidence() {
+  const tc = trueCount();
+  const edge = playerEdge(); // in percentage
+
+  // Edge-based confidence (primary: 65%)
+  // edge = -0.5% → conf ~0.35, edge = 0 → 0.5, edge = +1.5% → 0.85
+  let edgeConf = 0.5 + (edge / 3.5);
+  edgeConf = Math.max(0, Math.min(1, edgeConf));
+
+  // Deck composition factor (secondary: 35%)
+  // High cards (10,J,Q,K,A) vs Low cards (2-6) — more highs = better for player
+  const high = remByVal(10) + remByVal(11);
+  const low = remByVal(2) + remByVal(3) + remByVal(4) + remByVal(5) + remByVal(6);
+  const ratio = low > 0 ? high / low : 2.0;
+  // Normal ~1.0, favorable >1.2
+  let deckConf = (ratio - 0.6) / 1.0;
+  deckConf = Math.max(0, Math.min(1, deckConf));
+
+  const conf = edgeConf * 0.65 + deckConf * 0.35;
+  G.lastConfidence = conf;
+  return conf;
+}
+
 function calcBet() {
-  const tc = trueCount();
-  const edge = playerEdge() / 100;
+  const conf = calcConfidence();
+  const thirdBal = Math.floor(G.balance / 3);
 
-  // Spread: 1-8
-  let mult = 1;
-  if (tc >= 5) mult = 8;
-  else if (tc >= 4) mult = 6;
-  else if (tc >= 3) mult = 4;
-  else if (tc >= 2) mult = 2;
-  else if (tc >= 1) mult = 1.5;
-  else mult = 1;
-
-  let bet = Math.round(G.minBet * mult);
-
-  // Kelly overlay: if edge > 0, use fractional Kelly
-  if (edge > 0) {
-    const kelly = edge / 1.15; // variance ~1.15
-    const kellyBet = Math.round(G.balance * kelly * 0.35);
-    bet = Math.max(bet, kellyBet);
+  let bet;
+  if (conf >= 0.75) {
+    // High confidence — scale up to 1/3 of balance
+    const scale = (conf - 0.75) / 0.25; // 0→1
+    bet = G.minBet + Math.floor(scale * (thirdBal - G.minBet));
+  } else if (conf >= 0.55) {
+    // Medium confidence — moderate bet
+    const scale = (conf - 0.55) / 0.20; // 0→1
+    bet = G.minBet + Math.floor(scale * G.minBet * 2);
+  } else {
+    // Low confidence — protect bankroll, minimum bet
+    bet = G.minBet;
   }
 
-  bet = Math.min(bet, G.maxBet);
-  bet = Math.max(bet, G.minBet);
-  // Round to nearest minBet unit
-  bet = Math.round(bet / G.minBet) * G.minBet;
-  return Math.max(bet, G.minBet);
+  bet = Math.round(bet / G.minBet) * G.minBet; // round to min unit
+  bet = Math.max(G.minBet, Math.min(bet, G.balance));
+  return bet;
 }
 
 // ═══════════════════════════════════════════════════════
-// BASIC STRATEGY + ILLUSTRIOUS 18
+// DECISION ENGINE (EV-based, replaces basic strategy)
+// Computes EV for every legal action, picks the best.
 // ═══════════════════════════════════════════════════════
-function getDecision() {
-  const pc = G.playerCards;
-  const dc = G.dealerCards;
-  if (pc.length < 2 || dc.length < 1) return null;
+function getDecision(cards, dealerCards) {
+  if (!cards) cards = G.playerCards;
+  if (!dealerCards) dealerCards = G.dealerCards;
+  if (cards.length < 2 || dealerCards.length < 1) return null;
 
-  const pv = handVal(pc);
-  const du = cardVal(dc[0]); // 2-11
-  const soft = isSoft(pc);
-  const pair = isPair(pc);
-  const tc = trueCount();
-  const canDouble = pc.length === 2;
-  const canSurrender = G.surrenderRule === 'late' && pc.length === 2;
+  const pv = handVal(cards);
+  const du = cardVal(dealerCards[0]);
+  const soft = isSoft(cards);
+  const sa = softAceCount(cards);
+  const pair = isPair(cards);
+  const canDouble = cards.length === 2;
+  const canSurrender = G.surrenderRule === 'late' && cards.length === 2;
 
-  if (pv > 21) return { action: 'BUST', reason: `Busted at ${pv}` };
-  if (pv === 21) return { action: 'STAND', reason: pc.length === 2 ? 'BLACKJACK!' : '21 — perfect' };
+  if (pv > 21) return { action: 'BUST', reason: `Busted at ${pv}`, evs: {} };
+  if (pv === 21) return { action: 'STAND', reason: cards.length === 2 ? 'BLACKJACK!' : '21', evs: {} };
 
-  // ── FAB 4 SURRENDERS ──
-  if (canSurrender && !soft) {
-    if (pv === 15 && du === 10 && tc >= 0)  return dev('SURRENDER', '15 vs 10', tc, 0);
-    if (pv === 15 && du === 9  && tc >= 2)  return dev('SURRENDER', '15 vs 9', tc, 2);
-    if (pv === 15 && du === 11 && tc >= 1)  return dev('SURRENDER', '15 vs A', tc, 1);
-    if (pv === 14 && du === 10 && tc >= 3)  return dev('SURRENDER', '14 vs 10', tc, 3);
+  // Clear EV cache for fresh calculation with current deck state
+  _evCache = {};
+
+  // Calculate EV for each possible action
+  const evs = {};
+  evs.STAND = evStand(pv, du);
+  evs.HIT = evHit(pv, sa, du, 0);
+  if (canDouble) evs.DOUBLE = evDouble(pv, sa, du);
+  if (canSurrender) evs.SURRENDER = evSurrender();
+  if (pair && canDouble) evs.SPLIT = evSplit(cardVal(cards[0]), du);
+
+  // Find best action
+  let bestAction = 'STAND';
+  let bestEV = -Infinity;
+  for (const [action, ev] of Object.entries(evs)) {
+    if (ev > bestEV) { bestEV = ev; bestAction = action; }
   }
 
-  // Basic surrender
-  if (canSurrender && !soft) {
-    if (pv === 16 && [9,10,11].includes(du)) {
-      if (du === 10 && tc >= 0) { /* I18 stand overrides — checked below */ }
-      else if (du === 9 && tc >= 5) { /* I18 stand */ }
-      else return { action: 'SURRENDER', reason: `Surrender 16 vs ${fmtDU(du)}` };
-    }
-    if (pv === 15 && du === 10) return { action: 'SURRENDER', reason: 'Surrender 15 vs 10' };
-    if (!G.s17 && pv === 15 && du === 11) return { action: 'SURRENDER', reason: 'Surrender 15 vs A (H17)' };
-    if (!G.s17 && pv === 17 && du === 11) return { action: 'SURRENDER', reason: 'Surrender 17 vs A (H17)' };
-  }
+  // Build reason string with EV comparison
+  const fmtEV = v => (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%';
+  const evParts = Object.entries(evs)
+    .sort((a, b) => b[1] - a[1])
+    .map(([a, v]) => `${a} ${fmtEV(v)}`);
+  const reason = `Best EV: ${fmtEV(bestEV)} · ${evParts.join(' | ')}`;
 
-  // ── ILLUSTRIOUS 18 ──
-  if (!soft && !pair) {
-    if (pv === 16 && du === 10 && tc >= 0) return dev('STAND', '16 vs 10', tc, 0);
-    if (pv === 15 && du === 10 && tc >= 4) return dev('STAND', '15 vs 10', tc, 4);
-    if (pv === 16 && du === 9  && tc >= 5) return dev('STAND', '16 vs 9', tc, 5);
-    if (pv === 10 && du === 10 && tc >= 4 && canDouble) return dev('DOUBLE', '10 vs 10', tc, 4);
-    if (pv === 10 && du === 11 && tc >= 4 && canDouble) return dev('DOUBLE', '10 vs A', tc, 4);
-    if (pv === 12 && du === 3  && tc >= 2) return dev('STAND', '12 vs 3', tc, 2);
-    if (pv === 12 && du === 2  && tc >= 3) return dev('STAND', '12 vs 2', tc, 3);
-    if (pv === 11 && du === 11 && tc >= 1 && canDouble) return dev('DOUBLE', '11 vs A', tc, 1);
-    if (pv === 9  && du === 2  && tc >= 1 && canDouble) return dev('DOUBLE', '9 vs 2', tc, 1);
-    if (pv === 9  && du === 7  && tc >= 3 && canDouble) return dev('DOUBLE', '9 vs 7', tc, 3);
-    if (pv === 13 && du === 2  && tc <= -1) return dev('HIT', '13 vs 2', tc, -1);
-    if (pv === 13 && du === 3  && tc <= -2) return dev('HIT', '13 vs 3', tc, -2);
-    if (pv === 12 && du === 4  && tc < 0)   return dev('HIT', '12 vs 4', tc, 0);
-    if (pv === 12 && du === 5  && tc <= -2) return dev('HIT', '12 vs 5', tc, -2);
-    if (pv === 12 && du === 6  && tc <= -1) return dev('HIT', '12 vs 6', tc, -1);
-  }
-  if (pair && cardVal(pc[0]) === 10) {
-    if (du === 5 && tc >= 5) return dev('SPLIT', '10s vs 5', tc, 5);
-    if (du === 6 && tc >= 4) return dev('SPLIT', '10s vs 6', tc, 4);
-  }
+  G.lastEVs = evs;
 
-  // ── BASIC STRATEGY ──
-
-  // Pairs
-  if (pair && canDouble) {
-    const pairV = cardVal(pc[0]);
-    if (pairV === 11) return bs('SPLIT', 'Always split Aces');
-    if (pairV === 10) return bs('STAND', '20 — never split 10s');
-    if (pairV === 9) return [7,10,11].includes(du) ? bs('STAND', 'Stand 9-9 vs 7/10/A') : bs('SPLIT', 'Split 9s');
-    if (pairV === 8) return bs('SPLIT', 'Always split 8s');
-    if (pairV === 7) return du <= 7 ? bs('SPLIT', 'Split 7s vs 2-7') : bs('HIT', 'Hit 7-7 vs strong');
-    if (pairV === 6) return du >= 2 && du <= 6 ? bs('SPLIT', 'Split 6s vs 2-6') : bs('HIT', 'Hit 6-6');
-    if (pairV === 5) return du <= 9 ? bs('DOUBLE', 'Double 10 vs 2-9') : bs('HIT', 'Hit 10');
-    if (pairV === 4) return G.das && [5,6].includes(du) ? bs('SPLIT', 'Split 4s vs 5-6') : bs('HIT', 'Hit 4-4');
-    if (pairV <= 3) return du >= 2 && du <= 7 ? bs('SPLIT', `Split ${pairV}s vs 2-7`) : bs('HIT', `Hit ${pairV}-${pairV}`);
-  }
-
-  // Soft
-  if (soft) {
-    if (pv >= 20) return bs('STAND', `Soft ${pv}`);
-    if (pv === 19) {
-      if (!G.s17 && du === 6 && canDouble) return bs('DOUBLE', 'Double S19 vs 6 (H17)');
-      return bs('STAND', 'Soft 19');
-    }
-    if (pv === 18) {
-      if (canDouble && du >= 3 && du <= 6) return bs('DOUBLE', 'Double S18 vs 3-6');
-      if ([2,7,8].includes(du)) return bs('STAND', 'Stand S18 vs 2/7/8');
-      return bs('HIT', 'Hit S18 vs 9/10/A');
-    }
-    if (pv === 17) {
-      if (canDouble && du >= 3 && du <= 6) return bs('DOUBLE', 'Double S17 vs 3-6');
-      return bs('HIT', 'Hit S17');
-    }
-    if (pv === 16 || pv === 15) {
-      if (canDouble && du >= 4 && du <= 6) return bs('DOUBLE', `Double S${pv} vs 4-6`);
-      return bs('HIT', `Hit S${pv}`);
-    }
-    if (pv === 14 || pv === 13) {
-      if (canDouble && du >= 5 && du <= 6) return bs('DOUBLE', `Double S${pv} vs 5-6`);
-      return bs('HIT', `Hit S${pv}`);
-    }
-    return bs('HIT', `Hit S${pv}`);
-  }
-
-  // Hard
-  if (pv >= 17) return bs('STAND', `Stand ${pv}`);
-  if (pv >= 13) return du <= 6 ? bs('STAND', `Stand ${pv} vs ${fmtDU(du)}`) : bs('HIT', `Hit ${pv} vs ${fmtDU(du)}`);
-  if (pv === 12) return du >= 4 && du <= 6 ? bs('STAND', '12 vs 4-6 bust zone') : bs('HIT', 'Hit 12');
-  if (pv === 11) return canDouble && du <= 10 ? bs('DOUBLE', 'Double 11') : bs('HIT', 'Hit 11');
-  if (pv === 10) return canDouble && du <= 9 ? bs('DOUBLE', 'Double 10 vs 2-9') : bs('HIT', 'Hit 10');
-  if (pv === 9) return canDouble && du >= 3 && du <= 6 ? bs('DOUBLE', 'Double 9 vs 3-6') : bs('HIT', 'Hit 9');
-  return bs('HIT', `Hit ${pv}`);
+  return { action: bestAction, reason, evs, isDev: false };
 }
 
-function bs(action, reason) { return { action, reason, isDev: false }; }
-function dev(action, hand, tc, idx) {
-  const dir = idx >= 0 ? '≥' : '≤';
-  return { action, reason: `I18: ${hand} at TC ${tc >= 0 ? '+':''}${tc.toFixed(1)} ${dir} ${idx >= 0 ? '+':''}${idx}`, isDev: true };
-}
 function fmtDU(du) { return du === 11 ? 'A' : du.toString(); }
 
 // ═══════════════════════════════════════════════════════
-// INSURANCE CHECK
+// INSURANCE CHECK (EV-based using remaining deck)
 // ═══════════════════════════════════════════════════════
-function shouldInsure() { return trueCount() >= 3; }
+function shouldInsure() {
+  // Insurance pays 2:1 if dealer has BJ. Worth it when P(10-hole) > 1/3
+  const tensLeft = remByVal(10);
+  const tot = totalRemaining();
+  if (tot <= 0) return false;
+  return (tensLeft / tot) > (1 / 3);
+}
 
 // ═══════════════════════════════════════════════════════
 // UI RENDERING
 // ═══════════════════════════════════════════════════════
 function renderCardGrid() {
   const grid = document.getElementById('card-grid');
-  const perRank = G.decks * 4;
   grid.innerHTML = RANKS.map(r => {
     const rem = remaining(r);
     return `<button class="card-btn ${cardClass(r)}${rem <= 0 ? ' depleted' : ''}" onclick="feedCard('${r}')" ${rem <= 0 ? 'disabled' : ''}>
@@ -942,32 +1186,123 @@ function renderCardGrid() {
   }).join('');
 }
 
+function _renderCardsHtml(cards) {
+  return cards.map((c, i) =>
+    `<div class="hcard ${cardClass(c)} animate-in" style="animation-delay:${i*0.08}s">${c}</div>`
+  ).join('');
+}
+function _totalColor(cards) {
+  if (cards.length === 0) return 'var(--muted)';
+  const v = handVal(cards);
+  return v > 21 ? 'var(--red)' : v === 21 ? 'var(--teal)' : 'var(--text)';
+}
+function _totalStr(cards) {
+  if (cards.length === 0) return '—';
+  const v = handVal(cards);
+  const s = isSoft(cards) ? 'S' : '';
+  return s + v;
+}
+
 function renderHands() {
-  const dh = document.getElementById('dealer-hand');
-  const ph = document.getElementById('player-hand');
-  const dt = document.getElementById('dealer-total');
-  const pt = document.getElementById('player-total');
+  const wrap = document.getElementById('table-display-wrap');
 
-  dh.innerHTML = G.dealerCards.map((c, i) =>
-    `<div class="hcard ${cardClass(c)} animate-in" style="animation-delay:${i*0.08}s">${c}</div>`
-  ).join('');
-
-  ph.innerHTML = G.playerCards.map((c, i) =>
-    `<div class="hcard ${cardClass(c)} animate-in" style="animation-delay:${i*0.08}s">${c}</div>`
-  ).join('');
-
+  // Dealer section (always shown)
+  let dealerTotal = '—', dealerColor = 'var(--muted)';
   if (G.dealerCards.length > 0) {
     const v = handVal(G.dealerCards);
-    dt.textContent = G.dealerCards.length === 1 ? cardVal(G.dealerCards[0]) : v;
-    dt.style.color = v > 21 ? 'var(--red)' : v === 21 ? 'var(--teal)' : 'var(--text)';
-  } else { dt.textContent = '—'; dt.style.color = 'var(--muted)'; }
+    dealerTotal = G.dealerCards.length === 1 ? cardVal(G.dealerCards[0]) : v;
+    dealerColor = v > 21 ? 'var(--red)' : v === 21 ? 'var(--teal)' : 'var(--text)';
+  }
 
-  if (G.playerCards.length > 0) {
-    const v = handVal(G.playerCards);
-    const s = isSoft(G.playerCards) ? 'S' : '';
-    pt.textContent = s + v;
-    pt.style.color = v > 21 ? 'var(--red)' : v === 21 ? 'var(--teal)' : 'var(--text)';
-  } else { pt.textContent = '—'; pt.style.color = 'var(--muted)'; }
+  let html = `<div class="table-display"><div class="hand-section">
+    <div class="hand-who">DEALER</div>
+    <div class="hand-cards-row">${_renderCardsHtml(G.dealerCards)}</div>
+    <div class="hand-total-badge" style="color:${dealerColor}">${dealerTotal}</div>
+  </div>`;
+
+  if (G.splitMode && G.splitHands) {
+    html += `</div>`; // close table-display for dealer
+    // Render two split hand boxes
+    for (let i = 0; i < G.splitHands.length; i++) {
+      const sh = G.splitHands[i];
+      const isActive = G.activeSplitHand === i && !sh.done;
+      const boxClass = isActive ? 'split-hand-box active-hand' : sh.done ? 'split-hand-box completed-hand' : 'split-hand-box';
+      let statusHtml = '';
+      if (sh.done) {
+        if (sh.result === 'bust') statusHtml = '<span class="split-status lost">BUST</span>';
+        else if (sh.finalResult === 'win') statusHtml = '<span class="split-status won">WIN</span>';
+        else if (sh.finalResult === 'loss') statusHtml = '<span class="split-status lost">LOSS</span>';
+        else if (sh.finalResult === 'push') statusHtml = '<span class="split-status pushed">PUSH</span>';
+        else statusHtml = '<span class="split-status">DONE</span>';
+      } else if (isActive) {
+        statusHtml = '<span class="split-status" style="color:var(--gold)">PLAYING</span>';
+      }
+      html += `<div class="${boxClass}">
+        <div class="split-hand-label">
+          <span>HAND ${i+1} · <span class="split-bet">¥${sh.bet.toLocaleString()}</span></span>
+          ${statusHtml}
+        </div>
+        <div class="hand-section">
+          <div class="hand-who" style="width:auto">YOU</div>
+          <div class="hand-cards-row">${_renderCardsHtml(sh.cards)}</div>
+          <div class="hand-total-badge" style="color:${_totalColor(sh.cards)}">${_totalStr(sh.cards)}</div>
+        </div>
+      </div>`;
+    }
+  } else {
+    // Normal single hand
+    html += `<div class="hand-section">
+      <div class="hand-who">YOU</div>
+      <div class="hand-cards-row">${_renderCardsHtml(G.playerCards)}</div>
+      <div class="hand-total-badge" style="color:${_totalColor(G.playerCards)}">${_totalStr(G.playerCards)}</div>
+    </div></div>`;
+  }
+
+  wrap.innerHTML = html;
+}
+
+function renderConfidence() {
+  const meter = document.getElementById('conf-meter');
+  const fill = document.getElementById('conf-fill');
+  const val = document.getElementById('conf-val');
+
+  if (G.phase === 'bet' || G.phase === 'deal-p1') {
+    meter.style.display = 'flex';
+    const conf = G.lastConfidence;
+    const pct = (conf * 100).toFixed(0);
+    fill.style.width = pct + '%';
+    const color = conf >= 0.75 ? 'var(--teal)' : conf >= 0.55 ? 'var(--gold)' : 'var(--red)';
+    fill.style.background = color;
+    val.style.color = color;
+    val.textContent = pct + '%';
+  } else {
+    meter.style.display = 'none';
+  }
+}
+
+function renderEVPanel() {
+  const panel = document.getElementById('ev-panel');
+  const isPlay = G.phase === 'play' || G.phase === 'split-play';
+
+  if (!isPlay || !G.lastEVs || Object.keys(G.lastEVs).length === 0) {
+    panel.style.display = 'none';
+    return;
+  }
+  panel.style.display = 'block';
+
+  const sorted = Object.entries(G.lastEVs).sort((a, b) => b[1] - a[1]);
+  const bestAction = sorted[0][0];
+  let html = '<div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">EV Analysis (per unit bet)</div>';
+  for (const [action, ev] of sorted) {
+    const isBest = action === bestAction;
+    const evPct = (ev * 100).toFixed(1);
+    const cls = isBest ? 'best' : ev >= 0 ? 'neutral' : 'negative';
+    html += `<div class="ev-row">
+      <span class="ev-action">${isBest ? '→ ' : ''}${action}</span>
+      <span class="ev-val ${cls}">${ev >= 0 ? '+' : ''}${evPct}%</span>
+    </div>`;
+  }
+  panel.innerHTML = html;
 }
 
 function renderStats() {
@@ -983,7 +1318,14 @@ function renderStats() {
   document.getElementById('st-hands').textContent = G.hands;
   const wr = G.hands > 0 ? ((G.wins / G.hands) * 100).toFixed(0) + '%' : '—';
   document.getElementById('st-wr').textContent = wr;
-  document.getElementById('st-streak').textContent = G.bestStreak > 0 ? `${G.bestStreak}W` : '—';
+
+  // Confidence
+  const conf = G.lastConfidence;
+  const confPct = (conf * 100).toFixed(0);
+  const confEl = document.getElementById('st-conf');
+  confEl.textContent = confPct + '%';
+  confEl.style.color = conf >= 0.75 ? 'var(--teal)' : conf >= 0.55 ? 'var(--gold)' : 'var(--red)';
+
   const shoePct = (totalRemaining() / (G.decks * 52) * 100).toFixed(0);
   document.getElementById('st-shoe').textContent = shoePct + '%';
 
@@ -1010,9 +1352,11 @@ function renderProbs() {
     </div>`;
   }
 
-  // Bust prob if in play
-  if (G.phase === 'play' && G.playerCards.length >= 2) {
-    const bp = (getBustProb() * 100).toFixed(1);
+  // Bust probs during play
+  const inPlay = G.phase === 'play' || G.phase === 'split-play';
+  const activeCards = G.splitMode && G.splitHands ? G.splitHands[G.activeSplitHand]?.cards : G.playerCards;
+  if (inPlay && activeCards && activeCards.length >= 2) {
+    const bp = (getBustProb(activeCards) * 100).toFixed(1);
     html += `<div class="prob-row" style="margin-top:4px; padding-top:6px; border-top:1px solid var(--border);">
       <span class="prob-label" style="color:var(--red)">You Bust</span>
       <div class="prob-track"><div class="prob-fill" style="width:${bp}%; background:var(--red)"></div></div>
@@ -1025,7 +1369,6 @@ function renderProbs() {
       <span class="prob-val" style="color:var(--teal)">${dbp}%</span>
     </div>`;
   }
-
   el.innerHTML = html;
 }
 
@@ -1045,6 +1388,15 @@ function setActionArea(html) {
   document.getElementById('action-area').innerHTML = html;
 }
 
+function renderAll() {
+  renderHands();
+  renderStats();
+  renderProbs();
+  renderCardGrid();
+  renderConfidence();
+  renderEVPanel();
+}
+
 // ═══════════════════════════════════════════════════════
 // GAME FLOW — STATE MACHINE
 // ═══════════════════════════════════════════════════════
@@ -1053,26 +1405,49 @@ function startRound() {
   G.dealerCards = [];
   G.doubled = false;
   G.surrendered = false;
+  G.splitMode = false;
+  G.splitHands = null;
+  G.activeSplitHand = 0;
+  G.splitAces = false;
+  G.lastEVs = null;
   G.currentBet = calcBet();
   G.phase = 'deal-p1';
 
-  const tc = trueCount();
+  const conf = G.lastConfidence;
+  const confPct = (conf * 100).toFixed(0);
   const ev = playerEdge();
-  let betNote = ev >= 0 ? `Edge +${ev.toFixed(2)}% · TC ${tc >= 0?'+':''}${tc.toFixed(1)} · Spread UP` : `House edge ${ev.toFixed(2)}% · Min bet to protect bankroll`;
+  const thirdBal = Math.floor(G.balance / 3);
+  let betNote;
+  if (conf >= 0.75) {
+    betNote = `Confidence ${confPct}% · Edge ${ev >= 0 ? '+' : ''}${ev.toFixed(2)}% · Going big (up to ⅓ balance)`;
+  } else if (conf >= 0.55) {
+    betNote = `Confidence ${confPct}% · Edge ${ev >= 0 ? '+' : ''}${ev.toFixed(2)}% · Moderate bet`;
+  } else {
+    betNote = `Confidence ${confPct}% · Edge ${ev.toFixed(2)}% · Minimum bet — protecting bankroll`;
+  }
 
   setCommand('bet', 'NEW ROUND · BET', `¥${G.currentBet.toLocaleString()}`, betNote);
   setCardPrompt('Place bet, then tap your FIRST card');
   setActionArea('');
-  renderHands();
-  renderStats();
-  renderProbs();
-  renderCardGrid();
+  renderAll();
 }
 
 function feedCard(rank) {
   if (remaining(rank) <= 0) return;
   seeCard(rank);
 
+  // Route to appropriate handler
+  if (G.splitMode) {
+    handleSplitCard(rank);
+  } else if (G.doubled && G.phase === 'play') {
+    handleDoubleCard(rank);
+  } else {
+    handleNormalCard(rank);
+  }
+  renderAll();
+}
+
+function handleNormalCard(rank) {
   switch (G.phase) {
     case 'deal-p1':
       G.playerCards.push(rank);
@@ -1090,355 +1465,22 @@ function feedCard(rank) {
 
     case 'deal-p2':
       G.playerCards.push(rank);
-      // Check for player blackjack
       if (handVal(G.playerCards) === 21) {
         G.phase = 'dealer-reveal';
-        setCommand('result-win', 'BLACKJACK!', '🎰 21!', 'Tap the dealer hole card to reveal');
+        setCommand('result-win', 'BLACKJACK!', '21!', 'Tap the dealer hole card to reveal');
         setCardPrompt('Tap DEALER hole card');
         break;
       }
-      // Check if dealer shows Ace → insurance decision
       if (G.dealerCards[0] === 'A') {
         G.phase = 'insurance';
         const ins = shouldInsure();
-        setCommand('insurance', 'INSURANCE?', ins ? 'YES — INSURE' : 'NO — DECLINE', ins ? `TC ${trueCount().toFixed(1)} ≥ +3 → Insurance is +EV` : `TC ${trueCount().toFixed(1)} < +3 → Insurance is −EV, decline`);
+        const tensProb = (remByVal(10) / totalRemaining() * 100).toFixed(1);
+        setCommand('insurance', 'INSURANCE?', ins ? 'YES — INSURE' : 'NO — DECLINE',
+          ins ? `10-val prob ${tensProb}% > 33.3% → Insurance is +EV` : `10-val prob ${tensProb}% ≤ 33.3% → Insurance is −EV`);
         setCardPrompt('');
         setActionArea(`<div class="action-row">
           <button class="act-btn ${ins ? 'teal' : 'muted'}" onclick="resolveInsurance()">OK, Continue →</button>
         </div>`);
-        break;
-      }
-      // Go to play
-      enterPlayPhase();
-      break;
-
-    case 'play':
-      // Player hits
-      G.playerCards.push(rank);
-      const pv = handVal(G.playerCards);
-      if (pv > 21) {
-        // Bust
-        finishHand('loss', 'BUST');
-        break;
-      }
-      if (pv === 21) {
-        // Auto stand on 21
-        G.phase = 'dealer-reveal';
-        setCommand('action-stand', 'YOU HAVE 21', 'STAND', 'Tap the dealer hole card');
-        setCardPrompt('Tap DEALER hole card');
-        setActionArea('');
-        break;
-      }
-      enterPlayPhase(); // recalculate
-      break;
-
-    case 'dealer-reveal':
-      G.dealerCards.push(rank);
-      // Now dealer plays
-      dealerPlay();
-      break;
-
-    case 'dealer-draw':
-      G.dealerCards.push(rank);
-      dealerPlay();
-      break;
-  }
-
-  renderHands();
-  renderStats();
-  renderProbs();
-  renderCardGrid();
-}
-
-function resolveInsurance() {
-  // Just continue to play
-  G.phase = 'play';
-  enterPlayPhase();
-}
-
-function enterPlayPhase() {
-  G.phase = 'play';
-  const d = getDecision();
-  if (!d) return;
-
-  const clsMap = { HIT:'action', STAND:'action-stand', DOUBLE:'action-double', SPLIT:'action-split', SURRENDER:'action-surrender' };
-  const cls = clsMap[d.action] || 'action';
-
-  setCommand(cls, d.isDev ? 'DEVIATION PLAY' : 'BASIC STRATEGY', d.action, d.reason);
-
-  const pv = handVal(G.playerCards);
-  let actHtml = '';
-
-  if (d.action === 'HIT') {
-    setCardPrompt('Tap your NEXT card');
-    actHtml = `<div class="action-row">
-      <button class="act-btn gold" onclick="playerStand()">Override: STAND on ${pv}</button>
-    </div>`;
-  } else if (d.action === 'STAND') {
-    setCardPrompt('Tap DEALER hole card');
-    actHtml = `<div class="action-row">
-      <button class="act-btn teal" onclick="playerStand()">Confirm STAND</button>
-    </div>`;
-  } else if (d.action === 'DOUBLE') {
-    setCardPrompt('Double down! Tap your ONE card');
-    actHtml = `<div class="action-row">
-      <button class="act-btn blue" onclick="playerDouble()">Confirm DOUBLE (¥${(G.currentBet * 2).toLocaleString()} total)</button>
-    </div><div class="action-row">
-      <button class="act-btn muted" onclick="enterPlayPhaseAsHit()">Just HIT instead</button>
-    </div>`;
-    G.doubled = true;
-  } else if (d.action === 'SPLIT') {
-    // Simplified: treat as a note, user handles manually
-    setCardPrompt('Split recommended — handle at table, then continue');
-    actHtml = `<div class="action-row">
-      <button class="act-btn purple" onclick="startRound()">Start Split Hand as New Round</button>
-      <button class="act-btn muted" onclick="enterPlayPhaseAsHit()">Ignore, HIT instead</button>
-    </div>`;
-  } else if (d.action === 'SURRENDER') {
-    setCardPrompt('');
-    actHtml = `<div class="action-row">
-      <button class="act-btn red" onclick="playerSurrender()">Confirm SURRENDER (get ½ bet back)</button>
-      <button class="act-btn muted" onclick="enterPlayPhaseAsHit()">Ignore, HIT instead</button>
-    </div>`;
-  }
-
-  setActionArea(actHtml);
-}
-
-function enterPlayPhaseAsHit() {
-  G.doubled = false;
-  G.phase = 'play';
-  // Force re-evaluate as if engine says HIT
-  setCommand('action', 'YOUR CALL', 'HIT', 'Overriding engine — tap your next card');
-  setCardPrompt('Tap your NEXT card');
-  setActionArea(`<div class="action-row">
-    <button class="act-btn gold" onclick="playerStand()">STAND on ${handVal(G.playerCards)}</button>
-  </div>`);
-}
-
-function playerStand() {
-  G.phase = 'dealer-reveal';
-  setCommand('action-stand', 'STAND', handVal(G.playerCards).toString(), 'Now tap the dealer hole card');
-  setCardPrompt('Tap DEALER hole card');
-  setActionArea('');
-}
-
-function playerDouble() {
-  G.doubled = true;
-  // Next card fed will be the double card, then auto stand
-  G.phase = 'play'; // feedCard will handle, but after card we auto stand
-  setCommand('action-double', 'DOUBLED', `¥${(G.currentBet * 2).toLocaleString()}`, 'Tap your ONE double-down card');
-  setCardPrompt('Tap your DOUBLE card');
-  setActionArea('');
-
-  // Override feedCard behavior for double: after next card, go to dealer
-  const origPhase = G.phase;
-  const origFeed = window._doubleNext;
-  window._doubleNext = true;
-}
-
-function playerSurrender() {
-  G.surrendered = true;
-  const loss = Math.floor(G.currentBet / 2);
-  G.balance -= loss;
-  G.hands++;
-  G.losses++;
-  updateStreak('L');
-  addLog('SURR', -loss);
-  setCommand('result-loss', 'SURRENDERED', `−¥${loss.toLocaleString()}`, 'Half bet returned. Smart play.');
-  setCardPrompt('');
-  setActionArea(`<div class="action-row"><button class="act-btn gold" onclick="startRound()">Next Hand →</button></div>`);
-  renderStats();
-}
-
-// ═══════════════════════════════════════════════════════
-// DEALER PLAY
-// ═══════════════════════════════════════════════════════
-function dealerPlay() {
-  const dv = handVal(G.dealerCards);
-  const mustHit = G.s17 ? dv < 17 : (dv < 17 || (dv === 17 && isSoft(G.dealerCards)));
-
-  if (mustHit) {
-    G.phase = 'dealer-draw';
-    setCommand('deal', 'DEALER DRAWS', `Dealer has ${dv}`, 'Tap dealer\'s next card');
-    setCardPrompt('Tap DEALER next card');
-    setActionArea('');
-    return;
-  }
-
-  // Dealer stands — resolve
-  resolveHand();
-}
-
-function resolveHand() {
-  const pv = handVal(G.playerCards);
-  const dv = handVal(G.dealerCards);
-  const isBJ = G.playerCards.length === 2 && pv === 21;
-  const dealerBJ = G.dealerCards.length === 2 && dv === 21;
-  const betMult = G.doubled ? 2 : 1;
-
-  if (isBJ && dealerBJ) {
-    finishHand('push', 'BJ PUSH');
-  } else if (isBJ) {
-    finishHand('bj', 'BLACKJACK');
-  } else if (dealerBJ) {
-    finishHand('loss', 'Dealer BJ');
-  } else if (dv > 21) {
-    finishHand('win', 'Dealer busts');
-  } else if (pv > dv) {
-    finishHand('win', `${pv} beats ${dv}`);
-  } else if (dv > pv) {
-    finishHand('loss', `${dv} beats ${pv}`);
-  } else {
-    finishHand('push', `Push at ${pv}`);
-  }
-}
-
-function finishHand(result, reason) {
-  const betMult = G.doubled ? 2 : 1;
-  let pnl = 0;
-
-  if (result === 'win') {
-    pnl = G.currentBet * betMult;
-    G.wins++;
-  } else if (result === 'bj') {
-    pnl = Math.floor(G.currentBet * 1.5);
-    G.wins++;
-  } else if (result === 'loss') {
-    pnl = -(G.currentBet * betMult);
-    G.losses++;
-  } else {
-    G.pushes++;
-  }
-
-  G.balance += pnl;
-  G.hands++;
-  updateStreak(result === 'win' || result === 'bj' ? 'W' : result === 'loss' ? 'L' : 'P');
-  addLog(reason, pnl);
-
-  const cls = result === 'win' || result === 'bj' ? 'result-win' : result === 'loss' ? 'result-loss' : 'result-push';
-  const prefix = pnl > 0 ? '+' : pnl < 0 ? '' : '';
-  const display = pnl !== 0 ? `${prefix}¥${pnl.toLocaleString()}` : 'PUSH';
-
-  setCommand(cls, result.toUpperCase(), display, reason + (G.doubled ? ' (Doubled)' : ''));
-  setCardPrompt('');
-  setActionArea(`<div class="action-row"><button class="act-btn gold" onclick="startRound()">Next Hand →</button>
-    <button class="act-btn muted" onclick="newShoe()">New Shoe</button></div>`);
-  renderStats();
-  renderHands();
-}
-
-function updateStreak(type) {
-  if (type === 'P') return;
-  if (type === G.curStreakType) {
-    G.curStreak++;
-  } else {
-    G.curStreak = 1;
-    G.curStreakType = type;
-  }
-  if (type === 'W' && G.curStreak > G.bestStreak) G.bestStreak = G.curStreak;
-}
-
-function addLog(reason, pnl) {
-  G.log.unshift({ hand: G.hands, player: [...G.playerCards], dealer: [...G.dealerCards], pnl, reason });
-  if (G.log.length > 50) G.log.pop();
-  renderLog();
-}
-
-function renderLog() {
-  const el = document.getElementById('log-entries');
-  document.getElementById('log-count').textContent = G.hands;
-  if (G.log.length === 0) {
-    el.innerHTML = '<div style="font-size:11px; color:var(--muted); text-align:center; padding:12px;">No hands yet</div>';
-    return;
-  }
-  el.innerHTML = G.log.map(l => {
-    const cls = l.pnl > 0 ? 'w' : l.pnl < 0 ? 'l' : 'p';
-    const pnlStr = l.pnl > 0 ? `+¥${l.pnl.toLocaleString()}` : l.pnl < 0 ? `−¥${Math.abs(l.pnl).toLocaleString()}` : 'PUSH';
-    return `<div class="log-entry">
-      <span class="log-hand-num">#${l.hand}</span>
-      <span class="log-cards">${l.player.join(',')} vs ${l.dealer.join(',')}</span>
-      <span class="log-result ${cls}">${pnlStr}</span>
-    </div>`;
-  }).join('');
-}
-
-// ═══════════════════════════════════════════════════════
-// DOUBLE-DOWN OVERRIDE on feedCard
-// ═══════════════════════════════════════════════════════
-const _origFeedCard = feedCard;
-window._doubleNext = false;
-
-// Patch: after double, auto-stand
-const origFeed = window.feedCard;
-window.feedCard = function(rank) {
-  if (remaining(rank) <= 0) return;
-
-  if (window._doubleNext && G.phase === 'play') {
-    seeCard(rank);
-    G.playerCards.push(rank);
-    window._doubleNext = false;
-    renderHands();
-    renderStats();
-    renderProbs();
-    renderCardGrid();
-
-    const pv = handVal(G.playerCards);
-    if (pv > 21) {
-      finishHand('loss', 'BUST on double');
-      return;
-    }
-    // Auto stand after double
-    G.phase = 'dealer-reveal';
-    setCommand('action-stand', 'DOUBLED & STAND', pv.toString(), 'Tap the dealer hole card');
-    setCardPrompt('Tap DEALER hole card');
-    setActionArea('');
-    return;
-  }
-
-  // Normal flow
-  seeCard(rank);
-  G.totalSeen--; // feedCard calls seeCard again inside, so undo
-  G.rc -= HILO[rank];
-  G.seen[rank]--;
-
-  // Call the real function via inline switch
-  _feedCardInner(rank);
-};
-
-// Redefine to avoid double-counting
-function _feedCardInner(rank) {
-  seeCard(rank);
-
-  switch (G.phase) {
-    case 'deal-p1':
-      G.playerCards.push(rank);
-      G.phase = 'deal-d1';
-      setCommand('deal', 'DEALING', 'Dealer upcard?', `Your first card: ${rank}`);
-      setCardPrompt('Tap the DEALER upcard');
-      break;
-
-    case 'deal-d1':
-      G.dealerCards.push(rank);
-      G.phase = 'deal-p2';
-      setCommand('deal', 'DEALING', 'Your second card?', `Dealer shows ${rank}`);
-      setCardPrompt('Tap your SECOND card');
-      break;
-
-    case 'deal-p2':
-      G.playerCards.push(rank);
-      if (handVal(G.playerCards) === 21) {
-        G.phase = 'dealer-reveal';
-        setCommand('result-win', 'BLACKJACK!', '🎰 21!', 'Tap the dealer hole card to reveal');
-        setCardPrompt('Tap DEALER hole card');
-        break;
-      }
-      if (G.dealerCards[0] === 'A') {
-        G.phase = 'insurance';
-        const ins = shouldInsure();
-        setCommand('insurance', 'INSURANCE?', ins ? 'YES — INSURE' : 'NO — DECLINE', ins ? `TC ${trueCount().toFixed(1)} ≥ +3 → +EV` : `TC ${trueCount().toFixed(1)} < +3 → −EV, decline`);
-        setCardPrompt('');
-        setActionArea(`<div class="action-row"><button class="act-btn ${ins ? 'teal' : 'muted'}" onclick="resolveInsurance()">OK, Continue →</button></div>`);
         break;
       }
       enterPlayPhase();
@@ -1468,15 +1510,430 @@ function _feedCardInner(rank) {
       dealerPlay();
       break;
   }
+}
 
-  renderHands();
-  renderStats();
-  renderProbs();
-  renderCardGrid();
+function handleDoubleCard(rank) {
+  G.playerCards.push(rank);
+  const pv = handVal(G.playerCards);
+  if (pv > 21) {
+    finishHand('loss', 'BUST on double');
+    return;
+  }
+  G.phase = 'dealer-reveal';
+  setCommand('action-stand', 'DOUBLED & STAND', pv.toString(), 'Tap the dealer hole card');
+  setCardPrompt('Tap DEALER hole card');
+  setActionArea('');
+}
+
+// ═══════════════════════════════════════════════════════
+// SPLIT SYSTEM — Full independent two-hand play
+// ═══════════════════════════════════════════════════════
+function startSplit() {
+  const card1 = G.playerCards[0];
+  const card2 = G.playerCards[1];
+  G.splitMode = true;
+  G.splitAces = cardVal(card1) === 11;
+  G.splitHands = [
+    { cards: [card1], bet: G.currentBet, doubled: false, done: false, result: null, finalResult: null },
+    { cards: [card2], bet: G.currentBet, doubled: false, done: false, result: null, finalResult: null }
+  ];
+  G.activeSplitHand = 0;
+  G.playerCards = [];
+  G.phase = 'split-play';
+
+  setCommand('action-split', 'SPLIT · HAND 1', 'Deal card', `Tap a card for Hand 1 · Bet ¥${G.currentBet.toLocaleString()} each`);
+  setCardPrompt('Tap card for HAND 1');
+  setActionArea('');
+}
+
+function handleSplitCard(rank) {
+  if (G.phase === 'dealer-reveal' || G.phase === 'dealer-draw') {
+    G.dealerCards.push(rank);
+    dealerPlay();
+    return;
+  }
+
+  const hand = G.splitHands[G.activeSplitHand];
+
+  if (hand.doubled) {
+    // Double on split hand: one card then done
+    hand.cards.push(rank);
+    const pv = handVal(hand.cards);
+    hand.done = true;
+    if (pv > 21) hand.result = 'bust';
+    advanceSplitHand();
+    return;
+  }
+
+  hand.cards.push(rank);
+  const pv = handVal(hand.cards);
+
+  if (pv > 21) {
+    hand.done = true;
+    hand.result = 'bust';
+    advanceSplitHand();
+  } else if (pv === 21) {
+    hand.done = true;
+    advanceSplitHand();
+  } else if (G.splitAces && hand.cards.length === 2) {
+    // Split aces: only one card each
+    hand.done = true;
+    advanceSplitHand();
+  } else if (hand.cards.length >= 2) {
+    enterSplitPlayPhase();
+  } else {
+    // Still need second card (shouldn't happen normally)
+    setCardPrompt(`Tap next card for HAND ${G.activeSplitHand + 1}`);
+  }
+}
+
+function advanceSplitHand() {
+  if (G.activeSplitHand === 0 && !G.splitHands[1].done) {
+    G.activeSplitHand = 1;
+    const hand = G.splitHands[1];
+    if (hand.cards.length < 2) {
+      setCommand('action-split', 'SPLIT · HAND 2', 'Deal card', `Tap a card for Hand 2 · Bet ¥${hand.bet.toLocaleString()}`);
+      setCardPrompt('Tap card for HAND 2');
+      setActionArea('');
+    } else {
+      enterSplitPlayPhase();
+    }
+  } else {
+    // Both hands done — dealer plays
+    G.phase = 'dealer-reveal';
+    setCommand('deal', 'BOTH HANDS DONE', 'Dealer reveals', 'Tap the dealer hole card');
+    setCardPrompt('Tap DEALER hole card');
+    setActionArea('');
+  }
+  renderAll();
+}
+
+function enterSplitPlayPhase() {
+  G.phase = 'split-play';
+  const hand = G.splitHands[G.activeSplitHand];
+  const d = getDecision(hand.cards, G.dealerCards);
+  if (!d) return;
+
+  const clsMap = { HIT:'action', STAND:'action-stand', DOUBLE:'action-double', SURRENDER:'action-surrender' };
+  const cls = clsMap[d.action] || 'action';
+  const handNum = G.activeSplitHand + 1;
+
+  setCommand(cls, `SPLIT · HAND ${handNum} · EV OPTIMAL`, d.action, d.reason);
+
+  const pv = handVal(hand.cards);
+  let actHtml = '';
+
+  if (d.action === 'HIT') {
+    setCardPrompt(`Tap next card for HAND ${handNum}`);
+    actHtml = `<div class="action-row">
+      <button class="act-btn gold" onclick="splitPlayerStand()">Override: STAND on ${pv}</button>
+    </div>`;
+  } else if (d.action === 'STAND') {
+    actHtml = `<div class="action-row">
+      <button class="act-btn teal" onclick="splitPlayerStand()">Confirm STAND</button>
+    </div>`;
+  } else if (d.action === 'DOUBLE' && G.das) {
+    setCardPrompt(`Double! Tap ONE card for HAND ${handNum}`);
+    actHtml = `<div class="action-row">
+      <button class="act-btn blue" onclick="splitPlayerDouble()">DOUBLE Hand ${handNum} (¥${(hand.bet * 2).toLocaleString()})</button>
+    </div><div class="action-row">
+      <button class="act-btn muted" onclick="splitOverrideHit()">Just HIT instead</button>
+    </div>`;
+  } else {
+    // Default to hit
+    setCardPrompt(`Tap next card for HAND ${handNum}`);
+    actHtml = `<div class="action-row">
+      <button class="act-btn gold" onclick="splitPlayerStand()">STAND on ${pv}</button>
+    </div>`;
+  }
+  setActionArea(actHtml);
+}
+
+function splitPlayerStand() {
+  const hand = G.splitHands[G.activeSplitHand];
+  hand.done = true;
+  advanceSplitHand();
+}
+
+function splitPlayerDouble() {
+  const hand = G.splitHands[G.activeSplitHand];
+  hand.doubled = true;
+  hand.bet *= 2;
+  setCommand('action-double', `HAND ${G.activeSplitHand + 1} DOUBLED`, `¥${hand.bet.toLocaleString()}`, 'Tap ONE double-down card');
+  setCardPrompt(`Tap DOUBLE card for HAND ${G.activeSplitHand + 1}`);
+  setActionArea('');
+}
+
+function splitOverrideHit() {
+  const handNum = G.activeSplitHand + 1;
+  const hand = G.splitHands[G.activeSplitHand];
+  setCommand('action', `HAND ${handNum} · YOUR CALL`, 'HIT', 'Overriding engine — tap next card');
+  setCardPrompt(`Tap next card for HAND ${handNum}`);
+  setActionArea(`<div class="action-row">
+    <button class="act-btn gold" onclick="splitPlayerStand()">STAND on ${handVal(hand.cards)}</button>
+  </div>`);
+}
+
+// ═══════════════════════════════════════════════════════
+// NORMAL PLAY PHASE (non-split)
+// ═══════════════════════════════════════════════════════
+function resolveInsurance() {
+  enterPlayPhase();
+}
+
+function enterPlayPhase() {
+  G.phase = 'play';
+  const d = getDecision();
+  if (!d) return;
+
+  const clsMap = { HIT:'action', STAND:'action-stand', DOUBLE:'action-double', SPLIT:'action-split', SURRENDER:'action-surrender' };
+  const cls = clsMap[d.action] || 'action';
+
+  setCommand(cls, 'EV OPTIMAL', d.action, d.reason);
+
+  const pv = handVal(G.playerCards);
+  let actHtml = '';
+
+  if (d.action === 'HIT') {
+    setCardPrompt('Tap your NEXT card');
+    actHtml = `<div class="action-row">
+      <button class="act-btn gold" onclick="playerStand()">Override: STAND on ${pv}</button>
+    </div>`;
+  } else if (d.action === 'STAND') {
+    setCardPrompt('Tap DEALER hole card');
+    actHtml = `<div class="action-row">
+      <button class="act-btn teal" onclick="playerStand()">Confirm STAND</button>
+    </div>`;
+  } else if (d.action === 'DOUBLE') {
+    setCardPrompt('Double down! Tap your ONE card');
+    actHtml = `<div class="action-row">
+      <button class="act-btn blue" onclick="playerDouble()">Confirm DOUBLE (¥${(G.currentBet * 2).toLocaleString()} total)</button>
+    </div><div class="action-row">
+      <button class="act-btn muted" onclick="enterPlayPhaseAsHit()">Just HIT instead</button>
+    </div>`;
+  } else if (d.action === 'SPLIT') {
+    setCardPrompt('');
+    actHtml = `<div class="action-row">
+      <button class="act-btn purple" onclick="startSplit()">Confirm SPLIT (¥${G.currentBet.toLocaleString()} per hand)</button>
+    </div><div class="action-row">
+      <button class="act-btn muted" onclick="enterPlayPhaseAsHit()">Ignore, HIT instead</button>
+    </div>`;
+  } else if (d.action === 'SURRENDER') {
+    setCardPrompt('');
+    actHtml = `<div class="action-row">
+      <button class="act-btn red" onclick="playerSurrender()">Confirm SURRENDER (get ½ bet back)</button>
+      <button class="act-btn muted" onclick="enterPlayPhaseAsHit()">Ignore, HIT instead</button>
+    </div>`;
+  }
+  setActionArea(actHtml);
+  renderEVPanel();
+}
+
+function enterPlayPhaseAsHit() {
+  G.doubled = false;
+  G.phase = 'play';
+  G.lastEVs = null;
+  setCommand('action', 'YOUR CALL', 'HIT', 'Overriding engine — tap your next card');
+  setCardPrompt('Tap your NEXT card');
+  setActionArea(`<div class="action-row">
+    <button class="act-btn gold" onclick="playerStand()">STAND on ${handVal(G.playerCards)}</button>
+  </div>`);
+  renderEVPanel();
+}
+
+function playerStand() {
+  G.phase = 'dealer-reveal';
+  G.lastEVs = null;
+  setCommand('action-stand', 'STAND', handVal(G.playerCards).toString(), 'Now tap the dealer hole card');
+  setCardPrompt('Tap DEALER hole card');
+  setActionArea('');
+  renderEVPanel();
+}
+
+function playerDouble() {
+  G.doubled = true;
+  G.phase = 'play';
+  G.lastEVs = null;
+  setCommand('action-double', 'DOUBLED', `¥${(G.currentBet * 2).toLocaleString()}`, 'Tap your ONE double-down card');
+  setCardPrompt('Tap your DOUBLE card');
+  setActionArea('');
+  renderEVPanel();
+}
+
+function playerSurrender() {
+  G.surrendered = true;
+  G.lastEVs = null;
+  const loss = Math.floor(G.currentBet / 2);
+  G.balance -= loss;
+  G.hands++;
+  G.losses++;
+  updateStreak('L');
+  addLog('SURR', -loss);
+  setCommand('result-loss', 'SURRENDERED', `−¥${loss.toLocaleString()}`, 'Half bet returned. Calculated move.');
+  setCardPrompt('');
+  setActionArea(`<div class="action-row"><button class="act-btn gold" onclick="startRound()">Next Hand →</button></div>`);
+  renderAll();
+}
+
+// ═══════════════════════════════════════════════════════
+// DEALER PLAY
+// ═══════════════════════════════════════════════════════
+function dealerPlay() {
+  const dv = handVal(G.dealerCards);
+  const mustHit = G.s17 ? dv < 17 : (dv < 17 || (dv === 17 && isSoft(G.dealerCards)));
+
+  if (mustHit) {
+    G.phase = G.splitMode ? 'dealer-draw' : 'dealer-draw';
+    setCommand('deal', 'DEALER DRAWS', `Dealer has ${dv}`, 'Tap dealer\'s next card');
+    setCardPrompt('Tap DEALER next card');
+    setActionArea('');
+    return;
+  }
+
+  // Dealer stands — resolve
+  if (G.splitMode) {
+    resolveSplitHands();
+  } else {
+    resolveHand();
+  }
+}
+
+function resolveHand() {
+  const pv = handVal(G.playerCards);
+  const dv = handVal(G.dealerCards);
+  const isBJ = G.playerCards.length === 2 && pv === 21;
+  const dealerBJ = G.dealerCards.length === 2 && dv === 21;
+
+  if (isBJ && dealerBJ) finishHand('push', 'BJ PUSH');
+  else if (isBJ) finishHand('bj', 'BLACKJACK');
+  else if (dealerBJ) finishHand('loss', 'Dealer BJ');
+  else if (dv > 21) finishHand('win', 'Dealer busts');
+  else if (pv > dv) finishHand('win', `${pv} beats ${dv}`);
+  else if (dv > pv) finishHand('loss', `${dv} beats ${pv}`);
+  else finishHand('push', `Push at ${pv}`);
+}
+
+function resolveSplitHands() {
+  const dv = handVal(G.dealerCards);
+  const dealerBJ = G.dealerCards.length === 2 && dv === 21;
+  let totalPnl = 0;
+  let wCount = 0, lCount = 0;
+
+  for (const hand of G.splitHands) {
+    const pv = handVal(hand.cards);
+    const bet = hand.bet;
+    let pnl = 0;
+
+    if (hand.result === 'bust') {
+      pnl = -bet;
+      hand.finalResult = 'loss';
+    } else if (dealerBJ) {
+      pnl = -bet;
+      hand.finalResult = 'loss';
+    } else if (dv > 21) {
+      pnl = bet;
+      hand.finalResult = 'win';
+    } else if (pv > dv) {
+      pnl = bet;
+      hand.finalResult = 'win';
+    } else if (dv > pv) {
+      pnl = -bet;
+      hand.finalResult = 'loss';
+    } else {
+      pnl = 0;
+      hand.finalResult = 'push';
+    }
+
+    totalPnl += pnl;
+    if (hand.finalResult === 'win') wCount++;
+    else if (hand.finalResult === 'loss') lCount++;
+  }
+
+  G.balance += totalPnl;
+  G.hands++;
+  if (wCount > lCount) { G.wins++; updateStreak('W'); }
+  else if (lCount > wCount) { G.losses++; updateStreak('L'); }
+  else { G.pushes++; updateStreak('P'); }
+
+  // Build result display
+  const h1 = G.splitHands[0], h2 = G.splitHands[1];
+  const resultParts = G.splitHands.map((h, i) => `H${i+1}: ${h.finalResult.toUpperCase()}`).join(' · ');
+  const cls = totalPnl > 0 ? 'result-win' : totalPnl < 0 ? 'result-loss' : 'result-push';
+  const display = totalPnl !== 0 ? `${totalPnl > 0 ? '+' : ''}¥${totalPnl.toLocaleString()}` : 'PUSH';
+
+  // Log with combined info
+  const allPlayerCards = [...G.splitHands[0].cards, '|', ...G.splitHands[1].cards];
+  G.log.unshift({ hand: G.hands, player: allPlayerCards, dealer: [...G.dealerCards], pnl: totalPnl, reason: `Split: ${resultParts}` });
+  if (G.log.length > 50) G.log.pop();
+  renderLog();
+
+  setCommand(cls, 'SPLIT RESULT', display, resultParts);
+  setCardPrompt('');
+  setActionArea(`<div class="action-row"><button class="act-btn gold" onclick="startRound()">Next Hand →</button>
+    <button class="act-btn muted" onclick="newShoe()">New Shoe</button></div>`);
+  renderAll();
+}
+
+function finishHand(result, reason) {
+  const betMult = G.doubled ? 2 : 1;
+  let pnl = 0;
+
+  if (result === 'win') { pnl = G.currentBet * betMult; G.wins++; }
+  else if (result === 'bj') { pnl = Math.floor(G.currentBet * 1.5); G.wins++; }
+  else if (result === 'loss') { pnl = -(G.currentBet * betMult); G.losses++; }
+  else { G.pushes++; }
+
+  G.balance += pnl;
+  G.hands++;
+  updateStreak(result === 'win' || result === 'bj' ? 'W' : result === 'loss' ? 'L' : 'P');
+  addLog(reason, pnl);
+
+  const cls = result === 'win' || result === 'bj' ? 'result-win' : result === 'loss' ? 'result-loss' : 'result-push';
+  const prefix = pnl > 0 ? '+' : pnl < 0 ? '' : '';
+  const display = pnl !== 0 ? `${prefix}¥${pnl.toLocaleString()}` : 'PUSH';
+
+  setCommand(cls, result.toUpperCase(), display, reason + (G.doubled ? ' (Doubled)' : ''));
+  setCardPrompt('');
+  setActionArea(`<div class="action-row"><button class="act-btn gold" onclick="startRound()">Next Hand →</button>
+    <button class="act-btn muted" onclick="newShoe()">New Shoe</button></div>`);
+  renderAll();
+}
+
+function updateStreak(type) {
+  if (type === 'P') return;
+  if (type === G.curStreakType) { G.curStreak++; }
+  else { G.curStreak = 1; G.curStreakType = type; }
+  if (type === 'W' && G.curStreak > G.bestStreak) G.bestStreak = G.curStreak;
+}
+
+function addLog(reason, pnl) {
+  G.log.unshift({ hand: G.hands, player: [...G.playerCards], dealer: [...G.dealerCards], pnl, reason });
+  if (G.log.length > 50) G.log.pop();
+  renderLog();
+}
+
+function renderLog() {
+  const el = document.getElementById('log-entries');
+  document.getElementById('log-count').textContent = G.hands;
+  if (G.log.length === 0) {
+    el.innerHTML = '<div style="font-size:11px; color:var(--muted); text-align:center; padding:12px;">No hands yet</div>';
+    return;
+  }
+  el.innerHTML = G.log.map(l => {
+    const cls = l.pnl > 0 ? 'w' : l.pnl < 0 ? 'l' : 'p';
+    const pnlStr = l.pnl > 0 ? `+¥${l.pnl.toLocaleString()}` : l.pnl < 0 ? `−¥${Math.abs(l.pnl).toLocaleString()}` : 'PUSH';
+    return `<div class="log-entry">
+      <span class="log-hand-num">#${l.hand}</span>
+      <span class="log-cards">${l.player.join(',')} vs ${l.dealer.join(',')}</span>
+      <span class="log-result ${cls}">${pnlStr}</span>
+    </div>`;
+  }).join('');
 }
 
 // ═══════════════════════════════════════════════════════
 // SESSION MANAGEMENT
+// Shoe reset only clears card tracking.
+// Balance, stats, and session data are preserved.
 // ═══════════════════════════════════════════════════════
 function startSession() {
   G.decks = parseInt(document.getElementById('s-decks').value);
@@ -1499,6 +1956,7 @@ function startSession() {
 }
 
 function resetShoeState() {
+  // Only resets card tracking — balance, stats, session data preserved
   G.seen = {};
   RANKS.forEach(r => G.seen[r] = 0);
   G.totalSeen = 0;
@@ -1512,11 +1970,9 @@ function newShoe() {
 
 // INIT
 resetShoeState();
-renderCardGrid();
-renderProbs();
-renderStats();
+calcConfidence(); // seed initial confidence
+renderAll();
 renderLog();
-renderHands();
 </script>
 </body>
 </html>
