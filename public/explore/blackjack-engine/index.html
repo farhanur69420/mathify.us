@@ -746,7 +746,8 @@
 </div>
 
 <button class="settings-float" onclick="document.getElementById('setup-overlay').classList.remove('hidden')">⚙ Setup</button>
-<button class="reset-float" onclick="newShoe()">🔄 New Shoe</button>
+<button class="reset-float" onclick="newShoe()" style="right:16px">🔄 New Shoe</button>
+<button class="reset-float" onclick="midShoeEntry()" style="right:120px; border-color:var(--gold); color:var(--gold)">🃏 Mid-Shoe</button>
 
 <script>
 // ═══════════════════════════════════════════════════════
@@ -762,6 +763,7 @@ const G = {
   omegaRC: 0, // Omega II running count (multi-level, BC=0.92)
   aceFiveCount: 0, // Ace-Five side count (+1 for 5s, -1 for Aces)
   acesSeen: 0, // separate ace tracking for side count
+  deckOffset: 0, // cards dealt BEFORE we started tracking (mid-shoe entry)
 
   // Session stats (preserved across shoes)
   balance: 10000, hands: 0, wins: 0, losses: 0, pushes: 0,
@@ -832,8 +834,9 @@ function isPair(cards) {
 }
 
 function remaining(rank) { return G.decks * 4 - (G.seen[rank] || 0); }
-function totalRemaining() { return G.decks * 52 - G.totalSeen; }
+function totalRemaining() { return G.decks * 52 - G.totalSeen - G.deckOffset; }
 function decksLeft() { return Math.max(totalRemaining(), 26) / 52; }
+function totalDealt() { return G.totalSeen + G.deckOffset; } // all cards dealt (tracked + untracked)
 function trueCount() { return G.rc / decksLeft(); }
 function playerEdge() {
   const tc = trueCount();
@@ -879,7 +882,7 @@ function riskOfRuin() {
 function shouldWongOut() { return trueCount() <= -1 && G.totalSeen > 20; }
 
 // Shoe penetration percentage (0-100)
-function shoePenetration() { return (G.totalSeen / (G.decks * 52)) * 100; }
+function shoePenetration() { return (totalDealt() / (G.decks * 52)) * 100; }
 
 // Online live tables (Stake.us/Evolution) shuffle at ~50% penetration
 // Signal when shuffle is likely imminent
@@ -2192,10 +2195,32 @@ function resetShoeState() {
   G.omegaRC = 0;
   G.aceFiveCount = 0;
   G.acesSeen = 0;
+  G.deckOffset = 0;
 }
 
 function newShoe() {
   resetShoeState();
+  startRound();
+}
+
+function midShoeEntry() {
+  // Ask user how many decks remain in the shoe
+  // This sets deckOffset so penetration/reliability are correct from the start
+  const totalCards = G.decks * 52;
+  const input = prompt(
+    `Mid-shoe entry: How many decks are left in the shoe?\n` +
+    `(The shoe started with ${G.decks} decks = ${totalCards} cards)\n\n` +
+    `Estimate from the discard tray — e.g. type "5" if about 5 decks remain.`
+  );
+  if (input === null) return; // cancelled
+  const decksRemaining = parseFloat(input);
+  if (isNaN(decksRemaining) || decksRemaining <= 0 || decksRemaining > G.decks) {
+    alert(`Enter a number between 1 and ${G.decks}`);
+    return;
+  }
+  // Reset counts but set the offset for cards we didn't see
+  resetShoeState();
+  G.deckOffset = Math.round((G.decks - decksRemaining) * 52);
   startRound();
 }
 
