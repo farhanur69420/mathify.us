@@ -2204,23 +2204,38 @@ function newShoe() {
 }
 
 function midShoeEntry() {
-  // Ask user how many decks remain in the shoe
-  // This sets deckOffset so penetration/reliability are correct from the start
-  const totalCards = G.decks * 52;
-  const input = prompt(
-    `Mid-shoe entry: How many decks are left in the shoe?\n` +
-    `(The shoe started with ${G.decks} decks = ${totalCards} cards)\n\n` +
-    `Estimate from the discard tray — e.g. type "5" if about 5 decks remain.`
-  );
-  if (input === null) return; // cancelled
-  const decksRemaining = parseFloat(input);
-  if (isNaN(decksRemaining) || decksRemaining <= 0 || decksRemaining > G.decks) {
-    alert(`Enter a number between 1 and ${G.decks}`);
-    return;
-  }
-  // Reset counts but set the offset for cards we didn't see
+  // Show a visual overlay to pick shoe depth
+  const overlay = document.createElement('div');
+  overlay.className = 'setup-overlay';
+  overlay.id = 'midshoe-overlay';
+  const d = G.decks;
+  // Options: fractions of the shoe already dealt
+  const options = [
+    { label: 'Just started', sub: '~1 deck dealt', frac: 1/d },
+    { label: 'Quarter through', sub: `~${Math.round(d*0.25)} decks dealt`, frac: 0.25 },
+    { label: 'One-third in', sub: `~${Math.round(d*0.33)} decks dealt`, frac: 0.33 },
+    { label: 'Halfway', sub: `~${Math.round(d*0.5)} decks dealt`, frac: 0.50 },
+    { label: 'Deep shoe', sub: `~${Math.round(d*0.67)} decks dealt`, frac: 0.67 },
+  ];
+  let html = `<div class="setup-box">
+    <div class="setup-title">Mid-Shoe Entry</div>
+    <div class="setup-sub">How far into the shoe are they?<br>Look at the discard tray and pick the closest.</div>`;
+  options.forEach((opt, i) => {
+    html += `<button class="act-btn gold" style="width:100%;margin-bottom:8px;padding:14px;text-align:left;" onclick="applyMidShoe(${opt.frac})">
+      <span style="font-size:14px;font-weight:700">${opt.label}</span><br>
+      <span style="font-size:11px;opacity:0.7">${opt.sub}</span>
+    </button>`;
+  });
+  html += `<button class="act-btn muted" style="width:100%;margin-top:4px;padding:12px;" onclick="document.getElementById('midshoe-overlay').remove()">Cancel</button>
+  </div>`;
+  overlay.innerHTML = html;
+  document.body.appendChild(overlay);
+}
+
+function applyMidShoe(fraction) {
+  document.getElementById('midshoe-overlay').remove();
   resetShoeState();
-  G.deckOffset = Math.round((G.decks - decksRemaining) * 52);
+  G.deckOffset = Math.round(G.decks * 52 * fraction);
   startRound();
 }
 
