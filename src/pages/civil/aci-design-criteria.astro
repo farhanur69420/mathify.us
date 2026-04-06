@@ -1,0 +1,1627 @@
+---
+// ACI Design Criteria — Beam Reinforcement & Failure
+// mathify.us | Civil Engineering Section
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ACI Design Criteria | mathify.us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"/>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<style>
+:root {
+  --bg: #0a0d12;
+  --bg2: #111620;
+  --bg3: #161c28;
+  --card: #1a2035;
+  --border: #2a3550;
+  --amber: #f59e0b;
+  --amber2: #fbbf24;
+  --blue: #3b82f6;
+  --green: #10b981;
+  --red: #ef4444;
+  --purple: #8b5cf6;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --glow: rgba(245,158,11,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Syne',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+/* Blueprint grid background */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(59,130,246,0.03) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+  z-index:0;
+}
+.page-wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+
+/* HEADER */
+.page-header{
+  padding:2.5rem 0 2rem;
+  border-bottom:1px solid var(--border);
+  margin-bottom:2.5rem;
+}
+.breadcrumb{
+  font-family:'Space Mono',monospace;
+  font-size:0.7rem;
+  color:var(--text3);
+  letter-spacing:0.1em;
+  margin-bottom:1rem;
+}
+.breadcrumb a{color:var(--amber);text-decoration:none;}
+.page-title{
+  font-size:clamp(1.8rem,5vw,3rem);
+  font-weight:800;
+  line-height:1.1;
+  background:linear-gradient(135deg,#f59e0b,#fbbf24,#e2e8f0);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:0.75rem;
+}
+.page-subtitle{color:var(--text2);font-size:0.95rem;font-weight:400;max-width:600px;line-height:1.6;}
+.tag-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1rem;}
+.tag{
+  font-family:'Space Mono',monospace;
+  font-size:0.65rem;
+  padding:0.25rem 0.6rem;
+  border:1px solid var(--border);
+  border-radius:3px;
+  color:var(--text3);
+  letter-spacing:0.05em;
+}
+.tag.amber{border-color:var(--amber);color:var(--amber);}
+
+/* NAV */
+.toc{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.25rem;
+  margin-bottom:2.5rem;
+}
+.toc-title{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--text3);letter-spacing:0.1em;margin-bottom:0.75rem;}
+.toc-links{display:flex;flex-direction:column;gap:0.4rem;}
+.toc-links a{
+  color:var(--text2);
+  text-decoration:none;
+  font-size:0.85rem;
+  padding:0.35rem 0.5rem;
+  border-radius:4px;
+  border-left:2px solid transparent;
+  transition:all 0.2s;
+}
+.toc-links a:hover{color:var(--amber);border-left-color:var(--amber);background:rgba(245,158,11,0.05);padding-left:0.75rem;}
+
+/* SECTION CARDS */
+.section-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:1.75rem;
+  margin-bottom:2rem;
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.6s ease,transform 0.6s ease;
+}
+.section-card.visible{opacity:1;transform:translateY(0);}
+.section-num{
+  font-family:'Space Mono',monospace;
+  font-size:0.65rem;
+  color:var(--amber);
+  letter-spacing:0.15em;
+  margin-bottom:0.4rem;
+}
+.section-title{
+  font-size:1.35rem;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:1.25rem;
+  padding-bottom:0.75rem;
+  border-bottom:1px solid var(--border);
+}
+.explain{
+  color:var(--text2);
+  font-size:0.9rem;
+  line-height:1.75;
+  margin-bottom:1rem;
+}
+.explain strong{color:var(--amber);font-weight:600;}
+
+/* CALLOUT BOXES */
+.callout{
+  border-radius:6px;
+  padding:0.9rem 1.1rem;
+  margin:1rem 0;
+  font-size:0.85rem;
+  line-height:1.6;
+  border-left:3px solid;
+}
+.callout.green{background:rgba(16,185,129,0.08);border-color:var(--green);color:#6ee7b7;}
+.callout.yellow{background:rgba(245,158,11,0.08);border-color:var(--amber);color:#fcd34d;}
+.callout.red{background:rgba(239,68,68,0.08);border-color:var(--red);color:#fca5a5;}
+.callout.blue{background:rgba(59,130,246,0.08);border-color:var(--blue);color:#93c5fd;}
+.callout-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;opacity:0.7;display:block;margin-bottom:0.3rem;}
+
+/* INTERACTIVE PANELS */
+.sim-panel{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.25rem;
+  margin:1.25rem 0;
+}
+.sim-title{
+  font-family:'Space Mono',monospace;
+  font-size:0.7rem;
+  color:var(--amber);
+  letter-spacing:0.1em;
+  margin-bottom:1rem;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
+.sim-title::before{content:'▶';font-size:0.6rem;}
+
+/* Buttons */
+.btn-group{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;}
+.btn{
+  font-family:'Space Mono',monospace;
+  font-size:0.72rem;
+  padding:0.5rem 1rem;
+  border:1px solid var(--border);
+  border-radius:4px;
+  background:transparent;
+  color:var(--text2);
+  cursor:pointer;
+  transition:all 0.2s;
+  letter-spacing:0.05em;
+}
+.btn:hover,.btn.active{background:var(--amber);color:#000;border-color:var(--amber);}
+.btn.active{font-weight:700;}
+
+/* Slider */
+.slider-wrap{margin:1rem 0;}
+.slider-label{
+  font-family:'Space Mono',monospace;
+  font-size:0.72rem;
+  color:var(--text2);
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:0.5rem;
+}
+.slider-label span{color:var(--amber);font-weight:700;}
+input[type=range]{
+  width:100%;
+  -webkit-appearance:none;
+  height:4px;
+  border-radius:2px;
+  background:var(--border);
+  outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;height:18px;
+  border-radius:50%;
+  background:var(--amber);
+  cursor:pointer;
+  border:2px solid var(--bg);
+  box-shadow:0 0 8px var(--glow);
+}
+
+/* Canvas wrapper */
+.canvas-wrap{
+  width:100%;
+  border-radius:6px;
+  overflow:hidden;
+  background:var(--bg3);
+  border:1px solid var(--border);
+}
+canvas{display:block;width:100%;height:auto;}
+
+/* Output display */
+.output-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:0.75rem;
+  margin-top:1rem;
+}
+.output-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:0.75rem;
+  text-align:center;
+}
+.output-label{
+  font-family:'Space Mono',monospace;
+  font-size:0.62rem;
+  color:var(--text3);
+  letter-spacing:0.08em;
+  margin-bottom:0.35rem;
+}
+.output-val{
+  font-family:'Space Mono',monospace;
+  font-size:1.1rem;
+  font-weight:700;
+  color:var(--amber);
+}
+.output-unit{font-size:0.7rem;color:var(--text3);}
+
+/* Step-by-step derivation */
+.deriv-steps{margin:1rem 0;}
+.deriv-step{
+  display:none;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:1rem;
+  margin-bottom:0.75rem;
+  animation:fadeIn 0.4s ease;
+}
+.deriv-step.shown{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.step-num{
+  font-family:'Space Mono',monospace;
+  font-size:0.62rem;
+  color:var(--amber);
+  letter-spacing:0.1em;
+  margin-bottom:0.5rem;
+}
+.step-text{color:var(--text2);font-size:0.85rem;line-height:1.7;margin-bottom:0.6rem;}
+.step-eq{
+  background:var(--bg);
+  border-radius:4px;
+  padding:0.75rem;
+  overflow-x:auto;
+  text-align:center;
+}
+.deriv-controls{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;}
+
+/* FORMULA CARDS */
+.formula-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1rem;
+  margin-top:1rem;
+}
+.formula-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.1rem;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.formula-card:hover{
+  border-color:var(--amber);
+  box-shadow:0 0 20px var(--glow);
+}
+.formula-name{
+  font-family:'Space Mono',monospace;
+  font-size:0.68rem;
+  color:var(--amber);
+  letter-spacing:0.08em;
+  margin-bottom:0.6rem;
+}
+.formula-eq{
+  background:var(--bg);
+  border-radius:4px;
+  padding:0.6rem;
+  overflow-x:auto;
+  text-align:center;
+  margin-bottom:0.6rem;
+}
+.formula-desc{font-size:0.8rem;color:var(--text3);line-height:1.5;}
+
+/* Back button */
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  font-family:'Space Mono',monospace;
+  font-size:0.72rem;
+  color:var(--text3);
+  text-decoration:none;
+  border:1px solid var(--border);
+  padding:0.5rem 1rem;
+  border-radius:4px;
+  transition:all 0.2s;
+  margin-bottom:1.5rem;
+}
+.back-btn:hover{color:var(--amber);border-color:var(--amber);}
+
+/* Beam SVG diagrams */
+.beam-diagram{margin:1rem 0;}
+svg text{font-family:'Space Mono',monospace;}
+
+/* Progress bar for ratio range */
+.ratio-bar-wrap{
+  position:relative;
+  height:280px;
+  display:flex;
+  align-items:stretch;
+  gap:1.5rem;
+  margin:1rem 0;
+}
+.ratio-scale{
+  width:40px;
+  background:linear-gradient(to bottom,#ef4444,#f59e0b,#10b981,#3b82f6,#64748b);
+  border-radius:4px;
+  position:relative;
+  flex-shrink:0;
+}
+.ratio-marker{
+  position:absolute;
+  left:48px;
+  font-family:'Space Mono',monospace;
+  font-size:0.7rem;
+  white-space:nowrap;
+  transform:translateY(-50%);
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
+.ratio-marker::before{
+  content:'';
+  width:8px;
+  height:1px;
+  background:currentColor;
+}
+.ratio-labels{position:relative;flex:1;}
+
+/* Mobile */
+@media(max-width:480px){
+  .page-wrap{padding:1rem 0.75rem 3rem;}
+  .section-card{padding:1.25rem;}
+  .formula-grid{grid-template-columns:1fr;}
+  .output-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <a href="/civil" class="back-btn">← Civil Engineering</a>
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="breadcrumb"><a href="/">mathify.us</a> / <a href="/civil">Civil</a> / ACI Design Criteria</div>
+    <h1 class="page-title">ACI Design Criteria</h1>
+    <p class="page-subtitle">Beam reinforcement, bar placement, failure modes, and reinforcement ratio — with interactive simulations built from ACI 318 principles.</p>
+    <div class="tag-row">
+      <span class="tag amber">CEE335</span>
+      <span class="tag">Chapter 3–4</span>
+      <span class="tag">ACI 318</span>
+      <span class="tag">Darwin & Dolan</span>
+      <span class="tag">USD Method</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-title">// TABLE OF CONTENTS</div>
+    <div class="toc-links">
+      <a href="#s1">01 — Bar Placement & Bending Moment Diagrams</a>
+      <a href="#s2">02 — Effect of Bar Count on Force Per Bar</a>
+      <a href="#s3">03 — Lightly vs Heavily Reinforced Beams</a>
+      <a href="#s4">04 — ACI USD Failure Definition</a>
+      <a href="#s5">05 — Reinforcement Ratio Range</a>
+      <a href="#s6">06 — Derivation: ρ at Failure (from scratch)</a>
+      <a href="#formulas">07 — Formula Reference</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 1 — BAR PLACEMENT
+  ════════════════════════════════════════════════ -->
+  <section class="section-card" id="s1">
+    <div class="section-num">// SECTION 01</div>
+    <h2 class="section-title">Bar Placement Based on Bending Moment Diagrams</h2>
+    <p class="explain">
+      Concrete is <strong>strong in compression</strong> but <strong>very weak in tension</strong> — roughly 10× weaker. Steel bars (rebar) are placed in the beam wherever <strong>tension occurs</strong>. To know where tension is, you read the Bending Moment Diagram (BMD).
+    </p>
+    <div class="callout green">
+      <span class="callout-label">// GOLDEN RULE</span>
+      Where the BMD is <strong>positive (sagging)</strong> → bottom fibers are in tension → bars go at the <strong>BOTTOM</strong>.<br/>
+      Where the BMD is <strong>negative (hogging)</strong> → top fibers are in tension → bars go at the <strong>TOP</strong>.
+    </div>
+
+    <div class="sim-panel">
+      <div class="sim-title">INTERACTIVE — Select Beam Type to See Bar Placement</div>
+      <div class="btn-group">
+        <button class="btn active" onclick="showBeam('ss')">Simply Supported</button>
+        <button class="btn" onclick="showBeam('cantilever')">Cantilever</button>
+        <button class="btn" onclick="showBeam('continuous')">Continuous (2-span)</button>
+      </div>
+      <canvas id="beamCanvas" width="780" height="320"></canvas>
+      <div id="beamExplain" class="callout blue" style="margin-top:0.75rem;">
+        <span class="callout-label">// EXPLANATION</span>
+        <span id="beamExplainText">Simply supported beam with UDL. The beam sags downward at midspan → bottom fibers stretch (tension) → steel bars placed at the BOTTOM. The BMD is entirely positive (parabolic hump).</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 2 — BAR COUNT vs FORCE PER BAR
+  ════════════════════════════════════════════════ -->
+  <section class="section-card" id="s2">
+    <div class="section-num">// SECTION 02</div>
+    <h2 class="section-title">Effect of Bar Count on Force Per Bar</h2>
+    <p class="explain">
+      Here's a surprising insight: <strong>adding more bars increases the total moment capacity Mn</strong>, but the <strong>force each individual bar carries actually decreases</strong>. This is because the total tension force T is split among more bars.
+    </p>
+    <p class="explain">From the Whitney stress block: $T = A_s f_y$ and $M_n = A_s f_y \left(d - \frac{a}{2}\right)$</p>
+    <p class="explain">Force per bar = $\frac{T}{\text{number of bars}}$. As more bars are added, T increases, but divides by a bigger number.</p>
+
+    <div class="sim-panel">
+      <div class="sim-title">INTERACTIVE — Slide to Change Number of No.8 Bars (b=12in, d=15.5in, f'c=4ksi, fy=60ksi)</div>
+      <div class="slider-wrap">
+        <div class="slider-label">Number of Bars: <span id="barCountVal">2</span></div>
+        <input type="range" id="barSlider" min="2" max="8" step="1" value="2" oninput="updateBarSim()"/>
+      </div>
+      <canvas id="barCanvas" width="780" height="260"></canvas>
+      <div class="output-grid">
+        <div class="output-card">
+          <div class="output-label">As (steel area)</div>
+          <div class="output-val" id="out_As">—</div>
+          <div class="output-unit">in²</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">a (stress block)</div>
+          <div class="output-val" id="out_a">—</div>
+          <div class="output-unit">in</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">Mn (nominal moment)</div>
+          <div class="output-val" id="out_Mn">—</div>
+          <div class="output-unit">k·ft</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">T (total tension)</div>
+          <div class="output-val" id="out_T">—</div>
+          <div class="output-unit">kips</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">Force / bar</div>
+          <div class="output-val" id="out_Fbar">—</div>
+          <div class="output-unit">kips/bar</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">ρ (rho)</div>
+          <div class="output-val" id="out_rho">—</div>
+          <div class="output-unit">ratio</div>
+        </div>
+      </div>
+      <div class="callout yellow" style="margin-top:0.75rem;">
+        <span class="callout-label">// INSIGHT</span>
+        <span id="barInsight">Notice: as you add bars, Mn ↑ but force/bar ↓. The stress per bar is lower with more bars.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 3 — LIGHTLY vs HEAVILY REINFORCED
+  ════════════════════════════════════════════════ -->
+  <section class="section-card" id="s3">
+    <div class="section-num">// SECTION 03</div>
+    <h2 class="section-title">Lightly vs Heavily Reinforced Beams</h2>
+    <p class="explain">
+      The reinforcement ratio $\rho = A_s / (bd)$ tells us how much steel is present relative to the concrete cross-section. This ratio controls the <strong>failure mode</strong> of the beam.
+    </p>
+
+    <div class="sim-panel">
+      <div class="sim-title">INTERACTIVE — Strain Diagram at Failure (slide ρ to see behavior)</div>
+      <div class="slider-wrap">
+        <div class="slider-label">ρ (Reinforcement Ratio): <span id="rhoVal">0.010</span> &nbsp;|&nbsp; <span id="rhoType" style="color:var(--green)">UNDER-REINFORCED ✓</span></div>
+        <input type="range" id="rhoSlider" min="0.004" max="0.032" step="0.001" value="0.010" oninput="updateRhoSim()"/>
+      </div>
+      <canvas id="strainCanvas" width="780" height="280"></canvas>
+      <div class="output-grid">
+        <div class="output-card">
+          <div class="output-label">c / d ratio</div>
+          <div class="output-val" id="out_cd">—</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">εt (steel strain)</div>
+          <div class="output-val" id="out_et">—</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">εy (yield strain)</div>
+          <div class="output-val" id="out_ey">0.00207</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">Failure Mode</div>
+          <div class="output-val" id="out_mode" style="font-size:0.75rem;">—</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="explain" style="margin-top:1rem;">
+      <strong>Why does ACI prefer under-reinforced beams?</strong> When steel yields first, it stretches significantly. This causes cracks to widen visibly — giving you a <strong>warning</strong> before collapse. The structure gives you time to evacuate.
+    </p>
+    <div class="callout red">
+      <span class="callout-label">// DANGER — OVER-REINFORCED</span>
+      If ρ > ρmax, concrete crushes suddenly with <strong>no warning</strong>. The steel never yields. The beam fails in a brittle, explosive manner. ACI 318 prohibits this by limiting ρ ≤ ρmax.
+    </div>
+    <div class="callout green">
+      <span class="callout-label">// ACI REQUIREMENT</span>
+      Under-reinforced: steel yields → large strains → visible crack widening → warning before failure. ACI requires $\varepsilon_t \geq 0.004$ at nominal strength (tension-controlled: $\varepsilon_t \geq 0.005$, φ = 0.90).
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 4 — ACI USD FAILURE DEFINITION
+  ════════════════════════════════════════════════ -->
+  <section class="section-card" id="s4">
+    <div class="section-num">// SECTION 04</div>
+    <h2 class="section-title">Failure by ACI USD Method</h2>
+    <p class="explain">
+      In the <strong>Ultimate Strength Design (USD)</strong> method, failure is defined precisely:
+    </p>
+    <div class="callout yellow">
+      <span class="callout-label">// ACI DEFINITION OF FAILURE</span>
+      Failure occurs when the <strong>compressive strain in concrete at the extreme top fiber reaches $\varepsilon_u = 0.003$</strong>. At this exact moment, the applied moment equals the <strong>Nominal Moment $M_n$</strong>.
+    </div>
+    <p class="explain">The key formula chain: $\varepsilon_u = 0.003$ → Whitney stress block activates → $C = 0.85 f'_c \cdot a \cdot b$ → equilibrium $T = C$ → solve for $a$ → calculate $M_n$.</p>
+
+    <div class="sim-panel">
+      <div class="sim-title">INTERACTIVE — Stress &amp; Strain at Failure (adjust f'c and fy)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+        <div>
+          <div class="slider-label">f'c: <span id="fc_val">4</span> ksi</div>
+          <input type="range" id="fcSlider" min="3" max="8" step="0.5" value="4" oninput="updateFailureSim()"/>
+        </div>
+        <div>
+          <div class="slider-label">fy: <span id="fy_val">60</span> ksi</div>
+          <input type="range" id="fySlider" min="40" max="80" step="5" value="60" oninput="updateFailureSim()"/>
+        </div>
+      </div>
+      <canvas id="failureCanvas" width="780" height="300"></canvas>
+      <div class="output-grid">
+        <div class="output-card">
+          <div class="output-label">β₁</div>
+          <div class="output-val" id="out_b1">—</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">ρb (balanced)</div>
+          <div class="output-val" id="out_rb">—</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">ρmax (ACI)</div>
+          <div class="output-val" id="out_rmax">—</div>
+        </div>
+        <div class="output-card">
+          <div class="output-label">εy (yield strain)</div>
+          <div class="output-val" id="out_ey2">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 5 — REINFORCEMENT RATIO RANGE
+  ════════════════════════════════════════════════ -->
+  <section class="section-card" id="s5">
+    <div class="section-num">// SECTION 05</div>
+    <h2 class="section-title">ACI Reinforcement Ratio Range</h2>
+    <p class="explain">
+      The reinforcement ratio $\rho = A_s/(bd)$ must stay within ACI-specified limits. Too little steel → sudden brittle failure when concrete first cracks. Too much → sudden brittle crushing failure. The safe zone is between $\rho_{min}$ and $\rho_{max}$.
+    </p>
+
+    <div class="sim-panel">
+      <div class="sim-title">INTERACTIVE — Ratio Range Explorer (f'c=4ksi, fy=60ksi)</div>
+      <canvas id="ratioCanvas" width="780" height="340"></canvas>
+      <div class="slider-wrap" style="margin-top:1rem;">
+        <div class="slider-label">Your design ρ: <span id="designRho">0.012</span> &nbsp;→&nbsp; <span id="designStatus" style="color:var(--green)">✓ VALID</span></div>
+        <input type="range" id="designSlider" min="0.001" max="0.032" step="0.0005" value="0.012" oninput="updateRatioRange()"/>
+      </div>
+    </div>
+
+    <div class="callout blue">
+      <span class="callout-label">// KEY FORMULAS</span>
+      $\rho_{min} = \max\left(\dfrac{3\sqrt{f'_c}}{f_y},\ \dfrac{200}{f_y}\right)$ (psi units)<br/><br/>
+      $\rho_b = 0.85\beta_1 \dfrac{f'_c}{f_y} \cdot \dfrac{87000}{87000 + f_y}$ (psi units)<br/><br/>
+      $\rho_{max}$: based on $\varepsilon_t \geq 0.004$ → typically $\approx 0.75\rho_b$
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 6 — DERIVATION
+  ════════════════════════════════════════════════ -->
+  <section class="section-card" id="s6">
+    <div class="section-num">// SECTION 06</div>
+    <h2 class="section-title">Derivation: Reinforcement Ratio at Failure (from scratch)</h2>
+    <p class="explain">We derive $\rho_b$ step by step using two principles: <strong>equilibrium</strong> (T = C) and <strong>strain compatibility</strong> (similar triangles on the strain diagram).</p>
+
+    <div class="sim-panel">
+      <div class="sim-title">STEP-BY-STEP DERIVATION — Click Next to Reveal Each Step</div>
+      <div class="deriv-steps" id="derivSteps"></div>
+      <div class="deriv-controls">
+        <button class="btn active" onclick="derivNext()">Next Step →</button>
+        <button class="btn" onclick="derivReset()">Reset</button>
+        <span id="derivProgress" style="font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--text3);align-self:center;">Step 0 / 8</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       SECTION 7 — FORMULA REFERENCE
+  ════════════════════════════════════════════════ -->
+  <section class="section-card" id="formulas">
+    <div class="section-num">// SECTION 07</div>
+    <h2 class="section-title">Formula Reference</h2>
+    <p class="explain">All key formulas from this topic. Hover each card for detail.</p>
+    <div class="formula-grid">
+      <div class="formula-card">
+        <div class="formula-name">REINFORCEMENT RATIO</div>
+        <div class="formula-eq">$$\rho = \frac{A_s}{bd}$$</div>
+        <div class="formula-desc">As = steel area, b = beam width, d = effective depth to steel centroid</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">TENSION FORCE</div>
+        <div class="formula-eq">$$T = A_s f_y$$</div>
+        <div class="formula-desc">Steel tension force at yield. Valid when under-reinforced (εt ≥ εy)</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">COMPRESSION FORCE (Whitney)</div>
+        <div class="formula-eq">$$C = 0.85 f'_c \cdot a \cdot b$$</div>
+        <div class="formula-desc">Rectangular stress block. a = β₁c is the equivalent block depth</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">NOMINAL MOMENT</div>
+        <div class="formula-eq">$$M_n = A_s f_y \!\left(d - \frac{a}{2}\right)$$</div>
+        <div class="formula-desc">Moment arm is (d - a/2). This is the lever arm between C and T.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">Mn (in terms of ρ)</div>
+        <div class="formula-eq">$$M_n = \rho f_y b d^2\!\left(1 - 0.59\frac{\rho f_y}{f'_c}\right)$$</div>
+        <div class="formula-desc">Useful for design when As is unknown. Derived by substituting a = ρfyd/(0.85f'c)</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">STRESS BLOCK DEPTH</div>
+        <div class="formula-eq">$$a = \frac{A_s f_y}{0.85 f'_c b} = \beta_1 c$$</div>
+        <div class="formula-desc">From T = C. β₁ relates the actual NA depth c to the equivalent block depth a</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">β₁ FACTOR</div>
+        <div class="formula-eq">$$\beta_1 = \begin{cases}0.85 & f'_c \leq 4000\text{ psi}\\ 0.85-0.05\frac{f'_c-4000}{1000} & f'_c > 4000\end{cases}$$</div>
+        <div class="formula-desc">Minimum value β₁ = 0.65. Accounts for the shape of actual concrete stress block</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">BALANCED RATIO</div>
+        <div class="formula-eq">$$\rho_b = 0.85\beta_1\frac{f'_c}{f_y}\cdot\frac{87000}{87000+f_y}$$</div>
+        <div class="formula-desc">psi units. Steel yields exactly when concrete crushes (simultaneous). NOT allowed as design point.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">MINIMUM RATIO</div>
+        <div class="formula-eq">$$\rho_{min} = \max\!\left(\frac{3\sqrt{f'_c}}{f_y},\frac{200}{f_y}\right)$$</div>
+        <div class="formula-desc">psi units. Prevents sudden brittle failure when concrete first cracks (Mcr > Mn)</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">STRAIN COMPATIBILITY</div>
+        <div class="formula-eq">$$\frac{c}{d} = \frac{\varepsilon_u}{\varepsilon_u + \varepsilon_t}$$</div>
+        <div class="formula-desc">From similar triangles on strain diagram. εu = 0.003 at top fiber at failure.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">DESIGN MOMENT</div>
+        <div class="formula-eq">$$\phi M_n \geq M_u$$</div>
+        <div class="formula-desc">φ = 0.90 (tension-controlled, εt ≥ 0.005). Mu = factored design moment from loads.</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-name">ρ AT ANY FAILURE STATE</div>
+        <div class="formula-eq">$$\rho = 0.85\beta_1\frac{f'_c}{f_y}\cdot\frac{c}{d}$$</div>
+        <div class="formula-desc">General form derived from equilibrium T=C. At balanced: c/d = cb/d from strain compat.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-wrap -->
+
+<script>
+// ═══════════════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════════════
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:0.08});
+document.querySelectorAll('.section-card').forEach(c => observer.observe(c));
+
+// ═══════════════════════════════════════════════
+// COLOR HELPERS
+// ═══════════════════════════════════════════════
+const AMBER='#f59e0b', BLUE='#3b82f6', GREEN='#10b981', RED='#ef4444',
+      PURPLE='#8b5cf6', BG='#0a0d12', BG2='#111620', BG3='#161c28',
+      CARD='#1a2035', BORDER='#2a3550', TEXT='#e2e8f0', TEXT2='#94a3b8', TEXT3='#64748b';
+
+function hex(c){return c;}
+function dpr(){return window.devicePixelRatio||1;}
+
+function setupCanvas(id){
+  const el=document.getElementById(id);
+  if(!el) return null;
+  const w=el.parentElement.clientWidth||780;
+  const h=el.height;
+  el.width=w*dpr(); el.height=h*dpr();
+  el.style.width=w+'px'; el.style.height=h+'px';
+  const ctx=el.getContext('2d');
+  ctx.scale(dpr(),dpr());
+  ctx._w=w; ctx._h=h;
+  return ctx;
+}
+
+// ═══════════════════════════════════════════════
+// SECTION 1 — BEAM DIAGRAM
+// ═══════════════════════════════════════════════
+const beamExplains={
+  ss:"Simply supported beam with UDL. The beam sags downward at midspan → bottom fibers in tension → steel bars at the BOTTOM. BMD is entirely positive (parabolic hump pointing down).",
+  cantilever:"Cantilever beam with UDL. The beam hoggs throughout (top fibers in tension) → bars go at the TOP. BMD is entirely negative, maximum at the fixed support.",
+  continuous:"Continuous 2-span beam. Positive moment at midspans (bars BOTTOM) and negative moment over interior support (bars TOP). Two different cross-sections are needed."
+};
+
+let activeBeam='ss';
+function showBeam(type){
+  activeBeam=type;
+  document.querySelectorAll('#s1 .btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('beamExplainText').textContent=beamExplains[type];
+  drawBeam();
+}
+
+function drawBeam(){
+  const ctx=setupCanvas('beamCanvas');
+  if(!ctx) return;
+  const W=ctx._w, H=ctx._h;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=BG3; ctx.fillRect(0,0,W,H);
+
+  if(activeBeam==='ss') drawSSBeam(ctx,W,H);
+  else if(activeBeam==='cantilever') drawCantileverBeam(ctx,W,H);
+  else drawContinuousBeam(ctx,W,H);
+}
+
+function drawSSBeam(ctx,W,H){
+  const bx=60,bw=W-200,by=60,bh=44;
+  // UDL arrows
+  for(let x=bx;x<bx+bw;x+=18){
+    ctx.strokeStyle=AMBER; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(x,by-28); ctx.lineTo(x,by-5);
+    ctx.stroke();
+    arrowHead(ctx,x,by-5,AMBER);
+  }
+  // UDL line
+  ctx.strokeStyle=AMBER; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(bx,by-28); ctx.lineTo(bx+bw,by-28); ctx.stroke();
+  ctx.fillStyle=AMBER; ctx.font='bold 11px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('w (UDL)',bx+bw/2,by-34);
+
+  // beam body
+  ctx.fillStyle=CARD; ctx.strokeStyle=BORDER; ctx.lineWidth=1.5;
+  ctx.fillRect(bx,by,bw,bh); ctx.strokeRect(bx,by,bw,bh);
+
+  // compression zone (top)
+  ctx.fillStyle='rgba(59,130,246,0.12)';
+  ctx.fillRect(bx,by,bw,bh*0.45);
+  ctx.strokeStyle=BLUE; ctx.lineWidth=0.8; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(bx,by+bh*0.45); ctx.lineTo(bx+bw,by+bh*0.45); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // steel bars (2 red circles at bottom)
+  [bx+bw*0.35,bx+bw*0.65].forEach(bx2=>{
+    ctx.beginPath(); ctx.arc(bx2,by+bh-10,5,0,Math.PI*2);
+    ctx.fillStyle=RED; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+  });
+
+  // labels
+  ctx.fillStyle=BLUE; ctx.font='10px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('COMPRESSION',bx+bw/2,by+14);
+  ctx.fillStyle=RED; ctx.fillText('TENSION — bars here',bx+bw/2,by+bh-2);
+
+  // supports
+  drawSupport(ctx,bx,by+bh,'pin'); drawSupport(ctx,bx+bw,by+bh,'roller');
+
+  // BMD
+  const bmdY=by+bh+20, bmdH=80;
+  ctx.strokeStyle=PURPLE; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(bx,bmdY);
+  for(let i=0;i<=100;i++){
+    const xi=bx+(bw*i/100);
+    const xi_=i/100;
+    const yi=bmdY+bmdH*4*xi_*(1-xi_);
+    i===0?ctx.moveTo(xi,yi):ctx.lineTo(xi,yi);
+  }
+  ctx.lineTo(bx+bw,bmdY); ctx.stroke();
+  // fill
+  ctx.fillStyle='rgba(139,92,246,0.15)';
+  ctx.beginPath(); ctx.moveTo(bx,bmdY);
+  for(let i=0;i<=100;i++){
+    const xi=bx+(bw*i/100), xi_=i/100;
+    const yi=bmdY+bmdH*4*xi_*(1-xi_);
+    i===0?ctx.moveTo(xi,yi):ctx.lineTo(xi,yi);
+  }
+  ctx.lineTo(bx+bw,bmdY); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=PURPLE; ctx.font='10px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('BMD (+)',bx+bw/2,bmdY+bmdH+14);
+
+  // cross section
+  const cx=bx+bw+30, cy=by, cw=60, ch=bh*1.8;
+  ctx.fillStyle=CARD; ctx.strokeStyle=BORDER; ctx.lineWidth=1.5;
+  ctx.fillRect(cx,cy,cw,ch); ctx.strokeRect(cx,cy,cw,ch);
+  [cx+cw*0.3,cx+cw*0.7].forEach(rx=>{
+    ctx.beginPath(); ctx.arc(rx,cy+ch-12,5,0,Math.PI*2);
+    ctx.fillStyle=RED; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+  });
+  ctx.fillStyle=TEXT3; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('Section',cx+cw/2,cy+ch+14);
+}
+
+function drawCantileverBeam(ctx,W,H){
+  const bx=120,bw=W-220,by=60,bh=44;
+  // fixed wall
+  ctx.fillStyle=BORDER;
+  for(let y=by-20;y<by+bh+30;y+=8){
+    ctx.beginPath(); ctx.moveTo(bx-20,y); ctx.lineTo(bx,y+8); ctx.strokeStyle=BORDER; ctx.lineWidth=2; ctx.stroke();
+  }
+  ctx.fillStyle=TEXT3; ctx.fillRect(bx-20,by-20,5,bh+40);
+
+  // UDL arrows (downward)
+  for(let x=bx;x<bx+bw;x+=18){
+    ctx.strokeStyle=AMBER; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(x,by-24); ctx.lineTo(x,by-4); ctx.stroke();
+    arrowHead(ctx,x,by-4,AMBER);
+  }
+  ctx.strokeStyle=AMBER; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(bx,by-24); ctx.lineTo(bx+bw,by-24); ctx.stroke();
+
+  // beam
+  ctx.fillStyle=CARD; ctx.strokeStyle=BORDER; ctx.lineWidth=1.5;
+  ctx.fillRect(bx,by,bw,bh); ctx.strokeRect(bx,by,bw,bh);
+
+  // tension zone (top) — highlighted
+  ctx.fillStyle='rgba(239,68,68,0.12)';
+  ctx.fillRect(bx,by,bw,bh*0.5);
+  ctx.strokeStyle=RED; ctx.lineWidth=0.8; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(bx,by+bh*0.5); ctx.lineTo(bx+bw,by+bh*0.5); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // bars at TOP
+  [bx+bw*0.3,bx+bw*0.55,bx+bw*0.8].forEach(bx2=>{
+    ctx.beginPath(); ctx.arc(bx2,by+10,5,0,Math.PI*2);
+    ctx.fillStyle=RED; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+  });
+
+  ctx.fillStyle=RED; ctx.font='10px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('TENSION — bars at TOP',bx+bw/2,by+6);
+  ctx.fillStyle=BLUE;
+  ctx.fillText('COMPRESSION (bottom)',bx+bw/2,by+bh-4);
+
+  // BMD — triangular (negative, growing from free end)
+  const bmdY=by+bh+15, bmdH=70;
+  ctx.strokeStyle=PURPLE; ctx.lineWidth=2;
+  ctx.fillStyle='rgba(139,92,246,0.15)';
+  ctx.beginPath();
+  ctx.moveTo(bx+bw,bmdY);
+  ctx.lineTo(bx,bmdY+bmdH);
+  ctx.lineTo(bx,bmdY); ctx.closePath();
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle=PURPLE; ctx.font='10px Space Mono'; ctx.textAlign='left';
+  ctx.fillText('BMD (−, hogging)',bx+4,bmdY+bmdH-6);
+
+  // cross section
+  const cxs=bx+bw+30, cy=by, cw=55, ch=bh*1.8;
+  ctx.fillStyle=CARD; ctx.strokeStyle=BORDER; ctx.lineWidth=1.5;
+  ctx.fillRect(cxs,cy,cw,ch); ctx.strokeRect(cxs,cy,cw,ch);
+  [cxs+cw*0.3,cxs+cw*0.7].forEach(rx=>{
+    ctx.beginPath(); ctx.arc(rx,cy+10,5,0,Math.PI*2);
+    ctx.fillStyle=RED; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+  });
+  ctx.fillStyle=TEXT3; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('Section',cxs+cw/2,cy+ch+14);
+}
+
+function drawContinuousBeam(ctx,W,H){
+  const bx=60, bw=(W-240)/2, by=50, bh=40, gap=20;
+  const spans=[{x:bx},{x:bx+bw+gap}];
+
+  spans.forEach((sp,i)=>{
+    // UDL
+    for(let x=sp.x;x<sp.x+bw;x+=16){
+      ctx.strokeStyle=AMBER; ctx.lineWidth=1.1;
+      ctx.beginPath(); ctx.moveTo(x,by-22); ctx.lineTo(x,by-4); ctx.stroke();
+      arrowHead(ctx,x,by-4,AMBER);
+    }
+    ctx.strokeStyle=AMBER; ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.moveTo(sp.x,by-22); ctx.lineTo(sp.x+bw,by-22); ctx.stroke();
+
+    // beam
+    ctx.fillStyle=CARD; ctx.strokeStyle=BORDER; ctx.lineWidth=1.5;
+    ctx.fillRect(sp.x,by,bw,bh); ctx.strokeRect(sp.x,by,bw,bh);
+
+    // midspan positive — bars bottom
+    [0.35,0.65].forEach(f=>{
+      ctx.beginPath(); ctx.arc(sp.x+bw*f,by+bh-9,4,0,Math.PI*2);
+      ctx.fillStyle=GREEN; ctx.fill();
+      ctx.strokeStyle='#fff'; ctx.lineWidth=0.8; ctx.stroke();
+    });
+
+    // section label
+    ctx.fillStyle=TEXT3; ctx.font='9px Space Mono'; ctx.textAlign='center';
+    ctx.fillText(i===0?'Section A-A':'Sect. B-B (near supp)',sp.x+bw/2,by+bh+12);
+  });
+
+  // interior support bars (top)
+  const intX=bx+bw+gap/2;
+  [-1,1].forEach(side=>{
+    [by+8].forEach(y=>{
+      ctx.beginPath(); ctx.arc(intX+side*18,y,4,0,Math.PI*2);
+      ctx.fillStyle=RED; ctx.fill();
+      ctx.strokeStyle='#fff'; ctx.lineWidth=0.8; ctx.stroke();
+    });
+  });
+  ctx.fillStyle=RED; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('−M: bars TOP',intX,by+3);
+  ctx.fillStyle=GREEN;
+  ctx.fillText('+M: bars BOT',bx+bw*0.5,by+bh-2);
+
+  // supports
+  drawSupport(ctx,bx,by+bh,'pin');
+  drawSupport(ctx,intX,by+bh,'pin');
+  drawSupport(ctx,bx+bw*2+gap,by+bh,'roller');
+
+  // BMD
+  const bmdY=by+bh+25, bmdH=70, bmdNH=35;
+  const allBx=bx, allBw=bw*2+gap;
+  // positive midspan humps
+  spans.forEach(sp=>{
+    ctx.fillStyle='rgba(16,185,129,0.15)';
+    ctx.strokeStyle=GREEN; ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.moveTo(sp.x,bmdY);
+    for(let i=0;i<=100;i++){
+      const xi=sp.x+bw*i/100, xi_=i/100;
+      const yi=bmdY+bmdH*4*xi_*(1-xi_);
+      i===0?ctx.moveTo(xi,yi):ctx.lineTo(xi,yi);
+    }
+    ctx.lineTo(sp.x+bw,bmdY); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(sp.x,bmdY);
+    for(let i=0;i<=100;i++){
+      const xi=sp.x+bw*i/100, xi_=i/100;
+      const yi=bmdY+bmdH*4*xi_*(1-xi_);
+      i===0?ctx.moveTo(xi,yi):ctx.lineTo(xi,yi);
+    }
+    ctx.lineTo(sp.x+bw,bmdY); ctx.stroke();
+  });
+  // negative at interior support
+  ctx.fillStyle='rgba(239,68,68,0.15)';
+  ctx.strokeStyle=RED; ctx.lineWidth=1.8;
+  ctx.beginPath();
+  ctx.moveTo(intX-bw*0.35,bmdY);
+  ctx.quadraticCurveTo(intX,bmdY-bmdNH,intX+bw*0.35,bmdY);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+
+  ctx.fillStyle=GREEN; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('+M',bx+bw/2,bmdY+bmdH+11);
+  ctx.fillStyle=RED;
+  ctx.fillText('−M',intX,bmdY-bmdNH-6);
+
+  // cross sections
+  const cxBase=bx+bw*2+gap+20;
+  ['A-A\n(midspan)','Near\nsupport'].forEach((lbl,i)=>{
+    const cx=cxBase, cy=by+(i*95), cw=55, ch=38;
+    ctx.fillStyle=CARD; ctx.strokeStyle=BORDER; ctx.lineWidth=1.2;
+    ctx.fillRect(cx,cy,cw,ch); ctx.strokeRect(cx,cy,cw,ch);
+    if(i===0){
+      [cx+cw*0.3,cx+cw*0.7].forEach(rx=>{
+        ctx.beginPath(); ctx.arc(rx,cy+ch-9,4,0,Math.PI*2);
+        ctx.fillStyle=GREEN; ctx.fill();
+        ctx.strokeStyle='#fff'; ctx.lineWidth=0.8; ctx.stroke();
+      });
+      ctx.fillStyle=GREEN; ctx.font='8px Space Mono'; ctx.textAlign='center';
+      ctx.fillText('Bars↓',cx+cw/2,cy+ch+11);
+    } else {
+      [cx+cw*0.3,cx+cw*0.7].forEach(rx=>{
+        ctx.beginPath(); ctx.arc(rx,cy+9,4,0,Math.PI*2);
+        ctx.fillStyle=RED; ctx.fill();
+        ctx.strokeStyle='#fff'; ctx.lineWidth=0.8; ctx.stroke();
+      });
+      [cx+cw*0.3,cx+cw*0.7].forEach(rx=>{
+        ctx.beginPath(); ctx.arc(rx,cy+ch-9,4,0,Math.PI*2);
+        ctx.fillStyle=GREEN; ctx.fill();
+        ctx.strokeStyle='#fff'; ctx.lineWidth=0.8; ctx.stroke();
+      });
+      ctx.fillStyle=RED; ctx.font='8px Space Mono'; ctx.textAlign='center';
+      ctx.fillText('Bars↑+↓',cx+cw/2,cy+ch+11);
+    }
+    ctx.fillStyle=TEXT3; ctx.font='8px Space Mono'; ctx.textAlign='center';
+    ctx.fillText(i===0?'Sec A-A':'Sec B-B',cx+cw/2,cy-5);
+  });
+}
+
+function drawSupport(ctx,x,y,type){
+  if(type==='pin'){
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-12,y+18); ctx.lineTo(x+12,y+18); ctx.closePath();
+    ctx.fillStyle=BORDER; ctx.fill(); ctx.strokeStyle=TEXT3; ctx.lineWidth=1; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x-14,y+18); ctx.lineTo(x+14,y+18); ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-12,y+16); ctx.lineTo(x+12,y+16); ctx.closePath();
+    ctx.fillStyle=BORDER; ctx.fill(); ctx.strokeStyle=TEXT3; ctx.lineWidth=1; ctx.stroke();
+    [x-8,x,x+8].forEach(rx=>{
+      ctx.beginPath(); ctx.arc(rx,y+20,3,0,Math.PI*2);
+      ctx.fillStyle=TEXT3; ctx.fill();
+    });
+  }
+}
+function arrowHead(ctx,x,y,color){
+  ctx.fillStyle=color;
+  ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-3,y-6); ctx.lineTo(x+3,y-6); ctx.closePath(); ctx.fill();
+}
+
+// ═══════════════════════════════════════════════
+// SECTION 2 — BAR COUNT SIM
+// ═══════════════════════════════════════════════
+function updateBarSim(){
+  const n=parseInt(document.getElementById('barSlider').value);
+  document.getElementById('barCountVal').textContent=n;
+  const Ab=0.79; // No.8 bar area (in²)
+  const As=n*Ab;
+  const b=12,d=15.5,fc=4,fy=60; // ksi
+  const a=As*fy/(0.85*fc*b);
+  const Mn=As*fy*(d-a/2); // k·in
+  const MnFt=Mn/12;
+  const T=As*fy;
+  const Fbar=T/n;
+  const rho=As/(b*d);
+
+  document.getElementById('out_As').textContent=As.toFixed(2);
+  document.getElementById('out_a').textContent=a.toFixed(3);
+  document.getElementById('out_Mn').textContent=MnFt.toFixed(1);
+  document.getElementById('out_T').textContent=T.toFixed(1);
+  document.getElementById('out_Fbar').textContent=Fbar.toFixed(1);
+  document.getElementById('out_rho').textContent=rho.toFixed(4);
+
+  const insight = n<=3
+    ? `${n} bar(s): Force per bar = ${Fbar.toFixed(1)} kips — relatively HIGH stress per bar. Add more bars to distribute the load.`
+    : `${n} bars: Force per bar = ${Fbar.toFixed(1)} kips — lower stress per bar. Total Mn = ${MnFt.toFixed(1)} k·ft but each bar carries less.`;
+  document.getElementById('barInsight').textContent=insight;
+
+  drawBarCanvas(n,As,a,Mn,T,Fbar,rho,b,d);
+}
+
+function drawBarCanvas(n,As,a,Mn,T,Fbar,rho,b,d){
+  const ctx=setupCanvas('barCanvas');
+  if(!ctx) return;
+  const W=ctx._w, H=ctx._h;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=BG3; ctx.fillRect(0,0,W,H);
+
+  // Cross section
+  const scale=3.2;
+  const cx=80,cy=20,cw=b*scale,ch=(d+2.5)*scale;
+  ctx.fillStyle=CARD; ctx.strokeStyle=BORDER; ctx.lineWidth=1.5;
+  ctx.fillRect(cx,cy,cw,ch); ctx.strokeRect(cx,cy,cw,ch);
+
+  // stress block (top)
+  const aH=a*scale;
+  ctx.fillStyle='rgba(59,130,246,0.25)';
+  ctx.fillRect(cx,cy,cw,aH);
+  ctx.strokeStyle=BLUE; ctx.lineWidth=1; ctx.setLineDash([3,2]);
+  ctx.beginPath(); ctx.moveTo(cx,cy+aH); ctx.lineTo(cx+cw,cy+aH); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // bars
+  const rows=Math.ceil(n/4);
+  const barsPerRow=Math.ceil(n/rows);
+  const barY=cy+d*scale;
+  let placed=0;
+  for(let r=0;r<rows&&placed<n;r++){
+    const rowN=Math.min(barsPerRow,n-placed);
+    const spacing=cw/(rowN+1);
+    for(let j=0;j<rowN;j++){
+      const bxPos=cx+spacing*(j+1);
+      const byPos=barY-(r*14);
+      ctx.beginPath(); ctx.arc(bxPos,byPos,5,0,Math.PI*2);
+      ctx.fillStyle=RED; ctx.fill();
+      ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+      placed++;
+    }
+  }
+
+  // dimension labels
+  ctx.fillStyle=TEXT2; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText(`b = ${b}"`,cx+cw/2,cy+ch+14);
+  ctx.save(); ctx.translate(cx-12,cy+ch/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(`h ≈ ${Math.round(d+2.5)}"`,0,0); ctx.restore();
+
+  // labels on section
+  ctx.fillStyle=BLUE; ctx.font='9px Space Mono'; ctx.textAlign='left';
+  ctx.fillText(`a = ${a.toFixed(2)}"`,cx+cw+8,cy+aH/2+4);
+  ctx.strokeStyle=BLUE; ctx.lineWidth=0.8;
+  ctx.beginPath(); ctx.moveTo(cx+cw,cy+aH/2); ctx.lineTo(cx+cw+6,cy+aH/2); ctx.stroke();
+
+  ctx.fillStyle=RED;
+  ctx.fillText(`d = ${d}"`,cx+cw+8,cy+d*scale+4);
+  ctx.strokeStyle=RED; ctx.lineWidth=0.8;
+  ctx.beginPath(); ctx.moveTo(cx+cw,cy+d*scale); ctx.lineTo(cx+cw+6,cy+d*scale); ctx.stroke();
+
+  // Bar chart of Mn and Force/bar
+  const chartX=280, chartY=20, chartW=W-chartX-20, chartH=H-50;
+  ctx.fillStyle=TEXT3; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('Mn (k·ft) vs Bars',chartX+chartW/2,chartY-6);
+
+  const mnMax=200;
+  for(let nb=2;nb<=8;nb++){
+    const As_=nb*0.79;
+    const a_=As_*60/(0.85*4*12);
+    const Mn_=As_*60*(15.5-a_/2)/12;
+    const barW=(chartW-20)/(7*1.5);
+    const bx_=chartX+10+(nb-2)*(chartW-20)/7;
+    const bh_=Mn_/mnMax*chartH;
+    const isActive=nb===n;
+    ctx.fillStyle=isActive?AMBER:'rgba(245,158,11,0.25)';
+    ctx.fillRect(bx_,chartY+chartH-bh_,barW,bh_);
+    ctx.strokeStyle=isActive?AMBER:BORDER; ctx.lineWidth=1;
+    ctx.strokeRect(bx_,chartY+chartH-bh_,barW,bh_);
+    ctx.fillStyle=TEXT3; ctx.font='8px Space Mono'; ctx.textAlign='center';
+    ctx.fillText(nb,bx_+barW/2,chartY+chartH+11);
+    if(isActive){
+      ctx.fillStyle=AMBER; ctx.font='bold 9px Space Mono';
+      ctx.fillText(Mn_.toFixed(0),bx_+barW/2,chartY+chartH-bh_-5);
+    }
+  }
+  // Force/bar line overlay
+  ctx.strokeStyle=GREEN; ctx.lineWidth=1.8;
+  ctx.beginPath();
+  for(let nb=2;nb<=8;nb++){
+    const As_=nb*0.79, T_=As_*60, Fb_=T_/nb;
+    const bx_=chartX+10+(nb-2)*(chartW-20)/7+6;
+    const fy_scale=chartH/80;
+    const fy_y=chartY+chartH-Fb_*fy_scale;
+    nb===2?ctx.moveTo(bx_,fy_y):ctx.lineTo(bx_,fy_y);
+  }
+  ctx.stroke();
+  ctx.fillStyle=GREEN; ctx.font='9px Space Mono'; ctx.textAlign='left';
+  ctx.fillText('— Force/bar',chartX+chartW-90,chartY+10);
+  ctx.fillStyle=AMBER;
+  ctx.fillText('■ Mn',chartX+chartW-90,chartY+24);
+  ctx.fillStyle=TEXT3; ctx.textAlign='center';
+  ctx.fillText('Number of Bars',chartX+chartW/2,chartY+chartH+22);
+}
+
+// ═══════════════════════════════════════════════
+// SECTION 3 — STRAIN DIAGRAM SIM
+// ═══════════════════════════════════════════════
+function updateRhoSim(){
+  const rho=parseFloat(document.getElementById('rhoSlider').value);
+  document.getElementById('rhoVal').textContent=rho.toFixed(3);
+  const fc=4,fy=60,Es=29000;
+  const b1=0.85;
+  const ey=fy/Es;
+  const rhoB=0.85*b1*(fc/fy)*(87/(87+fy));
+  const rhoMax=0.75*rhoB;
+  const rhoMin=Math.max(3*Math.sqrt(fc*1000)/fy/1000,200/fy/1000);
+  const cd=rho*fy/(0.85*b1*fc);
+  const et=0.003*(1-cd)/cd;
+  const typeEl=document.getElementById('rhoType');
+  let mode,modeColor;
+  if(rho<rhoMin){mode='BELOW ρmin! (too little steel)';modeColor=RED;}
+  else if(rho<=rhoMax){mode='UNDER-REINFORCED ✓';modeColor=GREEN;}
+  else if(rho<=rhoB){mode='OVER-REINFORCED ✗ (ACI violation)';modeColor=RED;}
+  else{mode='BEYOND BALANCED (very over-reinforced)';modeColor=RED;}
+  typeEl.textContent=mode; typeEl.style.color=modeColor;
+  document.getElementById('out_cd').textContent=cd.toFixed(3);
+  document.getElementById('out_et').textContent=et.toFixed(5);
+  document.getElementById('out_mode').textContent=et>ey?'Tension-Controlled':'Over-Reinforced';
+  document.getElementById('out_mode').style.color=et>ey?GREEN:RED;
+  drawStrainCanvas(rho,cd,et,ey,rhoB,rhoMax,rhoMin);
+}
+
+function drawStrainCanvas(rho,cd,et,ey,rhoB,rhoMax,rhoMin){
+  const ctx=setupCanvas('strainCanvas');
+  if(!ctx) return;
+  const W=ctx._w, H=ctx._h;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle=BG3; ctx.fillRect(0,0,W,H);
+
+  // Section
+  const sx=40,sy=30,sw=70,sh=H-60;
+  const d=0.88; // d/h ratio
+  const NA_y=sy+sh*cd/d;
+  const steel_y=sy+sh;
+
+  // Concrete (above NA = compression, blue; below = tension, cracked)
+  ctx.fillStyle='rgba(59,130,246,0.18)'; ctx.fillRect(sx,sy,sw,NA_y-sy);
+  ctx.fillStyle='rgba(239,68,68,0.08)'; ctx.fillRect(sx,NA_y,sw,steel_y-NA_y);
+  ctx.strokeStyle=BORDER; ctx.lineWidth=1.5; ctx.strokeRect(sx,sy,sw,sh);
+  // NA line
+  ctx.strokeStyle=TEXT3; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(sx,NA_y); ctx.lineTo(sx+sw,NA_y); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle=TEXT3; ctx.font='8px Space Mono'; ctx.textAlign='left';
+  ctx.fillText('N.A.',sx+sw+4,NA_y+4);
+  // steel bars
+  [sx+sw*0.3,sx+sw*0.7].forEach(bx=>{
+    ctx.beginPath(); ctx.arc(bx,steel_y,5,0,Math.PI*2);
+    ctx.fillStyle=RED; ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+  });
+  ctx.fillStyle=BLUE; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('COMP',sx+sw/2,sy+14);
+  ctx.fillStyle=RED;
+  ctx.fillText('TENS',sx+sw/2,steel_y-8);
+
+  // Strain diagram
+  const ex=160, ey2=sy, ew=120, eh=sh;
+  ctx.fillStyle=TEXT3; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('Strain Diagram',ex+ew/2,ey2-8);
+  // zero line
+  const zx=ex+ew/2;
+  ctx.strokeStyle=BORDER; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(zx,ey2); ctx.lineTo(zx,ey2+eh); ctx.stroke();
+  // eu at top
+  const euScale=ew*0.003/0.005;
+  const etScale=Math.min(ew*0.45,ew*et/0.008);
+  const NA_strain_y=ey2+eh*cd/d;
+  // concrete compression (left side)
+  ctx.fillStyle='rgba(59,130,246,0.2)';
+  ctx.beginPath();
+  ctx.moveTo(zx,ey2);
+  ctx.lineTo(zx-euScale,ey2);
+  ctx.lineTo(zx,NA_strain_y);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle=BLUE; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(zx-euScale,ey2); ctx.lineTo(zx,NA_strain_y); ctx.stroke();
+  // steel strain (right side)
+  const etColor=et>ey?GREEN:RED;
+  ctx.fillStyle=etColor+'33';
+  ctx.beginPath();
+  ctx.moveTo(zx,NA_strain_y);
+  ctx.lineTo(zx+etScale,ey2+eh);
+  ctx.lineTo(zx,ey2+eh);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle=etColor; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(zx,NA_strain_y); ctx.lineTo(zx+etScale,ey2+eh); ctx.stroke();
+  // labels
+  ctx.fillStyle=BLUE; ctx.font='bold 9px Space Mono'; ctx.textAlign='right';
+  ctx.fillText('εu=0.003',zx-euScale-3,ey2+10);
+  ctx.fillStyle=etColor; ctx.textAlign='left';
+  ctx.fillText(`εt=${et.toFixed(4)}`,zx+etScale+3,ey2+eh-5);
+  // εy line
+  const eyScale=ew*ey/0.008;
+  ctx.strokeStyle=AMBER; ctx.lineWidth=1; ctx.setLineDash([3,2]);
+  ctx.beginPath(); ctx.moveTo(zx+eyScale,ey2); ctx.lineTo(zx+eyScale,ey2+eh); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle=AMBER; ctx.font='8px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('εy',zx+eyScale,ey2+eh+12);
+  // NA marker
+  ctx.fillStyle=TEXT2; ctx.font='8px Space Mono'; ctx.textAlign='left';
+  ctx.fillText('N.A.',ex+ew+6,NA_strain_y+4);
+
+  // Stress block
+  const stx=320, sty=sy, stw=80, sth=sh;
+  ctx.fillStyle=TEXT3; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('Stress Block',stx+stw/2,sty-8);
+  const aH=sth*cd*0.85/d;
+  ctx.fillStyle='rgba(59,130,246,0.35)';
+  ctx.fillRect(stx,sty,stw,aH);
+  ctx.strokeStyle=BLUE; ctx.lineWidth=1.5; ctx.strokeRect(stx,sty,stw,aH);
+  ctx.fillStyle=BLUE; ctx.font='8px Space Mono'; ctx.textAlign='center';
+  ctx.fillText(`0.85f'c`,stx+stw/2,sty+aH/2+4);
+  ctx.fillStyle=TEXT3; ctx.textAlign='left';
+  ctx.fillText(`a = β₁c`,stx+stw+4,sty+aH/2+4);
+
+  // T and C force arrows
+  const fx=460, fy_=sy;
+  ctx.fillStyle=TEXT3; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('Internal Forces',fx+80,fy_-8);
+  const C_y=fy_+aH*0.5, T_y=fy_+sth;
+  // C arrow (left = compression)
+  ctx.strokeStyle=BLUE; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(fx+140,C_y); ctx.lineTo(fx+50,C_y); ctx.stroke();
+  arrowHead2(ctx,fx+50,C_y,BLUE,'left');
+  ctx.fillStyle=BLUE; ctx.font='bold 10px Space Mono'; ctx.textAlign='left';
+  ctx.fillText('C',fx+145,C_y+4);
+  // T arrow (right = tension)
+  ctx.strokeStyle=RED; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(fx+50,T_y); ctx.lineTo(fx+140,T_y); ctx.stroke();
+  arrowHead2(ctx,fx+140,T_y,RED,'right');
+  ctx.fillStyle=RED; ctx.textAlign='right';
+  ctx.fillText('T',fx+46,T_y+4);
+  // lever arm
+  ctx.strokeStyle=TEXT3; ctx.lineWidth=0.8; ctx.setLineDash([3,2]);
+  ctx.beginPath(); ctx.moveTo(fx+90,C_y); ctx.lineTo(fx+90,T_y); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle=TEXT3; ctx.font='8px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('d-a/2',fx+90+12,(C_y+T_y)/2);
+}
+
+function arrowHead2(ctx,x,y,color,dir){
+  ctx.fillStyle=color;
+  ctx.beginPath();
+  if(dir==='left'){ctx.moveTo(x,y);ctx.lineTo(x+8,y-4);ctx.lineTo(x+8,y+4);}
+  else{ctx.moveTo(x,y);ctx.lineTo(x-8,y-4);ctx.lineTo(x-8,y+4);}
+  ctx.closePath(); ctx.fill();
+}
+
+// ═══════════════════════════════════════════════
+// SECTION 4 — FAILURE SIM
+// ═══════════════════════════════════════════════
+function calcB1(fc_ksi){
+  const fc_psi=fc_ksi*1000;
+  return Math.max(0.65,0.85-0.05*(fc_psi-4000)/1000);
+}
+function updateFailureSim(){
+  const fc=parseFloat(document.getElementById('fcSlider').value);
+  const fy=parseFloat(document.getElementById('fySlider').value);
+  document.getElementById('fc_val').textContent=fc;
+  document.getElementById('fy_val').textContent=fy;
+  const b1=calcB1(fc);
+  const rhoB=0.85*b1*(fc/fy)*(87/(87+fy));
+  const rhoMax=0.75*rhoB;
+  const ey=fy/29000;
+  document.getElementById('out_b1').textContent=b1.toFixed(3);
+  document.getElementById('out_rb').textContent=rhoB.toFixed(4);
+  document.getElementById('out_rmax').textContent=rhoMax.toFixed(4);
+  document.getElementById('out_ey2').textContent=ey.toFixed(5);
+  drawFailureCanvas(fc,fy,b1,rhoB,rhoMax,ey);
+}
+
+function drawFailureCanvas(fc,fy,b1,rhoB,rhoMax,ey){
+  const ctx=setupCanvas('failureCanvas');
+  if(!ctx) return;
+  const W=ctx._w, H=ctx._h;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle=BG3; ctx.fillRect(0,0,W,H);
+
+  const sx=50,sy=20,sw=90,sh=H-60;
+  const d_ratio=0.88;
+  const cb_d=0.003/(0.003+ey);
+  const NA_y=sy+sh*cb_d/d_ratio;
+  const steel_y=sy+sh*d_ratio;
+
+  // section
+  ctx.fillStyle='rgba(59,130,246,0.2)'; ctx.fillRect(sx,sy,sw,NA_y-sy);
+  ctx.fillStyle='rgba(239,68,68,0.08)'; ctx.fillRect(sx,NA_y,sw,steel_y-NA_y);
+  ctx.strokeStyle=BORDER; ctx.lineWidth=1.5; ctx.strokeRect(sx,sy,sw,sh);
+  ctx.strokeStyle=TEXT3; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(sx,NA_y); ctx.lineTo(sx+sw,NA_y); ctx.stroke();
+  ctx.setLineDash([]);
+  // εu=0.003 at top
+  ctx.fillStyle=BLUE; ctx.font='8px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('εu = 0.003',sx+sw/2,sy+10);
+  ctx.fillStyle=GREEN;
+  ctx.fillText('εt > εy ✓',sx+sw/2,steel_y-5);
+
+  // stress block
+  const aH=sh*b1*cb_d;
+  ctx.fillStyle='rgba(59,130,246,0.35)';
+  ctx.fillRect(sx+sw+20,sy,60,aH);
+  ctx.strokeStyle=BLUE; ctx.lineWidth=1.5; ctx.strokeRect(sx+sw+20,sy,60,aH);
+  ctx.fillStyle=BLUE; ctx.font='8px Space Mono'; ctx.textAlign='center';
+  ctx.fillText(`0.85f'c`,sx+sw+50,sy+aH/2+3);
+  ctx.fillText(`= ${(0.85*fc).toFixed(2)} ksi`,sx+sw+50,sy+aH/2+14);
+
+  // annotation
+  const ax=sx+sw+110;
+  ctx.fillStyle=TEXT2; ctx.font='9px Space Mono'; ctx.textAlign='left';
+  const info=[
+    `f'c = ${fc} ksi`,`fy  = ${fy} ksi`,`β₁  = ${b1.toFixed(3)}`,
+    `ρb  = ${rhoB.toFixed(4)}`,`ρmax = ${rhoMax.toFixed(4)}`,
+    `εy  = ${ey.toFixed(5)}`,`cb/d = ${cb_d.toFixed(3)}`
+  ];
+  info.forEach((line,i)=>{
+    ctx.fillText(line,ax,sy+20+i*26);
+  });
+
+  // β₁ visual gauge
+  const gx=W-120,gy=sy,gw=16,gh=sh;
+  const b1Pct=(b1-0.65)/0.20;
+  ctx.fillStyle=BORDER; ctx.fillRect(gx,gy,gw,gh); ctx.strokeRect(gx,gy,gw,gh);
+  ctx.fillStyle=AMBER;
+  ctx.fillRect(gx,gy+gh*(1-b1Pct),gw,gh*b1Pct);
+  ctx.fillStyle=TEXT3; ctx.font='8px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('β₁',gx+gw/2,gy+gh+12);
+  ctx.fillText(b1.toFixed(2),gx+gw/2,gy-5);
+  ctx.fillStyle=TEXT3; ctx.font='7px Space Mono';
+  ctx.fillText('0.85',gx+gw+3,gy+8);
+  ctx.fillText('0.65',gx+gw+3,gy+gh-3);
+}
+
+// ═══════════════════════════════════════════════
+// SECTION 5 — RATIO RANGE EXPLORER
+// ═══════════════════════════════════════════════
+function updateRatioRange(){
+  const rho=parseFloat(document.getElementById('designSlider').value);
+  document.getElementById('designRho').textContent=rho.toFixed(4);
+  const fc=4,fy=60,b1=0.85;
+  const rhoMin=Math.max(3*Math.sqrt(4000)/(60000),200/60000);
+  const rhoB=0.85*b1*(fc/fy)*(87/(87+fy));
+  const rhoMax=0.75*rhoB;
+  const statusEl=document.getElementById('designStatus');
+  if(rho<rhoMin){statusEl.textContent='✗ BELOW ρmin';statusEl.style.color=RED;}
+  else if(rho<=rhoMax){statusEl.textContent='✓ VALID';statusEl.style.color=GREEN;}
+  else{statusEl.textContent='✗ EXCEEDS ρmax (ACI violation)';statusEl.style.color=RED;}
+  drawRatioCanvas(rho,rhoMin,rhoB,rhoMax,fc,fy,b1);
+}
+
+function drawRatioCanvas(rho,rhoMin,rhoB,rhoMax,fc,fy,b1){
+  const ctx=setupCanvas('ratioCanvas');
+  if(!ctx) return;
+  const W=ctx._w, H=ctx._h;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle=BG3; ctx.fillRect(0,0,W,H);
+
+  const ax=80, ay=30, aw=W-180, ah=H-60;
+  const rhoScale=rho=>ay+ah*(1-rho/0.034);
+
+  // zones
+  const y_rhoMin=rhoScale(rhoMin);
+  const y_rhoMax=rhoScale(rhoMax);
+  const y_rhoB=rhoScale(rhoB);
+  const y0=rhoScale(0);
+
+  // below min (danger — too little)
+  ctx.fillStyle='rgba(239,68,68,0.12)'; ctx.fillRect(ax,y_rhoMin,aw,y0-y_rhoMin);
+  // valid zone
+  ctx.fillStyle='rgba(16,185,129,0.10)'; ctx.fillRect(ax,y_rhoMax,aw,y_rhoMin-y_rhoMax);
+  // over-reinforced zone
+  ctx.fillStyle='rgba(239,68,68,0.18)'; ctx.fillRect(ax,y_rhoB,aw,y_rhoMax-y_rhoB);
+  // beyond balanced
+  ctx.fillStyle='rgba(239,68,68,0.28)'; ctx.fillRect(ax,ay,aw,y_rhoB-ay);
+
+  // Horizontal lines
+  const lines=[
+    {y:y_rhoB, label:`ρb = ${rhoB.toFixed(4)}`, sub:'Balanced (simultaneous failure)', color:RED},
+    {y:y_rhoMax, label:`ρmax = ${rhoMax.toFixed(4)}`, sub:'ACI max (εt ≥ 0.004)', color:AMBER},
+    {y:y_rhoMin, label:`ρmin = ${rhoMin.toFixed(4)}`, sub:'ACI min (prevents Mcr failure)', color:BLUE},
+  ];
+  lines.forEach(l=>{
+    ctx.strokeStyle=l.color; ctx.lineWidth=1.5; ctx.setLineDash([5,3]);
+    ctx.beginPath(); ctx.moveTo(ax,l.y); ctx.lineTo(ax+aw,l.y); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle=l.color; ctx.font='bold 9px Space Mono'; ctx.textAlign='left';
+    ctx.fillText(l.label,ax+aw+6,l.y+4);
+    ctx.fillStyle=TEXT3; ctx.font='8px Space Mono';
+    ctx.fillText(l.sub,ax+4,l.y-4);
+  });
+
+  // Zone labels
+  ctx.fillStyle=RED; ctx.font='bold 9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('OVER-REINFORCED (ρ > ρmax) — ACI VIOLATION',ax+aw/2,(y_rhoB+y_rhoMax)/2);
+  ctx.fillStyle=GREEN;
+  ctx.fillText('✓ VALID RANGE (ρmin ≤ ρ ≤ ρmax)',ax+aw/2,(y_rhoMin+y_rhoMax)/2);
+  ctx.fillStyle=RED;
+  ctx.fillText('BELOW MINIMUM (risk of brittle cracking failure)',ax+aw/2,(y_rhoMin+y0)/2);
+
+  // User's design point
+  const userY=rhoScale(rho);
+  const inRange=rho>=rhoMin&&rho<=rhoMax;
+  ctx.fillStyle=inRange?GREEN:RED;
+  ctx.beginPath(); ctx.arc(ax+aw/2,userY,7,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle=inRange?GREEN:RED; ctx.font='bold 9px Space Mono'; ctx.textAlign='left';
+  ctx.fillText(`Your ρ = ${rho.toFixed(4)}`,ax+aw/2+14,userY+4);
+
+  // Y axis label
+  ctx.save(); ctx.translate(20,ay+ah/2); ctx.rotate(-Math.PI/2);
+  ctx.fillStyle=TEXT3; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('Reinforcement Ratio ρ',0,0); ctx.restore();
+
+  // axis ticks
+  ctx.strokeStyle=BORDER; ctx.lineWidth=0.8;
+  [0,0.005,0.01,0.015,0.02,0.025,0.03].forEach(v=>{
+    const y=rhoScale(v);
+    ctx.beginPath(); ctx.moveTo(ax-4,y); ctx.lineTo(ax,y); ctx.stroke();
+    ctx.fillStyle=TEXT3; ctx.font='8px Space Mono'; ctx.textAlign='right';
+    ctx.fillText(v.toFixed(3),ax-6,y+3);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// SECTION 6 — DERIVATION STEPS
+// ═══════════════════════════════════════════════
+const steps=[
+  {
+    num:'STEP 1',
+    text:'Start with equilibrium: at failure, the total tension force T in the steel must equal the total compression force C in the concrete. No net horizontal force.',
+    eq:'T = C'
+  },
+  {
+    num:'STEP 2',
+    text:'Express T and C explicitly. T = steel area × yield stress. C = Whitney stress block force (0.85f\'c × a × b, where a = β₁c is the equivalent block depth).',
+    eq:'A_s f_y = 0.85 f\'_c \\cdot (\\beta_1 c) \\cdot b'
+  },
+  {
+    num:'STEP 3',
+    text:'Substitute As = ρbd (definition of reinforcement ratio ρ = As/(bd)). This lets us express everything in terms of ρ.',
+    eq:'\\rho b d f_y = 0.85 f\'_c \\cdot \\beta_1 c \\cdot b'
+  },
+  {
+    num:'STEP 4',
+    text:'Cancel the width b from both sides (it appears in both T and C).',
+    eq:'\\rho d f_y = 0.85 f\'_c \\cdot \\beta_1 \\cdot c'
+  },
+  {
+    num:'STEP 5',
+    text:'Divide both sides by d·fy to isolate ρ. Express c in terms of d by writing c/d.',
+    eq:'\\rho = 0.85 \\beta_1 \\frac{f\'_c}{f_y} \\cdot \\frac{c}{d}'
+  },
+  {
+    num:'STEP 6',
+    text:'This is the general form. Now find c/d at BALANCED failure using strain compatibility — similar triangles on the strain diagram. At failure: εu = 0.003 at top; at balanced: εt = εy = fy/Es at steel level.',
+    eq:'\\frac{c_b}{d} = \\frac{\\varepsilon_u}{\\varepsilon_u + \\varepsilon_y} = \\frac{0.003}{0.003 + f_y/E_s}'
+  },
+  {
+    num:'STEP 7',
+    text:'Substitute Es = 29,000 ksi. Express fy in ksi. Multiply top and bottom by 1000/fy to get the ACI form in psi units (use 87,000 for 0.003 × 29,000 × 1000).',
+    eq:'\\frac{c_b}{d} = \\frac{87{,}000}{87{,}000 + f_y} \\quad \\text{(psi units)}'
+  },
+  {
+    num:'STEP 8 — FINAL RESULT',
+    text:'Substitute the balanced c/d back into Step 5. This gives the balanced reinforcement ratio ρb. ACI sets ρmax ≈ 0.75ρb to ensure ductile (under-reinforced) failure.',
+    eq:'\\rho_b = 0.85\\,\\beta_1\\,\\frac{f\'_c}{f_y} \\cdot \\frac{87{,}000}{87{,}000 + f_y} \\qquad \\text{(psi units)}'
+  }
+];
+
+let derivStep=0;
+function derivNext(){
+  if(derivStep>=steps.length) return;
+  const container=document.getElementById('derivSteps');
+  const s=steps[derivStep];
+  const div=document.createElement('div');
+  div.className='deriv-step shown';
+  div.innerHTML=`
+    <div class="step-num">${s.num}</div>
+    <div class="step-text">${s.text}</div>
+    <div class="step-eq">$$${s.eq}$$</div>`;
+  container.appendChild(div);
+  // re-render KaTeX
+  if(window.renderMathInElement) renderMathInElement(div,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});
+  derivStep++;
+  document.getElementById('derivProgress').textContent=`Step ${derivStep} / ${steps.length}`;
+  div.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function derivReset(){
+  document.getElementById('derivSteps').innerHTML='';
+  derivStep=0;
+  document.getElementById('derivProgress').textContent=`Step 0 / ${steps.length}`;
+}
+
+// ═══════════════════════════════════════════════
+// INIT ALL
+// ═══════════════════════════════════════════════
+window.addEventListener('load',()=>{
+  drawBeam();
+  updateBarSim();
+  updateRhoSim();
+  updateFailureSim();
+  updateRatioRange();
+});
+window.addEventListener('resize',()=>{
+  drawBeam();
+  updateBarSim();
+  updateRhoSim();
+  updateFailureSim();
+  updateRatioRange();
+});
+</script>
+</body>
+</html>
