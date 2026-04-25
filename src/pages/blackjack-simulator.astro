@@ -1,0 +1,370 @@
+---
+import Main from '../layouts/Main.astro';
+import '../styles/blackjack-simulator.css';
+---
+
+<Main title="Blackjack Simulator" description="Advanced Blackjack simulator with Hi-Lo card counting and Illustrious 18 strategy deviations.">
+
+<div class="bj-container">
+  <div class="bj-grid">
+    <!-- Main Game Area -->
+    <div class="bj-main">
+      <div class="bj-panel">
+        <div class="bj-title">Blackjack Simulator</div>
+        <div class="bj-stats-bar">
+          <div class="stat-item">
+            <div class="stat-label">Balance</div>
+            <div class="stat-value" id="bal-val" style="color:var(--amber)">$10,000</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Running Count</div>
+            <div class="stat-value" id="rc-val">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">True Count</div>
+            <div class="stat-value" id="tc-val" style="color:var(--teal)">0.0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Shoe</div>
+            <div class="stat-value" id="shoe-val">100%</div>
+          </div>
+        </div>
+
+        <div id="autopilot-banner" class="autopilot-banner" style="display:none">
+          AUTOPILOT ACTIVE • STRATEGY OPTIMIZED
+        </div>
+
+        <div class="bj-table">
+          <!-- Dealer Hand -->
+          <div class="hand">
+            <div class="stat-label">Dealer</div>
+            <div class="cards-row" id="dealer-cards"></div>
+            <div class="stat-value" id="dealer-total">—</div>
+          </div>
+
+          <!-- Player Hand -->
+          <div class="hand">
+            <div class="stat-value" id="player-total">—</div>
+            <div class="cards-row" id="player-cards"></div>
+            <div class="stat-label">Player</div>
+          </div>
+        </div>
+
+        <div class="bj-controls" id="controls">
+          <button class="bj-btn primary" id="deal-btn">DEAL HAND</button>
+          <button class="bj-btn" id="hit-btn" disabled>HIT</button>
+          <button class="bj-btn" id="stand-btn" disabled>STAND</button>
+          <button class="bj-btn" id="double-btn" disabled>DOUBLE</button>
+          <button class="bj-btn" id="split-btn" disabled>SPLIT</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Info -->
+    <div class="bj-sidebar">
+      <div class="bj-panel sidebar-section">
+        <div class="sidebar-title">Probabilities</div>
+        <div id="prob-content">
+          <div class="prob-row">
+            <span>Next card is 10/Face</span>
+            <span id="prob-10">30.7%</span>
+          </div>
+          <div class="prob-bar-bg"><div class="prob-bar-fill" id="bar-10" style="width:30.7%"></div></div>
+          
+          <div class="prob-row" style="margin-top:1rem">
+            <span>Next card is Ace</span>
+            <span id="prob-ace">7.7%</span>
+          </div>
+          <div class="prob-bar-bg"><div class="prob-bar-fill" id="bar-ace" style="width:7.7%"></div></div>
+
+          <div class="prob-row" style="margin-top:1rem">
+            <span>Dealer Bust Prob</span>
+            <span id="prob-bust">28.2%</span>
+          </div>
+          <div class="prob-bar-bg"><div class="prob-bar-fill" id="bar-bust" style="width:28.2%"></div></div>
+        </div>
+      </div>
+
+      <div class="bj-panel sidebar-section">
+        <div class="sidebar-title">Strategy Engine</div>
+        <div id="strategy-info" style="font-size:0.8rem; line-height:1.6">
+          <div class="prob-row">
+            <span>Recommended:</span>
+            <span id="rec-action" style="color:var(--teal)">WAITING</span>
+          </div>
+          <div class="prob-row">
+            <span>Bet Sizing:</span>
+            <span id="rec-bet">$100</span>
+          </div>
+          <div id="strategy-note" style="margin-top:0.5rem; color:var(--muted); font-size:0.7rem">
+            Basic strategy active.
+          </div>
+        </div>
+      </div>
+
+      <div class="bj-panel sidebar-section">
+        <div class="sidebar-title">Controls</div>
+        <div style="display:flex; flex-direction:column; gap:0.5rem">
+          <button class="bj-btn" id="auto-toggle">ENABLE AUTOPILOT</button>
+          <button class="bj-btn" id="reset-shoe">RESET SHOE</button>
+        </div>
+      </div>
+
+      <div class="bj-panel">
+        <div class="sidebar-title">Hand History</div>
+        <div class="log-panel" id="log">
+          <div class="log-entry">Welcome to Mathify Blackjack.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</Main>
+
+<script is:inline src="/scripts/blackjack-engine.js"></script>
+
+<script is:inline>
+(function() {
+  const BE = window.BlackjackEngine;
+  BE.init({ decks: 6, minBet: 100 });
+
+  const $ = (id) => document.getElementById(id);
+  const elements = {
+    bal: $('bal-val'),
+    rc: $('rc-val'),
+    tc: $('tc-val'),
+    shoe: $('shoe-val'),
+    pCards: $('player-cards'),
+    dCards: $('dealer-cards'),
+    pTotal: $('player-total'),
+    dTotal: $('dealer-total'),
+    controls: $('controls'),
+    deal: $('deal-btn'),
+    hit: $('hit-btn'),
+    stand: $('stand-btn'),
+    double: $('double-btn'),
+    split: $('split-btn'),
+    auto: $('auto-toggle'),
+    log: $('log'),
+    rec: $('rec-action'),
+    recBet: $('rec-bet'),
+    prob10: $('prob-10'),
+    probAce: $('prob-ace'),
+    bar10: $('bar-10'),
+    barAce: $('bar-ace'),
+    banner: $('autopilot-banner')
+  };
+
+  let autopilotTimer = null;
+
+  function updateUI() {
+    const state = BE.getState();
+    elements.bal.textContent = '$' + state.balance.toLocaleString();
+    elements.rc.textContent = (state.rc > 0 ? '+' : '') + state.rc;
+    elements.rc.style.color = state.rc > 0 ? 'var(--teal)' : state.rc < 0 ? 'var(--red)' : 'var(--text)';
+    
+    const tc = BE.getTrueCount();
+    elements.tc.textContent = (tc > 0 ? '+' : '') + tc.toFixed(1);
+    elements.tc.style.color = tc >= 2 ? 'var(--teal)' : tc < 0 ? 'var(--red)' : 'var(--text)';
+    
+    elements.shoe.textContent = Math.round((state.shoe.length / state.initialShoeSize) * 100) + '%';
+    
+    // Cards
+    renderCards(elements.pCards, state.playerCards);
+    renderCards(elements.dCards, state.dealerCards, state.phase === 'play');
+    
+    const pVal = BE.getHandValue(state.playerCards);
+    elements.pTotal.textContent = pVal.total > 0 ? (pVal.soft ? 'S' : '') + pVal.total : '—';
+    
+    const dVal = BE.getHandValue(state.dealerCards);
+    elements.dTotal.textContent = state.dealerCards.length > 0 ? (state.phase === 'play' ? BE.getHandValue([state.dealerCards[0]]).total : dVal.total) : '—';
+
+    // Controls
+    elements.deal.disabled = state.phase !== 'bet';
+    elements.hit.disabled = state.phase !== 'play';
+    elements.stand.disabled = state.phase !== 'play';
+    elements.double.disabled = state.phase !== 'play' || state.playerCards.length !== 2;
+    elements.split.disabled = state.phase !== 'play' || state.playerCards.length !== 2 || state.playerCards[0] !== state.playerCards[1];
+
+    // Strategy
+    if (state.phase === 'play') {
+      const decision = BE.getDecision();
+      elements.rec.textContent = decision;
+    } else if (state.phase === 'bet') {
+      elements.rec.textContent = 'DEAL';
+      elements.recBet.textContent = '$' + BE.calculateBet().toLocaleString();
+    } else {
+      elements.rec.textContent = 'WAITING';
+    }
+
+    // Probabilities
+    const shoe = state.shoe;
+    const count10 = shoe.filter(c => ['10','J','Q','K'].includes(c)).length;
+    const countAce = shoe.filter(c => c === 'A').length;
+    const p10 = ((count10 / shoe.length) * 100).toFixed(1) + '%';
+    const pAce = ((countAce / shoe.length) * 100).toFixed(1) + '%';
+    
+    elements.prob10.textContent = p10;
+    elements.bar10.style.width = p10;
+    elements.probAce.textContent = pAce;
+    elements.barAce.style.width = pAce;
+
+    elements.banner.style.display = state.autopilot ? 'block' : 'none';
+    elements.auto.textContent = state.autopilot ? 'STOP AUTOPILOT' : 'ENABLE AUTOPILOT';
+  }
+
+  function renderCards(container, cards, hideHole = false) {
+    container.innerHTML = cards.map((c, i) => {
+      if (hideHole && i === 1) return '<div class="card hidden"></div>';
+      const isRed = ['H','D'].includes(c.suit); // We don't have suits in simplified engine yet, let's just use ranks
+      // In our engine, we just have ranks. Let's fake suits for visual
+      const suits = ['♠','♣','♥','♦'];
+      const suit = suits[i % 4];
+      const red = suit === '♥' || suit === '♦';
+      return `<div class="card ${red ? 'red' : ''}">
+        <div style="font-size: 1.2rem">${c}</div>
+        <div style="font-size: 1.5rem; align-self: center; margin-top: 5px">${suit}</div>
+      </div>`;
+    }).join('');
+  }
+
+  function addLog(msg) {
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+    elements.log.prepend(entry);
+  }
+
+  // Game Logic Actions
+  elements.deal.onclick = () => {
+    const state = BE.getState();
+    const bet = BE.calculateBet();
+    if (state.balance < bet) {
+      addLog("Insufficient balance!");
+      return;
+    }
+    state.balance -= bet;
+    state.currentBet = bet;
+    state.playerCards = [BE.draw(), BE.draw()];
+    state.dealerCards = [BE.draw(), BE.draw()];
+    state.phase = 'play';
+    
+    // Check for Blackjacks
+    const pVal = BE.getHandValue(state.playerCards);
+    const dVal = BE.getHandValue(state.dealerCards);
+    
+    if (pVal.total === 21 || dVal.total === 21) {
+      resolveRound();
+    }
+    
+    updateUI();
+  };
+
+  elements.hit.onclick = () => {
+    const state = BE.getState();
+    state.playerCards.push(BE.draw());
+    if (BE.getHandValue(state.playerCards).total > 21) {
+      resolveRound();
+    }
+    updateUI();
+  };
+
+  elements.stand.onclick = () => {
+    resolveRound();
+    updateUI();
+  };
+
+  elements.double.onclick = () => {
+    const state = BE.getState();
+    state.balance -= state.currentBet;
+    state.currentBet *= 2;
+    state.playerCards.push(BE.draw());
+    resolveRound();
+    updateUI();
+  };
+
+  function resolveRound() {
+    const state = BE.getState();
+    state.phase = 'dealer';
+    
+    // Dealer play
+    let dVal = BE.getHandValue(state.dealerCards);
+    while (dVal.total < 17) {
+      state.dealerCards.push(BE.draw());
+      dVal = BE.getHandValue(state.dealerCards);
+    }
+    
+    const pVal = BE.getHandValue(state.playerCards);
+    let result = '';
+    let winAmount = 0;
+
+    if (pVal.total > 21) {
+      result = 'BUST';
+      state.stats.losses++;
+    } else if (dVal.total > 21) {
+      result = 'WIN (Dealer Bust)';
+      winAmount = state.currentBet * 2;
+      state.stats.wins++;
+    } else if (pVal.total > dVal.total) {
+      result = 'WIN';
+      winAmount = state.currentBet * 2;
+      state.stats.wins++;
+    } else if (pVal.total < dVal.total) {
+      result = 'LOSS';
+      state.stats.losses++;
+    } else {
+      result = 'PUSH';
+      winAmount = state.currentBet;
+      state.stats.pushes++;
+    }
+
+    // Blackjack bonus
+    if (pVal.total === 21 && state.playerCards.length === 2 && dVal.total !== 21) {
+      winAmount = Math.floor(state.currentBet * 2.5);
+      result = 'BLACKJACK!';
+    }
+
+    state.balance += winAmount;
+    state.stats.hands++;
+    state.phase = 'bet';
+    addLog(`${result} | Bet: $${state.currentBet} | Payout: $${winAmount}`);
+  }
+
+  elements.auto.onclick = () => {
+    const state = BE.getState();
+    state.autopilot = !state.autopilot;
+    if (state.autopilot) {
+      runAutopilot();
+    } else {
+      clearTimeout(autopilotTimer);
+    }
+    updateUI();
+  };
+
+  function runAutopilot() {
+    if (!BE.getState().autopilot) return;
+    
+    const state = BE.getState();
+    if (state.phase === 'bet') {
+      elements.deal.click();
+    } else if (state.phase === 'play') {
+      const decision = BE.getDecision();
+      if (decision === 'HIT') elements.hit.click();
+      else if (decision === 'STAND') elements.stand.click();
+      else if (decision === 'DOUBLE') elements.double.click();
+      else if (decision === 'SPLIT') elements.split.click();
+    }
+    
+    autopilotTimer = setTimeout(runAutopilot, state.autoSpeed);
+  }
+
+  $('reset-shoe').onclick = () => {
+    BE.resetShoe();
+    addLog("Shoe reset and shuffled.");
+    updateUI();
+  };
+
+  updateUI();
+})();
+</script>
