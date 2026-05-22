@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Card Counter | Strategy Advisor | Mathify</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --surface: #111827;
+      --surface2: #1a2235;
+      --border: #1e2d45;
+      --gold: #f5c518;
+      --teal: #00c9a7;
+      --red: #ff4d6d;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --text: #e8edf5;
+      --muted: #6b7a99;
+      --green: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse at 25% 0%, rgba(245,197,24,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 100%, rgba(0,201,167,0.03) 0%, transparent 50%);
+      overflow-x: hidden;
+    }
+
+    nav {
+      background: rgba(10,14,26,0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 48px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-brand {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .nav-stat {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .nav-stat .nv {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-link {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: var(--gold);
+    }
+
+    .wrap {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 12px 12px 70px;
+    }
+
+    /* ─── SETUP OVERLAY ─── */
+    .setup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,14,26,0.92);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .setup-overlay.hidden {
+      display: none;
+    }
+
+    .setup-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .setup-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .setup-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .setup-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .setup-field label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .setup-field input {
+      width: 80px;
+      padding: 8px 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--gold);
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .setup-field input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 8px rgba(245,197,24,0.2);
+    }
+
+    .setup-btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      background: var(--gold);
+      border: none;
+      border-radius: 8px;
+      color: var(--bg);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .setup-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(245,197,24,0.3);
+    }
+
+    /* ─── STATS DISPLAY ─── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .stat-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .stat-value.positive {
+      color: var(--green);
+    }
+
+    .stat-value.negative {
+      color: var(--red);
+    }
+
+    /* ─── HAND ANALYSIS PANEL ─── */
+    .hand-analysis {
+      background: var(--surface);
+      border: 2px solid var(--blue);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .hand-analysis-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+
+    .hand-display {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .hand-group {
+      flex: 1;
+    }
+
+    .hand-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .hand-cards {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .hand-card {
+      width: 36px;
+      height: 48px;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .hand-card.high {
+      border-color: rgba(255,77,109,0.5);
+      color: var(--red);
+    }
+
+    .hand-card.low {
+      border-color: rgba(0,201,167,0.5);
+      color: var(--teal);
+    }
+
+    .hand-total {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-top: 6px;
+    }
+
+    /* ─── RECOMMENDATION BOX ─── */
+    .recommendation {
+      background: var(--surface2);
+      border: 2px solid var(--teal);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .rec-action {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-bottom: 6px;
+    }
+
+    .rec-description {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .rec-reason {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    /* ─── CARD INPUT PANEL ─── */
+    .card-input-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .card-btn {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.12s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .card-btn:active {
+      transform: scale(0.9);
+    }
+
+    .card-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .card-btn.high {
+      border-color: rgba(255,77,109,0.45);
+      color: var(--red);
+    }
+
+    .card-btn.low {
+      border-color: rgba(0,201,167,0.45);
+      color: var(--teal);
+    }
+
+    .card-btn.neutral {
+      border-color: rgba(245,197,24,0.35);
+      color: var(--gold);
+    }
+
+    .card-btn .card-count {
+      font-size: 9px;
+      opacity: 0.5;
+      margin-top: 2px;
+    }
+
+    .card-btn.depleted {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    /* ─── ACTION BUTTONS ─── */
+    .action-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 10px 8px;
+      border-radius: 8px;
+      border: 1.5px solid;
+      background: transparent;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .action-btn:active {
+      transform: scale(0.95);
+    }
+
+    .action-btn.undo {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .action-btn.undo:hover {
+      background: rgba(59,130,246,0.08);
+    }
+
+    .action-btn.reset {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .action-btn.reset:hover {
+      background: rgba(255,77,109,0.08);
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--surface2);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">◆ MATHIFY</a>
+    <div class="nav-right">
+      <div class="nav-stat">RC: <span class="nv" id="nav-rc">0</span></div>
+      <div class="nav-stat">TC: <span class="nv" id="nav-tc">0.0</span></div>
+      <div class="nav-stat">DECKS: <span class="nv" id="nav-decks">6.0</span></div>
+      <a href="/explore/card-counter/" class="nav-link">Basic</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <!-- Setup Overlay -->
+    <div class="setup-overlay" id="setupOverlay">
+      <div class="setup-box">
+        <div class="setup-title">Advanced Counter</div>
+        <div class="setup-sub">Strategy Advisor with Hand Analysis</div>
+        <div class="setup-field">
+          <label>Number of Decks:</label>
+          <input type="number" id="deckInput" min="1" max="8" value="6">
+        </div>
+        <button class="setup-btn" onclick="startCounter()">Start Counting</button>
+      </div>
+    </div>
+
+    <!-- Stats Display -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-label">Running Count</div>
+        <div class="stat-value" id="runningCount">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">True Count</div>
+        <div class="stat-value" id="trueCount">0.0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Penetration</div>
+        <div class="stat-value" id="penetration">0%</div>
+      </div>
+    </div>
+
+    <!-- Hand Analysis Panel -->
+    <div class="hand-analysis">
+      <div class="hand-analysis-title">Hand Analysis</div>
+      <div class="hand-display">
+        <div class="hand-group">
+          <div class="hand-label">Player Hand</div>
+          <div class="hand-cards" id="playerCards"></div>
+          <div class="hand-total" id="playerTotal">-</div>
+        </div>
+        <div class="hand-group">
+          <div class="hand-label">Dealer Upcard</div>
+          <div class="hand-cards" id="dealerCards"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="recommendation" id="recommendationBox" style="display: none;">
+      <div class="rec-action" id="recAction">-</div>
+      <div class="rec-description" id="recDescription">-</div>
+      <div class="rec-reason" id="recReason">-</div>
+    </div>
+
+    <!-- Card Input -->
+    <div class="card-input-section">
+      <div class="section-title">Record Card</div>
+      <div class="card-grid">
+        <button class="card-btn low" onclick="recordPlayerCard('A')">A<div class="card-count" id="count-A">4</div></button>
+        <button class="card-btn low" onclick="recordPlayerCard('2')">2<div class="card-count" id="count-2">4</div></button>
+        <button class="card-btn low" onclick="recordPlayerCard('3')">3<div class="card-count" id="count-3">4</div></button>
+        <button class="card-btn low" onclick="recordPlayerCard('4')">4<div class="card-count" id="count-4">4</div></button>
+        <button class="card-btn low" onclick="recordPlayerCard('5')">5<div class="card-count" id="count-5">4</div></button>
+        <button class="card-btn low" onclick="recordPlayerCard('6')">6<div class="card-count" id="count-6">4</div></button>
+        <button class="card-btn neutral" onclick="recordPlayerCard('7')">7<div class="card-count" id="count-7">4</div></button>
+        <button class="card-btn neutral" onclick="recordPlayerCard('8')">8<div class="card-count" id="count-8">4</div></button>
+        <button class="card-btn neutral" onclick="recordPlayerCard('9')">9<div class="card-count" id="count-9">4</div></button>
+        <button class="card-btn high" onclick="recordPlayerCard('10')">10<div class="card-count" id="count-10">16</div></button>
+      </div>
+      <div class="action-row">
+        <button class="action-btn undo" onclick="undoCard()">↶ Undo</button>
+        <button class="action-btn reset" onclick="resetHand()">Clear Hand</button>
+      </div>
+    </div>
+
+    <!-- Dealer Card Input -->
+    <div class="card-input-section">
+      <div class="section-title">Dealer Upcard</div>
+      <div class="card-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <button class="card-btn low" onclick="setDealerCard('A')">A</button>
+        <button class="card-btn low" onclick="setDealerCard('2')">2</button>
+        <button class="card-btn low" onclick="setDealerCard('3')">3</button>
+        <button class="card-btn low" onclick="setDealerCard('4')">4</button>
+        <button class="card-btn low" onclick="setDealerCard('5')">5</button>
+        <button class="card-btn low" onclick="setDealerCard('6')">6</button>
+        <button class="card-btn neutral" onclick="setDealerCard('7')">7</button>
+        <button class="card-btn neutral" onclick="setDealerCard('8')">8</button>
+        <button class="card-btn neutral" onclick="setDealerCard('9')">9</button>
+        <button class="card-btn high" onclick="setDealerCard('10')">10</button>
+        <button class="card-btn high" onclick="setDealerCard('J')">J</button>
+        <button class="card-btn high" onclick="setDealerCard('Q')">Q</button>
+      </div>
+      <div class="action-row">
+        <button class="action-btn reset" style="border-color: var(--muted); color: var(--muted);" onclick="clearDealerCard()">Clear Dealer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/scripts/card-counter-engine.js"></script>
+  <script src="/scripts/blackjack-solver.js"></script>
+  <script>
+    let playerHand = [];
+    let dealerCard = null;
+
+    function startCounter() {
+      const numDecks = parseInt(document.getElementById('deckInput').value) || 6;
+      CardCounterEngine.init(numDecks);
+      document.getElementById('setupOverlay').classList.add('hidden');
+      updateUI();
+    }
+
+    function recordPlayerCard(rank) {
+      playerHand.push(rank);
+      CardCounterEngine.recordCard(rank);
+      updateUI();
+    }
+
+    function setDealerCard(rank) {
+      dealerCard = rank;
+      updateUI();
+    }
+
+    function clearDealerCard() {
+      dealerCard = null;
+      updateUI();
+    }
+
+    function undoCard() {
+      if (playerHand.length > 0) {
+        playerHand.pop();
+        CardCounterEngine.undoLastCard();
+        updateUI();
+      }
+    }
+
+    function resetHand() {
+      playerHand = [];
+      updateUI();
+    }
+
+    function updateUI() {
+      const state = CardCounterEngine.getState();
+      const composition = state.shoeComposition;
+
+      // Update stats
+      document.getElementById('runningCount').textContent = state.runningCount;
+      document.getElementById('trueCount').textContent = state.trueCount.toFixed(1);
+      document.getElementById('penetration').textContent = state.penetration.toFixed(1) + '%';
+
+      // Update nav
+      document.getElementById('nav-rc').textContent = state.runningCount;
+      document.getElementById('nav-tc').textContent = state.trueCount.toFixed(1);
+      document.getElementById('nav-decks').textContent = state.decksRemaining.toFixed(1);
+
+      // Update card counts
+      const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+      ranks.forEach(rank => {
+        const count = composition[rank];
+        const elem = document.getElementById(`count-${rank}`);
+        if (elem) {
+          elem.textContent = count;
+          const btn = document.querySelector(`button[onclick="recordPlayerCard('${rank}')"]`);
+          if (btn) {
+            if (count <= 0) {
+              btn.classList.add('depleted');
+            } else {
+              btn.classList.remove('depleted');
+            }
+          }
+        }
+      });
+
+      // Update hand display
+      const playerCardsDiv = document.getElementById('playerCards');
+      if (playerHand.length === 0) {
+        playerCardsDiv.innerHTML = '<div style="color: var(--muted); font-size: 12px;">No cards</div>';
+        document.getElementById('playerTotal').textContent = '-';
+      } else {
+        playerCardsDiv.innerHTML = playerHand.map(card => {
+          const isHigh = ['10', 'J', 'Q', 'K'].includes(card);
+          const isLow = ['2', '3', '4', '5', '6'].includes(card);
+          const className = isHigh ? 'high' : isLow ? 'low' : '';
+          return `<div class="hand-card ${className}">${card}</div>`;
+        }).join('');
+
+        const handValue = BlackjackSolver.calculateHandValue(playerHand);
+        const totalText = handValue.soft ? `${handValue.total} (soft)` : handValue.total;
+        document.getElementById('playerTotal').textContent = totalText;
+      }
+
+      // Update dealer display
+      const dealerCardsDiv = document.getElementById('dealerCards');
+      if (dealerCard) {
+        const isHigh = ['10', 'J', 'Q', 'K'].includes(dealerCard);
+        const isLow = ['2', '3', '4', '5', '6'].includes(dealerCard);
+        const className = isHigh ? 'high' : isLow ? 'low' : '';
+        dealerCardsDiv.innerHTML = `<div class="hand-card ${className}">${dealerCard}</div>`;
+      } else {
+        dealerCardsDiv.innerHTML = '<div style="color: var(--muted); font-size: 12px;">No card</div>';
+      }
+
+      // Update recommendation
+      if (playerHand.length > 0 && dealerCard) {
+        const analysis = BlackjackSolver.analyzeHand(playerHand, dealerCard, state.trueCount);
+        const recBox = document.getElementById('recommendationBox');
+        recBox.style.display = 'block';
+        document.getElementById('recAction').textContent = analysis.recommendation;
+        document.getElementById('recDescription').textContent = BlackjackSolver.getActionDescription(analysis.recommendation);
+        document.getElementById('recReason').textContent = analysis.reason;
+      } else {
+        document.getElementById('recommendationBox').style.display = 'none';
+      }
+    }
+
+    // Initialize on load
+    window.addEventListener('load', () => {
+      updateUI();
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      const key = e.key.toUpperCase();
+      if (key === 'A') recordPlayerCard('A');
+      else if (key >= '2' && key <= '9') recordPlayerCard(key);
+      else if (key === '0' || key === 'T') recordPlayerCard('10');
+      else if (key === 'Z' || key === 'BACKSPACE') undoCard();
+      else if (key === 'R') resetHand();
+    });
+  </script>
+</body>
+</html>
