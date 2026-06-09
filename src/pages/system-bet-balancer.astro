@@ -1,0 +1,23 @@
+---
+import Main from '../layouts/Main.astro';
+import SystemBetBalancer from '../components/SystemBetBalancer.svelte';
+---
+
+<Main 
+  title="System Bet Balancer" 
+  description="Optimize system bet stakes to equalize payouts across all losing scenarios. Perfect for Trixie, Yankee, Canadian, and Heinz bets."
+>
+
+<div class="sbb-page-wrapper">
+  <SystemBetBalancer client:load />
+</div>
+
+<style>
+  .sbb-page-wrapper {
+    padding: 0;
+    min-height: 100vh;
+    background: #0d0d14;
+  }
+</style>
+
+</Main>
