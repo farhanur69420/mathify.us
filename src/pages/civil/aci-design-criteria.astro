@@ -470,8 +470,8 @@ svg text{font-family:'Space Mono',monospace;}
     <p class="explain">
       Here's a surprising insight: <strong>adding more bars increases the total moment capacity Mn</strong>, but the <strong>force each individual bar carries actually decreases</strong>. This is because the total tension force T is split among more bars.
     </p>
-    <p class="explain">From the Whitney stress block: $T = A_s f_y$ and $M_n = A_s f_y \left(d - \frac{a}{2}\right)$</p>
-    <p class="explain">Force per bar = $\frac{T}{\text{number of bars}}$. As more bars are added, T increases, but divides by a bigger number.</p>
+    <p class="explain">From the Whitney stress block: $T = A_s f_y$ and $M_n = A_s f_y \left(d - \frac&#123;a&#125;&#123;2&#125;\right)$</p>
+    <p class="explain">Force per bar = $\frac&#123;T&#125;&#123;\text&#123;number of bars&#125;&#125;$. As more bars are added, T increases, but divides by a bigger number.</p>
 
     <div class="sim-panel">
       <div class="sim-title">INTERACTIVE — Slide to Change Number of No.8 Bars (b=12in, d=15.5in, f'c=4ksi, fy=60ksi)</div>
@@ -625,7 +625,7 @@ svg text{font-family:'Space Mono',monospace;}
     <div class="section-num">// SECTION 05</div>
     <h2 class="section-title">ACI Reinforcement Ratio Range</h2>
     <p class="explain">
-      The reinforcement ratio $\rho = A_s/(bd)$ must stay within ACI-specified limits. Too little steel → sudden brittle failure when concrete first cracks. Too much → sudden brittle crushing failure. The safe zone is between $\rho_{min}$ and $\rho_{max}$.
+      The reinforcement ratio $\rho = A_s/(bd)$ must stay within ACI-specified limits. Too little steel → sudden brittle failure when concrete first cracks. Too much → sudden brittle crushing failure. The safe zone is between $\rho_&#123;min&#125;$ and $\rho_&#123;max&#125;$.
     </p>
 
     <div class="sim-panel">
@@ -639,9 +639,9 @@ svg text{font-family:'Space Mono',monospace;}
 
     <div class="callout blue">
       <span class="callout-label">// KEY FORMULAS</span>
-      $\rho_{min} = \max\left(\dfrac{3\sqrt{f'_c}}{f_y},\ \dfrac{200}{f_y}\right)$ (psi units)<br/><br/>
-      $\rho_b = 0.85\beta_1 \dfrac{f'_c}{f_y} \cdot \dfrac{87000}{87000 + f_y}$ (psi units)<br/><br/>
-      $\rho_{max}$: based on $\varepsilon_t \geq 0.004$ → typically $\approx 0.75\rho_b$
+      $\rho_&#123;min&#125; = \max\left(\dfrac&#123;3\sqrt&#123;f'_c&#125;&#125;&#123;f_y&#125;,\ \dfrac&#123;200&#125;&#123;f_y&#125;\right)$ (psi units)<br/><br/>
+      $\rho_b = 0.85\beta_1 \dfrac&#123;f'_c&#125;&#123;f_y&#125; \cdot \dfrac&#123;87000&#125;&#123;87000 + f_y&#125;$ (psi units)<br/><br/>
+      $\rho_&#123;max&#125;$: based on $\varepsilon_t \geq 0.004$ → typically $\approx 0.75\rho_b$
     </div>
   </section>
 
@@ -674,7 +674,7 @@ svg text{font-family:'Space Mono',monospace;}
     <div class="formula-grid">
       <div class="formula-card">
         <div class="formula-name">REINFORCEMENT RATIO</div>
-        <div class="formula-eq">$$\rho = \frac{A_s}{bd}$$</div>
+        <div class="formula-eq">$$\rho = \frac&#123;A_s&#125;&#123;bd&#125;$$</div>
         <div class="formula-desc">As = steel area, b = beam width, d = effective depth to steel centroid</div>
       </div>
       <div class="formula-card">
@@ -689,37 +689,37 @@ svg text{font-family:'Space Mono',monospace;}
       </div>
       <div class="formula-card">
         <div class="formula-name">NOMINAL MOMENT</div>
-        <div class="formula-eq">$$M_n = A_s f_y \!\left(d - \frac{a}{2}\right)$$</div>
+        <div class="formula-eq">$$M_n = A_s f_y \!\left(d - \frac&#123;a&#125;&#123;2&#125;\right)$$</div>
         <div class="formula-desc">Moment arm is (d - a/2). This is the lever arm between C and T.</div>
       </div>
       <div class="formula-card">
         <div class="formula-name">Mn (in terms of ρ)</div>
-        <div class="formula-eq">$$M_n = \rho f_y b d^2\!\left(1 - 0.59\frac{\rho f_y}{f'_c}\right)$$</div>
+        <div class="formula-eq">$$M_n = \rho f_y b d^2\!\left(1 - 0.59\frac&#123;\rho f_y&#125;&#123;f'_c&#125;\right)$$</div>
         <div class="formula-desc">Useful for design when As is unknown. Derived by substituting a = ρfyd/(0.85f'c)</div>
       </div>
       <div class="formula-card">
         <div class="formula-name">STRESS BLOCK DEPTH</div>
-        <div class="formula-eq">$$a = \frac{A_s f_y}{0.85 f'_c b} = \beta_1 c$$</div>
+        <div class="formula-eq">$$a = \frac&#123;A_s f_y&#125;&#123;0.85 f'_c b&#125; = \beta_1 c$$</div>
         <div class="formula-desc">From T = C. β₁ relates the actual NA depth c to the equivalent block depth a</div>
       </div>
       <div class="formula-card">
         <div class="formula-name">β₁ FACTOR</div>
-        <div class="formula-eq">$$\beta_1 = \begin{cases}0.85 & f'_c \leq 4000\text{ psi}\\ 0.85-0.05\frac{f'_c-4000}{1000} & f'_c > 4000\end{cases}$$</div>
+        <div class="formula-eq">$$\beta_1 = \begin&#123;cases&#125;0.85 & f'_c \leq 4000\text&#123; psi&#125;\\ 0.85-0.05\frac&#123;f'_c-4000&#125;&#123;1000&#125; & f'_c > 4000\end&#123;cases&#125;$$</div>
         <div class="formula-desc">Minimum value β₁ = 0.65. Accounts for the shape of actual concrete stress block</div>
       </div>
       <div class="formula-card">
         <div class="formula-name">BALANCED RATIO</div>
-        <div class="formula-eq">$$\rho_b = 0.85\beta_1\frac{f'_c}{f_y}\cdot\frac{87000}{87000+f_y}$$</div>
+        <div class="formula-eq">$$\rho_b = 0.85\beta_1\frac&#123;f'_c&#125;&#123;f_y&#125;\cdot\frac&#123;87000&#125;&#123;87000+f_y&#125;$$</div>
         <div class="formula-desc">psi units. Steel yields exactly when concrete crushes (simultaneous). NOT allowed as design point.</div>
       </div>
       <div class="formula-card">
         <div class="formula-name">MINIMUM RATIO</div>
-        <div class="formula-eq">$$\rho_{min} = \max\!\left(\frac{3\sqrt{f'_c}}{f_y},\frac{200}{f_y}\right)$$</div>
+        <div class="formula-eq">$$\rho_&#123;min&#125; = \max\!\left(\frac&#123;3\sqrt&#123;f'_c&#125;&#125;&#123;f_y&#125;,\frac&#123;200&#125;&#123;f_y&#125;\right)$$</div>
         <div class="formula-desc">psi units. Prevents sudden brittle failure when concrete first cracks (Mcr > Mn)</div>
       </div>
       <div class="formula-card">
         <div class="formula-name">STRAIN COMPATIBILITY</div>
-        <div class="formula-eq">$$\frac{c}{d} = \frac{\varepsilon_u}{\varepsilon_u + \varepsilon_t}$$</div>
+        <div class="formula-eq">$$\frac&#123;c&#125;&#123;d&#125; = \frac&#123;\varepsilon_u&#125;&#123;\varepsilon_u + \varepsilon_t&#125;$$</div>
         <div class="formula-desc">From similar triangles on strain diagram. εu = 0.003 at top fiber at failure.</div>
       </div>
       <div class="formula-card">
@@ -729,7 +729,7 @@ svg text{font-family:'Space Mono',monospace;}
       </div>
       <div class="formula-card">
         <div class="formula-name">ρ AT ANY FAILURE STATE</div>
-        <div class="formula-eq">$$\rho = 0.85\beta_1\frac{f'_c}{f_y}\cdot\frac{c}{d}$$</div>
+        <div class="formula-eq">$$\rho = 0.85\beta_1\frac&#123;f'_c&#125;&#123;f_y&#125;\cdot\frac&#123;c&#125;&#123;d&#125;$$</div>
         <div class="formula-desc">General form derived from equilibrium T=C. At balanced: c/d = cb/d from strain compat.</div>
       </div>
     </div>
