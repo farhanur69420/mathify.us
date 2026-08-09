@@ -1,0 +1,724 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/cee340-chapter.css'
+---
+<Base title="CEE 340 — Slope Stability" description="Slope stability from intuition to numbers — infinite slopes with and without seepage, Taylor's stability number, the Ordinary Method of Slices and Bishop's Simplified Method, with a live critical-circle search and the 2017 Chattogram landslides as a case study.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 340 &middot; Advanced Foundation Engineering &middot; Ch. 11</div>
+  <h1>Slope Stability</h1>
+  <p class="hd-sub">A slope is a structure nobody designed. Gravity pulls a wedge of soil down; the soil's own shear strength holds it back. The whole subject is one ratio &mdash; and understanding why rain collapses that ratio explains most of the landslides that kill people.</p>
+  <div class="hd-pills">
+    <span class="pill">Infinite Slopes</span>
+    <span class="pill">Taylor's Number</span>
+    <span class="pill">Method of Slices</span>
+    <span class="pill">OMS &amp; Bishop</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">The Tug of War</a></li>
+    <li><a href="#sec-fs">Defining the Factor of Safety</a></li>
+    <li><a href="#sec-inf">Infinite Slopes &mdash; No Seepage</a></li>
+    <li><a href="#sec-seep">Seepage: Why Rain Is So Deadly</a></li>
+    <li><a href="#sec-calc1">Infinite Slope Calculator</a></li>
+    <li><a href="#sec-finite">Finite Slopes &amp; Failure Modes</a></li>
+    <li><a href="#sec-taylor">Taylor's Stability Number</a></li>
+    <li><a href="#sec-slices">The Method of Slices</a></li>
+    <li><a href="#sec-oms">Ordinary Method vs. Bishop</a></li>
+    <li><a href="#sec-calc2">Critical Circle Search</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-case">Case Study &mdash; Chattogram 2017</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- ══════════════ 1. WHY ══════════════ -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>The Tug of War</h2></div>
+
+  <p class="lead">Every other structure in this course was designed by someone. A slope wasn't. It's just soil sitting at an angle, and the only question that matters is whether the shear strength along some potential sliding surface is bigger than the shear stress gravity is applying along it.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#128220;</span>
+    <div>
+      <strong>Think of a heavy book on a tilted desk.</strong> Tilt gently and friction holds it &mdash; the grip beats the pull. Keep tilting and you reach an angle where it slides. Now pour water under the book: it slides at a much gentler angle, because the water is holding part of the book's weight off the surface, and friction only works on the part of the weight actually pressing down. That last sentence is the entire reason monsoon rain triggers landslides.
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Slope stability is <strong>resisting shear strength &divide; driving shear stress</strong> along a failure surface. Everything else in this chapter is just different ways of computing those two numbers for different failure-surface shapes.</p>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why it matters:</strong> On 12 June 2017, 343 mm of rain fell on the Chattogram Hill Tracts and killed 152 people in a single day. Section 12 works through the measured soil properties from six of those failed slopes, and you'll be able to see in the numbers exactly why they went.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 2. FACTOR OF SAFETY ══════════════ -->
+<section class="sec" id="sec-fs">
+  <div class="sec-h"><span class="sec-n">02</span><h2>Defining the Factor of Safety</h2></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Intuition</span>
+      <h4>How much strength is spare</h4>
+      <p>FS = 1 means the soil is using every bit of strength it has just to stand still &mdash; failure is imminent. FS = 1.5 means it's only using two-thirds of its strength. Design targets are typically 1.3&ndash;1.5 for permanent slopes.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Mechanics</span>
+      <h4>Mobilized strength</h4>
+      <p>The soil doesn't use all its strength unless it has to. The portion actually in play is the <em>mobilized</em> strength &tau;<sub>d</sub>. You can define a separate factor for cohesion and for friction; a true factor of safety is the value where both are reduced equally.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">The Math</span>
+      <h4>Definitions</h4>
+      <div class="eq">
+        \[ FS = \frac&#123;\tau_f&#125;&#123;\tau_d&#125; \]
+        \[ \tau_f = c' + \sigma'\tan\phi' \]
+        \[ FS_&#123;c'&#125; = \frac&#123;c'&#125;&#123;c'_d&#125;, \quad FS_&#123;\phi'&#125; = \frac&#123;\tan\phi'&#125;&#123;\tan\phi'_d&#125; \]
+      </div>
+      <p class="small">When FS<sub>c'</sub> = FS<sub>&phi;'</sub>, that common value is <em>the</em> factor of safety FS<sub>s</sub>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 3. INFINITE SLOPE ══════════════ -->
+<section class="sec" id="sec-inf">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Infinite Slopes &mdash; No Seepage</h2></div>
+
+  <p>"Infinite" means the slope is long and uniform, and the failure surface runs parallel to the ground at some shallow depth H. That sounds artificial, but it's an excellent model for real shallow slides &mdash; a thin mantle of weathered soil sliding on stronger rock beneath, which is exactly what most rainfall-triggered hillside failures are.</p>
+
+  <p>Because every slice of an infinite slope looks identical to every other, the forces on the sides of a slice cancel. That's what makes it the one case you can solve exactly, in one line, with no iteration.</p>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Factor of safety</span>
+      <div class="eq">\[ FS = \frac&#123;c'&#125;&#123;\gamma H\cos^2\beta\tan\beta&#125; + \frac&#123;\tan\phi'&#125;&#123;\tan\beta&#125; \]</div>
+      <p class="small">Two independent contributions: a <strong>cohesion term</strong> that shrinks as the slide gets deeper, and a <strong>friction term</strong> that doesn't depend on depth at all.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Critical height (FS = 1)</span>
+      <div class="eq">\[ H_&#123;cr&#125; = \frac&#123;c'&#125;&#123;\gamma\cos^2\beta\,(\tan\beta - \tan\phi')&#125; \]</div>
+      <p class="small">The depth at which the slope fails. Note that if &beta; &le; &phi;', the denominator goes zero or negative &mdash; a cohesionless slope flatter than its friction angle is stable at <em>any</em> depth.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>For sand (c' = 0), FS = tan&phi;'/tan&beta; &mdash; depth cancels completely. A dry sand slope is stable if and only if it's flatter than the friction angle. That's why a poured sand pile always settles to the same cone: its <strong>angle of repose</strong> is &phi;'.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 4. SEEPAGE ══════════════ -->
+<section class="sec" id="sec-seep">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Seepage: Why Rain Is So Deadly</h2></div>
+
+  <p>Now saturate the same slope, with water seeping parallel to the surface. Two things change, and only one of them is obvious.</p>
+
+  <div class="grid2">
+    <div class="vcard v-rust">
+      <span class="vtag">The obvious effect</span>
+      <h4>The soil gets heavier</h4>
+      <p>&gamma; becomes &gamma;<sub>sat</sub>. More weight means more driving stress. But it also means more normal stress, so friction rises too &mdash; these largely cancel. This is <em>not</em> the main problem.</p>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">The devastating effect</span>
+      <h4>Pore water carries the load</h4>
+      <p>Friction depends on <em>effective</em> stress &mdash; grain-on-grain contact force. Pore water pressure pushes the grains apart and carries part of the load itself. Water has no shear strength, so every kilopascal it carries is a kilopascal not generating friction.</p>
+    </div>
+  </div>
+
+  <div class="vcard v-vio" style="margin-top:1rem">
+    <span class="vtag">Factor of safety with seepage (water table at the surface)</span>
+    <div class="eq">\[ FS = \frac&#123;c'&#125;&#123;\gamma_&#123;sat&#125; H\cos^2\beta\tan\beta&#125; + \frac&#123;\gamma'&#125;&#123;\gamma_&#123;sat&#125;&#125;\cdot\frac&#123;\tan\phi'&#125;&#123;\tan\beta&#125;, \qquad \gamma' = \gamma_&#123;sat&#125; - \gamma_w \]</div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Look at what that factor does.</strong> The friction term gets multiplied by &gamma;'/&gamma;<sub>sat</sub>. For a typical soil, &gamma;<sub>sat</sub> &asymp; 20 and &gamma;' &asymp; 10.2 &mdash; so <strong>full saturation cuts the entire friction contribution roughly in half.</strong> A slope sitting comfortably at FS = 1.8 dry can drop to FS = 1.1 saturated without a single grain of soil changing. Worked Examples 1 and 2 do exactly this calculation on the same slope.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 5. CALCULATOR 1 ══════════════ -->
+<section class="sec" id="sec-calc1">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Infinite Slope Calculator</h2></div>
+  <p>Set up a slope, then toggle seepage on and off. Watch the friction term collapse.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Condition
+        <select id="is-mode">
+          <option value="dry" selected>No seepage (dry)</option>
+          <option value="wet">Seepage, water table at surface</option>
+        </select>
+      </label>
+      <label>Slope angle &beta; (deg) <input type="number" id="is-beta" value="22" step="1"></label>
+      <label>Depth to failure surface H (m) <input type="number" id="is-h" value="4" step="0.5"></label>
+      <label>c' (kPa) / &phi;' (deg)
+        <span class="calc-pair">
+          <input type="number" id="is-c" value="12" step="1">
+          <input type="number" id="is-phi" value="28" step="1">
+        </span>
+      </label>
+      <label>&gamma; moist / &gamma;<sub>sat</sub> (kN/m&sup3;)
+        <span class="calc-pair">
+          <input type="number" id="is-g" value="18" step="0.5">
+          <input type="number" id="is-gsat" value="20" step="0.5">
+        </span>
+      </label>
+    </div>
+    <div class="calc-out">
+      <div id="is-fig" class="calc-fig"></div>
+      <div id="is-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 6. FINITE SLOPES ══════════════ -->
+<section class="sec" id="sec-finite">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Finite Slopes &amp; Failure Modes</h2></div>
+
+  <p>Real embankments and hillsides have a top and a bottom, so the failure surface curves. Observation and theory both say it's very close to a <strong>circular arc</strong> &mdash; which is convenient, because a circle lets you take moments about its centre and make every normal force on the arc disappear from the equation (they all point at the centre, so they have zero moment arm).</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Mode 1</span>
+      <h4>Toe circle</h4>
+      <p>The arc exits exactly at the toe of the slope. The most common mode for steep slopes and reasonably uniform, frictional soil.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Mode 2</span>
+      <h4>Slope (face) circle</h4>
+      <p>The arc exits partway up the slope face, taking a shallower bite. Typical where a weaker layer sits near the surface, or the slope is very steep.</p>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">Mode 3</span>
+      <h4>Base circle</h4>
+      <p>The arc passes <em>below</em> the toe, scooping out the foundation as well. Happens when soft material extends beneath the slope &mdash; and it's the most destructive, because it takes ground well beyond the slope with it.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>The consequence for analysis:</strong> you don't know which circle will fail. Any single circle gives you the FS <em>for that circle only</em>. The real answer is the <strong>minimum FS over all possible circles</strong>, which is why analysis always means a search, never a single calculation. The Section 10 calculator does exactly that search.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 7. TAYLOR ══════════════ -->
+<section class="sec" id="sec-taylor">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Taylor's Stability Number</h2></div>
+
+  <p>Before computers, searching hundreds of circles by hand was impossible. Taylor did the searching once, for every combination of slope angle and friction angle, and published the answer as a single dimensionless number.</p>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">The stability number</span>
+      <div class="eq">\[ m = \frac&#123;c'_d&#125;&#123;\gamma H&#125; \quad\Longrightarrow\quad H_&#123;cr&#125; = \frac&#123;c'&#125;&#123;\gamma\, m&#125; \]</div>
+      <p class="small">m depends only on &beta; and &phi;', read from Taylor's chart. It bundles the entire critical-circle search into one lookup.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Why it's dimensionless</span>
+      <p>c'/(&gamma;H) has no units &mdash; it compares the soil's cohesion against the stress its own weight generates. Two slopes with the same &beta;, &phi;' and same c'/(&gamma;H) behave identically regardless of scale. That's what lets one chart cover every slope ever built.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Taylor's method answers "how tall can this slope be?" in one step. Its limits: it assumes a homogeneous soil, a circular arc, and <strong>no pore pressure</strong>. The moment groundwater matters &mdash; which, per Section 4, is when slopes actually fail &mdash; you need the method of slices.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 8. METHOD OF SLICES ══════════════ -->
+<section class="sec" id="sec-slices">
+  <div class="sec-h"><span class="sec-n">08</span><h2>The Method of Slices</h2></div>
+
+  <p>Real slopes have layers, water tables, and irregular profiles, so the stress along the failure arc varies from one end to the other. The fix is the oldest trick in engineering: chop the problem into pieces small enough that conditions are constant within each piece.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#127849;</span>
+    <div>
+      <strong>It's numerical integration with a bread knife.</strong> Slice the sliding mass into vertical strips. Each strip's base is short enough to treat as a straight chord at one angle, sitting in one material, with one pore pressure. Compute the driving and resisting force for each strip, add them all up, divide. More slices means a better approximation &mdash; 10 to 40 is plenty, and fewer for hand calculations.
+    </div>
+  </div>
+
+  <div class="diagram-card">
+    <h4>The Procedure</h4>
+    <svg viewBox="0 0 340 190" class="static-svg" style="max-width:340px">
+      <path d="M 15 170 L 15 60 L 120 60 L 250 165 L 325 165" fill="none" stroke="var(--bdr2)" stroke-width="1.5"/>
+      <path d="M 55 60 A 130 130 0 0 1 232 152" fill="rgba(194,90,59,0.10)" stroke="var(--rust)" stroke-width="1.8"/>
+      <path d="M 55 60 L 120 60 L 232 152 Z" fill="rgba(194,90,59,0.10)" stroke="none"/>
+      <g stroke="var(--bdr2)" stroke-width=".8" stroke-dasharray="2,2">
+        <line x1="80" y1="60" x2="80" y2="107"/><line x1="105" y1="60" x2="105" y2="120"/>
+        <line x1="130" y1="68" x2="130" y2="128"/><line x1="155" y1="88" x2="155" y2="135"/>
+        <line x1="180" y1="108" x2="180" y2="141"/><line x1="205" y1="128" x2="205" y2="147"/>
+      </g>
+      <circle cx="120" cy="35" r="3" fill="var(--amb)"/>
+      <text x="126" y="32" font-size="9" fill="var(--amb)">centre O</text>
+      <line x1="120" y1="35" x2="232" y2="152" stroke="var(--amb)" stroke-width=".8" stroke-dasharray="3,2"/>
+      <text x="185" y="88" font-size="9" fill="var(--amb)">R</text>
+      <text x="170" y="182" font-size="9" fill="var(--rust)" text-anchor="middle">vertical slices</text>
+    </svg>
+    <p class="cap">Assume a circle, slice the mass above it, and sum. Then move the circle and do it again &mdash; the reported factor of safety is the <em>lowest</em> value found.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 9. OMS vs BISHOP ══════════════ -->
+<section class="sec" id="sec-oms">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Ordinary Method vs. Bishop's Simplified</h2></div>
+
+  <p>Slices push and pull on each other across their vertical faces. Those interslice forces are genuinely unknown, and how a method handles them is the only real difference between the two you'll use.</p>
+
+  <div class="grid2">
+    <div class="vcard v-amb">
+      <span class="vtag">Ordinary (Fellenius / Swedish)</span>
+      <h4>Ignore interslice forces entirely</h4>
+      <div class="eq">\[ FS = \frac&#123;\sum\left[c'\ell_n + (W_n\cos\alpha_n - u_n\ell_n)\tan\phi'\right]&#125;&#123;\sum W_n\sin\alpha_n&#125; \]</div>
+      <p class="small">Resolve each slice perpendicular to its own base and assume neighbours don't interact. Direct, no iteration &mdash; and conservative, typically underestimating FS by 5&ndash;20%.</p>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">Bishop's Simplified</span>
+      <h4>Keep the horizontal balance</h4>
+      <div class="eq">\[ FS = \frac&#123;\sum\dfrac&#123;c'b_n + (W_n - u_n b_n)\tan\phi'&#125;&#123;m_&#123;\alpha(n)&#125;&#125;&#125;&#123;\sum W_n\sin\alpha_n&#125; \]</div>
+      <div class="eq">\[ m_&#123;\alpha(n)&#125; = \cos\alpha_n + \frac&#123;\sin\alpha_n\tan\phi'&#125;&#123;FS&#125; \]</div>
+      <p class="small">Assumes interslice forces are horizontal. Much more accurate &mdash; within a few percent of rigorous methods.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Notice FS appears on <strong>both sides</strong> of Bishop's equation, inside m<sub>&alpha;</sub>. There's no way to isolate it, so you guess a value (the OMS result is a good first guess), compute a new FS, and repeat until it stops changing. It typically converges in 3&ndash;4 rounds.</p>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Which to use:</strong> OMS is fine for hand calculations and gives a safe answer. Bishop is the practical standard &mdash; if OMS says 2.05 and Bishop says 2.17, the slope really is nearer 2.17, and using OMS just means you paid for a slightly flatter slope than you needed.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 10. CALCULATOR 2 ══════════════ -->
+<section class="sec" id="sec-calc2">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Critical Circle Search</h2></div>
+  <p>This runs the real analysis: it tries hundreds of trial circles, computes both OMS and Bishop for each, and shows you the <strong>critical</strong> one &mdash; the circle with the lowest factor of safety. The r<sub>u</sub> slider is the pore-pressure ratio u/(&gamma;h); slide it up to simulate a slope saturating during a storm.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Slope height H (m) / angle &beta; (deg)
+        <span class="calc-pair">
+          <input type="number" id="sl-h" value="10" step="0.5">
+          <input type="number" id="sl-beta" value="30" step="1">
+        </span>
+      </label>
+      <label>c' (kPa) / &phi;' (deg)
+        <span class="calc-pair">
+          <input type="number" id="sl-c" value="15" step="1">
+          <input type="number" id="sl-phi" value="25" step="1">
+        </span>
+      </label>
+      <label>&gamma; (kN/m&sup3;) <input type="number" id="sl-g" value="19" step="0.5"></label>
+      <label>Pore pressure ratio r<sub>u</sub> = u/(&gamma;h): <span id="sl-ru-v">0.00</span>
+        <input type="range" id="sl-ru" min="0" max="60" value="0">
+      </label>
+      <label>Number of slices <input type="number" id="sl-n" value="14" min="4" max="40" step="1"></label>
+    </div>
+    <div class="calc-out">
+      <div id="sl-fig" class="calc-fig"></div>
+      <div id="sl-res" class="calc-results"></div>
+    </div>
+  </div>
+  <div id="sl-table" style="margin-top:1rem"></div>
+</section>
+
+<!-- ══════════════ 11. EXAMPLES ══════════════ -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">11</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Infinite Slope, No Seepage</h4></div>
+    <p class="prob"><strong>Problem:</strong> A long uniform hillside has &beta; = 22&deg;, with a potential failure plane 4 m down on stronger rock. Soil: c' = 12 kPa, &phi;' = 28&deg;, &gamma; = 18 kN/m&sup3;. Find FS.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>\( \cos^2 22^\circ = 0.860,\ \tan 22^\circ = 0.404,\ \tan 28^\circ = 0.532 \)</div></div>
+      <div class="step"><b>2</b><div><strong>Cohesion term:</strong> \( \dfrac&#123;c'&#125;&#123;\gamma H\cos^2\beta\tan\beta&#125; = \dfrac&#123;12&#125;&#123;18(4)(0.860)(0.404)&#125; = \dfrac&#123;12&#125;&#123;25.0&#125; = 0.480 \)</div></div>
+      <div class="step"><b>3</b><div><strong>Friction term:</strong> \( \dfrac&#123;\tan\phi'&#125;&#123;\tan\beta&#125; = \dfrac&#123;0.532&#125;&#123;0.404&#125; = 1.316 \)</div></div>
+      <div class="step"><b>4</b><div>\( FS = 0.480 + 1.316 = 1.80 \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> FS = 1.80 &mdash; comfortably stable. Note that friction supplies 73% of the resistance.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>The Same Slope After Heavy Rain</h4></div>
+    <p class="prob"><strong>Problem:</strong> The slope of Example 1 becomes fully saturated with seepage parallel to the surface. &gamma;<sub>sat</sub> = 20 kN/m&sup3;. Nothing else changes. Find the new FS.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Submerged unit weight:</strong> \( \gamma' = 20 - 9.81 = 10.19\text&#123;kN/m&#125;^3 \)</div></div>
+      <div class="step"><b>2</b><div><strong>Cohesion term</strong> (barely changes &mdash; only &gamma; &rarr; &gamma;<sub>sat</sub>): \( \dfrac&#123;12&#125;&#123;20(4)(0.860)(0.404)&#125; = 0.432 \)</div></div>
+      <div class="step"><b>3</b><div><strong>Friction term</strong> &mdash; here is the damage: \( \dfrac&#123;\gamma'&#125;&#123;\gamma_&#123;sat&#125;&#125;\cdot\dfrac&#123;\tan\phi'&#125;&#123;\tan\beta&#125; = \dfrac&#123;10.19&#125;&#123;20&#125;(1.316) = 0.510 \times 1.316 = 0.671 \)</div></div>
+      <div class="step"><b>4</b><div>\( FS = 0.432 + 0.671 = 1.10 \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> FS falls from <strong>1.80 to 1.10</strong> &mdash; a 39% loss, with the friction contribution nearly halved (1.316 &rarr; 0.671). The soil is identical; only the water changed. This single comparison is the most important thing in the chapter.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>Taylor's Stability Number</h4></div>
+    <p class="prob"><strong>Problem:</strong> A cut is planned in saturated clay under undrained conditions (&phi; = 0), c<sub>u</sub> = 30 kPa, &gamma; = 18 kN/m&sup3;, &beta; = 45&deg;. Taylor's chart gives m &asymp; 0.17. Find the critical height, and FS for a 6 m cut.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Critical height:</strong> \( H_&#123;cr&#125; = \dfrac&#123;c_u&#125;&#123;\gamma m&#125; = \dfrac&#123;30&#125;&#123;18(0.17)&#125; = \dfrac&#123;30&#125;&#123;3.06&#125; = 9.80\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>2</b><div><strong>Mobilized cohesion at H = 6 m:</strong> \( c_d = \gamma H m = 18(6)(0.17) = 18.4\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>3</b><div><strong>Factor of safety:</strong> \( FS = \dfrac&#123;c_u&#125;&#123;c_d&#125; = \dfrac&#123;30&#125;&#123;18.4&#125; = 1.63 \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> H<sub>cr</sub> = 9.8 m; a 6 m cut has FS = 1.63. Because &phi; = 0, FS also equals H<sub>cr</sub>/H = 9.8/6 = 1.63.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 4</span><h4>Method of Slices &mdash; OMS then Bishop</h4></div>
+    <p class="prob"><strong>Problem:</strong> A trial circle is divided into 5 slices, each b = 2.0 m wide (so &ell; = b/cos&alpha;). Soil: c' = 20 kPa, &phi;' = 20&deg; (tan&phi;' = 0.364). Compute FS by the Ordinary Method, then refine with Bishop's.</p>
+    <div style="overflow-x:auto;margin:.6rem 0">
+      <table style="width:100%;border-collapse:collapse;font-size:.78rem">
+        <tr style="color:var(--mut)"><th style="text-align:left;padding:.25rem .4rem">Slice</th><th style="text-align:right;padding:.25rem .4rem">W (kN/m)</th><th style="text-align:right;padding:.25rem .4rem">&alpha; (&deg;)</th><th style="text-align:right;padding:.25rem .4rem">&ell; (m)</th><th style="text-align:right;padding:.25rem .4rem">u (kPa)</th><th style="text-align:right;padding:.25rem .4rem">W sin&alpha;</th><th style="text-align:right;padding:.25rem .4rem">OMS resist.</th></tr>
+        <tr><td style="padding:.25rem .4rem">1</td><td style="text-align:right">60</td><td style="text-align:right">&minus;12</td><td style="text-align:right">2.045</td><td style="text-align:right">10</td><td style="text-align:right">&minus;12.47</td><td style="text-align:right">54.82</td></tr>
+        <tr><td style="padding:.25rem .4rem">2</td><td style="text-align:right">140</td><td style="text-align:right">2</td><td style="text-align:right">2.001</td><td style="text-align:right">22</td><td style="text-align:right">4.89</td><td style="text-align:right">74.93</td></tr>
+        <tr><td style="padding:.25rem .4rem">3</td><td style="text-align:right">180</td><td style="text-align:right">16</td><td style="text-align:right">2.081</td><td style="text-align:right">28</td><td style="text-align:right">49.61</td><td style="text-align:right">83.39</td></tr>
+        <tr><td style="padding:.25rem .4rem">4</td><td style="text-align:right">150</td><td style="text-align:right">31</td><td style="text-align:right">2.333</td><td style="text-align:right">24</td><td style="text-align:right">77.25</td><td style="text-align:right">73.08</td></tr>
+        <tr><td style="padding:.25rem .4rem">5</td><td style="text-align:right">70</td><td style="text-align:right">47</td><td style="text-align:right">2.933</td><td style="text-align:right">12</td><td style="text-align:right">51.20</td><td style="text-align:right">63.22</td></tr>
+        <tr style="border-top:1px solid var(--bdr);color:var(--txt)"><td style="padding:.25rem .4rem"><strong>&Sigma;</strong></td><td colspan="4"></td><td style="text-align:right"><strong>170.48</strong></td><td style="text-align:right"><strong>349.44</strong></td></tr>
+      </table>
+    </div>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Sample slice 3:</strong> \( c'\ell = 20(2.081) = 41.6 \); \( W\cos\alpha = 180(0.961) = 173.0 \); \( u\ell = 28(2.081) = 58.3 \). Resisting \( = 41.6 + (173.0-58.3)(0.364) = 41.6 + 41.8 = 83.4 \). Driving \( = 180\sin16^\circ = 49.6 \).</div></div>
+      <div class="step"><b>2</b><div><strong>OMS result:</strong> \( FS = \dfrac&#123;349.44&#125;&#123;170.48&#125; = 2.05 \)</div></div>
+      <div class="step"><b>3</b><div><strong>Bishop, round 1</strong> (start from FS = 2.05). For slice 3: \( m_\alpha = \cos16^\circ + \dfrac&#123;\sin16^\circ(0.364)&#125;&#123;2.05&#125; = 0.961 + 0.049 = 1.010 \). Numerator \( = 20(2.0) + (180-28(2.0))(0.364) = 40.0 + 45.1 = 85.1 \), giving \( 85.1/1.010 = 84.3 \). Summing all slices: \( \sum = 367.97 \), so \( FS = 367.97/170.48 = 2.16 \).</div></div>
+      <div class="step"><b>4</b><div><strong>Bishop, round 2</strong> (FS = 2.16): \( \sum = 369.06 \), \( FS = 2.165 \). Round 3 changes it by under 0.01 &mdash; converged.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> OMS gives FS = 2.05; Bishop converges to FS = 2.17. The Ordinary Method is 5% conservative here, exactly as expected &mdash; and note Bishop needed only two rounds to settle.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 12. CASE STUDY ══════════════ -->
+<section class="sec" id="sec-case">
+  <div class="sec-h"><span class="sec-n">12</span><h2>Case Study &mdash; Chattogram, 12 June 2017</h2></div>
+
+  <p>343 mm of rain fell in one day on Rangamati, Bandarban and Chattogram. Landslides killed 152 people, severed the Chittagong&ndash;Rangamati highway, and overturned valley-side retaining walls when their foundations lost support. Islam, Islam &amp; Jeet (2021) collected undisturbed samples from six of the failed slopes and back-analysed them. Here is what the soil actually was:</p>
+
+  <div style="overflow-x:auto;margin:1rem 0">
+    <table style="width:100%;border-collapse:collapse;font-size:.78rem">
+      <tr style="color:var(--mut)">
+        <th style="text-align:left;padding:.3rem .4rem">Site</th><th style="text-align:right;padding:.3rem .4rem">H (m)</th><th style="text-align:right;padding:.3rem .4rem">&beta;</th>
+        <th style="text-align:right;padding:.3rem .4rem">&gamma; (kN/m&sup3;)</th><th style="text-align:right;padding:.3rem .4rem">c (kPa)</th><th style="text-align:right;padding:.3rem .4rem">&phi; (&deg;)</th>
+        <th style="text-align:left;padding:.3rem .4rem">USCS</th><th style="text-align:right;padding:.3rem .4rem">FS</th><th style="text-align:left;padding:.3rem .4rem">Failure mode</th></tr>
+      <tr><td style="padding:.25rem .4rem">S-1 Manikchari</td><td style="text-align:right">15</td><td style="text-align:right">70&deg;</td><td style="text-align:right">18.54</td><td style="text-align:right">1.3</td><td style="text-align:right">39.7</td><td>SM</td><td style="text-align:right;color:var(--rust)"><strong>0.90</strong></td><td>Shallow wedge</td></tr>
+      <tr><td style="padding:.25rem .4rem">S-2 Manikchari S.</td><td style="text-align:right">10</td><td style="text-align:right">50&deg;</td><td style="text-align:right">19.02</td><td style="text-align:right">8.6</td><td style="text-align:right">37.3</td><td>SC</td><td style="text-align:right;color:var(--grn)"><strong>1.30</strong></td><td>Toe general</td></tr>
+      <tr><td style="padding:.25rem .4rem">S-3 Shapchari</td><td style="text-align:right">10</td><td style="text-align:right">65&deg;</td><td style="text-align:right">18.98</td><td style="text-align:right">18.1</td><td style="text-align:right">10.3</td><td>CL</td><td style="text-align:right;color:var(--rust)"><strong>0.54</strong></td><td>Base failure</td></tr>
+      <tr><td style="padding:.25rem .4rem">S-4 Deppoyachari</td><td style="text-align:right">16</td><td style="text-align:right">70&deg;</td><td style="text-align:right">19.00</td><td style="text-align:right">9.4</td><td style="text-align:right">27.4</td><td>CL-ML</td><td style="text-align:right;color:var(--rust)"><strong>0.86</strong></td><td>Toe general</td></tr>
+      <tr><td style="padding:.25rem .4rem">S-5 Moddhapara</td><td style="text-align:right">13</td><td style="text-align:right">45&deg;</td><td style="text-align:right">19.34</td><td style="text-align:right">12.9</td><td style="text-align:right">32.7</td><td>CL</td><td style="text-align:right;color:var(--grn)"><strong>1.28</strong></td><td>Shallow surface</td></tr>
+      <tr><td style="padding:.25rem .4rem">S-6 Kaching</td><td style="text-align:right">12</td><td style="text-align:right">50&deg;</td><td style="text-align:right">16.80</td><td style="text-align:right">1.8</td><td style="text-align:right">30.2</td><td>SM-SC</td><td style="text-align:right;color:var(--rust)"><strong>0.82</strong></td><td>Toe surficial</td></tr>
+    </table>
+  </div>
+
+  <p class="small">Slope heights, angles and properties from Tables 1&ndash;2; factors of safety from the PLAXIS 2D Mohr&ndash;Coulomb analyses in Figure 9 of the paper.</p>
+
+  <div class="grid3">
+    <div class="vcard v-rust">
+      <span class="vtag">Read S-3</span>
+      <h4>Why the worst one was worst</h4>
+      <p>FS = 0.54, the lowest of the six, and the only <strong>base failure</strong>. Look at the numbers: &phi; = 10.3&deg; is almost nothing, so the friction term is nearly absent &mdash; this slope stood on cohesion alone. Its natural moisture was 25.6% against a 27.7% saturation limit, so rain pushed it to saturation and softened the very cohesion holding it up.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Read S-1 and S-6</span>
+      <h4>Friction is no help when it's this steep</h4>
+      <p>Both have high &phi; (39.7&deg; and 30.2&deg;) but almost no cohesion (1.3 and 1.8 kPa). Section 3 told you a cohesionless slope is stable only while &beta; &lt; &phi;'. At &beta; = 70&deg; and 50&deg;, both are far steeper than their friction angle &mdash; so with cohesion gone, failure is arithmetic.</p>
+    </div>
+    <div class="vcard v-grn">
+      <span class="vtag">Read S-2 and S-5</span>
+      <h4>The two that held</h4>
+      <p>The only two with FS &gt; 1 are the two flattest slopes (50&deg; and 45&deg;), and both have meaningful cohesion <em>and</em> friction. S-2 also sat at 13.9% moisture against a 21.6% saturation limit &mdash; it had capacity to absorb rain before strength began dropping.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>The infiltration measurement.</strong> The authors ran a rainfall simulation on the S-2 soil: of 94 mm applied, 39 mm infiltrated and 55 mm ran off. That infiltration is the mechanism from Section 4 &mdash; rising moisture drives up pore pressure and drives down effective stress, exactly the &gamma;'/&gamma;<sub>sat</sub> collapse in Worked Example 2. The paper also notes the hill slopes largely had no drainage design, so water could not escape. Their recommended fixes are drainage and bioengineering with vegetation &mdash; both aimed squarely at keeping pore pressure down rather than making the soil stronger.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 13. QUICK REF + QUIZ ══════════════ -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">13</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>Factor of safety</span><span>FS = &tau;<sub>f</sub> / &tau;<sub>d</sub></span></div>
+    <div><span>Infinite slope, dry</span><span>c'/(&gamma;Hcos&sup2;&beta;tan&beta;) + tan&phi;'/tan&beta;</span></div>
+    <div><span>Infinite slope, seepage</span><span>c'/(&gamma;<sub>sat</sub>Hcos&sup2;&beta;tan&beta;) + (&gamma;'/&gamma;<sub>sat</sub>)(tan&phi;'/tan&beta;)</span></div>
+    <div><span>Sand, dry (c'=0)</span><span>FS = tan&phi;'/tan&beta; (angle of repose)</span></div>
+    <div><span>Critical height</span><span>H<sub>cr</sub> = c'/[&gamma;cos&sup2;&beta;(tan&beta;&minus;tan&phi;')]</span></div>
+    <div><span>Taylor stability number</span><span>m = c'<sub>d</sub>/(&gamma;H); H<sub>cr</sub> = c'/(&gamma;m)</span></div>
+    <div><span>Submerged unit weight</span><span>&gamma;' = &gamma;<sub>sat</sub> &minus; &gamma;<sub>w</sub></span></div>
+    <div><span>Bishop m<sub>&alpha;</sub></span><span>cos&alpha; + sin&alpha;tan&phi;'/FS (iterate)</span></div>
+    <div><span>Slice count</span><span>10&ndash;40 typical</span></div>
+    <div><span>OMS vs Bishop</span><span>OMS conservative by 5&ndash;20%</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. A dry sand slope (c' = 0) has &phi;' = 34&deg; and &beta; = 30&deg;. What happens to FS if the potential failure surface is 2 m deeper?</p>
+      <button data-v="0">FS decreases &mdash; deeper means heavier</button>
+      <button data-v="1">FS is unchanged &mdash; depth cancels when c' = 0</button>
+      <button data-v="2">FS increases &mdash; more normal stress means more friction</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. Saturating a slope roughly halves the friction term. What is the physical reason?</p>
+      <button data-v="0">Water lubricates the grains, lowering &phi;'</button>
+      <button data-v="1">The soil becomes heavier, increasing driving stress</button>
+      <button data-v="2">Pore water carries part of the load, cutting effective stress &mdash; and water has no shear strength</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. Why must slope analysis search many trial circles rather than compute just one?</p>
+      <button data-v="0">Each circle gives the FS for that surface only; the slope fails on whichever is lowest</button>
+      <button data-v="1">Because the method of slices is approximate and needs averaging</button>
+      <button data-v="2">To check that the soil properties were measured correctly</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>4. Why does Bishop's Simplified Method require iteration when the Ordinary Method doesn't?</p>
+      <button data-v="0">Because it uses more slices</button>
+      <button data-v="1">FS appears on both sides of the equation, inside m<sub>&alpha;</sub>, so it can't be isolated</button>
+      <button data-v="2">Because pore pressures are unknown in advance</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>5. Site S-3 at Chattogram had the highest cohesion of the six (18.1 kPa) yet the lowest FS (0.54). Why?</p>
+      <button data-v="0">Its unit weight was the highest</button>
+      <button data-v="1">It was the tallest slope</button>
+      <button data-v="2">&phi; was only 10.3&deg;, so it stood almost entirely on cohesion &mdash; which rain then softened</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee340/retaining-walls">&larr; Ch. 8: Earth Retaining Structures</a>
+  <a href="/civil">Back to Civil Engineering &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g = id => document.getElementById(id);
+  const v = id => +g(id).value;
+  const GW = 9.81;
+
+  /* ───────── Infinite slope ───────── */
+  function infinite(){
+    const wet = g('is-mode').value === 'wet';
+    const beta = v('is-beta'), H = v('is-h'), c = v('is-c'), phi = v('is-phi');
+    const gm = v('is-g'), gsat = v('is-gsat');
+    const br = beta*Math.PI/180, pr = phi*Math.PI/180;
+    const gamma = wet ? gsat : gm;
+    const gsub = gsat - GW;
+    const cosb = Math.cos(br), tanb = Math.tan(br);
+
+    if (beta <= 0 || beta >= 90 || H <= 0 || tanb <= 0) {
+      g('is-res').innerHTML = '<div class="verdict v-fail"><span>Slope angle must be between 0&deg; and 90&deg;</span></div>';
+      g('is-fig').innerHTML = ''; return;
+    }
+    const cohTerm = c / (gamma * H * cosb*cosb * tanb);
+    const friTerm = (wet ? gsub/gsat : 1) * Math.tan(pr) / tanb;
+    const FS = cohTerm + friTerm;
+    const denom = tanb - Math.tan(pr);
+    const Hcr = denom > 0 ? c / (gamma * cosb*cosb * denom) : Infinity;
+
+    const ok = FS >= 1.5, marginal = FS >= 1.0 && FS < 1.5;
+    g('is-res').innerHTML =
+      `<div class="res"><span>Cohesion term</span><b>${cohTerm.toFixed(3)}</b></div>` +
+      `<div class="res"><span>Friction term${wet ? ' (&times; &gamma;\'/&gamma;<sub>sat</sub> = '+(gsub/gsat).toFixed(3)+')' : ''}</span><b>${friTerm.toFixed(3)}</b></div>` +
+      `<div class="verdict ${ok?'v-pass':(marginal?'v-fail':'v-fail')}"><span>Factor of safety</span><b>${FS.toFixed(2)} ${ok?'✓ stable':(marginal?'⚠ marginal':'✗ FAILS')}</b></div>` +
+      `<div class="res"><span>Critical depth H<sub>cr</sub></span><b>${Hcr===Infinity?'∞ (β ≤ φ\')':Hcr.toFixed(2)+' m'}</b></div>`;
+
+    // figure
+    const W=280, Hh=150, x0=20, y0=125, len=200;
+    const dy = len*Math.tan(br);
+    const top = Math.min(dy, 95);
+    const sc = top/dy || 1;
+    const Lx = len*sc;
+    g('is-fig').innerHTML = `
+    <svg viewBox="0 0 ${W} ${Hh}" style="width:100%;height:auto">
+      <polygon points="${x0},${y0} ${x0+Lx},${y0-top} ${x0+Lx},${y0}" fill="var(--surf3)" stroke="var(--bdr2)"/>
+      <line x1="${x0+8}" y1="${y0-8*Math.tan(br)*sc+10}" x2="${x0+Lx}" y2="${y0-top+10}" stroke="var(--rust)" stroke-width="1.8" stroke-dasharray="5,3"/>
+      <text x="${x0+Lx-6}" y="${y0-top+22}" font-size="9" fill="var(--rust)" text-anchor="end">failure plane, H=${H} m</text>
+      ${wet?`<line x1="${x0+6}" y1="${y0-6*Math.tan(br)*sc+2}" x2="${x0+Lx}" y2="${y0-top+2}" stroke="#4a9fe0" stroke-width="1.4"/><text x="${x0+Lx-6}" y="${y0-top-4}" font-size="9" fill="#4a9fe0" text-anchor="end">water table</text>`:''}
+      <path d="M ${x0+34} ${y0} A 34 34 0 0 0 ${x0+34*Math.cos(br)} ${y0-34*Math.sin(br)}" fill="none" stroke="var(--amb)" stroke-width="1"/>
+      <text x="${x0+40}" y="${y0-6}" font-size="9" fill="var(--amb)">β=${beta}°</text>
+    </svg>`;
+  }
+  ['is-mode','is-beta','is-h','is-c','is-phi','is-g','is-gsat'].forEach(id=>g(id).addEventListener('input', infinite));
+  infinite();
+
+  /* ───────── Critical circle search ───────── */
+  function analyseCircle(xc, yc, R, H, L, tanb, c, tanphi, gamma, ru, n){
+    const ground = x => x <= 0 ? H : (x >= L ? 0 : H - x*tanb);
+    const bot = x => yc - Math.sqrt(Math.max(0, R*R - (x-xc)*(x-xc)));
+    // find contiguous region where ground is above the arc
+    const steps = 400, xa = xc - R, xb = xc + R, dx = (xb-xa)/steps;
+    let xL = null, xR = null;
+    for (let i=0;i<=steps;i++){
+      const x = xa + i*dx;
+      if (ground(x) - bot(x) > 1e-6){ if (xL===null) xL = x; xR = x; }
+    }
+    if (xL===null || xR-xL < 0.4*H) return null;
+    const b = (xR-xL)/n;
+    let sumDrive=0, omsResist=0, deepest=0, sumW=0;
+    const slices=[];
+    for (let i=0;i<n;i++){
+      const xm = xL + (i+0.5)*b;
+      const h = ground(xm) - bot(xm);
+      if (h <= 0) continue;
+      // The slope descends to the right, so the slide rotates counter-clockwise:
+      // the crest drops and the toe is pushed out. Mass UPSLOPE of the centre
+      // (x < xc) therefore drives the failure, hence (xc - xm), not (xm - xc).
+      const s = (xc-xm)/R;
+      if (Math.abs(s) > 0.9999) return null;
+      const alpha = Math.asin(s);
+      const W = gamma*b*h;
+      const l = b/Math.cos(alpha);
+      const u = ru*gamma*h;
+      sumDrive += W*Math.sin(alpha);
+      sumW += W;
+      omsResist += c*l + Math.max(0, W*Math.cos(alpha) - u*l)*tanphi;
+      deepest = Math.max(deepest, h);
+      slices.push({i:i+1, W, alpha:alpha*180/Math.PI, l, u, b, h});
+    }
+    // Reject near-symmetric circles whose driving moment all but cancels: they
+    // are geometrically valid but physically meaningless, and produce huge FS.
+    if (sumDrive <= 0.02*sumW || slices.length < 4) return null;
+    const fsOMS = omsResist/sumDrive;
+    // Bishop iteration
+    let fs = Math.max(0.3, fsOMS), ok=true, iters=0;
+    for (let k=0;k<60;k++){
+      let num=0;
+      for (const s of slices){
+        const a = s.alpha*Math.PI/180;
+        const ma = Math.cos(a) + Math.sin(a)*tanphi/fs;
+        if (ma < 0.2){ ok=false; break; }
+        num += (c*s.b + Math.max(0,(s.W - s.u*s.b))*tanphi)/ma;
+      }
+      if(!ok) break;
+      const next = num/sumDrive;
+      iters = k+1;
+      if (Math.abs(next-fs) < 1e-4){ fs = next; break; }
+      fs = next;
+    }
+    return { fsOMS, fsBishop: ok?fs:null, iters, xL, xR, xc, yc, R, slices, sumDrive, omsResist, deepest };
+  }
+
+  function search(){
+    const H=v('sl-h'), beta=v('sl-beta'), c=v('sl-c'), phi=v('sl-phi'), gamma=v('sl-g');
+    const ru=v('sl-ru')/100, n=Math.max(4,Math.min(40,Math.round(v('sl-n'))));
+    g('sl-ru-v').textContent = ru.toFixed(2);
+    if (beta<=0||beta>=90||H<=0){ g('sl-res').innerHTML='<div class="verdict v-fail"><span>Invalid slope geometry</span></div>'; return; }
+    const tanb = Math.tan(beta*Math.PI/180), tanphi = Math.tan(phi*Math.PI/180);
+    const L = H/tanb;
+    let best=null;
+    for (let i=0;i<=9;i++){
+      const xc = -0.4*H + i*(L+1.6*H)/9;
+      for (let j=0;j<=7;j++){
+        const yc = H + 0.15*H + j*(2.2*H)/7;
+        for (let k=0;k<=7;k++){
+          const R = 0.55*H + k*(2.6*H)/7 + (yc-H)*0.5;
+          const r = analyseCircle(xc,yc,R,H,L,tanb,c,tanphi,gamma,ru,n);
+          if (r && r.fsBishop && r.deepest > 0.15*H){
+            if (!best || r.fsBishop < best.fsBishop) best = r;
+          }
+        }
+      }
+    }
+    if(!best){ g('sl-res').innerHTML='<div class="verdict v-fail"><span>No valid slip circle found — try adjusting geometry</span></div>'; g('sl-fig').innerHTML=''; g('sl-table').innerHTML=''; return; }
+
+    const fb = best.fsBishop, safe = fb>=1.5, marg = fb>=1.0;
+    g('sl-res').innerHTML =
+      `<div class="verdict ${safe?'v-pass':'v-fail'}"><span>Critical FS (Bishop)</span><b>${fb.toFixed(3)} ${safe?'✓':(marg?'⚠':'✗')}</b></div>` +
+      `<div class="res"><span>Same circle, OMS</span><b>${best.fsOMS.toFixed(3)}</b></div>` +
+      `<div class="res"><span>OMS conservative by</span><b>${(100*(fb-best.fsOMS)/fb).toFixed(1)}%</b></div>` +
+      `<div class="res"><span>Bishop iterations</span><b>${best.iters}</b></div>` +
+      `<div class="res"><span>Max slide depth</span><b>${best.deepest.toFixed(1)} m</b></div>` +
+      `<div class="res"><span>&Sigma;W sin&alpha; (driving)</span><b>${best.sumDrive.toFixed(0)} kN/m</b></div>`;
+
+    // ── figure ──
+    const ground = x => x <= 0 ? H : (x >= L ? 0 : H - x*tanb);
+    const bot = x => best.yc - Math.sqrt(Math.max(0, best.R*best.R - (x-best.xc)*(x-best.xc)));
+    const padL=26,padR=18,padT=16,padB=26,Wp=340,Hp=220;
+    const xmin=Math.min(best.xL,-0.15*H), xmax=Math.max(best.xR,L+0.15*H);
+    const ymin=Math.min(0, best.yc-best.R);
+    // Always frame the circle centre: the radius line is what makes the
+    // construction readable, and a centre drawn off-canvas looks like a bug.
+    const ymax=Math.max(H, best.yc + 0.08*H);
+    const s=Math.min((Wp-padL-padR)/(xmax-xmin),(Hp-padT-padB)/(ymax-ymin));
+    const xOff=(Wp-(xmax-xmin)*s)/2;   // centre the drawing in the viewBox
+    const X=x=>xOff+(x-xmin)*s, Y=y=>(Hp-padB)-(y-ymin)*s;
+
+    const N=90, arcPts=[], gndPts=[];
+    for(let i=0;i<=N;i++){
+      const x=best.xL+(best.xR-best.xL)*i/N;
+      arcPts.push([x, bot(x)]); gndPts.push([x, ground(x)]);
+    }
+    const pts = a => a.map(p=>X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join(' L ');
+    const arcPath = 'M ' + pts(arcPts);
+    const massPath = 'M ' + pts(gndPts) + ' L ' + pts(arcPts.slice().reverse()) + ' Z';
+    const gnd = `M ${X(xmin)} ${Y(H)} L ${X(0)} ${Y(H)} L ${X(L)} ${Y(0)} L ${X(xmax)} ${Y(0)}`;
+
+    let div='';
+    for(let i=1;i<best.slices.length;i++){
+      const xm=best.xL+i*best.slices[0].b;
+      const gy=ground(xm), by=bot(xm);
+      if(gy>by) div+=`<line x1="${X(xm).toFixed(1)}" y1="${Y(gy).toFixed(1)}" x2="${X(xm).toFixed(1)}" y2="${Y(by).toFixed(1)}" stroke="var(--bdr2)" stroke-width=".6" stroke-dasharray="2,2"/>`;
+    }
+    const oMark = `
+      <circle cx="${X(best.xc)}" cy="${Y(best.yc)}" r="2.5" fill="var(--amb)"/>
+      <line x1="${X(best.xc)}" y1="${Y(best.yc)}" x2="${X(best.xR)}" y2="${Y(bot(best.xR))}" stroke="var(--amb)" stroke-width=".7" stroke-dasharray="3,2"/>
+      <text x="${X(best.xc)+5}" y="${Y(best.yc)+3}" font-size="9" fill="var(--amb)">O · R=${best.R.toFixed(1)} m</text>`;
+
+    g('sl-fig').innerHTML=`
+    <svg viewBox="0 0 ${Wp} ${Hp}" style="width:100%;height:auto">
+      <path d="${massPath}" fill="rgba(194,90,59,0.15)" stroke="none"/>
+      ${div}
+      <path d="${gnd}" fill="none" stroke="var(--bdr2)" stroke-width="1.6"/>
+      <path d="${arcPath}" fill="none" stroke="var(--rust)" stroke-width="1.9"/>
+      ${oMark}
+      <text x="${X(xmin).toFixed(0)}" y="${Hp-8}" font-size="9" fill="var(--txt2)">H=${H} m, β=${beta}°</text>
+      <text x="${Wp-padR}" y="${Hp-8}" font-size="9" fill="var(--rust)" text-anchor="end">critical circle</text>
+    </svg>`;
+
+    // ── slice table ──
+    let rows = best.slices.map(sl=>{
+      const a=sl.alpha*Math.PI/180;
+      const drive=sl.W*Math.sin(a);
+      const res=c*sl.l+Math.max(0,sl.W*Math.cos(a)-sl.u*sl.l)*tanphi;
+      return `<tr><td style="padding:.2rem .4rem">${sl.i}</td><td style="text-align:right">${sl.h.toFixed(2)}</td><td style="text-align:right">${sl.W.toFixed(1)}</td><td style="text-align:right">${sl.alpha.toFixed(1)}</td><td style="text-align:right">${sl.l.toFixed(2)}</td><td style="text-align:right">${sl.u.toFixed(1)}</td><td style="text-align:right">${drive.toFixed(1)}</td><td style="text-align:right">${res.toFixed(1)}</td></tr>`;
+    }).join('');
+    g('sl-table').innerHTML=`<details><summary style="cursor:pointer;font-size:.82rem;color:var(--teal)">Show the ${best.slices.length}-slice table for the critical circle</summary>
+      <div style="overflow-x:auto;margin-top:.6rem"><table style="width:100%;border-collapse:collapse;font-size:.75rem">
+      <tr style="color:var(--mut)"><th style="text-align:left;padding:.2rem .4rem">#</th><th style="text-align:right">h (m)</th><th style="text-align:right">W (kN/m)</th><th style="text-align:right">α (°)</th><th style="text-align:right">ℓ (m)</th><th style="text-align:right">u (kPa)</th><th style="text-align:right">W sinα</th><th style="text-align:right">OMS resist.</th></tr>
+      ${rows}
+      <tr style="border-top:1px solid var(--bdr);color:var(--txt)"><td style="padding:.2rem .4rem"><strong>Σ</strong></td><td colspan="5"></td><td style="text-align:right"><strong>${best.sumDrive.toFixed(1)}</strong></td><td style="text-align:right"><strong>${best.omsResist.toFixed(1)}</strong></td></tr>
+      </table></div></details>`;
+  }
+  ['sl-h','sl-beta','sl-c','sl-phi','sl-g','sl-ru','sl-n'].forEach(id=>g(id).addEventListener('input', search));
+  search();
+
+  /* ───────── Quiz ───────── */
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const a=document.querySelectorAll('.quiz .q.answered').length;
+      const r=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=r+' / '+a+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>
