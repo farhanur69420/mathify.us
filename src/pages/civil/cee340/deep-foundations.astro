@@ -1,0 +1,495 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/cee340-chapter.css'
+---
+<Base title="CEE 340 — Design of Deep Foundations" description="Pile foundations from intuition to numbers — end bearing and skin friction, critical depth, the alpha method for clay, pile groups and negative skin friction, with a live pile capacity calculator.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 340 &middot; Advanced Foundation Engineering &middot; Ch. 11</div>
+  <h1>Design of Deep Foundations</h1>
+  <p class="hd-sub">When the soil near the surface cannot carry the load, stop trying to spread it and start trying to reach past it. A pile carries load two ways at once &mdash; on its tip and along its sides &mdash; and knowing which one dominates changes everything about how you design it.</p>
+  <div class="hd-pills">
+    <span class="pill">End Bearing</span>
+    <span class="pill">Skin Friction</span>
+    <span class="pill">&alpha; Method</span>
+    <span class="pill">Pile Groups</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">When Shallow Isn't an Option</a></li>
+    <li><a href="#sec-types">Classifying Piles</a></li>
+    <li><a href="#sec-transfer">How a Pile Carries Load</a></li>
+    <li><a href="#sec-sand">Piles in Sand</a></li>
+    <li><a href="#sec-clay">Piles in Clay &mdash; the &alpha; Method</a></li>
+    <li><a href="#sec-calc">Pile Capacity Calculator</a></li>
+    <li><a href="#sec-groups">Pile Groups &amp; Efficiency</a></li>
+    <li><a href="#sec-neg">Negative Skin Friction</a></li>
+    <li><a href="#sec-test">The Pile Load Test</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>When Shallow Isn't an Option</h2></div>
+
+  <p class="lead">Piles are expensive. You use them when a spread footing genuinely cannot do the job &mdash; and there are five distinct reasons that happens.</p>
+
+  <div class="grid3">
+    <div class="vcard v-rust"><span class="vtag">Reason 1</span><h4>Weak soil near surface</h4><p>The upper strata cannot carry the load at any practical footing size, but a competent layer exists deeper. Reach it.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Reason 2</span><h4>Intolerable settlement</h4><p>Bearing capacity might be adequate but a shallow foundation would settle far too much. Piles bypass the compressible layer.</p></div>
+    <div class="vcard v-teal"><span class="vtag">Reason 3</span><h4>Uplift and lateral loads</h4><p>Transmission towers, tall buildings under wind, and offshore structures need tension and lateral capacity a footing simply cannot supply.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Reason 4</span><h4>Scour</h4><p>Bridge piers must be founded below the depth that flood flow can wash away, which can be many metres.</p></div>
+    <div class="vcard v-blu"><span class="vtag">Reason 5</span><h4>Expansive / collapsible soil</h4><p>Piles anchored below the active zone escape seasonal swelling and shrinking that would jack a footing up and down.</p></div>
+    <div class="vcard v-grn"><span class="vtag">The economics</span><h4>Always check shallow first</h4><p>Piling can be an order of magnitude more expensive per unit load. It is the answer only after a spread or raft foundation has been shown to fail.</p></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-types">
+  <div class="sec-h"><span class="sec-n">02</span><h2>Classifying Piles</h2></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">By load transfer</span>
+      <h4>End bearing vs. friction</h4>
+      <p><strong>End bearing:</strong> the tip rests on rock or dense stratum and carries nearly everything. <strong>Friction:</strong> no competent layer within reach, so load is shed along the shaft. Most real piles are a combination.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">By installation</span>
+      <h4>Driven vs. bored</h4>
+      <p><strong>Driven</strong> piles displace soil sideways, densifying sand and <em>increasing</em> capacity &mdash; but they cause noise and vibration. <strong>Bored</strong> (cast-in-situ) piles remove soil, so there is no densification and less shaft friction, but they are quiet and can be very large.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">By material</span>
+      <h4>Concrete, steel, timber</h4>
+      <p>Precast/prestressed concrete is the workhorse. Steel H-piles and pipe piles drive well through hard layers and splice easily. Timber is cheap and durable if kept permanently below the water table.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Installation method is not just a construction detail.</strong> The same pile geometry in the same sand can have noticeably different capacity depending on whether it was driven or bored, because driving changes the soil around it. That is why design correlations distinguish the two &mdash; and why a pile load test is worth so much.</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-transfer">
+  <div class="sec-h"><span class="sec-n">03</span><h2>How a Pile Carries Load</h2></div>
+
+  <div class="analogy">
+    <span class="an-icon">&#129517;</span>
+    <div>
+      <strong>Push a straw into a thick milkshake.</strong> Some resistance comes from the tip pressing on what is beneath it, and some from the drink gripping the sides of the straw all the way down. Push into a glass with a solid bottom and it is nearly all tip. Push into a very deep milkshake with no bottom in reach and it is all sides. Same object, completely different mechanism &mdash; and that is the whole classification of piles.
+    </div>
+  </div>
+
+  <div class="vcard v-vio">
+    <span class="vtag">Ultimate capacity</span>
+    <div class="eq">\[ Q_u = Q_p + Q_s \]</div>
+    <p class="small">Point (end bearing) resistance plus skin (shaft) friction. They mobilise at very different displacements: shaft friction is fully developed after only about 5&ndash;10 mm of movement, while end bearing needs 10&ndash;25% of the pile diameter. At working loads, friction is doing almost all the work even in a nominally end-bearing pile.</p>
+  </div>
+
+  <div class="diagram-card">
+    <h4>Load Transfer</h4>
+    <svg viewBox="0 0 320 190" class="static-svg" style="max-width:320px">
+      <line x1="20" y1="35" x2="300" y2="35" stroke="var(--bdr2)" stroke-width="1.2"/>
+      <rect x="72" y="35" width="18" height="120" fill="var(--surf3)" stroke="var(--teal)" stroke-width="1.3"/>
+      <line x1="81" y1="12" x2="81" y2="30" stroke="var(--teal)" stroke-width="2.5" marker-end="url(#a1)"/>
+      <defs><marker id="a1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--teal)"/></marker></defs>
+      <text x="81" y="8" font-size="9" fill="var(--teal)" text-anchor="middle">Q</text>
+      <g stroke="var(--amb)" stroke-width="1.4">
+        <line x1="66" y1="55" x2="66" y2="70"/><line x1="96" y1="55" x2="96" y2="70"/>
+        <line x1="66" y1="80" x2="66" y2="95"/><line x1="96" y1="80" x2="96" y2="95"/>
+        <line x1="66" y1="105" x2="66" y2="120"/><line x1="96" y1="105" x2="96" y2="120"/>
+      </g>
+      <text x="112" y="92" font-size="9" fill="var(--amb)">Q_s — skin friction</text>
+      <line x1="81" y1="172" x2="81" y2="160" stroke="var(--rust)" stroke-width="2.5" marker-end="url(#a2)"/>
+      <defs><marker id="a2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--rust)"/></marker></defs>
+      <text x="112" y="172" font-size="9" fill="var(--rust)">Q_p — end bearing</text>
+      <line x1="200" y1="45" x2="200" y2="160" stroke="var(--bdr2)" stroke-width="1"/>
+      <path d="M 200 45 L 232 90 L 240 155" fill="none" stroke="var(--teal)" stroke-width="1.8"/>
+      <text x="248" y="52" font-size="8" fill="var(--txt2)">load in pile</text>
+      <text x="248" y="150" font-size="8" fill="var(--rust)">tip load</text>
+      <text x="200" y="178" font-size="8" fill="var(--txt2)">depth ↓</text>
+    </svg>
+    <p class="cap">Axial load in the pile decreases with depth as friction sheds it into the surrounding soil. Whatever is left at the bottom is the end bearing. The shape of that curve tells you immediately which mechanism dominates.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-sand">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Piles in Sand</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">End bearing</span>
+      <div class="eq">\[ Q_p = A_p q' N_q^* \le A_p\left(0.5\,p_a N_q^*\tan\phi'\right) \]</div>
+      <p class="small">N<sub>q</sub>* is Meyerhof's bearing capacity factor <em>for piles</em> &mdash; far larger than the shallow-foundation N<sub>q</sub> (81 vs 23 at &phi;' = 32&deg;) because the failure zone is confined by soil on all sides. The limiting value on the right almost always governs.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Skin friction</span>
+      <div class="eq">\[ f = K\sigma'_v\tan\delta', \qquad Q_s = \sum p\,\Delta L\,f \]</div>
+      <p class="small">K &asymp; 1.4 for driven displacement piles, &asymp; 1&minus;sin&phi;' for bored. &delta;' &asymp; 0.5&ndash;0.8&phi;'. p is the pile perimeter.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea &mdash; the critical depth</span>
+    <p>Both q' and &sigma;'<sub>v</sub> stop increasing below a <strong>critical depth</strong> of roughly <strong>15&ndash;20 pile diameters</strong>. Arching in the sand means the vertical stress acting on the pile does not keep growing indefinitely with depth. Ignore this and a long pile's capacity is wildly overestimated &mdash; the calculator below shows the effect directly.</p>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Consequence:</strong> beyond the critical depth, every extra metre of pile adds friction at a <em>constant</em> rate, not an increasing one. Driving deeper still helps &mdash; but linearly, not quadratically, and there is a point where a second pile is cheaper than a longer one.</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-clay">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Piles in Clay &mdash; the &alpha; Method</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">End bearing (undrained, &phi; = 0)</span>
+      <div class="eq">\[ Q_p = 9\,c_u A_p \]</div>
+      <p class="small">N<sub>c</sub>* = 9 for a deep foundation, against 5.14 for a shallow one &mdash; again because the failure surface is fully confined.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Skin friction &mdash; &alpha; method</span>
+      <div class="eq">\[ f = \alpha c_u, \qquad Q_s = \sum \alpha c_u\, p\,\Delta L \]</div>
+      <p class="small">&alpha; &asymp; 1.0 for soft clay (c<sub>u</sub> &lt; 25 kPa), falling to about 0.5 at c<sub>u</sub> = 100 kPa and 0.4&ndash;0.45 for stiff clay beyond that.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#129379;</span>
+    <div>
+      <strong>Why does &alpha; fall as the clay gets stiffer?</strong> Driving a pile into stiff clay remoulds and softens a thin annulus around the shaft, and can open a gap near the top. The clay right against the pile is therefore weaker than the clay the laboratory tested. Soft clay has less structure to destroy in the first place, so it loses less &mdash; hence &alpha; near 1.
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>In clay, <strong>friction dominates overwhelmingly</strong>. Worked Example 2 gets 634 kN of shaft friction against just 86 kN of end bearing &mdash; the tip contributes 12%. Shortening a friction pile is far more damaging than in sand, where the tip matters more.</p>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-calc">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Pile Capacity Calculator</h2></div>
+  <p>Switch soil type and watch the balance between tip and shaft flip. Try pushing the length well past the critical depth in sand to see friction accumulate linearly rather than quadratically.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Soil
+        <select id="pl-soil">
+          <option value="sand" selected>Sand (drained)</option>
+          <option value="clay">Clay (undrained, &alpha; method)</option>
+        </select>
+      </label>
+      <label>Pile section
+        <select id="pl-shape">
+          <option value="square" selected>Square</option>
+          <option value="circle">Circular</option>
+        </select>
+      </label>
+      <label>Size D (m) / Length L (m)
+        <span class="calc-pair"><input type="number" id="pl-d" value="0.4" step="0.05"><input type="number" id="pl-l" value="12" step="0.5"></span>
+      </label>
+      <label>&gamma; (kN/m&sup3;) <input type="number" id="pl-g" value="18" step="0.5"></label>
+      <label id="pl-row-phi">&phi;' (deg) / K
+        <span class="calc-pair"><input type="number" id="pl-phi" value="32" step="1"><input type="number" id="pl-k" value="1.4" step="0.1"></span>
+      </label>
+      <label id="pl-row-cu">c<sub>u</sub> (kPa) / &alpha;
+        <span class="calc-pair"><input type="number" id="pl-cu" value="60" step="5"><input type="number" id="pl-alpha" value="0.55" step="0.05"></span>
+      </label>
+      <label>Factor of safety <input type="number" id="pl-fs" value="3" step="0.5"></label>
+    </div>
+    <div class="calc-out">
+      <div id="pl-fig" class="calc-fig"></div>
+      <div id="pl-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-groups">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Pile Groups &amp; Efficiency</h2></div>
+
+  <p>Piles are almost never used singly &mdash; they come in groups under a common cap. And a group of nine piles does <em>not</em> carry nine times a single pile.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#129746;</span>
+    <div>
+      <strong>Drinking straws sharing one milkshake.</strong> One straw draws from all the fluid around it. Put nine straws close together and they compete for the same soil &mdash; their zones of influence overlap, so each is less effective than it was alone. Spread them further apart and interference falls, which is exactly why minimum spacing rules exist.
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Converse&ndash;Labarre efficiency</span>
+      <div class="eq">\[ \eta = 1 - \frac&#123;\theta&#125;&#123;90&#125;\cdot\frac&#123;(n-1)m + (m-1)n&#125;&#123;mn&#125; \]</div>
+      <p class="small">&theta; = arctan(D/s) in degrees, m &times; n piles at spacing s. Group capacity Q<sub>g</sub> = &eta; &middot; (mn) &middot; Q<sub>u</sub>.</p>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">Block failure &mdash; the other check</span>
+      <p>In clay a closely spaced group can fail as one enormous block rather than as individual piles. Compute the capacity of the group perimeter acting as a single deep footing, and <strong>take the smaller</strong> of the two answers.</p>
+      <div class="eq">\[ Q_&#123;g(block)&#125; = c_u N_c^* (B_g L_g) + \sum \alpha c_u\, p_g \Delta L \]</div>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Minimum spacing is typically 2.5&ndash;3.5D</strong>, most commonly 3D. Closer and efficiency drops sharply while driving one pile heaves or damages its neighbours; further apart and the pile cap grows expensive. At s = 3D a 3&times;3 group has &eta; &asymp; 0.73 &mdash; you lose over a quarter of the theoretical capacity to interference.</div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-neg">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Negative Skin Friction</h2></div>
+
+  <p>Skin friction is normally your friend: the soil grips the pile and holds it up. But if the <em>soil</em> settles more than the <em>pile</em>, that grip reverses direction and starts dragging the pile down.</p>
+
+  <div class="grid2">
+    <div class="vcard v-rust">
+      <span class="vtag">When it happens</span>
+      <p>A pile driven through a soft clay layer that is still consolidating &mdash; under a new fill, a lowered water table, or its own weight. The clay settles past the pile, and friction along that length becomes a <strong>downward load</strong> instead of an upward resistance.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">The double penalty</span>
+      <p>You lose the friction you were counting on over that length, <em>and</em> you gain an extra load the pile must carry. A layer that should have contributed +200 kN might instead impose &minus;200 kN &mdash; a 400 kN swing. Mitigation: bitumen coating on the shaft through the settling layer, or a sleeve.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Negative skin friction is a <strong>load</strong>, not a reduction in resistance. Add it to the applied structural load before comparing against allowable capacity &mdash; do not simply subtract it from Q<sub>u</sub>.</p>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-test">
+  <div class="sec-h"><span class="sec-n">09</span><h2>The Pile Load Test</h2></div>
+
+  <p>Every equation in this chapter is an empirical correlation with real scatter &mdash; capacity predictions are commonly off by 30% or more. The load test is the only way to actually find out, and on any significant project it pays for itself.</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Procedure</span><h4>Load in increments</h4><p>Apply load in steps of roughly 25% of the estimated allowable load, holding each until settlement stabilises, and record the load-settlement curve.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Interpretation</span><h4>Finding Q<sub>u</sub></h4><p>Sometimes there is a clear plunging failure. More often there is not, so a criterion is used &mdash; for example net settlement reaching 10% of the pile diameter, or Davisson's offset line.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Value</span><h4>Design confidence</h4><p>A verified capacity permits a lower factor of safety (often 2 instead of 3), which frequently saves more in pile lengths across the site than the test cost.</p></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Driven Pile in Sand</h4></div>
+    <p class="prob"><strong>Problem:</strong> A 0.4 m square precast concrete pile is driven 12 m into sand with &gamma; = 18 kN/m&sup3;, &phi;' = 32&deg;. Take K = 1.4, &delta;' = 0.7&phi;', and a critical depth of 15D. Find the allowable capacity with FS = 3.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Geometry:</strong> \( A_p = 0.4^2 = 0.16\text&#123;m&#125;^2 \), perimeter \( p = 4(0.4) = 1.6\text&#123;m&#125; \), critical depth \( L_c = 15(0.4) = 6.0\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>2</b><div><strong>Effective stress at the tip is capped at L<sub>c</sub>:</strong> \( q' = 18(6.0) = 108\text&#123;kPa&#125; \) &mdash; not 18(12) = 216 kPa</div></div>
+      <div class="step"><b>3</b><div><strong>End bearing</strong> with Meyerhof's N<sub>q</sub>* = 81 at &phi;' = 32&deg;: \( Q_p = 0.16(108)(81) = 1400\text&#123;kN&#125; \), but the limiting value is \( 0.16(0.5)(100)(81)\tan32^\circ = 405\text&#123;kN&#125; \). <strong>The limit governs: Q<sub>p</sub> = 405 kN.</strong></div></div>
+      <div class="step"><b>4</b><div><strong>Skin friction, 0 to 6 m</strong> (&sigma;'<sub>v</sub> rising 0 &rarr; 108, average 54): \( Q_&#123;s1&#125; = 1.4(54)\tan(22.4^\circ)(1.6)(6) = 299\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>5</b><div><strong>Skin friction, 6 to 12 m</strong> (&sigma;'<sub>v</sub> constant at 108): \( Q_&#123;s2&#125; = 1.4(108)\tan(22.4^\circ)(1.6)(6) = 598\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>6</b><div>\( Q_u = 405 + 299 + 598 = 1302\text&#123;kN&#125; \), so \( Q_&#123;all&#125; = 1302/3 = 434\text&#123;kN&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> Q<sub>all</sub> &asymp; 434 kN. Shaft friction supplies 69% of capacity. Note the lower 6 m contributes twice as much friction as the upper 6 m &mdash; not because it is deeper, but because &sigma;'<sub>v</sub> has already reached its capped value there.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>The Same Pile in Clay</h4></div>
+    <p class="prob"><strong>Problem:</strong> The same 0.4 m &times; 12 m pile is instead driven into clay with c<sub>u</sub> = 60 kPa. Take &alpha; = 0.55. Find the allowable capacity with FS = 3.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>End bearing:</strong> \( Q_p = 9c_u A_p = 9(60)(0.16) = 86.4\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>2</b><div><strong>Skin friction:</strong> \( Q_s = \alpha c_u\, p L = 0.55(60)(1.6)(12) = 633.6\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>3</b><div>\( Q_u = 86.4 + 633.6 = 720\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>4</b><div>\( Q_&#123;all&#125; = 720/3 = 240\text&#123;kN&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> Q<sub>all</sub> = 240 kN &mdash; only 55% of the same pile in sand. The tip contributes just <strong>12%</strong>: in clay this is essentially a friction pile, and its capacity is very nearly proportional to its length.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>A 3 &times; 3 Pile Group</h4></div>
+    <p class="prob"><strong>Problem:</strong> Nine of the clay piles from Example 2 are arranged in a 3 &times; 3 group at 1.2 m centres (s = 3D). Find the group capacity using Converse&ndash;Labarre.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>\( \theta = \arctan(D/s) = \arctan(0.4/1.2) = \arctan(0.3333) = 18.43^\circ \)</div></div>
+      <div class="step"><b>2</b><div>\( \eta = 1 - \dfrac&#123;18.43&#125;&#123;90&#125;\cdot\dfrac&#123;(3-1)(3)+(3-1)(3)&#125;&#123;3\times3&#125; = 1 - 0.2048\left(\dfrac&#123;12&#125;&#123;9&#125;\right) = 1 - 0.273 = 0.727 \)</div></div>
+      <div class="step"><b>3</b><div><strong>Group capacity:</strong> \( Q_g = \eta(mn)Q_u = 0.727(9)(720) = 4711\text&#123;kN&#125; \), so \( Q_&#123;g,all&#125; = 4711/3 = 1570\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>4</b><div><strong>Also check block failure</strong> &mdash; the group perimeter is 2.8 m &times; 2.8 m. In clay this check can govern for closely spaced groups, and the smaller of the two answers must be used.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> Q<sub>g</sub> &asymp; 4711 kN ultimate, 1570 kN allowable &mdash; against 9 &times; 720 = 6480 kN if the piles did not interfere. <strong>27% of the theoretical capacity is lost to group interaction</strong>, which is exactly why a pile cap cannot simply be designed pile-by-pile.</div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">11</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>Ultimate capacity</span><span>Q<sub>u</sub> = Q<sub>p</sub> + Q<sub>s</sub></span></div>
+    <div><span>End bearing, sand</span><span>A<sub>p</sub>q'N<sub>q</sub>* &le; A<sub>p</sub>(0.5p<sub>a</sub>N<sub>q</sub>*tan&phi;')</span></div>
+    <div><span>End bearing, clay</span><span>9c<sub>u</sub>A<sub>p</sub></span></div>
+    <div><span>Skin friction, sand</span><span>f = K&sigma;'<sub>v</sub>tan&delta;'</span></div>
+    <div><span>Skin friction, clay</span><span>f = &alpha;c<sub>u</sub></span></div>
+    <div><span>Critical depth</span><span>15&ndash;20 D</span></div>
+    <div><span>K (driven / bored)</span><span>&asymp;1.4 / 1&minus;sin&phi;'</span></div>
+    <div><span>&delta;'</span><span>0.5 to 0.8 &phi;'</span></div>
+    <div><span>Group efficiency</span><span>Converse&ndash;Labarre &eta;</span></div>
+    <div><span>Minimum spacing</span><span>2.5&ndash;3.5 D (usually 3D)</span></div>
+    <div><span>FS</span><span>3 (2 with load test)</span></div>
+    <div><span>Negative skin friction</span><span>added as a load, not a strength loss</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. A pile in sand is driven to 30 m instead of 12 m. Why doesn't capacity increase as much as expected?</p>
+      <button data-v="0">The pile buckles under its own weight</button>
+      <button data-v="1">Below the critical depth (15–20D), &sigma;'<sub>v</sub> stops increasing, so extra friction accrues linearly rather than quadratically</button>
+      <button data-v="2">Sand becomes weaker with depth</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. Why does &alpha; decrease as clay becomes stiffer?</p>
+      <button data-v="0">Stiff clay has lower c<sub>u</sub></button>
+      <button data-v="1">The pile is smoother in stiff clay</button>
+      <button data-v="2">Driving remoulds and softens a thin annulus of clay around the shaft, and stiff clay loses proportionally more strength</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. A pile passes through soft clay that is still consolidating under a new fill. What happens to the friction along that length?</p>
+      <button data-v="0">It reverses to negative skin friction — a downward load added to the applied load</button>
+      <button data-v="1">It doubles, since the clay is compressing onto the pile</button>
+      <button data-v="2">It is unaffected; friction always resists</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>4. A 3×3 group at 3D spacing has &eta; = 0.73. What does that mean?</p>
+      <button data-v="0">Only 73% of the piles were installed correctly</button>
+      <button data-v="1">The group carries 73% of nine individual piles, because their stress zones overlap</button>
+      <button data-v="2">The factor of safety must be raised to 1/0.73</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>5. In Example 2 the tip supplied only 12% of capacity. What does that imply for design?</p>
+      <button data-v="0">The pile should be replaced by a shallow footing</button>
+      <button data-v="1">End bearing can be ignored in all pile design</button>
+      <button data-v="2">It is essentially a friction pile — capacity scales with length, so shortening it is costly</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee340/shallow-foundations">&larr; Shallow Foundations</a>
+  <a href="/civil">Back to Civil Engineering &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+  const R=Math.PI/180;
+  // Meyerhof's Nq* for piles (Das) — far larger than the shallow-foundation Nq.
+  const NQ={20:12.4,21:13.8,22:15.5,23:17.9,24:21.4,25:26.0,26:29.5,27:34.0,28:39.7,
+    29:46.5,30:56.7,31:68.2,32:81.0,33:96.0,34:115.0,35:143.0,36:168.0,37:194.0,
+    38:231.0,39:276.0,40:346.0,41:420.0,42:525.0,43:650.0,44:780.0,45:930.0};
+  function NqStar(phi){
+    if(phi<=20) return 12.4;
+    if(phi>=45) return 930;
+    const lo=Math.floor(phi), hi=lo+1, t=phi-lo;
+    return NQ[lo]+(NQ[hi]-NQ[lo])*t;
+  }
+
+  function pile(){
+    const sand=g('pl-soil').value==='sand';
+    const circle=g('pl-shape').value==='circle';
+    const D=v('pl-d'), L=v('pl-l'), gam=v('pl-g'), FS=Math.max(1,v('pl-fs'));
+    g('pl-row-phi').style.display = sand?'block':'none';
+    g('pl-row-cu').style.display  = sand?'none':'block';
+    if(D<=0||L<=0){ g('pl-res').innerHTML='<div class="verdict v-fail"><span>Check inputs</span></div>'; return; }
+
+    const Ap = circle ? Math.PI*D*D/4 : D*D;
+    const per = circle ? Math.PI*D : 4*D;
+    let Qp, Qs, extra='', Lc=null, limited=false;
+
+    if (sand){
+      const phi=v('pl-phi'), K=v('pl-k'), d=0.7*phi*R;
+      Lc = 15*D;
+      const qEff = gam*Math.min(L,Lc);
+      const Nq = NqStar(phi);
+      const Qraw = Ap*qEff*Nq;
+      const Qlim = Ap*0.5*100*Nq*Math.tan(phi*R);
+      limited = Qlim < Qraw;
+      Qp = Math.min(Qraw,Qlim);
+      const La=Math.min(L,Lc), Lb=Math.max(0,L-Lc);
+      const Qs1=K*(gam*La/2)*Math.tan(d)*per*La;
+      const Qs2=K*(gam*Lc)*Math.tan(d)*per*Lb;
+      Qs=Qs1+Qs2;
+      extra = `<div class="res"><span>N<sub>q</sub>* / critical depth</span><b>${Nq.toFixed(0)} / ${Lc.toFixed(1)} m</b></div>`+
+        `<div class="res"><span>&sigma;'<sub>v</sub> at tip (capped)</span><b>${qEff.toFixed(0)} kPa</b></div>`+
+        (limited?`<div class="verdict v-fail"><span>Meyerhof limit governs Q<sub>p</sub></span><b>${Qraw.toFixed(0)}&rarr;${Qlim.toFixed(0)} kN</b></div>`:'');
+    } else {
+      const cu=v('pl-cu'), al=v('pl-alpha');
+      Qp = 9*cu*Ap;
+      Qs = al*cu*per*L;
+      extra = `<div class="res"><span>N<sub>c</sub>* / &alpha;</span><b>9 / ${al}</b></div>`;
+    }
+
+    const Qu=Qp+Qs, Qall=Qu/FS, share=100*Qs/Qu;
+    g('pl-res').innerHTML = extra +
+      `<div class="res"><span>End bearing Q<sub>p</sub></span><b>${Qp.toFixed(0)} kN (${(100-share).toFixed(0)}%)</b></div>`+
+      `<div class="res"><span>Skin friction Q<sub>s</sub></span><b>${Qs.toFixed(0)} kN (${share.toFixed(0)}%)</b></div>`+
+      `<div class="verdict v-pass"><span>Ultimate Q<sub>u</sub></span><b>${Qu.toFixed(0)} kN</b></div>`+
+      `<div class="verdict v-pass"><span>Allowable (FS=${FS})</span><b>${Qall.toFixed(0)} kN</b></div>`+
+      `<div class="res"><span>Behaves as</span><b>${share>70?'friction pile':share<40?'end-bearing pile':'combination'}</b></div>`;
+
+    // figure: pile with proportional Qp / Qs bars.
+    // Labels are anchored to distinct zones (top-left, mid-right, bottom) because
+    // L/2 and L_c frequently coincide and would otherwise overprint each other.
+    const W=290,Hh=205,gl=30,px=112;
+    const sc=Math.min(132/Math.max(L,1),24);
+    const plen=L*sc, pw=Math.max(9,Math.min(22,D*sc*1.6));
+    const barW=Math.max(4,(Qs/Qu)*54), tipW=Math.max(6,(Qp/Qu)*54);
+    const barTop=gl+plen*0.18, barH=plen*0.64;
+    let lcLine='';
+    if(Lc!==null && Lc<L){
+      const y=gl+Lc*sc;
+      lcLine=`<line x1="26" y1="${y.toFixed(1)}" x2="${(px-pw/2-4).toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--vio)" stroke-width="1" stroke-dasharray="4,3"/>`+
+             `<text x="28" y="${(y-4).toFixed(1)}" font-size="8" fill="var(--vio)">L_c = ${Lc.toFixed(1)} m</text>`;
+    }
+    g('pl-fig').innerHTML=`
+    <svg viewBox="0 0 ${W} ${Hh}" style="width:100%;height:auto">
+      <rect x="20" y="${gl}" width="${W-38}" height="${Hh-gl-16}" fill="rgba(212,169,74,0.05)"/>
+      <line x1="20" y1="${gl}" x2="${W-18}" y2="${gl}" stroke="var(--bdr2)" stroke-width="1.2"/>
+      ${lcLine}
+      <rect x="${(px-pw/2).toFixed(1)}" y="${gl}" width="${pw.toFixed(1)}" height="${plen.toFixed(1)}" fill="var(--surf3)" stroke="var(--teal)" stroke-width="1.4"/>
+      <text x="${(px-pw/2-5).toFixed(1)}" y="${(gl+11).toFixed(1)}" font-size="8" fill="var(--teal)" text-anchor="end">L = ${L} m</text>
+      <rect x="${(px+pw/2+5).toFixed(1)}" y="${barTop.toFixed(1)}" width="${barW.toFixed(1)}" height="${barH.toFixed(1)}" fill="rgba(212,169,74,0.35)" stroke="var(--amb)"/>
+      <text x="${(px+pw/2+9+barW).toFixed(1)}" y="${(barTop+11).toFixed(1)}" font-size="8" fill="var(--amb)">Q&#8202;s ${(Qs/Qu*100).toFixed(0)}%</text>
+      <rect x="${(px-tipW/2).toFixed(1)}" y="${(gl+plen+3).toFixed(1)}" width="${tipW.toFixed(1)}" height="8" fill="rgba(194,90,59,0.4)" stroke="var(--rust)"/>
+      <text x="${px}" y="${(gl+plen+24).toFixed(1)}" font-size="8" fill="var(--rust)" text-anchor="middle">Q&#8202;p ${(Qp/Qu*100).toFixed(0)}%</text>
+    </svg>`;
+  }
+  ['pl-soil','pl-shape','pl-d','pl-l','pl-g','pl-phi','pl-k','pl-cu','pl-alpha','pl-fs'].forEach(id=>g(id).addEventListener('input',pile));
+  pile();
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const a=document.querySelectorAll('.quiz .q.answered').length;
+      const r=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=r+' / '+a+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>

@@ -1,0 +1,445 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/cee340-chapter.css'
+---
+<Base title="CEE 340 — Soil Investigation Techniques" description="Subsoil exploration from intuition to numbers — boring depth and spacing, sampling and disturbance, the SPT with all its corrections, CPT and vane shear, plus a live SPT correction calculator.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 340 &middot; Advanced Foundation Engineering &middot; Ch. 2</div>
+  <h1>Soil Investigation Techniques</h1>
+  <p class="hd-sub">Every number in every other chapter &mdash; c', &phi;', &gamma;, C<sub>c</sub>, c<sub>v</sub> &mdash; came from somewhere. This chapter is that somewhere. It is the only part of geotechnical engineering where you are allowed to find out what the ground actually is, instead of assuming.</p>
+  <div class="hd-pills">
+    <span class="pill">Boring &amp; Sampling</span>
+    <span class="pill">SPT Corrections</span>
+    <span class="pill">CPT</span>
+    <span class="pill">Vane Shear</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">The Cheapest Insurance in Construction</a></li>
+    <li><a href="#sec-phases">Phases of an Investigation</a></li>
+    <li><a href="#sec-depth">How Deep, How Many, How Far Apart</a></li>
+    <li><a href="#sec-boring">Boring Methods</a></li>
+    <li><a href="#sec-sampling">Sampling &amp; Disturbance</a></li>
+    <li><a href="#sec-spt">The Standard Penetration Test</a></li>
+    <li><a href="#sec-calc">SPT Correction Calculator</a></li>
+    <li><a href="#sec-cpt">CPT &amp; Vane Shear</a></li>
+    <li><a href="#sec-log">The Boring Log</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>The Cheapest Insurance in Construction</h2></div>
+
+  <p class="lead">A site investigation typically costs well under 1% of project value. Foundation problems &mdash; discovered after construction starts &mdash; routinely cost many times that, and they are the single most common source of construction claims and delays.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#129658;</span>
+    <div>
+      <strong>A surgeon who skips the scan.</strong> You would not accept an operation planned entirely from the outside of the body, however experienced the surgeon. Boreholes are the scan. Skipping them doesn't remove the uncertainty about what is underground &mdash; it just moves the moment you discover it to the most expensive possible point, when the excavator is already on site.</div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>The purpose of subsoil exploration is to determine the <strong>stratigraphy</strong> (what layers, how thick), the <strong>engineering properties</strong> of each layer, and the <strong>groundwater regime</strong> &mdash; with enough coverage to be confident the ground between boreholes behaves like the ground in them.</p>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-phases">
+  <div class="sec-h"><span class="sec-n">02</span><h2>Phases of an Investigation</h2></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Phase 1</span><h4>Reconnaissance</h4><p>Desk study and site walkover: geological maps, aerial photographs, records of nearby construction, groundwater data, and evidence you can see &mdash; cracked adjacent buildings, seepage, old fill, slope movement.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Phase 2</span><h4>Preliminary exploration</h4><p>A small number of boreholes to establish the broad picture: how many layers, roughly how thick, where the water table is. Enough to plan the detailed programme intelligently.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Phase 3</span><h4>Detailed exploration</h4><p>Full borehole grid with in-situ testing and undisturbed sampling for laboratory work, targeted at the layers that will actually govern the design.</p></div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Phases exist because information changes the plan.</strong> You cannot sensibly decide where to take undisturbed samples until you know where the soft layer is. An investigation designed entirely in advance either over-samples the irrelevant layers or misses the critical one.</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-depth">
+  <div class="sec-h"><span class="sec-n">03</span><h2>How Deep, How Many, How Far Apart</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Depth &mdash; the stress criterion</span>
+      <p>Bore deep enough that the load no longer matters. Two common rules, take the shallower:</p>
+      <div class="eq">\[ \Delta\sigma \le 0.1\,q \qquad\text&#123;or&#125;\qquad \Delta\sigma \le 0.05\,\sigma'_0 \]</div>
+      <p class="small">Below that depth the added stress is a rounding error, so deeper drilling buys nothing.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Depth &mdash; Sowers' rule of thumb</span>
+      <div class="eq">\[ D_b = C\,S^&#123;0.7&#125; \]</div>
+      <p class="small">S = number of storeys; C = 3 m for light steel / narrow concrete buildings, 6 m for heavy steel / wide concrete. A quick first estimate before you have any stress calculation.</p>
+    </div>
+  </div>
+
+  <div class="qref" style="margin-top:1rem">
+    <div><span>Multistorey buildings</span><span>10 &ndash; 30 m spacing</span></div>
+    <div><span>One-storey / industrial</span><span>20 &ndash; 60 m spacing</span></div>
+    <div><span>Highways</span><span>250 &ndash; 500 m spacing</span></div>
+    <div><span>Earth dams</span><span>20 &ndash; 50 m spacing</span></div>
+    <div><span>Always bore deeper if</span><span>soft/organic layers continue</span></div>
+    <div><span>Bedrock encountered</span><span>core at least 3 m to confirm</span></div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>The bedrock trap:</strong> hitting something hard is not proof of bedrock. It may be a boulder, a cemented lens, or a layer of old fill with soft ground beneath. That is why practice requires coring several metres into "rock" &mdash; foundations have been founded on boulders sitting in soft clay.</div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-boring">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Boring Methods</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-teal"><span class="vtag">Auger boring</span><h4>Hand or power auger</h4><p>Simple and cheap, for shallow depths in cohesive soil above the water table. <strong>Hollow-stem augers</strong> are the workhorse: the hollow centre keeps the hole open so you can sample straight down the middle without casing.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Wash boring</span><h4>Water jet and casing</h4><p>Water pumped down a drill rod jets soil loose and carries cuttings up. Cheap and can go deep, but the returned material is thoroughly disturbed &mdash; useful for advancing the hole, not for identifying soil precisely.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Rotary drilling</span><h4>Rotating bit with drilling fluid</h4><p>The method of choice for deep holes and for rock coring. Drilling mud stabilises the borehole wall, which matters below the water table and in granular soil.</p></div>
+    <div class="vcard v-rust"><span class="vtag">Percussion drilling</span><h4>Repeated impact</h4><p>For hard ground, cobbles, boulders and rock where other methods stall. Very disturbing to the soil &mdash; sampling quality is poor.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-sampling">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Sampling &amp; Disturbance</h2></div>
+
+  <p>Every sample is disturbed to some degree; the question is how much, and whether what you plan to measure survives it.</p>
+
+  <div class="grid2">
+    <div class="vcard v-amb">
+      <span class="vtag">Disturbed samples</span>
+      <h4>Split-spoon (SPT sampler)</h4>
+      <p>Structure is destroyed, but grain sizes and moisture survive. Fine for classification, Atterberg limits, grain-size distribution and compaction tests. <strong>Useless</strong> for strength or compressibility, which depend on the fabric you just wrecked.</p>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">Undisturbed samples</span>
+      <h4>Shelby tube (thin-walled)</h4>
+      <p>A thin steel tube pushed (never driven) into clay, preserving structure well enough for triaxial and consolidation testing. This is where C<sub>c</sub>, c<sub>v</sub> and c<sub>u</sub> come from &mdash; the numbers driving the settlement chapter.</p>
+    </div>
+  </div>
+
+  <div class="vcard v-vio" style="margin-top:1rem">
+    <span class="vtag">The area ratio &mdash; how you judge a sampler</span>
+    <div class="eq">\[ A_R(\%) = \frac&#123;D_o^2 - D_i^2&#125;&#123;D_i^2&#125;\times 100 \le 10\% \]</div>
+    <p class="small">The tube has to shove aside a volume of soil equal to its own wall. A thick wall displaces more soil and disturbs more of what it captures. A Shelby tube achieves roughly 10%; a split-spoon sampler is above 100%, which is exactly why it cannot give undisturbed samples.</p>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-spt">
+  <div class="sec-h"><span class="sec-n">06</span><h2>The Standard Penetration Test</h2></div>
+
+  <p>Drive a standard split-spoon sampler into the base of the borehole with a 63.5 kg hammer falling 760 mm. Count blows for three 150 mm increments; discard the first (disturbed by drilling) and <strong>N = the sum of the second and third</strong>. It is crude, it is the most widely used in-situ test in the world, and almost every empirical correlation in foundation engineering is built on it.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#128296;</span>
+    <div>
+      <strong>It is a standardised way of hitting the ground and counting.</strong> That is genuinely all it is. Its value is not precision &mdash; it is that millions of tests have been performed the same way beside structures whose performance is known, so the correlations are empirically anchored even though the physics is crude.
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="vcard v-rust">
+      <span class="vtag">Correction 1 &mdash; energy</span>
+      <h4>N &rarr; N&#8326;&#8320;</h4>
+      <p>Different rigs deliver wildly different fractions of the theoretical hammer energy &mdash; a donut hammer might deliver 45%, a modern automatic trip hammer 80%. Results are normalised to 60% efficiency.</p>
+      <div class="eq">\[ N_&#123;60&#125; = \frac&#123;N\,\eta_H\,\eta_B\,\eta_S\,\eta_R&#125;&#123;60&#125; \]</div>
+      <p class="small">&eta;<sub>H</sub> hammer efficiency, &eta;<sub>B</sub> borehole diameter, &eta;<sub>S</sub> sampler, &eta;<sub>R</sub> rod length &mdash; all as percentages.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Correction 2 &mdash; overburden</span>
+      <h4>N&#8326;&#8320; &rarr; (N&#8321;)&#8326;&#8320;</h4>
+      <p>The same sand gives a higher blow count when it is deeper, simply because it is more confined &mdash; not because it is denser. To compare density between depths, normalise to a reference stress of 100 kPa.</p>
+      <div class="eq">\[ C_N = \sqrt&#123;\frac&#123;p_a&#125;&#123;\sigma'_0&#125;&#125;, \qquad (N_1)_&#123;60&#125; = C_N N_&#123;60&#125; \]</div>
+      <p class="small">Liao &amp; Whitman. Apply <em>only</em> in granular soil.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Order matters and so does soil type.</strong> Energy correction always; overburden correction only in sand, and only after the energy correction. Reporting a raw N value without saying which corrections were applied is the most common way SPT data gets misused.</div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Once you have (N<sub>1</sub>)<sub>60</sub>, correlations give you design parameters: relative density \( D_r \approx \sqrt&#123;(N_1)_&#123;60&#125;/60&#125; \), friction angle \( \phi' \approx 27.1 + 0.3(N_1)_&#123;60&#125; - 0.00054(N_1)_&#123;60&#125;^2 \), and for clay a rough \( c_u \approx 6N_&#123;60&#125; \) kPa &mdash; though for clay you should be sampling and testing, not correlating.</p>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-calc">
+  <div class="sec-h"><span class="sec-n">07</span><h2>SPT Correction Calculator</h2></div>
+  <p>Take a field blow count all the way through to design parameters, one correction at a time.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Field blow count N <input type="number" id="sp-n" value="18" step="1"></label>
+      <label>Hammer type
+        <select id="sp-eh">
+          <option value="45">Donut, rope &amp; pulley (&eta;H = 45%)</option>
+          <option value="60" selected>Safety, rope &amp; pulley (&eta;H = 60%)</option>
+          <option value="80">Automatic trip (&eta;H = 80%)</option>
+        </select>
+      </label>
+      <label>Borehole diameter &eta;<sub>B</sub>
+        <select id="sp-eb">
+          <option value="100">65–115 mm (100%)</option>
+          <option value="105" selected>150 mm (105%)</option>
+          <option value="115">200 mm (115%)</option>
+        </select>
+      </label>
+      <label>Rod length &eta;<sub>R</sub>
+        <select id="sp-er">
+          <option value="75">&lt; 4 m (75%)</option>
+          <option value="85" selected>4–6 m (85%)</option>
+          <option value="95">6–10 m (95%)</option>
+          <option value="100">&gt; 10 m (100%)</option>
+        </select>
+      </label>
+      <label>Sampler &eta;<sub>S</sub>
+        <select id="sp-es">
+          <option value="100" selected>Standard, no liner (100%)</option>
+          <option value="80">With liner, dense sand (80%)</option>
+          <option value="90">With liner, loose sand (90%)</option>
+        </select>
+      </label>
+      <label>Effective overburden &sigma;'&#8320; (kPa) <input type="number" id="sp-sv" value="95" step="5"></label>
+      <label>Soil type
+        <select id="sp-soil">
+          <option value="sand" selected>Granular (apply overburden correction)</option>
+          <option value="clay">Cohesive (no overburden correction)</option>
+        </select>
+      </label>
+    </div>
+    <div class="calc-out">
+      <div id="sp-fig" class="calc-fig"></div>
+      <div id="sp-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-cpt">
+  <div class="sec-h"><span class="sec-n">08</span><h2>CPT &amp; Vane Shear</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-teal">
+      <span class="vtag">Cone Penetration Test</span>
+      <h4>Push, don't hammer</h4>
+      <p>A 60&deg; cone of 10 cm&sup2; area is pushed in at 20 mm/s while load cells continuously record <strong>cone resistance q<sub>c</sub></strong> and <strong>sleeve friction f<sub>s</sub></strong>. The friction ratio \( F_r = f_s/q_c \times 100\% \) identifies soil type: low ratio means sand, high ratio means clay.</p>
+      <p class="small" style="margin-top:.5rem">Advantages: continuous profile rather than a reading every 1.5 m, repeatable, no operator effect. Disadvantage: brings up no sample, and cannot penetrate gravel.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Vane Shear Test</span>
+      <h4>Undrained strength, in place</h4>
+      <p>A four-bladed vane is pushed into soft clay and rotated until the soil shears on a cylindrical surface. The peak torque gives undrained shear strength directly, with no sampling disturbance at all.</p>
+      <div class="eq">\[ c_u = \frac&#123;T&#125;&#123;\pi\left(\frac&#123;d^2 h&#125;&#123;2&#125; + \frac&#123;d^3&#125;&#123;6&#125;\right)&#125; \]</div>
+      <p class="small">Apply Bjerrum's correction factor &lambda; (which falls with plasticity index) before design use &mdash; the raw vane value is generally unconservative.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>They complement rather than compete.</strong> CPT gives a continuous, objective stratigraphy; boreholes with SPT and Shelby tubes give you material you can actually test in a laboratory. Serious investigations use both &mdash; CPT to map the layers, boreholes to characterise them.</div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-log">
+  <div class="sec-h"><span class="sec-n">09</span><h2>The Boring Log</h2></div>
+
+  <p>The borehole log is the deliverable that every later chapter consumes. It must record depth and description of each stratum, sample type and depth, SPT N values, groundwater level (both on encountering it and after standing), and the drilling method.</p>
+
+  <div class="diagram-card">
+    <h4>A Typical Log</h4>
+    <svg viewBox="0 0 330 200" class="static-svg" style="max-width:330px">
+      <rect x="40" y="20" width="46" height="34" fill="rgba(212,169,74,0.20)" stroke="var(--bdr2)"/>
+      <rect x="40" y="54" width="46" height="56" fill="rgba(120,120,140,0.20)" stroke="var(--bdr2)"/>
+      <rect x="40" y="110" width="46" height="46" fill="rgba(78,201,176,0.18)" stroke="var(--bdr2)"/>
+      <rect x="40" y="156" width="46" height="26" fill="rgba(160,160,170,0.30)" stroke="var(--bdr2)"/>
+      <text x="92" y="40" font-size="9" fill="var(--txt2)">Fill / topsoil</text>
+      <text x="92" y="84" font-size="9" fill="var(--txt2)">Soft grey CLAY — Shelby @ 3 m</text>
+      <text x="92" y="136" font-size="9" fill="var(--txt2)">Medium dense SAND — N = 18</text>
+      <text x="92" y="172" font-size="9" fill="var(--txt2)">Weathered rock</text>
+      <path d="M 30 66 l 6 -8 l 6 8 z" fill="#4a9fe0"/>
+      <text x="4" y="72" font-size="8" fill="#4a9fe0">GWT</text>
+      <text x="24" y="26" font-size="8" fill="var(--mut)" text-anchor="end">0 m</text>
+      <text x="24" y="115" font-size="8" fill="var(--mut)" text-anchor="end">5 m</text>
+      <text x="24" y="186" font-size="8" fill="var(--mut)" text-anchor="end">9 m</text>
+    </svg>
+    <p class="cap">Record what you observed, not what you concluded. Interpretation belongs in the report; the log is evidence, and it will be read years later by people who were not on site.</p>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Full SPT Correction Chain</h4></div>
+    <p class="prob"><strong>Problem:</strong> A field SPT in sand at 6 m depth gives N = 18. A safety hammer with rope and pulley was used (&eta;<sub>H</sub> = 60%), borehole 150 mm (&eta;<sub>B</sub> = 105%), rods 5 m (&eta;<sub>R</sub> = 85%), standard sampler (&eta;<sub>S</sub> = 100%). Effective overburden at that depth is 95 kPa. Find N<sub>60</sub>, (N<sub>1</sub>)<sub>60</sub>, &phi;' and D<sub>r</sub>.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Energy correction:</strong> \( N_&#123;60&#125; = \dfrac&#123;18 \times 60 \times 1.05 \times 1.00 \times 0.85&#125;&#123;60&#125; = 16.1 \)</div></div>
+      <div class="step"><b>2</b><div><strong>Overburden factor:</strong> \( C_N = \sqrt&#123;100/95&#125; = 1.026 \)</div></div>
+      <div class="step"><b>3</b><div><strong>Normalised value:</strong> \( (N_1)_&#123;60&#125; = 1.026 \times 16.1 = 16.5 \)</div></div>
+      <div class="step"><b>4</b><div><strong>Friction angle:</strong> \( \phi' = 27.1 + 0.3(16.5) - 0.00054(16.5)^2 = 31.9^\circ \)</div></div>
+      <div class="step"><b>5</b><div><strong>Relative density:</strong> \( D_r = \sqrt&#123;16.5/60&#125; = 0.52 = 52\% \) &mdash; medium dense</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> N<sub>60</sub> = 16.1, (N<sub>1</sub>)<sub>60</sub> = 16.5, &phi;' &asymp; 32&deg;, D<sub>r</sub> &asymp; 52% (medium dense). Note the raw N = 18 would have overstated the soil; the corrections matter.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>Depth of Boring</h4></div>
+    <p class="prob"><strong>Problem:</strong> A 6-storey reinforced concrete building with a relatively wide footprint is planned. Estimate the required borehole depth using Sowers' rule.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>Heavy concrete building with wide spacing &rarr; use C = 6 m.</div></div>
+      <div class="step"><b>2</b><div>\( D_b = C S^&#123;0.7&#125; = 6 \times 6^&#123;0.7&#125; \). Since \( 6^&#123;0.7&#125; = 3.51 \), \( D_b = 21.1\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>3</b><div><strong>Cross-check with the stress rule:</strong> bore until \( \Delta\sigma \le 0.1q \). For a wide loaded area this typically occurs at roughly twice the foundation width &mdash; and whichever criterion gives the greater depth governs.</div></div>
+      <div class="step"><b>4</b><div><strong>Judgement:</strong> if soft compressible clay is still being logged at 21 m, keep going. The rules give a starting depth, not permission to stop.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> About 21 m as a first estimate, extended if weak strata continue below that depth.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>Is This Sampler Good Enough?</h4></div>
+    <p class="prob"><strong>Problem:</strong> A thin-walled tube has outside diameter 76.2 mm and inside diameter 73.0 mm. Compute the area ratio and state whether it is suitable for consolidation testing.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>\( A_R = \dfrac&#123;D_o^2-D_i^2&#125;&#123;D_i^2&#125;\times100 = \dfrac&#123;76.2^2-73.0^2&#125;&#123;73.0^2&#125;\times100 \)</div></div>
+      <div class="step"><b>2</b><div>\( = \dfrac&#123;5806.4-5329.0&#125;&#123;5329.0&#125;\times100 = \dfrac&#123;477.4&#125;&#123;5329.0&#125;\times100 = 8.96\% \)</div></div>
+      <div class="step"><b>3</b><div>8.96% &lt; 10%, so disturbance is acceptable for undisturbed testing.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> A<sub>R</sub> = 9.0% &mdash; suitable. For contrast, a standard split-spoon sampler has A<sub>R</sub> above 100%, which is why its samples can only ever be used for classification.</div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">11</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>SPT hammer</span><span>63.5 kg falling 760 mm</span></div>
+    <div><span>SPT N value</span><span>blows for 2nd + 3rd 150 mm</span></div>
+    <div><span>Energy correction</span><span>N&#8326;&#8320; = N&eta;<sub>H</sub>&eta;<sub>B</sub>&eta;<sub>S</sub>&eta;<sub>R</sub>/60</span></div>
+    <div><span>Overburden factor</span><span>C<sub>N</sub> = &radic;(p<sub>a</sub>/&sigma;'&#8320;), sand only</span></div>
+    <div><span>Relative density</span><span>D<sub>r</sub> &asymp; &radic;((N&#8321;)&#8326;&#8320;/60)</span></div>
+    <div><span>Friction angle</span><span>&phi;' &asymp; 27.1 + 0.3(N&#8321;)&#8326;&#8320; &minus; 0.00054(N&#8321;)&#8326;&#8320;&sup2;</span></div>
+    <div><span>Area ratio</span><span>(D<sub>o</sub>&sup2;&minus;D<sub>i</sub>&sup2;)/D<sub>i</sub>&sup2; &times; 100 &le; 10%</span></div>
+    <div><span>Sowers' depth rule</span><span>D<sub>b</sub> = C&middot;S<sup>0.7</sup></span></div>
+    <div><span>Stress depth rule</span><span>bore until &Delta;&sigma; &le; 0.1q</span></div>
+    <div><span>CPT friction ratio</span><span>F<sub>r</sub> = f<sub>s</sub>/q<sub>c</sub> &times; 100%</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="2">
+      <p>1. Why is the blow count from the first 150 mm of SPT penetration discarded?</p>
+      <button data-v="0">It is always zero</button>
+      <button data-v="1">To make the test faster</button>
+      <button data-v="2">That zone is disturbed by the drilling that created the borehole</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>2. Two identical sands are tested, one at 3 m and one at 15 m. The deeper gives a much higher N. What does the overburden correction do?</p>
+      <button data-v="0">Increases the deeper value further, since deep soil is stronger</button>
+      <button data-v="1">Normalises both to a common reference stress so their densities can be compared</button>
+      <button data-v="2">Nothing — it applies only to clay</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. You need C<sub>c</sub> and c<sub>v</sub> for a settlement analysis. Which sample will do?</p>
+      <button data-v="0">A Shelby tube sample — consolidation needs undisturbed structure</button>
+      <button data-v="1">A split-spoon sample — it comes from the right depth</button>
+      <button data-v="2">Either; consolidation parameters are unaffected by disturbance</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>4. Drilling meets refusal at 8 m. Is it safe to conclude bedrock has been reached?</p>
+      <button data-v="0">Yes — refusal is the standard definition of bedrock</button>
+      <button data-v="1">No — it may be a boulder or cemented lens; core several metres to confirm</button>
+      <button data-v="2">Yes, provided the SPT N value exceeds 50</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee340/settlement">&larr; Settlement Computations</a>
+  <a href="/civil/cee340/shallow-foundations">Next: Shallow Foundations &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+
+  function spt(){
+    const N=v('sp-n'), eH=v('sp-eh'), eB=v('sp-eb'), eR=v('sp-er'), eS=v('sp-es');
+    const sv=v('sp-sv'), sand=g('sp-soil').value==='sand';
+    if(N<=0||sv<=0){ g('sp-res').innerHTML='<div class="verdict v-fail"><span>Check inputs</span></div>'; return; }
+    const N60 = N*(eH/100)*(eB/100)*(eS/100)*(eR/100)*100/60;
+    const CN = Math.min(1.7, Math.sqrt(100/sv));
+    const N160 = sand ? CN*N60 : null;
+    let rows =
+      `<div class="res"><span>Raw field N</span><b>${N}</b></div>`+
+      `<div class="verdict v-pass"><span>Energy corrected N&#8326;&#8320;</span><b>${N60.toFixed(1)}</b></div>`;
+    if (sand){
+      const Dr = Math.min(100, 100*Math.sqrt(Math.max(0,N160)/60));
+      const phi = 27.1 + 0.3*N160 - 0.00054*N160*N160;
+      let desc = N160<4?'Very loose':N160<10?'Loose':N160<30?'Medium dense':N160<50?'Dense':'Very dense';
+      rows += `<div class="res"><span>Overburden factor C<sub>N</sub></span><b>${CN.toFixed(3)}</b></div>`+
+        `<div class="verdict v-pass"><span>Normalised (N&#8321;)&#8326;&#8320;</span><b>${N160.toFixed(1)}</b></div>`+
+        `<div class="res"><span>Friction angle &phi;'</span><b>${phi.toFixed(1)}&deg;</b></div>`+
+        `<div class="res"><span>Relative density D<sub>r</sub></span><b>${Dr.toFixed(0)}% — ${desc}</b></div>`;
+    } else {
+      const cu = 6*N60;
+      let desc = N60<2?'Very soft':N60<4?'Soft':N60<8?'Medium':N60<15?'Stiff':N60<30?'Very stiff':'Hard';
+      rows += `<div class="res"><span>Overburden correction</span><b>not applied (clay)</b></div>`+
+        `<div class="res"><span>Approx. c<sub>u</sub> &asymp; 6N&#8326;&#8320;</span><b>${cu.toFixed(0)} kPa — ${desc}</b></div>`+
+        `<div class="verdict v-fail"><span>For clay, sample and test — do not design on correlation</span><b>!</b></div>`;
+    }
+    g('sp-res').innerHTML=rows;
+
+    // bar chart: N -> N60 -> (N1)60
+    const bars = sand ? [['N',N,'var(--mut)'],['N₆₀',N60,'var(--teal)'],['(N₁)₆₀',N160,'var(--amb)']]
+                      : [['N',N,'var(--mut)'],['N₆₀',N60,'var(--teal)']];
+    const mx = Math.max(...bars.map(b=>b[1]),1);
+    const W=280,Hh=140,bw=44,base=110;
+    let svg='';
+    bars.forEach((b,i)=>{
+      const h=(b[1]/mx)*82, x=40+i*72;
+      svg+=`<rect x="${x}" y="${base-h}" width="${bw}" height="${h}" fill="${b[2]}" opacity=".35" stroke="${b[2]}"/>`+
+           `<text x="${x+bw/2}" y="${base-h-5}" font-size="10" fill="${b[2]}" text-anchor="middle">${b[1].toFixed(1)}</text>`+
+           `<text x="${x+bw/2}" y="${base+13}" font-size="9" fill="var(--txt2)" text-anchor="middle">${b[0]}</text>`;
+    });
+    g('sp-fig').innerHTML=`<svg viewBox="0 0 ${W} ${Hh}" style="width:100%;height:auto">
+      <line x1="30" y1="${base}" x2="${W-15}" y2="${base}" stroke="var(--bdr2)"/>${svg}</svg>`;
+  }
+  ['sp-n','sp-eh','sp-eb','sp-er','sp-es','sp-sv','sp-soil'].forEach(id=>g(id).addEventListener('input',spt));
+  spt();
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const a=document.querySelectorAll('.quiz .q.answered').length;
+      const r=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=r+' / '+a+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>

@@ -1,0 +1,517 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/cee340-chapter.css'
+---
+<Base title="CEE 340 — Design of Shallow Foundations" description="Bearing capacity of shallow foundations from intuition to numbers — failure modes, Terzaghi and Meyerhof's general equation, shape and depth factors, water table effects, eccentric loading, with a live bearing capacity calculator.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 340 &middot; Advanced Foundation Engineering &middot; Ch. 3</div>
+  <h1>Design of Shallow Foundations</h1>
+  <p class="hd-sub">A footing has to satisfy two separate criteria, and passing one tells you nothing about the other: the ground must not rupture beneath it, and it must not settle more than the structure can tolerate. This chapter is the first criterion.</p>
+  <div class="hd-pills">
+    <span class="pill">Failure Modes</span>
+    <span class="pill">Terzaghi</span>
+    <span class="pill">Meyerhof</span>
+    <span class="pill">Water Table</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">Two Criteria, Not One</a></li>
+    <li><a href="#sec-types">Types of Shallow Foundation</a></li>
+    <li><a href="#sec-modes">Three Modes of Bearing Failure</a></li>
+    <li><a href="#sec-terzaghi">Terzaghi's Theory</a></li>
+    <li><a href="#sec-general">The General Bearing Capacity Equation</a></li>
+    <li><a href="#sec-water">The Water Table</a></li>
+    <li><a href="#sec-allow">Net, Gross &amp; Allowable</a></li>
+    <li><a href="#sec-calc">Bearing Capacity Calculator</a></li>
+    <li><a href="#sec-ecc">Eccentric Loading</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>Two Criteria, Not One</h2></div>
+
+  <p class="lead">A shallow foundation is one where the depth of embedment is roughly less than its width &mdash; it transfers load to soil near the surface. Designing one means satisfying two independent requirements, and the governing one is not always the one you would guess.</p>
+
+  <div class="grid2">
+    <div class="vcard v-rust">
+      <span class="vtag">Criterion 1 &mdash; Strength</span>
+      <h4>No bearing capacity failure</h4>
+      <p>The soil must not rupture and let the footing punch into the ground. Governed by shear strength, and handled with a large factor of safety, typically 3.</p>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">Criterion 2 &mdash; Serviceability</span>
+      <h4>Tolerable settlement</h4>
+      <p>Covered in the settlement chapter. On clay this very often governs: the footing that is safe against collapse still settles 100 mm, which the structure cannot accept.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#128094;</span>
+    <div>
+      <strong>Snowshoes.</strong> Stand on soft snow in boots and you punch through &mdash; a bearing capacity failure. Put on snowshoes and you don't, because spreading the same load over more area drops the pressure below what the snow can carry. But you still sink a little, evenly. That residual sinking is settlement, and no amount of extra area removes it entirely.
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why it matters:</strong> engineers new to this often size a footing for bearing capacity, get a small answer, and stop. On soft clay the settlement check can demand a footing several times larger. Always run both.</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-types">
+  <div class="sec-h"><span class="sec-n">02</span><h2>Types of Shallow Foundation</h2></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Isolated / spread footing</span><h4>One column, one pad</h4><p>The default and cheapest option. A square or rectangular pad under a single column.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Strip / wall footing</span><h4>Continuous under a wall</h4><p>Long relative to its width, so it is analysed per metre run and uses the plane-strain (strip) bearing capacity factors.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Combined footing</span><h4>Two or more columns on one pad</h4><p>Used where columns are close together, or where a property line prevents centring a pad under an edge column.</p></div>
+    <div class="vcard v-blu"><span class="vtag">Strap footing</span><h4>Two pads tied by a beam</h4><p>The strap beam transfers moment from an eccentrically loaded edge footing to an interior one, so neither pad has to resist it alone.</p></div>
+    <div class="vcard v-rust"><span class="vtag">Mat / raft</span><h4>One slab under everything</h4><p>When individual footings would cover more than about half the plan area, merge them. A raft also bridges over soft spots and averages out differential settlement.</p></div>
+    <div class="vcard v-grn"><span class="vtag">Choosing</span><h4>Escalate only as needed</h4><p>Start with isolated footings; move up the list only when loads, weak soil, or geometry force you. Each step costs more.</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-modes">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Three Modes of Bearing Failure</h2></div>
+
+  <p>How the ground fails depends on how compressible it is &mdash; and only the first mode gives you a clear warning.</p>
+
+  <div class="grid3">
+    <div class="vcard v-rust">
+      <span class="vtag">General shear</span>
+      <h4>Dense sand, stiff clay</h4>
+      <p>A continuous slip surface develops from the footing edge to the ground surface. The soil heaves visibly on both sides and the footing tilts. There is a clear, sudden peak load &mdash; catastrophic but at least identifiable.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Local shear</span>
+      <h4>Medium dense</h4>
+      <p>The slip surface is well developed under the footing but dies out before reaching the surface. Heave is slight. No sharp peak &mdash; the load-settlement curve just gets progressively steeper.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Punching shear</span>
+      <h4>Loose sand, soft clay</h4>
+      <p>No slip surface reaches the surface at all. The footing simply drives downward, compressing soil beneath it, with vertical shearing around the perimeter. Almost no surface warning &mdash; the danger is that failure is invisible until it is large.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Terzaghi's theory assumes <strong>general shear</strong>. For loose or soft soil, reduce the strength parameters before using it: \( c' = \tfrac&#123;2&#125;&#123;3&#125;c \) and \( \tan\phi' = \tfrac&#123;2&#125;&#123;3&#125;\tan\phi \). Applying the general-shear equation directly to loose sand overestimates capacity.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-terzaghi">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Terzaghi's Theory</h2></div>
+
+  <p>Terzaghi (1943) idealised failure as a wedge of soil trapped beneath the footing, pushing outward against radial shear zones and passive wedges on either side &mdash; and produced the equation the entire subject is built on.</p>
+
+  <div class="diagram-card">
+    <h4>The Failure Mechanism</h4>
+    <svg viewBox="0 0 330 160" class="static-svg" style="max-width:330px">
+      <line x1="15" y1="55" x2="315" y2="55" stroke="var(--bdr2)" stroke-width="1.2"/>
+      <rect x="128" y="40" width="74" height="15" fill="var(--surf3)" stroke="var(--bdr2)"/>
+      <polygon points="128,55 202,55 165,95" fill="rgba(194,90,59,0.20)" stroke="var(--rust)" stroke-width="1.3"/>
+      <path d="M 128 55 Q 100 92 62 55" fill="rgba(212,169,74,0.13)" stroke="var(--amb)" stroke-width="1.2"/>
+      <path d="M 202 55 Q 230 92 268 55" fill="rgba(212,169,74,0.13)" stroke="var(--amb)" stroke-width="1.2"/>
+      <path d="M 165 95 Q 150 80 128 55" fill="none" stroke="var(--amb)" stroke-width="1.2"/>
+      <path d="M 165 95 Q 180 80 202 55" fill="none" stroke="var(--amb)" stroke-width="1.2"/>
+      <text x="165" y="72" font-size="8" fill="var(--rust)" text-anchor="middle">elastic wedge</text>
+      <text x="88" y="50" font-size="8" fill="var(--amb)" text-anchor="middle">passive</text>
+      <text x="243" y="50" font-size="8" fill="var(--amb)" text-anchor="middle">passive</text>
+      <line x1="165" y1="18" x2="165" y2="38" stroke="var(--teal)" stroke-width="1.8" marker-end="url(#dn)"/>
+      <defs><marker id="dn" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--teal)"/></marker></defs>
+      <text x="172" y="30" font-size="9" fill="var(--teal)">q<tspan font-size="7" dy="2">u</tspan></text>
+      <text x="60" y="30" font-size="8" fill="var(--txt2)">D_f surcharge q = γD_f</text>
+      <text x="165" y="130" font-size="8.5" fill="var(--txt2)" text-anchor="middle">soil beside the footing acts as passive resistance</text>
+    </svg>
+    <p class="cap">The footing cannot move down without pushing the wedge beneath it sideways, which in turn has to lift the soil either side. That is why <em>burying</em> a footing deeper raises its capacity so effectively &mdash; there is more soil to lift.</p>
+  </div>
+
+  <div class="vcard v-vio">
+    <span class="vtag">Terzaghi's equation (strip footing)</span>
+    <div class="eq">\[ q_u = c'N_c + qN_q + \tfrac&#123;1&#125;&#123;2&#125;\gamma B N_\gamma \]</div>
+    <p class="small">Three independent contributions: <strong>cohesion</strong> of the soil, <strong>surcharge</strong> q = &gamma;D<sub>f</sub> from the soil beside the footing, and the <strong>self-weight</strong> of the soil in the failure zone, which is the only term that grows with footing width B.</p>
+  </div>
+
+  <div class="qref" style="margin-top:1rem">
+    <div><span>Strip footing</span><span>q<sub>u</sub> = c'N<sub>c</sub> + qN<sub>q</sub> + 0.5&gamma;BN<sub>&gamma;</sub></span></div>
+    <div><span>Square footing</span><span>q<sub>u</sub> = 1.3c'N<sub>c</sub> + qN<sub>q</sub> + 0.4&gamma;BN<sub>&gamma;</sub></span></div>
+    <div><span>Circular footing</span><span>q<sub>u</sub> = 1.3c'N<sub>c</sub> + qN<sub>q</sub> + 0.3&gamma;BN<sub>&gamma;</sub></span></div>
+    <div><span>Bearing factors</span><span>functions of &phi;' only</span></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-general">
+  <div class="sec-h"><span class="sec-n">05</span><h2>The General Bearing Capacity Equation</h2></div>
+
+  <p>Terzaghi's form handles only vertical, centric loads on level ground with simple shapes. Meyerhof generalised it by attaching correction factors to each of the three terms.</p>
+
+  <div class="vcard v-vio">
+    <span class="vtag">General (Meyerhof) equation</span>
+    <div class="eq">\[ q_u = c'N_cF_&#123;cs&#125;F_&#123;cd&#125;F_&#123;ci&#125; + qN_qF_&#123;qs&#125;F_&#123;qd&#125;F_&#123;qi&#125; + \tfrac&#123;1&#125;&#123;2&#125;\gamma B N_\gamma F_&#123;\gamma s&#125;F_&#123;\gamma d&#125;F_&#123;\gamma i&#125; \]</div>
+  </div>
+
+  <div class="grid3" style="margin-top:1rem">
+    <div class="vcard v-teal">
+      <span class="vtag">Bearing capacity factors</span>
+      <div class="eq">
+        \[ N_q = e^&#123;\pi\tan\phi'&#125;\tan^2\!\left(45+\tfrac&#123;\phi'&#125;&#123;2&#125;\right) \]
+        \[ N_c = (N_q-1)\cot\phi' \]
+        \[ N_\gamma = 2(N_q+1)\tan\phi' \]
+      </div>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Shape factors</span>
+      <div class="eq">
+        \[ F_&#123;cs&#125; = 1 + \frac&#123;B&#125;&#123;L&#125;\cdot\frac&#123;N_q&#125;&#123;N_c&#125; \]
+        \[ F_&#123;qs&#125; = 1 + \frac&#123;B&#125;&#123;L&#125;\tan\phi' \]
+        \[ F_&#123;\gamma s&#125; = 1 - 0.4\frac&#123;B&#125;&#123;L&#125; \]
+      </div>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Depth factors (D<sub>f</sub>/B &le; 1)</span>
+      <div class="eq">
+        \[ F_&#123;qd&#125; = 1 + 2\tan\phi'(1-\sin\phi')^2\frac&#123;D_f&#125;&#123;B&#125; \]
+        \[ F_&#123;cd&#125; = F_&#123;qd&#125; - \frac&#123;1-F_&#123;qd&#125;&#125;&#123;N_c\tan\phi'&#125; \]
+        \[ F_&#123;\gamma d&#125; = 1 \]
+      </div>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Note how sensitive N<sub>&gamma;</sub> is to &phi;'.</strong> Going from &phi;' = 30&deg; to 40&deg; raises N<sub>c</sub> by a factor of 2.5, N<sub>q</sub> by 3.5, but N<sub>&gamma;</sub> by nearly <strong>5</strong>. A few degrees of optimism in your friction angle becomes an enormous error in computed capacity &mdash; which is precisely why the SPT corrections in the previous chapter are worth the trouble.</div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-water">
+  <div class="sec-h"><span class="sec-n">06</span><h2>The Water Table</h2></div>
+
+  <p>Groundwater reduces bearing capacity, sometimes by nearly half, because both the surcharge term and the self-weight term depend on effective unit weight. There are three cases, determined purely by where the water table sits relative to the footing.</p>
+
+  <div class="grid3">
+    <div class="vcard v-blu">
+      <span class="vtag">Case I &mdash; water above footing base</span>
+      <p>Water table at depth D&#8321; &lt; D<sub>f</sub>. The surcharge becomes partly effective:</p>
+      <div class="eq">\[ q = D_1\gamma + (D_f-D_1)\gamma' \]</div>
+      <p class="small">and use &gamma;' in the last term.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Case II &mdash; within depth B below base</span>
+      <p>Surcharge is full q = &gamma;D<sub>f</sub>, but the &gamma; in the third term is interpolated:</p>
+      <div class="eq">\[ \bar&#123;\gamma&#125; = \gamma' + \frac&#123;d&#125;&#123;B&#125;(\gamma-\gamma') \]</div>
+      <p class="small">d = depth from footing base to water table.</p>
+    </div>
+    <div class="vcard v-grn">
+      <span class="vtag">Case III &mdash; deeper than B below base</span>
+      <p>The water table lies below the entire failure zone, so it has <strong>no effect</strong>. Use moist unit weight throughout.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>The mechanism is the same one from the slope stability chapter: submergence roughly halves effective unit weight (&gamma;' &asymp; 10 vs &gamma; &asymp; 19 kN/m&sup3;), and both the surcharge and self-weight terms scale with it. Always design for the <em>highest</em> water table the site will ever see, not the level on the day of drilling.</p>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-allow">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Net, Gross &amp; Allowable</h2></div>
+
+  <p>A persistent source of error. The soil at foundation level was already carrying the weight of the soil you excavated, so only the <em>additional</em> pressure is new.</p>
+
+  <div class="grid3">
+    <div class="vcard v-amb">
+      <span class="vtag">Net ultimate</span>
+      <div class="eq">\[ q_&#123;u(net)&#125; = q_u - q \]</div>
+      <p class="small">Subtract the surcharge that was there before you built.</p>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">Allowable bearing capacity</span>
+      <div class="eq">\[ q_&#123;all(net)&#125; = \frac&#123;q_u - q&#125;&#123;FS&#125; \]</div>
+      <p class="small">FS = 3 is standard for shallow foundations.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Allowable column load</span>
+      <div class="eq">\[ Q_&#123;all&#125; = q_&#123;all(net)&#125;\times B\times L \]</div>
+      <p class="small">What the footing can actually carry.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Apply the factor of safety to the net value, not the gross.</strong> Dividing q<sub>u</sub> by 3 and then forgetting to subtract q gives an answer that is wrong in the unsafe direction for deep footings, where the surcharge term is large.</div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-calc">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Bearing Capacity Calculator</h2></div>
+  <p>The full Meyerhof equation with shape and depth factors and all three water table cases. Drag the water table down and watch which case the calculator selects, and how capacity recovers.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Footing shape
+        <select id="bc-shape">
+          <option value="square" selected>Square / rectangular</option>
+          <option value="strip">Strip (continuous)</option>
+          <option value="circle">Circular</option>
+        </select>
+      </label>
+      <label>Width B (m) / Length L (m)
+        <span class="calc-pair"><input type="number" id="bc-b" value="2" step="0.25"><input type="number" id="bc-l" value="2" step="0.25"></span>
+      </label>
+      <label>Depth D<sub>f</sub> (m) <input type="number" id="bc-df" value="1.5" step="0.1"></label>
+      <label>c' (kPa) / &phi;' (deg)
+        <span class="calc-pair"><input type="number" id="bc-c" value="0" step="1"><input type="number" id="bc-phi" value="30" step="1"></span>
+      </label>
+      <label>&gamma; moist / &gamma;<sub>sat</sub> (kN/m&sup3;)
+        <span class="calc-pair"><input type="number" id="bc-g" value="18" step="0.5"><input type="number" id="bc-gsat" value="20" step="0.5"></span>
+      </label>
+      <label>Water table depth below ground (m) &mdash; large = dry <input type="number" id="bc-dw" value="99" step="0.25"></label>
+      <label>Factor of safety <input type="number" id="bc-fs" value="3" step="0.5"></label>
+    </div>
+    <div class="calc-out">
+      <div id="bc-fig" class="calc-fig"></div>
+      <div id="bc-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-ecc">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Eccentric Loading</h2></div>
+
+  <p>A column carrying moment, or sitting off-centre, produces a resultant that does not act at the middle of the footing. Meyerhof's <strong>effective area</strong> method handles this with one elegant idea.</p>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Effective dimensions</span>
+      <div class="eq">\[ e = \frac&#123;M&#125;&#123;Q&#125;, \qquad B' = B - 2e \]</div>
+      <p class="small">Pretend the footing is only as wide as the part symmetric about the load. Compute capacity using B' in place of B, then multiply by the effective area A' = B'L.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Why it works</span>
+      <p>The eccentric load is equivalent to a centric load on a narrower footing. Anything beyond that symmetric strip is not helping to resist the load &mdash; it is dead weight sitting on soil that is barely stressed. Same middle-third logic as the retaining wall chapter: keep e &le; B/6 and the whole base stays in compression.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Note the double penalty.</strong> Reducing B to B' shrinks the area <em>and</em> shrinks the 0.5&gamma;BN<sub>&gamma;</sub> term, so a modest eccentricity costs disproportionately more capacity than you would expect. This is why designers work hard to centre footings under their loads.</div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Square Footing on Dry Sand</h4></div>
+    <p class="prob"><strong>Problem:</strong> A 2 m &times; 2 m square footing is founded at D<sub>f</sub> = 1.5 m in sand with &phi;' = 30&deg;, c' = 0, &gamma; = 18 kN/m&sup3;. The water table is very deep. Find the allowable column load with FS = 3.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Bearing capacity factors</strong> at &phi;' = 30&deg;: \( N_q = e^&#123;\pi\tan30&#125;\tan^2(60) = 18.40 \), \( N_c = (18.40-1)\cot30 = 30.14 \), \( N_\gamma = 2(19.40)\tan30 = 22.40 \)</div></div>
+      <div class="step"><b>2</b><div><strong>Surcharge:</strong> \( q = \gamma D_f = 18(1.5) = 27.0\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>3</b><div><strong>Shape factors</strong> (B/L = 1): \( F_&#123;qs&#125; = 1 + \tan30 = 1.577 \), \( F_&#123;\gamma s&#125; = 1 - 0.4 = 0.600 \)</div></div>
+      <div class="step"><b>4</b><div><strong>Depth factors</strong> (D<sub>f</sub>/B = 0.75): \( F_&#123;qd&#125; = 1 + 2\tan30(1-\sin30)^2(0.75) = 1.217 \), \( F_&#123;\gamma d&#125; = 1 \)</div></div>
+      <div class="step"><b>5</b><div><strong>Ultimate capacity</strong> (c' = 0, so the first term vanishes):
+        \( q_u = 27.0(18.40)(1.577)(1.217) + 0.5(18)(2)(22.40)(0.600)(1) \)
+        \( = 953.5 + 241.9 = 1195\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>6</b><div><strong>Net and allowable:</strong> \( q_&#123;u(net)&#125; = 1195 - 27 = 1168\text&#123;kPa&#125; \); \( q_&#123;all&#125; = 1168/3 = 389\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>7</b><div><strong>Column load:</strong> \( Q_&#123;all&#125; = 389 \times 2 \times 2 = 1558\text&#123;kN&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> q<sub>all(net)</sub> = 389 kPa, Q<sub>all</sub> &asymp; 1560 kN. Note the surcharge term supplies 80% of the capacity &mdash; embedment, not width, is doing most of the work here.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>The Same Footing with a High Water Table</h4></div>
+    <p class="prob"><strong>Problem:</strong> Repeat Example 1 with the water table at the ground surface. &gamma;<sub>sat</sub> = 20 kN/m&sup3;.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Case I</strong> (water above the footing base, D&#8321; = 0): \( \gamma' = 20 - 9.81 = 10.19\text&#123;kN/m&#125;^3 \)</div></div>
+      <div class="step"><b>2</b><div><strong>Effective surcharge:</strong> \( q = \gamma' D_f = 10.19(1.5) = 15.3\text&#123;kPa&#125; \) &mdash; down from 27.0</div></div>
+      <div class="step"><b>3</b><div><strong>Self-weight term uses &gamma;' too:</strong> \( 0.5(10.19)(2)(22.40)(0.600) = 137.0\text&#123;kPa&#125; \) &mdash; down from 241.9</div></div>
+      <div class="step"><b>4</b><div>\( q_u = 15.3(18.40)(1.577)(1.217) + 137.0 = 540.1 + 137.0 = 677\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>5</b><div>\( q_&#123;all&#125; = (677-15.3)/3 = 220.5\text&#123;kPa&#125; \), so \( Q_&#123;all&#125; = 220.5(4) = 882\text&#123;kN&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> Capacity falls from 1560 kN to 882 kN &mdash; a <strong>43% loss</strong> from groundwater alone, with no change to the soil or the footing. This is why the design water table is one of the most consequential decisions in the report.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>Eccentric Load</h4></div>
+    <p class="prob"><strong>Problem:</strong> The footing of Example 1 also carries a moment M = 300 kN&middot;m alongside a vertical load Q = 1000 kN. Check whether it is still adequate.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Eccentricity:</strong> \( e = M/Q = 300/1000 = 0.30\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>2</b><div><strong>Middle-third check:</strong> \( B/6 = 2/6 = 0.333\text&#123;m&#125; > 0.30 \) &mdash; the whole base stays in compression &check;</div></div>
+      <div class="step"><b>3</b><div><strong>Effective width:</strong> \( B' = B - 2e = 2 - 0.60 = 1.40\text&#123;m&#125; \), so \( A' = 1.40 \times 2 = 2.80\text&#123;m&#125;^2 \)</div></div>
+      <div class="step"><b>4</b><div><strong>Recompute with B' = 1.40 m.</strong> Shape factors use B'/L = 0.70: \( F_&#123;qs&#125; = 1+0.70\tan30 = 1.404 \), \( F_&#123;\gamma s&#125; = 1-0.4(0.70) = 0.720 \). Depth factors keep the <em>actual</em> B: \( F_&#123;qd&#125; = 1.217 \). The self-weight term uses B':
+        \( q_u = 27(18.40)(1.404)(1.217) + 0.5(18)(1.40)(22.40)(0.720) = 848.6 + 203.2 = 1052\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>5</b><div><strong>Allowable:</strong> \( q_&#123;all&#125; = (1052-27)/3 = 342\text&#123;kPa&#125; \), so \( Q_&#123;all&#125; = 342 \times 2.80 = 957\text&#123;kN&#125; \) against an applied 1000 kN &mdash; <strong>inadequate</strong>.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> Q<sub>all</sub> &asymp; 957 kN &lt; 1000 kN applied &mdash; the footing fails, despite passing the middle-third check. Enlarge the footing or reduce the eccentricity. Note it carried 1560 kN centrically: a 0.3 m eccentricity cost 39% of the capacity. (Shape factors take B', depth factors take the real B &mdash; a standard convention worth getting right.)</div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">11</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>Terzaghi, strip</span><span>c'N<sub>c</sub> + qN<sub>q</sub> + 0.5&gamma;BN<sub>&gamma;</sub></span></div>
+    <div><span>Terzaghi, square</span><span>1.3c'N<sub>c</sub> + qN<sub>q</sub> + 0.4&gamma;BN<sub>&gamma;</sub></span></div>
+    <div><span>N<sub>q</sub></span><span>e^(&pi;tan&phi;')tan&sup2;(45+&phi;'/2)</span></div>
+    <div><span>N<sub>c</sub> / N<sub>&gamma;</sub></span><span>(N<sub>q</sub>&minus;1)cot&phi;' / 2(N<sub>q</sub>+1)tan&phi;'</span></div>
+    <div><span>N<sub>c</sub> at &phi;' = 0</span><span>5.14</span></div>
+    <div><span>Surcharge</span><span>q = &gamma;D<sub>f</sub></span></div>
+    <div><span>Net ultimate</span><span>q<sub>u(net)</sub> = q<sub>u</sub> &minus; q</span></div>
+    <div><span>Allowable</span><span>(q<sub>u</sub> &minus; q)/FS, FS = 3</span></div>
+    <div><span>Local shear correction</span><span>c* = ⅔c, tan&phi;* = ⅔tan&phi;</span></div>
+    <div><span>Eccentric loading</span><span>B' = B &minus; 2e, A' = B'L</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. A footing on soft clay passes the bearing capacity check with FS = 3.5. Is the design complete?</p>
+      <button data-v="0">Yes — FS exceeds the required 3</button>
+      <button data-v="1">No — settlement must be checked separately, and on soft clay it often governs</button>
+      <button data-v="2">No — FS must be at least 5 for clay</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. Why does raising the water table to the ground surface roughly halve the bearing capacity?</p>
+      <button data-v="0">Water lubricates the soil grains, lowering &phi;'</button>
+      <button data-v="1">The footing floats</button>
+      <button data-v="2">Both surcharge and self-weight terms use effective unit weight, which is about half the moist value</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. Which failure mode gives the least warning before it occurs?</p>
+      <button data-v="0">Punching shear — no slip surface reaches the ground surface</button>
+      <button data-v="1">General shear — it is sudden and catastrophic</button>
+      <button data-v="2">Local shear — the load-settlement curve has no peak</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>4. Terzaghi's equation is applied directly to a footing on loose sand. What is the problem?</p>
+      <button data-v="0">Nothing — the equation covers all soils</button>
+      <button data-v="1">It assumes general shear; loose sand punches, so c and tan&phi; must be reduced to ⅔</button>
+      <button data-v="2">Loose sand has no bearing capacity at all</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee340/soil-investigation">&larr; Soil Investigation</a>
+  <a href="/civil/cee340/deep-foundations">Next: Deep Foundations &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+  const GW=9.81, R=Math.PI/180;
+
+  function factors(phi){
+    if(phi<=0) return {Nc:5.14,Nq:1,Ng:0};
+    const p=phi*R;
+    const Nq=Math.exp(Math.PI*Math.tan(p))*Math.pow(Math.tan((45+phi/2)*R),2);
+    return {Nc:(Nq-1)/Math.tan(p), Nq, Ng:2*(Nq+1)*Math.tan(p)};
+  }
+
+  function bearing(){
+    const shape=g('bc-shape').value;
+    let B=v('bc-b'), L=shape==='strip'?1e6:(shape==='circle'?v('bc-b'):v('bc-l'));
+    const Df=v('bc-df'), c=v('bc-c'), phi=v('bc-phi');
+    const gm=v('bc-g'), gsat=v('bc-gsat'), dw=v('bc-dw'), FS=Math.max(1,v('bc-fs'));
+    if(B<=0||Df<0){ g('bc-res').innerHTML='<div class="verdict v-fail"><span>Check inputs</span></div>'; return; }
+    const gsub=gsat-GW;
+    const {Nc,Nq,Ng}=factors(phi);
+    const BL = shape==='strip'?0:B/L;
+
+    // water table cases
+    let q, gEff, kase;
+    if (dw <= Df){                       // Case I — water above footing base
+      q = dw*gm + (Df-dw)*gsub; gEff = gsub; kase='Case I — water above base';
+    } else if (dw < Df + B){             // Case II — within B below base
+      const d = dw - Df;
+      q = gm*Df; gEff = gsub + (d/B)*(gm-gsub); kase='Case II — within B below base';
+    } else {                             // Case III — deep
+      q = gm*Df; gEff = gm; kase='Case III — no water table effect';
+    }
+
+    const p=phi*R;
+    const Fcs = phi>0 ? 1+BL*(Nq/Nc) : 1+0.2*BL;
+    const Fqs = 1+BL*Math.tan(p);
+    const Fgs = 1-0.4*BL;
+    const k = Df/B;
+    const Fqd = phi>0 ? 1+2*Math.tan(p)*Math.pow(1-Math.sin(p),2)*k : 1;
+    const Fcd = phi>0 ? Fqd-(1-Fqd)/(Nc*Math.tan(p)) : 1+0.4*k;
+    const Fgd = 1;
+
+    const t1=c*Nc*Fcs*Fcd, t2=q*Nq*Fqs*Fqd, t3=0.5*gEff*B*Ng*Fgs*Fgd;
+    const qu=t1+t2+t3, qnet=qu-q, qall=qnet/FS;
+    const area = shape==='strip' ? B : (shape==='circle' ? Math.PI*B*B/4 : B*L);
+    const Qall = qall*area;
+
+    const pct = x => (100*x/qu).toFixed(0)+'%';
+    g('bc-res').innerHTML=
+      `<div class="verdict ${dw>=Df+B?'v-pass':'v-fail'}"><span>${kase}</span><b>&gamma;<sub>eff</sub> ${gEff.toFixed(2)}</b></div>`+
+      `<div class="res"><span>N<sub>c</sub> / N<sub>q</sub> / N<sub>&gamma;</sub></span><b>${Nc.toFixed(1)} / ${Nq.toFixed(1)} / ${Ng.toFixed(1)}</b></div>`+
+      `<div class="res"><span>Surcharge q</span><b>${q.toFixed(1)} kPa</b></div>`+
+      `<div class="res"><span>cohesion / surcharge / weight</span><b>${pct(t1)} / ${pct(t2)} / ${pct(t3)}</b></div>`+
+      `<div class="res"><span>Ultimate q<sub>u</sub></span><b>${qu.toFixed(0)} kPa</b></div>`+
+      `<div class="res"><span>Net ultimate</span><b>${qnet.toFixed(0)} kPa</b></div>`+
+      `<div class="verdict v-pass"><span>Allowable q<sub>all(net)</sub> (FS=${FS})</span><b>${qall.toFixed(0)} kPa</b></div>`+
+      `<div class="verdict v-pass"><span>Allowable load Q<sub>all</sub></span><b>${Qall.toFixed(0)} kN${shape==='strip'?'/m':''}</b></div>`;
+
+    // figure: footing + water table + term contributions
+    const W=300,Hh=175, gl=48, sc=Math.min(150/Math.max(B,0.5), 46/Math.max(Df,0.4), 34);
+    const cx=150, bw=B*sc, bd=Df*sc;
+    const wy = dw>=Df+B ? null : gl + Math.min(dw,Df+B)*sc;
+    g('bc-fig').innerHTML=`
+    <svg viewBox="0 0 ${W} ${Hh}" style="width:100%;height:auto">
+      <rect x="10" y="${gl}" width="${W-20}" height="${Hh-gl-28}" fill="rgba(212,169,74,0.06)"/>
+      <line x1="10" y1="${gl}" x2="${W-20}" y2="${gl}" stroke="var(--bdr2)" stroke-width="1.3"/>
+      ${wy!==null?`<line x1="10" y1="${wy.toFixed(1)}" x2="${W-20}" y2="${wy.toFixed(1)}" stroke="#4a9fe0" stroke-width="1.3" stroke-dasharray="5,3"/><text x="${W-22}" y="${(wy-4).toFixed(1)}" font-size="8" fill="#4a9fe0" text-anchor="end">GWT ${dw} m</text>`:`<text x="${W-22}" y="${Hh-8}" font-size="8" fill="#4a9fe0" text-anchor="end">GWT below failure zone</text>`}
+      <rect x="${(cx-bw/2).toFixed(1)}" y="${(gl+bd).toFixed(1)}" width="${bw.toFixed(1)}" height="12" fill="var(--surf3)" stroke="var(--teal)" stroke-width="1.3"/>
+      <line x1="${cx}" y1="${gl-26}" x2="${cx}" y2="${(gl+bd-2).toFixed(1)}" stroke="var(--teal)" stroke-width="6"/>
+      <line x1="${(cx-bw/2-8).toFixed(1)}" y1="${gl}" x2="${(cx-bw/2-8).toFixed(1)}" y2="${(gl+bd).toFixed(1)}" stroke="var(--amb)" stroke-width=".9"/>
+      <text x="${(cx-bw/2-11).toFixed(1)}" y="${(gl+bd/2).toFixed(1)}" font-size="8" fill="var(--amb)" text-anchor="end">D=${Df}m</text>
+      <text x="${cx}" y="${(gl+bd+24).toFixed(1)}" font-size="8.5" fill="var(--teal)" text-anchor="middle">B = ${B} m</text>
+      <text x="${cx}" y="${gl-30}" font-size="9" fill="var(--teal)" text-anchor="middle">Q</text>
+    </svg>`;
+  }
+  ['bc-shape','bc-b','bc-l','bc-df','bc-c','bc-phi','bc-g','bc-gsat','bc-dw','bc-fs'].forEach(id=>g(id).addEventListener('input',bearing));
+  g('bc-shape').addEventListener('input',()=>{
+    const s=g('bc-shape').value;
+    g('bc-l').disabled = (s!=='square');
+    g('bc-l').style.opacity = (s==='square')?'1':'.45';
+  });
+  bearing();
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const a=document.querySelectorAll('.quiz .q.answered').length;
+      const r=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=r+' / '+a+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>

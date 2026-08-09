@@ -1,0 +1,501 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/cee340-chapter.css'
+---
+<Base title="CEE 340 — Settlement Computations" description="Foundation settlement from intuition to numbers — immediate, primary consolidation and secondary compression, normally vs overconsolidated clay, time rate of consolidation, with live settlement and time-rate calculators.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 340 &middot; Advanced Foundation Engineering &middot; Settlement</div>
+  <h1>Settlement Computations</h1>
+  <p class="hd-sub">Bearing capacity asks "will it collapse?" Settlement asks the question that actually sinks most projects: "will it still be usable?" A foundation can be nowhere near failure and still crack every wall in the building.</p>
+  <div class="hd-pills">
+    <span class="pill">Immediate</span>
+    <span class="pill">Consolidation</span>
+    <span class="pill">Secondary</span>
+    <span class="pill">Time Rate</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">Total vs. Differential Settlement</a></li>
+    <li><a href="#sec-three">The Three Components</a></li>
+    <li><a href="#sec-elastic">Immediate (Elastic) Settlement</a></li>
+    <li><a href="#sec-consol">How Clay Consolidates</a></li>
+    <li><a href="#sec-nc">Normally vs. Overconsolidated</a></li>
+    <li><a href="#sec-calc1">Settlement Calculator</a></li>
+    <li><a href="#sec-time">Time Rate of Consolidation</a></li>
+    <li><a href="#sec-calc2">Time Rate Calculator</a></li>
+    <li><a href="#sec-secondary">Secondary Compression</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>Total vs. Differential Settlement</h2></div>
+
+  <p class="lead">Every foundation settles. That is not a defect &mdash; soil is compressible, and loading it squeezes it. What matters is <em>how much</em>, and far more importantly, <strong>how unevenly</strong>.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#127983;</span>
+    <div>
+      <strong>The Leaning Tower of Pisa settled about 3 m and is world-famous.</strong> Mexico City's Palacio de Bellas Artes settled roughly 4 m and is merely an inconvenience &mdash; you step <em>down</em> into it. The difference isn't the amount. Pisa's south side settled more than its north side, and that <em>difference</em> is what tilted it. Uniform settlement moves a building; differential settlement breaks it.
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Total settlement</span><h4>S<sub>t</sub></h4><p>How far the whole foundation goes down. Matters for utility connections, drainage, and access &mdash; a pipe entering the building at a fixed elevation does not settle with it.</p></div>
+    <div class="vcard v-rust"><span class="vtag">Differential settlement</span><h4>&delta;S</h4><p>The difference between two points. This is what cracks walls, jams doors, and tilts structures. Usually the governing criterion.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Angular distortion</span><h4>&delta;S / L</h4><p>Differential settlement divided by the distance between the points. Roughly 1/500 risks cracking in load-bearing walls; 1/150 risks structural damage.</p></div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why it matters:</strong> Settlement, not bearing capacity, governs the design of most shallow foundations on clay. You will often find a footing that is enormous compared to what strength alone requires &mdash; sized entirely to keep settlement tolerable.</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-three">
+  <div class="sec-h"><span class="sec-n">02</span><h2>The Three Components</h2></div>
+
+  <p>Settlement arrives in three instalments, on three completely different timescales, driven by three different mechanisms.</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">1 &mdash; Immediate, S<sub>e</sub></span>
+      <h4>Elastic distortion (minutes)</h4>
+      <p>The soil skeleton deforms in shape without changing volume, like squashing a rubber block. Happens as fast as you apply the load. Dominant in sand and unsaturated soil.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">2 &mdash; Primary, S<sub>c</sub></span>
+      <h4>Consolidation (months to years)</h4>
+      <p>Water is squeezed out of saturated clay pores and the soil actually loses volume. Slow, because water has to physically travel out. Usually the largest component in clay.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">3 &mdash; Secondary, S<sub>s</sub></span>
+      <h4>Creep (years to decades)</h4>
+      <p>The soil skeleton keeps slowly rearranging at constant effective stress, long after pore pressure has dissipated. Matters in organic soils and peat.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>\( S_t = S_e + S_c + S_s \). In sand, S<sub>e</sub> is essentially everything and it is over before construction finishes. In clay, S<sub>c</sub> dominates and can still be developing a decade later.</p>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-elastic">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Immediate (Elastic) Settlement</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Elastic settlement of a flexible foundation</span>
+      <div class="eq">\[ S_e = q_o B\,\frac&#123;1-\mu_s^2&#125;&#123;E_s&#125;\,I_s I_f \]</div>
+      <p class="small">q<sub>o</sub> = net applied pressure, B = width, &mu;<sub>s</sub> = Poisson's ratio, E<sub>s</sub> = soil modulus, I<sub>s</sub> = shape factor, I<sub>f</sub> = depth factor.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Rigid vs. flexible</span>
+      <p>A flexible foundation (a thin mat, an embankment) settles more at the centre than the edges &mdash; it dishes. A rigid foundation cannot dish, so it settles uniformly at roughly <strong>93% of the flexible centre value</strong>. Real footings are close to rigid.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>The hard part is E<sub>s</sub>, not the formula.</strong> Soil modulus is not a constant &mdash; it depends on stress level, strain level and drainage. It is usually estimated from SPT or CPT correlations, so a settlement prediction is rarely better than the site investigation behind it.</div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-consol">
+  <div class="sec-h"><span class="sec-n">04</span><h2>How Clay Consolidates</h2></div>
+
+  <div class="analogy">
+    <span class="an-icon">&#129517;</span>
+    <div>
+      <strong>A saturated clay is a sponge full of water inside a piston.</strong> Push on the piston and, at first, the water takes the entire load &mdash; it cannot escape instantly, and water is nearly incompressible. Over time water leaks out through a small valve; as it leaves, load transfers from the water to the sponge's own fibres, and the sponge compresses. That handover from water to skeleton <em>is</em> consolidation.
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="vcard v-teal">
+      <span class="vtag">The governing principle</span>
+      <h4>Effective stress does the work</h4>
+      <p>\( \sigma = \sigma' + u \). The total stress jumps instantly when you load. At t = 0 the pore pressure u carries all of it. As u dissipates, &sigma;' rises by exactly the same amount &mdash; and it is &sigma;' that compresses the soil. Settlement tracks the transfer, not the load.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">What we measure</span>
+      <h4>The e&ndash;log&sigma;' curve</h4>
+      <p>An oedometer test loads a clay sample in stages and plots void ratio against log of effective stress. It gives a flat <strong>recompression</strong> line of slope C<sub>s</sub> and a steep <strong>virgin compression</strong> line of slope C<sub>c</sub>, meeting at the preconsolidation pressure &sigma;'<sub>c</sub>.</p>
+    </div>
+  </div>
+
+  <div class="diagram-card">
+    <h4>The e&ndash;log&sigma;' Curve</h4>
+    <svg viewBox="0 0 330 200" class="static-svg" style="max-width:330px">
+      <line x1="45" y1="25" x2="45" y2="165" stroke="var(--bdr2)" stroke-width="1.2"/>
+      <line x1="45" y1="165" x2="310" y2="165" stroke="var(--bdr2)" stroke-width="1.2"/>
+      <path d="M 60 55 L 165 78" fill="none" stroke="var(--teal)" stroke-width="2.2"/>
+      <path d="M 165 78 L 295 148" fill="none" stroke="var(--amb)" stroke-width="2.2"/>
+      <line x1="165" y1="78" x2="165" y2="165" stroke="var(--rust)" stroke-width="1" stroke-dasharray="3,2"/>
+      <circle cx="165" cy="78" r="3.5" fill="var(--rust)"/>
+      <text x="168" y="176" font-size="9" fill="var(--rust)" text-anchor="middle">σ'c</text>
+      <text x="72" y="48" font-size="9" fill="var(--teal)">recompression, slope Cs</text>
+      <text x="215" y="122" font-size="9" fill="var(--amb)">virgin, slope Cc</text>
+      <text x="20" y="95" font-size="9" fill="var(--txt2)" transform="rotate(-90 20 95)" text-anchor="middle">void ratio e</text>
+      <text x="180" y="192" font-size="9" fill="var(--txt2)" text-anchor="middle">log σ' →</text>
+    </svg>
+    <p class="cap">The soil "remembers" the highest stress it has ever carried. Below &sigma;'<sub>c</sub> it responds stiffly along the flat recompression line; push past &sigma;'<sub>c</sub> and it falls onto the steep virgin line, where settlement is several times larger for the same load increment.</p>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-nc">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Normally vs. Overconsolidated</h2></div>
+
+  <p>The single most important question about a clay before you compute anything: <strong>has it ever carried more stress than it carries today?</strong> The overconsolidation ratio answers it.</p>
+
+  <div class="vcard v-vio" style="margin-bottom:1rem">
+    <span class="vtag">Overconsolidation ratio</span>
+    <div class="eq">\[ OCR = \frac&#123;\sigma'_c&#125;&#123;\sigma'_0&#125; \]</div>
+    <p class="small">OCR = 1 &rarr; normally consolidated (NC): today's stress is the highest ever. OCR &gt; 1 &rarr; overconsolidated (OC): it has been loaded more before, by ice sheets, by soil since eroded, or by desiccation.</p>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-amb">
+      <span class="vtag">Case 1 &mdash; NC</span>
+      <div class="eq">\[ S_c = \frac&#123;C_c H&#125;&#123;1+e_0&#125;\log\frac&#123;\sigma'_0+\Delta\sigma'&#125;&#123;\sigma'_0&#125; \]</div>
+      <p class="small">Entirely on the virgin line.</p>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">Case 2 &mdash; OC, stays below &sigma;'<sub>c</sub></span>
+      <div class="eq">\[ S_c = \frac&#123;C_s H&#125;&#123;1+e_0&#125;\log\frac&#123;\sigma'_0+\Delta\sigma'&#125;&#123;\sigma'_0&#125; \]</div>
+      <p class="small">Entirely on the recompression line &mdash; small.</p>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">Case 3 &mdash; OC, crosses &sigma;'<sub>c</sub></span>
+      <div class="eq">\[ S_c = \frac&#123;C_s H&#125;&#123;1+e_0&#125;\log\frac&#123;\sigma'_c&#125;&#123;\sigma'_0&#125; + \frac&#123;C_c H&#125;&#123;1+e_0&#125;\log\frac&#123;\sigma'_0+\Delta\sigma'&#125;&#123;\sigma'_c&#125; \]</div>
+      <p class="small">Two segments: stiff, then soft.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>This is where the money is.</strong> C<sub>s</sub> is typically only 1/5 to 1/10 of C<sub>c</sub>. Worked Examples 1 and 2 run the identical clay layer and load through Cases 1 and 2 and get <strong>110 mm versus 21 mm</strong>. Loading an OC clay while staying below &sigma;'<sub>c</sub> is the cheapest settlement control there is &mdash; and it is why preloading a site before building works.</div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-calc1">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Settlement Calculator</h2></div>
+  <p>Enter &sigma;'<sub>c</sub> and the calculator picks the right case automatically &mdash; watch it switch from Case 2 to Case 3 as you raise the load past the preconsolidation pressure.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Layer thickness H (m) / initial void ratio e&#8320;
+        <span class="calc-pair"><input type="number" id="st-h" value="4" step="0.5"><input type="number" id="st-e0" value="0.9" step="0.05"></span>
+      </label>
+      <label>C<sub>c</sub> (virgin) / C<sub>s</sub> (recompression)
+        <span class="calc-pair"><input type="number" id="st-cc" value="0.32" step="0.01"><input type="number" id="st-cs" value="0.06" step="0.01"></span>
+      </label>
+      <label>&sigma;'&#8320; at mid-depth (kPa) <input type="number" id="st-s0" value="110" step="5"></label>
+      <label>Preconsolidation &sigma;'<sub>c</sub> (kPa) &mdash; set = &sigma;'&#8320; for NC <input type="number" id="st-sc" value="110" step="5"></label>
+      <label>Stress increase &Delta;&sigma;' (kPa) <input type="number" id="st-ds" value="50" step="5"></label>
+    </div>
+    <div class="calc-out">
+      <div id="st-fig" class="calc-fig"></div>
+      <div id="st-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-time">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Time Rate of Consolidation</h2></div>
+
+  <p>Knowing the settlement will eventually be 110 mm is only half the answer. A client needs to know whether that happens in six months or sixty years.</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Intuition</span>
+      <h4>Water has to travel</h4>
+      <p>Consolidation is limited by how fast pore water can escape. The further it must travel and the tighter the soil, the slower it goes &mdash; which is why the drainage path, not the layer thickness, is what enters the equation.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">The drainage path H<sub>dr</sub></span>
+      <h4>The detail everyone gets wrong</h4>
+      <p>If the clay layer has sand above <em>and</em> below, water escapes both ways and only travels half the thickness: <strong>H<sub>dr</sub> = H/2</strong>. Drainage on one side only gives H<sub>dr</sub> = H. Since time goes as H<sub>dr</sub><sup>2</sup>, getting this wrong is a factor-of-four error.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">The Math</span>
+      <div class="eq">
+        \[ T_v = \frac&#123;c_v t&#125;&#123;H_&#123;dr&#125;^2&#125; \]
+        \[ T_v = \frac&#123;\pi&#125;&#123;4&#125;\left(\frac&#123;U\%&#125;&#123;100&#125;\right)^2 \ (U &lt; 60\%) \]
+        \[ T_v = 1.781 - 0.933\log(100-U\%) \ (U &gt; 60\%) \]
+      </div>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Time scales with the <strong>square</strong> of the drainage path. Halving the distance water must travel cuts the time to a quarter &mdash; which is exactly the principle behind <strong>vertical sand drains</strong> and wick drains: they don't make the soil stronger, they just give water a much shorter route out.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-calc2">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Time Rate Calculator</h2></div>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Layer thickness H (m) <input type="number" id="tr-h" value="4" step="0.5"></label>
+      <label>Drainage
+        <select id="tr-drain">
+          <option value="2" selected>Double (sand above and below)</option>
+          <option value="1">Single (one face only)</option>
+        </select>
+      </label>
+      <label>c<sub>v</sub> (m&sup2;/year) <input type="number" id="tr-cv" value="2.5" step="0.1"></label>
+      <label>Ultimate primary settlement S<sub>c</sub> (mm) <input type="number" id="tr-sc" value="110" step="5"></label>
+      <label>Degree of consolidation U (%): <span id="tr-u-v">90</span>
+        <input type="range" id="tr-u" min="5" max="99" value="90">
+      </label>
+    </div>
+    <div class="calc-out">
+      <div id="tr-fig" class="calc-fig"></div>
+      <div id="tr-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-secondary">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Secondary Compression</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Secondary settlement</span>
+      <div class="eq">\[ S_s = C'_\alpha H \log\frac&#123;t_2&#125;&#123;t_1&#125;, \qquad C'_\alpha = \frac&#123;C_\alpha&#125;&#123;1+e_p&#125; \]</div>
+      <p class="small">t<sub>1</sub> is the time at which primary consolidation ends; e<sub>p</sub> is the void ratio at that moment.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">When to worry</span>
+      <p>Negligible in most inorganic clays &mdash; often under 10% of primary. But in <strong>peat and organic soils</strong> it can exceed the primary settlement entirely and continue for decades. Note it is logarithmic in time: each additional log cycle adds the same increment, so it never quite stops.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Normally Consolidated Clay</h4></div>
+    <p class="prob"><strong>Problem:</strong> A 4 m clay layer has e&#8320; = 0.90, C<sub>c</sub> = 0.32, and &sigma;'&#8320; = 110 kPa at mid-depth. The clay is normally consolidated. A new foundation raises the stress at mid-depth by &Delta;&sigma;' = 50 kPa. Find the primary consolidation settlement.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>NC, so &sigma;'<sub>c</sub> = &sigma;'&#8320; = 110 kPa and the whole increment is on the virgin line.</div></div>
+      <div class="step"><b>2</b><div>\( \dfrac&#123;C_c H&#125;&#123;1+e_0&#125; = \dfrac&#123;0.32(4)&#125;&#123;1.90&#125; = 0.6737\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>3</b><div>\( \log\dfrac&#123;110+50&#125;&#123;110&#125; = \log 1.4545 = 0.1627 \)</div></div>
+      <div class="step"><b>4</b><div>\( S_c = 0.6737 \times 0.1627 = 0.1096\text&#123;m&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> S<sub>c</sub> = 110 mm.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>The Same Clay, Overconsolidated</h4></div>
+    <p class="prob"><strong>Problem:</strong> Identical layer and identical load, but the clay is overconsolidated with &sigma;'<sub>c</sub> = 190 kPa and C<sub>s</sub> = 0.06. Find the settlement.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Check the case:</strong> \( \sigma'_0 + \Delta\sigma' = 160\text&#123;kPa&#125; &lt; \sigma'_c = 190\text&#123;kPa&#125; \) &mdash; the load never reaches the preconsolidation pressure, so this is Case 2, entirely on the recompression line.</div></div>
+      <div class="step"><b>2</b><div>\( \dfrac&#123;C_s H&#125;&#123;1+e_0&#125; = \dfrac&#123;0.06(4)&#125;&#123;1.90&#125; = 0.1263\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>3</b><div>\( S_c = 0.1263 \times 0.1627 = 0.0206\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>4</b><div><strong>Now push harder:</strong> if instead &Delta;&sigma;' = 120 kPa, then &sigma;'&#8320;+&Delta;&sigma;' = 230 &gt; 190, so Case 3 applies: \( S_c = 0.1263\log\frac&#123;190&#125;&#123;110&#125; + 0.6737\log\frac&#123;230&#125;&#123;190&#125; = 0.030 + 0.056 = 0.086\text&#123;m&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> 21 mm &mdash; against 110 mm for the same load on the same clay when normally consolidated, a factor of 5. Push past &sigma;'<sub>c</sub> (step 4) and settlement jumps to 86 mm, because the second half of the load rides the steep virgin line.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>How Long Will It Take?</h4></div>
+    <p class="prob"><strong>Problem:</strong> The 4 m clay layer of Example 1 is sandwiched between sand above and below, with c<sub>v</sub> = 2.5 m&sup2;/year. Find the time for 50% and 90% consolidation, and the settlement at each.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Drainage path:</strong> sand on both faces, so \( H_&#123;dr&#125; = H/2 = 2.0\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>2</b><div><strong>U = 50% (&lt; 60%):</strong> \( T_v = \frac&#123;\pi&#125;&#123;4&#125;(0.50)^2 = 0.1963 \), so \( t = \dfrac&#123;T_v H_&#123;dr&#125;^2&#125;&#123;c_v&#125; = \dfrac&#123;0.1963(2.0)^2&#125;&#123;2.5&#125; = 0.31\text&#123;yr&#125; \) (about 3.8 months)</div></div>
+      <div class="step"><b>3</b><div><strong>U = 90% (&gt; 60%):</strong> \( T_v = 1.781 - 0.933\log(10) = 0.848 \), so \( t = \dfrac&#123;0.848(4)&#125;&#123;2.5&#125; = 1.36\text&#123;yr&#125; \)</div></div>
+      <div class="step"><b>4</b><div><strong>Settlements:</strong> 50% of 110 mm = 55 mm; 90% of 110 mm = 99 mm.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> 50% (55 mm) in 0.31 yr; 90% (99 mm) in 1.36 yr. Note the last 40% takes four times as long as the first 50% &mdash; consolidation has a very long tail. If drainage were single-sided, H<sub>dr</sub> would double and every time would be <strong>four times</strong> longer.</div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">11</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>Total settlement</span><span>S<sub>t</sub> = S<sub>e</sub> + S<sub>c</sub> + S<sub>s</sub></span></div>
+    <div><span>Elastic settlement</span><span>S<sub>e</sub> = q<sub>o</sub>B(1&minus;&mu;&sup2;)I<sub>s</sub>I<sub>f</sub>/E<sub>s</sub></span></div>
+    <div><span>OCR</span><span>&sigma;'<sub>c</sub> / &sigma;'&#8320;</span></div>
+    <div><span>NC settlement</span><span>(C<sub>c</sub>H/(1+e&#8320;))log[(&sigma;'&#8320;+&Delta;&sigma;')/&sigma;'&#8320;]</span></div>
+    <div><span>OC below &sigma;'<sub>c</sub></span><span>use C<sub>s</sub> in place of C<sub>c</sub></span></div>
+    <div><span>Time factor</span><span>T<sub>v</sub> = c<sub>v</sub>t/H<sub>dr</sub>&sup2;</span></div>
+    <div><span>Drainage path</span><span>H/2 double-drained, H single</span></div>
+    <div><span>T<sub>v</sub> at U=50% / 90%</span><span>0.197 / 0.848</span></div>
+    <div><span>Secondary</span><span>S<sub>s</sub> = C'<sub>&alpha;</sub>H log(t&#8322;/t&#8321;)</span></div>
+    <div><span>Typical C<sub>s</sub>/C<sub>c</sub></span><span>1/5 to 1/10</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. A building settles 80 mm uniformly across its whole footprint. Another settles 25 mm at one corner and 5 mm at the other. Which is more likely to be damaged?</p>
+      <button data-v="0">The first &mdash; it settled far more in total</button>
+      <button data-v="1">The second &mdash; differential settlement, not total, is what cracks structures</button>
+      <button data-v="2">Neither; both are within normal limits</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. Why is consolidation settlement slow while elastic settlement is immediate?</p>
+      <button data-v="0">Clay is stiffer than sand</button>
+      <button data-v="1">The load is applied gradually during construction</button>
+      <button data-v="2">Consolidation requires pore water to physically drain out of the soil</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. A clay has OCR = 3. A modest load is applied that keeps &sigma;'&#8320;+&Delta;&sigma;' below &sigma;'<sub>c</sub>. Compared with the same clay normally consolidated, settlement will be:</p>
+      <button data-v="0">Much smaller &mdash; it stays on the flat recompression line (C<sub>s</sub>)</button>
+      <button data-v="1">About the same &mdash; OCR does not affect settlement</button>
+      <button data-v="2">Much larger &mdash; overconsolidated clay is more compressible</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>4. A clay layer drained on both faces reaches 90% consolidation in 2 years. If the lower sand layer were absent (single drainage), how long would it take?</p>
+      <button data-v="0">2 years &mdash; unchanged</button>
+      <button data-v="1">4 years &mdash; twice as long</button>
+      <button data-v="2">8 years &mdash; the drainage path doubles and time goes as its square</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee340/slope-stability">&larr; Ch. 11: Slope Stability</a>
+  <a href="/civil/cee340/soil-investigation">Next: Soil Investigation &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+  const L=Math.log10;
+
+  function settle(){
+    const H=v('st-h'), e0=v('st-e0'), Cc=v('st-cc'), Cs=v('st-cs');
+    const s0=v('st-s0'), sc=Math.max(v('st-sc'), v('st-s0')), ds=v('st-ds');
+    if(H<=0||e0<=-1||s0<=0||ds<0){ g('st-res').innerHTML='<div class="verdict v-fail"><span>Check inputs</span></div>'; return; }
+    const sf=s0+ds, mc=Cc*H/(1+e0), ms=Cs*H/(1+e0);
+    let S, kase, detail;
+    if (Math.abs(sc-s0) < 1e-9){
+      kase='Case 1 — normally consolidated'; S=mc*L(sf/s0);
+      detail=`<div class="res"><span>Virgin line only</span><b>C<sub>c</sub> = ${Cc}</b></div>`;
+    } else if (sf <= sc){
+      kase='Case 2 — OC, stays below σ\'c'; S=ms*L(sf/s0);
+      detail=`<div class="res"><span>Recompression only</span><b>C<sub>s</sub> = ${Cs}</b></div>`;
+    } else {
+      kase='Case 3 — OC, crosses σ\'c';
+      const p1=ms*L(sc/s0), p2=mc*L(sf/sc); S=p1+p2;
+      detail=`<div class="res"><span>Recompression part</span><b>${(p1*1000).toFixed(1)} mm</b></div>`+
+             `<div class="res"><span>Virgin part</span><b>${(p2*1000).toFixed(1)} mm</b></div>`;
+    }
+    const ocr=sc/s0;
+    g('st-res').innerHTML =
+      `<div class="${sf<=sc&&ocr>1?'verdict v-pass':'res'}"><span>${kase}</span><b>OCR ${ocr.toFixed(2)}</b></div>`+
+      `<div class="res"><span>&sigma;'&#8320; &rarr; &sigma;'<sub>f</sub></span><b>${s0} &rarr; ${sf.toFixed(0)} kPa</b></div>`+
+      detail+
+      `<div class="res"><span>Primary settlement S<sub>c</sub></span><b>${(S*1000).toFixed(1)} mm</b></div>`;
+
+    // e–log σ' figure
+    const W=300,Hh=170,x0=42,y0=140,xr=245,yr=105;
+    const lo=L(Math.max(1,s0*0.45)), hi=L(Math.max(sf,sc)*2.1), span=hi-lo||1;
+    const PX=s=>x0+(L(s)-lo)/span*xr;
+    const eAt=s=> s<=sc ? e0-Cs*(L(s)-L(s0)) : e0-Cs*(L(sc)-L(s0))-Cc*(L(s)-L(sc));
+    const emin=eAt(Math.max(sf,sc)*2.0), emax=e0+0.04;
+    const PY=e=>y0-(e-emin)/((emax-emin)||1)*yr;
+    const seg=(a,b,col)=>`<line x1="${PX(a).toFixed(1)}" y1="${PY(eAt(a)).toFixed(1)}" x2="${PX(b).toFixed(1)}" y2="${PY(eAt(b)).toFixed(1)}" stroke="${col}" stroke-width="2"/>`;
+    let curve = seg(Math.max(1,s0*0.5), sc, 'var(--teal)');
+    if (Math.max(sf,sc)*2 > sc) curve += seg(sc, Math.max(sf,sc)*2, 'var(--amb)');
+    g('st-fig').innerHTML=`
+    <svg viewBox="0 0 ${W} ${Hh}" style="width:100%;height:auto">
+      <line x1="${x0}" y1="${y0-yr-8}" x2="${x0}" y2="${y0}" stroke="var(--bdr2)"/>
+      <line x1="${x0}" y1="${y0}" x2="${x0+xr+8}" y2="${y0}" stroke="var(--bdr2)"/>
+      ${curve}
+      <line x1="${PX(s0).toFixed(1)}" y1="${y0}" x2="${PX(s0).toFixed(1)}" y2="${PY(eAt(s0)).toFixed(1)}" stroke="var(--txt2)" stroke-width=".8" stroke-dasharray="3,2"/>
+      <line x1="${PX(sf).toFixed(1)}" y1="${y0}" x2="${PX(sf).toFixed(1)}" y2="${PY(eAt(sf)).toFixed(1)}" stroke="var(--rust)" stroke-width="1" stroke-dasharray="3,2"/>
+      ${sc>s0?`<line x1="${PX(sc).toFixed(1)}" y1="${y0}" x2="${PX(sc).toFixed(1)}" y2="${PY(eAt(sc)).toFixed(1)}" stroke="var(--amb)" stroke-width="1" stroke-dasharray="2,2"/><text x="${PX(sc).toFixed(1)}" y="${y0+11}" font-size="8" fill="var(--amb)" text-anchor="middle">σ'c</text>`:''}
+      <circle cx="${PX(s0).toFixed(1)}" cy="${PY(eAt(s0)).toFixed(1)}" r="3" fill="var(--txt2)"/>
+      <circle cx="${PX(sf).toFixed(1)}" cy="${PY(eAt(sf)).toFixed(1)}" r="3" fill="var(--rust)"/>
+      <text x="${PX(s0).toFixed(1)}" y="${y0+11}" font-size="8" fill="var(--txt2)" text-anchor="middle">σ'₀</text>
+      <text x="${PX(sf).toFixed(1)}" y="${y0-6}" font-size="8" fill="var(--rust)" text-anchor="middle">σ'f</text>
+      <text x="16" y="${y0-yr/2}" font-size="8.5" fill="var(--txt2)" transform="rotate(-90 16 ${y0-yr/2})" text-anchor="middle">void ratio e</text>
+      <text x="${x0+xr/2}" y="${Hh-4}" font-size="8.5" fill="var(--txt2)" text-anchor="middle">log σ' (kPa)</text>
+    </svg>`;
+  }
+  ['st-h','st-e0','st-cc','st-cs','st-s0','st-sc','st-ds'].forEach(id=>g(id).addEventListener('input',settle));
+  settle();
+
+  function TvOf(U){ return U<60 ? Math.PI/4*Math.pow(U/100,2) : 1.781-0.933*L(100-U); }
+
+  function timeRate(){
+    const H=v('tr-h'), div=+g('tr-drain').value, cv=v('tr-cv'), Sc=v('tr-sc'), U=v('tr-u');
+    g('tr-u-v').textContent=U;
+    if(H<=0||cv<=0){ g('tr-res').innerHTML='<div class="verdict v-fail"><span>Check inputs</span></div>'; return; }
+    const Hdr=H/div, Tv=TvOf(U), t=Tv*Hdr*Hdr/cv;
+    const months=t*12;
+    g('tr-res').innerHTML=
+      `<div class="res"><span>Drainage path H<sub>dr</sub></span><b>${Hdr.toFixed(2)} m</b></div>`+
+      `<div class="res"><span>Time factor T<sub>v</sub></span><b>${Tv.toFixed(4)}</b></div>`+
+      `<div class="verdict v-pass"><span>Time to U = ${U}%</span><b>${t.toFixed(2)} yr (${months.toFixed(1)} mo)</b></div>`+
+      `<div class="res"><span>Settlement at U = ${U}%</span><b>${(Sc*U/100).toFixed(1)} mm</b></div>`+
+      `<div class="res"><span>Remaining</span><b>${(Sc*(100-U)/100).toFixed(1)} mm</b></div>`;
+
+    // settlement-vs-time curve
+    const W=300,Hh=165,x0=40,y0=132,xr=245,yr=100;
+    const tmax=TvOf(99)*Hdr*Hdr/cv;
+    const PX=tt=>x0+(tt/tmax)*xr, PY=u=>y0-(u/100)*yr;
+    let d='';
+    for(let u=1;u<=99;u++){
+      const tt=TvOf(u)*Hdr*Hdr/cv;
+      d+=(u===1?'M ':' L ')+PX(tt).toFixed(1)+' '+PY(u).toFixed(1);
+    }
+    g('tr-fig').innerHTML=`
+    <svg viewBox="0 0 ${W} ${Hh}" style="width:100%;height:auto">
+      <line x1="${x0}" y1="${y0-yr-6}" x2="${x0}" y2="${y0}" stroke="var(--bdr2)"/>
+      <line x1="${x0}" y1="${y0}" x2="${x0+xr+6}" y2="${y0}" stroke="var(--bdr2)"/>
+      <path d="${d}" fill="none" stroke="var(--teal)" stroke-width="2"/>
+      <line x1="${x0}" y1="${PY(U).toFixed(1)}" x2="${PX(t).toFixed(1)}" y2="${PY(U).toFixed(1)}" stroke="var(--amb)" stroke-width=".8" stroke-dasharray="3,2"/>
+      <line x1="${PX(t).toFixed(1)}" y1="${PY(U).toFixed(1)}" x2="${PX(t).toFixed(1)}" y2="${y0}" stroke="var(--amb)" stroke-width=".8" stroke-dasharray="3,2"/>
+      <circle cx="${PX(t).toFixed(1)}" cy="${PY(U).toFixed(1)}" r="3.5" fill="var(--amb)"/>
+      <text x="${x0-4}" y="${PY(U).toFixed(1)}" font-size="8" fill="var(--amb)" text-anchor="end">${U}%</text>
+      <text x="${PX(t).toFixed(1)}" y="${y0+11}" font-size="8" fill="var(--amb)" text-anchor="middle">${t.toFixed(2)} yr</text>
+      <text x="18" y="${y0-yr/2}" font-size="8.5" fill="var(--txt2)" transform="rotate(-90 18 ${y0-yr/2})" text-anchor="middle">U (%)</text>
+      <text x="${x0+xr/2}" y="${Hh-3}" font-size="8.5" fill="var(--txt2)" text-anchor="middle">time (years)</text>
+    </svg>`;
+  }
+  ['tr-h','tr-drain','tr-cv','tr-sc','tr-u'].forEach(id=>g(id).addEventListener('input',timeRate));
+  timeRate();
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const a=document.querySelectorAll('.quiz .q.answered').length;
+      const r=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=r+' / '+a+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>
