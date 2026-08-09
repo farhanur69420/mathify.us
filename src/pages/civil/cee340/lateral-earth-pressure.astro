@@ -1,0 +1,518 @@
+---
+import Base from '../../../layouts/Base.astro'
+---
+<Base title="CEE 340 — Lateral Earth Pressure" description="At-rest, active & passive earth pressure explained with intuition first — Rankine and Coulomb theory, wall-movement diagrams, a live calculator, and worked examples.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 340 &middot; Advanced Foundation Engineering &middot; Ch. 7</div>
+  <h1>Lateral Earth Pressure</h1>
+  <p class="hd-sub">Every retaining wall, basement wall, and sheet pile lives or dies by one question: how hard is the soil behind it pushing? The answer isn't a fixed number — it depends on which way the wall moves. That single idea is this whole chapter.</p>
+  <div class="hd-pills">
+    <span class="pill">At-Rest (K&#8320;)</span>
+    <span class="pill">Active (K<sub>a</sub>)</span>
+    <span class="pill">Passive (K<sub>p</sub>)</span>
+    <span class="pill">Rankine &amp; Coulomb</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">Why a Wall's Pressure Isn't Fixed</a></li>
+    <li><a href="#sec-atrest">At-Rest Pressure — K&#8320;</a></li>
+    <li><a href="#sec-active">Active Pressure — K<sub>a</sub></a></li>
+    <li><a href="#sec-passive">Passive Pressure — K<sub>p</sub></a></li>
+    <li><a href="#sec-cohesion">Cohesion &amp; the Tension Crack</a></li>
+    <li><a href="#sec-calc">Live Calculator &amp; Groundwater</a></li>
+    <li><a href="#sec-coulomb">Sloped Backfill &amp; Coulomb's Theory</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Check</a></li>
+  </ol>
+</nav>
+
+<!-- ══════════════ 1. WHY ══════════════ -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>Why a Wall's Pressure Isn't Fixed</h2></div>
+
+  <p class="lead">Water pushes on a dam with one predictable pressure — hydrostatic, straight from depth. Soil doesn't. Soil is a pile of grains that can lock together and support themselves, so how hard it pushes on a wall depends entirely on <strong>what the wall does</strong>.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#128101;</span>
+    <div>
+      <strong>Think of a wall as one person holding back a crowd.</strong> If you stand rigid and nobody moves, the crowd leans on you at some resting pressure. Step back even a centimeter, and the crowd relaxes into the gap — pressure on you drops. Instead, lean <em>into</em> the crowd, and they brace back hard — pressure spikes. Same crowd, wildly different pressure, just from a few centimeters of your own movement.
+    </div>
+  </div>
+
+  <p>Soil behaves the same way. A wall that doesn't move at all holds the soil in its natural, undisturbed state &mdash; <strong>at-rest pressure</strong>. A wall that yields (tips or slides away, even slightly) lets the soil relax and mobilize its own shear strength to hold itself up &mdash; pressure falls to a minimum called <strong>active pressure</strong>. A wall that gets pushed into the soil compresses it, forcing it toward failure in the other direction &mdash; pressure rises to a maximum called <strong>passive pressure</strong>.</p>
+
+  <div class="diagram-card">
+    <h4>The Master Diagram: Pressure vs. Wall Movement</h4>
+    <svg viewBox="0 0 460 220" class="static-svg">
+      <line x1="40" y1="190" x2="440" y2="190" stroke="var(--bdr2)" stroke-width="1.5"/>
+      <line x1="230" y1="20" x2="230" y2="190" stroke="var(--bdr)" stroke-width="1" stroke-dasharray="3,3"/>
+      <path d="M 60 60 C 130 150, 190 175, 230 100 C 270 40, 340 25, 420 30" fill="none" stroke="var(--teal)" stroke-width="2.5"/>
+      <circle cx="230" cy="100" r="4" fill="var(--amb)"/>
+      <text x="230" y="90" font-size="10" fill="var(--amb)" text-anchor="middle">K&#8320;</text>
+      <circle cx="120" cy="145" r="4" fill="var(--teal)"/>
+      <text x="120" y="163" font-size="10" fill="var(--teal)" text-anchor="middle">K&#8342;</text>
+      <circle cx="400" cy="35" r="4" fill="var(--rust)"/>
+      <text x="400" y="24" font-size="10" fill="var(--rust)" text-anchor="middle">K&#8346;</text>
+      <text x="140" y="210" font-size="10" fill="var(--txt2)" text-anchor="middle">&larr; wall moves away (active)</text>
+      <text x="330" y="210" font-size="10" fill="var(--txt2)" text-anchor="middle">wall pushes in (passive) &rarr;</text>
+      <text x="14" y="105" font-size="10" fill="var(--txt2)" transform="rotate(-90 14 105)" text-anchor="middle">K (pressure coefficient)</text>
+    </svg>
+    <p class="cap">A tiny outward movement (~0.1&ndash;0.5% of wall height) is enough to crash the pressure down to K<sub>a</sub>. Getting the full passive resistance K<sub>p</sub> takes a movement 10&ndash;50&times; bigger, in the opposite direction. This asymmetry is why designers can trust active pressure calculations after almost no movement, but can't fully trust passive resistance unless the wall has actually shifted a lot.</p>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why it matters:</strong> Every retaining wall, sheet pile, and basement wall in Ch. 8 gets designed using these three pressures. Get K<sub>a</sub> or K<sub>p</sub> wrong and the whole downstream design — overturning, sliding, bearing capacity — is wrong too.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 2. AT-REST ══════════════ -->
+<section class="sec" id="sec-atrest">
+  <div class="sec-h"><span class="sec-n">02</span><h2>At-Rest Pressure — K&#8320;</h2></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Intuition</span>
+      <h4>The wall that never moves</h4>
+      <p>Basement walls braced by a floor slab on both ends, or a wall between two buildings that literally can't move — these hold soil at rest. Nothing has relaxed and nothing has been compressed; the soil is exactly as confined as when it was deposited.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Mechanics</span>
+      <h4>Confinement, not failure</h4>
+      <p>No shear strength is mobilized at all &mdash; the soil isn't anywhere near failure. Horizontal stress is just some fraction of vertical stress, set by how the soil was confined as it formed. Loose, normally-consolidated soil settles into a fairly predictable fraction.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">The Math</span>
+      <h4>Jaky's equation</h4>
+      <div class="eq">
+        \[ K_0 = 1 - \sin\phi' \]
+        \[ \sigma'_h = K_0\,\sigma'_v \]
+      </div>
+      <p class="small">For normally consolidated soil. (Overconsolidated soil has higher K&#8320; — it "remembers" a bigger past confinement.)</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>K&#8320; is not a strength calculation — it's a snapshot of however the soil happens to sit right now. It's always between K<sub>a</sub> and K<sub>p</sub>, closer to the middle.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 3. ACTIVE ══════════════ -->
+<section class="sec" id="sec-active">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Active Pressure — K<sub>a</sub> (Rankine)</h2></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Intuition</span>
+      <h4>The wall that gives way</h4>
+      <p>Tip a cantilever retaining wall forward, even by a millimeter per meter of height, and a wedge of soil behind it slides down and pushes it &mdash; but only with the <em>minimum</em> force needed to keep that wedge from falling further. The soil is doing as little work on the wall as physically possible.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Mechanics</span>
+      <h4>Failure wedge at 45°+&phi;'/2</h4>
+      <p>The soil is at the brink of shear failure along a plane tilted at 45°+&phi;'/2 from horizontal. Rankine's theory assumes a frictionless, vertical wall and a horizontal backfill — simple, but it's the backbone every real design builds on.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">The Math</span>
+      <h4>Rankine active coefficient</h4>
+      <div class="eq">
+        \[ K_a = \tan^2\!\left(45^\circ - \frac&#123;\phi'&#125;&#123;2&#125;\right) \]
+        \[ \sigma'_a = K_a\,\sigma'_v \]
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-card">
+    <svg viewBox="0 0 300 180" class="static-svg">
+      <rect x="30" y="20" width="14" height="140" fill="var(--surf3)" stroke="var(--bdr2)"/>
+      <line x1="44" y1="160" x2="44" y2="20" stroke="var(--bdr)" stroke-dasharray="3,3"/>
+      <path d="M 44 160 L 220 20" fill="none" stroke="var(--teal)" stroke-width="2"/>
+      <path d="M 44 160 L 210 160 L 44 20" fill="rgba(78,201,176,0.08)" stroke="none"/>
+      <text x="130" y="70" font-size="11" fill="var(--teal)">45&deg; + &phi;'/2</text>
+      <path d="M 70 145 A 20 20 0 0 1 90 130" fill="none" stroke="var(--teal)" stroke-width="1"/>
+      <polygon points="44,50 60,55 50,65" fill="var(--amb)"/>
+      <text x="65" y="45" font-size="10" fill="var(--amb)">wall yields &rarr;</text>
+      <text x="100" y="175" font-size="10" fill="var(--txt2)" text-anchor="middle">Active: wedge slides down &amp; out</text>
+    </svg>
+    <svg viewBox="0 0 300 180" class="static-svg">
+      <rect x="30" y="20" width="14" height="140" fill="var(--surf3)" stroke="var(--bdr2)"/>
+      <line x1="44" y1="160" x2="44" y2="20" stroke="var(--bdr)" stroke-dasharray="3,3"/>
+      <path d="M 44 160 L 260 100" fill="none" stroke="var(--rust)" stroke-width="2"/>
+      <path d="M 44 160 L 250 100 L 44 20" fill="rgba(194,90,59,0.08)" stroke="none"/>
+      <text x="130" y="110" font-size="11" fill="var(--rust)">45&deg; &minus; &phi;'/2</text>
+      <polygon points="44,50 60,55 50,65" fill="var(--amb)"/>
+      <text x="65" y="45" font-size="10" fill="var(--amb)">&larr; wall pushed in</text>
+      <text x="130" y="175" font-size="10" fill="var(--txt2)" text-anchor="middle">Passive: bigger wedge resists, pushed up &amp; out</text>
+    </svg>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Active pressure is the <strong>minimum</strong> the soil will ever push with. It's what happens once the wall has already yielded enough to let the soil find its easiest, most relaxed equilibrium.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 4. PASSIVE ══════════════ -->
+<section class="sec" id="sec-passive">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Passive Pressure — K<sub>p</sub> (Rankine)</h2></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Intuition</span>
+      <h4>The wall that shoves back</h4>
+      <p>Push a wall <em>into</em> the soil — this is what happens at the toe of a footing, or the embedded tip of a sheet pile — and the soil fights back at its <em>maximum</em> possible resistance. This resistance is what keeps footings and sheet piles from sliding or kicking out.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Mechanics</span>
+      <h4>Failure wedge at 45°&minus;&phi;'/2</h4>
+      <p>Same theory, opposite direction: the failure plane flattens to 45°&minus;&phi;'/2, and the wedge that resists is much bigger and much stronger. That's why K<sub>p</sub> is always far larger than K<sub>a</sub>.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">The Math</span>
+      <h4>Rankine passive coefficient</h4>
+      <div class="eq">
+        \[ K_p = \tan^2\!\left(45^\circ + \frac&#123;\phi'&#125;&#123;2&#125;\right) \]
+        \[ \sigma'_p = K_p\,\sigma'_v \]
+      </div>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why it matters:</strong> At &phi;'=30°, K<sub>p</sub>/K<sub>a</sub> = 9. The ground can shove back nine times harder than it pulls away — that nine-fold cushion is exactly why footings get embedded below grade and sheet piles get driven deep: you're banking on passive resistance you can't get any other way.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 5. COHESION ══════════════ -->
+<section class="sec" id="sec-cohesion">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Cohesion &amp; the Tension Crack</h2></div>
+
+  <p>Clay has cohesion (c') — grains stick to each other even under zero confinement. That stickiness fights the active pressure, subtracting from it. But cohesion can't be squeezed, only pulled apart — near the top of the wall, where confinement is lowest, the math predicts <em>negative</em> pressure. Soil can't actually pull on a wall, so instead it just cracks open.</p>
+
+  <div class="grid2">
+    <div class="vcard v-rust">
+      <span class="vtag">Active pressure with cohesion</span>
+      <div class="eq">\[ \sigma'_a = K_a\,\sigma'_v - 2c'\sqrt&#123;K_a&#125; \]</div>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">Depth of the tension crack</span>
+      <div class="eq">\[ z_c = \frac&#123;2c'&#125;&#123;\gamma\sqrt&#123;K_a&#125;&#125; \]</div>
+    </div>
+  </div>
+  <p class="small">Below z<sub>c</sub>, pressure builds normally. Design practice ignores the cracked zone's pressure entirely — but that crack can fill with rainwater and push with full hydrostatic force, which is often the more dangerous case in real walls.</p>
+</section>
+
+<!-- ══════════════ 6. CALCULATOR ══════════════ -->
+<section class="sec" id="sec-calc">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Live Calculator &amp; Groundwater</h2></div>
+  <p>One tool, three pressure states. Groundwater matters because below the water table the soil's effective weight drops (buoyancy), <em>but</em> full hydrostatic pressure gets added back on top — so the total pressure diagram kinks at the water table instead of staying a straight triangle.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Pressure state
+        <select id="lp-mode">
+          <option value="0">At-Rest (K&#8320;)</option>
+          <option value="a" selected>Active (K&#8336;)</option>
+          <option value="p">Passive (K&#8346;)</option>
+        </select>
+      </label>
+      <label>&phi;' (deg) <input type="range" id="lp-phi" min="15" max="45" value="30"><span id="lp-phi-v">30°</span></label>
+      <label>Moist unit weight &gamma; (kN/m&sup3;) <input type="number" id="lp-g" value="18" step="0.5"></label>
+      <label>Saturated unit weight &gamma;<sub>sat</sub> (kN/m&sup3;) <input type="number" id="lp-gsat" value="20" step="0.5"></label>
+      <label>Wall height H (m) <input type="number" id="lp-h" value="6" step="0.5"></label>
+      <label>Water table depth from top (m, &ge; H = dry) <input type="number" id="lp-zw" value="6" step="0.5"></label>
+    </div>
+    <div class="calc-out">
+      <div id="lp-diagram"></div>
+      <div class="lp-results" id="lp-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 7. COULOMB / SLOPED ══════════════ -->
+<section class="sec" id="sec-coulomb">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Sloped Backfill &amp; Coulomb's Theory</h2></div>
+
+  <p>Rankine's theory needs a frictionless, vertical wall and a flat backfill — clean for learning the concept, but most real walls have batter, wall friction, and sloped fill. Two extensions handle that:</p>
+
+  <div class="grid2">
+    <div class="vcard v-blu">
+      <span class="vtag">Generalized Rankine (sloped backfill, angle &alpha;)</span>
+      <div class="eq">\[ K_a = \cos\alpha\,\frac&#123;\cos\alpha - \sqrt&#123;\cos^2\alpha - \cos^2\phi'&#125;&#125;&#123;\cos\alpha + \sqrt&#123;\cos^2\alpha - \cos^2\phi'&#125;&#125; \]</div>
+      <p class="small">Pressure now acts parallel to the sloped ground surface, not horizontally.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Coulomb's theory (wall friction &delta;)</span>
+      <p class="small">Coulomb drops the frictionless-wall assumption and lets the wall drag on the sliding wedge, which lowers K<sub>a</sub> and (for rough walls) meaningfully raises K<sub>p</sub>. The trade-off: the failure surface is no longer a flat plane, so the closed-form expression is heavier. In practice, engineers pull K<sub>a</sub>/K<sub>p</sub> straight from published charts for the given &delta;, &alpha;, and wall batter &beta; rather than deriving it by hand.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why it matters:</strong> In the 2017 Rangamati–Chattogram hill-tract landslides, several valley-side retaining walls failed by overturning once their foundations lost support — a reminder that lateral earth pressure theory isn't academic. Undersized or misjudged pressure assumptions on a slope show up as real collapsed roads and walls.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 8. EXAMPLES ══════════════ -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>At-Rest Force on a Braced Basement Wall</h4></div>
+    <p class="prob"><strong>Problem:</strong> A 5 m tall basement wall retains dry, normally consolidated sand with &gamma; = 17 kN/m&sup3; and &phi;' = 32°. The wall is fully braced (no movement). Find the at-rest force per meter of wall and its location.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>\( K_0 = 1-\sin32^\circ = 1-0.530 = 0.470 \)</div></div>
+      <div class="step"><b>2</b><div>Pressure at base: \( \sigma'_h = K_0\gamma H = 0.470(17)(5) = 39.9 \text&#123;kPa&#125; \) (triangle from 0 at top to 39.9 kPa at base)</div></div>
+      <div class="step"><b>3</b><div>Resultant force: \( P_0 = \tfrac12 K_0 \gamma H^2 = \tfrac12(0.470)(17)(5)^2 = 99.9 \text&#123;kN/m&#125; \)</div></div>
+      <div class="step"><b>4</b><div>Location: acts at \( H/3 = 1.67\text&#123;m&#125; \) above the base (centroid of the triangle).</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> P&#8320; &asymp; 99.9 kN/m, acting 1.67 m above the base.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>Active Force with Cohesion &amp; Tension Crack</h4></div>
+    <p class="prob"><strong>Problem:</strong> A frictionless 6 m wall retains a clay backfill: &gamma; = 18 kN/m&sup3;, &phi;' = 26°, c' = 12 kPa. Find the tension crack depth and the active force after the crack forms.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>\( K_a = \tan^2(45-13) = \tan^2(32^\circ) = 0.390 \)</div></div>
+      <div class="step"><b>2</b><div>Tension crack depth: \( z_c = \dfrac&#123;2c'&#125;&#123;\gamma\sqrt&#123;K_a&#125;&#125; = \dfrac&#123;2(12)&#125;&#123;18\sqrt&#123;0.390&#125;&#125; = 2.14\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>3</b><div>Pressure at base (z=6 m): \( \sigma'_a = K_a\gamma H - 2c'\sqrt&#123;K_a&#125; = 0.390(18)(6) - 2(12)\sqrt&#123;0.390&#125; = 42.1 - 15.0 = 27.1\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>4</b><div>Net triangle runs from 0 at \( z_c=2.14\text&#123;m&#125; \) to 27.1 kPa at the base, over a height of \( 6-2.14=3.86\text&#123;m&#125; \): \( P_a = \tfrac12(27.1)(3.86) = 52.3\text&#123;kN/m&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> Crack extends 2.14 m deep; net active force below it &asymp; 52.3 kN/m. (The cracked zone above is ignored in the force — unless it fills with water.)</div>
+  </div>
+</section>
+
+<!-- ══════════════ 9. QUICK REF + QUIZ ══════════════ -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>K&#8320;</span><span>1 &minus; sin&phi'</span></div>
+    <div><span>K<sub>a</sub></span><span>tan&sup2;(45&deg; &minus; &phi;'/2)</span></div>
+    <div><span>K<sub>p</sub></span><span>tan&sup2;(45&deg; + &phi;'/2)</span></div>
+    <div><span>Resultant force</span><span>P = &frac12; K &gamma; H&sup2; (triangle)</span></div>
+    <div><span>Location (no water/cohesion)</span><span>H/3 above base</span></div>
+    <div><span>Failure plane (active)</span><span>45&deg; + &phi;'/2 from horizontal</span></div>
+    <div><span>Failure plane (passive)</span><span>45&deg; &minus; &phi;'/2 from horizontal</span></div>
+    <div><span>Tension crack depth</span><span>z<sub>c</sub> = 2c'/(&gamma;&radic;K<sub>a</sub>)</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. A cantilever wall tips forward by 2 mm at the top. Which pressure state is now acting on it?</p>
+      <button data-v="0">At-rest</button><button data-v="1">Active</button><button data-v="2">Passive</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. Why is K<sub>p</sub> always much bigger than K<sub>a</sub> for the same soil?</p>
+      <button data-v="0">K<sub>p</sub> uses a different unit weight</button>
+      <button data-v="1">They're actually equal at failure</button>
+      <button data-v="2">Passive failure mobilizes the soil's full strength in the opposite, stronger direction</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>3. A tension crack forms in clay backfill because:</p>
+      <button data-v="0">The soil is too dry</button>
+      <button data-v="1">Cohesion predicts negative (tensile) pressure near the top, which soil can't sustain</button>
+      <button data-v="2">The wall is moving passively</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil">&larr; Back to Civil Engineering</a>
+  <span class="next">Next up: Earth Retaining Structures (Ch. 8) — coming soon</span>
+</footer>
+
+<style>
+  * { box-sizing: border-box; }
+  :global(body) { font-family: 'Inter', sans-serif; font-size: 15.5px; line-height: 1.7; }
+
+  .hd, .toc, .sec, .chapter-nav { max-width: 840px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+  .hd { padding-top: 3rem; padding-bottom: 1rem; }
+  .hd-tag { font-family: 'Space Mono', monospace; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--amb); }
+  .hd h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.8rem,5vw,2.6rem); color: var(--teal); margin: .6rem 0 1rem; }
+  .hd-sub { color: var(--txt2); max-width: 640px; }
+  .hd-pills { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.2rem; }
+  .pill { font-family: 'Space Mono', monospace; font-size: .68rem; border: 1px solid var(--bdr); background: var(--surf); border-radius: 99px; padding: .3rem .8rem; color: var(--txt2); }
+
+  .toc { margin: 2rem auto; padding: 1.2rem 1.6rem; background: var(--surf); border: 1px solid var(--bdr); border-radius: 10px; }
+  .toc h3 { font-family: 'Space Mono', monospace; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mut); margin-bottom: .6rem; }
+  .toc ol { padding-left: 1.2rem; columns: 2; gap: 1.5rem; }
+  .toc a { color: var(--txt2); text-decoration: none; font-size: .82rem; }
+  .toc a:hover { color: var(--teal); }
+
+  .sec { padding: 3rem 1.5rem; border-top: 1px solid var(--bdr); }
+  .sec-h { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.4rem; }
+  .sec-n { font-family: 'Space Mono', monospace; font-size: .75rem; color: var(--amb); border: 1px solid var(--aline); background: var(--adim); border-radius: 6px; padding: .2rem .55rem; }
+  .sec-h h2 { font-family: 'Space Mono', monospace; font-size: 1.3rem; color: var(--txt); }
+  .lead { font-size: 1.02rem; color: var(--txt); margin-bottom: 1.2rem; }
+  p { margin-bottom: .9rem; color: var(--txt2); }
+  .small { font-size: .82rem; color: var(--mut); }
+
+  .analogy { display: flex; gap: .9rem; background: var(--vdim); border: 1px solid var(--vline); border-left: 3px solid var(--vio); border-radius: 8px; padding: 1rem 1.2rem; margin: 1rem 0 1.4rem; }
+  .an-icon { font-size: 1.3rem; }
+  .analogy div { color: var(--txt2); font-size: .9rem; }
+
+  .why-matters { display: flex; gap: .8rem; background: var(--adim); border: 1px solid var(--aline); border-left: 3px solid var(--amb); border-radius: 8px; padding: 1rem 1.2rem; margin-top: 1.4rem; font-size: .88rem; color: var(--txt2); }
+
+  .core { background: var(--tdim); border: 1px solid var(--tline); border-radius: 8px; padding: 1rem 1.2rem; margin-top: 1.4rem; }
+  .core span { font-family: 'Space Mono', monospace; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); }
+  .core p { margin: .4rem 0 0; color: var(--txt); }
+
+  .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: .5rem; }
+  .grid2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin-bottom: .5rem; }
+  .vcard { background: var(--surf); border: 1px solid var(--bdr); border-radius: 8px; padding: 1rem 1.1rem; border-top: 3px solid var(--bdr2); }
+  .v-teal { border-top-color: var(--teal); } .v-amb { border-top-color: var(--amb); } .v-vio { border-top-color: var(--vio); }
+  .v-rust { border-top-color: var(--rust); } .v-blu { border-top-color: var(--blu); }
+  .vtag { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); }
+  .vcard h4 { font-size: .92rem; color: var(--txt); margin: .4rem 0 .4rem; }
+  .vcard p { font-size: .85rem; margin-bottom: 0; }
+  .eq { font-size: .85rem; overflow-x: auto; margin: .3rem 0; }
+
+  .diagram-card { background: var(--surf); border: 1px solid var(--bdr); border-radius: 10px; padding: 1.2rem; margin: 1.2rem 0; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+  .diagram-card h4 { flex-basis: 100%; font-size: .85rem; color: var(--txt); margin-bottom: .4rem; }
+  .diagram-card .cap { flex-basis: 100%; font-size: .82rem; color: var(--mut); margin: .6rem 0 0; }
+  .static-svg { width: 100%; max-width: 300px; height: auto; }
+
+  .calc { background: var(--surf); border: 1px solid var(--bdr); border-radius: 10px; padding: 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .calc-in { display: flex; flex-direction: column; gap: .7rem; }
+  .calc-in label { display: flex; flex-direction: column; gap: .3rem; font-size: .78rem; color: var(--txt2); }
+  .calc-in input, .calc-in select { background: var(--surf2); border: 1px solid var(--bdr2); border-radius: 6px; padding: .4rem .5rem; color: var(--txt); font-family: inherit; font-size: .85rem; }
+  .calc-out { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+  .lp-svg { width: 100%; max-width: 230px; }
+  .lp-results { width: 100%; display: flex; flex-direction: column; gap: .4rem; }
+  .res { display: flex; justify-content: space-between; font-size: .82rem; background: var(--surf2); border: 1px solid var(--bdr); border-radius: 6px; padding: .4rem .7rem; }
+  .res b { color: var(--teal); font-family: 'Space Mono', monospace; }
+
+  .example { background: var(--surf); border: 1px solid var(--bdr); border-radius: 10px; padding: 1.3rem 1.4rem; margin-bottom: 1.2rem; }
+  .ex-h span { font-family: 'Space Mono', monospace; font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; color: var(--amb); }
+  .ex-h h4 { font-size: 1rem; color: var(--txt); margin: .3rem 0 .8rem; }
+  .prob { font-size: .88rem; }
+  .steps { display: flex; flex-direction: column; gap: .6rem; margin: .8rem 0; }
+  .step { display: flex; gap: .7rem; font-size: .85rem; }
+  .step b { font-family: 'Space Mono', monospace; color: var(--teal); background: var(--tdim); border-radius: 50%; width: 1.4rem; height: 1.4rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .72rem; }
+  .step div { color: var(--txt2); }
+  .ans { background: var(--tdim); border: 1px solid var(--tline); border-radius: 6px; padding: .7rem 1rem; font-size: .85rem; color: var(--txt); }
+
+  .qref { display: grid; grid-template-columns: repeat(2,1fr); gap: .5rem; margin-bottom: 2rem; }
+  .qref div { display: flex; justify-content: space-between; gap: .5rem; background: var(--surf); border: 1px solid var(--bdr); border-radius: 6px; padding: .5rem .8rem; font-size: .78rem; }
+  .qref span:first-child { color: var(--mut); }
+  .qref span:last-child { color: var(--txt); font-family: 'Space Mono', monospace; }
+
+  .quiz .q { background: var(--surf); border: 1px solid var(--bdr); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: .8rem; }
+  .quiz .q p { color: var(--txt); font-size: .88rem; margin-bottom: .7rem; }
+  .quiz button { font-family: inherit; font-size: .8rem; background: var(--surf2); border: 1px solid var(--bdr2); color: var(--txt2); border-radius: 6px; padding: .45rem .8rem; margin: 0 .4rem .4rem 0; cursor: pointer; }
+  .quiz .q.answered button { cursor: default; }
+  .quiz button.correct { border-color: var(--teal); color: var(--teal); background: var(--tdim); }
+  .quiz button.wrong { border-color: var(--rust); color: var(--rust); background: var(--rdim); }
+  .quiz-score { font-family: 'Space Mono', monospace; font-size: .8rem; color: var(--amb); }
+
+  .chapter-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .8rem; padding: 2rem 1.5rem 4rem; border-top: 1px solid var(--bdr); font-size: .85rem; }
+  .chapter-nav a { color: var(--teal); text-decoration: none; }
+  .next { color: var(--mut); }
+
+  @media (max-width: 680px) {
+    .grid3, .grid2, .calc, .qref { grid-template-columns: 1fr; }
+    .toc ol { columns: 1; }
+  }
+</style>
+
+<script is:inline>
+function lpDraw(){
+  const mode = document.getElementById('lp-mode').value;
+  const phi = +document.getElementById('lp-phi').value;
+  document.getElementById('lp-phi-v').textContent = phi + '°';
+  const g = +document.getElementById('lp-g').value;
+  const gsat = +document.getElementById('lp-gsat').value;
+  const H = +document.getElementById('lp-h').value;
+  const zw = Math.min(+document.getElementById('lp-zw').value, H);
+  const gw = 9.81;
+  const phir = phi * Math.PI/180;
+  let K, label;
+  if(mode==='0'){ K = 1 - Math.sin(phir); label = 'K₀'; }
+  else if(mode==='a'){ K = Math.pow(Math.tan(Math.PI/4 - phir/2), 2); label = 'Kₐ'; }
+  else { K = Math.pow(Math.tan(Math.PI/4 + phir/2), 2); label = 'Kₚ'; }
+
+  const gsub = gsat - gw;
+  function sigV(z){ return z<=zw ? g*z : g*zw + gsub*(z-zw); }
+  function u(z){ return z<=zw ? 0 : gw*(z-zw); }
+  function sigH(z){ return K*sigV(z) + u(z); }
+
+  const breaks = zw>0 && zw<H ? [0, zw, H] : [0, H];
+  const pts = breaks.map(z => ({z, p: sigH(z)}));
+
+  let P = 0, M = 0;
+  for(let i=0;i<pts.length-1;i++){
+    const z1=pts[i].z, z2=pts[i+1].z, p1=pts[i].p, p2=pts[i+1].p;
+    const dz = z2-z1;
+    const area = 0.5*(p1+p2)*dz;
+    const centroidFromTop = dz===0?z1:(z1*(2*p1+p2) + z2*(p1+2*p2))/(3*(p1+p2||1));
+    P += area; M += area*centroidFromTop;
+  }
+  const zbarTop = P>0 ? M/P : 0;
+  const zbarFromBase = H - zbarTop;
+
+  const maxP = Math.max(...pts.map(pt=>pt.p), 1);
+  const W = 260, Hpx = 220, x0 = 40, scale = 150/maxP;
+  const yOf = z => 20 + (z/H)*180;
+  const xOf = p => x0 + p*scale;
+  let poly = `${x0},20 `;
+  pts.forEach(pt => poly += `${xOf(pt.p)},${yOf(pt.z)} `);
+  poly += `${x0},200`;
+
+  let wtLine = '';
+  if(zw>0 && zw<H){
+    wtLine = `<line x1="10" y1="${yOf(zw)}" x2="${W-10}" y2="${yOf(zw)}" stroke="#4a9fe0" stroke-dasharray="4,3" stroke-width="1.2"/><text x="${W-10}" y="${yOf(zw)-4}" font-size="9" fill="#4a9fe0" text-anchor="end">GWT</text>`;
+  }
+
+  document.getElementById('lp-diagram').innerHTML = `
+  <svg viewBox="0 0 ${W} ${Hpx}" class="lp-svg">
+    <line x1="${x0}" y1="20" x2="${x0}" y2="200" stroke="var(--bdr2)" stroke-width="1.5"/>
+    <line x1="10" y1="20" x2="10" y2="200" stroke="var(--bdr)" stroke-width="3"/>
+    ${wtLine}
+    <polygon points="${poly}" fill="rgba(78,201,176,0.18)" stroke="var(--teal)" stroke-width="1.5"/>
+    <text x="${x0}" y="14" font-size="9" fill="var(--txt2)" text-anchor="middle">0</text>
+    <text x="${xOf(pts[pts.length-1].p)}" y="212" font-size="9" fill="var(--teal)" text-anchor="middle">${pts[pts.length-1].p.toFixed(1)} kPa</text>
+    <text x="20" y="212" font-size="9" fill="var(--txt2)">H=${H}m</text>
+  </svg>`;
+
+  document.getElementById('lp-results').innerHTML = `
+    <div class="res"><span>${label}</span><b>${K.toFixed(3)}</b></div>
+    <div class="res"><span>&sigma;<sub>h</sub> at base</span><b>${pts[pts.length-1].p.toFixed(1)} kPa</b></div>
+    <div class="res"><span>Resultant P</span><b>${P.toFixed(1)} kN/m</b></div>
+    <div class="res"><span>Acts above base</span><b>${zbarFromBase.toFixed(2)} m</b></div>
+  `;
+}
+['lp-mode','lp-phi','lp-g','lp-gsat','lp-h','lp-zw'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', lpDraw);
+});
+lpDraw();
+
+document.querySelectorAll('.quiz .q').forEach(q=>{
+  const buttons = q.querySelectorAll('button');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(q.classList.contains('answered')) return;
+      q.classList.add('answered');
+      const correct = q.dataset.a;
+      buttons.forEach(b=>{
+        if(b.dataset.v===correct) b.classList.add('correct');
+        else if(b===btn) b.classList.add('wrong');
+      });
+      const answered = document.querySelectorAll('.quiz .q.answered').length;
+      const right = document.querySelectorAll('.quiz .q.answered button.correct').length;
+      document.getElementById('quiz-score').textContent = `${right} / ${answered} answered correctly so far`;
+    });
+  });
+});
+</script>
+
+</Base>
