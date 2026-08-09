@@ -1,0 +1,482 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/cee340-chapter.css'
+---
+<Base title="CEE 340 — Introduction & Review" description="The CEE 240 foundations that everything in Advanced Foundation Engineering rests on — phase relations, classification, the effective stress principle, permeability, Mohr–Coulomb shear strength and stress distribution, with live phase-relation and effective-stress calculators.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 340 &middot; Advanced Foundation Engineering &middot; Day 1</div>
+  <h1>Introduction &amp; Review</h1>
+  <p class="hd-sub">Every chapter that follows &mdash; earth pressure, retaining walls, slopes, settlement, bearing capacity, piles &mdash; is built on five ideas from CEE 240. If any of them is shaky, the rest will feel like memorising formulas. This chapter makes sure they aren't.</p>
+  <div class="hd-pills">
+    <span class="pill">Phase Relations</span>
+    <span class="pill">Effective Stress</span>
+    <span class="pill">Mohr&ndash;Coulomb</span>
+    <span class="pill">Stress Distribution</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">What This Course Is Actually About</a></li>
+    <li><a href="#sec-phase">Soil as Three Phases</a></li>
+    <li><a href="#sec-calc1">Phase Relations Calculator</a></li>
+    <li><a href="#sec-class">Classification &amp; Why It Matters</a></li>
+    <li><a href="#sec-eff">The Effective Stress Principle</a></li>
+    <li><a href="#sec-calc2">Effective Stress Profile</a></li>
+    <li><a href="#sec-perm">Permeability &amp; Seepage</a></li>
+    <li><a href="#sec-shear">Shear Strength &mdash; Mohr&ndash;Coulomb</a></li>
+    <li><a href="#sec-stress">Stress Increase with Depth</a></li>
+    <li><a href="#sec-map">Where Each Idea Reappears</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>What This Course Is Actually About</h2></div>
+
+  <p class="lead">Structural engineering gets to specify its material. You order 30 MPa concrete and 500 MPa steel, and that is what arrives. Geotechnical engineering gets whatever is already there &mdash; variable, layered, full of water, and different at every borehole.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#127959;&#65039;</span>
+    <div>
+      <strong>A structural engineer designs the ship; a geotechnical engineer surveys the sea.</strong> You cannot order calmer water. You can only measure what you have, understand how it behaves, and design something that survives it. That is why this course spends so much effort on <em>investigating</em> and <em>characterising</em> before it ever designs anything.
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Every design in this course reduces to comparing a <strong>demand</strong> against a <strong>capacity</strong>, both computed from the same handful of soil parameters: unit weight &gamma;, shear strength (c', &phi;'), compressibility (C<sub>c</sub>, c<sub>v</sub>), and the position of the water table. Learn where those five come from and everything else follows.</p>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-phase">
+  <div class="sec-h"><span class="sec-n">02</span><h2>Soil as Three Phases</h2></div>
+
+  <p>Soil is not a solid. It is a skeleton of grains with voids between them, and those voids hold water, air, or both. Almost every soil property is really a statement about the <em>proportions</em> of those three phases.</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Volume ratios</span>
+      <div class="eq">
+        \[ e = \frac&#123;V_v&#125;&#123;V_s&#125;, \qquad n = \frac&#123;V_v&#125;&#123;V&#125; = \frac&#123;e&#125;&#123;1+e&#125; \]
+      </div>
+      <p class="small">Void ratio e compares voids to <em>solids</em>; porosity n compares voids to the <em>total</em>. Consolidation is written in terms of e because the solids never change.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Water content &amp; saturation</span>
+      <div class="eq">
+        \[ w = \frac&#123;W_w&#125;&#123;W_s&#125;, \qquad S = \frac&#123;V_w&#125;&#123;V_v&#125; = \frac&#123;G_s w&#125;&#123;e&#125; \]
+      </div>
+      <p class="small">S = 1 means saturated &mdash; the condition assumed throughout the consolidation and undrained-strength chapters.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Unit weights</span>
+      <div class="eq">
+        \[ \gamma_d = \frac&#123;G_s\gamma_w&#125;&#123;1+e&#125;, \qquad \gamma = \gamma_d(1+w) \]
+        \[ \gamma_&#123;sat&#125; = \frac&#123;(G_s+e)\gamma_w&#125;&#123;1+e&#125;, \qquad \gamma' = \gamma_&#123;sat&#125;-\gamma_w \]
+      </div>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>&gamma;' is the one to watch.</strong> Submerged unit weight is roughly <em>half</em> the saturated value, and it is what drives the collapse of the friction term in the slope stability chapter and the loss of bearing capacity under a high water table. Every dramatic result later traces back to this one subtraction.</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-calc1">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Phase Relations Calculator</h2></div>
+  <p>Give it G<sub>s</sub>, w and e, and it returns every other phase quantity &mdash; including the &gamma;' you will need constantly.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Specific gravity G<sub>s</sub> <input type="number" id="ph-gs" value="2.68" step="0.01"></label>
+      <label>Water content w (as a fraction) <input type="number" id="ph-w" value="0.18" step="0.01"></label>
+      <label>Void ratio e <input type="number" id="ph-e" value="0.72" step="0.01"></label>
+    </div>
+    <div class="calc-out">
+      <div id="ph-fig" class="calc-fig"></div>
+      <div id="ph-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-class">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Classification &amp; Why It Matters</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-teal">
+      <span class="vtag">Coarse-grained (sand, gravel)</span>
+      <h4>Behaviour set by grain size and packing</h4>
+      <p>Drains fast, so loading is effectively <strong>drained</strong> &mdash; pore pressures dissipate as quickly as you apply load. Strength is almost pure friction (c' &asymp; 0). Settlement is immediate and essentially over by the end of construction.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Fine-grained (silt, clay)</span>
+      <h4>Behaviour set by mineralogy and water</h4>
+      <p>Drains very slowly, so short-term loading is <strong>undrained</strong>. Has real cohesion. Settlement continues for years. Characterised by Atterberg limits &mdash; liquid limit LL, plastic limit PL, plasticity index PI = LL &minus; PL.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Classification is not paperwork &mdash; it decides <strong>which analysis you are allowed to run</strong>. Sand &rarr; drained, effective stress, c' = 0. Clay short-term &rarr; undrained, &phi; = 0, use c<sub>u</sub>. Clay long-term &rarr; drained, use c' and &phi;'. Choosing the wrong one is the most common conceptual error in geotechnical design.</p>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-eff">
+  <div class="sec-h"><span class="sec-n">05</span><h2>The Effective Stress Principle</h2></div>
+
+  <p class="lead">If you remember one equation from CEE 240, this is it. Terzaghi's effective stress principle is the single most important idea in all of soil mechanics.</p>
+
+  <div class="vcard v-vio" style="margin-bottom:1rem">
+    <span class="vtag">Terzaghi, 1925</span>
+    <div class="eq">\[ \sigma = \sigma' + u \qquad\Longrightarrow\qquad \sigma' = \sigma - u \]</div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#127946;</span>
+    <div>
+      <strong>Stand in a swimming pool.</strong> Your weight has not changed, but you press on the floor far more gently &mdash; the water is carrying part of you. Soil grains behave identically: the pore water holds part of the load, and only the remainder, pressed grain against grain, generates friction. Water has no shear strength, so <strong>every kilopascal carried by water is a kilopascal that produces no strength.</strong>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Total stress &sigma;</span><p>Weight of everything above, soil and water together. What a pressure cell would read.</p></div>
+    <div class="vcard v-blu"><span class="vtag">Pore pressure u</span><p>Pressure in the water in the voids. Hydrostatic below a static water table: u = &gamma;<sub>w</sub>z<sub>w</sub>.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Effective stress &sigma;'</span><p>The grain-to-grain contact stress. <strong>Controls strength, stiffness and volume change &mdash; nothing else does.</strong></p></div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>This one principle explains the whole course.</strong> Rain raises u, drops &sigma;', and slopes fail. Loading clay raises u first and &sigma;' only slowly &mdash; that <em>is</em> consolidation. A high water table raises u under a footing and halves its bearing capacity. Every dramatic number in the following chapters is this subtraction doing its work.</div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-calc2">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Effective Stress Profile</h2></div>
+  <p>Build a two-layer profile and see &sigma;, u and &sigma;' plotted against depth. Drag the water table up and watch &sigma;' fall while &sigma; stays put &mdash; the mechanism behind almost every failure in this course.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Layer 1 &mdash; thickness (m) / &gamma; moist / &gamma;<sub>sat</sub>
+        <span class="calc-pair"><input type="number" id="es-h1" value="3" step="0.5"><input type="number" id="es-g1" value="17" step="0.5"><input type="number" id="es-g1s" value="19" step="0.5"></span>
+      </label>
+      <label>Layer 2 &mdash; thickness (m) / &gamma; moist / &gamma;<sub>sat</sub>
+        <span class="calc-pair"><input type="number" id="es-h2" value="5" step="0.5"><input type="number" id="es-g2" value="18" step="0.5"><input type="number" id="es-g2s" value="20" step="0.5"></span>
+      </label>
+      <label>Water table depth (m): <span id="es-dw-v">3.0</span>
+        <input type="range" id="es-dw" min="0" max="80" value="30">
+      </label>
+      <label>Depth of interest (m) <input type="number" id="es-z" value="8" step="0.5"></label>
+    </div>
+    <div class="calc-out">
+      <div id="es-fig" class="calc-fig"></div>
+      <div id="es-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-perm">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Permeability &amp; Seepage</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Darcy's law</span>
+      <div class="eq">\[ v = ki, \qquad i = \frac&#123;\Delta h&#125;&#123;L&#125;, \qquad q = kiA \]</div>
+      <p class="small">k spans an extraordinary range: gravel ~10&#8315;&sup1; m/s down to clay ~10&#8315;&#185;&#8304; m/s &mdash; nine orders of magnitude.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Why that range matters</span>
+      <p>It is the entire reason "drained" and "undrained" are different analyses. Load sand and the water leaves before you finish; load clay and the water is still leaving a decade later. Permeability, not strength, decides which case you are in &mdash; and it also sets c<sub>v</sub>, the rate of consolidation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-shear">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Shear Strength &mdash; Mohr&ndash;Coulomb</h2></div>
+
+  <p>Soil does not fail in tension or compression. It fails in <strong>shear</strong> &mdash; one block sliding past another. Everything in this course that "fails" is a shear failure on some surface.</p>
+
+  <div class="vcard v-vio" style="margin-bottom:1rem">
+    <span class="vtag">The failure criterion</span>
+    <div class="eq">\[ \tau_f = c' + \sigma'\tan\phi' \]</div>
+    <p class="small">Note it is &sigma;', not &sigma;. Strength depends on effective stress &mdash; this is where Section 5 meets Section 8.</p>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Cohesion c'</span><p>Strength at zero confinement &mdash; grains genuinely sticking together. Real in clay, essentially zero in clean sand.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Friction angle &phi;'</span><p>How much extra strength each unit of confinement buys. Interlocking and sliding between grains. Dominant in sand.</p></div>
+    <div class="vcard v-rust"><span class="vtag">Undrained strength c<sub>u</sub></span><p>For clay loaded fast: use &phi; = 0 and &tau;<sub>f</sub> = c<sub>u</sub>. Not a different material &mdash; a different <em>drainage condition</em>.</p></div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Two soils can have identical &tau;<sub>f</sub> today for completely different reasons &mdash; one from cohesion, one from friction &mdash; and behave nothing alike when conditions change. The Chattogram case study in the slope chapter is exactly this: the site with the <em>highest</em> cohesion failed worst, because it had almost no friction to fall back on when rain softened it.</p>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-stress">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Stress Increase with Depth</h2></div>
+
+  <p>A footing applies pressure at the surface, but the layer that matters may be 5 m down. How much of that pressure reaches it?</p>
+
+  <div class="grid2">
+    <div class="vcard v-teal">
+      <span class="vtag">The 2:1 approximation</span>
+      <div class="eq">\[ \Delta\sigma = \frac&#123;qBL&#125;&#123;(B+z)(L+z)&#125; \]</div>
+      <p class="small">Assume the load spreads outward at 2 vertical to 1 horizontal. Crude, quick, and good enough for most settlement estimates.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Boussinesq</span>
+      <p>The rigorous elastic solution for a point or distributed load on a semi-infinite elastic half-space, usually applied through influence factors and charts. More accurate, more work.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>This is what sets borehole depth.</strong> The rule from the soil investigation chapter &mdash; bore until &Delta;&sigma; &le; 0.1q &mdash; is just this equation solved for z. It is also how you get the &Delta;&sigma;' that goes into the settlement calculation.</div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="sec-map">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Where Each Idea Reappears</h2></div>
+
+  <div class="qref">
+    <div><span>&gamma;' = &gamma;<sub>sat</sub> &minus; &gamma;<sub>w</sub></span><span>slope stability, bearing capacity</span></div>
+    <div><span>&sigma;' = &sigma; &minus; u</span><span>every single chapter</span></div>
+    <div><span>&tau;<sub>f</sub> = c' + &sigma;'tan&phi;'</span><span>earth pressure, slopes, bearing capacity</span></div>
+    <div><span>Void ratio e</span><span>settlement (C<sub>c</sub>, C<sub>s</sub>)</span></div>
+    <div><span>Permeability k</span><span>time rate of consolidation c<sub>v</sub></span></div>
+    <div><span>Drained vs. undrained</span><span>which strength parameters are legal</span></div>
+    <div><span>&Delta;&sigma; with depth</span><span>settlement, borehole depth</span></div>
+    <div><span>Atterberg limits</span><span>classification, &alpha; for piles</span></div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>If a later chapter stops making sense, the problem is almost always one of these eight rows &mdash; most often the difference between &sigma; and &sigma;', or between drained and undrained. Come back here first.</p>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">11</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Phase Relations from Three Numbers</h4></div>
+    <p class="prob"><strong>Problem:</strong> A soil has G<sub>s</sub> = 2.68, water content w = 18%, void ratio e = 0.72. Find porosity, degree of saturation, dry unit weight, moist unit weight, saturated unit weight and submerged unit weight.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Porosity:</strong> \( n = \dfrac&#123;e&#125;&#123;1+e&#125; = \dfrac&#123;0.72&#125;&#123;1.72&#125; = 0.419 \)</div></div>
+      <div class="step"><b>2</b><div><strong>Saturation:</strong> \( S = \dfrac&#123;G_s w&#125;&#123;e&#125; = \dfrac&#123;2.68(0.18)&#125;&#123;0.72&#125; = 0.670 = 67\% \) &mdash; partially saturated</div></div>
+      <div class="step"><b>3</b><div><strong>Dry unit weight:</strong> \( \gamma_d = \dfrac&#123;G_s\gamma_w&#125;&#123;1+e&#125; = \dfrac&#123;2.68(9.81)&#125;&#123;1.72&#125; = 15.29\text&#123;kN/m&#125;^3 \)</div></div>
+      <div class="step"><b>4</b><div><strong>Moist:</strong> \( \gamma = \gamma_d(1+w) = 15.29(1.18) = 18.04\text&#123;kN/m&#125;^3 \)</div></div>
+      <div class="step"><b>5</b><div><strong>Saturated:</strong> \( \gamma_&#123;sat&#125; = \dfrac&#123;(G_s+e)\gamma_w&#125;&#123;1+e&#125; = \dfrac&#123;(2.68+0.72)(9.81)&#125;&#123;1.72&#125; = 19.39\text&#123;kN/m&#125;^3 \)</div></div>
+      <div class="step"><b>6</b><div><strong>Submerged:</strong> \( \gamma' = 19.39 - 9.81 = 9.58\text&#123;kN/m&#125;^3 \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> n = 0.419, S = 67%, &gamma;<sub>d</sub> = 15.29, &gamma; = 18.04, &gamma;<sub>sat</sub> = 19.39, &gamma;' = 9.58 kN/m&sup3;. Note &gamma;' is <strong>half</strong> of &gamma;<sub>sat</sub> &mdash; remember that ratio; it drives most of this course.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>Effective Stress Profile</h4></div>
+    <p class="prob"><strong>Problem:</strong> 3 m of moist sand (&gamma; = 17 kN/m&sup3;) sits over 5 m of saturated sand (&gamma;<sub>sat</sub> = 20 kN/m&sup3;). The water table is at 3 m depth. Find &sigma;, u and &sigma;' at 3 m and at 8 m.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>At 3 m</strong> (just at the water table): \( \sigma = 17(3) = 51.0\text&#123;kPa&#125; \), \( u = 0 \), so \( \sigma' = 51.0\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>2</b><div><strong>At 8 m, total stress:</strong> \( \sigma = 51.0 + 20(5) = 151.0\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>3</b><div><strong>Pore pressure:</strong> \( u = \gamma_w z_w = 9.81(5) = 49.1\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>4</b><div><strong>Effective stress:</strong> \( \sigma' = 151.0 - 49.1 = 101.9\text&#123;kPa&#125; \)</div></div>
+      <div class="step"><b>5</b><div><strong>Sanity check</strong> using &gamma;' directly: \( \sigma' = 51.0 + (20-9.81)(5) = 51.0 + 51.0 = 102.0\text&#123;kPa&#125; \) &check; &mdash; the two routes must agree.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> At 8 m, &sigma; = 151.0 kPa but &sigma;' = 101.9 kPa. Water is carrying a third of the load. Raise the water table to the surface and &sigma;' drops further still &mdash; try it in the calculator above.</div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">12</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>Effective stress</span><span>&sigma;' = &sigma; &minus; u</span></div>
+    <div><span>Porosity</span><span>n = e/(1+e)</span></div>
+    <div><span>Saturation</span><span>S = G<sub>s</sub>w/e</span></div>
+    <div><span>Dry unit weight</span><span>&gamma;<sub>d</sub> = G<sub>s</sub>&gamma;<sub>w</sub>/(1+e)</span></div>
+    <div><span>Saturated unit weight</span><span>&gamma;<sub>sat</sub> = (G<sub>s</sub>+e)&gamma;<sub>w</sub>/(1+e)</span></div>
+    <div><span>Submerged unit weight</span><span>&gamma;' = &gamma;<sub>sat</sub> &minus; &gamma;<sub>w</sub> &asymp; &frac12;&gamma;<sub>sat</sub></span></div>
+    <div><span>Shear strength</span><span>&tau;<sub>f</sub> = c' + &sigma;'tan&phi;'</span></div>
+    <div><span>Darcy</span><span>v = ki, q = kiA</span></div>
+    <div><span>2:1 stress spread</span><span>&Delta;&sigma; = qBL/[(B+z)(L+z)]</span></div>
+    <div><span>&gamma;<sub>w</sub></span><span>9.81 kN/m&sup3;</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. The water table rises to the ground surface. What happens to total stress &sigma; and effective stress &sigma;' at 5 m depth?</p>
+      <button data-v="0">Both increase</button>
+      <button data-v="1">&sigma; increases slightly (soil now saturated) while &sigma;' decreases — u rises faster</button>
+      <button data-v="2">Both are unchanged; water does not affect stress</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. Why does a clay need a different analysis in the short term than in the long term?</p>
+      <button data-v="0">Clay gets stronger with age</button>
+      <button data-v="1">The load changes over time</button>
+      <button data-v="2">Clay drains so slowly that short-term loading is undrained (&phi; = 0, c<sub>u</sub>) while long-term is drained (c', &phi;')</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. Two soils both have &tau;<sub>f</sub> = 40 kPa at the current stress. Soil A is all cohesion, soil B is all friction. Rain saturates both. Which is in more trouble?</p>
+      <button data-v="0">Soil A — its cohesion can be softened by water, and it has no friction to fall back on</button>
+      <button data-v="1">Soil B — friction disappears entirely when wet</button>
+      <button data-v="2">Neither; they have the same strength so they behave identically</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>4. Why is submerged unit weight roughly half the saturated value?</p>
+      <button data-v="0">Because half the soil dissolves</button>
+      <button data-v="1">&gamma;' = &gamma;<sub>sat</sub> − &gamma;<sub>w</sub>, and &gamma;<sub>w</sub> = 9.81 is close to half a typical &gamma;<sub>sat</sub> ≈ 20</button>
+      <button data-v="2">Because porosity is always 50%</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil">&larr; Back to Civil Engineering</a>
+  <a href="/civil/cee340/lateral-earth-pressure">Ch. 7: Lateral Earth Pressure &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+  const GW=9.81;
+
+  /* ── phase relations ── */
+  function phase(){
+    const Gs=v('ph-gs'), w=v('ph-w'), e=v('ph-e');
+    if(Gs<=0||e<=0||w<0){ g('ph-res').innerHTML='<div class="verdict v-fail"><span>Check inputs</span></div>'; return; }
+    const n=e/(1+e), S=Gs*w/e;
+    const gd=Gs*GW/(1+e), gm=gd*(1+w), gsat=(Gs+e)*GW/(1+e), gsub=gsat-GW;
+    const over = S>1.0001;
+    g('ph-res').innerHTML =
+      `<div class="res"><span>Porosity n</span><b>${n.toFixed(3)}</b></div>`+
+      `<div class="${over?'verdict v-fail':'res'}"><span>Degree of saturation S</span><b>${(S*100).toFixed(1)}%${over?' — impossible, S>100%':''}</b></div>`+
+      `<div class="res"><span>Dry &gamma;<sub>d</sub></span><b>${gd.toFixed(2)} kN/m&sup3;</b></div>`+
+      `<div class="res"><span>Moist &gamma;</span><b>${gm.toFixed(2)} kN/m&sup3;</b></div>`+
+      `<div class="res"><span>Saturated &gamma;<sub>sat</sub></span><b>${gsat.toFixed(2)} kN/m&sup3;</b></div>`+
+      `<div class="verdict v-pass"><span>Submerged &gamma;'</span><b>${gsub.toFixed(2)} kN/m&sup3; (${(100*gsub/gsat).toFixed(0)}% of &gamma;<sub>sat</sub>)</b></div>`;
+
+    // three-phase block diagram, heights proportional to volume
+    const Vs=1, Vv=e, Vw=Math.min(Vv, S*Vv), Va=Math.max(0,Vv-Vw), tot=Vs+Vv;
+    const W=250,H=170,x=70,bw=95,top=18,bh=126;
+    const hA=bh*Va/tot, hW=bh*Vw/tot, hS=bh*Vs/tot;
+    g('ph-fig').innerHTML=`
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+      <rect x="${x}" y="${top}" width="${bw}" height="${hA.toFixed(1)}" fill="rgba(140,150,170,.18)" stroke="var(--bdr2)"/>
+      <rect x="${x}" y="${(top+hA).toFixed(1)}" width="${bw}" height="${hW.toFixed(1)}" fill="rgba(74,159,224,.30)" stroke="#4a9fe0"/>
+      <rect x="${x}" y="${(top+hA+hW).toFixed(1)}" width="${bw}" height="${hS.toFixed(1)}" fill="rgba(212,169,74,.28)" stroke="var(--amb)"/>
+      ${hA>9?`<text x="${x+bw/2}" y="${(top+hA/2+3).toFixed(1)}" font-size="9" fill="var(--txt2)" text-anchor="middle">air</text>`:''}
+      ${hW>9?`<text x="${x+bw/2}" y="${(top+hA+hW/2+3).toFixed(1)}" font-size="9" fill="#4a9fe0" text-anchor="middle">water</text>`:''}
+      <text x="${x+bw/2}" y="${(top+hA+hW+hS/2+3).toFixed(1)}" font-size="9" fill="var(--amb)" text-anchor="middle">solids</text>
+      <line x1="${x-8}" y1="${top}" x2="${x-8}" y2="${(top+hA+hW).toFixed(1)}" stroke="var(--mut)"/>
+      <text x="${x-11}" y="${(top+(hA+hW)/2).toFixed(1)}" font-size="8" fill="var(--mut)" text-anchor="end">V&#8341; = e</text>
+      <line x1="${x+bw+8}" y1="${(top+hA+hW).toFixed(1)}" x2="${x+bw+8}" y2="${(top+bh).toFixed(1)}" stroke="var(--mut)"/>
+      <text x="${x+bw+11}" y="${(top+hA+hW+hS/2).toFixed(1)}" font-size="8" fill="var(--mut)">V&#8347; = 1</text>
+      <text x="${W/2}" y="${H-6}" font-size="8.5" fill="var(--txt2)" text-anchor="middle">phase volumes (per unit solid)</text>
+    </svg>`;
+  }
+  ['ph-gs','ph-w','ph-e'].forEach(id=>g(id).addEventListener('input',phase));
+  phase();
+
+  /* ── effective stress profile ── */
+  function effstress(){
+    const h1=v('es-h1'), g1=v('es-g1'), g1s=v('es-g1s');
+    const h2=v('es-h2'), g2=v('es-g2'), g2s=v('es-g2s');
+    const H=h1+h2;
+    const dw=Math.min(H, v('es-dw')/10);
+    g('es-dw-v').textContent=dw.toFixed(1);
+    const z=Math.min(Math.max(0,v('es-z')), H);
+    if(h1<0||h2<=0){ g('es-res').innerHTML='<div class="verdict v-fail"><span>Check layer thicknesses</span></div>'; return; }
+
+    // Unit weight depends on BOTH which layer we are in and whether we are
+    // below the water table — hence four inputs, not two.
+    const gammaAt = d => (d < h1) ? (d < dw ? g1 : g1s) : (d < dw ? g2 : g2s);
+
+    // Exact piecewise integration: the only breaks are the layer boundary and
+    // the water table, so integrate segment by segment instead of stepping.
+    function sig(zz){
+      const brk=[0,h1,dw,zz].filter(b=>b>=0&&b<=zz).sort((a,b)=>a-b);
+      let s=0;
+      for(let i=0;i<brk.length-1;i++){
+        const a=brk[i], b=brk[i+1];
+        if(b-a<=0) continue;
+        s += gammaAt((a+b)/2)*(b-a);
+      }
+      return s;
+    }
+    const u=zz=>zz>dw?GW*(zz-dw):0;
+    const N=60, pts=[];
+    for(let i=0;i<=N;i++){ const zz=H*i/N; const S=sig(zz); pts.push({z:zz,s:S,u:u(zz),e:S-u(zz)}); }
+    const at={z, s:sig(z), u:u(z)}; at.e=at.s-at.u;
+
+    g('es-res').innerHTML =
+      `<div class="res"><span>Water table</span><b>${dw.toFixed(2)} m deep</b></div>`+
+      `<div class="res"><span>Total &sigma; at ${z} m</span><b>${at.s.toFixed(1)} kPa</b></div>`+
+      `<div class="res"><span>Pore pressure u</span><b>${at.u.toFixed(1)} kPa</b></div>`+
+      `<div class="verdict v-pass"><span>Effective &sigma;' at ${z} m</span><b>${at.e.toFixed(1)} kPa</b></div>`+
+      `<div class="res"><span>Water carries</span><b>${at.s>0?(100*at.u/at.s).toFixed(0):0}% of total</b></div>`;
+
+    const W=300,Hh=190,x0=42,y0=158,xr=225,yr=132;
+    const mx=Math.max(...pts.map(p=>p.s),1);
+    const PX=s=>x0+(s/mx)*xr, PY=zz=>(y0-yr)+(zz/H)*yr;
+    const path=k=>pts.map((p,i)=>(i?'L ':'M ')+PX(p[k]).toFixed(1)+' '+PY(p.z).toFixed(1)).join(' ');
+    const wtY=PY(dw);
+    g('es-fig').innerHTML=`
+    <svg viewBox="0 0 ${W} ${Hh}" style="width:100%;height:auto">
+      <line x1="${x0}" y1="${y0-yr}" x2="${x0}" y2="${y0}" stroke="var(--bdr2)"/>
+      <line x1="${x0}" y1="${y0-yr}" x2="${x0+xr+8}" y2="${y0-yr}" stroke="var(--bdr2)"/>
+      ${h1>0&&h1<H?`<line x1="${x0}" y1="${PY(h1).toFixed(1)}" x2="${x0+xr}" y2="${PY(h1).toFixed(1)}" stroke="var(--bdr)" stroke-dasharray="2,3"/>`:''}
+      <line x1="${x0}" y1="${wtY.toFixed(1)}" x2="${x0+xr}" y2="${wtY.toFixed(1)}" stroke="#4a9fe0" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <text x="${x0+xr+6}" y="${(wtY+3).toFixed(1)}" font-size="8" fill="#4a9fe0">WT</text>
+      <path d="${path('s')}" fill="none" stroke="var(--txt2)" stroke-width="1.7"/>
+      <path d="${path('u')}" fill="none" stroke="#4a9fe0" stroke-width="1.7"/>
+      <path d="${path('e')}" fill="none" stroke="var(--teal)" stroke-width="2.1"/>
+      <line x1="${x0}" y1="${PY(z).toFixed(1)}" x2="${PX(at.s).toFixed(1)}" y2="${PY(z).toFixed(1)}" stroke="var(--amb)" stroke-width=".8" stroke-dasharray="3,2"/>
+      <circle cx="${PX(at.e).toFixed(1)}" cy="${PY(z).toFixed(1)}" r="3" fill="var(--teal)"/>
+      <text x="${x0-4}" y="${(y0-yr+4).toFixed(1)}" font-size="8" fill="var(--mut)" text-anchor="end">0</text>
+      <text x="${x0-4}" y="${(y0+3).toFixed(1)}" font-size="8" fill="var(--mut)" text-anchor="end">${H}m</text>
+      <text x="${x0+6}" y="${(y0-yr-4).toFixed(1)}" font-size="8" fill="var(--txt2)">σ</text>
+      <text x="${x0+34}" y="${(y0-yr-4).toFixed(1)}" font-size="8" fill="var(--teal)">σ'</text>
+      <text x="${x0+62}" y="${(y0-yr-4).toFixed(1)}" font-size="8" fill="#4a9fe0">u</text>
+      <text x="${x0+xr/2}" y="${Hh-3}" font-size="8.5" fill="var(--txt2)" text-anchor="middle">stress (kPa) →</text>
+    </svg>`;
+  }
+  ['es-h1','es-g1','es-g1s','es-h2','es-g2','es-g2s','es-dw','es-z'].forEach(id=>g(id).addEventListener('input',effstress));
+  effstress();
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const a=document.querySelectorAll('.quiz .q.answered').length;
+      const r=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=r+' / '+a+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>

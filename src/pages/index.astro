@@ -115,10 +115,62 @@ import Main from '../layouts/Main.astro';
     margin-bottom: .2rem;
   }
 
+  /* ── SITE SEARCH ── */
+  .search {
+    display: flex; gap: .5rem; margin: 1.6rem auto 0;
+    max-width: 560px;
+  }
+  .search input {
+    flex: 1 1 auto; min-width: 0;
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 8px; padding: .7rem .9rem;
+    color: var(--txt); font-family: inherit; font-size: .82rem;
+  }
+  .search input::placeholder { color: var(--mut); }
+  .search input:focus { outline: none; border-color: var(--teal); }
+  .search button {
+    flex: 0 0 auto;
+    background: var(--tdim); border: 1px solid var(--tline);
+    color: var(--teal); border-radius: 8px;
+    padding: .7rem 1.1rem; cursor: pointer;
+    font-family: 'Space Mono', monospace; font-size: .74rem;
+    letter-spacing: .06em; text-transform: uppercase;
+    transition: background .2s;
+  }
+  .search button:hover { background: rgba(78,201,176,.18); }
+  .search-status {
+    max-width: 560px; margin: .5rem auto 0;
+    font-family: 'Space Mono', monospace; font-size: .68rem;
+    color: var(--mut); min-height: 1em; text-align: left;
+  }
+  /* Result items are injected via innerHTML, so Astro's scoped styles never
+     reach them — everything below the container must be :global(). */
+  .results { max-width: 560px; margin: .6rem auto 0; text-align: left; }
+  .results :global(a) {
+    display: block; text-decoration: none;
+    background: var(--surf); border: 1px solid var(--bdr);
+    border-radius: 8px; padding: .7rem .9rem; margin-bottom: .45rem;
+    transition: border-color .2s;
+  }
+  .results :global(a:hover), .results :global(a:focus) { border-color: var(--teal); outline: none; }
+  .results :global(.r-top) { display: flex; align-items: baseline; gap: .5rem; justify-content: space-between; }
+  .results :global(.r-title) { font-size: .82rem; color: var(--txt); font-weight: 600; }
+  .results :global(.r-sec) {
+    flex: 0 0 auto; white-space: nowrap;
+    font-family: 'Space Mono', monospace; font-size: .55rem;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--amb); background: var(--adim);
+    border: 1px solid var(--aline); border-radius: 99px; padding: .1rem .5rem;
+  }
+  .results :global(.r-snip) { font-size: .72rem; color: var(--txt2); margin-top: .3rem; line-height: 1.55; }
+  .results :global(mark) { background: rgba(78,201,176,.22); color: var(--teal); padding: 0 .1em; border-radius: 2px; }
+  .results :global(.r-url) { font-family: 'Space Mono', monospace; font-size: .6rem; color: var(--mut); margin-top: .25rem; }
+
   @media (max-width: 600px) {
     .subjects { grid-template-columns: 1fr; }
     .hero { padding: 3.5rem 1.5rem 2rem; }
     .section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .search button { padding: .7rem .8rem; }
   }
 </style>
 
@@ -126,6 +178,15 @@ import Main from '../layouts/Main.astro';
 <div class="hero">
   <h1><span>mathify</span></h1>
   <p>Free step-by-step education in mathematics, physics, and civil engineering.</p>
+
+  <!-- SITE SEARCH -->
+  <form class="search" id="site-search" role="search" autocomplete="off">
+    <input type="search" id="q" placeholder="Search every page — try “Bishop”, “bearing capacity”, “tension crack”…"
+           aria-label="Search the site" />
+    <button type="submit" id="q-btn" aria-label="Search">Search</button>
+  </form>
+  <div class="search-status" id="q-status" role="status" aria-live="polite"></div>
+  <div class="results" id="q-results"></div>
 </div>
 
 <!-- SUBJECTS -->
@@ -189,5 +250,85 @@ import Main from '../layouts/Main.astro';
     <a href="/explore" class="qlink"><span class="tag">More</span>Explore</a>
   </div>
 </div>
+
+<script is:inline>
+(function(){
+  const form = document.getElementById('site-search');
+  const input = document.getElementById('q');
+  const status = document.getElementById('q-status');
+  const out = document.getElementById('q-results');
+  let index = null, loading = null;
+
+  const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const rx = t => new RegExp(t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'gi');
+
+  function load(){
+    if (index) return Promise.resolve(index);
+    if (loading) return loading;
+    status.textContent = 'Loading search index…';
+    loading = fetch('/search-index.json')
+      .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(d => { index = d.pages; status.textContent = ''; return index; })
+      .catch(e => { status.textContent = 'Search unavailable ('+e.message+')'; loading = null; throw e; });
+    return loading;
+  }
+
+  function snippet(text, terms){
+    let at = -1;
+    for (const t of terms){ const i = text.toLowerCase().indexOf(t); if(i>=0 && (at<0||i<at)) at=i; }
+    if (at < 0) at = 0;
+    const from = Math.max(0, at - 80);
+    let s = text.slice(from, from + 210);
+    if (from > 0) s = '…' + s;
+    if (from + 210 < text.length) s += '…';
+    s = esc(s);
+    for (const t of terms) s = s.replace(rx(t), m => '<mark>' + m + '</mark>');
+    return s;
+  }
+
+  function search(qRaw){
+    const q = qRaw.trim();
+    if (!q){ out.innerHTML=''; status.textContent=''; return; }
+    const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+
+    const hits = [];
+    for (const p of index){
+      const hay = p.x.toLowerCase(), title = p.t.toLowerCase();
+      let score = 0, all = true;
+      for (const t of terms){
+        const inTitle = title.includes(t);
+        const n = hay.split(t).length - 1;
+        if (!n && !inTitle){ all = false; break; }
+        score += n + (inTitle ? 25 : 0);
+      }
+      if (all) hits.push({ p, score });
+    }
+    hits.sort((a,b) => b.score - a.score);
+
+    if (!hits.length){
+      status.textContent = 'No matches for “' + q + '”';
+      out.innerHTML = '';
+      return;
+    }
+    status.textContent = hits.length + ' page' + (hits.length>1?'s':'') + ' matching “' + q + '”';
+    out.innerHTML = hits.slice(0, 20).map(({p}) =>
+      '<a href="' + p.u + '">' +
+        '<div class="r-top"><span class="r-title">' + esc(p.t) + '</span>' +
+        '<span class="r-sec">' + esc(p.s) + '</span></div>' +
+        '<div class="r-snip">' + snippet(p.x, terms) + '</div>' +
+        '<div class="r-url">' + esc(p.u) + '</div>' +
+      '</a>').join('');
+  }
+
+  let timer;
+  const run = () => load().then(() => search(input.value)).catch(()=>{});
+  input.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(run, 160); });
+  input.addEventListener('focus', load, { once: true });
+  form.addEventListener('submit', e => { e.preventDefault(); run(); });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Escape'){ input.value=''; out.innerHTML=''; status.textContent=''; }
+  });
+})();
+</script>
 
 </Main>
