@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro'
+import '../../../styles/cee340-chapter.css'
 ---
 <Base title="CEE 340 — Lateral Earth Pressure" description="At-rest, active & passive earth pressure explained with intuition first — Rankine and Coulomb theory, wall-movement diagrams, a live calculator, and worked examples.">
 
@@ -232,7 +233,7 @@ import Base from '../../../layouts/Base.astro'
     </div>
     <div class="calc-out">
       <div id="lp-diagram"></div>
-      <div class="lp-results" id="lp-results"></div>
+      <div class="calc-results" id="lp-results"></div>
     </div>
   </div>
 </section>
@@ -328,102 +329,8 @@ import Base from '../../../layouts/Base.astro'
 
 <footer class="chapter-nav">
   <a href="/civil">&larr; Back to Civil Engineering</a>
-  <span class="next">Next up: Earth Retaining Structures (Ch. 8) — coming soon</span>
+  <a href="/civil/cee340/retaining-walls">Ch. 8: Earth Retaining Structures &rarr;</a>
 </footer>
-
-<style>
-  * { box-sizing: border-box; }
-  :global(body) { font-family: 'Inter', sans-serif; font-size: 15.5px; line-height: 1.7; }
-
-  .hd, .toc, .sec, .chapter-nav { max-width: 840px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
-  .hd { padding-top: 3rem; padding-bottom: 1rem; }
-  .hd-tag { font-family: 'Space Mono', monospace; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--amb); }
-  .hd h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.8rem,5vw,2.6rem); color: var(--teal); margin: .6rem 0 1rem; }
-  .hd-sub { color: var(--txt2); max-width: 640px; }
-  .hd-pills { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.2rem; }
-  .pill { font-family: 'Space Mono', monospace; font-size: .68rem; border: 1px solid var(--bdr); background: var(--surf); border-radius: 99px; padding: .3rem .8rem; color: var(--txt2); }
-
-  .toc { margin: 2rem auto; padding: 1.2rem 1.6rem; background: var(--surf); border: 1px solid var(--bdr); border-radius: 10px; }
-  .toc h3 { font-family: 'Space Mono', monospace; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mut); margin-bottom: .6rem; }
-  .toc ol { padding-left: 1.2rem; columns: 2; gap: 1.5rem; }
-  .toc a { color: var(--txt2); text-decoration: none; font-size: .82rem; }
-  .toc a:hover { color: var(--teal); }
-
-  .sec { padding: 3rem 1.5rem; border-top: 1px solid var(--bdr); }
-  .sec-h { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.4rem; }
-  .sec-n { font-family: 'Space Mono', monospace; font-size: .75rem; color: var(--amb); border: 1px solid var(--aline); background: var(--adim); border-radius: 6px; padding: .2rem .55rem; }
-  .sec-h h2 { font-family: 'Space Mono', monospace; font-size: 1.3rem; color: var(--txt); }
-  .lead { font-size: 1.02rem; color: var(--txt); margin-bottom: 1.2rem; }
-  p { margin-bottom: .9rem; color: var(--txt2); }
-  .small { font-size: .82rem; color: var(--mut); }
-
-  .analogy { display: flex; gap: .9rem; background: var(--vdim); border: 1px solid var(--vline); border-left: 3px solid var(--vio); border-radius: 8px; padding: 1rem 1.2rem; margin: 1rem 0 1.4rem; }
-  .an-icon { font-size: 1.3rem; }
-  .analogy div { color: var(--txt2); font-size: .9rem; }
-
-  .why-matters { display: flex; gap: .8rem; background: var(--adim); border: 1px solid var(--aline); border-left: 3px solid var(--amb); border-radius: 8px; padding: 1rem 1.2rem; margin-top: 1.4rem; font-size: .88rem; color: var(--txt2); }
-
-  .core { background: var(--tdim); border: 1px solid var(--tline); border-radius: 8px; padding: 1rem 1.2rem; margin-top: 1.4rem; }
-  .core span { font-family: 'Space Mono', monospace; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); }
-  .core p { margin: .4rem 0 0; color: var(--txt); }
-
-  .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: .5rem; }
-  .grid2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin-bottom: .5rem; }
-  .vcard { background: var(--surf); border: 1px solid var(--bdr); border-radius: 8px; padding: 1rem 1.1rem; border-top: 3px solid var(--bdr2); }
-  .v-teal { border-top-color: var(--teal); } .v-amb { border-top-color: var(--amb); } .v-vio { border-top-color: var(--vio); }
-  .v-rust { border-top-color: var(--rust); } .v-blu { border-top-color: var(--blu); }
-  .vtag { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); }
-  .vcard h4 { font-size: .92rem; color: var(--txt); margin: .4rem 0 .4rem; }
-  .vcard p { font-size: .85rem; margin-bottom: 0; }
-  .eq { font-size: .85rem; overflow-x: auto; margin: .3rem 0; }
-
-  .diagram-card { background: var(--surf); border: 1px solid var(--bdr); border-radius: 10px; padding: 1.2rem; margin: 1.2rem 0; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
-  .diagram-card h4 { flex-basis: 100%; font-size: .85rem; color: var(--txt); margin-bottom: .4rem; }
-  .diagram-card .cap { flex-basis: 100%; font-size: .82rem; color: var(--mut); margin: .6rem 0 0; }
-  .static-svg { width: 100%; max-width: 300px; height: auto; }
-
-  .calc { background: var(--surf); border: 1px solid var(--bdr); border-radius: 10px; padding: 1.4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .calc-in { display: flex; flex-direction: column; gap: .7rem; }
-  .calc-in label { display: flex; flex-direction: column; gap: .3rem; font-size: .78rem; color: var(--txt2); }
-  .calc-in input, .calc-in select { background: var(--surf2); border: 1px solid var(--bdr2); border-radius: 6px; padding: .4rem .5rem; color: var(--txt); font-family: inherit; font-size: .85rem; }
-  .calc-out { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-  .lp-svg { width: 100%; max-width: 230px; }
-  .lp-results { width: 100%; display: flex; flex-direction: column; gap: .4rem; }
-  .res { display: flex; justify-content: space-between; font-size: .82rem; background: var(--surf2); border: 1px solid var(--bdr); border-radius: 6px; padding: .4rem .7rem; }
-  .res b { color: var(--teal); font-family: 'Space Mono', monospace; }
-
-  .example { background: var(--surf); border: 1px solid var(--bdr); border-radius: 10px; padding: 1.3rem 1.4rem; margin-bottom: 1.2rem; }
-  .ex-h span { font-family: 'Space Mono', monospace; font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; color: var(--amb); }
-  .ex-h h4 { font-size: 1rem; color: var(--txt); margin: .3rem 0 .8rem; }
-  .prob { font-size: .88rem; }
-  .steps { display: flex; flex-direction: column; gap: .6rem; margin: .8rem 0; }
-  .step { display: flex; gap: .7rem; font-size: .85rem; }
-  .step b { font-family: 'Space Mono', monospace; color: var(--teal); background: var(--tdim); border-radius: 50%; width: 1.4rem; height: 1.4rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .72rem; }
-  .step div { color: var(--txt2); }
-  .ans { background: var(--tdim); border: 1px solid var(--tline); border-radius: 6px; padding: .7rem 1rem; font-size: .85rem; color: var(--txt); }
-
-  .qref { display: grid; grid-template-columns: repeat(2,1fr); gap: .5rem; margin-bottom: 2rem; }
-  .qref div { display: flex; justify-content: space-between; gap: .5rem; background: var(--surf); border: 1px solid var(--bdr); border-radius: 6px; padding: .5rem .8rem; font-size: .78rem; }
-  .qref span:first-child { color: var(--mut); }
-  .qref span:last-child { color: var(--txt); font-family: 'Space Mono', monospace; }
-
-  .quiz .q { background: var(--surf); border: 1px solid var(--bdr); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: .8rem; }
-  .quiz .q p { color: var(--txt); font-size: .88rem; margin-bottom: .7rem; }
-  .quiz button { font-family: inherit; font-size: .8rem; background: var(--surf2); border: 1px solid var(--bdr2); color: var(--txt2); border-radius: 6px; padding: .45rem .8rem; margin: 0 .4rem .4rem 0; cursor: pointer; }
-  .quiz .q.answered button { cursor: default; }
-  .quiz button.correct { border-color: var(--teal); color: var(--teal); background: var(--tdim); }
-  .quiz button.wrong { border-color: var(--rust); color: var(--rust); background: var(--rdim); }
-  .quiz-score { font-family: 'Space Mono', monospace; font-size: .8rem; color: var(--amb); }
-
-  .chapter-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .8rem; padding: 2rem 1.5rem 4rem; border-top: 1px solid var(--bdr); font-size: .85rem; }
-  .chapter-nav a { color: var(--teal); text-decoration: none; }
-  .next { color: var(--mut); }
-
-  @media (max-width: 680px) {
-    .grid3, .grid2, .calc, .qref { grid-template-columns: 1fr; }
-    .toc ol { columns: 1; }
-  }
-</style>
 
 <script is:inline>
 function lpDraw(){
@@ -474,7 +381,7 @@ function lpDraw(){
   }
 
   document.getElementById('lp-diagram').innerHTML = `
-  <svg viewBox="0 0 ${W} ${Hpx}" class="lp-svg">
+  <svg viewBox="0 0 ${W} ${Hpx}" class="calc-svg">
     <line x1="${x0}" y1="20" x2="${x0}" y2="200" stroke="var(--bdr2)" stroke-width="1.5"/>
     <line x1="10" y1="20" x2="10" y2="200" stroke="var(--bdr)" stroke-width="3"/>
     ${wtLine}

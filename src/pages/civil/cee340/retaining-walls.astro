@@ -1,0 +1,484 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/cee340-chapter.css'
+---
+<Base title="CEE 340 — Earth Retaining Structures" description="Retaining wall design from intuition to numbers — wall types, preliminary sizing, and the three stability checks (overturning, sliding, bearing) with a live factor-of-safety calculator.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 340 &middot; Advanced Foundation Engineering &middot; Ch. 8</div>
+  <h1>Earth Retaining Structures</h1>
+  <p class="hd-sub">Last chapter told you how hard the soil pushes. This one is about surviving that push. A retaining wall has exactly three ways to lose &mdash; tip over, slide out, or sink &mdash; and design is nothing more than proving, with numbers, that none of them happen.</p>
+  <div class="hd-pills">
+    <span class="pill">4 Wall Types</span>
+    <span class="pill">Overturning</span>
+    <span class="pill">Sliding</span>
+    <span class="pill">Bearing &amp; Eccentricity</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">Three Ways a Wall Loses</a></li>
+    <li><a href="#sec-types">The Four Wall Types</a></li>
+    <li><a href="#sec-dims">Preliminary Dimensions</a></li>
+    <li><a href="#sec-modes">The Five Failure Modes</a></li>
+    <li><a href="#sec-ot">Check 1 &mdash; Overturning</a></li>
+    <li><a href="#sec-sl">Check 2 &mdash; Sliding</a></li>
+    <li><a href="#sec-bc">Check 3 &mdash; Bearing &amp; the Middle Third</a></li>
+    <li><a href="#sec-calc">Live Stability Calculator</a></li>
+    <li><a href="#sec-example">Worked Example</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- ══════════════ 1. WHY ══════════════ -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>Three Ways a Wall Loses</h2></div>
+
+  <p class="lead">A retaining wall is a structure that holds back soil (the <strong>backfill</strong>) and resists the lateral earth pressure it generates. It has no bracing, no floor slab, nothing tying it to another structure. It stands up purely by being heavy enough and wide enough. So the whole design reduces to one question asked three different ways: <em>is it heavy and wide enough?</em></p>
+
+  <div class="analogy">
+    <span class="an-icon">&#129495;</span>
+    <div>
+      <strong>Picture yourself bracing a heavy door that's swinging toward you.</strong> There are exactly three ways you lose. You get <em>tipped over</em> — your feet stay planted but your body rotates backwards. Your <em>feet slide out</em> from under you across the floor. Or the <em>floor itself crumbles</em> beneath your shoes. Nothing else. A retaining wall faces the identical three, and design is just proving each one won't happen by a comfortable margin.
+    </div>
+  </div>
+
+  <div class="diagram-card">
+    <h4>The Three Checks, Visually</h4>
+    <svg viewBox="0 0 150 130" class="static-svg" style="max-width:170px">
+      <path d="M 30 110 L 30 25 L 45 25 L 45 100 L 100 100 L 100 110 Z" fill="var(--surf3)" stroke="var(--bdr2)"/>
+      <path d="M 55 30 A 45 45 0 0 1 78 24" fill="none" stroke="var(--rust)" stroke-width="2" marker-end="url(#ar1)"/>
+      <defs><marker id="ar1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--rust)"/></marker></defs>
+      <circle cx="30" cy="110" r="3" fill="var(--amb)"/>
+      <text x="75" y="122" font-size="9" fill="var(--rust)" text-anchor="middle">1. Overturning</text>
+    </svg>
+    <svg viewBox="0 0 150 130" class="static-svg" style="max-width:170px">
+      <path d="M 30 110 L 30 25 L 45 25 L 45 100 L 100 100 L 100 110 Z" fill="var(--surf3)" stroke="var(--bdr2)"/>
+      <line x1="20" y1="115" x2="110" y2="115" stroke="var(--bdr2)" stroke-width="1.5"/>
+      <path d="M 55 60 L 20 60" fill="none" stroke="var(--rust)" stroke-width="2" marker-end="url(#ar2)"/>
+      <defs><marker id="ar2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--rust)"/></marker></defs>
+      <text x="75" y="128" font-size="9" fill="var(--rust)" text-anchor="middle">2. Sliding</text>
+    </svg>
+    <svg viewBox="0 0 150 130" class="static-svg" style="max-width:170px">
+      <path d="M 30 100 L 30 20 L 45 20 L 45 92 L 100 92 L 100 100 Z" fill="var(--surf3)" stroke="var(--bdr2)"/>
+      <path d="M 28 104 Q 45 118 62 104 Q 80 118 100 104" fill="none" stroke="var(--rust)" stroke-width="2" stroke-dasharray="3,2"/>
+      <line x1="35" y1="106" x2="35" y2="116" stroke="var(--rust)" stroke-width="1.5" marker-end="url(#ar3)"/>
+      <defs><marker id="ar3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--rust)"/></marker></defs>
+      <text x="75" y="128" font-size="9" fill="var(--rust)" text-anchor="middle">3. Bearing failure</text>
+    </svg>
+    <p class="cap">Rotation about the toe, translation along the base, and crushing of the foundation soil. Every number you compute in this chapter serves one of these three.</p>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why it matters:</strong> These three checks are the entire midterm-exam workflow for retaining wall design, and they're the same three an engineer runs on a real wall before it gets built. Miss one and the wall may stand for years and then fail the first time the backfill saturates.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 2. TYPES ══════════════ -->
+<section class="sec" id="sec-types">
+  <div class="sec-h"><span class="sec-n">02</span><h2>The Four Wall Types</h2></div>
+
+  <p>All four do the same job. They differ in <em>where the resisting weight comes from</em> — and that single difference drives cost, buildability, and the height each type can economically reach.</p>
+
+  <div class="grid2">
+    <div class="vcard v-rust">
+      <span class="vtag">Type 1 &mdash; Gravity</span>
+      <h4>Wins by sheer mass</h4>
+      <p>Plain concrete or stone masonry, thick and heavy. No reinforcement — the section is made big enough that it never goes into tension. Simple to build, but concrete volume grows fast with height, so it stops being economical past roughly 3 m.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Type 2 &mdash; Semi-Gravity</span>
+      <h4>Mass, trimmed with a little steel</h4>
+      <p>A gravity wall with light reinforcement added so the section can be slimmed down. A middle ground: less concrete than pure gravity, less steel detailing than a cantilever.</p>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">Type 3 &mdash; Cantilever</span>
+      <h4>Uses the backfill's own weight</h4>
+      <p>A reinforced-concrete T or L: a thin vertical stem on a wide base slab. The clever part is the <strong>heel</strong> — the slab extends back <em>under the backfill</em>, so the soil sitting on it becomes stabilizing weight. The most common type, economical to about 6&ndash;8 m.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Type 4 &mdash; Counterfort</span>
+      <h4>Cantilever plus internal ribs</h4>
+      <p>For tall walls, the stem's bending moment becomes brutal. Counterforts — thin concrete ribs tying the stem back to the heel at intervals — turn the stem into a slab spanning horizontally between supports. Used above roughly 7&ndash;8 m.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>A gravity wall is a <strong>sumo wrestler</strong> — it wins on mass alone. A cantilever wall is a <strong>judo throw</strong>: it makes the soil's own weight do the work of holding the soil back. That's why it needs so much less concrete for the same height.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 3. DIMENSIONS ══════════════ -->
+<section class="sec" id="sec-dims">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Preliminary Dimensions</h2></div>
+
+  <p>Stability checks tell you whether a wall works — they can't tell you what to try first. So design starts with proportioning rules of thumb, then iterates: size it, check it, adjust, re-check. These proportions get most walls close on the first pass.</p>
+
+  <div class="qref">
+    <div><span>Stem top thickness</span><span>&ge; 0.3 m (12 in) &mdash; for concrete placement</span></div>
+    <div><span>Base slab thickness D</span><span>H/12 to H/10</span></div>
+    <div><span>Base width B</span><span>0.5H to 0.7H</span></div>
+    <div><span>Toe projection</span><span>&asymp; B/3</span></div>
+    <div><span>Minimum embedment D<sub>f</sub></span><span>&ge; 0.6 m, below frost/scour depth</span></div>
+    <div><span>Stem bottom thickness</span><span>tapered up from base for moment</span></div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why the base must be buried:</strong> passive resistance at the toe only exists if there's soil in front of the wall. Leave the base exposed — or let someone excavate in front of it later — and the sliding check you passed on paper quietly becomes false in the field.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 4. FAILURE MODES ══════════════ -->
+<section class="sec" id="sec-modes">
+  <div class="sec-h"><span class="sec-n">04</span><h2>The Five Failure Modes</h2></div>
+
+  <p>Three of these belong to the wall. Two belong to the ground the wall happens to be standing on — and those two are the ones that surprise people, because a perfectly designed wall can still ride a failing hillside down.</p>
+
+  <div class="grid3">
+    <div class="vcard v-rust"><span class="vtag">Mode 1</span><h4>Overturning about the toe</h4><p>The wall rotates forward about its front bottom edge. Resisted by the weight of the wall and the backfill on the heel.</p></div>
+    <div class="vcard v-rust"><span class="vtag">Mode 2</span><h4>Sliding along the base</h4><p>The whole wall translates outward. Resisted by friction and adhesion under the base slab, plus passive pressure at the toe.</p></div>
+    <div class="vcard v-rust"><span class="vtag">Mode 3</span><h4>Bearing capacity failure</h4><p>The foundation soil is crushed by the pressure under the base — worst at the toe, because the load is eccentric.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Mode 4</span><h4>Deep-seated shear failure</h4><p>A slip surface passes <em>beneath</em> the entire wall. This is a slope-stability problem, not a wall problem — covered in the slope stability chapter.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Mode 5</span><h4>Excessive settlement</h4><p>The wall doesn't collapse, it just sinks or tilts enough to crack, misalign, or lose serviceability. A settlement problem, checked separately.</p></div>
+    <div class="vcard v-blu"><span class="vtag">The pattern</span><h4>Strength vs. serviceability</h4><p>Modes 1&ndash;3 are strength checks with factors of safety. Modes 4&ndash;5 ask a different question: is the <em>site</em> stable, and can it tolerate the movement?</p></div>
+  </div>
+</section>
+
+<!-- ══════════════ 5. OVERTURNING ══════════════ -->
+<section class="sec" id="sec-ot">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Check 1 &mdash; Overturning</h2></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Intuition</span>
+      <h4>A seesaw pivoted at the toe</h4>
+      <p>The earth pressure pushes the wall's upper body outward, trying to spin it about the front bottom edge. Everything heavy sitting on the base &mdash; concrete and backfill alike &mdash; pushes down at some distance behind that pivot and spins it the other way.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Mechanics</span>
+      <h4>Moments about the toe</h4>
+      <p>Take moments about the toe. The driving moment is the horizontal active force times its lever arm (H'/3 above the base). The resisting moment is each weight times its horizontal distance from the toe. The heel soil dominates &mdash; it's usually the single biggest term.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">The Math</span>
+      <h4>Factor of safety</h4>
+      <div class="eq">
+        \[ FS_&#123;OT&#125; = \frac&#123;\sum M_R&#125;&#123;\sum M_O&#125; \ge 2 \]
+        \[ \sum M_O = P_a\cos\alpha \cdot \frac&#123;H'&#125;&#123;3&#125; \]
+        \[ \sum M_R = \sum W_i x_i \]
+      </div>
+      <p class="small">FS &ge; 2 for granular backfill, &ge; 3 for cohesive.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Widening the heel is almost always the cheapest fix for a failing overturning check &mdash; it adds a large soil weight at a long lever arm, and costs only a bit more slab.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 6. SLIDING ══════════════ -->
+<section class="sec" id="sec-sl">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Check 2 &mdash; Sliding</h2></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Intuition</span>
+      <h4>Friction under your shoes</h4>
+      <p>Nothing is bolted down. The only thing stopping the wall from being shoved outward is friction between the underside of the base slab and the soil &mdash; and friction is proportional to how hard the wall presses down. Heavier wall, more grip.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Mechanics</span>
+      <h4>Why we discount the strength</h4>
+      <p>The interface is concrete cast against soil, not soil against itself, so it can't mobilize the soil's full &phi;' and c'. Practice uses reduction factors k&#8321;, k&#8322; &asymp; &frac12; to &#8532;. Passive resistance at the toe may be added, but conservatively it's often ignored.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">The Math</span>
+      <h4>Factor of safety</h4>
+      <div class="eq">
+        \[ FS_&#123;SL&#125; = \frac&#123;\sum F_R'&#125;&#123;P_a\cos\alpha&#125; \ge 1.5 \]
+        \[ \sum F_R' = (\sum V)\tan(k_1\phi'_2) + k_2 c'_2 B + P_p \]
+      </div>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>When sliding won't pass:</strong> the standard fix is a <strong>shear key</strong> — a downward projection under the base that forces the potential slip surface to pass through soil-on-soil (full &phi;') rather than concrete-on-soil, and mobilizes extra passive resistance in front of the key.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 7. BEARING ══════════════ -->
+<section class="sec" id="sec-bc">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Check 3 &mdash; Bearing &amp; the Middle Third</h2></div>
+
+  <p>Here's the subtlety that makes this check different from an ordinary footing: the resultant force under a retaining wall is <strong>not centered</strong>. The earth pressure is constantly trying to rotate the wall forward, which shifts the load toward the toe. So the pressure under the base is a trapezoid, not a uniform block — and the toe carries the peak.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#129681;</span>
+    <div>
+      <strong>Stand on a bathroom scale and lean forward.</strong> Your weight hasn't changed, but the pressure under your toes shoots up while the pressure under your heels drops. Lean far enough and your heels lift off entirely — no contact, no pressure. A wall base does exactly this, and the point where the heel "lifts off" is the <strong>middle-third rule</strong>.
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Eccentricity &amp; pressure</span>
+      <div class="eq">
+        \[ e = \frac&#123;B&#125;&#123;2&#125; - \frac&#123;\sum M_R - \sum M_O&#125;&#123;\sum V&#125; \]
+        \[ q_&#123;max,min&#125; = \frac&#123;\sum V&#125;&#123;B&#125;\left(1 \pm \frac&#123;6e&#125;&#123;B&#125;\right) \]
+      </div>
+    </div>
+    <div class="vcard v-grn">
+      <span class="vtag">The two acceptance rules</span>
+      <div class="eq">
+        \[ e \le \frac&#123;B&#125;&#123;6&#125; \quad\text&#123;(no uplift at heel)&#125; \]
+        \[ FS_&#123;BC&#125; = \frac&#123;q_&#123;ult&#125;&#125;&#123;q_&#123;max&#125;&#125; \ge 3 \]
+      </div>
+      <p class="small">q<sub>ult</sub> from Meyerhof, using the <em>effective</em> width B' = B &minus; 2e.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>If e &gt; B/6, the formula returns a negative q<sub>min</sub> — soil "pulling down" on the heel, which is impossible. The heel has physically lifted off. Keep the resultant inside the middle third of the base and the whole base stays in compression.</p>
+  </div>
+</section>
+
+<!-- ══════════════ 8. CALCULATOR ══════════════ -->
+<section class="sec" id="sec-calc">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Live Stability Calculator</h2></div>
+  <p>A complete cantilever wall check. Change any dimension and watch which check fails first — try shrinking the base width B, or widening the heel, and see how differently each factor of safety responds.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Stem height H<sub>s</sub> (m) <input type="number" id="rw-hs" value="6" step="0.25"></label>
+      <label>Base thickness D (m) <input type="number" id="rw-d" value="0.7" step="0.05"></label>
+      <label>Base width B (m) <input type="number" id="rw-b" value="4" step="0.1"></label>
+      <label>Toe projection (m) <input type="number" id="rw-ltoe" value="1" step="0.1"></label>
+      <label>Stem top / bottom thickness (m)
+        <span class="calc-pair">
+          <input type="number" id="rw-ttop" value="0.3" step="0.05">
+          <input type="number" id="rw-tbot" value="0.7" step="0.05">
+        </span>
+      </label>
+      <label>Backfill &gamma; (kN/m&sup3;) / &phi;' (deg)
+        <span class="calc-pair">
+          <input type="number" id="rw-gs" value="18" step="0.5">
+          <input type="number" id="rw-phi" value="32" step="1">
+        </span>
+      </label>
+      <label>Foundation soil &phi;'&#8322; (deg) / c'&#8322; (kPa)
+        <span class="calc-pair">
+          <input type="number" id="rw-phi2" value="28" step="1">
+          <input type="number" id="rw-c2" value="30" step="1">
+        </span>
+      </label>
+      <label>Concrete &gamma;<sub>c</sub> (kN/m&sup3;) / q<sub>ult</sub> (kPa)
+        <span class="calc-pair">
+          <input type="number" id="rw-gc" value="23.6" step="0.1">
+          <input type="number" id="rw-qult" value="450" step="10">
+        </span>
+      </label>
+    </div>
+    <div class="calc-out">
+      <div id="rw-fig" class="calc-fig"></div>
+      <div id="rw-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 9. EXAMPLE ══════════════ -->
+<section class="sec" id="sec-example">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Worked Example</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example &mdash; Full Stability Check</span><h4>Cantilever Wall: Overturning, Sliding &amp; Bearing</h4></div>
+    <p class="prob"><strong>Problem:</strong> A cantilever retaining wall has stem height H<sub>s</sub> = 6 m, base thickness D = 0.7 m, base width B = 4.0 m, toe projection 1.0 m, stem tapering from 0.7 m at the bottom to 0.3 m at the top. Backfill: &gamma; = 18 kN/m&sup3;, &phi;' = 32&deg;, horizontal surface. Foundation soil: &phi;'&#8322; = 28&deg;, c'&#8322; = 30 kPa, q<sub>ult</sub> = 450 kPa. Concrete &gamma;<sub>c</sub> = 23.6 kN/m&sup3;. Compute all three factors of safety.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Driving force.</strong> Total height on the vertical plane through the heel: \( H' = 6 + 0.7 = 6.7\text&#123;m&#125; \). \( K_a = \tan^2(45-16) = 0.307 \), so \( P_a = \tfrac12(0.307)(18)(6.7)^2 = 124.1\text&#123;kN/m&#125; \) acting at \( H'/3 = 2.23\text&#123;m&#125; \) above the base.</div></div>
+      <div class="step"><b>2</b><div><strong>Overturning moment.</strong> \( \sum M_O = 124.1 \times 2.23 = 277.2\text&#123;kN·m/m&#125; \)</div></div>
+      <div class="step"><b>3</b><div><strong>Weights and resisting moments</strong> (moment arms measured from the toe). Heel width = 4.0 &minus; 1.0 &minus; 0.7 = 2.3 m.
+        <div style="overflow-x:auto;margin-top:.4rem"><table style="width:100%;border-collapse:collapse;font-size:.8rem">
+          <tr style="color:var(--mut)"><th style="text-align:left;padding:.2rem .4rem">Component</th><th style="text-align:right;padding:.2rem .4rem">W (kN/m)</th><th style="text-align:right;padding:.2rem .4rem">x (m)</th><th style="text-align:right;padding:.2rem .4rem">M (kN·m/m)</th></tr>
+          <tr><td style="padding:.2rem .4rem">Stem (rectangle)</td><td style="text-align:right">42.5</td><td style="text-align:right">1.55</td><td style="text-align:right">65.8</td></tr>
+          <tr><td style="padding:.2rem .4rem">Stem (taper)</td><td style="text-align:right">28.3</td><td style="text-align:right">1.27</td><td style="text-align:right">35.9</td></tr>
+          <tr><td style="padding:.2rem .4rem">Base slab</td><td style="text-align:right">66.1</td><td style="text-align:right">2.00</td><td style="text-align:right">132.2</td></tr>
+          <tr><td style="padding:.2rem .4rem">Soil on heel</td><td style="text-align:right">248.4</td><td style="text-align:right">2.85</td><td style="text-align:right">707.9</td></tr>
+          <tr style="border-top:1px solid var(--bdr);color:var(--txt)"><td style="padding:.2rem .4rem"><strong>&Sigma;</strong></td><td style="text-align:right"><strong>385.3</strong></td><td></td><td style="text-align:right"><strong>941.8</strong></td></tr>
+        </table></div>
+        Note the soil on the heel is 64% of the total resisting weight — that's the cantilever wall doing its judo.
+      </div></div>
+      <div class="step"><b>4</b><div><strong>Check 1 — Overturning.</strong> \( FS_&#123;OT&#125; = 941.8/277.2 = 3.40 \ge 2 \) &check;</div></div>
+      <div class="step"><b>5</b><div><strong>Check 2 — Sliding</strong> (using k&#8321; = k&#8322; = &#8532;, passive resistance neglected).
+        \( \sum F_R' = 385.3\tan(\tfrac23 \cdot 28^\circ) + \tfrac23(30)(4.0) = 130.2 + 80.0 = 210.2\text&#123;kN/m&#125; \).
+        \( FS_&#123;SL&#125; = 210.2/124.1 = 1.69 \ge 1.5 \) &check;</div></div>
+      <div class="step"><b>6</b><div><strong>Check 3 — Eccentricity &amp; bearing.</strong>
+        \( \bar&#123;x&#125; = (941.8-277.2)/385.3 = 1.725\text&#123;m&#125; \), so \( e = 2.0 - 1.725 = 0.275\text&#123;m&#125; \).
+        Middle third: \( B/6 = 0.667\text&#123;m&#125; > 0.275 \) &check; (whole base in compression).
+        \( q_&#123;max&#125; = \tfrac&#123;385.3&#125;&#123;4.0&#125;(1 + \tfrac&#123;6(0.275)&#125;&#123;4.0&#125;) = 136.1\text&#123;kPa&#125; \), \( q_&#123;min&#125; = 56.6\text&#123;kPa&#125; \).
+        \( FS_&#123;BC&#125; = 450/136.1 = 3.31 \ge 3 \) &check;</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> FS<sub>OT</sub> = 3.40, FS<sub>SL</sub> = 1.69, FS<sub>BC</sub> = 3.31, e = 0.275 m &lt; B/6. All three checks pass — the wall is adequate. Sliding is the governing check, with the least margin.</div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Read the result, don't just report it.</strong> Sliding governs here at FS = 1.69 against a 1.5 requirement. That's the check to watch if anything changes — a wetter backfill, a shallower embedment, or a contractor trimming the base width will push it under 1.5 long before overturning or bearing become a concern.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 10. QUICK REF + QUIZ ══════════════ -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>FS overturning</span><span>&Sigma;M<sub>R</sub> / &Sigma;M<sub>O</sub> &ge; 2</span></div>
+    <div><span>FS sliding</span><span>&Sigma;F<sub>R</sub>' / P<sub>a</sub>cos&alpha; &ge; 1.5</span></div>
+    <div><span>FS bearing</span><span>q<sub>ult</sub> / q<sub>max</sub> &ge; 3</span></div>
+    <div><span>Eccentricity</span><span>e = B/2 &minus; (&Sigma;M<sub>R</sub>&minus;&Sigma;M<sub>O</sub>)/&Sigma;V</span></div>
+    <div><span>Middle-third rule</span><span>e &le; B/6 (no heel uplift)</span></div>
+    <div><span>Base pressures</span><span>q = (&Sigma;V/B)(1 &plusmn; 6e/B)</span></div>
+    <div><span>Base friction reduction</span><span>k&#8321;, k&#8322; &asymp; &frac12; to &#8532;</span></div>
+    <div><span>Effective width (bearing)</span><span>B' = B &minus; 2e</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="2">
+      <p>1. In a cantilever wall, what usually provides the largest share of the resisting moment?</p>
+      <button data-v="0">The stem's concrete weight</button>
+      <button data-v="1">Passive pressure at the toe</button>
+      <button data-v="2">The backfill soil sitting on the heel slab</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>2. Your calculation returns e = 0.9 m for a base width B = 4.0 m. What does this tell you?</p>
+      <button data-v="0">The wall is safe — e is small compared to B</button>
+      <button data-v="1">e &gt; B/6, so the heel has lifted off and part of the base is in tension</button>
+      <button data-v="2">The sliding check will automatically fail</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. Why are the base friction parameters reduced by k&#8321;, k&#8322; &asymp; &#8532;?</p>
+      <button data-v="0">The sliding surface is concrete-against-soil, which can't mobilize the soil's full &phi;' and c'</button>
+      <button data-v="1">To account for groundwater below the base</button>
+      <button data-v="2">Because the backfill is weaker than the foundation soil</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>4. A wall fails its sliding check. Which fix targets that specific failure mode most directly?</p>
+      <button data-v="0">Increase the stem's top thickness</button>
+      <button data-v="1">Reduce the backfill unit weight</button>
+      <button data-v="2">Add a shear key beneath the base slab</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee340/lateral-earth-pressure">&larr; Ch. 7: Lateral Earth Pressure</a>
+  <a href="/civil">Back to Civil Engineering &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const ids = ['rw-hs','rw-d','rw-b','rw-ltoe','rw-ttop','rw-tbot','rw-gs','rw-phi','rw-phi2','rw-c2','rw-gc','rw-qult'];
+  const val = id => +document.getElementById(id).value;
+
+  function calc(){
+    const Hs=val('rw-hs'), D=val('rw-d'), B=val('rw-b'), Ltoe=val('rw-ltoe');
+    const tTop=val('rw-ttop'), tBot=val('rw-tbot');
+    const gS=val('rw-gs'), phi=val('rw-phi'), phi2=val('rw-phi2'), c2=val('rw-c2');
+    const gC=val('rw-gc'), qult=val('rw-qult');
+
+    const heelW = B - Ltoe - tBot;
+    const Hp = Hs + D;
+    const Ka = Math.pow(Math.tan(Math.PI/4 - phi*Math.PI/360), 2);
+    const Pa = 0.5*Ka*gS*Hp*Hp;
+    const Mo = Pa*Hp/3;
+
+    const parts = [
+      ['Stem (rect)',  tTop*Hs*gC,               Ltoe + tBot - tTop/2],
+      ['Stem (taper)', 0.5*(tBot-tTop)*Hs*gC,    Ltoe + 2*(tBot-tTop)/3],
+      ['Base slab',    B*D*gC,                   B/2],
+      ['Soil on heel', heelW*Hs*gS,              Ltoe + tBot + heelW/2]
+    ];
+    let V=0, Mr=0;
+    parts.forEach(p => { V += p[1]; Mr += p[1]*p[2]; });
+
+    const fsOT = Mr/Mo;
+    const Fr = V*Math.tan(2/3*phi2*Math.PI/180) + (2/3)*c2*B;
+    const fsSL = Fr/Pa;
+    const xbar = (Mr-Mo)/V;
+    const e = B/2 - xbar;
+    const qmax = (V/B)*(1 + 6*e/B);
+    const qmin = (V/B)*(1 - 6*e/B);
+    const fsBC = qult/qmax;
+    const geomOK = heelW > 0 && tBot >= tTop && B > Ltoe + tBot;
+
+    const row = (label, value, ok) =>
+      `<div class="verdict ${ok?'v-pass':'v-fail'}"><span>${label}</span><b>${value} ${ok?'✓':'✗'}</b></div>`;
+    const plain = (label, value) =>
+      `<div class="res"><span>${label}</span><b>${value}</b></div>`;
+
+    document.getElementById('rw-res').innerHTML = !geomOK
+      ? `<div class="verdict v-fail"><span>Geometry invalid — check base width, toe and stem thicknesses</span></div>`
+      : plain('K&#8336; / P&#8336;', Ka.toFixed(3)+' / '+Pa.toFixed(1)+' kN/m')
+      + plain('&Sigma;V / &Sigma;M<sub>R</sub>', V.toFixed(1)+' kN/m / '+Mr.toFixed(0)+' kN·m')
+      + row('FS overturning (&ge; 2)', fsOT.toFixed(2), fsOT>=2)
+      + row('FS sliding (&ge; 1.5)', fsSL.toFixed(2), fsSL>=1.5)
+      + row('Eccentricity e (&le; B/6 = '+(B/6).toFixed(2)+' m)', e.toFixed(3)+' m', Math.abs(e)<=B/6)
+      + row('FS bearing (&ge; 3)', fsBC.toFixed(2), fsBC>=3)
+      + plain('q<sub>max</sub> / q<sub>min</sub>', qmax.toFixed(1)+' / '+qmin.toFixed(1)+' kPa');
+
+    // ── cross-section figure ──
+    const padL=30, padR=88, padT=22, padB=28, W=320, H=240;
+    const s = Math.min((W-padL-padR)/B, (H-padT-padB)/Hp);
+    const X = x => padL + x*s;
+    const Y = y => (H-padB) - y*s;
+    const stem = `${X(Ltoe)},${Y(D)} ${X(Ltoe+tBot)},${Y(D)} ${X(Ltoe+tBot)},${Y(Hp)} ${X(Ltoe+tBot-tTop)},${Y(Hp)}`;
+
+    document.getElementById('rw-fig').innerHTML = geomOK ? `
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+      <rect x="${X(Ltoe+tBot)}" y="${Y(Hp)}" width="${heelW*s}" height="${Hs*s}" fill="rgba(212,169,74,0.10)" stroke="var(--aline)"/>
+      <rect x="${X(0)}" y="${Y(D)}" width="${B*s}" height="${D*s}" fill="var(--surf3)" stroke="var(--bdr2)"/>
+      <polygon points="${stem}" fill="var(--surf3)" stroke="var(--bdr2)"/>
+      <line x1="${X(B)}" y1="${Y(0)}" x2="${X(B)}" y2="${Y(Hp)}" stroke="var(--teal)" stroke-width="1" stroke-dasharray="3,2"/>
+      <polygon points="${X(B)},${Y(0)} ${X(B)+Math.min(40,Pa*s/9)},${Y(0)} ${X(B)},${Y(Hp)}" fill="rgba(78,201,176,0.20)" stroke="var(--teal)" stroke-width="1.2"/>
+      <line x1="${X(B)+20}" y1="${Y(Hp/3)}" x2="${X(B)+2}" y2="${Y(Hp/3)}" stroke="var(--teal)" stroke-width="1.6" marker-end="url(#pa)"/>
+      <defs><marker id="pa" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--teal)"/></marker></defs>
+      <text x="${X(B)+24}" y="${Y(Hp/3)-4}" font-size="9" fill="var(--teal)">P&#8336;=${Pa.toFixed(0)}</text>
+      <circle cx="${X(0)}" cy="${Y(0)}" r="3" fill="var(--amb)"/>
+      <text x="${X(0)-4}" y="${Y(0)+13}" font-size="9" fill="var(--amb)" text-anchor="middle">toe</text>
+      <line x1="${X(0)}" y1="${H-12}" x2="${X(B)}" y2="${H-12}" stroke="var(--mut)" stroke-width="1"/>
+      <text x="${X(B/2)}" y="${H-3}" font-size="9" fill="var(--mut)" text-anchor="middle">B = ${B} m</text>
+      <text x="${X(Ltoe+tBot)+4}" y="${Y(Hp)-5}" font-size="9" fill="var(--amb)">backfill on heel</text>
+    </svg>` : '';
+  }
+
+  ids.forEach(id => document.getElementById(id).addEventListener('input', calc));
+  calc();
+
+  document.querySelectorAll('.quiz .q').forEach(q => {
+    const btns = q.querySelectorAll('button');
+    btns.forEach(btn => btn.addEventListener('click', () => {
+      if (q.classList.contains('answered')) return;
+      q.classList.add('answered');
+      btns.forEach(b => {
+        if (b.dataset.v === q.dataset.a) b.classList.add('correct');
+        else if (b === btn) b.classList.add('wrong');
+      });
+      const answered = document.querySelectorAll('.quiz .q.answered').length;
+      const right = document.querySelectorAll('.quiz .q.answered button.correct').length;
+      document.getElementById('quiz-score').textContent = right + ' / ' + answered + ' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>
