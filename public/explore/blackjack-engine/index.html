@@ -204,6 +204,15 @@
   .alert.good { background:rgba(0,201,167,.1); border-color:rgba(0,201,167,.4); color:#a9f0e2; }
   .alert.info { background:rgba(59,130,246,.1); border-color:rgba(59,130,246,.4); color:#c3dafe; }
 
+  .verdict { border-radius:10px; padding:11px 12px; margin-bottom:11px; border:1px solid; }
+  .verdict .vt { font-family:'Space Mono',monospace; font-size:12.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+  .verdict .vd { font-size:11.5px; line-height:1.5; margin-top:5px; opacity:.92; }
+  .zrow { display:flex; align-items:center; gap:7px; margin-bottom:3px; }
+  .zrank { font-family:'Space Mono',monospace; font-size:10px; width:26px; color:var(--muted); }
+  .ztrack { flex:1; height:10px; background:var(--surface2); border-radius:3px; position:relative; overflow:hidden; }
+  .zmid { position:absolute; left:50%; top:0; bottom:0; width:1px; background:rgba(232,237,245,.35); }
+  .zbar { position:absolute; top:0; bottom:0; border-radius:2px; }
+  .zn { font-family:'Space Mono',monospace; font-size:9px; width:124px; text-align:right; color:var(--muted); white-space:nowrap; }
   .log { font-family:'Space Mono',monospace; font-size:10px; color:var(--muted); line-height:1.7; max-height:110px; overflow-y:auto; word-break:break-all; }
   footer { max-width:600px; margin:0 auto; padding:0 14px 40px; font-size:11px; color:var(--muted); line-height:1.65; }
   footer a { color:var(--teal); }
@@ -394,6 +403,19 @@
     <div id="comp-body"></div>
   </div>
 
+  <!-- DECK INTEGRITY -->
+  <div class="card" id="audit-card">
+    <div class="sec-title">Deck integrity <span class="hint" id="audit-hint"></span></div>
+    <div class="chips" id="audit-scope"></div>
+    <div class="verdict" id="verdict"><div class="vt" id="vt">—</div><div class="vd" id="vd"></div></div>
+    <div class="pgrid" id="audit-grid"></div>
+    <div style="margin-top:12px" id="audit-z"></div>
+    <p class="rules-note" id="audit-note"></p>
+    <div class="ctrl-grid three" style="margin-top:10px">
+      <button class="ctrl warn" id="c-reset-audit">Reset audit</button>
+    </div>
+  </div>
+
   <!-- LIVE: LOG -->
   <div class="card hidden" id="log-card">
     <div class="sec-title">Cards seen this shoe <span class="hint" id="log-count"></span></div>
@@ -531,6 +553,9 @@ const S = {
   active: 0,
   others: [],
   logOthers: false,
+  tally: new Array(10).fill(0),   // every card entered this session, all shoes
+  tallyHands: 0,
+  auditScope: 'shoe',
   bankroll: 1000, minBet: 5, maxBet: 500,
   clock: 12,
   exact: false,
@@ -540,7 +565,8 @@ const S = {
 function snapshot(){
   S.history.push(JSON.stringify({
     seen:S.seen, order:S.order, unknown:S.unknown, dealer:S.dealer,
-    hands:S.hands, active:S.active, others:S.others, logOthers:S.logOthers
+    hands:S.hands, active:S.active, others:S.others, logOthers:S.logOthers,
+    tally:S.tally, tallyHands:S.tallyHands
   }));
   if (S.history.length > 400) S.history.shift();
 }
@@ -900,6 +926,7 @@ function addCard(rank){
   }
   const t = nextTarget();
   snapshot();
+  S.tally[rank]++;                                   // session-long audit record
   if (S.mode === 'live'){ S.seen[rank]++; S.order.push(rank); }
   if (t === 'dealer'){
     S.dealer.push(rank);
@@ -919,16 +946,16 @@ function burnUnknown(){
 }
 function newHandRound(){
   snapshot();
+  if (S.dealer.length || S.hands.some(h => h.cards.length)) S.tallyHands++;
   S.dealer = []; S.hands = [ newHand() ]; S.active = 0; S.others = []; S.logOthers = false;
   stopClock(); render();
 }
 function clearTable(){
   snapshot();
-  if (S.mode === 'live'){
-    for (const r of S.dealer) unsee(r);
-    for (const r of S.others) unsee(r);
-    for (const h of S.hands) for (const r of h.cards) unsee(r);
-  }
+  const onTable = S.dealer.concat(S.others);
+  for (const h of S.hands) for (const r of h.cards) onTable.push(r);
+  for (const r of onTable) if (S.tally[r] > 0) S.tally[r]--;
+  if (S.mode === 'live') for (const r of onTable) unsee(r);
   S.dealer=[]; S.hands=[newHand()]; S.active=0; S.others=[]; S.logOthers=false;
   render();
 }
@@ -938,6 +965,12 @@ function unsee(r){
   if (i >= 0) S.order.splice(i,1);
 }
 function resetShoeCounts(){ S.seen = new Array(10).fill(0); S.order = []; S.unknown = 0; }
+function resetAudit(){
+  snapshot();
+  S.tally = new Array(10).fill(0);
+  S.tallyHands = 0;
+  render();
+}
 function newShoe(){
   snapshot(); resetShoeCounts();
   S.dealer=[]; S.hands=[newHand()]; S.active=0; S.others=[]; S.logOthers=false;
@@ -1049,6 +1082,136 @@ function buildChartSlice(){
   if (chart.queue.length) setTimeout(buildChartSlice, 0);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   DECK INTEGRITY AUDIT
+   Two questions, two different tests.
+
+   "This shoe" compares the cards you have logged against the shoe you told the
+   engine you are tracking. The population is finite and known, so the count of
+   each rank is multivariate hypergeometric and the chi-square statistic carries
+   the finite-population correction (N-1)/(N-n). What this really catches is
+   your own bookkeeping — a missed shuffle, a double-entered card, a deck count
+   set wrong — because one shoe is far too small a sample to say much about
+   fairness.
+
+   "Whole session" pools every card entered across every shoe. Those are drawn
+   from repeatedly reshuffled shoes, so they behave as independent draws from
+   the rank frequencies of a fair deck and no correction applies. With a few
+   thousand cards this becomes a real fairness monitor.
+
+   Alongside the omnibus 10-category test there is a targeted one on the
+   ten-valued group, which is the thing worth watching: it is where the player's
+   edge lives, and it has several times the power of the omnibus test against a
+   shoe that is quietly short of tens.
+   ═══════════════════════════════════════════════════════════════════════════ */
+function lgamma(x){
+  const g=[676.5203681218851,-1259.1392167224028,771.32342877765313,
+           -176.61502916214059,12.507343278686905,-0.13857109526572012,
+           9.9843695780195716e-6,1.5056327351493116e-7];
+  if (x < 0.5) return Math.log(Math.PI/Math.sin(Math.PI*x)) - lgamma(1-x);
+  x -= 1;
+  let a = 0.99999999999980993; const t = x + 7.5;
+  for (let i=0;i<8;i++) a += g[i]/(x+i+1);
+  return 0.5*Math.log(2*Math.PI) + (x+0.5)*Math.log(t) - t + Math.log(a);
+}
+function gserP(a,x){
+  let sum=1/a, del=sum, ap=a;
+  for (let n=0;n<800;n++){ ap++; del *= x/ap; sum += del;
+    if (Math.abs(del) < Math.abs(sum)*1e-14) break; }
+  return sum*Math.exp(-x + a*Math.log(x) - lgamma(a));
+}
+function gcfQ(a,x){
+  const FPMIN=1e-300, EPS=1e-14;
+  let b=x+1-a, c=1/FPMIN, d=1/b, h=d;
+  for (let i=1;i<=800;i++){
+    const an=-i*(i-a);
+    b+=2; d=an*d+b; if (Math.abs(d)<FPMIN) d=FPMIN;
+    c=b+an/c;       if (Math.abs(c)<FPMIN) c=FPMIN;
+    d=1/d; const del=d*c; h*=del;
+    if (Math.abs(del-1)<EPS) break;
+  }
+  return Math.exp(-x + a*Math.log(x) - lgamma(a))*h;
+}
+function chiSqP(chi2, df){
+  if (!(chi2 > 0)) return 1;
+  const a = df/2, x = chi2/2;
+  return Math.max(0, Math.min(1, x < a+1 ? 1-gserP(a,x) : gcfQ(a,x)));
+}
+function erfc(x){
+  const z=Math.abs(x), t=2/(2+z), ty=4*t-2;
+  const cof=[-1.3026537197817094,6.4196979235649026e-1,1.9476473204185836e-2,
+    -9.561514786808631e-3,-9.46595344482036e-4,3.66839497852761e-4,
+    4.2523324806907e-5,-2.0278578112534e-5,-1.624290004647e-6,
+    1.303655835580e-6,1.5626441722e-8,-8.5238095915e-8,6.529054439e-9,
+    5.059343495e-9,-9.91364156e-10,-2.27365122e-10,9.6467911e-11];
+  let d=0,dd=0;
+  for (let j=cof.length-1;j>0;j--){ const tmp=d; d=ty*d-dd+cof[j]; dd=tmp; }
+  const ans=t*Math.exp(-z*z + 0.5*(cof[0]+ty*d)-dd);
+  return x>=0 ? ans : 2-ans;
+}
+const twoSidedZ = z => Math.max(0, Math.min(1, erfc(Math.abs(z)/Math.SQRT2)));
+
+const TEN_FREQ = 16/52;     // ten-valued share of a fair deck
+const AUDIT_MIN = 60;       // below this the omnibus test has no useful power
+
+function auditScope(){ return S.mode === 'live' ? S.auditScope : 'session'; }
+
+function audit(){
+  const scope = auditScope();
+  const obs = (scope === 'shoe' ? S.seen : S.tally).slice();
+  const n = obs.reduce((a,b)=>a+b,0);
+  const N = totalCards();
+  // A single tracked shoe is a finite population; a session spans many shoes.
+  const wor = scope === 'shoe' && n < N;
+  const fpcVar = wor ? (N-n)/(N-1) : 1;
+
+  let chi = 0;
+  const z = new Array(10).fill(0);
+  const exp = new Array(10).fill(0);
+  for (let i=0;i<10;i++){
+    const pr = PERDECK[i]/52;
+    const E = n*pr;
+    exp[i] = E;
+    if (E > 0){
+      chi += (obs[i]-E)*(obs[i]-E)/E;
+      const sd = Math.sqrt(E*(1-pr)*fpcVar);
+      z[i] = sd > 0 ? (obs[i]-E)/sd : 0;
+    }
+  }
+  const chiC = wor ? chi*(N-1)/Math.max(N-n,1) : chi;
+  const pChi = n >= AUDIT_MIN ? chiSqP(chiC, 9) : 1;
+
+  const eTen = n*TEN_FREQ;
+  const sdTen = Math.sqrt(n*TEN_FREQ*(1-TEN_FREQ)*fpcVar);
+  const zTen = sdTen > 0 ? (obs[9]-eTen)/sdTen : 0;
+  const pTen = n >= 20 ? twoSidedZ(zTen) : 1;
+
+  // Two tests, so Bonferroni. They overlap, which makes this conservative.
+  const pAdj = Math.min(1, 2*Math.min(pChi, pTen));
+
+  // Smallest shift in the ten frequency the targeted test would catch 80% of
+  // the time at this sample size. The honest limit on a clean bill of health.
+  const detect = n > 0 ? (2.575829+0.841621)*Math.sqrt(TEN_FREQ*(1-TEN_FREQ)/n) : 1;
+
+  // Deterministic check: the fewest decks that could have produced these cards.
+  let minDecks = 1;
+  for (let i=0;i<10;i++) minDecks = Math.max(minDecks, Math.ceil(obs[i]/PERDECK[i]));
+  const overdrawn = scope === 'shoe' && (minDecks > S.rules.decks || n > N);
+  let worstRank = 0;
+  for (let i=1;i<10;i++) if (Math.abs(z[i]) > Math.abs(z[worstRank])) worstRank = i;
+
+  let verdict;
+  if (overdrawn) verdict = 'impossible';
+  else if (n < AUDIT_MIN) verdict = 'thin';
+  else if (pAdj < 0.001) verdict = 'wrong';
+  else if (pAdj < 0.01)  verdict = 'suspect';
+  else if (pAdj < 0.05)  verdict = 'noisy';
+  else verdict = 'ok';
+
+  return { scope, obs, exp, z, n, N, chi:chiC, pChi, zTen, pTen, pAdj,
+           detect, minDecks, overdrawn, worstRank, verdict, wor };
+}
+
 /* ═══════════════════ RENDER ═══════════════════ */
 const $ = id => document.getElementById(id);
 const pct = v => (v*100).toFixed(1) + '%';
@@ -1074,6 +1237,7 @@ function render(){
   renderInput();
   renderDecision();
   renderComposition();
+  renderAudit();
   if (live){ renderShoe(); renderCounts(); renderBet(); renderLog(); }
   else { renderChart(); renderEdge(); }
   renderNav();
@@ -1505,6 +1669,107 @@ function renderBet(){
     + box('N₀ hands', isFinite(n0) ? Math.round(n0).toLocaleString() : '∞', 'var(--muted)');
 }
 function box(l,v,c){ return '<div class="pbox"><div class="pl">'+l+'</div><div class="pv" style="color:'+c+'">'+v+'</div></div>'; }
+
+const VERDICT = {
+  impossible: { c:'var(--red)',    bg:'rgba(255,77,109,.12)',  t:'Impossible — this is not the deck you think it is' },
+  wrong:      { c:'var(--red)',    bg:'rgba(255,77,109,.12)',  t:'Wrong deck' },
+  suspect:    { c:'var(--orange)', bg:'rgba(251,146,60,.12)',  t:'Suspicious' },
+  noisy:      { c:'var(--gold)',   bg:'rgba(245,197,24,.12)',  t:'Slightly off' },
+  ok:         { c:'var(--teal)',   bg:'rgba(0,201,167,.12)',   t:'Consistent with a correct deck' },
+  thin:       { c:'var(--muted)',  bg:'rgba(107,122,153,.10)', t:'Not enough cards yet' }
+};
+function renderAudit(){
+  const a = audit();
+  const v = VERDICT[a.verdict];
+  const live = S.mode === 'live';
+
+  $('audit-scope').innerHTML = live
+    ? ['shoe','session'].map(k => '<button class="chip' + (a.scope===k?' on':'') + '" data-sc="' + k + '">'
+        + (k==='shoe' ? 'This shoe' : 'Whole session') + '</button>').join('')
+    : '';
+  $('audit-scope').querySelectorAll('[data-sc]').forEach(el => {
+    el.onclick = () => { S.auditScope = el.dataset.sc; renderAudit(); };
+  });
+  $('audit-hint').textContent = a.scope === 'shoe'
+    ? 'the shoe you are tracking · catches bookkeeping errors'
+    : 'every card this session · fairness monitor';
+
+  const ver = $('verdict');
+  ver.style.borderColor = v.c;
+  ver.style.background = v.bg;
+  $('vt').textContent = v.t;
+  $('vt').style.color = v.c;
+
+  let d;
+  if (a.verdict === 'impossible'){
+    let culprit = 0;
+    for (let i=0;i<10;i++) if (a.obs[i]/PERDECK[i] > a.obs[culprit]/PERDECK[culprit]) culprit = i;
+    d = 'You have logged <b>' + a.obs[culprit] + ' × ' + RK[culprit] + '</b>, but '
+      + (S.rules.decks === 8 ? 'an ' : 'a ') + S.rules.decks + '-deck shoe only holds '
+      + (S.rules.decks*PERDECK[culprit]) + '. '
+      + 'These cards need at least <b>' + a.minDecks + ' decks</b> to exist. '
+      + 'Either the table shuffled and the count was not reset, a card was entered twice, or the deck count is wrong. '
+      + 'Fix it before trusting a single number on this page — a stale count is worse than no count, because it drives your bet.';
+  } else if (a.verdict === 'thin'){
+    d = 'Logged ' + a.n + ' cards; the omnibus test needs about ' + AUDIT_MIN + ' before it means anything. '
+      + 'Keep feeding cards.';
+  } else if (a.verdict === 'ok'){
+    d = 'Nothing here contradicts a fair, complete deck. Read that narrowly: at ' + a.n
+      + ' cards this test would only reliably catch the ten-valued frequency being off by more than <b>'
+      + (a.detect*100).toFixed(1) + ' points</b> of its 30.8%. Small distortions stay invisible until the sample is '
+      + 'in the thousands, so use <b>Whole session</b> and let it run.';
+  } else {
+    const rk = RK[a.worstRank];
+    const dir = a.z[a.worstRank] > 0 ? 'more' : 'less';
+    d = 'The cards logged do not sit comfortably with a fair deck (p = ' + fmtP(a.pAdj)
+      + ', Bonferroni-adjusted across the two tests). The biggest single offender is <b>' + rk
+      + '</b>, appearing ' + dir + ' often than it should at ' + a.z[a.worstRank].toFixed(1) + ' standard deviations. '
+      + (a.scope === 'shoe'
+          ? 'On one shoe the overwhelmingly likely cause is bookkeeping — cards dealt to other seats that you did not see or enter, '
+            + 'or a shuffle you missed. Check those first; a flag at p &lt; 0.05 turns up on roughly one fair shoe in twenty.'
+          : 'Across a whole session this is harder to explain away, but before concluding anything about the game, account for '
+            + 'cards you never saw — burns, and hands at other seats that were folded away out of view.');
+  }
+  $('vd').innerHTML = d;
+
+  const pCol = p => p < 0.01 ? 'var(--red)' : p < 0.05 ? 'var(--gold)' : 'var(--teal)';
+  $('audit-grid').innerHTML =
+      box('Cards audited', a.n.toLocaleString(), 'var(--text)')
+    + box('χ² (9 df)', a.n >= AUDIT_MIN ? a.chi.toFixed(1) : '—', 'var(--text)')
+    + box('p omnibus', a.n >= AUDIT_MIN ? fmtP(a.pChi) : '—', a.n >= AUDIT_MIN ? pCol(a.pChi) : 'var(--muted)')
+    + box('Ten-rate z', a.n >= 20 ? (a.zTen>=0?'+':'') + a.zTen.toFixed(2) : '—', 'var(--text)')
+    + box('p ten-rate', a.n >= 20 ? fmtP(a.pTen) : '—', a.n >= 20 ? pCol(a.pTen) : 'var(--muted)')
+    + box('Blind spot', a.n ? '±' + (a.detect*100).toFixed(1) + 'pt' : '—', 'var(--muted)')
+    + box('Decks implied', a.scope === 'shoe' ? a.minDecks + ' min' : '—',
+          a.overdrawn ? 'var(--red)' : 'var(--muted)')
+    + box('Tens seen', a.n ? (a.obs[9]/a.n*100).toFixed(1) + '%' : '—',
+          Math.abs(a.zTen) > 2.5 ? 'var(--red)' : 'var(--text)');
+
+  // Per-rank standardised deviation, clipped to ±4 sd for the bar.
+  $('audit-z').innerHTML = a.z.map((zv,i) => {
+    const w = Math.min(Math.abs(zv), 4)/4*50;
+    const col = Math.abs(zv) > 3 ? 'var(--red)' : Math.abs(zv) > 2 ? 'var(--orange)' : 'var(--teal)';
+    return '<div class="zrow"><span class="zrank">' + RK[i] + '</span>'
+      + '<div class="ztrack"><div class="zmid"></div><div class="zbar" style="'
+      + (zv >= 0 ? 'left:50%' : 'right:50%') + ';width:' + w.toFixed(1) + '%;background:' + col + '"></div></div>'
+      + '<span class="zn">' + a.obs[i] + ' vs ' + a.exp[i].toFixed(1) + ' · z '
+      + (zv>=0?'+':'') + zv.toFixed(1) + '</span></div>';
+  }).join('');
+
+  $('audit-note').innerHTML = 'Bars are standardised deviations, clipped at ±4. '
+    + (a.wor
+        ? 'This shoe is a known finite population, so the test uses the hypergeometric variance and the '
+          + '(N−1)/(N−n) correction — as the shoe runs out the observed counts must converge on the deck, and the test knows that. '
+        : 'Session cards come from repeatedly reshuffled shoes, so they are treated as independent draws from a fair deck\'s rank frequencies. ')
+    + '<b>Blind spot</b> is the smallest shift in the 30.8% ten-valued frequency this sample could catch 80% of the time — '
+    + 'a green verdict says nothing about distortions smaller than that. Licensed RNG and live games are audited and '
+    + 'far and away the likeliest explanation for a flag is a card you did not see, so treat this as a check on your own tracking first.';
+}
+function fmtP(p){
+  if (p >= 0.0001) return p.toFixed(4);
+  if (p > 0) return p.toExponential(1);
+  return '<0.0001';
+}
 function renderLog(){
   $('log-count').textContent = seenTotal() + ' cards';
   if (!S.order.length){ $('log-body').textContent = '—'; return; }
@@ -1601,6 +1866,10 @@ function setMode(mode){
   }
   S.rules.csm = (mode === 'csm');
   resetShoeCounts();
+  // The two modes audit against different population models, so the pooled
+  // record cannot carry over.
+  S.tally = new Array(10).fill(0); S.tallyHands = 0;
+  S.auditScope = (mode === 'live') ? 'shoe' : 'session';
   S.dealer=[]; S.hands=[newHand()]; S.active=0; S.others=[]; S.logOthers=false; S.history=[];
   stopClock();
   bsCache.clear();
@@ -1617,6 +1886,8 @@ const METHOD = `
 <p style="margin-top:9px"><b>Insurance</b> is decided on composition alone: it wins when the hole card is a ten, so it pays exactly when tens exceed one third of the remaining shoe. In a reshuffled game they never do, which is why the answer there is always decline.</p>
 <p style="margin-top:9px"><b>Confidence</b> is how far the top action's EV sits above the second best, discounted in live mode by the share of dealt cards you actually identified. It says how safe the call is, not how likely you are to win — the win / push / lose boxes give you that.</p>
 <p style="margin-top:9px"><b>Precision.</b> Fast mode depletes the composition for the first few cards of a draw sequence and then freezes it, which keeps a full evaluation inside a few milliseconds and moves an EV by well under a hundredth of a percent. Exact mode removes the caps.</p>
+<p style="margin-top:9px"><b>Deck integrity.</b> The audit panel asks whether the cards you have logged are consistent with a fair, complete deck. Against a single tracked shoe it uses the hypergeometric variance with the finite-population correction, which makes it mostly a check on your own bookkeeping — one shoe is far too small to say much about fairness. Pooled across a session it becomes a real fairness monitor. There is an omnibus test over all ten ranks and a targeted one on the ten-valued group, which has several times the power against the distortion that would actually cost you, and the two are combined conservatively. It also reports its own blind spot: the smallest distortion the current sample could detect. A clean verdict on 120 cards means very little; a clean verdict on twenty thousand means a great deal. Separately, a hard impossibility check runs at all times — if the cards entered could not fit in the shoe you configured, you get told immediately, because a stale count is worse than no count when it is driving your bet size.</p>
+<p style="margin-top:9px"><b>What this cannot do.</b> It cannot make either of these games profitable. Perfect play in a reshuffled game still loses at the house edge shown, every hand, forever — there is no counting edge to find and the tool will not invent one. On a live shoe the edge counting yields at eight decks and fifty per cent penetration is small and rare, and the N₀ figure in the bet panel is the honest measure of that: it is the number of hands you would need for skill to outweigh luck, and it is usually a five- or six-figure number. It also cannot see the cards for you, so the count is only as good as your own attention, and it cannot know the table's real rules — if the soft-17 setting is wrong, a whole block of answers is wrong with it. Side bets are not modelled because they are all substantially worse than the main game.</p>
 <p style="margin-top:9px"><b>Verifying your rules.</b> Originals mode prints the house edge your rule set implies next to the RTP the game advertises. If they disagree, a rule is wrong — usually soft 17 or the double-after-split restriction.</p>
 `;
 
@@ -1677,6 +1948,7 @@ function boot(){
    'r-pen','r-csm','r-bankroll','r-min','r-max','r-unknown','r-clock','r-exact']
     .forEach(id => { $(id).onchange = readRules; });
   $('timer-btn').onclick = startClock;
+  $('c-reset-audit').onclick = resetAudit;
 
   document.addEventListener('keydown', e => {
     if (!$('overlay').classList.contains('hidden')) return;
