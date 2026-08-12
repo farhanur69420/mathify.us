@@ -1,0 +1,553 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/cee340-chapter.css'
+---
+<Base title="CEE 340 — Worked Example: Modified Bishop's Method" description="Example 8 solved step by step — long-term factor of safety of a two-layer slope with seepage by the Modified Bishop's Method, with a live slice-by-slice simulator you can take apart.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 340 &middot; Worked Example 8 &middot; Slope Stability</div>
+  <h1>Modified Bishop's Method, Start to Finish</h1>
+  <p class="hd-sub">One problem, taken completely apart: a 12.7 m two-layer slope with seepage, and a slip circle that cuts through both soils. We'll build the geometry, cut the mass into slices, do one slice entirely by hand, then let the equation chase its own tail until it converges.</p>
+  <div class="hd-pills">
+    <span class="pill">Long-term (drained)</span>
+    <span class="pill">Two layers</span>
+    <span class="pill">Seepage</span>
+    <span class="pill">Live simulator</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>The Route</h3>
+  <ol>
+    <li><a href="#sec-problem">The Problem</a></li>
+    <li><a href="#sec-longterm">What "Long Term" Changes</a></li>
+    <li><a href="#sec-geom">Step 1 — Pin Down the Circle</a></li>
+    <li><a href="#sec-slice">Step 2 — Cut It Into Slices</a></li>
+    <li><a href="#sec-one">Step 3 — One Slice, in Full</a></li>
+    <li><a href="#sec-drive">Step 4 — The Driving Force</a></li>
+    <li><a href="#sec-eq">Step 5 — Why Bishop Chases Its Tail</a></li>
+    <li><a href="#sec-iter">Step 6 — Iterate to Convergence</a></li>
+    <li><a href="#sec-sim">The Live Simulator</a></li>
+    <li><a href="#sec-answer">The Answer &amp; Three Sanity Checks</a></li>
+    <li><a href="#sec-takeaway">What to Carry Away</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-problem">
+  <div class="sec-h"><span class="sec-n">01</span><h2>The Problem</h2></div>
+
+  <p class="lead"><strong>Compute the long-term factor of safety for the given failure surface using the Modified Bishop's Method.</strong></p>
+
+  <div class="grid2">
+    <div class="vcard v-amb">
+      <span class="vtag">Geometry</span>
+      <div class="qref" style="margin:0">
+        <div><span>Slope height</span><span>12.7 m</span></div>
+        <div><span>Slope angle</span><span>1.5 H : 1 V</span></div>
+        <div><span>Circle centre</span><span>12.0 m horiz, 10.0 m above crest</span></div>
+        <div><span>Upper layer</span><span>8.6 m thick</span></div>
+      </div>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">Soil</span>
+      <div class="qref" style="margin:0">
+        <div><span>Upper c' / &phi;' / &gamma;</span><span>30 kPa / 28&deg; / 17.9 kN/m&sup3;</span></div>
+        <div><span>Lower c' / &phi;' / &gamma;</span><span>10 kPa / 32&deg; / 18.2 kN/m&sup3;</span></div>
+        <div><span>Water</span><span>phreatic surface, seepage to toe</span></div>
+        <div><span>&gamma;<sub>w</sub></span><span>9.81 kN/m&sup3;</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#127849;</span>
+    <div>
+      <strong>Before any equations, picture what is being asked.</strong> A curved wedge of hillside is poised to rotate outward about a point in the sky. Gravity is trying to spin it; friction and cohesion along the curved base are trying to stop it. The factor of safety is simply <em>how much spare grip there is</em> — resisting moment divided by driving moment. Everything below is bookkeeping to get those two numbers.
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>The one thing that makes this problem harder than a textbook single-layer slope:</strong> the slip circle passes through <em>two different soils</em> and beneath a <em>water table</em>. So c', &phi;' and u all change from slice to slice. That is exactly why the method of slices exists.</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-longterm">
+  <div class="sec-h"><span class="sec-n">02</span><h2>What "Long Term" Changes</h2></div>
+
+  <p>That phrase is not decoration — it decides which strength parameters you are allowed to use.</p>
+
+  <div class="grid2">
+    <div class="vcard v-rust">
+      <span class="vtag">Short term (undrained)</span>
+      <p>Right after excavation, water has not had time to move. Use total stresses with &phi; = 0 and c<sub>u</sub>. Pore pressures are unknown, so they never appear in the equation.</p>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">Long term (drained) &mdash; our case</span>
+      <p>Years later, pore pressures have reached steady seepage. Use <strong>effective stress</strong> with c' and &phi;', and you must subtract u explicitly. The problem gives c' and &phi;' for both layers, which is the giveaway.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>"Long term" means <strong>drained, effective-stress analysis</strong>. For a <em>cut</em> slope this is usually the critical case: excavation unloads the ground, pore pressures start low and <em>rise</em> over time toward equilibrium, so the slope gets <strong>weaker</strong> as the years pass. A cut that stands fine on the day it is dug can fail a decade later.</p>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-geom">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Step 1 &mdash; Pin Down the Circle</h2></div>
+
+  <p>Most students lose this problem here, before any soil mechanics happens. Put down coordinates and everything becomes arithmetic.</p>
+
+  <div class="steps">
+    <div class="step"><b>1</b><div><strong>Origin at the toe.</strong> Let x run <em>into</em> the slope (uphill) and y run up. Toe = (0, 0).</div></div>
+    <div class="step"><b>2</b><div><strong>Locate the crest.</strong> The slope is 1.5 H : 1 V and 12.7 m tall, so it runs back \( 1.5 \times 12.7 = 19.05\text&#123;m&#125; \). Crest = (19.05, 12.7).</div></div>
+    <div class="step"><b>3</b><div><strong>Locate the centre.</strong> It is given as 12.0 m horizontally and 10.0 m above the crest, so
+      \( O = (19.05-12.0,\; 12.7+10.0) = (7.05,\; 22.70) \). Note x = 7.05 m sits directly above the slope face — exactly where you would expect a slip-circle centre.</div></div>
+    <div class="step"><b>4</b><div><strong>Get the radius from the exit point.</strong> The surface daylights at the toe, so
+      \( R = \sqrt&#123;7.05^2 + 22.70^2&#125; = 23.77\text&#123;m&#125; \).</div></div>
+    <div class="step"><b>5</b><div><strong>Find where it re-enters the ground.</strong> Setting y = 12.7 on the circle gives \( x = 7.05 + \sqrt&#123;23.77^2-10^2&#125; = 28.61\text&#123;m&#125; \) — that is <strong>9.6 m behind the crest</strong>, out on the flat top.</div></div>
+    <div class="step"><b>6</b><div><strong>Check the depth.</strong> The lowest point of the arc is \( y = 22.70-23.77 = -1.07\text&#123;m&#125; \), i.e. about a metre <em>below</em> the toe. The layer boundary is at \( 12.7-8.6 = 4.10\text&#123;m&#125; \), and the arc crosses it at x = 21.85 m.</div></div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Step 6 is the moment the problem reveals itself.</strong> From the toe out to x = 21.85 m the sliding base sits in the <strong>lower</strong> layer (c' = 10, &phi;' = 32&deg;); only the last stretch runs through the upper layer (c' = 30, &phi;' = 28&deg;). If both soils weren't involved, the problem would not have bothered giving you two sets of properties. Always run this check — it tells you whether you have read the geometry correctly.</div>
+  </div>
+
+  <div class="diagram-card">
+    <h4>The Set-Up, to Scale</h4>
+    <div id="b8-setup"></div>
+    <p class="cap">Toe at the origin, crest 19.05 m back and 12.7 m up, centre O floating 22.7 m above the toe line. The arc leaves the toe, dips below it, crosses into the upper layer at x = 21.85 m, and re-emerges 9.6 m behind the crest.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-slice">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Step 2 &mdash; Cut It Into Slices</h2></div>
+
+  <div class="analogy">
+    <span class="an-icon">&#129386;</span>
+    <div>
+      <strong>Why slice at all?</strong> Because nothing about this wedge is uniform. Its height changes, the soil under it changes, the water pressure changes, and the base tilts differently everywhere. There is no single "average" that works. So we cut it into strips narrow enough that inside one strip everything is <em>near enough constant</em> — one height, one soil, one pore pressure, one base angle — solve each strip, and add them up. It is a definite integral performed with a bread knife.
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Per slice you need</span><h4>Six numbers</h4><p>Mid-point x, height h, weight W, base angle &alpha;, base length &ell;, and pore pressure u. Plus which soil the <em>base</em> sits in.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Weight, carefully</span><h4>Split at the boundary</h4><p>A slice straddling the layer boundary is part 17.9 and part 18.2 kN/m&sup3;. Compute each piece separately — \( W = b(\gamma_1 h_1 + \gamma_2 h_2) \).</p></div>
+    <div class="vcard v-vio"><span class="vtag">Strength, differently</span><h4>Base only</h4><p>c' and &phi;' come from whichever soil the <strong>base</strong> passes through — not the soil above it. Shearing happens on the base.</p></div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Weight is about <em>everything stacked above</em> the base; strength is about <em>what the base is made of</em>. Mixing these up is the single most common slicing error. A slice can be 90% stiff clay by volume and still shear through weak sand because that is where its base lies.</p>
+  </div>
+
+  <div class="vcard v-blu" style="margin-top:1rem">
+    <span class="vtag">Sign convention that trips everyone</span>
+    <p>\( \sin\alpha = (x_m - x_O)/R \). Slices <strong>uphill</strong> of the centre get positive &alpha; and <em>drive</em> the failure; slices near the toe, downhill of the centre, get negative &alpha; and <em>resist</em> it. In the table below slice 1 has &alpha; = &minus;13.7&deg; and contributes &minus;16.6 kN/m — it is holding the slope back, and the arithmetic says so on its own.</p>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-one">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Step 3 &mdash; One Slice, in Full</h2></div>
+
+  <p>Ten slices done ten times is not ten times the learning. Here is <strong>slice 7</strong> from end to end; every other slice is the same six lines with different numbers.</p>
+
+  <div class="example">
+    <div class="ex-h"><span>Slice 7 of 10</span><h4>b = 2.861 m, centred at x = 18.60 m</h4></div>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Ground surface.</strong> x = 18.60 m is still on the slope face (face runs to 19.05), so \( y_g = 18.60/1.5 = 12.40\text&#123;m&#125; \).</div></div>
+      <div class="step"><b>2</b><div><strong>Base of the slice.</strong> \( y_b = 22.70-\sqrt&#123;23.77^2-(18.60-7.05)^2&#125; = 22.70 - 20.77 = 1.93\text&#123;m&#125; \). Slice height \( h = 12.40-1.93 = 10.47\text&#123;m&#125; \) — the deepest slice in the problem.</div></div>
+      <div class="step"><b>3</b><div><strong>Weight, split at y = 4.10 m.</strong> Upper layer thickness \( 12.40-4.10 = 8.30\text&#123;m&#125; \); lower layer \( 4.10-1.93 = 2.17\text&#123;m&#125; \).
+        \( W = 2.861\left[17.9(8.30) + 18.2(2.17)\right] = 2.861(148.6+39.5) = 538\text&#123;kN/m&#125; \)</div></div>
+      <div class="step"><b>4</b><div><strong>Base angle.</strong> \( \sin\alpha = (18.60-7.05)/23.77 = 0.486 \Rightarrow \alpha = 29.07^\circ \). Base length \( \ell = b/\cos\alpha = 2.861/0.874 = 3.27\text&#123;m&#125; \).</div></div>
+      <div class="step"><b>5</b><div><strong>Pore pressure.</strong> The phreatic surface here sits about 1.9 m above the base, so \( u \approx 9.81(1.9) = 18.6\text&#123;kPa&#125; \).</div></div>
+      <div class="step"><b>6</b><div><strong>Which soil?</strong> The base is at y = 1.93 m, <em>below</em> the boundary at 4.10 m &rarr; <strong>lower layer</strong>: c' = 10 kPa, &phi;' = 32&deg;. Note the slice is mostly upper-layer soil by volume, but it shears through the lower one.</div></div>
+      <div class="step"><b>7</b><div><strong>Its share of the driving force.</strong> \( W\sin\alpha = 538 \times \sin 29.07^\circ = 262\text&#123;kN/m&#125; \) — the largest single contribution in the problem.</div></div>
+    </div>
+    <div class="ans"><strong>Slice 7:</strong> W = 538 kN/m, &alpha; = 29.1&deg;, &ell; = 3.27 m, u = 18.6 kPa, c' = 10 kPa, &phi;' = 32&deg;. Repeat nine more times and Step 4 is done.</div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-drive">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Step 4 &mdash; The Driving Force</h2></div>
+
+  <p>The denominator is the easy half: it needs no iteration and no strength parameters at all. Just add up W sin&alpha;.</p>
+
+  <div id="b8-table"></div>
+
+  <div class="vcard v-vio" style="margin-top:1rem">
+    <span class="vtag">Result</span>
+    <div class="eq">\[ \sum W\sin\alpha = 1199\ \text&#123;kN/m&#125; \]</div>
+    <p class="small">Multiply by R and you have the driving moment about O. Since R divides out of both sides of the factor-of-safety equation, we never actually need it.</p>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Read the &alpha; column, not just the total.</strong> It climbs from &minus;13.7&deg; to +57.9&deg;. The first two slices sit downhill of the centre and subtract nearly 40 kN/m — the toe is buttressing the slope. This is precisely why excavating at the toe of a marginal slope is so dangerous: you remove the slices that were helping you.</div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-eq">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Step 5 &mdash; Why Bishop Chases Its Tail</h2></div>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Modified (Simplified) Bishop</span>
+      <div class="eq">\[ FS = \frac&#123;\sum \dfrac&#123;c'b + (W-ub)\tan\phi'&#125;&#123;m_\alpha&#125;&#125;&#123;\sum W\sin\alpha&#125; \]</div>
+      <div class="eq">\[ m_\alpha = \cos\alpha + \frac&#123;\sin\alpha\,\tan\phi'&#125;&#123;FS&#125; \]</div>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">Spot the problem</span>
+      <p><strong>FS appears on both sides.</strong> It is in the answer and it is buried inside m<sub>&alpha;</sub> in every single term. There is no algebra that isolates it — the equation is implicit, so it must be solved by iteration.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#128260;</span>
+    <div>
+      <strong>It is a thermostat, not a formula.</strong> You guess a temperature, the system responds, and you adjust toward what it tells you. Guess FS, compute what FS that implies, feed that back in, repeat. Each pass overshoots less than the last, and after three or four rounds the number stops moving. That settled value is the answer &mdash; not any single pass.
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>m<sub>&alpha;</sub> is where Bishop earns its accuracy. The Ordinary Method simply ignores the forces between slices; Bishop keeps horizontal equilibrium, and m<sub>&alpha;</sub> is exactly the correction that bookkeeping introduces. That single term is the entire difference between the two methods &mdash; and it is worth roughly 7% here.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-iter">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Step 6 &mdash; Iterate to Convergence</h2></div>
+
+  <p>Start from the Ordinary Method answer — it is free, and always a little low, which makes it an excellent first guess.</p>
+
+  <div id="b8-iterbox"></div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Four passes and it is done.</strong> The first correction is large (+0.11), the second tiny (+0.015), the third negligible. Bishop's method converges fast because m<sub>&alpha;</sub> depends only weakly on FS. If your iteration ever <em>diverges</em>, it is almost always because m<sub>&alpha;</sub> has gone near zero or negative in a steep slice — a sign the trial circle is unreasonable, not that the arithmetic is wrong.</div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-sim">
+  <div class="sec-h"><span class="sec-n">09</span><h2>The Live Simulator</h2></div>
+  <p>The whole solution, rebuilt on every keystroke. <strong>Click any slice</strong> in the drawing to see its numbers. Change the slice count and watch the answer converge; switch the water off and watch it jump.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Number of slices: <span id="b8-nv">10</span>
+        <input type="range" id="b8-n" min="4" max="40" value="10">
+      </label>
+      <label>Inspect slice: <span id="b8-sv">7</span>
+        <input type="range" id="b8-s" min="1" max="10" value="7">
+      </label>
+      <label>Pore water
+        <select id="b8-w">
+          <option value="1" selected>Seepage (long term) — as asked</option>
+          <option value="0">Dry, u = 0 (for comparison)</option>
+        </select>
+      </label>
+      <label>Slope height H (m) / ratio (H:V)
+        <span class="calc-pair"><input type="number" id="b8-h" value="12.7" step="0.1"><input type="number" id="b8-r" value="1.5" step="0.1"></span>
+      </label>
+      <label>Centre: horiz from crest / above crest (m)
+        <span class="calc-pair"><input type="number" id="b8-cx" value="12" step="0.5"><input type="number" id="b8-cy" value="10" step="0.5"></span>
+      </label>
+      <label>Upper layer thickness (m) <input type="number" id="b8-t1" value="8.6" step="0.1"></label>
+    </div>
+    <div class="calc-out">
+      <div id="b8-fig" class="calc-fig"></div>
+      <div id="b8-res" class="calc-results"></div>
+    </div>
+  </div>
+  <div id="b8-detail" style="margin-top:1rem"></div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="sec-answer">
+  <div class="sec-h"><span class="sec-n">10</span><h2>The Answer &amp; Three Sanity Checks</h2></div>
+
+  <div class="vcard v-grn" style="margin-bottom:1rem">
+    <span class="vtag">Answer</span>
+    <div class="eq">\[ FS_&#123;\text&#123;long term&#125;&#125; \approx 1.9 \]</div>
+    <p class="small">Modified Bishop, converged, using 20+ slices. With the 10 slices tabulated above you get 1.887; refining to 20 gives 1.906. Quote it as <strong>1.9</strong> — the geometry is read off a drawing and the phreatic surface is approximate, so three decimals would be false precision.</p>
+  </div>
+
+  <p>Never report a factor of safety without testing it. Three checks, each taking seconds:</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Check 1 &mdash; against OMS</span>
+      <h4>1.79 vs 1.90</h4>
+      <p>The Ordinary Method gives 1.79 &mdash; about <strong>6&ndash;7% lower</strong>. Bishop should always come out higher, by roughly 5&ndash;20%. If yours came out <em>lower</em>, the iteration or a sign is wrong.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Check 2 &mdash; slice count</span>
+      <h4>10 → 20 → 40</h4>
+      <p>1.887, 1.906, 1.901. Changes in the second decimal only, so the answer has converged. If it were still marching in one direction you would need more slices.</p>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">Check 3 &mdash; turn the water off</span>
+      <h4>1.90 → 2.14</h4>
+      <p>Dry, the same slope gives 2.14. Water costs <strong>11%</strong> of the factor of safety. It <em>must</em> move in that direction, and by a plausible amount.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>And one thing this answer is not.</strong> FS = 1.9 belongs to <em>this circle only</em>. The question handed us the failure surface; a real analysis would search hundreds of circles and report the lowest. That is what the <a href="/civil/cee340/slope-stability#sec-calc2">critical circle search</a> in the slope stability chapter does. Never present a single-circle result as "the" factor of safety of a slope.</div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="sec" id="sec-takeaway">
+  <div class="sec-h"><span class="sec-n">11</span><h2>What to Carry Away</h2></div>
+
+  <div class="qref">
+    <div><span>"Long term"</span><span>drained &rarr; c', &phi;', subtract u</span></div>
+    <div><span>Geometry first</span><span>coordinates before any soil mechanics</span></div>
+    <div><span>Depth check</span><span>which layers does the arc actually cut?</span></div>
+    <div><span>Weight</span><span>everything above the base, layer by layer</span></div>
+    <div><span>Strength</span><span>from the soil at the base only</span></div>
+    <div><span>&alpha; sign</span><span>(x<sub>m</sub> &minus; x<sub>O</sub>)/R; toe slices resist</span></div>
+    <div><span>Denominator</span><span>&Sigma;W sin&alpha;, no iteration needed</span></div>
+    <div><span>m<sub>&alpha;</sub></span><span>cos&alpha; + sin&alpha;tan&phi;'/FS &mdash; the implicit bit</span></div>
+    <div><span>First guess</span><span>use the OMS answer</span></div>
+    <div><span>Convergence</span><span>3&ndash;4 passes is normal</span></div>
+    <div><span>Bishop vs OMS</span><span>5&ndash;20% higher, always</span></div>
+    <div><span>One circle</span><span>is not the slope's FS</span></div>
+  </div>
+
+  <div class="core">
+    <span>The Method in One Sentence</span>
+    <p>Cut the sliding mass into strips, work out what gravity asks of each strip and what its base can supply, add both columns up, and — because the strength term secretly depends on the answer — guess, recompute, and repeat until the number stops moving.</p>
+  </div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee340/slope-stability">&larr; Ch. 11: Slope Stability</a>
+  <a href="/civil">Back to Civil Engineering &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+  const GW=9.81, D=Math.PI/180;
+  const C1={c:30,p:28,g:17.9}, C2={c:10,p:32,g:18.2};
+
+  function model(){
+    const H=v('b8-h'), ratio=v('b8-r'), t1=v('b8-t1');
+    const run=ratio*H, crest={x:run,y:H};
+    const xo=run-v('b8-cx'), yo=H+v('b8-cy');
+    const R=Math.hypot(xo,yo);                 // circle through the toe (0,0)
+    const YB=H-t1;                             // layer boundary elevation
+    const disc=R*R-(H-yo)*(H-yo);
+    const xEnd=disc>0 ? xo+Math.sqrt(disc) : run;
+    return {H,ratio,run,crest,xo,yo,R,YB,x0:0,x1:xEnd};
+  }
+  const ground=(m,x)=> x<0?0 : (x<=m.run ? x/m.ratio : m.H);
+  const ybase =(m,x)=> m.yo-Math.sqrt(Math.max(0,m.R*m.R-(x-m.xo)*(x-m.xo)));
+  const ywat  =(x,on)=> on ? Math.max(0,0.23*(x-2.0)) : -1e9;
+
+  function slices(m,n,water){
+    const b=(m.x1-m.x0)/n, out=[]; let drive=0;
+    for(let i=0;i<n;i++){
+      const xm=m.x0+(i+0.5)*b, yg=ground(m,xm), yb=ybase(m,xm);
+      const h=yg-yb; if(h<=0) continue;
+      const h1=Math.max(0,yg-Math.max(yb,m.YB)), h2=Math.max(0,Math.min(yg,m.YB)-yb);
+      const W=(C1.g*h1+C2.g*h2)*b;
+      const s=(xm-m.xo)/m.R; if(Math.abs(s)>0.999) continue;
+      const al=Math.asin(s), l=b/Math.cos(al);
+      const u=Math.max(0,Math.min(ywat(xm,water),yg)-yb)*GW;
+      const L = yb<m.YB ? C2 : C1;
+      drive+=W*Math.sin(al);
+      out.push({i:out.length+1,xm,yg,yb,h,h1,h2,W,al,alDeg:al/D,b,l,u,c:L.c,ph:L.p,inLower:yb<m.YB});
+    }
+    return {rows:out,drive,b};
+  }
+
+  function solve(sl){
+    const {rows,drive}=sl;
+    if(!rows.length||drive<=0) return null;
+    const oms=rows.reduce((a,r)=>a+r.c*r.l+Math.max(0,r.W*Math.cos(r.al)-r.u*r.l)*Math.tan(r.ph*D),0)/drive;
+    let F=oms; const hist=[];
+    for(let k=0;k<60;k++){
+      let num=0, bad=false;
+      for(const r of rows){
+        const ma=Math.cos(r.al)+Math.sin(r.al)*Math.tan(r.ph*D)/F;
+        if(ma<0.15){bad=true;break;}
+        num+=(r.c*r.b+Math.max(0,r.W-r.u*r.b)*Math.tan(r.ph*D))/ma;
+      }
+      if(bad) break;
+      const Fn=num/drive; hist.push(Fn);
+      if(Math.abs(Fn-F)<1e-5){F=Fn;break;}
+      F=Fn;
+    }
+    return {oms,bishop:F,hist,drive};
+  }
+
+  /* ── drawing ── */
+  function draw(el,m,sl,sel,water,W_,H_){
+    const padL=34,padR=14,padT=16,padB=26;
+    const xmin=Math.min(-3,m.x0-2), xmax=Math.max(m.x1+2,m.run+4);
+    const ymin=Math.min(0,m.yo-m.R)-1, ymax=Math.max(m.H,m.yo)+1;
+    const s=Math.min((W_-padL-padR)/(xmax-xmin),(H_-padT-padB)/(ymax-ymin));
+    const ox=(W_-(xmax-xmin)*s)/2;
+    const X=x=>ox+(x-xmin)*s, Y=y=>(H_-padB)-(y-ymin)*s;
+
+    // ground profile + layer band
+    const gp=`M ${X(xmin)} ${Y(0)} L ${X(0)} ${Y(0)} L ${X(m.run)} ${Y(m.H)} L ${X(xmax)} ${Y(m.H)}`;
+    const band=`M ${X(xmin)} ${Y(m.YB)} L ${X(xmax)} ${Y(m.YB)}`;
+    // arc
+    let arc='';
+    for(let i=0;i<=90;i++){ const x=m.x0+(m.x1-m.x0)*i/90; arc+=(i?' L ':'M ')+X(x).toFixed(1)+' '+Y(ybase(m,x)).toFixed(1); }
+    // mass fill
+    let top='';
+    for(let i=90;i>=0;i--){ const x=m.x0+(m.x1-m.x0)*i/90; top+=' L '+X(x).toFixed(1)+' '+Y(ground(m,x)).toFixed(1); }
+    // slice dividers + selected slice
+    let div='',selBox='';
+    sl.rows.forEach((r,k)=>{
+      const xl=m.x0+k*r.b;
+      div+=`<line x1="${X(xl).toFixed(1)}" y1="${Y(ground(m,xl)).toFixed(1)}" x2="${X(xl).toFixed(1)}" y2="${Y(ybase(m,xl)).toFixed(1)}" stroke="var(--bdr2)" stroke-width=".5"/>`;
+      if(r.i===sel){
+        const a=m.x0+k*r.b, bx=a+r.b;
+        let p=`M ${X(a)} ${Y(ground(m,a))}`;
+        for(let i=0;i<=14;i++){const x=a+(bx-a)*i/14; p+=` L ${X(x).toFixed(1)} ${Y(ground(m,x)).toFixed(1)}`;}
+        for(let i=14;i>=0;i--){const x=a+(bx-a)*i/14; p+=` L ${X(x).toFixed(1)} ${Y(ybase(m,x)).toFixed(1)}`;}
+        selBox=`<path d="${p} Z" fill="rgba(78,201,176,.32)" stroke="var(--teal)" stroke-width="1.4"/>`;
+      }
+    });
+    // water table
+    let wt='';
+    if(water){
+      let p='';
+      for(let i=0;i<=60;i++){ const x=xmin+(xmax-xmin)*i/60; const yw=Math.min(ywat(x,true),ground(m,x)); p+=(i?' L ':'M ')+X(x).toFixed(1)+' '+Y(Math.max(yw,0)).toFixed(1); }
+      wt=`<path d="${p}" fill="none" stroke="#4a9fe0" stroke-width="1.3" stroke-dasharray="5,3"/>`;
+    }
+    el.innerHTML=`<svg viewBox="0 0 ${W_} ${H_}" style="width:100%;height:auto" id="b8-svg">
+      <rect x="${X(xmin)}" y="${Y(m.YB)}" width="${((xmax-xmin)*s).toFixed(1)}" height="${Math.max(0,(Y(ymin)-Y(m.YB))).toFixed(1)}" fill="rgba(120,130,150,.13)"/>
+      <path d="${arc}${top} Z" fill="rgba(194,90,59,.15)"/>
+      ${div}${selBox}
+      <path d="${band}" stroke="var(--bdr2)" stroke-dasharray="4,3" fill="none"/>
+      <path d="${gp}" fill="none" stroke="var(--txt2)" stroke-width="1.6"/>
+      <path d="${arc}" fill="none" stroke="var(--rust)" stroke-width="2"/>
+      ${wt}
+      <circle cx="${X(m.xo).toFixed(1)}" cy="${Y(m.yo).toFixed(1)}" r="3" fill="var(--amb)"/>
+      <line x1="${X(m.xo).toFixed(1)}" y1="${Y(m.yo).toFixed(1)}" x2="${X(0).toFixed(1)}" y2="${Y(0).toFixed(1)}" stroke="var(--amb)" stroke-width=".7" stroke-dasharray="3,2"/>
+      <text x="${(X(m.xo)+5).toFixed(1)}" y="${(Y(m.yo)+3).toFixed(1)}" font-size="9" fill="var(--amb)">O · R=${m.R.toFixed(1)} m</text>
+      <text x="${X(xmin)+2}" y="${H_-8}" font-size="8.5" fill="var(--txt2)">upper c'=30 φ'=28 · lower c'=10 φ'=32</text>
+    </svg>`;
+    // click-to-select
+    const svg=g('b8-svg');
+    svg.style.cursor='pointer';
+    svg.addEventListener('click',ev=>{
+      const r=svg.getBoundingClientRect();
+      const px=(ev.clientX-r.left)/r.width*W_;
+      const xd=xmin+(px-ox)/s;
+      const k=Math.floor((xd-m.x0)/sl.b);
+      if(k>=0&&k<sl.rows.length){ g('b8-s').value=k+1; render(); }
+    });
+  }
+
+  function render(){
+    const n=Math.round(v('b8-n')), water=g('b8-w').value==='1';
+    g('b8-nv').textContent=n;
+    const m=model(), sl=slices(m,n,water);
+    g('b8-s').max=Math.max(1,sl.rows.length);
+    let sel=Math.min(Math.round(v('b8-s')),sl.rows.length||1);
+    g('b8-sv').textContent=sel;
+    const R=solve(sl);
+    draw(g('b8-fig'),m,sl,sel,water,340,215);
+
+    if(!R){ g('b8-res').innerHTML='<div class="verdict v-fail"><span>No valid sliding mass for this geometry</span></div>'; g('b8-detail').innerHTML=''; return; }
+    const ok=R.bishop>=1.5;
+    g('b8-res').innerHTML=
+      `<div class="res"><span>R / centre</span><b>${m.R.toFixed(2)} m · (${m.xo.toFixed(2)}, ${m.yo.toFixed(2)})</b></div>`+
+      `<div class="res"><span>Arc spans x</span><b>0 → ${m.x1.toFixed(2)} m</b></div>`+
+      `<div class="res"><span>&Sigma;W sin&alpha; (driving)</span><b>${R.drive.toFixed(0)} kN/m</b></div>`+
+      `<div class="res"><span>Ordinary Method</span><b>${R.oms.toFixed(3)}</b></div>`+
+      `<div class="verdict ${ok?'v-pass':'v-fail'}"><span>Modified Bishop FS</span><b>${R.bishop.toFixed(3)} ${ok?'✓':'⚠'}</b></div>`+
+      `<div class="res"><span>Bishop above OMS by</span><b>${(100*(R.bishop-R.oms)/R.bishop).toFixed(1)}% · ${R.hist.length} passes</b></div>`;
+
+    const r=sl.rows[sel-1];
+    if(r){
+      const ma=Math.cos(r.al)+Math.sin(r.al)*Math.tan(r.ph*D)/R.bishop;
+      const num=(r.c*r.b+Math.max(0,r.W-r.u*r.b)*Math.tan(r.ph*D))/ma;
+      g('b8-detail').innerHTML=
+      `<div class="vcard ${r.inLower?'v-amb':'v-teal'}">
+        <span class="vtag">Slice ${r.i} of ${sl.rows.length} — base in the ${r.inLower?'LOWER':'UPPER'} layer (c'=${r.c} kPa, φ'=${r.ph}°)</span>
+        <div class="qref" style="margin:.5rem 0 0">
+          <div><span>mid-point x</span><span>${r.xm.toFixed(2)} m</span></div>
+          <div><span>ground / base y</span><span>${r.yg.toFixed(2)} / ${r.yb.toFixed(2)} m</span></div>
+          <div><span>height h</span><span>${r.h.toFixed(2)} m</span></div>
+          <div><span>in upper / lower</span><span>${r.h1.toFixed(2)} / ${r.h2.toFixed(2)} m</span></div>
+          <div><span>weight W</span><span>${r.W.toFixed(1)} kN/m</span></div>
+          <div><span>base angle &alpha;</span><span>${r.alDeg.toFixed(2)}&deg;</span></div>
+          <div><span>base length &ell;</span><span>${r.l.toFixed(2)} m</span></div>
+          <div><span>pore pressure u</span><span>${r.u.toFixed(1)} kPa</span></div>
+          <div><span>driving W sin&alpha;</span><span>${(r.W*Math.sin(r.al)).toFixed(1)} kN/m ${r.al<0?'(resisting)':''}</span></div>
+          <div><span>m<sub>&alpha;</sub> at FS=${R.bishop.toFixed(2)}</span><span>${ma.toFixed(4)}</span></div>
+          <div><span>resisting term</span><span>${num.toFixed(1)} kN/m</span></div>
+          <div><span>share of driving</span><span>${(100*r.W*Math.sin(r.al)/R.drive).toFixed(1)}%</span></div>
+        </div>
+      </div>`;
+    }
+  }
+  ['b8-n','b8-s','b8-w','b8-h','b8-r','b8-cx','b8-cy','b8-t1'].forEach(id=>g(id).addEventListener('input',render));
+  render();
+
+  /* ── static set-up diagram (section 3) ── */
+  (function(){
+    const m=model(), sl=slices(m,0.0001,true);
+    draw(g('b8-setup'),m,{rows:[],b:1},0,true,340,225);
+  })();
+
+  /* ── the 10-slice table (section 6) ── */
+  (function(){
+    const m=model(), sl=slices(m,10,true), R=solve(sl);
+    const rows=sl.rows.map(r=>`<tr>
+      <td style="padding:.2rem .4rem">${r.i}</td>
+      <td style="text-align:right">${r.xm.toFixed(2)}</td>
+      <td style="text-align:right">${r.h.toFixed(2)}</td>
+      <td style="text-align:right">${r.W.toFixed(0)}</td>
+      <td style="text-align:right">${r.alDeg.toFixed(1)}</td>
+      <td style="text-align:right">${r.l.toFixed(2)}</td>
+      <td style="text-align:right">${r.u.toFixed(1)}</td>
+      <td style="text-align:right;color:${r.inLower?'var(--amb)':'var(--teal)'}">${r.c}/${r.ph}</td>
+      <td style="text-align:right;color:${r.al<0?'var(--grn)':'var(--txt)'}">${(r.W*Math.sin(r.al)).toFixed(1)}</td></tr>`).join('');
+    g('b8-table').innerHTML=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.76rem">
+      <tr style="color:var(--mut)"><th style="text-align:left;padding:.25rem .4rem">#</th><th style="text-align:right">x<sub>m</sub></th><th style="text-align:right">h (m)</th><th style="text-align:right">W (kN/m)</th><th style="text-align:right">&alpha; (&deg;)</th><th style="text-align:right">&ell; (m)</th><th style="text-align:right">u (kPa)</th><th style="text-align:right">c'/&phi;'</th><th style="text-align:right">W sin&alpha;</th></tr>
+      ${rows}
+      <tr style="border-top:1px solid var(--bdr);color:var(--txt)"><td style="padding:.25rem .4rem"><strong>&Sigma;</strong></td><td colspan="7"></td><td style="text-align:right"><strong>${R.drive.toFixed(0)}</strong></td></tr>
+      </table></div>
+      <p class="small" style="margin-top:.4rem">Amber c'/&phi;' = base in the lower layer; teal = upper layer. Green driving values are negative — those slices resist.</p>`;
+  })();
+
+  /* ── iteration box (section 8) ── */
+  (function(){
+    const m=model(), sl=slices(m,10,true), R=solve(sl);
+    const rows=[`<div class="res"><span>Pass 0 — Ordinary Method, first guess</span><b>${R.oms.toFixed(3)}</b></div>`];
+    R.hist.slice(0,5).forEach((h,i)=>{
+      const prev=i===0?R.oms:R.hist[i-1];
+      const d=h-prev;
+      rows.push(`<div class="${i===R.hist.length-1||Math.abs(d)<0.001?'verdict v-pass':'res'}"><span>Pass ${i+1}</span><b>${h.toFixed(4)} <span style="color:var(--mut)">(${d>=0?'+':''}${d.toFixed(4)})</span></b></div>`);
+    });
+    g('b8-iterbox').innerHTML=`<div class="calc-results" style="max-width:520px">${rows.join('')}</div>`;
+  })();
+})();
+</script>
+
+</Base>
