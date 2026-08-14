@@ -138,8 +138,8 @@ import '../styles/roulette-calculator.css';
           <div class="rc-stat-label">Peak</div>
         </div>
         <div class="rc-stat">
-          <div class="rc-stat-value" id="statValley">0</div>
-          <div class="rc-stat-label">Valley</div>
+          <div class="rc-stat-value" id="statDeficit">0</div>
+          <div class="rc-stat-label">Deficit</div>
         </div>
         <div class="rc-stat">
           <div class="rc-stat-value" id="statCoverage">0%</div>
@@ -433,7 +433,9 @@ import '../styles/roulette-calculator.css';
     $('statBiggestWin').textContent = stats.biggestWin;
     $('statROI').textContent = (stats.roi >= 0 ? '+' : '') + stats.roi + '%';
     $('statPeak').textContent = stats.peakBalance;
-    $('statValley').textContent = stats.valleyBalance;
+    var deficitEl = $('statDeficit');
+    deficitEl.textContent = stats.deficit > 0 ? '-' + stats.deficit : '0';
+    deficitEl.style.color = stats.deficit > 0 ? 'var(--warn)' : 'var(--rc-green)';
     $('statCoverage').textContent = stats.coverage + '%';
 
     // Color streak
