@@ -1,0 +1,654 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/chapter.css'
+---
+<Base title="CEE 330 — Moving Loads" description="Moving concentrated loads made intuitive — why reactions and shears climb in a sawtooth and drop off a cliff, the change formula ΔR = ΣPd₁/L − P₁, loads rolling on and off the span, and the average-load criterion W₁/a = W₂/b = W/L for maximum moment, with a live locomotive you can drive across a 60 ft girder.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 330 &middot; Structural Analysis and Design-I &middot; Weeks 2&ndash;3</div>
+  <h1>Moving Loads</h1>
+  <p class="hd-sub">One 60 ft girder. One locomotive, 304 kips of it. Park it in the wrong place and the left reaction reads 55 kips; park it in the right place and it reads <strong>150.4</strong>. Same bridge, same train &mdash; the only variable is <em>where</em>. This chapter is about finding the worst spot without trying every spot.</p>
+  <div class="hd-pills">
+    <span class="pill">The sawtooth</span>
+    <span class="pill">&Delta;R = &Sigma;Pd&#8321;/L &minus; P&#8321;</span>
+    <span class="pill">Loads on &amp; off the span</span>
+    <span class="pill">W&#8321;/a = W&#8322;/b = W/L</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">Why This Chapter Exists</a></li>
+    <li><a href="#sec-saw">The Sawtooth</a></li>
+    <li><a href="#sec-react">Reactions: Gain vs Loss</a></li>
+    <li><a href="#sec-sim">Simulator: Drive the Locomotive</a></li>
+    <li><a href="#sec-shear">Shear: Same Trick, New Cliff</a></li>
+    <li><a href="#sec-mom">Moment: The Average-Load Criterion</a></li>
+    <li><a href="#sec-ex">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>Why This Chapter Exists</h2></div>
+
+  <p class="lead">Every beam problem so far handed you the loads <em>and</em> their positions. Real bridges are not so polite. A train, a truck, a crane trolley &mdash; the load walks the whole length of the span, and every step of that walk is a different structure to analyse.</p>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>The design question changes shape.</strong> It is no longer <em>"what is the moment at C?"</em> &mdash; there is no single answer. It is <em>"what is the <u>largest</u> moment C will <u>ever</u> see, over every position the train can occupy?"</em> That is a search problem hiding inside a statics problem, and it has two halves: <strong>find the critical position</strong>, then compute the value there. Half one is the hard half, and it is what this entire chapter attacks.</div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#128248;</span>
+    <div>
+      <strong>Photographing a sprinter.</strong> You do not want the average runner, and you do not want a random frame. You want the one frame at the finish line. Analysing a fixed load is taking a photo of a statue &mdash; any moment will do. Analysing a moving load is photographing motion: the whole skill is in the <em>timing of the shutter</em>. Every formula below is a way of knowing when to press it.
+    </div>
+  </div>
+
+  <p><strong>Influence lines told you half the story.</strong> An IL answers "if a unit load sits at <em>x</em>, what is the reaction?" Perfect for one wandering load. But a locomotive is fourteen wheels locked into a rigid pattern &mdash; you cannot place them independently. The IL still governs the physics; this chapter is the bookkeeping that finds where to drop the whole train onto it.</p>
+
+  <div class="core">
+    <span>Sometimes you really can just look</span>
+    <p>For a small, simple group, inspection settles it. A four-wheel electric crane (two axles, 12 ft apart) runs on a 40 ft beam AB with a section X&ndash;X 10 ft from A:</p>
+    <div class="steps">
+      <div class="step"><b>R</b><div><strong>Maximum reaction at A:</strong> equal wheel loads, so get them as close to A as possible &mdash; wheel 1 directly over A, wheel 2 on the span 12 ft in.</div></div>
+      <div class="step"><b>V</b><div><strong>Maximum positive shear at X&ndash;X:</strong> put the wheels on the <em>right</em> of the section, with the first wheel as close to the section as it can get. Anything left of the section subtracts.</div></div>
+      <div class="step"><b>M</b><div><strong>Maximum moment:</strong> with two equal wheels rigidly framed together, one of them sitting at the centre gives the greatest moment at that point.</div></div>
+    </div>
+    <p class="small">Reach for inspection first &mdash; it is free. It runs out the moment you meet a locomotive with fourteen unequal wheels and thirteen different spacings, which is exactly where the rest of this chapter starts.</p>
+  </div>
+
+  <p class="small"><strong>The train we will use throughout</strong> (a steam locomotive on a 60 ft span, wheel 1 leading, moving right&nbsp;&rarr;&nbsp;left):</p>
+  <div class="mblk">loads&nbsp;&nbsp;&nbsp;(kips) : 10 &nbsp;10 &nbsp;36 &nbsp;36 &nbsp;36 &nbsp;36 &nbsp;10 &nbsp;10 &nbsp;20 &nbsp;20 &nbsp;20 &nbsp;20 &nbsp;20 &nbsp;20 &nbsp;&nbsp;(&Sigma; = 304<sup>k</sup>)<br>spacings (ft) : &nbsp;&nbsp;&nbsp;5 &nbsp;&nbsp;&nbsp;8 &nbsp;&nbsp;&nbsp;6 &nbsp;&nbsp;&nbsp;6 &nbsp;&nbsp;&nbsp;6 &nbsp;&nbsp;&nbsp;8 &nbsp;&nbsp;&nbsp;4 &nbsp;&nbsp;&nbsp;9 &nbsp;&nbsp;&nbsp;4 &nbsp;&nbsp;&nbsp;4 &nbsp;&nbsp;12 &nbsp;&nbsp;&nbsp;4 &nbsp;&nbsp;&nbsp;4</div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-saw">
+  <div class="sec-h"><span class="sec-n">02</span><h2>The Sawtooth</h2></div>
+
+  <p>Bring the locomotive on from the right and watch the reaction at A. Nothing, then a trickle as wheel 1 crosses onto the span, then a steady climb as the whole group creeps toward A. Then wheel 1 reaches A, rolls past it, and <strong>drops off the end</strong> &mdash; and R<sub>A</sub> falls off a cliff, instantly, by the full weight of that wheel.</p>
+
+  <p>Then it climbs again. Then wheel 2 drops off. Climb, cliff, climb, cliff.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#127946;</span>
+    <div>
+      <strong>A relay team running toward you.</strong> The closer the pack gets, the louder they sound &mdash; that is the steady climb. But every time the lead runner crosses the line and vanishes behind you, the noise drops abruptly by one runner's worth. The volume never peaks <em>between</em> departures; it peaks in the instant <em>just before</em> each one leaves. Same for R<sub>A</sub>: the maximum is always the moment a wheel is sitting <em>exactly</em> over the support, an instant before it falls off.
+    </div>
+  </div>
+
+  <div class="core">
+    <span>The one idea this chapter runs on</span>
+    <p>Reaction and shear are <strong>saw-toothed</strong> functions of train position: continuous climbs separated by sudden drops. A maximum can only ever sit at the <em>top of a tooth</em> &mdash; and the top of a tooth is precisely the instant <strong>a wheel is at the critical point</strong>:</p>
+    <div class="grid3">
+      <div class="vcard v-teal"><span class="vtag">Reaction at A</span><h4>A wheel over the support</h4><p>The cliff happens when a wheel leaves the span at A.</p></div>
+      <div class="vcard v-amb"><span class="vtag">Shear at a section</span><h4>A wheel at the section</h4><p>The cliff happens when a wheel crosses the section.</p></div>
+      <div class="vcard v-vio"><span class="vtag">Moment at a section</span><h4>A wheel at the section</h4><p>No cliff here &mdash; but the <em>slope</em> flips there. Section 6.</p></div>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>This collapses an infinite search into fourteen candidates</strong> &mdash; and in practice into two or three. Instead of sliding the train continuously and computing forever, you only ever test "wheel 1 at the critical point", "wheel 2 at the critical point", and so on. Better still: you do not even compute the function at each. You compute only the <strong>change</strong> from one candidate to the next, and stop the moment that change turns negative. Two or three lines of arithmetic replaces the whole search.</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-react">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Reactions: Gain vs Loss</h2></div>
+
+  <p>Take the train from "wheel 1 over A" to "wheel 2 over A". That is a move to the left of exactly d<sub>1</sub>, the spacing between wheels 1 and 2. Two things happen to R<sub>A</sub>, and they pull in opposite directions.</p>
+
+  <div class="grid2">
+    <div class="vcard v-teal">
+      <span class="vtag">The gain</span>
+      <h4>Everyone shuffles closer</h4>
+      <p>Every load still on the span moves d<sub>1</sub> nearer to A. A load at distance <em>x</em> from A hands A a share (L&minus;x)/L of itself, so each one gains P&middot;d<sub>1</sub>/L. Add them up: <strong>+&Sigma;P&middot;d<sub>1</sub>/L</strong>.</p>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">The loss</span>
+      <h4>The front wheel walks out</h4>
+      <p>Wheel 1 was sitting on the support, giving A <em>all</em> of itself. One step later it is off the span entirely, giving nothing. That is a clean loss of <strong>&minus;P<sub>1</sub></strong>.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>The change formula</span>
+    <div class="eq">\[ \Delta R \;=\; \underbrace&#123;\frac&#123;\Sigma P\, d_1&#125;&#123;L&#125;&#125;_&#123;\text&#123;everyone creeps closer&#125;&#125; \;-\; \underbrace&#123;P_1&#125;_&#123;\text&#123;front wheel lost&#125;&#125; \]</div>
+    <p style="margin-top:.6rem"><strong>&Sigma;P</strong> = the loads that are on the span at the start <em>and stay on</em> through the move &mdash; do not include the one that walks off. <strong>d<sub>1</sub></strong> = distance moved (the spacing to the next wheel). <strong>P<sub>1</sub></strong> = the load that was over the reaction and is moved off. <strong>L</strong> = span.</p>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#128722;</span>
+    <div>
+      <strong>Queuing at a shop counter.</strong> The queue shuffles forward one place. Everybody still in line gets marginally closer to being served &mdash; small gains, but there are a lot of them. Meanwhile the person at the front is served and <em>leaves</em>. If the crowd behind is large and the departing customer small, the queue as a whole got closer. If the person leaving was the heavy one, the queue got worse. &Delta;R just asks which of those two effects won.
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Reading the sign &mdash; the entire procedure</span>
+    <p><strong>&Delta;R positive &rarr; keep going.</strong> The move improved things; step to the next wheel and test again.<br>
+    <strong>&Delta;R negative &rarr; stop, and go back one.</strong> You have just walked <em>down</em> from the peak, so the previous position was the maximum. Do not make the move.</p>
+    <p class="small">You never have to compute R<sub>A</sub> itself until you have found the position. That is the whole economy of the method.</p>
+  </div>
+
+  <div class="core">
+    <span>The correction: wheels rolling on at the far end</span>
+    <p>While the front of the train walks off at A, the <em>tail</em> may be rolling onto the span at B. A load that arrives partway through the move contributes for only part of it:</p>
+    <div class="eq">\[ \Delta R \;=\; \frac&#123;\Sigma P\, d_1&#125;&#123;L&#125; \;+\; \frac&#123;P' e&#125;&#123;L&#125; \;-\; P_1 \]</div>
+    <p class="small">where <strong>P&prime;</strong> is a load that comes on during the movement and <strong>e</strong> is the distance it has come onto the span when the move finishes. These terms are usually tiny &mdash; in the worked example they never change the decision &mdash; but include them, because "usually" is not "always".</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-sim">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Simulator: Drive the Locomotive</h2></div>
+
+  <p>The top panel is the girder with the train on it. The bottom panel plots your chosen function against train position for the <em>entire</em> traverse &mdash; that is the sawtooth, drawn exactly (these functions are piecewise linear, so the plot is not an approximation). The dot is where you are; the marker is the true maximum.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>What are we maximising?
+        <select id="ml-mode">
+          <option value="R" selected>Reaction at A</option>
+          <option value="V">Shear at the section</option>
+          <option value="M">Moment at the section</option>
+        </select>
+      </label>
+      <label>Section at c = <span id="ml-cv">20</span> ft from A <span class="small">(used for shear &amp; moment)</span>
+        <input type="range" id="ml-c" min="1" max="59" value="20">
+      </label>
+      <label>Train position <span class="small">&mdash; drag, or use the buttons</span>
+        <input type="range" id="ml-s" min="-800" max="600" value="0">
+      </label>
+      <div class="calc-pair">
+        <button class="mlbtn" id="ml-step">&#9664; Next wheel</button>
+        <button class="mlbtn" id="ml-back">Previous &#9654;</button>
+      </div>
+      <button class="mlbtn mlbtn-p" id="ml-max">Jump to the maximum</button>
+    </div>
+    <div class="calc-out">
+      <div id="ml-fig" class="calc-fig"></div>
+      <div id="ml-res" class="calc-results"></div>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Try this</span><h4>See the cliffs</h4><p>Stay on "Reaction at A" and drag the position slider slowly. Watch the plot climb and drop. Count the teeth &mdash; one per wheel.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Try this</span><h4>Walk the method</h4><p>Press <em>Next wheel</em> repeatedly from the start. The panel shows the gain, the loss and the net &Delta;. Stop when &Delta; goes red &mdash; that is the answer, and it matches Section 7.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Try this</span><h4>Move the section</h4><p>Switch to Shear and drag c from 20 ft to 10 ft. The critical wheel stays wheel 3, but the peak jumps from 75.6 to 112.4 kips &mdash; and new terms appear as loads run off the left end.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-shear">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Shear: Same Trick, New Cliff</h2></div>
+
+  <p>Shear at a section is the reaction minus whatever load has already gone past:</p>
+  <div class="eq">\[ V \;=\; R_A \;-\; \Sigma P_&#123;\text&#123;left of section&#125;&#125; \]</div>
+
+  <p>So as the train rolls left, V climbs for exactly the reason R<sub>A</sub> climbs &mdash; and it drops off a cliff not when a wheel leaves the <em>span</em>, but when a wheel crosses the <em>section</em>, moving from the helpful side to the harmful side. Different cliff, identical algebra:</p>
+
+  <div class="core">
+    <span>Change in shear</span>
+    <div class="eq">\[ \Delta V \;=\; \frac&#123;\Sigma P\, d_1&#125;&#123;L&#125; \;-\; P_1 \qquad\text&#123;and with a load coming on:&#125;\qquad \Delta V \;=\; \frac&#123;\Sigma P\, d_1&#125;&#123;L&#125; \;+\; \frac&#123;P' e&#125;&#123;L&#125; \;-\; P_1 \]</div>
+    <p style="margin-top:.6rem">Here <strong>P<sub>1</sub></strong> is the wheel that <em>passes the section</em>, and d<sub>1</sub> is the spacing to the wheel behind it. Same sign rule: keep moving while &Delta;V is positive; the maximum is the last position before it turns negative.</p>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why the two formulas are identical is worth a moment.</strong> V and R<sub>A</sub> differ only by the loads sitting left of the section. During a move in which nothing else changes hands, that difference is constant &mdash; so the <em>change</em> in shear <em>is</em> the change in reaction, minus the one wheel that switched sides. One derivation, two functions.</div>
+  </div>
+
+  <div class="core">
+    <span>The subtle case: loads running off the left end</span>
+    <p>Put the section close to A and something new happens. A load sitting <em>between the section and A</em> is being <strong>subtracted</strong> from the shear &mdash; it produces negative shear at that section. When that load rolls off the left end of the span, the penalty vanishes, so its departure <em>increases</em> the shear.</p>
+    <div class="grid2" style="margin-top:.8rem">
+      <div class="vcard v-rust">
+        <span class="vtag">Trap 1</span>
+        <h4>Do not put it in &Sigma;P</h4>
+        <p>&Sigma;P is "loads on the span that <em>stay on</em>". A wheel that leaves during the move is not one of them &mdash; leave it out or you double-count it.</p>
+      </div>
+      <div class="vcard v-grn">
+        <span class="vtag">Trap 2</span>
+        <h4>Add its departure as a gain</h4>
+        <p>Add <strong>+ P&middot;x/L</strong>, where x is how far that load still had to travel to reach A when the move began. Positive, because losing a load that was hurting you helps.</p>
+      </div>
+    </div>
+    <p class="small" style="margin-top:.8rem">In the section-at-10-ft example this shows up as the innocuous-looking <code class="mblk" style="display:inline;padding:.1rem .4rem">+ 10 &times; 5/60</code> and <code class="mblk" style="display:inline;padding:.1rem .4rem">+ 10 &times; 2/60</code> terms &mdash; wheel 1 and wheel 2 leaving the span while wheels 3 and 4 come up to the section.</p>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#9878;</span>
+    <div>
+      <strong>Shear is a tug of war across the cut.</strong> Loads to the right of the section pull your way through the reaction; loads to the left pull against you. A wheel crossing the section is a player <em>switching teams</em> &mdash; which is why it costs you the full P<sub>1</sub> and not half of it. A wheel dropping off at A is an opposing player leaving the field, which is why it is a gain.
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-mom">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Moment: The Average-Load Criterion</h2></div>
+
+  <p>Moment has no cliffs. Nothing switches sides discontinuously &mdash; a load crossing the section contributes zero moment about it at that instant, so M is perfectly continuous. Yet the answer is still discrete: <em>at maximum moment a wheel is at the section</em>. Understanding why gives you the most useful criterion in the chapter.</p>
+
+  <p>Read it off the <strong>moment influence line</strong>: a triangle with its peak <em>i</em> under the section C, rising over the left arm <em>a</em> and falling over the right arm <em>b</em>.</p>
+
+  <div class="diagram-card">
+    <h4>Moving everything left: the right-hand loads climb, the left-hand loads descend</h4>
+    <svg class="static-svg" style="max-width:470px" viewBox="0 0 470 192" role="img" aria-label="Moment influence line triangle with resultant W1 left of the section sliding down its slope and W2 right of it climbing toward the peak">
+      <defs>
+        <marker id="mlA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--rust)"/></marker>
+        <marker id="mlB" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--teal)"/></marker>
+      </defs>
+      <!-- beam -->
+      <line x1="40" y1="26" x2="430" y2="26" stroke="var(--txt2)" stroke-width="2"/>
+      <polygon points="40,26 33,36 47,36" fill="var(--bdr2)" stroke="var(--txt2)"/>
+      <polygon points="430,26 423,36 437,36" fill="var(--bdr2)" stroke="var(--txt2)"/>
+      <text x="34" y="20" font-size="9" fill="var(--mut)">A</text>
+      <text x="428" y="20" font-size="9" fill="var(--mut)">B</text>
+      <text x="404" y="13" font-size="8.5" fill="var(--amb)" text-anchor="end">&#9664; all loads move left together</text>
+      <line x1="170" y1="20" x2="170" y2="142" stroke="var(--vio)" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="176" y="20" font-size="9" fill="var(--vio)">C</text>
+      <!-- IL triangle -->
+      <path d="M40,138 L170,66 L430,138 Z" fill="var(--vdim)" stroke="var(--vio)" stroke-width="1.6"/>
+      <line x1="40" y1="138" x2="430" y2="138" stroke="var(--bdr2)" stroke-width="1"/>
+      <text x="176" y="62" font-size="8.5" fill="var(--vio)">i = ab/L</text>
+      <!-- W1 sliding down the left slope -->
+      <text x="110" y="47" font-size="9" fill="var(--rust)" text-anchor="middle">W&#8321;</text>
+      <line x1="110" y1="52" x2="110" y2="93" stroke="var(--rust)" stroke-width="1" stroke-dasharray="2,2"/>
+      <circle cx="110" cy="99" r="4" fill="var(--rust)"/>
+      <line x1="104" y1="103" x2="78" y2="118" stroke="var(--rust)" stroke-width="1.6" marker-end="url(#mlA)"/>
+      <!-- W2 climbing the right slope -->
+      <text x="300" y="47" font-size="9" fill="var(--teal)" text-anchor="middle">W&#8322;</text>
+      <line x1="300" y1="52" x2="300" y2="96" stroke="var(--teal)" stroke-width="1" stroke-dasharray="2,2"/>
+      <circle cx="300" cy="102" r="4" fill="var(--teal)"/>
+      <line x1="294" y1="100" x2="252" y2="88" stroke="var(--teal)" stroke-width="1.6" marker-end="url(#mlB)"/>
+      <!-- dimensions -->
+      <line x1="40" y1="148" x2="170" y2="148" stroke="var(--mut)" stroke-width=".8"/>
+      <line x1="170" y1="148" x2="430" y2="148" stroke="var(--mut)" stroke-width=".8"/>
+      <line x1="40" y1="144" x2="40" y2="152" stroke="var(--mut)" stroke-width=".8"/>
+      <line x1="170" y1="144" x2="170" y2="152" stroke="var(--mut)" stroke-width=".8"/>
+      <line x1="430" y1="144" x2="430" y2="152" stroke="var(--mut)" stroke-width=".8"/>
+      <text x="105" y="160" font-size="8" fill="var(--mut)" text-anchor="middle">a</text>
+      <text x="300" y="160" font-size="8" fill="var(--mut)" text-anchor="middle">b</text>
+      <!-- captions -->
+      <text x="40" y="176" font-size="8.2" fill="var(--rust)">W&#8321; slides DOWN the left slope (i/a = b/L) &rarr; decrease D = W&#8321;&middot;i/a</text>
+      <text x="40" y="188" font-size="8.2" fill="var(--teal)">W&#8322; climbs UP the right slope (i/b = a/L) &rarr; increase I = W&#8322;&middot;i/b</text>
+    </svg>
+    <p class="cap">W<sub>1</sub> is the resultant of everything left of C, W<sub>2</sub> of everything right of it. Move the train left and the two resultants slide along the two slopes in opposite directions. The moment peaks where their effects cancel.</p>
+  </div>
+
+  <div class="core">
+    <span>The change in moment</span>
+    <div class="eq">\[ \Delta M \;=\; I - D \;=\; W_2\frac&#123;i&#125;&#123;b&#125; \;-\; W_1\frac&#123;i&#125;&#123;a&#125; \]</div>
+    <p style="margin-top:.6rem"><strong>I</strong> = increase from the loads on the right climbing toward the peak. <strong>D</strong> = decrease from the loads on the left sliding down toward A. Positive &Delta;M means keep moving left.</p>
+  </div>
+
+  <div class="core">
+    <span>Set &Delta;M = 0 and the criterion falls out</span>
+    <div class="eq">\[ W_1\frac&#123;i&#125;&#123;a&#125; = W_2\frac&#123;i&#125;&#123;b&#125; \;\;\Longrightarrow\;\; \frac&#123;W_1&#125;&#123;a&#125; = \frac&#123;W_2&#125;&#123;b&#125; = \frac&#123;W_1+W_2&#125;&#123;a+b&#125; = \boxed&#123;\;\frac&#123;W&#125;&#123;L&#125;\;&#125; \]</div>
+    <p style="margin-top:.6rem"><strong>In words:</strong> the moment at C is a maximum when the <em>average load per foot to the left</em> of C equals the <em>average load per foot to the right</em> &mdash; which, by the same step, equals the average load per foot over the whole span. That last form is the one everybody quotes, because W and L are trivially known.</p>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#9878;</span>
+    <div>
+      <strong>Balancing load <em>density</em>, not load.</strong> Not "equal weight on both sides" &mdash; that would ignore the arms. It is equal weight <em>per foot</em>. If the right-hand stretch is more densely loaded than the span average, dragging more of it toward C still pays. Once the left is the denser side, you have overshot. Maximum moment is the crossover, and the span average W/L is the neutral reading you compare against.
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Why a wheel must be sitting at the section</span>
+    <p>W<sub>1</sub> and W<sub>2</sub> only change when a load crosses C. Between crossings both are constant, so &Delta;M holds one fixed sign and the moment marches steadily in one direction. It can therefore only turn from rising to falling <strong>at the instant a load passes from the right of C to the left</strong>. Same conclusion as the sawtooth, reached through a slope change instead of a cliff.</p>
+  </div>
+
+  <div class="core">
+    <span>How you actually test it</span>
+    <p>Put wheel <em>k</em> at the section. The wheel itself is ambiguous &mdash; it is on the boundary &mdash; so test it both ways:</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Count wheel k on the right:</strong> the left-hand average must be <em>less</em> than the span average &nbsp; &rarr; &nbsp; W<sub>1</sub>/a &lt; W/L</div></div>
+      <div class="step"><b>2</b><div><strong>Count wheel k on the left:</strong> the left-hand average must now be <em>greater</em> &nbsp; &rarr; &nbsp; W<sub>1</sub>/a &gt; W/L</div></div>
+      <div class="step"><b>3</b><div>Both hold &rarr; wheel <em>k</em> satisfies the criterion. Only one holds &rarr; it does not; move on.</div></div>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Two warnings the textbook is emphatic about.</strong> <strong>(1)</strong> More than one wheel can satisfy the criterion &mdash; it happens whenever loads pass off at the left or come on at the right during the move. When it does, compute M for each candidate and take the larger; the answers are usually within a percent or two, but "usually" does not sign a drawing. <strong>(2)</strong> Since maximum moment wants as much load on the span as possible, do not waste time testing the first wheel or two &mdash; start where the heavy axles are, and let the criterion do the rest.</div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-ex">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Worked Examples</h2></div>
+  <p class="small">All four use the 14-wheel locomotive from Section 1 on a 60 ft span. Every position and value below can be reproduced in the simulator.</p>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Maximum Reaction at A</h4></div>
+    <p class="prob"><strong>Problem:</strong> Find the wheel position giving the greatest reaction at A, and its value.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Wheel 1 over A &rarr; wheel 2 over A</strong> (move 5 ft). On the span and staying on: 234<sup>k</sup>. Nothing new comes on.
+        <div class="eq">\[ \Delta R = 234\times\tfrac&#123;5&#125;&#123;60&#125; - 10 = +9.5 \quad\text&#123;increase&#125; \]</div></div></div>
+      <div class="step"><b>2</b><div><strong>Wheel 2 &rarr; wheel 3</strong> (move 8 ft). &Sigma;P = 224<sup>k</sup>; wheel 12 (20<sup>k</sup>) rolls on by e = 1 ft.
+        <div class="eq">\[ \Delta R = 224\times\tfrac&#123;8&#125;&#123;60&#125; + 20\times\tfrac&#123;1&#125;&#123;60&#125; - 10 = +20.2 \quad\text&#123;increase&#125; \]</div></div></div>
+      <div class="step"><b>3</b><div><strong>Wheel 3 &rarr; wheel 4</strong> (move 6 ft). &Sigma;P = 208<sup>k</sup>; wheel 13 rolls on by e = 3 ft. Now we are losing a 36<sup>k</sup> axle instead of a 10<sup>k</sup> one:
+        <div class="eq">\[ \Delta R = 208\times\tfrac&#123;6&#125;&#123;60&#125; + 20\times\tfrac&#123;3&#125;&#123;60&#125; - 36 = -14.2 \quad\text&#123;decrease&#125; \]</div></div></div>
+      <div class="step"><b>4</b><div><strong>Negative &rarr; do not make that move.</strong> The previous position governs. Summing the reaction directly with wheel 3 at A: R<sub>A</sub> = 120.7 + 9.5 + 20.2 = 150.4<sup>k</sup>.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> maximum R<sub>A</sub> = <strong>150.4 kips</strong>, with <strong>wheel 3 directly over A</strong>. Note what did the work: the loss term jumped from 10 to 36 the moment a driver axle reached the support, and that alone flipped the sign. Note also that dropping the two small "rolling on" terms would not have changed any decision &mdash; but you cannot know that until you have written them down.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>Maximum Positive Shear at a Section 20 ft from A</h4></div>
+    <p class="prob"><strong>Problem:</strong> Same train, same span. Find the position for greatest positive shear at the section, and its value.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Wheel 1 at section &rarr; wheel 2 at section</strong> (5 ft). &Sigma;P = 174<sup>k</sup>; wheel 8 (10<sup>k</sup>) comes on by 2 ft.
+        <div class="eq">\[ \Delta V = 174\times\tfrac&#123;5&#125;&#123;60&#125; + 10\times\tfrac&#123;2&#125;&#123;60&#125; - 10 = +4.83 \quad\text&#123;increase&#125; \]</div></div></div>
+      <div class="step"><b>2</b><div><strong>Wheel 2 &rarr; wheel 3</strong> (8 ft). &Sigma;P = 184<sup>k</sup>; wheel 9 (20<sup>k</sup>) comes on by 1 ft.
+        <div class="eq">\[ \Delta V = 184\times\tfrac&#123;8&#125;&#123;60&#125; + 20\times\tfrac&#123;1&#125;&#123;60&#125; - 10 = +14.87 \quad\text&#123;increase&#125; \]</div></div></div>
+      <div class="step"><b>3</b><div><strong>Wheel 3 &rarr; wheel 4</strong> (6 ft). &Sigma;P = 204<sup>k</sup>; wheel 10 comes on by 3 ft; a 36<sup>k</sup> axle now crosses the section.
+        <div class="eq">\[ \Delta V = 204\times\tfrac&#123;6&#125;&#123;60&#125; + 20\times\tfrac&#123;3&#125;&#123;60&#125; - 36 = -14.6 \quad\text&#123;decrease&#125; \]</div></div></div>
+      <div class="step"><b>4</b><div>With wheel 3 at the section, R<sub>A</sub> = 95.57<sup>k</sup> and the loads left of the section total 20<sup>k</sup> (wheels 1 and 2), so V = 95.57 &minus; 20.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> maximum V = <strong>75.6 kips</strong>, with <strong>wheel 3 at the section</strong>. Same critical wheel as Example 1, and for the same reason &mdash; the first heavy axle arriving at the critical point is what turns the sign.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>Shear at a Section 10 ft from A &mdash; Loads Running Off</h4></div>
+    <p class="prob"><strong>Problem:</strong> Move the section to 10 ft from A. Now wheels reach the end of the span while later wheels are still coming up to the section, so the Article 64 correction bites.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Wheel 1 &rarr; wheel 2 at the section</strong> (5 ft). &Sigma;P = 184<sup>k</sup>, wheel 9 comes on by 3 ft. Nothing leaves the span yet.
+        <div class="eq">\[ \Delta V = 184\times\tfrac&#123;5&#125;&#123;60&#125; + 20\times\tfrac&#123;3&#125;&#123;60&#125; - 10 = +6.33 \quad\text&#123;increase&#125; \]</div></div></div>
+      <div class="step"><b>2</b><div><strong>Wheel 2 &rarr; wheel 3</strong> (8 ft). Wheel 1 now runs off at A, so it is <em>excluded</em> from &Sigma;P (204 &minus; 10 = 194<sup>k</sup>) and its departure is <em>added</em> as a gain, +10&times;5/60, because it had 5 ft left to travel. Wheels 10 and 11 (40<sup>k</sup> together) come on by 7 and 3 ft &mdash; average 5.
+        <div class="eq">\[ \Delta V = 194\times\tfrac&#123;8&#125;&#123;60&#125; + 40\times\tfrac&#123;5&#125;&#123;60&#125; + 10\times\tfrac&#123;5&#125;&#123;60&#125; - 10 = +20.03 \quad\text&#123;increase&#125; \]</div></div></div>
+      <div class="step"><b>3</b><div><strong>Wheel 3 &rarr; wheel 4</strong> (6 ft). Wheel 2 runs off with 2 ft to travel; &Sigma;P = 224<sup>k</sup>; a 36<sup>k</sup> axle crosses the section.
+        <div class="eq">\[ \Delta V = 224\times\tfrac&#123;6&#125;&#123;60&#125; + 10\times\tfrac&#123;2&#125;&#123;60&#125; - 36 = -13.27 \quad\text&#123;decrease&#125; \]</div></div></div>
+      <div class="step"><b>4</b><div>With wheel 3 at the section, R<sub>A</sub> = 122.4<sup>k</sup> and only wheel 2 (10<sup>k</sup>) is left of the section.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> maximum V = <strong>112.4 kips</strong>, again with <strong>wheel 3 at the section</strong>. Compare with Example 2's 75.6 kips: the closer the section is to the support, the larger the shear &mdash; exactly what the shear influence line predicts. The two <em>+P&middot;x/L</em> terms are small here, but the wheels they represent had to be kept out of &Sigma;P, and that is a 10-kip error each if you forget.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 4</span><h4>Maximum Moment at C, 20 ft from A</h4></div>
+    <p class="prob"><strong>Problem:</strong> Find the position of the train for maximum bending moment at C (a = 20 ft, b = 40 ft, L = 60 ft), and the moment there.</p>
+    <p class="small">Maximum moment wants as much load on the span as possible, so start at wheel 3 &mdash; the first driver axle. Test each candidate against W/L.</p>
+    <div class="steps">
+      <div class="step"><b>3</b><div><strong>Wheel 3 at C.</strong> W = 204<sup>k</sup> on the span, so W/L = 204/60 = 3.40.<br>
+        Counted right: W<sub>1</sub>/a = 20/20 = 1.00 &nbsp;&rarr;&nbsp; 3.40 &gt; 1.00 &#10003;<br>
+        Counted left: W<sub>1</sub>/a = 56/20 = 2.80 &nbsp;&rarr;&nbsp; 3.40 &gt; 2.80 &#10007; (needs to be less)<br>
+        <strong>Wheel 3 fails.</strong> Too little load is behind C &mdash; keep rolling.</div></div>
+      <div class="step"><b>4</b><div><strong>Wheel 4 at C.</strong> W = 224<sup>k</sup>, W/L = 3.733.<br>
+        Counted right: 56/20 = 2.80 &nbsp;&rarr;&nbsp; 3.733 &gt; 2.80 &#10003; &nbsp;&nbsp; Counted left: 92/20 = 4.60 &nbsp;&rarr;&nbsp; 3.733 &lt; 4.60 &#10003;<br>
+        <strong>Wheel 4 satisfies the criterion.</strong></div></div>
+      <div class="step"><b>5</b><div><strong>Wheel 5 at C.</strong> Wheel 1 has run off, wheel 2 now sits <em>exactly over A</em>, and wheel 11 has come on. A load standing on the support contributes nothing to the moment at C and is about to leave, so it takes no part in the criterion: W = 224<sup>k</sup>, W/L = 3.733.<br>
+        Counted right: 72/20 = 3.60 &nbsp;&rarr;&nbsp; 3.733 &gt; 3.60 &#10003; &nbsp;&nbsp; Counted left: 108/20 = 5.40 &nbsp;&rarr;&nbsp; 3.733 &lt; 5.40 &#10003;<br>
+        <strong>Wheel 5 also satisfies it</strong> &mdash; precisely the multiple-solution case the criterion warns about, caused by wheels leaving at A. Wheel 6 fails, so compute both and compare.</div></div>
+      <div class="step"><b>&Sigma;</b><div><strong>Wheel 4 at C.</strong> R<sub>A</sub> = 2(10)(56.5/60) + 4(36)(37/60) + 2(10)(18/60) + 2(20)(5/60) = 18.83 + 88.80 + 6.00 + 3.33 = 116.97<sup>k</sup><br>
+        M<sub>C</sub> = 116.97(20) &minus; [2(10)(16.5) + 36(6.0)] = 2339.3 &minus; 546 = <strong>1793.3 ft-kips</strong></div></div>
+      <div class="step"><b>&Sigma;</b><div><strong>Wheel 5 at C.</strong> R<sub>A</sub> = 4(36)(43/60) + 2(10)(24/60) + 3(20)(9/60) = 103.2 + 8.0 + 9.0 = 120.2<sup>k</sup><br>
+        M<sub>C</sub> = 120.2(20) &minus; 2(36)(9) = 2404 &minus; 648 = <strong>1756.0 ft-kips</strong></div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> maximum M<sub>C</sub> = <strong>1793.3 ft-kips</strong> with <strong>wheel 4 at the section</strong>. Wheel 5 gives 1756 &mdash; only 2% less, which is exactly why the textbook says the difference between competing candidates is usually small, and exactly why you still check both. <em>(Each grouped term above is a set of equal wheels multiplied by their average distance from the far support &mdash; a shortcut, not a new principle.)</em></div>
+    <p class="small" style="margin-top:.8rem"><strong>A note on the printed figure.</strong> The original text gives 1792 ft-kips here. It rounds each reaction term to one decimal (18.8 instead of 18.833, 3.3 instead of 3.333) before summing, which loses 0.07<sup>k</sup> off R<sub>A</sub> and 1.3 ft-kips off the moment. The exact value is 1793.3, which is what the simulator reports. Neither the critical wheel nor the design decision changes &mdash; but it is worth seeing how quickly rounded intermediates drift.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>The core insight</span><span>maxima occur with a wheel at the critical point</span></div>
+    <div><span>Critical point, reaction</span><span>over the support</span></div>
+    <div><span>Critical point, shear &amp; moment</span><span>at the section</span></div>
+    <div><span>Change in reaction</span><span>&Delta;R = &Sigma;Pd&#8321;/L &minus; P&#8321;</span></div>
+    <div><span>Change in shear</span><span>&Delta;V = &Sigma;Pd&#8321;/L &minus; P&#8321;</span></div>
+    <div><span>Load coming on</span><span>add + P&prime;e/L</span></div>
+    <div><span>Load running off at A</span><span>add + P&middot;x/L (shear only)</span></div>
+    <div><span>&Sigma;P means</span><span>loads on the span that stay on</span></div>
+    <div><span>P&#8321; means</span><span>the load leaving the span / passing the section</span></div>
+    <div><span>Stop rule</span><span>make moves while &Delta; &gt; 0; stop when &Delta; &lt; 0</span></div>
+    <div><span>Change in moment</span><span>&Delta;M = I &minus; D = W&#8322;(i/b) &minus; W&#8321;(i/a)</span></div>
+    <div><span>Moment criterion</span><span>W&#8321;/a = W&#8322;/b = W/L</span></div>
+    <div><span>Criterion in words</span><span>average load left = average load right</span></div>
+    <div><span>Ties</span><span>several wheels may qualify &mdash; compute each</span></div>
+    <div><span>Worked answers</span><span>R<sub>A</sub> 150.4<sup>k</sup> &middot; V 75.6<sup>k</sup> &middot; M 1793 ft-k</span></div>
+    <div><span>Simple load groups</span><span>inspection beats algebra &mdash; use it</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. Why does the maximum reaction always occur with a wheel exactly over the support?</p>
+      <button data-v="0">Because that wheel then carries the whole reaction by itself</button>
+      <button data-v="1">Because the reaction climbs steadily and then drops suddenly as each wheel leaves — the peak is the instant before a drop</button>
+      <button data-v="2">Because the influence line for reaction has its peak at the support</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. You compute &Delta;R for a move and get a negative number. What do you do?</p>
+      <button data-v="0">Make the move anyway and test the next wheel — the trend may reverse</button>
+      <button data-v="1">Reverse the direction of travel and start again from the other end</button>
+      <button data-v="2">Do not make the move — the previous position is the maximum</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. A wheel is going to roll off the left end of the span during your move. In &Delta;V for a section 10 ft from A, that wheel:</p>
+      <button data-v="0">Is excluded from &Sigma;P, and its departure is added as a gain +P&middot;x/L</button>
+      <button data-v="1">Is included in &Sigma;P like any other wheel on the span</button>
+      <button data-v="2">Is subtracted twice, once from &Sigma;P and once as P&#8321;</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>4. The criterion W&#8321;/a = W&#8322;/b = W/L says the moment at C is a maximum when:</p>
+      <button data-v="0">The total load left of C equals the total load right of C</button>
+      <button data-v="1">The average load per foot left of C equals the average load per foot right of it</button>
+      <button data-v="2">The heaviest axle sits exactly at C</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>5. Moment is a continuous function of train position — no cliffs. So why is the critical position still "a wheel at the section"?</p>
+      <button data-v="0">It is not — for moment the peak generally falls between wheels</button>
+      <button data-v="1">Because the moment influence line peaks at the section</button>
+      <button data-v="2">Because W&#8321; and W&#8322; only change when a load crosses the section, so &Delta;M can only change sign there</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee330/influence-lines">&larr; Influence Lines</a>
+  <a href="/civil">Back to Civil Engineering &rarr;</a>
+</footer>
+
+<!-- is:global is required: the .drow / .dhead / .gain / .loss rows below are injected
+     via innerHTML at runtime, and Astro's scoped styles never reach those elements. -->
+<style is:global>
+  /* flex-grow only inside the horizontal .calc-pair row — as a direct child of the
+     column-flex .calc-in, a grow factor would stretch the button down the panel */
+  .mlbtn { font-family: 'Space Mono', monospace; font-size: .72rem; background: var(--surf2); border: 1px solid var(--bdr2); color: var(--txt2); border-radius: 6px; padding: .45rem .6rem; cursor: pointer; flex: 0 0 auto; }
+  .calc-pair .mlbtn { flex: 1 1 0; }
+  .mlbtn:hover { border-color: var(--teal); color: var(--teal); }
+  .mlbtn-p { background: var(--tdim); border-color: var(--tline); color: var(--teal); width: 100%; }
+  .drow { display: flex; justify-content: space-between; gap: .5rem; font-size: .78rem; padding: .25rem .7rem; color: var(--txt2); }
+  .drow b { font-family: 'Space Mono', monospace; white-space: nowrap; }
+  .dhead { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--mut); padding: .5rem .7rem .1rem; }
+  .gain b { color: var(--grn); } .loss b { color: var(--rust); }
+</style>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id);
+  const P =[10,10,36,36,36,36,10,10,20,20,20,20,20,20];
+  const SP=[5,8,6,6,6,8,4,9,4,4,12,4,4];
+  const OF=[0]; SP.forEach(d=>OF.push(OF[OF.length-1]+d));
+  const N=P.length, TL=OF[N-1], L=60, E=1e-7;
+  const f2=n=>(Math.round(n*100)/100).toFixed(2);
+  const on=x=>x>=-E&&x<=L+E;
+
+  /* contribution of a UNIT load at x to the chosen function */
+  function cont(x,c,m){
+    if(!on(x))return 0;
+    const ra=(L-x)/L;
+    if(m==='R')return ra;
+    if(m==='V')return ra-(x<c-E?1:0);
+    return ra*c-(x<c-E?c-x:0);
+  }
+  const fv=(s,c,m)=>{let t=0;for(let i=0;i<N;i++)t+=P[i]*cont(s+OF[i],c,m);return t;};
+
+  /* train positions at which some wheel sits on the critical point */
+  const cands=(c,m)=>OF.map(o=>(m==='R'?0:c)-o).filter(v=>v>=-TL-E&&v<=L+E);
+
+  /* exact breakpoints — the functions are piecewise linear between them */
+  function samples(c){
+    const a=[-TL,L];
+    [0,L,c].forEach(k=>OF.forEach(o=>{const b=k-o; if(b>-TL&&b<L)a.push(b-1e-5,b+1e-5);}));
+    return a.sort((p,q)=>p-q);
+  }
+
+  /* decompose the change over a move from s0 to s1 (s1 < s0) */
+  function delta(s0,s1,c,m){
+    const d=s0-s1; let shuf=0,onn=0,off=0,jump=0,SPs=0,Pl=0,e1=0,Pon=0,xo=0,Poff=0;
+    for(let i=0;i<N;i++){
+      const a=s0+OF[i], b=s1+OF[i], A=on(a), B=on(b);
+      let j=0;
+      if(m==='R'){ if(A&&!B){ j=-P[i]; Pl+=P[i]; } }
+      else if(m==='V'){ if(A&&a>=c-E&&b<c-E){ j=-P[i]; Pl+=P[i]; } }
+      const dc=P[i]*(cont(b,c,m)-cont(a,c,m))-j;
+      jump+=j;
+      if(A&&B){ shuf+=dc; SPs+=P[i]; }
+      else if(!A&&B){ onn+=dc; Pon+=P[i]; e1+=P[i]*(L-b); }
+      else if(A&&!B){ off+=dc; Poff+=P[i]; xo+=P[i]*a; }
+    }
+    return {d,shuf,onn,off,jump,SPs,Pl,Pon,e1,Poff,xo,net:shuf+onn+off+jump};
+  }
+
+  /* split of the load at the current position */
+  function split(s,c){
+    let W=0,Wl=0,Wr=0,at=0,atP=0;
+    /* a load sitting exactly over A adds nothing to M at C and is about to leave
+       the span, so it takes no part in the criterion — matches the textbook */
+    for(let i=0;i<N;i++){const x=s+OF[i]; if(!on(x)||x<=1e-4)continue;
+      W+=P[i];
+      if(Math.abs(x-c)<1e-4){at=i+1;atP=P[i];Wr+=P[i];}
+      else if(x<c)Wl+=P[i]; else Wr+=P[i];}
+    return {W,Wl,Wr,at,atP};
+  }
+  const wheelAt=(s,m,c)=>{const k=m==='R'?0:c;
+    for(let i=0;i<N;i++)if(Math.abs(s+OF[i]-k)<1e-4)return i+1; return 0;};
+
+  const S=()=>+g('ml-s').value/10, C=()=>+g('ml-c').value, M=()=>g('ml-mode').value;
+  const nm={R:'Reaction R<sub>A</sub>',V:'Shear V at the section',M:'Moment M at the section'};
+  const un={R:'kips',V:'kips',M:'ft-kips'};
+
+  function draw(){
+    const s=S(), c=C(), m=M();
+    g('ml-cv').textContent=c;
+    const val=fv(s,c,m), cd=cands(c,m), sm=samples(c);
+    let best=-Infinity,sBest=0;
+    sm.forEach(t=>{const v=fv(t,c,m); if(v>best){best=v;sBest=t;}});
+    const kw=wheelAt(s,m,c), bw=wheelAt(sBest,m,c), sp=split(s,c);
+
+    /* ---------- figure ---------- */
+    const W=360,pl=16,pr=14, x0=-30, x1=L+30;
+    const X=ft=>pl+(ft-x0)/(x1-x0)*(W-pl-pr);
+    const bY=52, tH=204;
+    let v=`<svg viewBox="0 0 ${W} ${tH}" style="width:100%;height:auto">`;
+    v+=`<defs><marker id="mlv" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--teal)"/></marker></defs>`;
+    /* section marker */
+    if(m!=='R'){v+=`<line x1="${X(c)}" y1="14" x2="${X(c)}" y2="${bY+12}" stroke="var(--rust)" stroke-width="1" stroke-dasharray="3,3"/>`;
+      v+=`<text x="${X(c)}" y="11" font-size="7.5" fill="var(--rust)" text-anchor="middle">section c = ${c} ft</text>`;}
+    else {v+=`<line x1="${X(0)}" y1="14" x2="${X(0)}" y2="${bY+12}" stroke="var(--rust)" stroke-width="1" stroke-dasharray="3,3"/>`;
+      v+=`<text x="${X(0)}" y="11" font-size="7.5" fill="var(--rust)" text-anchor="middle">support A</text>`;}
+    /* beam + supports */
+    v+=`<line x1="${X(0)}" y1="${bY}" x2="${X(L)}" y2="${bY}" stroke="var(--txt2)" stroke-width="2.2"/>`;
+    [0,L].forEach(t=>{v+=`<polygon points="${X(t)},${bY} ${X(t)-6},${bY+9} ${X(t)+6},${bY+9}" fill="var(--bdr2)" stroke="var(--txt2)"/>`;});
+    v+=`<text x="${X(0)}" y="${bY+20}" font-size="7.5" fill="var(--mut)" text-anchor="middle">A</text>`;
+    v+=`<text x="${X(L)}" y="${bY+20}" font-size="7.5" fill="var(--mut)" text-anchor="middle">B  (L = ${L} ft)</text>`;
+    /* wheels */
+    for(let i=0;i<N;i++){
+      const x=s+OF[i]; if(x<x0-2||x>x1+2)continue;
+      const r=2.6+P[i]/14, live=on(x), crit=(i+1===kw);
+      const col=crit?'var(--rust)':(live?'var(--teal)':'var(--mut)');
+      v+=`<circle cx="${X(x)}" cy="${bY-r-1}" r="${r}" fill="${live?col:'none'}" fill-opacity="${crit?1:.35}" stroke="${col}" stroke-width="${crit?1.8:1}"/>`;
+      if(live)v+=`<text x="${X(x)}" y="${bY-2*r-4}" font-size="5.6" fill="${col}" text-anchor="middle">${P[i]}</text>`;
+    }
+    v+=`<text x="${pl}" y="${bY+20}" font-size="7" fill="var(--amb)">&#9664; travel</text>`;
+    /* ---------- sawtooth plot ---------- */
+    const py0=100, py1=tH-12, mid=py1;
+    const T=t=>pl+((L-t)/(L+TL))*(W-pl-pr);
+    const sc=Math.max(best,1e-6), Yv=q=>py1-(q/sc)*(py1-py0-6);
+    v+=`<line x1="${pl}" y1="${mid}" x2="${W-pr}" y2="${mid}" stroke="var(--bdr2)" stroke-width="1"/>`;
+    let p='';
+    sm.forEach((t,i)=>{p+=(i?' L ':'M ')+T(t).toFixed(1)+' '+Yv(fv(t,c,m)).toFixed(1);});
+    v+=`<path d="${p}" fill="none" stroke="var(--teal)" stroke-width="1.9"/>`;
+    v+=`<line x1="${T(sBest)}" y1="${mid}" x2="${T(sBest)}" y2="${Yv(best)}" stroke="var(--amb)" stroke-width=".8" stroke-dasharray="2,2"/>`;
+    v+=`<circle cx="${T(sBest)}" cy="${Yv(best)}" r="3" fill="var(--amb)"/>`;
+    v+=`<text x="${T(sBest)}" y="${Yv(best)-6}" font-size="7.5" fill="var(--amb)" text-anchor="middle">max ${f2(best)}</text>`;
+    v+=`<circle cx="${T(s)}" cy="${Yv(val)}" r="3.4" fill="var(--rust)"/>`;
+    v+=`<text x="${pl}" y="${py0-10}" font-size="7.5" fill="var(--txt2)">${nm[m].replace(/<[^>]+>/g,'')} vs train position &rarr;</text>`;
+    v+=`</svg>`;
+    g('ml-fig').innerHTML=v;
+
+    /* ---------- results ---------- */
+    let h=`<div class="res"><span>Wheel on the critical point</span><b>${kw?('wheel '+kw):'&mdash; (between wheels)'}</b></div>`;
+    h+=`<div class="res"><span>R<sub>A</sub> right now</span><b>${f2(fv(s,c,'R'))} k</b></div>`;
+    h+=`<div class="res"><span>${nm[m]}</span><b>${f2(val)} ${un[m]}</b></div>`;
+
+    if(m==='M'){
+      const a=c,b=L-c, WL=sp.W/L;
+      const lo=sp.Wl/a, hi=(sp.Wl+sp.atP)/a;
+      const ok=sp.at&&lo<WL+1e-9&&hi>WL-1e-9;
+      h+=`<div class="dhead">Criterion &nbsp; W&#8321;/a = W&#8322;/b = W/L</div>`;
+      h+=`<div class="drow"><span>On span W &middot; left W&#8321; &middot; right W&#8322;</span><b>${sp.W} / ${sp.Wl} / ${sp.Wr} k</b></div>`;
+      h+=`<div class="drow"><span>Span average W/L</span><b>${f2(WL)} k/ft</b></div>`;
+      if(sp.at){
+        h+=`<div class="drow ${lo<WL?'gain':'loss'}"><span>Wheel ${sp.at} counted right &rarr; W&#8321;/a</span><b>${f2(lo)} ${lo<WL?'&lt;':'&gt;'} ${f2(WL)} ${lo<WL?'&#10003;':'&#10007;'}</b></div>`;
+        h+=`<div class="drow ${hi>WL?'gain':'loss'}"><span>Wheel ${sp.at} counted left &rarr; W&#8321;/a</span><b>${f2(hi)} ${hi>WL?'&gt;':'&lt;'} ${f2(WL)} ${hi>WL?'&#10003;':'&#10007;'}</b></div>`;
+        h+=`<div class="verdict ${ok?'v-pass':'v-fail'}"><span>Wheel ${sp.at} at the section</span><b>${ok?'satisfies the criterion':'does not satisfy it'}</b></div>`;
+      } else h+=`<div class="drow"><span>No wheel at the section</span><b>step to a candidate</b></div>`;
+    } else {
+      const nx=cd.filter(t=>t<s-1e-6).sort((p,q)=>q-p)[0];
+      h+=`<div class="dhead">Next move &nbsp; &Delta;${m} = &Sigma;Pd&#8321;/L + P&prime;e/L &minus; P&#8321;</div>`;
+      if(nx===undefined) h+=`<div class="drow"><span>The train has run out of span</span><b>&mdash;</b></div>`;
+      else{
+        const D=delta(s,nx,c,m);
+        h+=`<div class="drow gain"><span>&Sigma;P = ${D.SPs}<sup>k</sup> creeping d&#8321; = ${f2(D.d)} ft closer</span><b>+${f2(D.shuf)}</b></div>`;
+        if(Math.abs(D.onn)>1e-6)h+=`<div class="drow gain"><span>${D.Pon}<sup>k</sup> rolling on at B (P&prime;e/L)</span><b>+${f2(D.onn)}</b></div>`;
+        if(Math.abs(D.off)>1e-6)h+=`<div class="drow ${D.off>=0?'gain':'loss'}"><span>${D.Poff}<sup>k</sup> running off at A</span><b>${D.off>=0?'+':''}${f2(D.off)}</b></div>`;
+        if(Math.abs(D.jump)>1e-6)h+=`<div class="drow loss"><span>P&#8321; = ${D.Pl}<sup>k</sup> ${m==='R'?'leaving the span':'passing the section'}</span><b>${f2(D.jump)}</b></div>`;
+        h+=`<div class="verdict ${D.net>0?'v-pass':'v-fail'}"><span>Net &Delta;${m} &rarr; ${D.net>0?'make the move':'STOP &mdash; you are at the peak'}</span><b>${D.net>0?'+':''}${f2(D.net)}</b></div>`;
+      }
+    }
+    h+=`<div class="res"><span>True maximum over the traverse</span><b>${f2(best)} ${un[m]}${bw?' (wheel '+bw+')':''}</b></div>`;
+    g('ml-res').innerHTML=h;
+  }
+
+  function goto(t){g('ml-s').value=Math.round(t*10);draw();}
+  g('ml-step').onclick=()=>{const s=S(),c=cands(C(),M()).filter(t=>t<S()-1e-6).sort((p,q)=>q-p)[0];if(c!==undefined)goto(c);};
+  g('ml-back').onclick=()=>{const c=cands(C(),M()).filter(t=>t>S()+1e-6).sort((p,q)=>p-q)[0];if(c!==undefined)goto(c);};
+  g('ml-max').onclick=()=>{const c=C(),m=M();let b=-Infinity,sb=0;
+    samples(c).forEach(t=>{const v=fv(t,c,m);if(v>b){b=v;sb=t;}});
+    const nr=cands(c,m).sort((p,q)=>Math.abs(p-sb)-Math.abs(q-sb))[0];
+    goto(Math.abs(nr-sb)<0.02?nr:sb);};
+  ['ml-mode','ml-c','ml-s'].forEach(id=>g(id).addEventListener('input',draw));
+  g('ml-mode').addEventListener('change',()=>goto(M()==='R'?0:C()));
+  goto(0);
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const b=q.querySelectorAll('button');
+    b.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      b.forEach(x=>{if(x.dataset.v===q.dataset.a)x.classList.add('correct');else if(x===btn)x.classList.add('wrong');});
+      const A=document.querySelectorAll('.quiz .q.answered').length;
+      const R=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=R+' / '+A+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>
