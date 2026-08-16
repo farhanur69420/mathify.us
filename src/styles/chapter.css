@@ -57,6 +57,8 @@ body { font-family: 'Inter', sans-serif; font-size: 15.5px; line-height: 1.7; }
 .calc-in input, .calc-in select { width: 100%; margin-top: .3rem; background: var(--surf2); border: 1px solid var(--bdr2); border-radius: 6px; padding: .4rem .5rem; color: var(--txt); font-family: inherit; font-size: .85rem; }
 .calc-pair { display: flex; gap: .4rem; }
 .calc-pair input { flex: 1 1 0; min-width: 0; }
+.calc-btn { margin-top: .2rem; background: var(--tdim); border: 1px solid var(--teal); border-radius: 6px; padding: .45rem .7rem; color: var(--teal); font-family: inherit; font-size: .8rem; cursor: pointer; }
+.calc-btn:hover { background: var(--teal); color: var(--bg); }
 .calc-out { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
 .calc-results { width: 100%; display: flex; flex-direction: column; gap: .4rem; }
 .calc-svg { width: 100%; max-width: 240px; height: auto; }
