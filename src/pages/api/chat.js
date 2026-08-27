@@ -7,7 +7,9 @@
 // than a generic failure, so the chat window can say something useful.
 export const prerender = false;
 
-const MODEL = 'gemini-2.0-flash';
+// Model availability differs between Gemini API keys and changes over time, so
+// try current names in order rather than pinning one that can silently vanish.
+const MODELS = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-1.5-flash'];
 const ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/openai/';
 
 const json = (body, status) =>
@@ -48,15 +50,30 @@ export const POST = async ({ request }) => {
     const { default: OpenAI } = await import('openai');
     const client = new OpenAI({ apiKey, baseURL: ENDPOINT });
 
-    const response = await client.chat.completions.create({
-      model: MODEL,
-      messages: [
-        { role: 'system', content: systemPrompt || FALLBACK_PROMPT },
-        ...recent,
-      ],
-      temperature: 0.4,
-      max_tokens: 700,
-    });
+    let response;
+    let lastError;
+    for (const model of MODELS) {
+      try {
+        response = await client.chat.completions.create({
+          model,
+          messages: [
+            { role: 'system', content: systemPrompt || FALLBACK_PROMPT },
+            ...recent,
+          ],
+          temperature: 0.4,
+          max_tokens: 700,
+        });
+        break;
+      } catch (err) {
+        lastError = err;
+        const s = err?.status ?? err?.response?.status;
+        // 404/400 here usually means "this key can't see that model" — try the
+        // next name. Anything else (rate limit, auth, network) is not fixed by
+        // switching models, so fail fast.
+        if (s !== 404 && s !== 400) throw err;
+      }
+    }
+    if (!response) throw lastError;
 
     const text = response?.choices?.[0]?.message?.content ?? '';
     if (!text.trim()) {
@@ -83,7 +100,13 @@ export const POST = async ({ request }) => {
         502
       );
     }
-    return json({ error: 'The tutor could not be reached. Please try again.' }, 500);
+    // Vercel function logs aren't visible from the site, so carry a short,
+    // secret-free reason on the response to make misconfiguration diagnosable.
+    const detail = [status, error?.code, error?.message].filter(Boolean).join(' ').slice(0, 200);
+    return json(
+      { error: 'The tutor could not be reached. Please try again.', detail },
+      500
+    );
   }
 };
 
