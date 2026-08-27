@@ -1,7 +1,7 @@
 ---
 import Main from '../layouts/Main.astro';
 ---
-<Main title="About" description="About Mathify.us — free educational resources for Mathematics, Physics, Civil Engineering, and SSC Board exams." activeNav="">
+<Main title="About" description="Why Mathify exists and how every page is written: intuition before formalism, in the 3Blue1Brown tradition — the idea and the picture first, then the equations, step by step." activeNav="">
 
 <style>
   .about-wrap {
@@ -46,6 +46,9 @@ import Main from '../layouts/Main.astro';
     line-height: 1.75;
     margin-bottom: .6rem;
   }
+  .how { margin: .6rem 0 1rem 1.1rem; padding: 0; }
+  .how li { font-size: .88rem; color: var(--txt2); line-height: 1.7; margin-bottom: .45rem; padding-left: .3rem; }
+  .how li strong { color: var(--txt); }
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -86,10 +89,12 @@ import Main from '../layouts/Main.astro';
 
 <div class="about-wrap">
   <div class="eyebrow">About Mathify</div>
-  <h1>Free education for everyone.</h1>
+  <h1>Every page should feel like having a great tutor.</h1>
   <p class="lead">
-    Mathify.us is a free, open educational platform built for students in Bangladesh and beyond.
-    No ads, no paywalls — just clear explanations, step-by-step solutions, and interactive tools.
+    That is the whole goal, and everything else follows from it. A good tutor does not open with
+    a definition — they show you what the idea is <em>for</em>, give you a picture you can hold in
+    your head, and only then write the formula down. Mathify is an attempt to put that on a web
+    page, for free, with no ads and no paywall.
   </p>
 
   <div class="section">
@@ -103,12 +108,12 @@ import Main from '../layouts/Main.astro';
       <div class="card">
         <span class="card-icon">⚡</span>
         <h3>Physics</h3>
-        <p>Class 11–12 topics with interactive simulations and problem walkthroughs.</p>
+        <p>Class 11–12 topics, formula-by-formula, with worked problem walkthroughs.</p>
       </div>
       <div class="card">
         <span class="card-icon">🏗️</span>
         <h3>Civil Engineering</h3>
-        <p>RC Design and Traffic Engineering guides aligned with Darwin, Dolan &amp; Nilson 15th Ed.</p>
+        <p>Full university course guides — foundations, structural analysis, RC design and traffic — each with live calculators.</p>
       </div>
       <div class="card">
         <span class="card-icon">📋</span>
@@ -121,15 +126,33 @@ import Main from '../layouts/Main.astro';
   <hr class="divider" />
 
   <div class="section">
-    <h2>Our Mission</h2>
+    <h2>How Every Page Is Written</h2>
     <p>
-      Quality education should not depend on where you live or what you can afford.
-      We build free, intuition-first resources that help students genuinely understand concepts —
-      not just memorize answers.
+      The approach is the one 3Blue1Brown made famous: <strong>intuition before formalism</strong>.
+      A formula is the compressed answer to a question, and it is close to meaningless until you
+      have felt the question. So each topic is built in the same order:
+    </p>
+    <ol class="how">
+      <li><strong>Why does this exist?</strong> What breaks, or stays invisible, without it.</li>
+      <li><strong>A picture or an analogy.</strong> Something concrete to attach the symbols to —
+          a hanging chain, a long-exposure photograph, a stack of books held overhead.</li>
+      <li><strong>Then the equation</strong>, derived rather than declared, with each symbol tied
+          back to the picture.</li>
+      <li><strong>Something you can move.</strong> Drag a load, change a soil layer, watch the
+          answer respond. Reading that a moment diagram collapses to zero is not the same as
+          watching it happen.</li>
+      <li><strong>Worked examples in full</strong>, every step shown, and a short quiz aimed at
+          the misconception rather than at recall.</li>
+    </ol>
+    <p>
+      Where a page has a calculator, its default values reproduce that page's own first worked
+      example, so you can change one input at a time and see which way the answer moves. The
+      numbers behind them are checked against an independent calculation before they ship &mdash;
+      a tutor who quietly gets the arithmetic wrong is worse than no tutor.
     </p>
     <p>
-      Every page on Mathify is designed to explain the <em>why</em> behind each formula and method,
-      with diagrams, worked problems, and interactive tools where possible.
+      Quality education should not depend on where you live or what you can afford. Everything
+      here stays free.
     </p>
   </div>
 
