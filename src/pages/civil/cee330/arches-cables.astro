@@ -1,0 +1,578 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/chapter.css'
+---
+<Base title="CEE 330 — Arches &amp; Cables" description="Arches and cables from intuition to numbers — the hanging chain and why an inverted cable becomes an arch that barely bends, the three-hinged arch, horizontal thrust H = wL²/8h, axial force and moment at a section, cable sag, tension and length, with a live simulator comparing arch shapes against a plain beam.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 330 &middot; Structural Analysis and Design-I &middot; Week 1</div>
+  <h1>Arches &amp; Cables</h1>
+  <p class="hd-sub">A 40 m beam under its design load carries 4000 kN&middot;m of bending. Bend that same beam into a parabola, hold its feet from spreading, and the bending drops to <strong>zero</strong>. Not "small" &mdash; zero. This chapter is about why.</p>
+  <div class="hd-pills">
+    <span class="pill">Funicular shape</span>
+    <span class="pill">Three-hinged arch</span>
+    <span class="pill">Horizontal thrust</span>
+    <span class="pill">Cable sag &amp; tension</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">Why Bother Curving a Beam?</a></li>
+    <li><a href="#sec-chain">The Hanging Chain</a></li>
+    <li><a href="#sec-cable">Cables: Sag, Thrust and Tension</a></li>
+    <li><a href="#sec-arch">Flip It: The Three-Hinged Arch</a></li>
+    <li><a href="#sec-sim">Simulator: Arch vs Beam</a></li>
+    <li><a href="#sec-section">Forces at a Section</a></li>
+    <li><a href="#sec-bend">When an Arch Does Bend</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>Why Bother Curving a Beam?</h2></div>
+
+  <p class="lead">A beam in bending is a structure at war with itself. The top fibres squash, the bottom fibres stretch, and the middle does almost nothing &mdash; you are paying for material that is barely working. An arch is the attempt to make <em>every</em> fibre carry the same compression, all the way through.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#129355;</span>
+    <div>
+      <strong>Carrying a stack of books.</strong> Hold the stack out in front of you, arms horizontal, and your muscles scream &mdash; that is bending, and the load is fighting your arm sideways. Now hold the stack directly overhead with straight arms. You can stand there for minutes: the force runs <em>down the bone</em>, and bone in pure compression is enormously strong. An arch does exactly this. It arranges its own geometry so the load always runs down the material's length, never across it.
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>This is why masonry arches exist and masonry beams do not.</strong> Stone, brick and concrete are strong in compression and feeble in tension. A stone beam cracks on its underside almost immediately. A stone arch, shaped correctly, never puts a single fibre in tension &mdash; which is how bridges built before anyone could calculate a stress are still carrying traffic today.</div>
+  </div>
+
+  <div class="grid2">
+    <div class="vcard v-amb">
+      <span class="vtag">The price</span>
+      <h4>Arches push outwards</h4>
+      <p>A beam presses straight down on its supports. An arch also shoves them <em>apart</em>, with a horizontal force called the <strong>thrust</strong>. Every gain in this chapter is bought with that thrust, and if the abutments cannot resist it, the arch flattens and fails.</p>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">The prize</span>
+      <h4>Bending goes away</h4>
+      <p>Get the shape right for the load and the bending moment vanishes over the whole span. The section can then be slim, because it only has to resist axial compression &mdash; no lever arm required.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-chain">
+  <div class="sec-h"><span class="sec-n">02</span><h2>The Hanging Chain</h2></div>
+
+  <p>Before computing anything, there is one physical fact that gives you the entire chapter for free.</p>
+
+  <div class="core">
+    <span>The key observation</span>
+    <p>A chain cannot resist bending &mdash; it has no stiffness at all. So when you hang it between two points, it <strong>has no choice</strong> but to settle into the one shape in which the load is carried by pure tension. That shape is not a guess. It is the only shape that works.</p>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#128279;</span>
+    <div>
+      <strong>Hooke's anagram, 1675.</strong> Robert Hooke published his discovery as a scrambled Latin anagram so he could claim priority without revealing it. Decoded: <em>"Ut pendet continuum flexile, sic stabit contiguum rigidum inversum"</em> &mdash; <strong>"as hangs the flexible line, so but inverted will stand the rigid arch."</strong> Hang a chain, photograph it, turn the photo upside down, and build that. Every tension in the chain becomes a compression in the arch, of exactly the same magnitude. Gaud&iacute; designed the Sagrada Fam&iacute;lia this way, with a ceiling of hanging strings and weights and a mirror on the floor.
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Load</span>
+      <h4>Uniform along the span</h4>
+      <p>A deck of constant weight per horizontal metre. The chain hangs as a <strong>parabola</strong>. This is the case that dominates suspension bridges and this course.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Load</span>
+      <h4>Uniform along the cable</h4>
+      <p>The cable's own weight, with nothing hanging from it. The shape is a <strong>catenary</strong> (a cosh curve). For shallow sags it is within a percent of the parabola, so we use the parabola.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Load</span>
+      <h4>Point loads</h4>
+      <p>The chain becomes a chain of <em>straight segments</em> with a kink at each load. Flip it and you get the polygonal arch &mdash; still no bending, just a different funicular polygon.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>The word to remember is <em>funicular</em></strong> (from Latin <em>funiculus</em>, "thin rope"). The funicular shape is the shape that carries a <em>particular</em> load with no bending. Change the load and the funicular shape changes &mdash; but the arch cannot change with it. That single mismatch is the source of every bending moment in Section 7.</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-cable">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Cables: Sag, Thrust and Tension</h2></div>
+
+  <p>Take a cable of span L carrying a uniform load w per horizontal metre, sagging a distance d at midspan. Cut it at the lowest point and look at half of it.</p>
+
+  <div class="steps">
+    <div class="step"><b>1</b><div><strong>At the low point the cable is horizontal</strong>, so the force it transmits there is purely horizontal. Call it H. It is the same H everywhere along the cable, because nothing horizontal is applied in between.</div></div>
+    <div class="step"><b>2</b><div><strong>Take moments about the support</strong> for the half-cable: the load on that half is \(wL/2\) acting at \(L/4\) from the low point, and H acts with lever arm d.<div class="eq">\[ H\,d = \frac&#123;wL&#125;&#123;2&#125;\cdot\frac&#123;L&#125;&#123;4&#125; \quad\Rightarrow\quad H = \frac&#123;wL^2&#125;&#123;8d&#125; \]</div></div></div>
+    <div class="step"><b>3</b><div><strong>Vertical component at the support</strong> is just half the load: \( V = wL/2 \).</div></div>
+    <div class="step"><b>4</b><div><strong>Tension is the resultant</strong>, and it is largest at the supports where the cable is steepest:<div class="eq">\[ T_&#123;\max&#125; = \sqrt&#123;H^2 + V^2&#125;, \qquad T_&#123;\min&#125; = H \ \text&#123;(at the low point)&#125; \]</div></div></div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Read the formula for H and a design rule falls out.</strong> H is inversely proportional to sag. Halve the sag and you <em>double</em> the cable force and the pull on the towers. A taut cable looks efficient and is the opposite &mdash; that is why suspension bridges sag as deeply as clearance allows, typically around L/10.</div>
+  </div>
+
+  <div class="core">
+    <span>Cable length</span>
+    <p>The developed length of a shallow parabolic cable, which you need to order the material and to compute stretch:</p>
+    <div class="eq">\[ S \approx L\left(1 + \frac&#123;8&#125;&#123;3&#125;\left(\frac&#123;d&#125;&#123;L&#125;\right)^2 - \frac&#123;32&#125;&#123;5&#125;\left(\frac&#123;d&#125;&#123;L&#125;\right)^4\right) \]</div>
+    <p class="small">For d/L = 0.1 this gives S = 1.0260 L &mdash; the cable is only 2.6% longer than the straight line. Sag is cheap in material and enormously valuable in force.</p>
+  </div>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Span L (m) <input type="number" id="cb-L" value="30" step="1" min="2"></label>
+      <label>Midspan sag d (m) <input type="number" id="cb-d" value="3" step="0.25" min="0.1"></label>
+      <label>Uniform load w (kN/m) <input type="number" id="cb-w" value="5" step="0.5" min="0.1"></label>
+      <label>Compare sag ratio d/L
+        <input type="range" id="cb-r" min="2" max="30" value="10">
+        <span class="small" id="cb-rv">d/L = 1/10</span>
+      </label>
+    </div>
+    <div class="calc-out">
+      <div id="cb-fig" class="calc-fig"></div>
+      <div id="cb-res" class="calc-results"></div>
+    </div>
+  </div>
+  <p class="small">Drag the sag-ratio slider and watch T<sub>max</sub>: at d/L = 1/2 the cable is nearly slack and the force is small; at d/L = 1/30 it is almost straight and the force explodes. The load never changed.</p>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-arch">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Flip It: The Three-Hinged Arch</h2></div>
+
+  <p>Now invert the cable. Tensions become compressions, the downward sag becomes an upward <strong>rise</strong> h, and the horizontal pull H becomes the horizontal <strong>thrust</strong> pushing outwards on the abutments.</p>
+
+  <div class="grid2">
+    <div class="vcard v-blu">
+      <span class="vtag">Why three hinges</span>
+      <h4>To make it determinate</h4>
+      <p>Two pinned supports give four reaction components (V<sub>A</sub>, H<sub>A</sub>, V<sub>B</sub>, H<sub>B</sub>) against three equations &mdash; one redundant. Put a hinge at the crown and you gain one equation of condition (\(\Sigma M = 0\) about the hinge, for one side only). Four unknowns, four equations: <strong>determinate</strong>, and solvable with statics alone.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Why it matters practically</span>
+      <h4>Immune to settlement</h4>
+      <p>A two-hinged or fixed arch develops large forces if an abutment settles or the temperature changes, because it is indeterminate. The three-hinged arch simply adjusts its shape and carries on. That robustness is why it is the standard starting point.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>The whole calculation, in two moves</span>
+    <p><strong>Move 1 &mdash; vertical reactions:</strong> take moments about A and B for the <em>whole</em> arch. These come out exactly as for a simply supported beam of the same span, because H acts through both supports at deck level and contributes nothing.</p>
+    <p><strong>Move 2 &mdash; the thrust:</strong> take moments about the crown hinge C, using <em>only the left half</em>. The internal moment there is zero by definition of a hinge:</p>
+    <div class="eq">\[ H = \frac&#123;M_&#123;C,\text&#123;beam&#125;&#125;&#125;&#123;h&#125; \]</div>
+    <p class="small">where \(M_&#123;C,\text&#123;beam&#125;&#125;\) is the bending moment that a simply supported beam of the same span would have at midspan under the same load. For a full UDL that is \(wL^2/8\), giving the formula you will use constantly:</p>
+    <div class="eq">\[ \boxed&#123;\,H = \frac&#123;wL^2&#125;&#123;8h&#125;\,&#125; \]</div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#9878;</span>
+    <div>
+      <strong>The thrust is a lever bargain.</strong> Something has to supply the moment \(M_&#123;C,\text&#123;beam&#125;&#125;\). A beam supplies it internally, with a couple across its own depth. An arch supplies it <em>externally</em>, with the horizontal thrust H acting on the lever arm h. A tall arch has a long lever and needs little thrust; a flat arch has a short lever and needs an enormous one. The same trade you already saw with cable sag &mdash; because it is the same equation upside down.
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>And here is the punchline.</strong> The bending moment at any section of the arch is \( M = M_&#123;\text&#123;beam&#125;&#125;(x) - H\,y(x) \). If the arch axis y(x) is shaped so that \(H\,y(x)\) matches the beam moment diagram <em>at every point</em>, then M = 0 everywhere. For a UDL the beam moment diagram is a parabola &mdash; so the funicular arch is a parabola. Not a coincidence: <strong>the funicular shape is the beam's own moment diagram, scaled by 1/H.</strong></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-sim">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Simulator: Arch vs Beam</h2></div>
+
+  <p>The top panel is the structure with its reactions; the bottom panel is the bending moment along the span, <strong>drawn to the same scale for all three shapes</strong> so you can see them collapse. Start with the parabolic arch under UDL only, then switch the shape to "straight beam" and watch the moment diagram appear from nothing.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Shape
+        <select id="ar-shape">
+          <option value="par" selected>Parabolic arch (funicular for UDL)</option>
+          <option value="cir">Circular arch (same span &amp; rise)</option>
+          <option value="beam">Straight beam (no thrust)</option>
+        </select>
+      </label>
+      <label>Span L (m) <input type="number" id="ar-L" value="40" step="2" min="4"></label>
+      <label>Rise h (m) <input type="number" id="ar-h" value="8" step="0.5" min="0.5"></label>
+      <label>UDL w (kN/m) <input type="number" id="ar-w" value="20" step="1" min="0"></label>
+      <div class="calc-pair">
+        <label>Point load P (kN) <input type="number" id="ar-P" value="0" step="10" min="0"></label>
+        <label>at distance a (m) <input type="number" id="ar-a" value="10" step="1" min="0"></label>
+      </div>
+      <label>Inspect section at x (m): <span id="ar-xv">10.0</span>
+        <input type="range" id="ar-x" min="0" max="100" value="25">
+      </label>
+    </div>
+    <div class="calc-out">
+      <div id="ar-fig" class="calc-fig"></div>
+      <div id="ar-res" class="calc-results"></div>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Try this</span><h4>Parabola, UDL only</h4><p>Set P = 0. The moment diagram is a flat line at zero for the whole span. The arch is carrying 800 kN of load with no bending at all.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Try this</span><h4>Switch to circular</h4><p>Same span, same rise, same H &mdash; but the axis no longer matches the parabola, so a moment appears. It peaks near the quarter points, at about 4% of the beam value.</p></div>
+    <div class="vcard v-rust"><span class="vtag">Try this</span><h4>Add a point load</h4><p>Set P = 100 kN at a = 10 m. A kink appears under the load. The UDL is still carried funicularly &mdash; only the mismatched part of the load causes bending.</p></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-section">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Forces at a Section</h2></div>
+
+  <p>An arch section carries three things. Cut the arch at horizontal position x, keep the left part, and resolve everything that acts on it into components <em>along and across the arch axis</em> &mdash; not vertical and horizontal, because the axis is sloped.</p>
+
+  <div class="eq">\[ \tan\theta = \frac&#123;dy&#125;&#123;dx&#125; = \frac&#123;4h(L-2x)&#125;&#123;L^2&#125; \quad\text&#123;(parabolic axis)&#125; \]</div>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Normal thrust</span>
+      <h4>N &mdash; along the axis</h4>
+      <div class="eq">\[ N = H\cos\theta + V\sin\theta \]</div>
+      <p class="small">Compression. This is the force the section actually lives on. Largest at the springings, where the axis is steepest.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Radial shear</span>
+      <h4>Q &mdash; across the axis</h4>
+      <div class="eq">\[ Q = V\cos\theta - H\sin\theta \]</div>
+      <p class="small">Zero everywhere for a true funicular arch &mdash; the resultant lies exactly along the axis, so it has no across-component.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Bending moment</span>
+      <h4>M &mdash; the mismatch</h4>
+      <div class="eq">\[ M = M_&#123;\text&#123;beam&#125;&#125;(x) - H\,y(x) \]</div>
+      <p class="small">V here is the net vertical force to the left of the cut &mdash; the same "beam shear" you already know how to compute.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#127993;</span>
+    <div>
+      <strong>The thrust line.</strong> At every section the resultant of H and V passes through some point on the cross-section. Join those points along the arch and you get the <em>thrust line</em> &mdash; where the load is really flowing. If the thrust line lies exactly on the arch axis, M = 0. If it drifts off the axis by a distance e, then M = N&middot;e. So the bending moment is nothing more than the <strong>eccentricity of the thrust line from the axis</strong>, and a masonry arch is safe as long as that line stays inside the stonework.
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Check yourself with the simulator.</strong> Set the parabola, UDL only, and drag the section slider to the springing (x = 0). You should read N = 640.3 kN, Q = 0, M = 0 &mdash; and 640.3 is exactly \(\sqrt&#123;400^2+500^2&#125;\), the resultant of the two reactions. The whole reaction is running straight into the arch.</div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-bend">
+  <div class="sec-h"><span class="sec-n">07</span><h2>When an Arch Does Bend</h2></div>
+
+  <p>Real arches always bend a little, and there are only three reasons why.</p>
+
+  <div class="grid3">
+    <div class="vcard v-rust">
+      <span class="vtag">Reason 1</span>
+      <h4>The load changed</h4>
+      <p>The arch was shaped for its dead load. Traffic on half the span, snow drifting to one side, or a single heavy vehicle is a <em>different</em> load with a different funicular shape. Asymmetric live load is usually the governing case.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Reason 2</span>
+      <h4>The shape is wrong</h4>
+      <p>Circular arches are easier to build than parabolic ones, so they get built. The 4% residual moment in the simulator is the price of that convenience &mdash; usually acceptable, and always worth knowing about.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Reason 3</span>
+      <h4>The thrust was not delivered</h4>
+      <p>If the abutments spread, H drops, and the term \(H\,y\) can no longer cancel the beam moment. The arch starts behaving like a curved beam &mdash; and curved beams are bad beams. This is how old masonry bridges fail.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Everything in this chapter is one equation seen from different angles:</p>
+    <div class="eq">\[ M(x) = \underbrace&#123;M_&#123;\text&#123;beam&#125;&#125;(x)&#125;_&#123;\text&#123;what the load demands&#125;&#125; - \underbrace&#123;H\,y(x)&#125;_&#123;\text&#123;what the geometry supplies&#125;&#125; \]</div>
+    <p>Match them and the arch is pure compression. Mismatch them and the difference shows up as bending. The funicular shape, the thrust formula, the sag&ndash;force trade and the thrust line are all just readings of this one balance.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Three-Hinged Parabolic Arch under UDL</h4></div>
+    <p class="prob"><strong>Problem:</strong> A three-hinged parabolic arch spans L = 40 m with a crown rise h = 8 m and carries a UDL of w = 20 kN/m over the full span. Find the reactions, the maximum bending moment, and the thrust at the springing.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Vertical reactions</strong> &mdash; symmetric, so \( V_A = V_B = \dfrac&#123;wL&#125;&#123;2&#125; = \dfrac&#123;20 \times 40&#125;&#123;2&#125; = 400\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>2</b><div><strong>Horizontal thrust</strong> from the crown hinge: \( H = \dfrac&#123;wL^2&#125;&#123;8h&#125; = \dfrac&#123;20 \times 40^2&#125;&#123;8 \times 8&#125; = \dfrac&#123;32000&#125;&#123;64&#125; = 500\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>3</b><div><strong>Bending moment at any x.</strong> The parabolic axis is \( y = \dfrac&#123;4hx(L-x)&#125;&#123;L^2&#125; \) and the beam moment is \( \dfrac&#123;wx(L-x)&#125;&#123;2&#125; \):
+        <div class="eq">\[ M = \frac&#123;wx(L-x)&#125;&#123;2&#125; - \frac&#123;wL^2&#125;&#123;8h&#125;\cdot\frac&#123;4hx(L-x)&#125;&#123;L^2&#125; = \frac&#123;wx(L-x)&#125;&#123;2&#125; - \frac&#123;wx(L-x)&#125;&#123;2&#125; = 0 \]</div></div></div>
+      <div class="step"><b>4</b><div><strong>Springing angle:</strong> \( \tan\theta = \dfrac&#123;4h&#125;&#123;L&#125; = \dfrac&#123;32&#125;&#123;40&#125; = 0.8 \Rightarrow \theta = 38.66^\circ \)</div></div>
+      <div class="step"><b>5</b><div><strong>Normal thrust there:</strong> \( N = H\cos\theta + V\sin\theta = 500(0.7809) + 400(0.6247) = 390.4 + 249.9 = 640.3\text&#123;kN&#125; \), and \( Q = 400(0.7809) - 500(0.6247) = 0 \).</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> V = 400 kN, H = 500 kN, <strong>M = 0 everywhere</strong>, N = 640.3 kN at the springing with zero shear. A simply supported beam of the same span would carry \(wL^2/8 = 4000\) kN&middot;m of bending. The arch replaces all of it with 500 kN of horizontal push.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>The Same Arch under a Point Load</h4></div>
+    <p class="prob"><strong>Problem:</strong> Remove the UDL and apply a single P = 100 kN at a = 10 m from A. Find H and the bending moment under the load.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Vertical reactions</strong> as for a beam: \( V_A = \dfrac&#123;P(L-a)&#125;&#123;L&#125; = \dfrac&#123;100(30)&#125;&#123;40&#125; = 75\text&#123;kN&#125; \), \( V_B = 25\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>2</b><div><strong>Thrust</strong> &mdash; moments about the crown, left half only. The load lies on the left half, so it appears:
+        <div class="eq">\[ H h = V_A\frac&#123;L&#125;&#123;2&#125; - P\left(\frac&#123;L&#125;&#123;2&#125;-a\right) = 75(20) - 100(10) = 500 \Rightarrow H = \frac&#123;500&#125;&#123;8&#125; = 62.5\text&#123;kN&#125; \]</div></div></div>
+      <div class="step"><b>3</b><div><strong>Arch height under the load:</strong> \( y(10) = \dfrac&#123;4(8)(10)(30)&#125;&#123;40^2&#125; = \dfrac&#123;9600&#125;&#123;1600&#125; = 6\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>4</b><div><strong>Moment there:</strong> \( M = V_A x - Hy = 75(10) - 62.5(6) = 750 - 375 = 375\text&#123;kN·m&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> H = 62.5 kN and M = 375 kN&middot;m under the load. The equivalent beam would carry \(Pab/L = 750\) kN&middot;m &mdash; so the arch halves it, but does not eliminate it. <em>A point load is not the funicular load for a parabola</em>, and the arch tells you so.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>Cable: Sag, Tension and Length</h4></div>
+    <p class="prob"><strong>Problem:</strong> A cable spans L = 30 m with a midspan sag of 3 m and carries w = 5 kN/m along the horizontal. Find H, the maximum and minimum tension, and the cable length.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>\( H = \dfrac&#123;wL^2&#125;&#123;8d&#125; = \dfrac&#123;5 \times 900&#125;&#123;8 \times 3&#125; = \dfrac&#123;4500&#125;&#123;24&#125; = 187.5\text&#123;kN&#125; \) &mdash; this is also \(T_&#123;\min&#125;\), at the lowest point.</div></div>
+      <div class="step"><b>2</b><div>\( V = \dfrac&#123;wL&#125;&#123;2&#125; = \dfrac&#123;5 \times 30&#125;&#123;2&#125; = 75\text&#123;kN&#125; \) at each support.</div></div>
+      <div class="step"><b>3</b><div>\( T_&#123;\max&#125; = \sqrt&#123;187.5^2 + 75^2&#125; = \sqrt&#123;35156 + 5625&#125; = 201.9\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>4</b><div>\( S \approx 30\left(1 + \tfrac&#123;8&#125;&#123;3&#125;(0.1)^2 - \tfrac&#123;32&#125;&#123;5&#125;(0.1)^4\right) = 30(1.02603) = 30.78\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>5</b><div><strong>Now halve the sag to 1.5 m:</strong> \( H = 375 \) kN and \( T_&#123;\max&#125; = 382.4 \) kN &mdash; nearly double, for a cable that is only 0.58 m shorter (30.20 m instead of 30.78 m).</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> H = T<sub>min</sub> = 187.5 kN, T<sub>max</sub> = 201.9 kN, S = 30.78 m. Note how little T varies along the cable (7.7% here): for shallow cables the tension is nearly uniform, which is why a single cable size works over the whole span.</div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>Funicular shape</span><span>shape carrying a given load with zero bending</span></div>
+    <div><span>UDL along span</span><span>parabola</span></div>
+    <div><span>Self-weight only</span><span>catenary (&asymp; parabola if shallow)</span></div>
+    <div><span>Point loads</span><span>funicular polygon (straight segments)</span></div>
+    <div><span>Cable thrust</span><span>H = wL&sup2;/(8d)</span></div>
+    <div><span>Cable T<sub>max</sub></span><span>&radic;(H&sup2; + V&sup2;), at the supports</span></div>
+    <div><span>Cable T<sub>min</sub></span><span>H, at the lowest point</span></div>
+    <div><span>Cable length</span><span>L[1 + (8/3)(d/L)&sup2; &minus; (32/5)(d/L)&#8308;]</span></div>
+    <div><span>Arch thrust</span><span>H = M<sub>C,beam</sub>/h; = wL&sup2;/(8h) for full UDL</span></div>
+    <div><span>Arch vertical reactions</span><span>same as the equivalent simple beam</span></div>
+    <div><span>Arch moment</span><span>M = M<sub>beam</sub>(x) &minus; H&middot;y(x)</span></div>
+    <div><span>Normal thrust</span><span>N = H cos&theta; + V sin&theta;</span></div>
+    <div><span>Radial shear</span><span>Q = V cos&theta; &minus; H sin&theta;</span></div>
+    <div><span>Thrust line</span><span>M = N&middot;e, e = offset from the axis</span></div>
+    <div><span>Three hinges</span><span>4 unknowns, 4 equations &rarr; determinate</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. A three-hinged parabolic arch carries a full-span UDL. What is the bending moment at the quarter point?</p>
+      <button data-v="0">wL&sup2;/32, as in a simply supported beam</button>
+      <button data-v="1">Zero — the parabola is the funicular shape for a UDL</button>
+      <button data-v="2">Equal to H times the rise</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. You halve the sag of a cable while keeping the span and load the same. The maximum tension:</p>
+      <button data-v="0">Halves — less sag means less material and less force</button>
+      <button data-v="1">Stays the same — the load did not change</button>
+      <button data-v="2">Roughly doubles — H is inversely proportional to sag</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. Why is a hinge placed at the crown of an arch?</p>
+      <button data-v="0">To supply a fourth equation (M = 0 there) and make the arch determinate</button>
+      <button data-v="1">To let the arch expand in hot weather</button>
+      <button data-v="2">To increase the horizontal thrust</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>4. The abutments of a masonry arch spread slightly outwards over time. What happens?</p>
+      <button data-v="0">Nothing — the arch is determinate, so it just moves</button>
+      <button data-v="1">The thrust increases, crushing the stone</button>
+      <button data-v="2">H drops, so H&middot;y no longer cancels the beam moment and the arch starts to bend</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>5. Hooke's principle "as hangs the flexible line, so but inverted will stand the rigid arch" means:</p>
+      <button data-v="0">Arches and cables carry the same load with the same material</button>
+      <button data-v="1">The hanging shape of a chain under a load, inverted, is the pure-compression arch for that load</button>
+      <button data-v="2">A cable can be replaced by an arch of half the depth</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee330/influence-lines">&larr; Influence Lines</a>
+  <a href="/civil/cee330/moving-loads">Moving Loads &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+
+  /* ---------- cable ---------- */
+  function cable(){
+    const L=Math.max(2,v('cb-L')), w=Math.max(0.01,v('cb-w'));
+    const d=Math.max(0.05,v('cb-d'));
+    const H=w*L*L/(8*d), V=w*L/2, T=Math.hypot(H,V);
+    const r=d/L, S=L*(1+8/3*r*r-32/5*Math.pow(r,4));
+    g('cb-res').innerHTML=
+      `<div class="res"><span>Sag ratio d/L</span><b>1 : ${(L/d).toFixed(1)}</b></div>`+
+      `<div class="res"><span>H = wL&sup2;/8d  =  T<sub>min</sub></span><b>${H.toFixed(1)} kN</b></div>`+
+      `<div class="res"><span>V at each support</span><b>${V.toFixed(1)} kN</b></div>`+
+      `<div class="verdict v-pass"><span>T<sub>max</sub> at the supports</span><b>${T.toFixed(1)} kN</b></div>`+
+      `<div class="res"><span>Support slope</span><b>${(Math.atan(4*d/L)*180/Math.PI).toFixed(1)}&deg;</b></div>`+
+      `<div class="res"><span>Cable length S</span><b>${S.toFixed(2)} m  (+${(100*(S/L-1)).toFixed(2)}%)</b></div>`;
+
+    const W=340,Ht=130,pad=26, X=t=>pad+(t/L)*(W-2*pad);
+    const ymax=Math.max(d,L/4), Y=yy=>18+(yy/ymax)*(Ht-46);
+    let s=`<svg viewBox="0 0 ${W} ${Ht}" style="width:100%;height:auto">`;
+    s+=`<line x1="${X(0)}" y1="${Y(0)}" x2="${X(L)}" y2="${Y(0)}" stroke="var(--bdr2)" stroke-width="1" stroke-dasharray="3,3"/>`;
+    let p='';
+    for(let i=0;i<=60;i++){const t=L*i/60; p+=(i?' L ':'M ')+X(t).toFixed(1)+' '+Y(4*d*t*(L-t)/(L*L)).toFixed(1);}
+    s+=`<path d="${p}" fill="none" stroke="var(--teal)" stroke-width="2.4"/>`;
+    for(let i=1;i<12;i++){const t=L*i/12; const yy=Y(4*d*t*(L-t)/(L*L));
+      s+=`<line x1="${X(t)}" y1="${Y(0)-9}" x2="${X(t)}" y2="${yy-2}" stroke="var(--mut)" stroke-width=".7"/>`;}
+    s+=`<text x="${X(L/2)}" y="${Y(0)-13}" font-size="8.5" fill="var(--mut)" text-anchor="middle">w = ${w} kN/m</text>`;
+    [0,L].forEach(t=>{s+=`<circle cx="${X(t)}" cy="${Y(0)}" r="3.5" fill="var(--bdr2)" stroke="var(--txt2)"/>`;});
+    s+=`<line x1="${X(L/2)}" y1="${Y(0)}" x2="${X(L/2)}" y2="${Y(d)}" stroke="var(--rust)" stroke-width="1" stroke-dasharray="2,2"/>`;
+    s+=`<text x="${X(L/2)+5}" y="${(Y(0)+Y(d))/2}" font-size="8.5" fill="var(--rust)">d = ${d} m</text>`;
+    s+=`<text x="${X(0)}" y="${Y(d)+18}" font-size="8.5" fill="var(--teal)">T<tspan baseline-shift="sub" font-size="6">max</tspan> = ${T.toFixed(1)} kN</text>`;
+    s+=`<text x="${X(L)}" y="${Y(d)+18}" font-size="8.5" fill="var(--vio)" text-anchor="end">H = ${H.toFixed(1)} kN</text>`;
+    s+=`</svg>`;
+    g('cb-fig').innerHTML=s;
+  }
+  ['cb-L','cb-d','cb-w'].forEach(id=>g(id).addEventListener('input',()=>{
+    const L=Math.max(2,v('cb-L')); g('cb-r').value=Math.round(L/Math.max(0.05,v('cb-d')));
+    g('cb-rv').textContent='d/L = 1/'+g('cb-r').value; cable();
+  }));
+  g('cb-r').addEventListener('input',()=>{
+    const n=v('cb-r'); g('cb-rv').textContent='d/L = 1/'+n;
+    g('cb-d').value=(Math.max(2,v('cb-L'))/n).toFixed(2); cable();
+  });
+  cable();
+
+  /* ---------- arch ---------- */
+  function arch(){
+    const shape=g('ar-shape').value;
+    const L=Math.max(4,v('ar-L')), h=Math.max(0.5,v('ar-h'));
+    const w=Math.max(0,v('ar-w')), P=Math.max(0,v('ar-P'));
+    const a=Math.min(Math.max(0,v('ar-a')),L);
+    const x=Math.min(L, v('ar-x')/100*L);
+    g('ar-xv').textContent=x.toFixed(2);
+
+    const R=(L*L/4+h*h)/(2*h);
+    const y = shape==='beam' ? (()=>0)
+            : shape==='par'  ? (t=>4*h*t*(L-t)/(L*L))
+            : (t=>Math.sqrt(Math.max(0,R*R-(t-L/2)*(t-L/2)))+h-R);
+    const dy = shape==='beam' ? (()=>0)
+             : shape==='par'  ? (t=>4*h*(L-2*t)/(L*L))
+             : (t=>{const u=t-L/2, q=Math.sqrt(Math.max(1e-9,R*R-u*u)); return -u/q;});
+
+    const VA = w*L/2 + P*(L-a)/L, VB = w*L/2 + P*a/L;
+    const H  = shape==='beam' ? 0 : (VA*L/2 - w*L*L/8 - (a<L/2 ? P*(L/2-a) : 0))/h;
+
+    const Mbeam=t=>VA*t - w*t*t/2 - (t>a?P*(t-a):0);
+    const M=t=>Mbeam(t)-H*y(t);
+    const Vsh=t=>VA - w*t - (t>a?P:0);
+
+    let Mmax=0,xMax=0;
+    for(let i=0;i<=400;i++){const t=L*i/400; if(Math.abs(M(t))>Math.abs(Mmax)){Mmax=M(t);xMax=t;}}
+    const beamPeak=(()=>{let b=0;for(let i=0;i<=400;i++){const t=L*i/400;if(Math.abs(Mbeam(t))>Math.abs(b))b=Mbeam(t);}return b;})();
+
+    const th=Math.atan(dy(x)), Vx=Vsh(x);
+    const N=H*Math.cos(th)+Vx*Math.sin(th), Q=Vx*Math.cos(th)-H*Math.sin(th);
+    const flat=Math.abs(Mmax)<1e-6*Math.max(1,Math.abs(beamPeak));
+
+    g('ar-res').innerHTML=
+      `<div class="res"><span>V<sub>A</sub> / V<sub>B</sub></span><b>${VA.toFixed(1)} / ${VB.toFixed(1)} kN</b></div>`+
+      `<div class="res"><span>Horizontal thrust H</span><b>${H.toFixed(1)} kN</b></div>`+
+      `<div class="res"><span>Arch height y at x</span><b>${y(x).toFixed(2)} m</b></div>`+
+      `<div class="res"><span>Axis slope &theta; at x</span><b>${(th*180/Math.PI).toFixed(1)}&deg;</b></div>`+
+      `<div class="res"><span>Normal thrust N at x</span><b>${N.toFixed(1)} kN</b></div>`+
+      `<div class="res"><span>Radial shear Q at x</span><b>${Q.toFixed(1)} kN</b></div>`+
+      `<div class="res"><span>Moment M at x</span><b>${M(x).toFixed(1)} kN&middot;m</b></div>`+
+      `<div class="res"><span>Equivalent beam peak</span><b>${beamPeak.toFixed(0)} kN&middot;m</b></div>`+
+      `<div class="verdict ${flat?'v-pass':'v-fail'}"><span>|M|<sub>max</sub>${flat?'':' at x = '+xMax.toFixed(1)+' m'}</span><b>${flat?'0 — pure compression':Math.abs(Mmax).toFixed(1)+' kN·m  ('+(100*Math.abs(Mmax/beamPeak)).toFixed(1)+'% of beam)'}</b></div>`;
+
+    const W=340,padL=30,padR=16, X=t=>padL+(t/L)*(W-padL-padR);
+    const archH=110, momH=76, Ht=archH+momH;
+    const base=archH-34, hs=Math.max(h,0.5);
+    const Ya=yy=>base-(yy/hs)*(archH-58);
+    let s=`<svg viewBox="0 0 ${W} ${Ht}" style="width:100%;height:auto">`;
+    s+=`<defs><marker id="arh" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--teal)"/></marker>`+
+       `<marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--vio)"/></marker></defs>`;
+    // UDL
+    if(w>0){for(let i=0;i<=14;i++){const t=L*i/14;
+      s+=`<line x1="${X(t)}" y1="13" x2="${X(t)}" y2="${Ya(y(t))-3}" stroke="var(--mut)" stroke-width=".6" opacity=".65" marker-end="url(#arh)"/>`;}
+      s+=`<text x="${padL}" y="9" font-size="8" fill="var(--mut)">w = ${w} kN/m</text>`;}
+    // arch axis
+    let p='';
+    for(let i=0;i<=90;i++){const t=L*i/90; p+=(i?' L ':'M ')+X(t).toFixed(1)+' '+Ya(y(t)).toFixed(1);}
+    s+=`<path d="${p}" fill="none" stroke="var(--teal)" stroke-width="2.6"/>`;
+    // parabola reference when circular
+    if(shape==='cir'){let q='';
+      for(let i=0;i<=90;i++){const t=L*i/90; q+=(i?' L ':'M ')+X(t).toFixed(1)+' '+Ya(4*h*t*(L-t)/(L*L)).toFixed(1);}
+      s+=`<path d="${q}" fill="none" stroke="var(--vio)" stroke-width="1" stroke-dasharray="3,3" opacity=".8"/>`;
+      s+=`<text x="${X(L/2)}" y="${Ya(h)-11}" font-size="7.5" fill="var(--vio)" text-anchor="middle">parabola (funicular)</text>`;}
+    // point load — arrow from the top edge so it never clips, label placed inside the span
+    if(P>0){s+=`<line x1="${X(a)}" y1="13" x2="${X(a)}" y2="${Ya(y(a))-3}" stroke="var(--rust)" stroke-width="2" marker-end="url(#arh)"/>`;
+      s+=`<text x="${W-padR}" y="9" font-size="8.5" fill="var(--rust)" text-anchor="end">P = ${P} kN at ${a} m</text>`;}
+    // crown hinge + supports
+    if(shape!=='beam') s+=`<circle cx="${X(L/2)}" cy="${Ya(h)}" r="3.2" fill="var(--bg)" stroke="var(--teal)" stroke-width="1.6"/>`;
+    [0,L].forEach(t=>{
+      s+=`<polygon points="${X(t)},${Ya(0)} ${X(t)-6},${Ya(0)+9} ${X(t)+6},${Ya(0)+9}" fill="var(--bdr2)" stroke="var(--txt2)"/>`;
+      s+=`<line x1="${X(t)}" y1="${Ya(0)+22}" x2="${X(t)}" y2="${Ya(0)+11}" stroke="var(--teal)" stroke-width="1.6" marker-end="url(#arh)"/>`;});
+    s+=`<text x="${X(0)-8}" y="${Ya(0)+30}" font-size="8" fill="var(--teal)" text-anchor="middle">${VA.toFixed(0)}</text>`;
+    s+=`<text x="${X(L)+8}" y="${Ya(0)+30}" font-size="8" fill="var(--teal)" text-anchor="middle">${VB.toFixed(0)}</text>`;
+    if(H>0.05){
+      s+=`<line x1="${X(0)-20}" y1="${Ya(0)+4}" x2="${X(0)-3}" y2="${Ya(0)+4}" stroke="var(--vio)" stroke-width="1.8" marker-end="url(#arr)"/>`;
+      s+=`<line x1="${X(L)+20}" y1="${Ya(0)+4}" x2="${X(L)+3}" y2="${Ya(0)+4}" stroke="var(--vio)" stroke-width="1.8" marker-end="url(#arr)"/>`;
+      s+=`<text x="${X(L/2)}" y="${Ya(0)+30}" font-size="8" fill="var(--vio)" text-anchor="middle">H = ${H.toFixed(0)} kN (thrust)</text>`;}
+    // section marker
+    s+=`<line x1="${X(x)}" y1="${Ya(y(x))-7}" x2="${X(x)}" y2="${Ya(y(x))+7}" stroke="var(--rust)" stroke-width="1.6"/>`;
+    s+=`<circle cx="${X(x)}" cy="${Ya(y(x))}" r="2.6" fill="var(--rust)"/>`;
+
+    // moment panel — scaled to the equivalent beam so shapes are comparable
+    const mtop=archH+8, mmid=mtop+14+(momH-20)/2, amp=(momH-20)/2-4;
+    const sc=Math.max(Math.abs(beamPeak),1e-6);
+    const Ym=m=>mmid-(m/sc)*amp;
+    s+=`<line x1="${X(0)}" y1="${Ym(0)}" x2="${X(L)}" y2="${Ym(0)}" stroke="var(--bdr2)" stroke-width="1"/>`;
+    let bp='';
+    for(let i=0;i<=90;i++){const t=L*i/90; bp+=(i?' L ':'M ')+X(t).toFixed(1)+' '+Ym(Mbeam(t)).toFixed(1);}
+    s+=`<path d="${bp}" fill="none" stroke="var(--mut)" stroke-width="1" stroke-dasharray="3,3"/>`;
+    s+=`<text x="${X(L)}" y="${mtop+4}" font-size="7.5" fill="var(--mut)" text-anchor="end">&#8211;&#8211;&#8211; equivalent beam</text>`;
+    let mp='';
+    for(let i=0;i<=90;i++){const t=L*i/90; mp+=(i?' L ':'M ')+X(t).toFixed(1)+' '+Ym(M(t)).toFixed(1);}
+    s+=`<path d="${mp}" fill="none" stroke="${flat?'var(--grn)':'var(--rust)'}" stroke-width="2.4"/>`;
+    s+=`<text x="${padL}" y="${mtop+4}" font-size="8.5" fill="var(--txt2)">Bending moment along the span</text>`;
+    s+=`<line x1="${X(x)}" y1="${Ym(0)}" x2="${X(x)}" y2="${Ym(M(x))}" stroke="var(--rust)" stroke-width=".8" stroke-dasharray="2,2"/>`;
+    s+=`<circle cx="${X(x)}" cy="${Ym(M(x))}" r="3" fill="${flat?'var(--grn)':'var(--rust)'}"/>`;
+    if(flat) s+=`<text x="${X(L/2)}" y="${Ym(0)-7}" font-size="9" fill="var(--grn)" text-anchor="middle">M = 0 everywhere</text>`;
+    s+=`</svg>`;
+    g('ar-fig').innerHTML=s;
+  }
+  ['ar-shape','ar-L','ar-h','ar-w','ar-P','ar-a','ar-x'].forEach(id=>g(id).addEventListener('input',arch));
+  arch();
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const A=document.querySelectorAll('.quiz .q.answered').length;
+      const R=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=R+' / '+A+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>

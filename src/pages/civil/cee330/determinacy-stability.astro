@@ -1,0 +1,489 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/chapter.css'
+---
+<Base title="CEE 330 — Determinacy & Stability" description="Statical determinacy and stability from intuition to numbers — why equilibrium alone sometimes isn't enough, the counting formulas for beams, frames and trusses, geometric instability, and a live determinacy calculator with standard structures built in.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 330 &middot; Structural Analysis and Design-I &middot; Week 1</div>
+  <h1>Determinacy &amp; Stability</h1>
+  <p class="hd-sub">Before you can analyse a structure you have to ask two questions about it, in order: <em>will it stand up at all?</em> and <em>can equilibrium alone tell me the forces?</em> Get these wrong and every calculation that follows is answering the wrong problem.</p>
+  <div class="hd-pills">
+    <span class="pill">Stability first</span>
+    <span class="pill">Beams &amp; Frames</span>
+    <span class="pill">Trusses</span>
+    <span class="pill">Live calculator</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">The Three-Legged Stool</a></li>
+    <li><a href="#sec-equations">What Equilibrium Can and Can't Do</a></li>
+    <li><a href="#sec-beam">Counting: Beams &amp; Frames</a></li>
+    <li><a href="#sec-truss">Counting: Trusses</a></li>
+    <li><a href="#sec-conditions">Equations of Condition</a></li>
+    <li><a href="#sec-calc">Live Determinacy Calculator</a></li>
+    <li><a href="#sec-geometric">When Counting Lies</a></li>
+    <li><a href="#sec-why-care">Why Indeterminacy Is Usually Good</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>The Three-Legged Stool</h2></div>
+
+  <p class="lead">Two ideas get confused constantly, and they are not the same question. <strong>Stability</strong> asks whether the structure holds together at all. <strong>Determinacy</strong> asks whether the equations of statics are enough to find the forces in it.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#129681;</span>
+    <div>
+      <strong>Stools.</strong> A <em>two-legged</em> stool falls over — no arrangement of forces holds it up. That is <strong>instability</strong>. A <em>three-legged</em> stool never wobbles, and you can work out the load in each leg from equilibrium alone: that is <strong>statically determinate</strong>. Now add a fourth leg. It is stronger and safer — but on an uneven floor, how much load does each leg carry? It depends on how stiff the legs are and exactly how uneven the floor is. Equilibrium can no longer answer it. That is <strong>statically indeterminate</strong>.
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-rust"><span class="vtag">Unstable</span><h4>Fewer restraints than motions</h4><p>The structure can move as a rigid body or fold into a mechanism. No amount of clever analysis helps — it must be fixed, not solved.</p></div>
+    <div class="vcard v-teal"><span class="vtag">Determinate</span><h4>Exactly enough</h4><p>Unknowns = equations. Solvable with &Sigma;F<sub>x</sub>, &Sigma;F<sub>y</sub>, &Sigma;M alone. Forces don't depend on material or member size.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Indeterminate</span><h4>More restraints than equations</h4><p>Solvable, but only by also using compatibility — how much things stretch and bend. Forces now depend on E, I and A.</p></div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Check <strong>stability first, always</strong>. A determinacy count on an unstable structure is meaningless — you would be computing the forces in something that is already falling down.</p>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-equations">
+  <div class="sec-h"><span class="sec-n">02</span><h2>What Equilibrium Can and Can't Do</h2></div>
+
+  <p>A rigid body in a plane can do exactly three things: slide sideways, slide up, and spin. So statics gives you exactly three equations to stop it doing them.</p>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">The whole toolkit</span>
+      <div class="eq">\[ \sum F_x = 0,\qquad \sum F_y = 0,\qquad \sum M = 0 \]</div>
+      <p class="small">Three equations per rigid body in 2-D. That is all statics will ever give you — the rest has to come from geometry or from the material.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">The bookkeeping</span>
+      <h4>Unknowns vs. equations</h4>
+      <p>Count the unknowns (reaction components, member forces). Count the equations. If unknowns exceed equations by <em>n</em>, the structure is <strong>indeterminate to the n<sup>th</sup> degree</strong>, and n is the number of <strong>redundants</strong>.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Why this decides your whole method.</strong> Determinate &rarr; you can go straight to shear and moment diagrams with statics. Indeterminate &rarr; you need virtual work, moment distribution, stiffness methods, or the approximate methods in Weeks 6&ndash;8. The count you do in this chapter tells you which door to walk through for the rest of the course.</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-beam">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Counting: Beams &amp; Frames</h2></div>
+
+  <div class="vcard v-vio" style="margin-bottom:1rem">
+    <span class="vtag">Degree of static indeterminacy</span>
+    <div class="eq">\[ i = 3m + r - 3j - c \]</div>
+    <p class="small">m = members, r = reaction components, j = joints (including supports), c = equations of condition (internal releases).</p>
+  </div>
+
+  <p>The logic is simpler than it looks. Every member carries three internal force components, so <strong>3m</strong> counts the internal unknowns and <strong>r</strong> the external ones. Every joint gives you three equilibrium equations, so <strong>3j</strong> counts what you can write down, and <strong>c</strong> adds the extra equations that internal hinges hand you for free.</p>
+
+  <div class="qref">
+    <div><span>Pin / hinge support</span><span>r = 2 (H, V)</span></div>
+    <div><span>Roller support</span><span>r = 1 (perpendicular only)</span></div>
+    <div><span>Fixed support</span><span>r = 3 (H, V, M)</span></div>
+    <div><span>Link / cable</span><span>r = 1 (along its axis)</span></div>
+    <div><span>i &lt; 0</span><span>unstable — a mechanism</span></div>
+    <div><span>i = 0</span><span>determinate (if geometrically stable)</span></div>
+    <div><span>i &gt; 0</span><span>indeterminate to degree i</span></div>
+    <div><span>Same formula</span><span>works for beams — a beam is a one-member frame</span></div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>A beam is just a frame that happens to be straight. The single formula \( i = 3m + r - 3j - c \) handles cantilevers, continuous beams, portal frames and arches alike &mdash; you never need a separate rule.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-truss">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Counting: Trusses</h2></div>
+
+  <p>Trusses get their own formula because their joints are different. An ideal truss joint is a frictionless pin and every member carries <em>only</em> axial force — no moment to speak of.</p>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Plane truss</span>
+      <div class="eq">\[ i = m + r - 2j \]</div>
+      <p class="small">One unknown per member (its axial force), and only <strong>two</strong> equations per joint (&Sigma;F<sub>x</sub>, &Sigma;F<sub>y</sub>) — a pin joint cannot carry moment, so &Sigma;M gives nothing new.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Why 2j and not 3j</span>
+      <p>At a truss joint all member forces pass through one point, so they are automatically concurrent and their moment about that point is identically zero. &Sigma;M = 0 is satisfied trivially and carries no information. That single difference is the whole reason trusses need their own count.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Watch for the trap:</strong> counting alone can call a truss determinate while it is actually a mechanism. If m + r = 2j but the members are badly arranged — a rectangular panel with no diagonal, say — part of the truss folds even though the arithmetic looks perfect. Section 7 covers this.</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-conditions">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Equations of Condition</h2></div>
+
+  <p>An internal hinge is a gift: it tells you something equilibrium of the whole structure cannot. At a hinge, the bending moment is <em>known to be zero</em>, and that is one extra equation.</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Internal hinge, 2 members</span><h4>c = 1</h4><p>One moment release: \( \sum M = 0 \) at the hinge, taking either side alone.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Internal hinge, n members</span><h4>c = n &minus; 1</h4><p>A hinge joining three members releases two moments, not one.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Internal roller / shear release</span><h4>c = 2</h4><p>Releases both moment and axial force at that section.</p></div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#128273;</span>
+    <div>
+      <strong>A hinge is a free equation, not a free unknown.</strong> Students often try to count a hinge as an extra unknown and get the sign backwards. Think of it the other way round: the hinge <em>tells</em> you something — "no moment here" — so it goes on the same side of the ledger as &Sigma;F = 0. More hinges, more information, <em>less</em> indeterminacy.
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>This is exactly why the <strong>three-hinged arch</strong> is determinate while the two-hinged arch is not. Both have four reaction components against three equations — but the crown hinge supplies the fourth equation, and the count closes: \( 3(2)+4-3(3)-1 = 0 \).</p>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-calc">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Live Determinacy Calculator</h2></div>
+  <p>Pick a standard structure to load its counts, or enter your own. The calculator shows the arithmetic term by term, so you can see <em>where</em> a number came from rather than just the verdict.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Structure type
+        <select id="dt-type">
+          <option value="frame" selected>Beam / Frame (3m + r &minus; 3j &minus; c)</option>
+          <option value="truss">Truss (m + r &minus; 2j)</option>
+        </select>
+      </label>
+      <label>Load a standard structure
+        <select id="dt-preset">
+          <option value="">— custom —</option>
+        </select>
+      </label>
+      <label>Members m / Joints j
+        <span class="calc-pair"><input type="number" id="dt-m" value="3" min="1" step="1"><input type="number" id="dt-j" value="4" min="2" step="1"></span>
+      </label>
+      <label>Reaction components r <input type="number" id="dt-r" value="6" min="0" step="1"></label>
+      <label id="dt-crow">Equations of condition c <input type="number" id="dt-c" value="0" min="0" step="1"></label>
+      <div class="small" id="dt-hint"></div>
+    </div>
+    <div class="calc-out">
+      <div id="dt-fig" class="calc-fig"></div>
+      <div id="dt-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-geometric">
+  <div class="sec-h"><span class="sec-n">07</span><h2>When Counting Lies</h2></div>
+
+  <p class="lead">The formulas count <em>how many</em> restraints there are. They cannot see <em>where</em> those restraints point. A structure can pass the count and still collapse.</p>
+
+  <div class="grid3">
+    <div class="vcard v-rust">
+      <span class="vtag">Failure 1</span>
+      <h4>All reactions parallel</h4>
+      <p>Three vertical rollers give r = 3 and the count says determinate. But nothing resists horizontal load — &Sigma;F<sub>x</sub> = 0 can never be satisfied. The structure slides away.</p>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">Failure 2</span>
+      <h4>All reactions concurrent</h4>
+      <p>If the lines of action of every reaction meet at one point, the structure can rotate about that point. Taking moments there gives 0 = 0 — no restraint at all against spin.</p>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">Failure 3</span>
+      <h4>Internal mechanism</h4>
+      <p>The supports are fine but part of the structure folds — a truss panel with no diagonal, or too many hinges in a row in a beam. Locally unstable, globally counted as stable.</p>
+    </div>
+  </div>
+
+  <div class="diagram-card">
+    <h4>Three Structures That Pass the Count and Still Fall Down</h4>
+    <svg viewBox="0 0 150 120" class="static-svg" style="max-width:170px">
+      <line x1="20" y1="55" x2="130" y2="55" stroke="var(--txt2)" stroke-width="2.5"/>
+      <g stroke="var(--rust)" stroke-width="1.6">
+        <line x1="35" y1="55" x2="35" y2="75"/><line x1="75" y1="55" x2="75" y2="75"/><line x1="115" y1="55" x2="115" y2="75"/>
+      </g>
+      <line x1="20" y1="78" x2="130" y2="78" stroke="var(--bdr2)"/>
+      <path d="M 60 30 L 100 30" stroke="var(--amb)" stroke-width="2" marker-end="url(#ar)"/>
+      <defs><marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--amb)"/></marker></defs>
+      <text x="75" y="24" font-size="9" fill="var(--amb)" text-anchor="middle">H</text>
+      <text x="75" y="100" font-size="9" fill="var(--rust)" text-anchor="middle">parallel reactions</text>
+      <text x="75" y="112" font-size="8" fill="var(--mut)" text-anchor="middle">r = 3, but slides</text>
+    </svg>
+    <svg viewBox="0 0 150 120" class="static-svg" style="max-width:170px">
+      <path d="M 30 70 L 75 30 L 120 70" fill="none" stroke="var(--txt2)" stroke-width="2.5"/>
+      <g stroke="var(--rust)" stroke-width="1.2" stroke-dasharray="3,2">
+        <line x1="30" y1="70" x2="75" y2="45"/><line x1="120" y1="70" x2="75" y2="45"/><line x1="75" y1="30" x2="75" y2="45"/>
+      </g>
+      <circle cx="75" cy="45" r="3.5" fill="var(--rust)"/>
+      <path d="M 92 42 A 18 18 0 0 1 84 58" fill="none" stroke="var(--amb)" stroke-width="1.6" marker-end="url(#ar)"/>
+      <text x="75" y="100" font-size="9" fill="var(--rust)" text-anchor="middle">concurrent reactions</text>
+      <text x="75" y="112" font-size="8" fill="var(--mut)" text-anchor="middle">spins about the meet point</text>
+    </svg>
+    <svg viewBox="0 0 150 120" class="static-svg" style="max-width:170px">
+      <rect x="35" y="35" width="80" height="40" fill="none" stroke="var(--txt2)" stroke-width="2.2"/>
+      <g fill="var(--rust)">
+        <circle cx="35" cy="35" r="3"/><circle cx="115" cy="35" r="3"/><circle cx="35" cy="75" r="3"/><circle cx="115" cy="75" r="3"/>
+      </g>
+      <path d="M 45 28 L 75 28" stroke="var(--amb)" stroke-width="1.8" marker-end="url(#ar)"/>
+      <path d="M 42 32 L 58 32 L 58 30" fill="none" stroke="var(--rust)" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="75" y="100" font-size="9" fill="var(--rust)" text-anchor="middle">panel with no diagonal</text>
+      <text x="75" y="112" font-size="8" fill="var(--mut)" text-anchor="middle">racks into a parallelogram</text>
+    </svg>
+    <p class="cap">Every one of these satisfies its counting formula. Arithmetic is necessary but never sufficient — after you count, <em>look at the structure</em> and ask whether anything can move.</p>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>The count is a <strong>necessary</strong> condition, not a sufficient one. Passing it means "not obviously a mechanism"; it does not mean stable. Always follow the arithmetic with the physical question: <em>can any part of this move without stretching a member?</em> If yes, it is unstable no matter what the formula said.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-why-care">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Why Indeterminacy Is Usually Good</h2></div>
+
+  <p>Determinate structures are easier to analyse, so beginners often assume they are better. In practice most real structures are deliberately indeterminate.</p>
+
+  <div class="grid2">
+    <div class="vcard v-teal">
+      <span class="vtag">In favour of indeterminate</span>
+      <h4>Redundancy and stiffness</h4>
+      <p>Extra load paths mean losing one member need not mean collapse. Moments redistribute, deflections are smaller, and the structure is generally lighter for the same load. A continuous beam beats a series of simply supported spans on every count except analysis effort.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">In favour of determinate</span>
+      <h4>Indifference to movement</h4>
+      <p>A determinate structure develops <strong>no stress</strong> from support settlement, temperature change, or fabrication error — it simply moves. An indeterminate one fights those movements and picks up real internal forces. That is why long bridges get expansion joints and why three-hinged arches are chosen on poor ground.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>The engineering judgement.</strong> Good foundations and a controlled environment &rarr; go indeterminate and enjoy the efficiency. Settlement-prone ground or big thermal swings &rarr; determinacy buys you immunity from movements you cannot predict. This trade-off is exactly why the three-hinged arch in the next chapter exists at all.</div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Portal Frame with Fixed Bases</h4></div>
+    <p class="prob"><strong>Problem:</strong> A single-bay portal frame has two columns and one beam, rigidly connected, with both column bases fixed. Classify it.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Count members:</strong> 2 columns + 1 beam &rarr; m = 3.</div></div>
+      <div class="step"><b>2</b><div><strong>Count joints:</strong> 2 base joints + 2 upper corner joints &rarr; j = 4.</div></div>
+      <div class="step"><b>3</b><div><strong>Count reactions:</strong> each fixed base gives H, V and M &rarr; r = 3 + 3 = 6.</div></div>
+      <div class="step"><b>4</b><div><strong>Conditions:</strong> all joints are rigid, no internal hinges &rarr; c = 0.</div></div>
+      <div class="step"><b>5</b><div>\( i = 3(3) + 6 - 3(4) - 0 = 9 + 6 - 12 = 3 \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> Statically indeterminate to the <strong>3rd degree</strong>. Pin the bases instead (r = 4) and it drops to 1st degree — the classic result, and the reason pinned bases are chosen when foundations may rotate.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>Three-Hinged Arch</h4></div>
+    <p class="prob"><strong>Problem:</strong> An arch is pinned at both abutments and has a hinge at the crown. Show that it is determinate, and explain why the two-hinged version is not.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Model it:</strong> the crown hinge splits the arch into two members &rarr; m = 2, with joints at each abutment and one at the crown &rarr; j = 3.</div></div>
+      <div class="step"><b>2</b><div><strong>Reactions:</strong> two pins &rarr; r = 2 + 2 = 4 — one more than the three equations of statics.</div></div>
+      <div class="step"><b>3</b><div><strong>Condition:</strong> the crown hinge joins 2 members &rarr; c = 2 &minus; 1 = 1. It supplies the missing equation: \( \sum M = 0 \) at the crown, taking one half alone.</div></div>
+      <div class="step"><b>4</b><div>\( i = 3(2) + 4 - 3(3) - 1 = 6 + 4 - 9 - 1 = 0 \) &rarr; <strong>determinate</strong>.</div></div>
+      <div class="step"><b>5</b><div><strong>Remove the crown hinge:</strong> now m = 1, j = 2, c = 0, giving \( i = 3 + 4 - 6 = 1 \) &rarr; indeterminate to 1st degree.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> Three-hinged &rarr; i = 0; two-hinged &rarr; i = 1. One hinge is the entire difference, and it is why three-hinged arches are used where abutments may settle or spread: with i = 0, support movement causes no stress at all.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>A Truss That the Count Gets Wrong</h4></div>
+    <p class="prob"><strong>Problem:</strong> A truss has m = 13, j = 8, r = 3, and the count says determinate. On inspection one rectangular panel has no diagonal. What is the true classification?</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>The count:</strong> \( i = m + r - 2j = 13 + 3 - 16 = 0 \) &rarr; apparently determinate.</div></div>
+      <div class="step"><b>2</b><div><strong>Look at the structure.</strong> A four-bar rectangular panel with pinned corners and no diagonal is a parallelogram linkage — it racks sideways with <em>no member changing length</em>.</div></div>
+      <div class="step"><b>3</b><div><strong>What that means.</strong> Deformation with zero member strain requires zero force, so there is no internal resistance to it. That panel is a mechanism.</div></div>
+      <div class="step"><b>4</b><div><strong>Reconcile the arithmetic.</strong> The total is right but the distribution is wrong: one region has a surplus member (locally indeterminate) while the open panel has a deficit (locally unstable). The two errors cancel in the sum.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> The truss is <strong>unstable</strong>, despite i = 0. Add a diagonal to the open panel and remove the surplus member elsewhere. This is the standard warning that counting is necessary but never sufficient.</div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>Beams &amp; frames</span><span>i = 3m + r &minus; 3j &minus; c</span></div>
+    <div><span>Plane trusses</span><span>i = m + r &minus; 2j</span></div>
+    <div><span>Equations in 2-D</span><span>&Sigma;F<sub>x</sub>, &Sigma;F<sub>y</sub>, &Sigma;M per body</span></div>
+    <div><span>Pin / roller / fixed</span><span>r = 2 / 1 / 3</span></div>
+    <div><span>Hinge joining n members</span><span>c = n &minus; 1</span></div>
+    <div><span>i &lt; 0 / = 0 / &gt; 0</span><span>unstable / determinate / indeterminate</span></div>
+    <div><span>Truss uses 2j</span><span>pin joints carry no moment</span></div>
+    <div><span>Three-hinged arch</span><span>i = 0</span></div>
+    <div><span>Two-hinged arch</span><span>i = 1</span></div>
+    <div><span>Portal, fixed / pinned bases</span><span>i = 3 / 1</span></div>
+    <div><span>Counting is</span><span>necessary, not sufficient</span></div>
+    <div><span>Determinate structures</span><span>no stress from settlement or heat</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. A beam is supported by three vertical rollers. The count gives i = 0. Is it usable?</p>
+      <button data-v="0">Yes — i = 0 means statically determinate</button>
+      <button data-v="1">No — all reactions are parallel, so nothing resists horizontal load</button>
+      <button data-v="2">No — three supports always make a beam indeterminate</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. Why do trusses use 2j rather than 3j?</p>
+      <button data-v="0">Truss members are lighter</button>
+      <button data-v="1">Trusses have fewer joints than frames</button>
+      <button data-v="2">At a pin joint all forces are concurrent, so &Sigma;M = 0 is automatic and adds no information</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. Adding an internal hinge to a frame changes the degree of indeterminacy how?</p>
+      <button data-v="0">Decreases it by one — the hinge supplies an extra equation</button>
+      <button data-v="1">Increases it by one — the hinge adds an unknown</button>
+      <button data-v="2">No change — hinges only affect deflection</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>4. A bridge sits on ground expected to settle unevenly. Which is safer against settlement-induced stress?</p>
+      <button data-v="0">A continuous (indeterminate) beam — it redistributes moment</button>
+      <button data-v="1">A determinate arrangement — it moves without developing stress</button>
+      <button data-v="2">Neither; support settlement never causes internal forces</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>5. A truss gives m + r = 2j, but one panel is an open rectangle with no diagonal. The truss is:</p>
+      <button data-v="0">Determinate, as the count says</button>
+      <button data-v="1">Indeterminate to the 1st degree</button>
+      <button data-v="2">Unstable — that panel racks with no member changing length</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil">&larr; Back to Civil Engineering</a>
+  <a href="/civil/cee330/influence-lines">Next: Influence Lines &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+
+  // name, type, m, j, r, c, note
+  const PRESETS=[
+    ['Simply supported beam','frame',1,2,3,0,'Pin + roller. The baseline determinate beam.'],
+    ['Cantilever beam','frame',1,2,3,0,'One fixed support: r = 3 on its own.'],
+    ['Propped cantilever','frame',1,2,4,0,'Fixed + roller — one redundant reaction.'],
+    ['Fixed–fixed beam','frame',1,2,6,0,'Both ends fixed: the classic 3rd-degree beam.'],
+    ['Continuous beam, 3 supports','frame',2,3,4,0,'Pin + two rollers, modelled as two members.'],
+    ['Beam with internal hinge','frame',2,3,4,1,'The hinge cancels the extra reaction exactly.'],
+    ['Portal frame, pinned bases','frame',3,4,4,0,'Two pins: 1st-degree indeterminate.'],
+    ['Portal frame, fixed bases','frame',3,4,6,0,'Two fixed bases: 3rd-degree indeterminate.'],
+    ['Two-hinged arch','frame',1,2,4,0,'Four reactions, three equations.'],
+    ['Three-hinged arch','frame',2,3,4,1,'The crown hinge supplies the fourth equation.'],
+    ['Simple truss (13 members)','truss',13,8,3,0,'m + r = 2j exactly.'],
+    ['Truss with one extra member','truss',14,8,3,0,'Internally indeterminate to 1st degree.'],
+    ['Truss missing a member','truss',12,8,3,0,'A genuine mechanism — negative count.']
+  ];
+
+  const sel=g('dt-preset');
+  PRESETS.forEach((p,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=p[0]; sel.appendChild(o); });
+
+  sel.addEventListener('change',()=>{
+    const i=sel.value; if(i==='') return;
+    const [,t,m,j,r,c]=PRESETS[i];
+    g('dt-type').value=t; g('dt-m').value=m; g('dt-j').value=j; g('dt-r').value=r; g('dt-c').value=c;
+    render();
+  });
+  ['dt-type','dt-m','dt-j','dt-r','dt-c'].forEach(id=>g(id).addEventListener('input',()=>{
+    if(id!=='dt-preset') sel.value='';
+    render();
+  }));
+
+  function render(){
+    const truss=g('dt-type').value==='truss';
+    const m=Math.max(0,Math.round(v('dt-m'))), j=Math.max(1,Math.round(v('dt-j')));
+    const r=Math.max(0,Math.round(v('dt-r'))), c=Math.max(0,Math.round(v('dt-c')));
+    g('dt-crow').style.display = truss ? 'none' : 'block';
+    g('dt-hint').textContent = truss
+      ? 'Truss: one unknown per member, two equations per pin joint.'
+      : 'Frame: three unknowns per member, three equations per joint, minus one equation per release.';
+
+    const unknowns = truss ? m + r : 3*m + r;
+    const equations = truss ? 2*j : 3*j + c;
+    const i = unknowns - equations;
+
+    const verdict = i<0
+      ? ['v-fail','UNSTABLE — a mechanism', 'Fewer restraints than degrees of freedom. Add members or supports; no analysis can rescue it.']
+      : i===0
+        ? ['v-pass','STATICALLY DETERMINATE', 'Solvable by equilibrium alone — provided it is also geometrically stable.']
+        : ['v-pass','INDETERMINATE to degree '+i, 'Needs compatibility as well as equilibrium: virtual work, moment distribution or stiffness methods.'];
+
+    const formula = truss
+      ? `i = m + r &minus; 2j = ${m} + ${r} &minus; 2(${j})`
+      : `i = 3m + r &minus; 3j &minus; c = 3(${m}) + ${r} &minus; 3(${j}) &minus; ${c}`;
+
+    g('dt-res').innerHTML=
+      `<div class="res"><span>Unknowns</span><b>${unknowns}</b></div>`+
+      `<div class="res"><span>Equations available</span><b>${equations}</b></div>`+
+      `<div class="res"><span>${formula}</span><b>${i}</b></div>`+
+      `<div class="verdict ${verdict[0]}"><span>${verdict[1]}</span><b>i = ${i}</b></div>`+
+      `<div class="res" style="display:block"><span>${verdict[2]}</span></div>`+
+      (i>=0 ? `<div class="verdict v-fail"><span>Now check geometry: can anything move without straining a member?</span><b>?</b></div>` : '');
+
+    // unknowns vs equations bar chart
+    const mx=Math.max(unknowns,equations,1), W=280,H=140,base=104;
+    const bar=(x,val,col,lab)=>{
+      const h=(val/mx)*74;
+      return `<rect x="${x}" y="${base-h}" width="62" height="${h.toFixed(1)}" fill="${col}" opacity=".32" stroke="${col}"/>`+
+             `<text x="${x+31}" y="${(base-h-6).toFixed(1)}" font-size="11" fill="${col}" text-anchor="middle">${val}</text>`+
+             `<text x="${x+31}" y="${base+14}" font-size="9" fill="var(--txt2)" text-anchor="middle">${lab}</text>`;
+    };
+    g('dt-fig').innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+      <line x1="30" y1="${base}" x2="${W-20}" y2="${base}" stroke="var(--bdr2)"/>
+      ${bar(60,unknowns,'var(--rust)','unknowns')}
+      ${bar(160,equations,'var(--teal)','equations')}
+      <text x="${W/2}" y="${H-6}" font-size="9" fill="${i<0?'var(--rust)':'var(--amb)'}" text-anchor="middle">${i<0?'too few equations to hold it up':(i===0?'perfectly matched':i+' redundant'+(i>1?'s':''))}</text>
+    </svg>`;
+  }
+  render();
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const a=document.querySelectorAll('.quiz .q.answered').length;
+      const r=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=r+' / '+a+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>

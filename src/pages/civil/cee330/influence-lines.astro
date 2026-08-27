@@ -1,0 +1,475 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/chapter.css'
+---
+<Base title="CEE 330 — Influence Lines" description="Influence lines from intuition to numbers — why a moving load needs a different diagram, building ILs for reactions, shear and moment, Müller-Breslau's principle, and using them for point loads, UDLs and wheel trains, with a draggable unit load that traces the line live.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 330 &middot; Structural Analysis and Design-I &middot; Weeks 2&ndash;3</div>
+  <h1>Influence Lines</h1>
+  <p class="hd-sub">A bridge doesn't get to choose where the truck stands. Every diagram you have drawn so far assumed the load stays put &mdash; influence lines are what you use when it doesn't, and they answer a question shear and moment diagrams simply cannot.</p>
+  <div class="hd-pills">
+    <span class="pill">Moving loads</span>
+    <span class="pill">Reactions, V &amp; M</span>
+    <span class="pill">M&uuml;ller-Breslau</span>
+    <span class="pill">Draggable unit load</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">The Question SFDs Can't Answer</a></li>
+    <li><a href="#sec-what">What an Influence Line Actually Is</a></li>
+    <li><a href="#sec-build">Building One From Scratch</a></li>
+    <li><a href="#sec-sim">Watch It Being Traced</a></li>
+    <li><a href="#sec-shapes">The Three Shapes to Know</a></li>
+    <li><a href="#sec-mb">M&uuml;ller-Breslau's Shortcut</a></li>
+    <li><a href="#sec-use">Using an Influence Line</a></li>
+    <li><a href="#sec-truss">Influence Lines for Trusses</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>The Question SFDs Can't Answer</h2></div>
+
+  <p class="lead">You can draw a perfect bending moment diagram for a truck parked at midspan. But the truck drives. Somewhere along its journey it produces the worst moment the bridge will ever see &mdash; and a diagram drawn for one position cannot tell you where that is.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#128247;</span>
+    <div>
+      <strong>A panorama versus a CCTV camera.</strong> A bending moment diagram is a <em>panorama</em>: one instant, frozen, showing the whole beam at once. An influence line is a <em>fixed security camera pointed at one spot</em>, recording what happens at that spot as the truck drives past. The panorama tells you everything about one moment in time; the camera tells you everything about one place, across all time. To find the worst case you need the camera.
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="vcard v-amb">
+      <span class="vtag">Shear / moment diagram</span>
+      <h4>Load fixed, position varies</h4>
+      <p>Horizontal axis = position <em>along the beam</em>. Ordinate = the value of V or M there, for one specific loading. Answers: "where is this beam worst stressed <em>right now</em>?"</p>
+    </div>
+    <div class="vcard v-teal">
+      <span class="vtag">Influence line</span>
+      <h4>Position fixed, load varies</h4>
+      <p>Horizontal axis = position <em>of the unit load</em>. Ordinate = the value of the chosen function at one fixed section. Answers: "where should the load stand to make <em>this section</em> worst?"</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>This is the single most common confusion in the course.</strong> Both are curves drawn under a beam and they can even look alike, but their horizontal axes mean completely different things. Before you interpret any ordinate, ask yourself: <em>is this axis telling me where the load is, or where I'm looking?</em></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-what">
+  <div class="sec-h"><span class="sec-n">02</span><h2>What an Influence Line Actually Is</h2></div>
+
+  <div class="core">
+    <span>Definition</span>
+    <p>An influence line for a quantity (a reaction, or the shear or moment at one chosen section) is a graph whose <strong>ordinate at any point x is the value of that quantity when a unit load stands at x</strong>.</p>
+  </div>
+
+  <p>Two consequences follow immediately, and both are worth stating out loud:</p>
+
+  <div class="grid2">
+    <div class="vcard v-vio">
+      <span class="vtag">Consequence 1</span>
+      <h4>The ordinate has odd units</h4>
+      <p>Because the load is <em>one unit</em>, an IL ordinate is a value <strong>per unit load</strong>. For a reaction it is dimensionless; for a moment it has units of length. That is why an IL for M<sub>C</sub> can read "2.4 m" — multiply by a load in kN and you get kN&middot;m.</p>
+    </div>
+    <div class="vcard v-blu">
+      <span class="vtag">Consequence 2</span>
+      <h4>Superposition is free</h4>
+      <p>Because the response is linear in the load, a load of P at x simply gives P &times; (ordinate at x). Several loads? Add them. A distributed load? Integrate — which means <em>take the area under the IL</em>. Section 7 turns this into the whole toolkit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-build">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Building One From Scratch</h2></div>
+
+  <p>The definition is also the method. Put a unit load at a general position x, solve for the quantity you care about, and plot the answer as a function of x. For a simply supported beam of span L with a section C at distance a from A:</p>
+
+  <div class="steps">
+    <div class="step"><b>1</b><div><strong>Reactions with the unit load at x.</strong> \( R_A = \dfrac&#123;L-x&#125;&#123;L&#125; \), \( R_B = \dfrac&#123;x&#125;&#123;L&#125; \). Those two <em>are</em> the influence lines for the reactions — straight lines from 1 to 0.</div></div>
+    <div class="step"><b>2</b><div><strong>Shear at C, load to the right (x &gt; a).</strong> Cut at C and look left: only R<sub>A</sub> is there, so \( V_C = R_A = \dfrac&#123;L-x&#125;&#123;L&#125; \).</div></div>
+    <div class="step"><b>3</b><div><strong>Shear at C, load to the left (x &lt; a).</strong> Now the unit load is also on the left segment: \( V_C = R_A - 1 = -\dfrac&#123;x&#125;&#123;L&#125; \).</div></div>
+    <div class="step"><b>4</b><div><strong>The jump.</strong> Just left of C the ordinate is &minus;a/L; just right it is (L&minus;a)/L. The difference is exactly <strong>1</strong> — the unit load crossing the section. Every shear IL has a unit jump at the section, and that is your check.</div></div>
+    <div class="step"><b>5</b><div><strong>Moment at C.</strong> Load right: \( M_C = R_A\,a = \dfrac&#123;a(L-x)&#125;&#123;L&#125; \). Load left: \( M_C = R_A a - (a-x) = \dfrac&#123;x(L-a)&#125;&#123;L&#125; \). Two straight lines meeting at C with the peak \( \dfrac&#123;ab&#125;&#123;L&#125; \), where b = L &minus; a.</div></div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Notice what did not happen:</strong> nowhere did we need E, I, or the material. Influence lines for a <em>statically determinate</em> structure are pure geometry — always straight-line segments. Curved influence lines only appear for indeterminate structures, and that is a reliable tell.</div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-sim">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Watch It Being Traced</h2></div>
+  <p>Drag the unit load along the beam. The top panel is the <strong>real beam</strong> with the load where you put it; the three panels below are the influence lines being drawn <em>as you go</em> — the moving dot is the value right now, and the solid part is the history you have already traced.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Unit load position x (m): <span id="il-xv">4.0</span>
+        <input type="range" id="il-x" min="0" max="100" value="40">
+      </label>
+      <label>Span L (m) <input type="number" id="il-L" value="10" step="0.5" min="2"></label>
+      <label>Section C at a (m) <input type="number" id="il-a" value="4" step="0.5" min="0"></label>
+      <label>Show
+        <select id="il-show">
+          <option value="all" selected>All three</option>
+          <option value="R">Reaction R_A only</option>
+          <option value="V">Shear V_C only</option>
+          <option value="M">Moment M_C only</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="il-full" checked> Draw the complete influence line (ghost)</label>
+    </div>
+    <div class="calc-out">
+      <div id="il-fig" class="calc-fig"></div>
+      <div id="il-res" class="calc-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-shapes">
+  <div class="sec-h"><span class="sec-n">05</span><h2>The Three Shapes to Know</h2></div>
+
+  <p>For a simply supported beam these three are worth memorising outright — most exam questions are these with numbers changed.</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Reaction R<sub>A</sub></span>
+      <h4>Straight line, 1 &rarr; 0</h4>
+      <div class="eq">\[ \text&#123;ordinate&#125; = \frac&#123;L-x&#125;&#123;L&#125; \]</div>
+      <p class="small">Value 1 when the load sits over A, 0 when it sits over B. Obvious once seen: a load directly over a support is carried entirely by it.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Shear V<sub>C</sub></span>
+      <h4>Two parallel lines, unit jump</h4>
+      <div class="eq">\[ -\frac&#123;a&#125;&#123;L&#125; \;\to\; +\frac&#123;b&#125;&#123;L&#125; \]</div>
+      <p class="small">Zero at both supports, discontinuous at C. The two segments are parallel, and the jump across C is always exactly 1.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Moment M<sub>C</sub></span>
+      <h4>Triangle, peak at C</h4>
+      <div class="eq">\[ M_&#123;C,\max&#125; = \frac&#123;ab&#125;&#123;L&#125; \]</div>
+      <p class="small">Zero at both supports, single peak directly under the section. For midspan this gives L/4 — the largest peak any section can have.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Three sanity checks that catch most errors: a reaction IL is <strong>1 over its own support</strong>; a shear IL has a <strong>jump of exactly 1</strong> at the section; a moment IL <strong>peaks at the section</strong> and is zero at both supports. If your sketch fails any of these, it is wrong.</p>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-mb">
+  <div class="sec-h"><span class="sec-n">06</span><h2>M&uuml;ller-Breslau's Shortcut</h2></div>
+
+  <div class="vcard v-vio" style="margin-bottom:1rem">
+    <span class="vtag">The principle</span>
+    <p>The influence line for any force quantity is, to scale, the <strong>deflected shape</strong> the structure takes when you remove the restraint corresponding to that quantity and impose a unit displacement in its direction.</p>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">For a reaction</span><h4>Remove the support</h4><p>Take away that support and push the structure up by 1 there. The shape you get <em>is</em> the IL for that reaction.</p></div>
+    <div class="vcard v-amb"><span class="vtag">For shear at C</span><h4>Cut and slide</h4><p>Cut at C, keep the two faces parallel, and slide them past each other by a total of 1. That relative slip is the unit jump you already know about.</p></div>
+    <div class="vcard v-vio"><span class="vtag">For moment at C</span><h4>Insert a hinge and rotate</h4><p>Put a hinge at C and impose a unit relative rotation. The kinked shape is the moment IL — and the kink is why the peak sits at C.</p></div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#9986;</span>
+    <div>
+      <strong>It turns algebra into a sketch.</strong> Rather than solving for a general load position, you break the structure at the place you care about, move it by one unit, and read off the shape. For determinate structures the released structure is a mechanism, so it moves in <em>straight lines</em> — which is precisely why determinate influence lines are made of straight segments. That single observation lets you sketch most exam ILs in seconds, then fill in ordinates by similar triangles.
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Where it really earns its keep:</strong> indeterminate structures. There, solving for a general unit-load position is genuinely painful, but Müller-Breslau still gives you the <em>shape</em> immediately — a smooth curve rather than straight lines. Even without ordinates, knowing the shape tells you where to put the load for the worst effect, which is often all you need.</div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-use">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Using an Influence Line</h2></div>
+
+  <p>Having drawn it, three rules extract every answer you need.</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal">
+      <span class="vtag">Rule 1 — point load</span>
+      <div class="eq">\[ \text&#123;effect&#125; = P \times y \]</div>
+      <p class="small">y = IL ordinate under the load. For the maximum, stand the load at the peak.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Rule 2 — distributed load</span>
+      <div class="eq">\[ \text&#123;effect&#125; = w \times A \]</div>
+      <p class="small">A = area under the IL over the loaded length. For the maximum, load only where the IL has the sign you want.</p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">Rule 3 — several loads</span>
+      <div class="eq">\[ \text&#123;effect&#125; = \sum P_i y_i \]</div>
+      <p class="small">Add each load times its own ordinate. For a wheel train, try each axle in turn at the peak and take the largest total.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Rule 2 has teeth.</strong> A UDL does <em>not</em> have to cover the whole span — a train can occupy part of a bridge. For maximum positive shear at C you load only the positive region, and Worked Example 2 shows that loading the whole span instead gives 10 kN rather than 18 kN. Partial loading is not a trick question; it is how the worst case actually arises.</div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-truss">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Influence Lines for Trusses</h2></div>
+
+  <p>A truss carries load only at its joints, so a vehicle on the deck cannot apply load between panel points. The load reaches the truss through the floor system: stringers span between floor beams, and floor beams sit at the panel points.</p>
+
+  <div class="grid2">
+    <div class="vcard v-teal">
+      <span class="vtag">The consequence</span>
+      <h4>Straight between panel points</h4>
+      <p>Compute the member force with the unit load at each panel point in turn, plot those values, and <strong>join them with straight lines</strong>. The segments between panel points are straight because the stringer distributes the load linearly to the two adjacent floor beams.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">The method</span>
+      <h4>Sections, one position at a time</h4>
+      <p>For a chord or diagonal member, take a section through it and use &Sigma;M or &Sigma;F<sub>y</sub> for each unit-load position. Tedious but mechanical — and you only need the panel points, not a general x.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>The truss IL is the beam IL evaluated <em>only at panel points</em>, then connected with straight lines. Peaks therefore always occur <strong>at a panel point</strong>, never between — which makes finding the critical load position much easier than for a beam.</p>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Worked Examples</h2></div>
+
+  <p class="small">All three use the same beam: simply supported, L = 10 m, section C at a = 4 m from A (so b = 6 m). Set the simulator above to these values to follow along.</p>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Maximum Moment at C</h4></div>
+    <p class="prob"><strong>Problem:</strong> Find the maximum moment at C from (a) a single 50 kN point load anywhere on the span, and (b) a 10 kN/m UDL covering the whole span.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Peak ordinate:</strong> \( \dfrac&#123;ab&#125;&#123;L&#125; = \dfrac&#123;4 \times 6&#125;&#123;10&#125; = 2.4\text&#123;m&#125; \), occurring with the load directly at C.</div></div>
+      <div class="step"><b>2</b><div><strong>(a) Point load</strong> — Rule 1, standing it at the peak: \( M_C = 50 \times 2.4 = 120\text&#123;kN·m&#125; \)</div></div>
+      <div class="step"><b>3</b><div><strong>(b) UDL</strong> — Rule 2. The IL is a triangle of base 10 m and height 2.4 m, so area \( = \tfrac12(10)(2.4) = 12\text&#123;m}^2 \).</div></div>
+      <div class="step"><b>4</b><div>\( M_C = 10 \times 12 = 120\text&#123;kN·m&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> Both give 120 kN&middot;m — a coincidence of these numbers, not a rule. Note the UDL needs no "where should I put it?" thinking: the IL is positive everywhere, so the full span is the worst case.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>Maximum Shear at C — Where Partial Loading Matters</h4></div>
+    <p class="prob"><strong>Problem:</strong> For the same beam, find the maximum positive shear at C under a 10 kN/m UDL that may cover any part of the span.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>The IL:</strong> &minus;a/L = &minus;0.4 just left of C, +b/L = +0.6 just right, zero at both supports.</div></div>
+      <div class="step"><b>2</b><div><strong>Positive area</strong> (C to B, 6 m long, height 0.6): \( \tfrac12(6)(0.6) = 1.8\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>3</b><div><strong>Negative area</strong> (A to C, 4 m long, height &minus;0.4): \( \tfrac12(4)(-0.4) = -0.8\text&#123;m&#125; \)</div></div>
+      <div class="step"><b>4</b><div><strong>Load only the positive region:</strong> \( V_C = 10 \times 1.8 = 18\text&#123;kN&#125; \)</div></div>
+      <div class="step"><b>5</b><div><strong>Load the whole span instead:</strong> \( V_C = 10(1.8 - 0.8) = 10\text&#123;kN&#125; \)</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> 18 kN, with the UDL only from C to B. Covering the whole span gives just 10 kN, because the left portion actively <em>cancels</em> shear. <strong>More load is not always worse</strong> — that is the whole point of influence lines.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>A Two-Axle Wheel Train</h4></div>
+    <p class="prob"><strong>Problem:</strong> Two 60 kN axles, 3 m apart, cross the same beam. Find the maximum moment at C.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>The IL for M<sub>C</sub>:</strong> rises as \( x b/L = 0.6x \) up to the peak 2.4 at x = 4 m, then falls as \( a(L-x)/L = 0.4(10-x) \).</div></div>
+      <div class="step"><b>2</b><div><strong>Trial 1 — leading axle at C.</strong> Axles at x = 4 m and 7 m. Ordinates: 2.4 and \( 0.4(3) = 1.2 \).
+        \( M_C = 60(2.4) + 60(1.2) = 144 + 72 = 216\text&#123;kN·m&#125; \)</div></div>
+      <div class="step"><b>3</b><div><strong>Trial 2 — trailing axle at C.</strong> Axles at x = 1 m and 4 m. Ordinates: \( 0.6(1) = 0.6 \) and 2.4.
+        \( M_C = 60(0.6) + 60(2.4) = 36 + 144 = 180\text&#123;kN·m&#125; \)</div></div>
+      <div class="step"><b>4</b><div><strong>Compare:</strong> 216 &gt; 180, so Trial 1 governs.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> 216 kN&middot;m, with the leading axle standing at C. The rule for wheel trains is exactly this: put <em>each</em> axle at the peak in turn and take the largest total. There is no shortcut — but there are only as many trials as there are axles.</div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>IL definition</span><span>ordinate at x = value when unit load is at x</span></div>
+    <div><span>IL axis means</span><span>position of the <em>load</em>, not of the section</span></div>
+    <div><span>IL for R<sub>A</sub></span><span>(L &minus; x)/L, straight, 1 at A</span></div>
+    <div><span>IL for V<sub>C</sub></span><span>&minus;a/L to +b/L, jump = 1 at C</span></div>
+    <div><span>IL for M<sub>C</sub></span><span>triangle, peak ab/L at C</span></div>
+    <div><span>Max M peak (midspan)</span><span>L/4</span></div>
+    <div><span>Point load</span><span>effect = P &times; y</span></div>
+    <div><span>Distributed load</span><span>effect = w &times; area under IL</span></div>
+    <div><span>Wheel train</span><span>&Sigma;P<sub>i</sub>y<sub>i</sub>; try each axle at the peak</span></div>
+    <div><span>Determinate IL</span><span>straight-line segments</span></div>
+    <div><span>Indeterminate IL</span><span>smooth curves</span></div>
+    <div><span>Müller-Breslau</span><span>release, impose unit movement, read the shape</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="2">
+      <p>1. What does the horizontal axis of an influence line represent?</p>
+      <button data-v="0">The position along the beam where V or M is being plotted</button>
+      <button data-v="1">Time as the vehicle crosses</button>
+      <button data-v="2">The position of the unit load; the section stays fixed</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>2. For maximum positive shear at C under a UDL that can cover any part of the span, you should:</p>
+      <button data-v="0">Cover the whole span — more load is always worse</button>
+      <button data-v="1">Load only the part where the IL is positive</button>
+      <button data-v="2">Place it all directly over C</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. A shear influence line must have which feature at the section?</p>
+      <button data-v="0">A jump of exactly 1</button>
+      <button data-v="1">A peak equal to ab/L</button>
+      <button data-v="2">A value of zero</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>4. You sketch an IL for a determinate beam and get a smooth curve. What does that tell you?</p>
+      <button data-v="0">The beam is very flexible</button>
+      <button data-v="1">Nothing — determinate ILs can be curved</button>
+      <button data-v="2">You have made an error — determinate ILs are straight-line segments</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>5. Müller-Breslau's principle says the IL for the moment at C is obtained by:</p>
+      <button data-v="0">Removing both supports and letting the beam fall</button>
+      <button data-v="1">Inserting a hinge at C and imposing a unit relative rotation</button>
+      <button data-v="2">Drawing the bending moment diagram for a unit load at midspan</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee330/determinacy-stability">&larr; Determinacy &amp; Stability</a>
+  <a href="/civil/cee330/arches-cables">Arches &amp; Cables &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+
+  function render(){
+    const L=Math.max(2,v('il-L'));
+    const a=Math.min(Math.max(0,v('il-a')),L), b=L-a;
+    const x=Math.min(L, v('il-x')/100*L);
+    g('il-xv').textContent=x.toFixed(2);
+    const show=g('il-show').value, ghost=g('il-full').checked;
+
+    // influence-line functions of unit-load position t
+    const ilR = t => (L-t)/L;
+    const ilV = t => t < a ? -t/L : (L-t)/L;
+    const ilM = t => t < a ? t*b/L : a*(L-t)/L;
+
+    const cur = {R: ilR(x), V: ilV(x), M: ilM(x)};
+    const peakM = a*b/L;
+
+    g('il-res').innerHTML=
+      `<div class="res"><span>Unit load at x</span><b>${x.toFixed(2)} m</b></div>`+
+      `<div class="res"><span>R<sub>A</sub> = (L&minus;x)/L</span><b>${cur.R.toFixed(3)}</b></div>`+
+      `<div class="res"><span>R<sub>B</sub> = x/L</span><b>${(1-cur.R).toFixed(3)}</b></div>`+
+      `<div class="${Math.abs(x-a)<1e-9?'verdict v-pass':'res'}"><span>V at C (a = ${a} m)</span><b>${cur.V.toFixed(3)}</b></div>`+
+      `<div class="${Math.abs(x-a)<0.02*L?'verdict v-pass':'res'}"><span>M at C</span><b>${cur.M.toFixed(3)} m ${Math.abs(x-a)<0.02*L?'— at the peak':''}</b></div>`+
+      `<div class="res"><span>Peak of M IL = ab/L</span><b>${peakM.toFixed(3)} m</b></div>`+
+      `<div class="res"><span>Jump in V IL at C</span><b>${((L-a)/L + a/L).toFixed(3)}</b></div>`;
+
+    // ---- drawing ----
+    const W=340, padL=30, padR=14;
+    const panels=[];
+    if(show==='all'||show==='R') panels.push({k:'R',f:ilR,lab:'IL for R_A',col:'var(--teal)',lo:0,hi:1});
+    if(show==='all'||show==='V') panels.push({k:'V',f:ilV,lab:'IL for V at C',col:'var(--amb)',lo:-a/L,hi:b/L});
+    if(show==='all'||show==='M') panels.push({k:'M',f:ilM,lab:'IL for M at C',col:'var(--vio)',lo:0,hi:peakM});
+    const beamH=52, panelH=64, H=beamH+panels.length*panelH+10;
+    const X=t=>padL+(t/L)*(W-padL-padR);
+
+    // beam strip
+    let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">`;
+    const by=30;
+    s+=`<line x1="${X(0)}" y1="${by}" x2="${X(L)}" y2="${by}" stroke="var(--txt2)" stroke-width="2.5"/>`;
+    s+=`<polygon points="${X(0)},${by} ${X(0)-6},${by+9} ${X(0)+6},${by+9}" fill="var(--bdr2)" stroke="var(--txt2)"/>`;
+    s+=`<circle cx="${X(L)}" cy="${by+6}" r="4.5" fill="var(--bdr2)" stroke="var(--txt2)"/>`;
+    s+=`<line x1="${X(a)}" y1="${by-8}" x2="${X(a)}" y2="${by+12}" stroke="var(--rust)" stroke-width="1.4" stroke-dasharray="3,2"/>`;
+    s+=`<text x="${X(a)}" y="${by+23}" font-size="9" fill="var(--rust)" text-anchor="middle">C</text>`;
+    s+=`<line x1="${X(x)}" y1="${by-22}" x2="${X(x)}" y2="${by-3}" stroke="var(--teal)" stroke-width="2.2" marker-end="url(#ild)"/>`;
+    s+=`<defs><marker id="ild" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--teal)"/></marker></defs>`;
+    s+=`<text x="${X(x)}" y="${by-26}" font-size="9" fill="var(--teal)" text-anchor="middle">1</text>`;
+    s+=`<text x="${X(0)}" y="${by+23}" font-size="9" fill="var(--mut)" text-anchor="middle">A</text>`;
+    s+=`<text x="${X(L)}" y="${by+23}" font-size="9" fill="var(--mut)" text-anchor="middle">B</text>`;
+
+    panels.forEach((p,idx)=>{
+      const top=beamH+idx*panelH, mid=top+panelH/2+4;
+      const span=Math.max(Math.abs(p.hi),Math.abs(p.lo),1e-6);
+      const Y=val=>mid-(val/span)*(panelH/2-12);
+      // axis
+      s+=`<line x1="${X(0)}" y1="${Y(0)}" x2="${X(L)}" y2="${Y(0)}" stroke="var(--bdr2)" stroke-width="1"/>`;
+      // full ghost line
+      const path=(from,to)=>{
+        let d='',n=80,started=false;
+        for(let i=0;i<=n;i++){
+          const t=from+(to-from)*i/n;
+          d+=(started?' L ':'M ')+X(t).toFixed(1)+' '+Y(p.f(t)).toFixed(1); started=true;
+        }
+        return d;
+      };
+      if(ghost){
+        if(p.k==='V'){
+          s+=`<path d="${path(0,a-1e-6)}" fill="none" stroke="${p.col}" stroke-width="1" opacity=".35"/>`;
+          s+=`<path d="${path(a+1e-6,L)}" fill="none" stroke="${p.col}" stroke-width="1" opacity=".35"/>`;
+          s+=`<line x1="${X(a).toFixed(1)}" y1="${Y(-a/L).toFixed(1)}" x2="${X(a).toFixed(1)}" y2="${Y(b/L).toFixed(1)}" stroke="${p.col}" stroke-width="1" opacity=".35" stroke-dasharray="2,2"/>`;
+        } else {
+          s+=`<path d="${path(0,L)}" fill="none" stroke="${p.col}" stroke-width="1" opacity=".35"/>`;
+        }
+      }
+      // traced portion 0..x
+      if(p.k==='V' && x>a){
+        s+=`<path d="${path(0,a-1e-6)}" fill="none" stroke="${p.col}" stroke-width="2.2"/>`;
+        s+=`<line x1="${X(a).toFixed(1)}" y1="${Y(-a/L).toFixed(1)}" x2="${X(a).toFixed(1)}" y2="${Y(b/L).toFixed(1)}" stroke="${p.col}" stroke-width="2.2"/>`;
+        s+=`<path d="${path(a+1e-6,x)}" fill="none" stroke="${p.col}" stroke-width="2.2"/>`;
+      } else if(x>0){
+        s+=`<path d="${path(0,Math.min(x,p.k==='V'?a-1e-6:x))}" fill="none" stroke="${p.col}" stroke-width="2.2"/>`;
+      }
+      // marker
+      s+=`<line x1="${X(x).toFixed(1)}" y1="${Y(0).toFixed(1)}" x2="${X(x).toFixed(1)}" y2="${Y(p.f(x)).toFixed(1)}" stroke="${p.col}" stroke-width=".8" stroke-dasharray="2,2"/>`;
+      s+=`<circle cx="${X(x).toFixed(1)}" cy="${Y(p.f(x)).toFixed(1)}" r="3.6" fill="${p.col}"/>`;
+      s+=`<line x1="${X(a).toFixed(1)}" y1="${top+6}" x2="${X(a).toFixed(1)}" y2="${top+panelH-4}" stroke="var(--rust)" stroke-width=".6" stroke-dasharray="2,3"/>`;
+      s+=`<text x="${padL}" y="${top+12}" font-size="8.5" fill="${p.col}">${p.lab}</text>`;
+      s+=`<text x="${X(L)}" y="${Y(p.f(x))-6}" font-size="9" fill="${p.col}" text-anchor="end">${p.f(x).toFixed(3)}</text>`;
+    });
+    s+=`</svg>`;
+    g('il-fig').innerHTML=s;
+  }
+  ['il-x','il-L','il-a','il-show','il-full'].forEach(id=>g(id).addEventListener('input',render));
+  render();
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const A=document.querySelectorAll('.quiz .q.answered').length;
+      const R=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=R+' / '+A+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>

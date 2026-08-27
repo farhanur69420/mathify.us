@@ -1,0 +1,86 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/chapter.css'
+
+const chapters = [
+  { n: '01', when: 'Day 1', slug: 'introduction-review', title: 'Introduction & Review',
+    blurb: 'The CEE 240 groundwork everything else rests on — phase relations, classification, and the effective stress principle that explains why soil strength changes when the water table moves.',
+    tags: ['Phase relations', 'Effective stress', 'Classification'] },
+  { n: '02', when: 'Ch. 2', slug: 'soil-investigation', title: 'Soil Investigation Techniques',
+    blurb: 'How deep to bore and how far apart, what sampling does to the soil, and the SPT with every correction applied in order — plus CPT and vane shear.',
+    tags: ['SPT corrections', 'N₆₀ and (N₁)₆₀', 'CPT'] },
+  { n: '03', when: 'Ch. 3', slug: 'shallow-foundations', title: 'Design of Shallow Foundations',
+    blurb: 'Failure modes, Terzaghi and Meyerhof’s general bearing capacity equation, shape and depth factors, eccentric loading, and what groundwater does to the answer.',
+    tags: ['Bearing capacity', 'Meyerhof', 'Eccentricity'] },
+  { n: '04', when: 'Settlement', slug: 'settlement', title: 'Settlement Computations',
+    blurb: 'Immediate, primary consolidation and secondary compression; normally versus overconsolidated clay, and the time-rate problem that decides when a building stops moving.',
+    tags: ['Consolidation', 'NC vs OC', 'Time rate'] },
+  { n: '05', when: 'Ch. 7', slug: 'lateral-earth-pressure', title: 'Lateral Earth Pressure',
+    blurb: 'Why a wall’s pressure is not a fixed number — at-rest, active and passive states, Rankine and Coulomb theory, the tension crack, and groundwater.',
+    tags: ['K₀, Kₐ, K_p', 'Rankine', 'Coulomb'] },
+  { n: '06', when: 'Ch. 8', slug: 'retaining-walls', title: 'Earth Retaining Structures',
+    blurb: 'Wall types and preliminary sizing, then the three stability checks — overturning, sliding and bearing — run as one live calculation.',
+    tags: ['Overturning', 'Sliding', 'Bearing'] },
+  { n: '07', when: 'Ch. 11', slug: 'slope-stability', title: 'Slope Stability',
+    blurb: 'Infinite slopes with and without seepage, Taylor’s stability number, and the method of slices — Ordinary and Bishop — with a searchable failure circle.',
+    tags: ['Method of slices', 'Bishop', 'Taylor'] },
+  { n: '08', when: 'Ch. 11', slug: 'deep-foundations', title: 'Design of Deep Foundations',
+    blurb: 'End bearing and skin friction, critical depth, the α method for clay, pile groups and negative skin friction, and pile settlement.',
+    tags: ['Q_p and Q_s', 'α method', 'Pile groups'] },
+]
+const extra = { when: 'Worked Example 8', slug: 'bishop-example', title: "Modified Bishop's Method, Start to Finish",
+  blurb: 'One exam problem solved end to end — the long-term factor of safety of a two-layer slope with seepage, slice by slice, with every iteration shown.',
+  tags: ['Step by step', 'Slice table', 'Iteration'] }
+---
+<Base title="CEE 340 — Advanced Foundation Engineering" description="Intuition-first chapter guides for CEE 340 Advanced Foundation Engineering — soil investigation, shallow and deep foundations, settlement, lateral earth pressure, retaining walls and slope stability, each with worked examples and live calculators.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">Course Guide &middot; Civil Engineering</div>
+  <h1>CEE 340 &mdash; Advanced Foundation Engineering</h1>
+  <p class="hd-sub">Eight chapters plus a fully worked exam problem, built on Das&rsquo;s <em>Fundamentals of Geotechnical Engineering</em> and the course lectures. Every chapter opens with why the topic matters before any equation appears, then layers the technical detail on top.</p>
+  <div class="hd-pills">
+    <span class="pill">9 chapters live</span>
+    <span class="pill">23 worked examples</span>
+    <span class="pill">Live calculators</span>
+    <span class="pill">Self-check quizzes</span>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="sec-h"><span class="sec-n">&#9776;</span><h2>Chapters</h2></div>
+  <div class="hub-grid">
+    {chapters.map(c => (
+      <a class="hub-card" href={`/civil/cee340/${c.slug}`}>
+        <div class="hub-top"><span class="hub-num">{c.n}</span><span class="hub-when">{c.when}</span></div>
+        <h3>{c.title}</h3>
+        <p>{c.blurb}</p>
+        <div class="hub-tags">{c.tags.map(t => <span>{t}</span>)}</div>
+      </a>
+    ))}
+  </div>
+
+  <div class="sec-h" style="margin-top:2.4rem"><span class="sec-n">&#9733;</span><h2>Worked Problem</h2></div>
+  <div class="hub-grid">
+    <a class="hub-card" href={`/civil/cee340/${extra.slug}`}>
+      <div class="hub-top"><span class="hub-num">EX</span><span class="hub-when">{extra.when}</span></div>
+      <h3>{extra.title}</h3>
+      <p>{extra.blurb}</p>
+      <div class="hub-tags">{extra.tags.map(t => <span>{t}</span>)}</div>
+    </a>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>How to use these.</strong> Read the chapter once for the intuition and skip the algebra. Then come back and drive the calculator: every one is set up so its default values reproduce that chapter&rsquo;s first worked example exactly, so you can change one input at a time and watch which way the answer moves. The quiz at the end is there to catch the misconceptions, not to test recall.</div>
+  </div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil">&larr; All Civil Engineering</a>
+  <a href="/civil/cee330">CEE 330 Structural Analysis &rarr;</a>
+</footer>
+
+</Base>
