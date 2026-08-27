@@ -42,6 +42,10 @@ const description = "Free civil engineering lecture guides — RC design, traffi
     display: flex; align-items: center; gap: .75rem;
   }
   .section-label::after { content: ''; flex: 1; height: 1px; background: var(--bdr); }
+  .section-link { order: 3; color: var(--teal); text-decoration: none;
+    border: 1px solid var(--bdr); border-radius: 99px; padding: .18rem .6rem;
+    letter-spacing: .08em; white-space: nowrap; }
+  .section-link:hover { border-color: var(--teal); }
 
   /* CHAPTER CARDS */
   .chapter-grid { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 3.5rem; }
@@ -436,7 +440,7 @@ const description = "Free civil engineering lecture guides — RC design, traffi
   </div>
 
   <!-- ── CEE340 — ADVANCED FOUNDATION ENGINEERING ── -->
-  <div class="section-label">CEE 340 &mdash; Advanced Foundation Engineering</div>
+  <div class="section-label">CEE 340 &mdash; Advanced Foundation Engineering<a class="section-link" href="/civil/cee340">Course guide &rarr;</a></div>
 
   <div class="chapter-grid">
 
@@ -709,7 +713,7 @@ const description = "Free civil engineering lecture guides — RC design, traffi
   </div>
 
   <!-- ── CEE330 — STRUCTURAL ANALYSIS AND DESIGN-I ── -->
-  <div class="section-label">CEE 330 &mdash; Structural Analysis and Design-I</div>
+  <div class="section-label">CEE 330 &mdash; Structural Analysis and Design-I<a class="section-link" href="/civil/cee330">Course guide &rarr;</a></div>
 
   <div class="chapter-grid">
 

@@ -104,3 +104,19 @@ body { font-family: 'Inter', sans-serif; font-size: 15.5px; line-height: 1.7; }
   .grid3, .grid2, .calc, .qref { grid-template-columns: 1fr; }
   .toc ol { columns: 1; }
 }
+
+/* ---- course hub pages (/civil/cee340, /civil/cee330) ---- */
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(272px, 1fr)); gap: .9rem; margin: 1.3rem 0 .4rem; }
+.hub-card { display: block; text-decoration: none; color: inherit; background: var(--surf); border: 1px solid var(--bdr); border-left: 3px solid var(--teal); border-radius: 8px; padding: .95rem 1.1rem; transition: border-color .15s, background .15s, transform .15s; }
+.hub-card:hover { background: var(--surf2); border-color: var(--bdr2); transform: translateY(-2px); }
+.hub-top { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; }
+.hub-num { font-family: 'Space Mono', monospace; font-size: .7rem; color: var(--teal); letter-spacing: .06em; }
+.hub-when { font-size: .68rem; color: var(--mut); white-space: nowrap; }
+.hub-card h3 { font-family: 'Space Mono', monospace; font-size: .98rem; margin: .35rem 0 .4rem; color: var(--txt); }
+.hub-card p { font-size: .8rem; color: var(--txt2); line-height: 1.55; margin: 0; }
+.hub-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .65rem; }
+.hub-tags span { font-size: .66rem; color: var(--mut); background: var(--surf2); border: 1px solid var(--bdr); border-radius: 4px; padding: .1rem .42rem; }
+/* Queued chapters: same card, not a link, visibly inert. */
+.hub-card.soon { border-left-color: var(--bdr2); opacity: .6; }
+.hub-card.soon:hover { transform: none; background: var(--surf); border-color: var(--bdr); }
+.hub-card.soon .hub-num { color: var(--mut); }
