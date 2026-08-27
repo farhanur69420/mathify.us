@@ -1,0 +1,4 @@
+{
+  "//": "The site is an ES module project; these tests are plain CommonJS scripts.",
+  "type": "commonjs"
+}
