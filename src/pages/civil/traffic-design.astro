@@ -585,6 +585,30 @@ Using v = 978 correctly reflects the 15-min peak intensity.</div>
   <div class="eqnote"><code>G</code>=display green &nbsp; <code>y</code>=yellow &nbsp; <code>ar</code>=all-red &nbsp; <code>tL</code>=lost time per phase (~4s)</div>
 </div>
 
+<!-- WEBSTER CYCLE DESIGNER -->
+<div class="eq">
+  <div class="eqlbl">Webster's Optimal Cycle Length</div>
+  <div class="eqbody">\[ C_0 = \dfrac&#123;1.5L + 5&#125;&#123;1 - \sum Y&#125; \qquad y_i = \dfrac&#123;v_i&#125;&#123;s_i&#125; \qquad L = n\,t_L \]</div>
+  <div class="eqnote"><code>y</code>=flow ratio per phase &nbsp; <code>ΣY</code>=sum of critical flow ratios &nbsp; <code>L</code>=total lost time &nbsp; <code>n</code>=number of phases</div>
+</div>
+
+<div class="analogy">Look at what the denominator is doing. <strong>ΣY is the fraction of the cycle the intersection is already committed to spending on traffic.</strong> If ΣY = 0.75, then only a quarter of every cycle is spare — so the lost time L has to be paid out of that quarter, and the cycle must stretch to afford it. Push ΣY toward 1.0 and the denominator collapses: the required cycle runs away to infinity. That is not a quirk of the algebra, it is the intersection telling you it is out of capacity, and no amount of signal timing will save it. You need another lane.</div>
+
+<div class="calc">
+  <div class="calctitle">⚙️ CALCULATOR — WEBSTER CYCLE &amp; GREEN SPLIT</div>
+  <div class="ig">
+    <div><label>Phase 1 — critical v (veh/h)</label><input type="number" id="wb_v1" value="540" oninput="calcWebster()"></div>
+    <div><label>Phase 1 — saturation s (veh/h)</label><input type="number" id="wb_s1" value="1800" oninput="calcWebster()"></div>
+    <div><label>Phase 2 — critical v (veh/h)</label><input type="number" id="wb_v2" value="810" oninput="calcWebster()"></div>
+    <div><label>Phase 2 — saturation s (veh/h)</label><input type="number" id="wb_s2" value="1800" oninput="calcWebster()"></div>
+    <div><label>Lost time per phase tL (s)</label><input type="number" id="wb_tL" value="4" step="0.5" oninput="calcWebster()"></div>
+    <div><label>Round cycle up to nearest (s)</label><input type="number" id="wb_rnd" value="5" step="5" oninput="calcWebster()"></div>
+  </div>
+  <div class="rg" id="wbR"></div>
+  <div id="wbBar" style="margin-top:12px"></div>
+</div>
+<p style="font-size:.78rem;color:var(--txt2);margin:-4px 0 22px">The defaults are the signal-design problem from the practice exam at the bottom of this page &mdash; ΣY = 0.750, L = 8 s, C&#8320; = 68 s &rarr; use 70 s. Change one number at a time and watch which way the cycle moves.</p>
+
 <!-- SIGNAL TIMING ANIMATOR -->
 <div class="sim">
   <div class="simhdr">
@@ -1285,7 +1309,7 @@ D&gt;35-55, E&gt;55-80, F&gt;80</div><div class="fsnote">Or X &gt; 1.0 automatic
 function szC(id,pad=36){const cv=document.getElementById(id);if(!cv)return;cv.width=Math.max(200,(cv.parentElement?.offsetWidth||400)-pad);}
 window.addEventListener('resize',()=>{clearTimeout(window._rdT);window._rdT=setTimeout(()=>{szAll();redrawAll();},200);});
 function szAll(){['cPHF','cSig','cDelayCurve','cModePie','cQueue'].forEach(id=>szC(id));}
-function redrawAll(){calcPHF();drawSignal();drawDelayCurve();}
+function redrawAll(){calcPHF();drawSignal();drawDelayCurve();calcWebster();}
 
 /* ═══ PRACTICE PROBLEM TOGGLE ═══ */
 function togglePP(qEl){
@@ -1548,6 +1572,47 @@ function calcVC(){
      <div class="ri"><div class="rilbl">Capacity c</div><div class="rival">${cap.toFixed(0)} veh/h</div></div>
      <div class="ri"><div class="rilbl">X = v/c</div><div class="rival" style="color:${col}">${X.toFixed(3)}</div></div>
      <div class="ri"><div class="rilbl">Status</div><div class="rival" style="color:${X<1?'var(--teal)':'var(--red)'}">${X<1?'✓ OK':'✗ FAIL'}</div></div>`;
+}
+function calcWebster(){
+  const v=[+document.getElementById('wb_v1').value,+document.getElementById('wb_v2').value];
+  const sat=[+document.getElementById('wb_s1').value,+document.getElementById('wb_s2').value];
+  const tL=+document.getElementById('wb_tL').value, rnd=Math.max(1,+document.getElementById('wb_rnd').value);
+  const n=2, L=n*tL;
+  const y=v.map((vi,i)=>sat[i]>0?vi/sat[i]:0), Y=y[0]+y[1];
+  const R=document.getElementById('wbR'), B=document.getElementById('wbBar');
+  if(Y>=1){
+    R.innerHTML=`<div class="ri"><div class="rilbl">ΣY</div><div class="rival" style="color:var(--red)">${Y.toFixed(3)}</div></div>
+      <div class="ri" style="grid-column:span 3"><div class="rilbl">Verdict</div><div class="rival" style="color:var(--red)">✗ ΣY ≥ 1.0 — over saturated. No cycle length can serve this demand; add capacity.</div></div>`;
+    B.innerHTML=''; return;
+  }
+  const C0=(1.5*L+5)/(1-Y), C=Math.ceil(C0/rnd)*rnd;
+  const gt=C-L, g=y.map(yi=>(yi/Y)*gt), gR=g.map(gi=>Math.round(gi));
+  const cap=gR.map((gi,i)=>sat[i]*gi/C), X=cap.map((ci,i)=>ci>0?v[i]/ci:0);
+  const d1=gR.map((gi,i)=>{const gc=gi/C;return 0.5*C*Math.pow(1-gc,2)/(1-Math.min(1,X[i])*gc);});
+  const los=d=>d<=10?'A':d<=20?'B':d<=35?'C':d<=55?'D':d<=80?'E':'F';
+  const xc=x=>x<0.85?'var(--teal)':x<1?'var(--amb)':'var(--red)';
+  R.innerHTML=
+    `<div class="ri"><div class="rilbl">y₁ / y₂</div><div class="rival">${y[0].toFixed(3)} / ${y[1].toFixed(3)}</div></div>
+     <div class="ri"><div class="rilbl">ΣY</div><div class="rival">${Y.toFixed(3)}</div></div>
+     <div class="ri"><div class="rilbl">Lost time L</div><div class="rival">${L.toFixed(0)} s</div></div>
+     <div class="ri"><div class="rilbl">C₀ (Webster)</div><div class="rival">${C0.toFixed(1)} s</div></div>
+     <div class="ri"><div class="rilbl">Cycle used C</div><div class="rival" style="color:var(--teal)">${C.toFixed(0)} s</div></div>
+     <div class="ri"><div class="rilbl">Green to split</div><div class="rival">${gt.toFixed(0)} s</div></div>
+     <div class="ri"><div class="rilbl">g₁ / g₂</div><div class="rival">${gR[0]} / ${gR[1]} s</div></div>
+     <div class="ri"><div class="rilbl">c₁ / c₂ (veh/h)</div><div class="rival">${cap[0].toFixed(0)} / ${cap[1].toFixed(0)}</div></div>
+     <div class="ri"><div class="rilbl">X₁</div><div class="rival" style="color:${xc(X[0])}">${X[0].toFixed(3)}</div></div>
+     <div class="ri"><div class="rilbl">X₂</div><div class="rival" style="color:${xc(X[1])}">${X[1].toFixed(3)}</div></div>
+     <div class="ri"><div class="rilbl">d₁ phase 1</div><div class="rival">${d1[0].toFixed(1)} s — LOS ${los(d1[0])}</div></div>
+     <div class="ri"><div class="rilbl">d₁ phase 2</div><div class="rival">${d1[1].toFixed(1)} s — LOS ${los(d1[1])}</div></div>`;
+  const pct=gR.map(gi=>100*gi/C), lp=100*L/C;
+  B.innerHTML=
+    `<div style="font-size:.66rem;letter-spacing:.1em;color:var(--txt2);margin-bottom:5px">HOW THE ${C.toFixed(0)} s CYCLE IS SPENT</div>
+     <div style="display:flex;height:26px;border-radius:3px;overflow:hidden;border:1px solid var(--bdr);font-family:'Space Mono',monospace;font-size:.62rem">
+       <div style="width:${pct[0]}%;background:rgba(0,255,163,.30);display:flex;align-items:center;justify-content:center">g₁ ${gR[0]}s</div>
+       <div style="width:${pct[1]}%;background:rgba(0,212,255,.30);display:flex;align-items:center;justify-content:center">g₂ ${gR[1]}s</div>
+       <div style="width:${lp}%;background:rgba(255,90,90,.30);display:flex;align-items:center;justify-content:center">lost ${L}s</div>
+     </div>
+     <div style="font-size:.68rem;color:var(--txt2);margin-top:5px">The red slice is time the intersection is open but nobody is moving. It is why C₀ exists: too short a cycle pays that toll too often, too long a cycle makes everyone wait through it.</div>`;
 }
 function calcDelay(){
   const C=+document.getElementById('dc_C').value,g=+document.getElementById('dc_g').value;

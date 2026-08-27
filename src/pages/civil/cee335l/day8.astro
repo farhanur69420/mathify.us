@@ -40,6 +40,20 @@ const description = "Apply BNBC wind pressure and seismic base shear to the mult
     .section-num::after{content:'';flex:0 0 3rem;height:1px;background:var(--border);}
     .section h2{font-family:var(--serif);font-size:clamp(1.3rem,3vw,1.9rem);font-weight:700;margin-bottom:.5rem;}
     .section-intro{color:var(--muted);margin-bottom:2rem;max-width:620px;}
+    .calcbox{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.5rem;}
+    .calchdr{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1.1rem;}
+    .calcgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;}
+    .calcgrid label{font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;display:block;}
+    .calcgrid input,.calcgrid select{width:100%;margin-top:.3rem;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:.42rem .5rem;color:var(--text);font-family:var(--mono);font-size:.82rem;text-transform:none;letter-spacing:0;}
+    .calcgrid input:focus,.calcgrid select:focus{outline:none;border-color:var(--accent2);}
+    .calcres{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem;margin-top:1.2rem;}
+    .rcell{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.5rem .7rem;}
+    .rlbl{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+    .rval{font-family:var(--mono);font-size:.95rem;color:var(--accent2);margin-top:.15rem;}
+    .rval.hi{color:var(--accent);}
+    .calcfig{margin-top:1.2rem;}
+    .calcnote{font-size:.78rem;color:var(--muted);margin-top:.9rem;}
+    .calcnote code{font-family:var(--mono);font-size:.74rem;color:var(--accent2);}
     .coming-soon{background:var(--bg2);border:1px dashed var(--border);border-radius:10px;padding:2rem;text-align:center;color:var(--muted);font-family:var(--mono);font-size:.8rem;}
     .coming-soon strong{color:var(--accent);display:block;font-size:1rem;margin-bottom:.5rem;}
     .code-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
@@ -181,11 +195,33 @@ const description = "Apply BNBC wind pressure and seismic base shear to the mult
   <div class="section-num">04 — Check Yourself</div>
   <h2>Wind &amp; seismic calculator</h2>
   <p class="section-intro">Compute base shear and story forces before running ETABS — then verify the software matches.</p>
-  <div class="coming-soon">
-    <strong>BNBC Calculator Coming Soon (Svelte)</strong>
-    Inputs: building height, floor area, dead load intensity, live load, wind zone, seismic zone, R factor, soil type.<br/>
-    Outputs: base shear V, story forces F₁–Fₙ, overturning moment at base.
+  <div class="calcbox">
+    <div class="calchdr">BNBC 2020 &mdash; base shear &amp; story forces</div>
+    <div class="calcgrid">
+      <label>Storeys n<input type="number" id="bn" value="5" min="1" max="40" step="1"></label>
+      <label>Storey height h (m)<input type="number" id="bh" value="3" min="1" step="0.1"></label>
+      <label>Floor area A (m&sup2;)<input type="number" id="ba" value="400" min="10" step="10"></label>
+      <label>Dead load D (kPa)<input type="number" id="bd" value="5" min="0" step="0.5"></label>
+      <label>Live load L (kPa)<input type="number" id="bl" value="2" min="0" step="0.5"></label>
+      <label>Seismic zone Z
+        <select id="bz">
+          <option value="0.12">Zone 1 &mdash; Z = 0.12</option>
+          <option value="0.20" selected>Zone 2 &mdash; Z = 0.20 (Dhaka)</option>
+          <option value="0.28">Zone 3 &mdash; Z = 0.28</option>
+          <option value="0.36">Zone 4 &mdash; Z = 0.36 (Sylhet)</option>
+        </select>
+      </label>
+      <label>Importance I<input type="number" id="bi" value="1.0" min="0.5" step="0.25"></label>
+      <label>Response factor R<input type="number" id="br" value="5" min="1" step="0.5"></label>
+      <label>Spectral C<sub>s</sub><input type="number" id="bcs" value="2.5" min="0.1" step="0.1"></label>
+      <label>Basic wind V (km/h)<input type="number" id="bv" value="210" min="80" step="10"></label>
+      <label>Exposure K<sub>z</sub><input type="number" id="bkz" value="1.0" min="0.3" step="0.05"></label>
+      <label>Gust G &times; C<sub>p</sub><input type="number" id="bgcp" value="0.68" min="0.1" step="0.01"></label>
+    </div>
+    <div class="calcres" id="bres"></div>
+    <div class="calcfig" id="bfig"></div>
   </div>
+  <p class="calcnote">Mass source is <code>1.0&times;DEAD + 0.25&times;LIVE</code>, as set in step 02. The exponent <code>k</code> switches with the building period: BNBC uses k = 1 for T &le; 0.5 s, k = 2 for T &ge; 2.5 s, and linear interpolation in between &mdash; the calculator picks it from the approximate period.</p>
 </section>
 
 <nav class="day-nav">
@@ -194,5 +230,72 @@ const description = "Apply BNBC wind pressure and seismic base shear to the mult
   <a href="/civil/cee335l/day9" class="nav-btn next">Day 9 →</a>
 </nav>
 
+<script is:inline>
+(function(){
+  var g=function(id){return document.getElementById(id);}, v=function(id){return +g(id).value;};
+  function calc(){
+    var n=Math.max(1,Math.round(v('bn'))), h=Math.max(0.1,v('bh')), A=Math.max(1,v('ba'));
+    var D=Math.max(0,v('bd')), L=Math.max(0,v('bl'));
+    var Z=+g('bz').value, I=v('bi'), R=Math.max(0.1,v('br')), Cs=v('bcs');
+    var Vkmh=Math.max(1,v('bv')), Kz=v('bkz'), GCp=v('bgcp');
+
+    // Seismic weight: dead in full, a quarter of live (BNBC mass source).
+    var wStorey=(D+0.25*L)*A;              // kN per floor
+    var W=wStorey*n, H=n*h;
+
+    // Sa = (2/3)(ZI/R)Cs ; V = Sa W
+    var Sa=(2/3)*(Z*I/R)*Cs, Vb=Sa*W;
+
+    // Approximate period fixes k: 1 below 0.5 s, 2 above 2.5 s, linear between.
+    var T=0.0724*Math.pow(H,0.8);
+    var k = T<=0.5 ? 1 : (T>=2.5 ? 2 : 1+(T-0.5)/2);
+
+    var hx=[], wx=[], den=0, i;
+    for(i=1;i<=n;i++){ hx.push(i*h); wx.push(wStorey); den+=wStorey*Math.pow(i*h,k); }
+    var F=[], M=0;
+    for(i=0;i<n;i++){ var f=Vb*wx[i]*Math.pow(hx[i],k)/den; F.push(f); M+=f*hx[i]; }
+
+    // Wind: q_z = 0.613 Kz V^2 (Pa, V in m/s); p = q_z (G Cp)
+    var Vms=Vkmh/3.6, qz=0.613*Kz*Vms*Vms, pw=qz*GCp;
+    // Windward force on the façade, taking width as sqrt(A) for a square plan.
+    var B=Math.sqrt(A), Vw=pw*B*H/1000;    // kN
+
+    g('bres').innerHTML=
+      cell('Seismic weight W', W.toFixed(0)+' kN')+
+      cell('Building height H', H.toFixed(1)+' m')+
+      cell('Period T (approx)', T.toFixed(2)+' s')+
+      cell('Exponent k', k.toFixed(2))+
+      cell('S<sub>a</sub> = ⅔(ZI/R)C<sub>s</sub>', Sa.toFixed(4))+
+      cell('Base shear V', Vb.toFixed(1)+' kN', true)+
+      cell('Overturning M', M.toFixed(0)+' kN·m')+
+      cell('q<sub>z</sub> = 0.613K<sub>z</sub>V²', qz.toFixed(0)+' Pa')+
+      cell('Wind pressure p', pw.toFixed(0)+' Pa')+
+      cell('Wind base shear', Vw.toFixed(1)+' kN')+
+      cell('Governs', (Vb>Vw?'SEISMIC':'WIND'), true);
+
+    // Force diagram: taller floors take more, which is the whole point of F_x.
+    var W2=320, H2=26+n*22, pad=64, maxF=Math.max.apply(null,F);
+    var svg='<svg viewBox="0 0 '+W2+' '+H2+'" style="width:100%;height:auto">';
+    svg+='<line x1="'+pad+'" y1="10" x2="'+pad+'" y2="'+(H2-8)+'" stroke="#2a2a3a" stroke-width="1.5"/>';
+    for(i=n-1;i>=0;i--){
+      var y=18+(n-1-i)*22, len=(W2-pad-70)*(F[i]/maxF);
+      svg+='<line x1="'+pad+'" y1="'+y+'" x2="'+(pad+len)+'" y2="'+y+'" stroke="#f0a500" stroke-width="2"/>';
+      svg+='<polygon points="'+(pad+len)+','+(y-4)+' '+(pad+len+7)+','+y+' '+(pad+len)+','+(y+4)+'" fill="#f0a500"/>';
+      svg+='<text x="'+(pad-6)+'" y="'+(y+3.5)+'" font-size="9" fill="#7a7a9a" text-anchor="end" font-family="Space Mono,monospace">L'+(i+1)+' · '+hx[i].toFixed(1)+'m</text>';
+      svg+='<text x="'+(pad+len+11)+'" y="'+(y+3.5)+'" font-size="9" fill="#3ecfcf" font-family="Space Mono,monospace">'+F[i].toFixed(1)+' kN</text>';
+    }
+    svg+='<text x="'+pad+'" y="'+(H2-1)+'" font-size="8" fill="#7a7a9a" font-family="Space Mono,monospace">ΣF = '+F.reduce(function(a,b){return a+b;},0).toFixed(1)+' kN = V ✓</text>';
+    svg+='</svg>';
+    g('bfig').innerHTML=svg;
+  }
+  function cell(l,v,hi){
+    return '<div class="rcell"><div class="rlbl">'+l+'</div><div class="rval'+(hi?' hi':'')+'">'+v+'</div></div>';
+  }
+  ['bn','bh','ba','bd','bl','bz','bi','br','bcs','bv','bkz','bgcp'].forEach(function(id){
+    g(id).addEventListener('input',calc); g(id).addEventListener('change',calc);
+  });
+  calc();
+})();
+</script>
 </body>
 </html>
