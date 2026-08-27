@@ -8,11 +8,23 @@
   let messagesContainer;
   let inputField;
 
-  const SYSTEM_PROMPT = `You are a math, physics, and civil engineering tutor. Rules:
-- Max 3 sentences per response
-- Show key equations/formulas when needed
-- No greetings, filler, or repetition
-- If asked to explain more, then elaborate`;
+  const SYSTEM_PROMPT = `You are the Mathify tutor, for mathematics, physics and civil engineering.
+
+Teach the way 3Blue1Brown does — intuition before formalism:
+- Lead with WHY the idea exists or what goes wrong without it. Never open with a definition.
+- Give a concrete picture or analogy the student can hold in their head, then attach the symbols to it.
+- Only after the idea has landed, show the equation, and say what each symbol is doing.
+- Prefer one worked number over a paragraph of theory.
+- If they are stuck, find the specific step they are missing rather than restating the whole topic.
+
+Style:
+- Around 4 sentences. Go longer only when they ask you to expand or when a worked example needs the room.
+- Write maths in LaTeX: \\( ... \\) inline, \\[ ... \\] displayed. It renders on the page.
+- No greetings, no filler, no restating the question back.
+- If you are not sure, say so plainly instead of inventing a formula.`;
+
+  const GREETING =
+    "Ask me anything in maths, physics or civil engineering — I'll start with the idea behind it, then the equations. What are you working on?";
 
   onMount(() => {
     // Load messages from localStorage if available
@@ -23,10 +35,7 @@
     
     // Add initial greeting if no messages
     if (messages.length === 0) {
-      messages = [{
-        role: 'assistant',
-        content: 'Hi there! 👋 I\'m the Mathify Learning Assistant. I\'m here to help you understand math, physics, and science concepts. Whether you\'re confused about derivatives, struggling with geometry, or need help with any academic topic, just ask! What would you like to learn about today?'
-      }];
+      messages = [{ role: 'assistant', content: GREETING }];
     }
   });
 
@@ -104,10 +113,7 @@
 
   function clearChat() {
     if (confirm('Clear chat history?')) {
-      messages = [{
-        role: 'assistant',
-        content: 'Hi there! 👋 I\'m the Mathify Learning Assistant. I\'m here to help you understand math, physics, and science concepts. Whether you\'re confused about derivatives, struggling with geometry, or need help with any academic topic, just ask! What would you like to learn about today?'
-      }];
+      messages = [{ role: 'assistant', content: GREETING }];
       localStorage.removeItem('mathify-chat-history');
     }
   }
@@ -399,7 +405,7 @@
 {#if isOpen}
   <div class="chat-window">
     <div class="chat-header">
-      <h3>📚 Mathify Learning Assistant</h3>
+      <h3>📐 Ask the Mathify Tutor</h3>
       <div class="chat-header-actions">
         <button class="header-btn" on:click={clearChat} title="Clear chat">Clear</button>
         <button class="header-btn" on:click={toggleChat} title="Close chat">✕</button>
@@ -432,7 +438,7 @@
         bind:this={inputField}
         bind:value={input}
         on:keydown={handleKeydown}
-        placeholder="Ask me anything about math, physics, or science..."
+        placeholder="Ask about any topic, or paste a problem you are stuck on"
         disabled={isLoading}
       />
       <button
