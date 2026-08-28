@@ -101,12 +101,45 @@ function engineDecide(hand, up, handCount, rules, removed, isSplit, useCache){
 }
 
 /* ── one round ─────────────────────────────────────────────────────────── */
+/* One other seat, played on published basic strategy. Its results are
+   irrelevant; only the cards it consumes matter, because those are what a
+   counter at the table actually gets to see. */
+function playOtherSeat(cards, up, shoe, rules, seeCard){
+  const hands = [cards];
+  for (let i=0;i<hands.length && i<4;i++){
+    const h = hands[i];
+    for(;;){
+      if (h.length === 1){ const c = shoe.pop(); h.push(c); seeCard(c); }
+      if (tot(h) >= 21) break;
+      const act = chartDecide(h, up, hands.length, rules);
+      if (act === 'stand' || act === 'surrender') break;
+      if (act === 'split' && hands.length < rules.maxHands && h.length === 2 && h[0] === h[1]){
+        const c = h.pop(); hands.splice(i+1, 0, [c]);
+        const d = shoe.pop(); h.push(d); seeCard(d);
+        continue;
+      }
+      const c = shoe.pop(); h.push(c); seeCard(c);
+      if (act === 'double' || tot(h) > 21) break;
+    }
+  }
+}
+
 function playRound(shoe, rules, mode, removed, onDecision){
   const bet = 1;
-  const player = [shoe.pop(), shoe.pop()];
-  const up = shoe.pop(), hole = shoe.pop();
   const seeCard = c => removed[c]++;
-  seeCard(player[0]); seeCard(player[1]); seeCard(up);   // hole card is NOT seen
+  // Seats acting before you: you see their draws before you decide. Seats after
+  // you act later, so their draws are invisible at your decision point.
+  const nBefore = rules.seatsBefore|0, nAfter = rules.seatsAfter|0;
+  const before = [], after = [];
+  for (let i=0;i<nBefore;i++) before.push([shoe.pop(), shoe.pop()]);
+  const player = [shoe.pop(), shoe.pop()];
+  for (let i=0;i<nAfter;i++) after.push([shoe.pop(), shoe.pop()]);
+  const up = shoe.pop(), hole = shoe.pop();
+  // Every opening card at the table is face up in a shoe game.
+  for (const h of before) { seeCard(h[0]); seeCard(h[1]); }
+  seeCard(player[0]); seeCard(player[1]);
+  for (const h of after)  { seeCard(h[0]); seeCard(h[1]); }
+  seeCard(up);                                           // hole card is NOT seen
 
   const dealerBJ = natural([up,hole]);
   const playerBJ = natural(player);
@@ -121,6 +154,8 @@ function playRound(shoe, rules, mode, removed, onDecision){
     // A no-hole-card game still pushes two naturals against each other.
     return { net: dealerBJ ? 0 : bet*rules.bjPay, wagered: bet, hands: 1, resolved:'playerBJ' };
   }
+
+  for (const h of before) playOtherSeat(h, up, shoe, rules, seeCard);
 
   // ── play the player's hand(s) ──
   let hands = [{ cards:player, bet, split:false, done:false, surrendered:false }];
@@ -152,6 +187,8 @@ function playRound(shoe, rules, mode, removed, onDecision){
     }
   }
 
+  for (const h of after) playOtherSeat(h, up, shoe, rules, seeCard);
+
   // ── dealer ──
   const alive = hands.some(h => !h.surrendered && tot(h.cards) <= 21);
   const dh = [up, hole];
@@ -173,5 +210,5 @@ function playRound(shoe, rules, mode, removed, onDecision){
   return { net, wagered, hands: hands.length, resolved:'played' };
 }
 
-module.exports = { makeShoe, playRound, engineDecide, chartDecide, tot, soft, PD,
+module.exports = { makeShoe, playRound, playOtherSeat, engineDecide, chartDecide, tot, soft, PD,
                    stats: () => ({calls, hits, size:cache.size}) };
