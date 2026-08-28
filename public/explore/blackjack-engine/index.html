@@ -922,10 +922,13 @@ function startEdgeTask(){
 }
 function edgeSlice(){
   if (edgeTask.key !== ruleKey(S.rules)) return;      // superseded
+  if (bgBusy()){ setTimeout(edgeSlice, 200); return; }
+  // One builder at a time: let the chart finish before starting on the edge.
+  if (S.mode === 'csm' && chart.queue.length){ setTimeout(edgeSlice, 150); return; }
   const R = S.rules, full = freshCounts();
   const N0 = full.reduce((a,b)=>a+b,0);
   const t0 = performance.now();
-  while (edgeTask.queue.length && performance.now() - t0 < 12){
+  while (edgeTask.queue.length && performance.now() - t0 < 8){
     const [a,b,u] = edgeTask.queue.shift();
     const c = full.slice();
     if (!c[a]) continue; const pA = c[a]/N0;      c[a]--;
@@ -1027,6 +1030,7 @@ function addCard(rank){
     }
   }
   const t = nextTarget();
+  bgPause();                                         // the decision has a deadline
   snapshot();
   S.tally[rank]++;                                   // session-long audit record
   if (S.mode === 'live'){ S.seen[rank]++; S.order.push(rank); }
@@ -1165,12 +1169,21 @@ function resetChart(){
   chart = { key:ruleKey(S.rules), tab:chart.tab || 'hard', cells:{}, queue:q, total:q.length };
   if (S.mode === 'csm') setTimeout(buildChartSlice, 0);
 }
+/* The background builders have no deadline; the person at the table does. Any
+   card entry parks them, and they never run two at a time — on a slow phone,
+   two builders interleaved with a split evaluation pushed the first decision to
+   8.5s of a 10s window. */
+let bgPauseUntil = 0;
+function bgPause(){ bgPauseUntil = performance.now() + 1200; }
+function bgBusy(){ return performance.now() < bgPauseUntil; }
+
 let lastChartPaint = 0;
 function buildChartSlice(){
   if (chart.key !== ruleKey(S.rules)) return;      // superseded by a rule change
+  if (bgBusy()){ setTimeout(buildChartSlice, 200); return; }
   const t0 = performance.now();
   // Time-budgeted: the keypad never stalls, however slow the device.
-  while (chart.queue.length && performance.now() - t0 < 12){
+  while (chart.queue.length && performance.now() - t0 < 8){
     const [grp, row, up, cards] = chart.queue.shift();
     chart.cells[grp + '|' + row + '|' + up] = chartCell(cards, up);
   }

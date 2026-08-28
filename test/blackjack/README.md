@@ -43,6 +43,8 @@ results are discarded — only the cards they consume matter.
 | `run-big.js` | Deals identical shoes to the engine and to the published chart. The paired difference isolates whether the engine gives up any EV. |
 | `run-live.js` | Real shoe, cut card, count tracking. Reports realised EV bucketed by true count. |
 | `seat-test.js` | Holds your hand and the dealer upcard fixed and varies only what other seats expose, confirming their cards move the decision at the published index thresholds. |
+| `clock-test.js` | Wall-clock time from the first card tapped to the decision on screen, at human tap cadences. |
+| `cold-test.js` | The same, cold, on a throttled CPU with both background builders still running — the worst case a phone at a live table can present. |
 | `run-seats.js` | The same game heads-up, with 2 other players and with 5, showing how a fuller table burns the shoe. |
 | `record.js` + `bet-schemes.js` | Records one stream of hands, then replays betting schemes over it. Since the bet cannot change the cards and net scales linearly with the stake, this is an exact paired comparison. |
 | `tcdist.js` | The analytic true-count distribution used by the bankroll panel, checked against the recorded streams. |
@@ -60,6 +62,10 @@ results are discarded — only the cards they consume matter.
   −0.0070 ± 0.0071 at 8 decks and 50%. Deep penetration is what makes counting pay.
 - Martingale drops EV per unit wagered from −0.250% to −1.700% and ruins 43% of sessions.
   Stacked on the count ramp it ruins 54.7% and its median session ends at zero.
+- First tap to decision on screen: 2.3s at a slow one-second-per-tap cadence, and 2.7s
+  cold on a 6x-throttled CPU with the chart and edge builders still queued. Against a
+  10s action timer that leaves over 7s of headroom. A further card during the hand
+  resolves in 0.06s.
 - Cards exposed by other seats move the decision on their own: with your hand and the
   dealer's upcard held fixed, 16 v 10 goes hit → stand, 12 v 3 hit → stand, 10 v 10
   hit → double, and 13 v 2 stand → hit once enough tens are gone. Those are the
