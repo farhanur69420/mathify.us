@@ -1,0 +1,85 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/chapter.css'
+
+const live = [
+  { n: '01', when: 'Week 1', slug: 'determinacy-stability', title: 'Determinacy & Stability',
+    blurb: 'Why equilibrium alone sometimes isn’t enough. The counting formulas for beams, frames and trusses, equations of condition, and the cases where counting lies to you.',
+    tags: ['3m + r − 3j − c', 'Equations of condition', '13 presets'] },
+  { n: '02', when: 'Week 1', slug: 'arches-cables', title: 'Arches & Cables',
+    blurb: 'Hooke’s hanging chain inverted: the funicular shape that carries load in pure compression. Cable sag and tension, the three-hinged arch, and horizontal thrust.',
+    tags: ['H = wL²/8h', 'Funicular shape', 'Thrust line'] },
+  { n: '03', when: 'Weeks 2–3', slug: 'influence-lines', title: 'Influence Lines',
+    blurb: 'The diagram a moving load demands. Building ILs from first principles, Müller-Breslau’s shortcut, and using them for point loads, UDLs and wheel trains.',
+    tags: ['Müller-Breslau', 'Draggable unit load', 'Truss ILs'] },
+  { n: '04', when: 'Week 4', slug: 'moving-loads', title: 'Moving Loads',
+    blurb: 'Influence lines find the worst case at a section you choose; this finds it anywhere in the beam. The moment envelope and the resultant-bisection rule.',
+    tags: ['Moment envelope', 'M = Rx²/L − M_left', 'Wheel trains'] },
+]
+const queued = [
+  { n: '05', when: 'Week 5', title: 'Wind & Earthquake Loads',
+    blurb: 'BNBC 2020 in practice — velocity pressure, exposure and importance, the base shear, and how it gets distributed up a building.',
+    tags: ['BNBC 2020', 'q_z and V', 'Storey forces'] },
+  { n: '06', when: 'Weeks 6–8', title: 'Approximate Analysis',
+    blurb: 'Getting a usable answer for an indeterminate frame in minutes — the portal and cantilever methods, and knowing when each assumption is safe.',
+    tags: ['Portal method', 'Cantilever method'] },
+  { n: '07', when: 'Weeks 9–11', title: 'Deflections by Virtual Work',
+    blurb: 'The unit-load method for beams, frames and trusses, and why a dummy load is the cleanest route to a real deflection.',
+    tags: ['Unit load', 'Virtual work'] },
+]
+---
+<Base title="CEE 330 — Structural Analysis and Design-I" description="Intuition-first chapter guides for CEE 330 Structural Analysis and Design-I — determinacy and stability, arches and cables, influence lines and moving loads, each with worked examples, live simulators and self-check quizzes.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">Course Guide &middot; Civil Engineering</div>
+  <h1>CEE 330 &mdash; Structural Analysis and Design-I</h1>
+  <p class="hd-sub">Chapter guides following the course outline week by week. Each one starts from the question the topic exists to answer, builds the intuition with an analogy and something you can drag, and only then does the algebra.</p>
+  <div class="hd-pills">
+    <span class="pill">4 of 7 chapters live</span>
+    <span class="pill">13 worked examples</span>
+    <span class="pill">Interactive simulators</span>
+    <span class="pill">Self-check quizzes</span>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="sec-h"><span class="sec-n">&#9776;</span><h2>Chapters</h2></div>
+  <div class="hub-grid">
+    {live.map(c => (
+      <a class="hub-card" href={`/civil/cee330/${c.slug}`}>
+        <div class="hub-top"><span class="hub-num">{c.n}</span><span class="hub-when">{c.when}</span></div>
+        <h3>{c.title}</h3>
+        <p>{c.blurb}</p>
+        <div class="hub-tags">{c.tags.map(t => <span>{t}</span>)}</div>
+      </a>
+    ))}
+  </div>
+
+  <div class="sec-h" style="margin-top:2.4rem"><span class="sec-n">&#8230;</span><h2>Still to Come</h2></div>
+  <p class="small">These follow the same course outline and are not written yet &mdash; the cards are here so you can see where the series is going.</p>
+  <div class="hub-grid">
+    {queued.map(c => (
+      <div class="hub-card soon">
+        <div class="hub-top"><span class="hub-num">{c.n}</span><span class="hub-when">{c.when}</span></div>
+        <h3>{c.title}</h3>
+        <p>{c.blurb}</p>
+        <div class="hub-tags">{c.tags.map(t => <span>{t}</span>)}</div>
+      </div>
+    ))}
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Read them in order if you can.</strong> The series builds: influence lines only make sense once you can tell a determinate structure from an indeterminate one, and moving loads is a direct sequel to influence lines &mdash; it asks the same question with the section unpinned. Every worked number on these pages has been checked against an independent calculation.</div>
+  </div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil">&larr; All Civil Engineering</a>
+  <a href="/civil/cee340">CEE 340 Foundation Engineering &rarr;</a>
+</footer>
+
+</Base>

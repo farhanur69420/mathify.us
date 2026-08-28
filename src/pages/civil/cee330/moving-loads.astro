@@ -1,0 +1,539 @@
+---
+import Base from '../../../layouts/Base.astro'
+import '../../../styles/chapter.css'
+---
+<Base title="CEE 330 — Moving Loads" description="Absolute maximum moment and shear under a train of wheel loads — the moment envelope, the resultant-bisection rule M = R·x²/L − M_left with signed eccentricity, why every axle must be tested as a candidate, and when the rule breaks down, with a draggable wheel train that builds the envelope live.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<header class="hd">
+  <div class="hd-tag">CEE 330 &middot; Structural Analysis and Design-I &middot; Week 4</div>
+  <h1>Moving Loads</h1>
+  <p class="hd-sub">Influence lines answered "how bad can it get <em>here</em>?" &mdash; but a bridge doesn't crack where you chose to look. This chapter answers the harder question: <strong>how bad can it get anywhere, and where is anywhere?</strong></p>
+  <div class="hd-pills">
+    <span class="pill">Moment envelope</span>
+    <span class="pill">Absolute max moment</span>
+    <span class="pill">Resultant bisection rule</span>
+    <span class="pill">Wheel trains</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h3>In This Chapter</h3>
+  <ol>
+    <li><a href="#sec-why">The Question You Haven't Answered Yet</a></li>
+    <li><a href="#sec-env">The Envelope</a></li>
+    <li><a href="#sec-shear">Absolute Maximum Shear (the easy one)</a></li>
+    <li><a href="#sec-rule">Absolute Maximum Moment: the Bisection Rule</a></li>
+    <li><a href="#sec-trial">Why You Must Test Every Axle</a></li>
+    <li><a href="#sec-sim">Simulator: Drag the Train</a></li>
+    <li><a href="#sec-break">When the Rule Breaks</a></li>
+    <li><a href="#sec-examples">Worked Examples</a></li>
+    <li><a href="#sec-quiz">Quick Reference &amp; Quiz</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="sec" id="sec-why">
+  <div class="sec-h"><span class="sec-n">01</span><h2>The Question You Haven't Answered Yet</h2></div>
+
+  <p class="lead">An influence line is built for <em>one</em> section. You pick point C, draw its IL, position the train for the worst case, and out comes the largest moment C will ever feel. Repeat for another section and you need another IL. But the beam has infinitely many sections &mdash; and nothing tells you in advance which one is in the most danger.</p>
+
+  <div class="analogy">
+    <span class="an-icon">&#128269;</span>
+    <div>
+      <strong>The bridge inspector's problem.</strong> A crack does not appear where you happened to point your torch. If you check midspan and declare the bridge safe, you have proved something about midspan and nothing about the other 39 metres. Design has to cover <em>every</em> section against <em>every</em> load position &mdash; a double sweep, not a single check.
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="vcard v-blu">
+      <span class="vtag">Previous chapter</span>
+      <h4>Fix the section, move the load</h4>
+      <p>One IL, one section, worst position found. Answers: <em>"What is the largest moment at C?"</em></p>
+    </div>
+    <div class="vcard v-vio">
+      <span class="vtag">This chapter</span>
+      <h4>Move the section too</h4>
+      <p>Sweep the section as well as the load. Answers: <em>"What is the largest moment anywhere in the span, and at which section does it occur?"</em> That value is the <strong>absolute maximum</strong>.</p>
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>This is the number the design is actually sized for.</strong> You choose the girder depth and the reinforcement from the absolute maximum, not from the moment at whatever section you happened to analyse. Get it at the wrong section and the beam is under-designed exactly where it matters.</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="sec-env">
+  <div class="sec-h"><span class="sec-n">02</span><h2>The Envelope</h2></div>
+
+  <p>The double sweep has a picture, and it is the most useful diagram in this chapter.</p>
+
+  <div class="core">
+    <span>Definition</span>
+    <p>Run the train through every possible position. Each position gives one bending moment diagram. Now, at each section, keep only the <strong>largest</strong> value ever seen there. Plot those maxima against position and you get the <strong>moment envelope</strong> &mdash; a curve no individual BMD ever reaches, but which every BMD stays inside.</p>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#128248;</span>
+    <div>
+      <strong>A long-exposure photograph.</strong> Open the shutter and let the train crawl across the beam while every BMD it produces is drawn in faint light. The blurred outer boundary of that smear is the envelope. No single instant looks like it &mdash; it is the silhouette of all instants at once.
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Read it as</span><h4>A design demand curve</h4><p>At every section it tells you the moment that section must be able to resist. Compare it against your capacity curve and you can see instantly where the beam is tight.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Shape</span><h4>Nearly a parabola</h4><p>For a single load the envelope is exactly \(Px(L-x)/L\). For a train it is a parabola with faint kinks where the governing axle changes over.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Peak</span><h4>Just off midspan</h4><p>The envelope's peak <em>is</em> the absolute maximum moment, and it sits slightly away from midspan &mdash; on the side the resultant leans toward.</p></div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>The peak is very flat, and that is genuinely useful.</strong> For the three-axle train in Example 2, the envelope peaks at 491.0 kN&middot;m at x = 10.42 m, while the value at midspan is 490.0 kN&middot;m &mdash; a difference of <strong>0.2%</strong>. Checking midspan is an excellent engineering approximation. It is still not the exact answer, and exams ask for the exact answer.</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="sec-shear">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Absolute Maximum Shear (the easy one)</h2></div>
+
+  <p>Dispose of shear first, because it needs no theory at all.</p>
+
+  <div class="core">
+    <span>Where and why</span>
+    <p>The shear IL for any section is largest at the supports, so the worst shear anywhere is the worst <strong>reaction</strong>. To maximise a reaction, get as much load as close to that support as the train's geometry allows &mdash; usually the leading axle sitting right on top of it.</p>
+    <div class="eq">\[ V_&#123;\text&#123;abs,max&#125;&#125; = R_&#123;\text&#123;on span&#125;&#125;\,\frac&#123;L - \bar&#123;x&#125;_A&#125;&#123;L&#125; \]</div>
+    <p class="small">with \(\bar&#123;x&#125;_A\) the distance from support A to the resultant of the axles that are actually on the span. Try pushing the train one axle further too &mdash; sometimes letting the first axle run off the end and bringing a heavier one to the support wins.</p>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Do not assume the first axle at the support always governs.</strong> If the train is heavy at the back, sliding it forward until the second axle reaches the support can put more total load near A even after the first axle has left the span. It is a two- or three-way comparison, not a formula. The simulator's shear readout lets you check both in seconds.</div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="sec-rule">
+  <div class="sec-h"><span class="sec-n">04</span><h2>Absolute Maximum Moment: the Bisection Rule</h2></div>
+
+  <p>Moment is the interesting case, and it has an exact answer you can derive in four lines. Two facts make it tractable:</p>
+
+  <div class="grid2">
+    <div class="vcard v-teal">
+      <span class="vtag">Fact 1</span>
+      <h4>The peak is always <em>under</em> an axle</h4>
+      <p>Between axles the BMD is a straight line, so it has no interior maximum. The largest moment must sit at a kink &mdash; and every kink is a wheel. So there are only as many candidate sections as there are axles.</p>
+    </div>
+    <div class="vcard v-amb">
+      <span class="vtag">Fact 2</span>
+      <h4>The whole train acts through its resultant</h4>
+      <p>For computing reactions, the axles can be replaced by a single force R at the centroid \(\bar&#123;x&#125;\). The individual axles only matter again when you take moments <em>inside</em> the span.</p>
+    </div>
+  </div>
+
+  <div class="core">
+    <span>The derivation</span>
+    <p>Pick one axle \(P_k\) as the candidate. Let <strong>e</strong> be the <em>signed</em> distance from \(P_k\) to the resultant R, positive when R lies to the right. Put \(P_k\) at distance x from support A, so R is at \(x+e\).</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>Left reaction: \( V_A = R\dfrac&#123;L-(x+e)&#125;&#123;L&#125; \)</div></div>
+      <div class="step"><b>2</b><div>Moment under \(P_k\): \( M = V_A\,x - M_&#123;\text&#123;left&#125;&#125; \), where \(M_&#123;\text&#123;left&#125;&#125;\) is the moment about \(P_k\) of the axles ahead of it &mdash; a <em>constant</em>, because the train is rigid.</div></div>
+      <div class="step"><b>3</b><div>Maximise: \( \dfrac&#123;dM&#125;&#123;dx&#125; = \dfrac&#123;R&#125;&#123;L&#125;(L-2x-e) = 0 \;\Rightarrow\; \boxed&#123;\,x = \dfrac&#123;L-e&#125;&#123;2&#125;\,&#125; \)</div></div>
+      <div class="step"><b>4</b><div>Substitute back. Since \(L-x-e = x\) at that position, the reaction term collapses beautifully:
+        <div class="eq">\[ \boxed&#123;\,M_k = \frac&#123;R\,x^2&#125;&#123;L&#125; - M_&#123;\text&#123;left&#125;&#125;, \qquad x = \frac&#123;L-e&#125;&#123;2&#125;\,&#125; \]</div></div></div>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <span class="an-icon">&#9878;</span>
+    <div>
+      <strong>What \(x=(L-e)/2\) is telling you, in words.</strong> \(P_k\) sits at \(\tfrac&#123;L-e&#125;&#123;2&#125;\) and R sits at \(\tfrac&#123;L-e&#125;&#123;2&#125;+e = \tfrac&#123;L+e&#125;&#123;2&#125;\). Both are exactly \(e/2\) from midspan, on opposite sides. So: <strong>slide the train until the centreline of the beam bisects the gap between your candidate axle and the resultant.</strong> That one sentence is the whole rule, and it is why this is called the bisection or "midspan-bisects" rule.
+    </div>
+  </div>
+
+  <div class="why-matters">
+    <span>&#9889;</span>
+    <div><strong>Keep the sign on e or you will get the wrong answer.</strong> If R sits to the <em>left</em> of your candidate axle, e is negative and \(x = (L-e)/2\) is greater than \(L/2\) &mdash; the axle goes past midspan. Using \(|e|\) puts it on the wrong side and quietly under-reports the moment. In Example 2 that mistake costs 100 kN&middot;m: 391 instead of the correct 491.</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sec-trial">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Why You Must Test Every Axle</h2></div>
+
+  <p>The formula gives the best moment obtainable <em>for a chosen candidate axle</em>. Different axles give different answers, so the procedure is a short trial, not a single substitution.</p>
+
+  <div class="core">
+    <span>Procedure</span>
+    <div class="steps">
+      <div class="step"><b>1</b><div>Find \(R = \sum P_i\) and the resultant position \(\bar&#123;x&#125; = \dfrac&#123;\sum P_i d_i&#125;&#123;R&#125;\), measuring \(d_i\) from any convenient axle.</div></div>
+      <div class="step"><b>2</b><div>For each axle in turn: \( e = \bar&#123;x&#125; - d_k \) (signed), \( x = \dfrac&#123;L-e&#125;&#123;2&#125; \), \( M_k = \dfrac&#123;Rx^2&#125;&#123;L&#125; - M_&#123;\text&#123;left&#125;&#125; \).</div></div>
+      <div class="step"><b>3</b><div><strong>Check the position is legal</strong> &mdash; with \(P_k\) at x, is the whole train still on the span? If any axle would hang off the end, R and \(\bar&#123;x&#125;\) are no longer what you assumed and that candidate is void.</div></div>
+      <div class="step"><b>4</b><div>The absolute maximum is the largest <em>valid</em> \(M_k\), occurring at its own x.</div></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="vcard v-teal">
+      <span class="vtag">Good first guess</span>
+      <h4>The axle nearest the resultant</h4>
+      <p>It usually wins, because it makes |e| smallest and \(x\) closest to midspan, where the \(Rx^2/L\) term is biggest. In Example 2 the 60 kN axle is 0.83 m from R and does govern.</p>
+    </div>
+    <div class="vcard v-rust">
+      <span class="vtag">But not always</span>
+      <h4>\(M_&#123;\text&#123;left&#125;&#125;\) can overturn it</h4>
+      <p>An axle near the resultant but with a lot of load ahead of it carries a large \(M_&#123;\text&#123;left&#125;&#125;\) penalty. That is why the trailing axle in Example 2 scores only 392 despite a healthy first term. <strong>Test them all &mdash; it is three lines of arithmetic each.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="sec-sim">
+  <div class="sec-h"><span class="sec-n">06</span><h2>Simulator: Drag the Train</h2></div>
+
+  <p>The top panel is the beam with the train at its current position. The bottom panel shows the bending moment diagram for <em>that</em> position in solid colour, with the full <strong>envelope</strong> ghosted behind it. Drag the position slider and watch the solid diagram sweep around inside the fixed envelope &mdash; then press <em>Snap to absolute maximum</em> and watch it touch the peak.</p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <label>Span L (m) <input type="number" id="mv-L" value="20" step="1" min="4"></label>
+      <div class="calc-pair">
+        <label>Axle 1 P&#8321; (kN) <input type="number" id="mv-p1" value="40" step="5" min="0"></label>
+        <label>Axle 2 P&#8322; (kN) <input type="number" id="mv-p2" value="60" step="5" min="0"></label>
+        <label>Axle 3 P&#8323; (kN) <input type="number" id="mv-p3" value="20" step="5" min="0"></label>
+      </div>
+      <div class="calc-pair">
+        <label>Spacing 1&ndash;2 (m) <input type="number" id="mv-s1" value="4" step="0.5" min="0.1"></label>
+        <label>Spacing 2&ndash;3 (m) <input type="number" id="mv-s2" value="3" step="0.5" min="0.1"></label>
+      </div>
+      <p class="small">Set P&#8323; = 0 for a two-axle train.</p>
+      <label>Train position &mdash; axle 1 at <span id="mv-xv">6.42</span> m
+        <input type="range" id="mv-x" min="0" max="1000" value="466">
+      </label>
+      <button type="button" id="mv-snap" class="calc-btn">Snap to absolute maximum</button>
+    </div>
+    <div class="calc-out">
+      <div id="mv-fig" class="calc-fig"></div>
+      <div id="mv-res" class="calc-results"></div>
+    </div>
+  </div>
+
+  <h3 class="small" style="margin-top:1.1rem">Candidate table &mdash; every axle tested</h3>
+  <div id="mv-tab" class="calc-results"></div>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Try this</span><h4>Snap, then nudge</h4><p>Press snap, then move the slider one step either way. The moment falls off in both directions &mdash; you are sitting on a genuine maximum.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Try this</span><h4>Watch the envelope's flat top</h4><p>The peak is barely a bump. Slide the train across a couple of metres and the maximum hardly changes &mdash; that is the 0.2% from Section 2.</p></div>
+    <div class="vcard v-rust"><span class="vtag">Try this</span><h4>Shorten the span to 8 m</h4><p>Now the train is long compared with the beam. Every candidate turns invalid, and the honest answer comes from a single axle at midspan &mdash; Section 7.</p></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="sec-break">
+  <div class="sec-h"><span class="sec-n">07</span><h2>When the Rule Breaks</h2></div>
+
+  <p>The derivation quietly assumed the whole train stays on the span while you slide it. On a short span that is impossible, and the rule has to be abandoned rather than trusted.</p>
+
+  <div class="example">
+    <div class="ex-h"><span>Counter-case</span><h4>Two 50 kN axles, 6 m apart, on an 8 m span</h4></div>
+    <div class="steps">
+      <div class="step"><b>1</b><div>\( R = 100 \) kN, \( \bar&#123;x&#125; = 3 \) m from axle 1 (midway, by symmetry).</div></div>
+      <div class="step"><b>2</b><div><strong>Candidate axle 1:</strong> \( e = +3 \), \( x = (8-3)/2 = 2.5 \) m. Axle 2 would then be at 8.5 m &mdash; <em>0.5 m past support B</em>. Invalid.</div></div>
+      <div class="step"><b>3</b><div><strong>Candidate axle 2:</strong> \( e = -3 \), \( x = (8+3)/2 = 5.5 \) m. Axle 1 would be at &minus;0.5 m &mdash; <em>before support A</em>. Invalid.</div></div>
+      <div class="step"><b>4</b><div>Both candidates are void, so fall back on physics: with the axles 6 m apart on an 8 m span, the best you can do is put <strong>one</strong> axle at midspan and let the other sit near a support where its lever arm is small.
+        <div class="eq">\[ M = \frac&#123;PL&#125;&#123;4&#125; = \frac&#123;50 \times 8&#125;&#123;4&#125; = 100\ \text&#123;kN·m&#125; \]</div></div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> 100 kN&middot;m. Had you applied the formula blindly you would have written 78.1 kN&middot;m for either candidate &mdash; <strong>22% unconservative</strong>, and wrong in the direction that breaks bridges. Always run the legality check in Step 3 of the procedure.</div>
+  </div>
+
+  <div class="core">
+    <span>Core Idea</span>
+    <p>Everything in this chapter is one sweep in two directions. Move the load to find the worst case at a section; move the section to find the worst case in the beam. The envelope records both sweeps at once, and the bisection rule is simply the shortcut that finds its peak without doing the sweep by hand:</p>
+    <div class="eq">\[ M_&#123;\text&#123;abs&#125;&#125; = \max_&#123;\text&#123;valid axles &#125;k&#125;\left[\frac&#123;R&#125;&#123;L&#125;\left(\frac&#123;L-e_k&#125;&#123;2&#125;\right)^&#123;2&#125; - M_&#123;\text&#123;left&#125;,k&#125;\right] \]</div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="sec-examples">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Worked Examples</h2></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 1</span><h4>Two-Axle Truck on a 15 m Span</h4></div>
+    <p class="prob"><strong>Problem:</strong> Axle loads of 60 kN and 40 kN, 4 m apart, cross a 15 m simply supported beam. Find the absolute maximum moment and the absolute maximum shear.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Resultant.</strong> \( R = 60+40 = 100 \) kN. Measuring from the 60 kN axle: \( \bar&#123;x&#125; = \dfrac&#123;40 \times 4&#125;&#123;100&#125; = 1.60 \) m.</div></div>
+      <div class="step"><b>2</b><div><strong>Candidate: the 60 kN axle.</strong> \( e = 1.60 - 0 = +1.60 \) m, so \( x = \dfrac&#123;15-1.6&#125;&#123;2&#125; = 6.70 \) m and \( M_&#123;\text&#123;left&#125;&#125; = 0 \).
+        <div class="eq">\[ M = \frac&#123;100 \times 6.70^2&#125;&#123;15&#125; = \frac&#123;4489&#125;&#123;15&#125; = 299.3\ \text&#123;kN·m&#125; \]</div>
+        Legality: the 40 kN axle lands at 10.70 m &lt; 15 m. Valid.</div></div>
+      <div class="step"><b>3</b><div><strong>Candidate: the 40 kN axle.</strong> \( e = 1.60 - 4 = -2.40 \) m, so \( x = \dfrac&#123;15+2.4&#125;&#123;2&#125; = 8.70 \) m and \( M_&#123;\text&#123;left&#125;&#125; = 60 \times 4 = 240 \) kN&middot;m.
+        <div class="eq">\[ M = \frac&#123;100 \times 8.70^2&#125;&#123;15&#125; - 240 = 504.6 - 240 = 264.6\ \text&#123;kN·m&#125; \]</div></div></div>
+      <div class="step"><b>4</b><div><strong>Shear.</strong> Push the train up to A with the 60 kN axle on the support: \( V_A = 100\dfrac&#123;15-1.6&#125;&#123;15&#125; = 89.3 \) kN. The alternative &mdash; running the 60 kN off the end and bringing the 40 kN to A &mdash; leaves only 40 kN on the span. Worse.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> \(M_&#123;\text&#123;abs&#125;&#125; = 299.3\) kN&middot;m under the 60 kN axle, positioned 6.70 m from A (0.80 m left of midspan). \(V_&#123;\text&#123;abs&#125;&#125; = 89.3\) kN at the support. The heavier axle nearest the resultant governs, as expected.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 2</span><h4>Three-Axle Train on a 20 m Span &mdash; Where the Sign of e Decides It</h4></div>
+    <p class="prob"><strong>Problem:</strong> Axle loads of 40 kN, 60 kN and 20 kN with spacings of 4 m and 3 m cross a 20 m simply supported beam. Find the absolute maximum moment.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Resultant.</strong> \( R = 120 \) kN. Measuring from the 40 kN axle (\(d = 0, 4, 7\) m):
+        <div class="eq">\[ \bar&#123;x&#125; = \frac&#123;40(0)+60(4)+20(7)&#125;&#123;120&#125; = \frac&#123;380&#125;&#123;120&#125; = 3.167\ \text&#123;m&#125; \]</div>
+        The resultant falls between axles 1 and 2, nearest to axle 2 (0.833 m away).</div></div>
+      <div class="step"><b>2</b><div><strong>Candidate 1 &mdash; the 40 kN axle.</strong> \( e = 3.167 \), \( x = \dfrac&#123;20-3.167&#125;&#123;2&#125; = 8.417 \) m, \( M_&#123;\text&#123;left&#125;&#125; = 0 \):
+        <div class="eq">\[ M_1 = \frac&#123;120 \times 8.417^2&#125;&#123;20&#125; = 425.0\ \text&#123;kN·m&#125; \]</div></div></div>
+      <div class="step"><b>3</b><div><strong>Candidate 2 &mdash; the 60 kN axle.</strong> R is to its <em>left</em>, so \( e = 3.167 - 4 = -0.833 \) m and \( x = \dfrac&#123;20+0.833&#125;&#123;2&#125; = 10.417 \) m &mdash; just past midspan. \( M_&#123;\text&#123;left&#125;&#125; = 40 \times 4 = 160 \) kN&middot;m:
+        <div class="eq">\[ M_2 = \frac&#123;120 \times 10.417^2&#125;&#123;20&#125; - 160 = 651.0 - 160 = 491.0\ \text&#123;kN·m&#125; \]</div></div></div>
+      <div class="step"><b>4</b><div><strong>Candidate 3 &mdash; the 20 kN axle.</strong> \( e = 3.167-7 = -3.833 \) m, \( x = 11.917 \) m, \( M_&#123;\text&#123;left&#125;&#125; = 40(7)+60(3) = 460 \) kN&middot;m:
+        <div class="eq">\[ M_3 = \frac&#123;120 \times 11.917^2&#125;&#123;20&#125; - 460 = 852.1 - 460 = 392.1\ \text&#123;kN·m&#125; \]</div></div></div>
+      <div class="step"><b>5</b><div><strong>Legality.</strong> For candidate 2 the axles sit at 6.417, 10.417 and 13.417 m &mdash; all inside the span. Valid.</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> \(M_&#123;\text&#123;abs&#125;&#125; = 491.0\) kN&middot;m, under the 60 kN axle at x = 10.42 m, with the leading axle 6.42 m from A. Note that dropping the minus sign on e would have put the 60 kN axle at 9.58 m and given 391.0 kN&middot;m &mdash; the answer would then have looked <em>smaller</em> than candidate 1, and you would have reported the wrong governing axle as well as the wrong number.</div>
+  </div>
+
+  <div class="example">
+    <div class="ex-h"><span>Example 3</span><h4>How Good Is "Just Check Midspan"?</h4></div>
+    <p class="prob"><strong>Problem:</strong> For the Example 2 train, compare the true absolute maximum against the largest moment obtainable at midspan.</p>
+    <div class="steps">
+      <div class="step"><b>1</b><div>Absolute maximum, from Example 2: <strong>491.0 kN&middot;m</strong> at x = 10.42 m.</div></div>
+      <div class="step"><b>2</b><div>Sweep the train and record the best moment at x = 10.00 m exactly: <strong>490.0 kN&middot;m</strong>.</div></div>
+      <div class="step"><b>3</b><div>Difference: \( \dfrac&#123;491.0-490.0&#125;&#123;491.0&#125; = 0.2\% \).</div></div>
+    </div>
+    <div class="ans"><strong>Answer:</strong> The midspan check is low by 0.2% &mdash; far inside any load factor, which is why practising engineers often use it and why the envelope's peak is so flat. Use it as a sanity check on your exact answer: if your bisection-rule result differs from the midspan value by more than a percent or two, you have made an arithmetic slip.</div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="sec-quiz">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Quick Reference &amp; Quick Check</h2></div>
+
+  <div class="qref">
+    <div><span>Envelope</span><span>max moment at each section over all load positions</span></div>
+    <div><span>Envelope, single load P</span><span>Px(L&minus;x)/L &mdash; a parabola</span></div>
+    <div><span>Peak of envelope</span><span>the absolute maximum moment</span></div>
+    <div><span>Peak location</span><span>slightly off midspan, toward the resultant</span></div>
+    <div><span>Max moment sits</span><span>always under an axle (BMD is straight between axles)</span></div>
+    <div><span>Resultant</span><span>R = &Sigma;P&#7522;, x&#772; = &Sigma;P&#7522;d&#7522;/R</span></div>
+    <div><span>Eccentricity</span><span>e = x&#772; &minus; d&#8340; — <b>signed</b>, + if R is right of P&#8340;</span></div>
+    <div><span>Bisection rule</span><span>midspan bisects the gap between P&#8340; and R</span></div>
+    <div><span>Position of P&#8340;</span><span>x = (L &minus; e)/2 from A</span></div>
+    <div><span>Candidate moment</span><span>M&#8340; = Rx&sup2;/L &minus; M<sub>left</sub></span></div>
+    <div><span>M<sub>left</sub></span><span>moment about P&#8340; of the axles ahead of it</span></div>
+    <div><span>Best first guess</span><span>the axle nearest the resultant</span></div>
+    <div><span>Legality check</span><span>whole train must stay on the span at x</span></div>
+    <div><span>Absolute max shear</span><span>largest reaction; train shoved against a support</span></div>
+    <div><span>Midspan shortcut</span><span>within ~0.2% for typical trains, but not exact</span></div>
+  </div>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="1">
+      <p>1. Why can the absolute maximum moment only occur directly under an axle?</p>
+      <button data-v="0">Because the reaction is largest there</button>
+      <button data-v="1">Because the BMD is a straight line between axles, so its peak must be at a kink</button>
+      <button data-v="2">Because the resultant always coincides with an axle</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>2. The bisection rule positions the train so that:</p>
+      <button data-v="0">The resultant sits exactly at midspan</button>
+      <button data-v="1">The heaviest axle sits exactly at midspan</button>
+      <button data-v="2">Midspan lies halfway between the candidate axle and the resultant</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. The resultant of a train lies 0.83 m to the <em>left</em> of your candidate axle on a 20 m span. Where does that axle go?</p>
+      <button data-v="0">To x = 10.42 m — past midspan, since e is negative</button>
+      <button data-v="1">To x = 9.58 m — before midspan</button>
+      <button data-v="2">To x = 10.00 m — exactly at midspan</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>4. Your bisection-rule position puts the rear axle 0.5 m beyond support B. What do you do?</p>
+      <button data-v="0">Use it anyway — the overhanging load helps by reducing the moment</button>
+      <button data-v="1">Discard that candidate as invalid and check the others, or fall back on a direct search</button>
+      <button data-v="2">Shift the train back until it fits and use the moment there</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>5. Why is the envelope useful even though no single load position ever produces it?</p>
+      <button data-v="0">It shows the deflected shape of the beam under the worst load</button>
+      <button data-v="1">It is the BMD for the train parked at midspan</button>
+      <button data-v="2">It gives the design demand at every section at once — the moment each section must resist</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+<footer class="chapter-nav">
+  <a href="/civil/cee330/arches-cables">&larr; Arches &amp; Cables</a>
+  <a href="/civil">Back to Civil Engineering &rarr;</a>
+</footer>
+
+<script is:inline>
+(function(){
+  const g=id=>document.getElementById(id), v=id=>+g(id).value;
+
+  function train(){
+    const L=Math.max(4,v('mv-L'));
+    const s1=Math.max(0.1,v('mv-s1')), s2=Math.max(0.1,v('mv-s2'));
+    const raw=[[v('mv-p1'),0],[v('mv-p2'),s1],[v('mv-p3'),s1+s2]];
+    const ax=raw.filter(a=>a[0]>0).map(a=>({P:a[0],d:a[1]}));
+    return {L,ax,len:ax.length?ax[ax.length-1].d-ax[0].d:0,off:ax.length?ax[0].d:0};
+  }
+  // reactions + moment for the train with axle-1 datum at x0
+  function state(L,ax,x0){
+    const on=ax.map(a=>({P:a.P,x:x0+a.d})).filter(a=>a.x>=-1e-9&&a.x<=L+1e-9);
+    const R=on.reduce((s,a)=>s+a.P,0);
+    const VA=R?on.reduce((s,a)=>s+a.P*(L-a.x),0)/L:0;
+    const M=t=>VA*t-on.reduce((s,a)=>s+(a.x<t?a.P*(t-a.x):0),0);
+    return {on,R,VA,VB:R-VA,M};
+  }
+  function candidates(L,ax){
+    const R=ax.reduce((s,a)=>s+a.P,0);
+    if(!R) return {R:0,xbar:0,rows:[],best:null};
+    const xbar=ax.reduce((s,a)=>s+a.P*a.d,0)/R;
+    const span=ax[ax.length-1].d-ax[0].d;
+    const rows=ax.map((a,k)=>{
+      const e=xbar-a.d, x=(L-e)/2;
+      const Ml=ax.reduce((s,b)=>s+(b.d<a.d?b.P*(a.d-b.d):0),0);
+      const M=R*x*x/L-Ml;
+      const x0=x-a.d, first=x0+ax[0].d, last=first+span;
+      return {k:k+1,P:a.P,e,Ml,x,M,x0,ok:first>=-1e-9&&last<=L+1e-9};
+    });
+    const valid=rows.filter(r=>r.ok&&r.M>0);
+    const best=valid.length?valid.reduce((a,b)=>b.M>a.M?b:a):null;
+    return {R,xbar,rows,best};
+  }
+  // envelope + absolute max shear, cached on the train definition
+  let cache={key:'',env:[],peak:0,peakX:0,Vmax:0};
+  function envelope(L,ax){
+    const key=L+'|'+ax.map(a=>a.P+'@'+a.d).join(',');
+    if(cache.key===key) return cache;
+    const NS=300, NP=1200, lo=-(ax.length?ax[ax.length-1].d:0), hi=L;
+    const env=new Array(NS+1).fill(0);
+    for(let j=0;j<=NP;j++){
+      const st=state(L,ax,lo+(hi-lo)*j/NP);
+      if(!st.R) continue;
+      for(let i=0;i<=NS;i++){const m=st.M(L*i/NS); if(m>env[i])env[i]=m;}
+    }
+    let peak=0,peakX=0;
+    env.forEach((m,i)=>{if(m>peak){peak=m;peakX=L*i/NS;}});
+    // Max reaction is exact, not sampled: it can only occur with some axle
+    // sitting right on a support, so test those configurations directly.
+    let Vmax=0;
+    ax.forEach(a=>{
+      [[-a.d,'A'],[L-a.d,'B']].forEach(([x0,end])=>{
+        const st=state(L,ax,x0);
+        const V=end==='A'?st.VA:st.VB;
+        if(V>Vmax)Vmax=V;
+      });
+    });
+    cache={key,env,peak,peakX,Vmax,NS};
+    return cache;
+  }
+
+  function draw(){
+    const {L,ax}=train();
+    const cd=candidates(L,ax), ev=envelope(L,ax);
+    const span=ax.length?ax[ax.length-1].d-ax[0].d:0;
+    const lo=-span, hi=L;
+    const x0=lo+(hi-lo)*v('mv-x')/1000;
+    g('mv-xv').textContent=(x0+(ax.length?ax[0].d:0)).toFixed(2);
+    const st=state(L,ax,x0);
+
+    // current maximum, which always sits under an axle
+    let curM=0,curX=0;
+    st.on.forEach(a=>{const m=st.M(a.x); if(m>curM){curM=m;curX=a.x;}});
+
+    g('mv-res').innerHTML=
+      `<div class="res"><span>Load on span R</span><b>${st.R.toFixed(0)} kN of ${ax.reduce((s,a)=>s+a.P,0).toFixed(0)} kN</b></div>`+
+      `<div class="res"><span>Reactions V<sub>A</sub> / V<sub>B</sub></span><b>${st.VA.toFixed(1)} / ${st.VB.toFixed(1)} kN</b></div>`+
+      `<div class="res"><span>Max moment, this position</span><b>${curM.toFixed(1)} kN&middot;m at x = ${curX.toFixed(2)} m</b></div>`+
+      (cd.best
+        ? `<div class="verdict ${Math.abs(curM-cd.best.M)<0.05*Math.max(1,cd.best.M)?'v-pass':'v-fail'}"><span>Absolute maximum (axle ${cd.best.k})</span><b>${cd.best.M.toFixed(1)} kN&middot;m at x = ${cd.best.x.toFixed(2)} m</b></div>`
+        : `<div class="verdict v-fail"><span>Absolute maximum</span><b>no valid candidate — see &sect;7</b></div>`)+
+      `<div class="res"><span>Envelope peak (direct search)</span><b>${ev.peak.toFixed(1)} kN&middot;m at x = ${ev.peakX.toFixed(2)} m</b></div>`+
+      `<div class="res"><span>Absolute max shear</span><b>${ev.Vmax.toFixed(1)} kN</b></div>`;
+
+    g('mv-tab').innerHTML=cd.rows.map(r=>
+      `<div class="res"><span>Axle ${r.k} &nbsp;(${r.P} kN) &nbsp; e = ${r.e>=0?'+':''}${r.e.toFixed(3)} m, M<sub>left</sub> = ${r.Ml.toFixed(0)}</span>`+
+      `<b style="color:${!r.ok||r.M<=0?'var(--mut)':(cd.best&&r.k===cd.best.k?'var(--grn)':'var(--txt2)')}">`+
+      `${!r.ok?'invalid — train off span':(r.M<=0?'not governing':'x = '+r.x.toFixed(2)+' m &rarr; '+r.M.toFixed(1)+' kN&middot;m'+(cd.best&&r.k===cd.best.k?'  &#9733;':''))}</b></div>`
+    ).join('')||'<div class="res"><span>No axles defined</span><b>&mdash;</b></div>';
+
+    const W=340,padL=30,padR=16, X=t=>padL+(t/L)*(W-padL-padR);
+    const topH=96, momH=92, Ht=topH+momH;
+    const beamY=68;
+    let s=`<svg viewBox="0 0 ${W} ${Ht}" style="width:100%;height:auto">`;
+    s+=`<defs><marker id="mvh" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--rust)"/></marker>`+
+       `<marker id="mvt" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--teal)"/></marker></defs>`;
+    // beam + supports
+    s+=`<line x1="${X(0)}" y1="${beamY}" x2="${X(L)}" y2="${beamY}" stroke="var(--txt2)" stroke-width="2.5"/>`;
+    [0,L].forEach(t=>s+=`<polygon points="${X(t)},${beamY} ${X(t)-6},${beamY+9} ${X(t)+6},${beamY+9}" fill="var(--bdr2)" stroke="var(--txt2)"/>`);
+    s+=`<text x="${X(0)}" y="${beamY+20}" font-size="7.5" fill="var(--teal)" text-anchor="middle">${st.VA.toFixed(0)}</text>`;
+    s+=`<text x="${X(L)}" y="${beamY+20}" font-size="7.5" fill="var(--teal)" text-anchor="middle">${st.VB.toFixed(0)}</text>`;
+    s+=`<line x1="${X(L/2)}" y1="${beamY-46}" x2="${X(L/2)}" y2="${beamY+18}" stroke="var(--bdr2)" stroke-width=".8" stroke-dasharray="2,3"/>`;
+    s+=`<text x="${X(L/2)}" y="${beamY+26}" font-size="7" fill="var(--mut)" text-anchor="middle">midspan</text>`;
+    // axles
+    ax.forEach(a=>{
+      const xa=x0+a.d, onSpan=xa>=0&&xa<=L;
+      if(xa<-0.8||xa>L+0.8) return;          // well off the beam — don't crowd the edge
+      const px=X(xa);
+      s+=`<line x1="${px}" y1="${beamY-34}" x2="${px}" y2="${beamY-3}" stroke="${onSpan?'var(--rust)':'var(--mut)'}" stroke-width="2" opacity="${onSpan?1:.35}" marker-end="url(#mvh)"/>`;
+      s+=`<text x="${px}" y="${beamY-37}" font-size="7.5" fill="${onSpan?'var(--rust)':'var(--mut)'}" text-anchor="middle" opacity="${onSpan?1:.5}">${a.P}</text>`;
+    });
+    // resultant
+    if(cd.R){const xr=x0+cd.xbar;
+      if(xr>=-1&&xr<=L+1){s+=`<line x1="${X(xr)}" y1="${beamY-58}" x2="${X(xr)}" y2="${beamY-40}" stroke="var(--vio)" stroke-width="1.6" marker-end="url(#mvh)" opacity=".9"/>`;
+        s+=`<text x="${X(xr)}" y="${beamY-61}" font-size="7.5" fill="var(--vio)" text-anchor="middle">R = ${cd.R}</text>`;}}
+
+    // moment panel: envelope ghosted, current BMD solid
+    const mtop=topH+6, mmid=mtop+20, amp=momH-38;
+    const sc=Math.max(ev.peak,1e-6), Ym=m=>mmid+amp-(m/sc)*amp;
+    s+=`<line x1="${X(0)}" y1="${Ym(0)}" x2="${X(L)}" y2="${Ym(0)}" stroke="var(--bdr2)" stroke-width="1"/>`;
+    let ep=`M ${X(0)} ${Ym(0)}`;
+    ev.env.forEach((m,i)=>{ep+=` L ${X(L*i/ev.NS).toFixed(1)} ${Ym(m).toFixed(1)}`;});
+    ep+=` L ${X(L)} ${Ym(0)} Z`;
+    s+=`<path d="${ep}" fill="var(--teal)" opacity=".13" stroke="var(--teal)" stroke-width="1" stroke-dasharray="3,3"/>`;
+    let bp=`M ${X(0)} ${Ym(0)}`;
+    const pts=[0,...st.on.map(a=>a.x),L].sort((a,b)=>a-b);
+    pts.forEach(t=>{bp+=` L ${X(t).toFixed(1)} ${Ym(st.M(t)).toFixed(1)}`;});
+    s+=`<path d="${bp}" fill="none" stroke="var(--rust)" stroke-width="2.2"/>`;
+    if(curM>0){s+=`<circle cx="${X(curX)}" cy="${Ym(curM)}" r="3" fill="var(--rust)"/>`;
+      s+=`<text x="${X(curX)}" y="${Ym(curM)-6}" font-size="7.5" fill="var(--rust)" text-anchor="middle">${curM.toFixed(0)}</text>`;}
+    s+=`<circle cx="${X(ev.peakX)}" cy="${Ym(ev.peak)}" r="2.6" fill="none" stroke="var(--grn)" stroke-width="1.6"/>`;
+    s+=`<text x="${padL}" y="${mtop+4}" font-size="7.5" fill="var(--txt2)">BMD now (solid) vs envelope (shaded)</text>`;
+    s+=`<text x="${W-padR}" y="${mtop+4}" font-size="7.5" fill="var(--grn)" text-anchor="end">&#9675; peak ${ev.peak.toFixed(0)}</text>`;
+    s+=`</svg>`;
+    g('mv-fig').innerHTML=s;
+  }
+
+  ['mv-L','mv-p1','mv-p2','mv-p3','mv-s1','mv-s2','mv-x'].forEach(id=>g(id).addEventListener('input',draw));
+  g('mv-snap').addEventListener('click',()=>{
+    const {L,ax}=train(); const cd=candidates(L,ax);
+    const span=ax.length?ax[ax.length-1].d-ax[0].d:0, lo=-span, hi=L;
+    const ev=envelope(L,ax);
+    // use the rule's position when a candidate is valid, else the direct search
+    let x0=cd.best?cd.best.x0:null;
+    if(x0===null){
+      let bm=-1;
+      for(let j=0;j<=600;j++){const t=lo+(hi-lo)*j/600, st=state(L,ax,t);
+        let m=0; st.on.forEach(a=>{m=Math.max(m,st.M(a.x));});
+        if(m>bm){bm=m;x0=t;}}
+    }
+    g('mv-x').value=Math.round((x0-lo)/(hi-lo)*1000);
+    draw();
+  });
+  draw();
+
+  document.querySelectorAll('.quiz .q').forEach(q=>{
+    const btns=q.querySelectorAll('button');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
+      const A=document.querySelectorAll('.quiz .q.answered').length;
+      const R=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      g('quiz-score').textContent=R+' / '+A+' answered correctly so far';
+    }));
+  });
+})();
+</script>
+
+</Base>

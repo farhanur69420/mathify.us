@@ -1,8 +1,16 @@
-name: Deploy to GitHub Pages
+# NOT the live deploy. www.mathify.us and mathify.us both resolve to Vercel
+# (vercel-dns), and Vercel builds straight from this repo — that is what
+# publishes the site. The GitHub Pages copy only ever 301'd to mathify.us.
+#
+# Since the site moved to `output: 'hybrid'` (so /api/chat can run as a
+# serverless function for the tutor chatbot), `astro build` emits
+# .vercel/output/ rather than a self-contained dist/, which Pages cannot host.
+# Left here, runnable by hand, purely so the history and the Pages environment
+# are not deleted out from under anyone. Do not re-enable the push trigger
+# without first moving back to `output: 'static'`.
+name: Deploy to GitHub Pages (disabled — Vercel is the live host)
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -27,7 +35,7 @@ jobs:
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: .vercel/output/static
 
   deploy:
     needs: build
