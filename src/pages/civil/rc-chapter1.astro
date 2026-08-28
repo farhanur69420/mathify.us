@@ -42,6 +42,8 @@ import Base from '../../layouts/Base.astro'
     <span class="section-number">01</span>
     <h2 class="section-title">What is Reinforced Concrete?</h2>
   </div>
+<div class="analogy"><span class="an-icon">&#129691;</span><div><strong>A rope cast inside a stone.</strong> Concrete behaves like a crowd packed shoulder to shoulder: push them together and they hold enormously well; try to pull them apart and there is nothing joining them. Steel is the opposite &mdash; a thin rope, useless in compression, superb in tension. Reinforced concrete is simply the decision to let each material do the one thing it is good at, and to put the steel exactly where the pulling happens.</div></div>
+<div class="core"><span>The coincidence that makes it possible</span><p>This partnership should not work. Two dissimilar materials bonded together normally tear themselves apart the first hot afternoon, because they expand by different amounts. Concrete expands about 10&times;10<sup>&minus;6</sup> per &deg;C and steel about 12&times;10<sup>&minus;6</sup> &mdash; near enough identical. <strong>Reinforced concrete exists because of that numerical accident.</strong> Had steel expanded like aluminium, every beam would crack itself loose in a summer.</p></div>
 
   <div class="teaching-grid">
     <div class="view-card civil-view">
@@ -147,6 +149,7 @@ import Base from '../../layouts/Base.astro'
     <span class="section-number">02</span>
     <h2 class="section-title">Concrete Constituents &amp; Cement</h2>
   </div>
+<div class="analogy"><span class="an-icon">&#127874;</span><div><strong>Think of concrete as a fruitcake.</strong> The stones and sand are the fruit &mdash; cheap, hard, and stronger than anything around them. The cement paste is the cake holding it together, and it is the weakest thing in the mix. So a crack does not cut through the stones; it wanders around them, through the paste. That single fact is why almost all of mix design is really about the paste, and why the next section matters more than any other number here.</div></div>
 
   <div class="teaching-grid">
     <div class="view-card civil-view">
@@ -277,6 +280,8 @@ import Base from '../../layouts/Base.astro'
     <span class="section-number">03</span>
     <h2 class="section-title">Water-Cement Ratio</h2>
   </div>
+<div class="analogy"><span class="an-icon">&#128167;</span><div><strong>Water plays two completely different roles, and only one of them is wanted.</strong> Cement needs roughly a quarter of its own weight in water to hydrate &mdash; that water is consumed by the chemistry and becomes part of the solid. Every drop beyond that is added purely so the mix is wet enough to place. But that surplus does not stay. It evaporates, and what it leaves behind is the space it occupied: pores.</div></div>
+<div class="core"><span>Why W/C is the master variable</span><p>Extra water is workability bought with holes. You are, quite literally, mixing voids into the paste and then asking it to carry load. That is why lowering W/C raises strength and durability at the same time &mdash; fewer pores means more solid to carry stress <em>and</em> fewer channels for water and chloride to reach the steel and rust it. It is a rare design lever with no trade-off, except that the mix gets harder to place &mdash; which is what admixtures are for.</p></div>
 
   <div class="teaching-grid">
     <div class="view-card civil-view">
@@ -380,6 +385,7 @@ import Base from '../../layouts/Base.astro'
     <span class="section-number">04</span>
     <h2 class="section-title">Compressive Strength f'c</h2>
   </div>
+<div class="analogy"><span class="an-icon">&#9203;</span><div><strong>Why 28 days, and not 30 or 60?</strong> Hydration never really finishes &mdash; the strength curve keeps creeping upward for years. But it is steep early and nearly flat later, and by 28 days concrete has reached roughly 90% of the strength it will ever usefully have. The number is a convention placed where the curve stops being interesting: late enough to be nearly final, early enough that a contractor can wait for it.</div></div>
 
   <div class="teaching-grid">
     <div class="view-card civil-view">
@@ -483,6 +489,8 @@ import Base from '../../layouts/Base.astro'
     <span class="section-number">05</span>
     <h2 class="section-title">Modulus of Elasticity, E<sub>c</sub></h2>
   </div>
+<div class="analogy"><span class="an-icon">&#127993;</span><div><strong>Strength and stiffness answer different questions.</strong> Strength asks <em>when does it break?</em> Stiffness asks <em>how far does it move before it does?</em> A steel cable and a rubber band could fail at the same load while behaving nothing alike on the way there. f&prime;<sub>c</sub> answers the first question; E<sub>c</sub> answers the second &mdash; and it is E<sub>c</sub> that decides whether a floor feels solid or bouncy.</div></div>
+<div class="core"><span>The asymmetry worth noticing</span><p>For steel, strength and stiffness are <strong>independent</strong>: Grade 40 and Grade 75 both have E = 29,000 ksi, so a stronger steel does not make the beam one bit stiffer. For concrete they are <strong>linked</strong> &mdash; E<sub>c</sub> = 57,000&radic;f&prime;<sub>c</sub>, so a stronger mix is automatically a stiffer one. Going from f&prime;<sub>c</sub> = 3,000 to 5,000 psi lifts E<sub>c</sub> from 3.12 to 4.03 million psi, about 29%. That is why the two materials need separate mental models, and why the modular ratio n = E<sub>s</sub>/E<sub>c</sub> drifts from about 9.3 down to 7.2 across that range instead of staying put.</p></div>
 
   <div class="teaching-grid">
     <div class="view-card civil-view">
@@ -612,6 +620,8 @@ import Base from '../../layouts/Base.astro'
     <span class="section-number">06</span>
     <h2 class="section-title">Steel Reinforcement</h2>
   </div>
+<div class="analogy"><span class="an-icon">&#128736;</span><div><strong>The bar numbering is simpler than it looks: #N means N eighths of an inch.</strong> A #8 bar is 8/8 = one inch across, a #4 is a half inch, a #3 is three eighths. And the ribs rolled onto every bar are not decoration &mdash; a smooth bar would slide inside the concrete under load and the partnership would fail. Those deformations are what let the steel actually grip, which is the whole subject of development length later in the course.</div></div>
+<div class="core"><span>Who reaches their limit first</span><p>Grade 60 steel yields at a strain of 60/29,000 = <strong>0.00207</strong>. Concrete crushes at about <strong>0.003</strong>. Steel therefore gives up first, by a factor of roughly 1.45 &mdash; and that ordering is designed in, not a coincidence. Steel yielding is gradual and visible: the beam sags, cracks open, people get out. Concrete crushing is sudden and gives no warning. Every under-reinforced beam the code insists on exists to guarantee the ductile failure happens first.</p></div>
 
   <div class="teaching-grid">
     <div class="view-card civil-view">
@@ -764,12 +774,108 @@ import Base from '../../layouts/Base.astro'
   </div>
 </footer>
 
+
+<section class="topic-section" id="sec-quiz">
+  <div class="section-header">
+    <span class="section-number">07</span>
+    <h2 class="section-title">Quick Check</h2>
+  </div>
+  <p style="color:#a0a8be;font-size:.9rem;margin-bottom:1rem;">Six questions aimed at the misconceptions rather than at recall &mdash; the places students lose marks by reciting a number without having felt where it comes from.</p>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-a="2">
+      <p>1. Reinforced concrete works as a composite mainly because:</p>
+      <button data-v="0">Steel and concrete have similar strengths</button>
+      <button data-v="1">Cement chemically bonds to steel</button>
+      <button data-v="2">Their thermal expansion coefficients happen to be nearly equal, so temperature change doesn&rsquo;t tear them apart</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>2. A concrete cylinder is crushed. Where does the crack actually travel?</p>
+      <button data-v="0">Straight through the aggregate, which is the weakest part</button>
+      <button data-v="1">Around the aggregate, through the cement paste &mdash; the paste is weaker than the stones</button>
+      <button data-v="2">Along the reinforcement bars</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>3. Why does adding water beyond what hydration needs reduce strength?</p>
+      <button data-v="0">The surplus evaporates and leaves pores behind &mdash; you are mixing voids into the paste</button>
+      <button data-v="1">It dilutes the cement so less of it reacts</button>
+      <button data-v="2">It washes fine aggregate out of the mix</button>
+    </div>
+    <div class="q" data-a="2">
+      <p>4. Concrete strength is specified at 28 days because:</p>
+      <button data-v="0">Hydration is chemically complete at 28 days</button>
+      <button data-v="1">ASTM cylinders degrade if stored longer</button>
+      <button data-v="2">The strength curve is nearly flat by then &mdash; late enough to be near-final, early enough to be useful on site</button>
+    </div>
+    <div class="q" data-a="1">
+      <p>5. You switch from Grade 60 to Grade 75 steel. What happens to the beam&rsquo;s deflection under service load?</p>
+      <button data-v="0">It decreases, because the steel is stronger</button>
+      <button data-v="1">Essentially nothing &mdash; E is 29,000 ksi for every grade, and deflection depends on stiffness, not strength</button>
+      <button data-v="2">It increases, because higher-grade steel is more brittle</button>
+    </div>
+    <div class="q" data-a="0">
+      <p>6. Codes require beams to be under-reinforced. Why?</p>
+      <button data-v="0">So steel (&epsilon; = 0.00207) yields before concrete crushes (&epsilon; = 0.003) &mdash; the failure is gradual and visible</button>
+      <button data-v="1">To save steel and reduce cost</button>
+      <button data-v="2">Because concrete cannot reach 0.003 strain in practice</button>
+    </div>
+  </div>
+  <div id="quiz-score" class="quiz-score"></div>
+</section>
+
+
+<script is:inline>
+document.querySelectorAll('.quiz .q').forEach(function(q){
+  var btns=q.querySelectorAll('button');
+  btns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      if(btn.dataset.v===q.dataset.a)q.classList.add('gotit');
+      btns.forEach(function(b){
+        if(b.dataset.v===q.dataset.a)b.classList.add('correct');
+        else if(b===btn)b.classList.add('wrong');
+      });
+      var A=document.querySelectorAll('.quiz .q.answered').length;
+      var R=document.querySelectorAll('.quiz .q.gotit').length;
+      document.getElementById('quiz-score').textContent=R+' / '+A+' answered correctly so far';
+    });
+  });
+});
+</script>
+
 </Base>
 
 <!-- ═══════════════════════════════════════════════════════════
      STYLES
 ═══════════════════════════════════════════════════════════ -->
 <style is:inline>
+  .quiz { display:flex; flex-direction:column; gap:1rem; }
+  .quiz .q p { font-size:.9rem; color:#e0e4ef; margin-bottom:.5rem; }
+  .quiz .q button { display:block; width:100%; text-align:left; background:#111118;
+    border:1px solid #222233; border-radius:6px; padding:.6rem .85rem; margin-bottom:.4rem;
+    color:#a0a8be; font-family:inherit; font-size:.85rem; cursor:pointer;
+    transition:border-color .15s,color .15s; }
+  .quiz .q button:hover { border-color:#4ec9b0; color:#e0e4ef; }
+  .quiz .q.answered button { cursor:default; }
+  .quiz button.correct { border-color:#4ec9b0; color:#4ec9b0; background:rgba(78,201,176,.08); }
+  .quiz button.wrong { border-color:#c25a3b; color:#c25a3b; background:rgba(194,90,59,.08); }
+  .quiz-score { margin-top:.8rem; font-family:'Space Mono',monospace; font-size:.8rem; color:#d4a94a; }
+
+  /* ── intuition-first blocks: an analogy before each section's mechanism,
+        and a boxed core idea where the section turns ─────────────────── */
+  .analogy { display:flex; gap:.9rem; align-items:flex-start;
+    background:rgba(155,127,232,.07); border:1px solid rgba(155,127,232,.22);
+    border-left:3px solid #9b7fe8; border-radius:8px; padding:1rem 1.2rem;
+    margin:1.2rem 0; font-size:.9rem; line-height:1.7; }
+  .analogy .an-icon { font-size:1.25rem; line-height:1.3; }
+  .analogy strong { color:#e0e4ef; }
+  .core { background:rgba(78,201,176,.08); border:1px solid rgba(78,201,176,.22);
+    border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .core > span { font-family:'Space Mono',monospace; font-size:.62rem; letter-spacing:.14em;
+    text-transform:uppercase; color:#4ec9b0; }
+  .core p { margin:.45rem 0 0; color:#e0e4ef; font-size:.92rem; line-height:1.7; }
+
   :root {
     --bg: #0d0d14;
     --surface: #111118;
