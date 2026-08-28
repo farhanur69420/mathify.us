@@ -361,7 +361,7 @@ import '../../../styles/chapter.css'
 </section>
 
 <footer class="chapter-nav">
-  <a href="/civil/cee330/arches-cables">&larr; Arches &amp; Cables</a>
+  <a href="/civil/cee330/critical-load-positions">&larr; Critical Load Positions</a>
   <a href="/civil">Back to Civil Engineering &rarr;</a>
 </footer>
 
@@ -527,9 +527,10 @@ import '../../../styles/chapter.css'
     btns.forEach(btn=>btn.addEventListener('click',()=>{
       if(q.classList.contains('answered'))return;
       q.classList.add('answered');
+      if(btn.dataset.v===q.dataset.a)q.classList.add('gotit');
       btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
       const A=document.querySelectorAll('.quiz .q.answered').length;
-      const R=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      const R=document.querySelectorAll('.quiz .q.gotit').length;
       g('quiz-score').textContent=R+' / '+A+' answered correctly so far';
     }));
   });

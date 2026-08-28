@@ -213,6 +213,33 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 /* ─── RESPONSIVE ─── */
 @media(max-width:900px){.wrap{grid-template-columns:1fr;}.toc{display:none;}.content{padding:0 20px 60px;}.hero{padding:40px 24px 36px;}.los-grid{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:580px){.tl-demo{justify-content:center;}}
+
+/* ── house pedagogy blocks (same semantics as styles/chapter.css; `.step` is
+      already taken on this page as an inline label, so the walkthrough list
+      uses .wsteps/.wstep) ───────────────────────────────────────────── */
+.why-matters{display:flex;gap:12px;background:var(--adim);border:1px solid var(--aline);border-left:3px solid var(--amb);border-radius:4px;padding:14px 18px;margin:18px 0;font-size:.88rem;color:var(--txt2);line-height:1.7;}
+.why-matters .wm-i{font-size:1.05rem;line-height:1.4;}
+.why-matters strong{color:var(--txt);}
+.core{background:var(--tdim);border:1px solid var(--tline);border-radius:4px;padding:14px 18px;margin:18px 0;}
+.core>span{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.core p{margin:.45rem 0 0;color:var(--txt);font-size:.9rem;line-height:1.7;}
+.example{background:var(--surf);border:1px solid var(--bdr);border-radius:6px;padding:16px 20px;margin:20px 0;}
+.ex-h{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;}
+.ex-h>span{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amb);border:1px solid var(--aline);background:var(--adim);border-radius:3px;padding:2px 7px;white-space:nowrap;}
+.ex-h h4{font-size:.92rem;color:var(--txt);font-weight:600;margin:0;}
+.prob{font-size:.86rem;color:var(--txt2);margin-bottom:10px;}
+.wsteps{display:flex;flex-direction:column;gap:8px;margin:10px 0;}
+.wstep{display:flex;gap:11px;font-size:.85rem;color:var(--txt2);line-height:1.65;}
+.wstep b{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--teal);background:var(--tdim);border:1px solid var(--tline);border-radius:3px;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:2px;}
+.ans{background:var(--tdim);border-left:3px solid var(--teal);border-radius:3px;padding:10px 14px;margin-top:10px;font-size:.86rem;color:var(--txt);}
+.quiz{display:flex;flex-direction:column;gap:16px;margin-top:14px;}
+.quiz .q p{font-size:.88rem;color:var(--txt);margin-bottom:8px;}
+.quiz .q button{display:block;width:100%;text-align:left;background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:9px 13px;margin-bottom:6px;color:var(--txt2);font-family:inherit;font-size:.83rem;cursor:pointer;transition:border-color .15s,color .15s;}
+.quiz .q button:hover:not(:disabled){border-color:var(--teal);color:var(--txt);}
+.quiz .q.answered button{cursor:default;}
+.quiz button.correct{border-color:var(--teal);color:var(--teal);background:var(--tdim);}
+.quiz button.wrong{border-color:#c25a3b;color:#c25a3b;background:rgba(194,90,59,.08);}
+.quiz-score{margin-top:12px;font-family:'Space Mono',monospace;font-size:.78rem;color:var(--amb);}
 </style>
 
 <div class="hero">
@@ -258,6 +285,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 <div class="snum">01 — FOUNDATION</div>
 <h2>What is <em>Traffic Engineering?</em></h2>
 <p class="lead">Traffic Engineering is the branch of transportation engineering that focuses on the safe, efficient movement of people and vehicles. It covers road design, signal timing, intersection control, and flow analysis.</p>
+<div class="why-matters"><span class="wm-i">&#9889;</span><div><strong>Every second of green you hand to one approach is a second you take from another.</strong> That is the sentence the whole course turns on. Traffic engineering almost never creates capacity — it <em>allocates</em> a fixed amount of space-time between competing users, and every formula ahead is a different way of deciding who gets it. Once you see that, the equations stop being arbitrary.</div></div>
 
 <div class="analogy">Think of the entire road network as a city's <strong>blood circulatory system</strong>. Roads are the arteries. Vehicles are blood cells. Traffic lights are valves. Too many cells (congestion) causes blockage. Traffic engineers are the cardiologists who keep the system healthy.</div>
 
@@ -348,6 +376,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 <div class="snum">03 — TRAFFIC OPERATIONS: IMPORTANT TERMS</div>
 <h2>The <em>Language</em> of Traffic Flow</h2>
 <p class="lead">Four critical terms that look similar but mean different things. Getting these right is the foundation of every HCM analysis.</p>
+<div class="core"><span>The idea behind PHF</span><p>A road does not fail on average — it fails at its worst moment. If 1,600 vehicles arrive in an hour but 420 of them arrive in one 15-minute burst, the road briefly has to handle a rate of 1,680 veh/h, not 1,600. The peak hour factor is simply the ratio between the smooth average and that burst: <strong>PHF = V / (4 &times; V<sub>15,max</sub>)</strong>. A PHF of 1.0 means traffic arrived perfectly evenly; 0.85 means it came in a lump. You design for the lump.</p></div>
 
 <div class="analogy">Imagine a coffee shop. <strong>Capacity</strong> = max customers per hour the baristas can serve. <strong>Demand</strong> = how many customers want to come. <strong>Volume</strong> = how many actually walked in this hour. <strong>Flow Rate</strong> = how fast they're arriving right now (the busy 15 minutes during morning rush).</div>
 
@@ -721,6 +750,7 @@ Only 40% of the saturation flow rate becomes available capacity.</div>
 <div class="snum">08 — LANE GROUP CAPACITY & v/c RATIO</div>
 <h2>Capacity, Demand, and the <em>X Factor</em></h2>
 <p class="lead">At a signalized intersection, a lane group doesn't get the full hour of green — it only gets a fraction (g/C). So its effective capacity is reduced proportionally.</p>
+<div class="why-matters"><span class="wm-i">&#9889;</span><div><strong>X = 0.99 and X = 1.01 are not 2% apart in how they feel.</strong> Below 1.0 the queue empties every cycle, so delay is finite and the intersection recovers. Above 1.0 each cycle leaves a few cars behind, and those leftovers accumulate — delay is no longer a number, it is a slope. That is why v/c is a threshold and not a score, and why every capacity formula on this page exists to keep you on the right side of a single value.</div></div>
 
 <div class="analogy">If a factory can make 1,000 widgets/hour at full speed, but it's only allowed to run for 37 out of every 70 minutes — its effective capacity is 1,000 × (37/70) = 529 widgets per period. Same logic for lanes: full saturation × green ratio = actual capacity.</div>
 
@@ -803,6 +833,7 @@ bring the approach within acceptable capacity.</div>
 <div class="snum">09 — CONTROL DELAY & LEVEL OF SERVICE</div>
 <h2>How <em>Bad</em> is the Wait? The LOS System</h2>
 <p class="lead">Level of Service (LOS) is the report card of an intersection. It grades performance from A (smooth, fast) to F (failed, gridlock). The metric is average control delay per vehicle (seconds).</p>
+<div class="core"><span>Why delay is the metric, not speed</span><p>Speed sounds like the natural way to grade an intersection, but a vehicle stopped at a red light has a speed of zero no matter how good the design is. What a driver actually experiences is <em>how long they waited that they would not have waited on an empty road</em> &mdash; control delay. It is measurable, it adds up along an approach, and it maps to something a non-engineer immediately understands: seconds of their life. LOS A&ndash;F is nothing more than that number cut into bands.</p></div>
 
 <div class="analogy">LOS is like restaurant wait times. <strong>LOS A</strong> = walk-in, seated immediately. <strong>LOS B</strong> = 5-min wait. <strong>LOS C</strong> = 20 min. <strong>LOS D</strong> = 45 min. <strong>LOS E</strong> = 1+ hour wait, people getting restless. <strong>LOS F</strong> = you're turned away.</div>
 
@@ -996,6 +1027,7 @@ small volume increases cause disproportionate delay increases!</div>
 <div class="snum">13 — STEP 2: TRIP DISTRIBUTION (GRAVITY MODEL)</div>
 <h2>Where Do Those Trips <em>Actually Go?</em></h2>
 <p class="lead">Trip distribution connects origin zones to destination zones using the Gravity Model — more trips go to zones that are larger and closer.</p>
+<div class="why-matters"><span class="wm-i">&#9889;</span><div><strong>The name is the analogy, and it is a good one.</strong> Newton said attraction grows with mass and falls off with distance squared. Swap mass for how many jobs or shops a zone offers, and distance for travel time, and you have the gravity model unchanged: <em>T<sub>ij</sub> &prop; A<sub>j</sub>/t<sub>ij</sub><sup>c</sup></em>. The friction exponent c is the only thing you tune — it says how strongly this particular city dislikes travelling. Nothing about planets is being claimed; the <em>shape</em> of the relationship is just the same.</div></div>
 <div class="analogy"><strong>Gravity analogy:</strong> A huge mall far away competes with a small mall nearby. The gravity model formalizes this: More mass (attractions) + less distance = more trips attracted.</div>
 <div class="eq">
   <div class="eqlbl">Gravity Model Formula</div>
@@ -1079,6 +1111,7 @@ T₁₃ = P₁ × (A₃·F₁₃ / Σ) = 500 × (7.00/19.00) = 500 × 0.368 = <s
 <div class="snum">14 — STEP 3: MODE SPLIT (LOGIT MODEL)</div>
 <h2>Car, Bus, or Train? The <em>Logit Model</em></h2>
 <p class="lead">Mode split predicts what fraction of trips will use each available mode. Based on <strong>utility</strong> — each mode has a perceived benefit/cost, and travelers pick the highest utility option.</p>
+<div class="core"><span>Why the exponential, and not just a ratio</span><p>You might expect mode share to be a simple ratio of utilities. The trouble is utilities can be negative (cost and time are penalties), and negative shares are meaningless. Taking e<sup>V</sup> fixes that: it is always positive, and it turns differences into ratios &mdash; only the <em>gap</em> between two modes' utilities matters, not where the zero sits. That is why <strong>P(i) = e<sup>V(i)</sup> / &Sigma;e<sup>V(r)</sup></strong> is the standard choice, and why adding a constant to every mode changes nothing.</p></div>
 <div class="analogy">Choosing between coffee shops: The closest is convenient (low travel time = high utility). The fancy one is expensive but better quality. You weigh cost vs. quality subconsciously. <strong>The logit model formalizes this weighting.</strong></div>
 <div class="eq">
   <div class="eqlbl">Utility Function</div>
@@ -1257,6 +1290,53 @@ it is much closer (3 min vs. 5 min).</div>
 </div>
 </section>
 
+<!-- ══ QUICK CHECK ══ -->
+<section class="sec" id="quickcheck">
+<div class="snum">✓ QUICK CHECK</div>
+<h2>Do You Actually <em>Believe</em> These?</h2>
+<p class="lead">Six questions aimed at the misconceptions rather than at recall. Each one is a place students lose marks by reciting a formula they have not felt.</p>
+
+<div class="quiz" id="quiz">
+  <div class="q" data-a="1">
+    <p>1. An approach carries 1,600 veh/h with PHF = 0.85. Which number goes into the capacity check?</p>
+    <button data-v="0">1,600 — the actual hourly count is the real demand</button>
+    <button data-v="1">1,882 — the peak 15-minute rate, because the road fails at its worst moment</button>
+    <button data-v="2">1,360 — reduce the volume by the PHF to be conservative</button>
+  </div>
+  <div class="q" data-a="2">
+    <p>2. Why does an optimum cycle length exist at all — why not just make the cycle very short?</p>
+    <button data-v="0">Short cycles confuse drivers and increase crashes</button>
+    <button data-v="1">Controllers cannot physically switch faster than about 40 seconds</button>
+    <button data-v="2">Every cycle pays the same fixed lost time, so a short cycle pays that toll more often per hour</button>
+  </div>
+  <div class="q" data-a="0">
+    <p>3. Two lane groups have X = 0.98 and X = 1.02. How different are they in practice?</p>
+    <button data-v="0">Fundamentally different — below 1.0 the queue clears each cycle; above 1.0 it accumulates without bound</button>
+    <button data-v="1">About 4% different, in proportion to the ratio</button>
+    <button data-v="2">Identical — both round to "at capacity"</button>
+  </div>
+  <div class="q" data-a="1">
+    <p>4. An intersection is graded on average control delay rather than average speed. Why?</p>
+    <button data-v="0">Speed is harder to measure in the field</button>
+    <button data-v="1">A stopped vehicle has zero speed however well the intersection is designed; delay measures the time actually lost</button>
+    <button data-v="2">The HCM has no speed model for intersections</button>
+  </div>
+  <div class="q" data-a="2">
+    <p>5. In the gravity model, what does raising the friction exponent c actually say about a city?</p>
+    <button data-v="0">Its zones produce more trips overall</button>
+    <button data-v="1">Its zones are physically further apart</button>
+    <button data-v="2">Its travellers are more reluctant to travel far, so distant zones lose share faster</button>
+  </div>
+  <div class="q" data-a="0">
+    <p>6. You add 10 units of utility to <em>every</em> mode in a logit model. What happens to the mode shares?</p>
+    <button data-v="0">Nothing — only differences between utilities matter, so a common constant cancels</button>
+    <button data-v="1">All shares rise proportionally</button>
+    <button data-v="2">The most attractive mode gains share at the expense of the others</button>
+  </div>
+</div>
+<div id="quiz-score" class="quiz-score"></div>
+</section>
+
 <!-- ══ EXAM TIPS ══ -->
 <section class="sec" id="examtips">
 <div class="snum">💡 EXAM STRATEGIES</div>
@@ -1310,6 +1390,25 @@ function szC(id,pad=36){const cv=document.getElementById(id);if(!cv)return;cv.wi
 window.addEventListener('resize',()=>{clearTimeout(window._rdT);window._rdT=setTimeout(()=>{szAll();redrawAll();},200);});
 function szAll(){['cPHF','cSig','cDelayCurve','cModePie','cQueue'].forEach(id=>szC(id));}
 function redrawAll(){calcPHF();drawSignal();drawDelayCurve();calcWebster();}
+
+/* ═══ QUICK CHECK QUIZ ═══ */
+document.querySelectorAll('.quiz .q').forEach(function(q){
+  var btns=q.querySelectorAll('button');
+  btns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(q.classList.contains('answered'))return;
+      q.classList.add('answered');
+      if(btn.dataset.v===q.dataset.a)q.classList.add('gotit');
+      btns.forEach(function(b){
+        if(b.dataset.v===q.dataset.a)b.classList.add('correct');
+        else if(b===btn)b.classList.add('wrong');
+      });
+      var A=document.querySelectorAll('.quiz .q.answered').length;
+      var R=document.querySelectorAll('.quiz .q.gotit').length;
+      document.getElementById('quiz-score').textContent=R+' / '+A+' answered correctly so far';
+    });
+  });
+});
 
 /* ═══ PRACTICE PROBLEM TOGGLE ═══ */
 function togglePP(qEl){
