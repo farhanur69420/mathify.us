@@ -477,9 +477,10 @@ import '../../../styles/chapter.css'
     btns.forEach(btn=>btn.addEventListener('click',()=>{
       if(q.classList.contains('answered'))return;
       q.classList.add('answered');
+      if(btn.dataset.v===q.dataset.a)q.classList.add('gotit');
       btns.forEach(b=>{ if(b.dataset.v===q.dataset.a)b.classList.add('correct'); else if(b===btn)b.classList.add('wrong'); });
       const a=document.querySelectorAll('.quiz .q.answered').length;
-      const r=document.querySelectorAll('.quiz .q.answered button.correct').length;
+      const r=document.querySelectorAll('.quiz .q.gotit').length;
       g('quiz-score').textContent=r+' / '+a+' answered correctly so far';
     }));
   });

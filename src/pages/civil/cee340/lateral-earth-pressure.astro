@@ -409,13 +409,14 @@ document.querySelectorAll('.quiz .q').forEach(q=>{
     btn.addEventListener('click', ()=>{
       if(q.classList.contains('answered')) return;
       q.classList.add('answered');
+      if(btn.dataset.v===q.dataset.a)q.classList.add('gotit');
       const correct = q.dataset.a;
       buttons.forEach(b=>{
         if(b.dataset.v===correct) b.classList.add('correct');
         else if(b===btn) b.classList.add('wrong');
       });
       const answered = document.querySelectorAll('.quiz .q.answered').length;
-      const right = document.querySelectorAll('.quiz .q.answered button.correct').length;
+      const right = document.querySelectorAll('.quiz .q.gotit').length;
       document.getElementById('quiz-score').textContent = `${right} / ${answered} answered correctly so far`;
     });
   });
