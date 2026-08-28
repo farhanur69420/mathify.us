@@ -31,11 +31,19 @@ node extract.js          # regenerate core.js from the page — run this first
 scratch and sharing no code with the engine. The only thing crossing over is
 `evaluate(...).best.id`, called on exactly the multiset the page itself builds.
 
+Other seats are modelled too, since their cards are the ones a counter at a
+real table actually gets to see. `seatsBefore` / `seatsAfter` place you at the
+table: players acting before you have their draws visible when you decide,
+players acting after you do not. They play published basic strategy and their
+results are discarded — only the cards they consume matter.
+
 | script | what it establishes |
 |---|---|
 | `run-csm.js` | Quick pilot with a published-chart control and a mimic-the-dealer control. |
 | `run-big.js` | Deals identical shoes to the engine and to the published chart. The paired difference isolates whether the engine gives up any EV. |
 | `run-live.js` | Real shoe, cut card, count tracking. Reports realised EV bucketed by true count. |
+| `seat-test.js` | Holds your hand and the dealer upcard fixed and varies only what other seats expose, confirming their cards move the decision at the published index thresholds. |
+| `run-seats.js` | The same game heads-up, with 2 other players and with 5, showing how a fuller table burns the shoe. |
 | `record.js` + `bet-schemes.js` | Records one stream of hands, then replays betting schemes over it. Since the bet cannot change the cards and net scales linearly with the stake, this is an exact paired comparison. |
 | `tcdist.js` | The analytic true-count distribution used by the bankroll panel, checked against the recorded streams. |
 
@@ -52,3 +60,7 @@ scratch and sharing no code with the engine. The only thing crossing over is
   −0.0070 ± 0.0071 at 8 decks and 50%. Deep penetration is what makes counting pay.
 - Martingale drops EV per unit wagered from −0.250% to −1.700% and ruins 43% of sessions.
   Stacked on the count ramp it ruins 54.7% and its median session ends at zero.
+- Cards exposed by other seats move the decision on their own: with your hand and the
+  dealer's upcard held fixed, 16 v 10 goes hit → stand, 12 v 3 hit → stand, 10 v 10
+  hit → double, and 13 v 2 stand → hit once enough tens are gone. Those are the
+  published Illustrious 18 cells, reached without ever consulting an index.
