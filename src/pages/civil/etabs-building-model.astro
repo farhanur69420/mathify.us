@@ -1,0 +1,1038 @@
+---
+import Base from '../../layouts/Base.astro'
+import '../../styles/chapter.css'
+---
+<Base title="ETABS + AutoCAD Building Model — Build Spec" description="A complete, executable build spec for a 10-storey RC residential building in ETABS and AutoCAD: grid and story data, section and material definitions, load patterns and the four required combinations, BNBC 2020 seismic and wind parameters, and three worked hand checks (column axial, three-span beam moments, base shear) with a live calculator that re-derives every number from your own A, B and C.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  .tw { overflow-x: auto; margin: .9rem 0 1.2rem; }
+  table.dt { width: 100%; border-collapse: collapse; font-size: .82rem; min-width: 420px; }
+  table.dt th { text-align: left; padding: .38rem .6rem; color: var(--mut); font-weight: 500;
+    font-family: 'Space Mono', monospace; font-size: .68rem; letter-spacing: .06em;
+    text-transform: uppercase; border-bottom: 1px solid var(--bdr2); white-space: nowrap; }
+  table.dt td { padding: .38rem .6rem; color: var(--txt2); border-bottom: 1px solid var(--bdr); }
+  table.dt tr:last-child td { border-bottom: none; }
+  table.dt td.n, table.dt th.n { text-align: right; font-family: 'Space Mono', monospace; }
+  table.dt td.k { color: var(--txt); }
+  table.dt tr.tot td { color: var(--txt); border-top: 1px solid var(--bdr2); font-weight: 600; }
+  .path { font-family: 'Space Mono', monospace; font-size: .78rem; color: var(--teal);
+    background: var(--tdim); border: 1px solid var(--tline); border-radius: 5px;
+    padding: .12rem .4rem; display: inline-block; }
+  .pathline { font-family: 'Space Mono', monospace; font-size: .78rem; color: var(--txt2);
+    background: var(--surf2); border-left: 2px solid var(--teal); border-radius: 0 5px 5px 0;
+    padding: .5rem .8rem; margin: .5rem 0 .9rem; overflow-x: auto; }
+  .fillin { color: var(--amb); font-style: italic; }
+  .calc-wide { grid-template-columns: 1fr; }
+  .parambar { position: sticky; top: 52px; z-index: 40; background: var(--surf);
+    border: 1px solid var(--bdr2); border-radius: 10px; padding: .9rem 1.1rem;
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: .8rem; margin: 1.5rem auto 0;
+    max-width: 840px; }
+  .parambar .pf { display: flex; flex-direction: column; gap: .2rem; }
+  .parambar label { font-size: .68rem; color: var(--mut); font-family: 'Space Mono', monospace;
+    letter-spacing: .06em; text-transform: uppercase; }
+  .parambar input { width: 5.2rem; background: var(--surf2); border: 1px solid var(--bdr2);
+    border-radius: 6px; padding: .35rem .5rem; color: var(--txt); font-family: inherit;
+    font-size: .85rem; }
+  .parambar .note { flex: 1 1 12rem; font-size: .72rem; color: var(--mut); }
+  .warnbox { background: var(--rdim); border: 1px solid var(--rust); border-left: 3px solid var(--rust);
+    border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; font-size: .88rem; color: var(--txt2); }
+  .warnbox b { color: var(--rust); }
+  @media (max-width: 680px) { .parambar { position: static; } }
+</style>
+
+<header class="hd">
+  <div class="hd-tag">Structural Design Project &middot; ETABS + AutoCAD &middot; Serial No. 2</div>
+  <h1>Building Model Build Spec</h1>
+  <p class="hd-sub">Everything you need to build the 10-storey RC frame yourself &mdash; grid, stories,
+  sections, loads, the four combinations, BNBC 2020 lateral parameters &mdash; plus three hand checks
+  worked all the way to numbers so you can tell whether ETABS is doing what you think it is.</p>
+  <div class="hd-pills">
+    <span class="pill">A = 21&prime; &middot; B = 18&prime; &middot; C = 11&prime;</span>
+    <span class="pill">10 storeys + GB</span>
+    <span class="pill">BNBC 2020</span>
+    <span class="pill">Live re-calculation</span>
+  </div>
+</header>
+
+<div class="parambar">
+  <div class="pf"><label>A (ft)</label><input id="pA" type="number" step="0.5" value="21"></div>
+  <div class="pf"><label>B (ft)</label><input id="pB" type="number" step="0.5" value="18"></div>
+  <div class="pf"><label>C (ft)</label><input id="pC" type="number" step="0.5" value="11"></div>
+  <div class="pf"><label>Storeys</label><input id="pN" type="number" step="1" value="10"></div>
+  <p class="note">Your serial number sets A, B and C. Change them and every table, diagram and
+  check on this page re-derives. Defaults are S/N&nbsp;2.</p>
+</div>
+
+<nav class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#s1">What you are building</a></li>
+    <li><a href="#s2">Grid and story data</a></li>
+    <li><a href="#s3">Materials and sections</a></li>
+    <li><a href="#s4">The column layout problem</a></li>
+    <li><a href="#s5">Loads and where they go</a></li>
+    <li><a href="#s6">The four load combinations</a></li>
+    <li><a href="#s7">Seismic and wind parameters</a></li>
+    <li><a href="#s8">Check 1 &mdash; column axial load</a></li>
+    <li><a href="#s9">Check 2 &mdash; Beam AB moments</a></li>
+    <li><a href="#s10">Check 3 &mdash; base shear</a></li>
+    <li><a href="#s11">Beam AB detailing and curtailment</a></li>
+    <li><a href="#s12">The AutoCAD drawing set</a></li>
+    <li><a href="#s13">When ETABS disagrees with you</a></li>
+  </ol>
+</nav>
+
+<section class="sec" id="s1">
+  <div class="sec-h"><span class="sec-n">01</span><h2>What You Are Building</h2></div>
+  <p class="lead">A ten-storey reinforced concrete residential building on a 60&prime; &times; 52&prime;
+  footprint, with a grade beam level, a lift core shear wall, and a stair/lift machine room poking
+  above the roof.</p>
+
+  <p>The work splits into three phases, and they have to happen in order. Each one feeds the next,
+  so a mistake in phase 1 shows up as garbage in phase 3.</p>
+
+  <div class="grid3">
+    <div class="vcard v-teal"><span class="vtag">Phase 1</span><h4>Model</h4>
+      <p>Grid, stories, sections, loads, combinations. Nothing is designed yet &mdash; you are just
+      describing the building to the software.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Phase 2</span><h4>Analyse &amp; verify</h4>
+      <p>Run it, then check three numbers by hand before you trust anything. This is the step
+      everybody skips and it is the step that catches the errors.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Phase 3</span><h4>Detail &amp; draw</h4>
+      <p>Pull the design output, choose bars, and draft the column schedule and the Beam AB
+      long section in AutoCAD.</p></div>
+  </div>
+
+  <div class="why-matters"><span>&#9888;&#65039;</span><div>
+    <b>One thing this page cannot do for you.</b> The C1/C2/C3 column layout comes from the plan
+    in your assignment PDF, and that pattern is <em>not</em> symmetric &mdash; there is a C1 sitting
+    at an interior position on the second row. Any layout invented here would be wrong. Section 04
+    gives you the grid and a blank schedule to transcribe into; the positions themselves have to
+    come off your drawing.
+  </div></div>
+</section>
+
+<section class="sec" id="s2">
+  <div class="sec-h"><span class="sec-n">02</span><h2>Grid and Story Data</h2></div>
+  <p class="lead">Three bays each way. The X bays are A&ndash;B&ndash;A; the Y bays are B&ndash;16&prime;&ndash;B,
+  where that middle 16&prime; strip is the fixed 7&prime; + 9&prime; corridor from the plan and does
+  <em>not</em> scale with your serial number.</p>
+
+  <div class="grid2">
+    <div>
+      <div class="vtag" style="margin-bottom:.5rem">X grid &mdash; A + B + A</div>
+      <div class="tw"><table class="dt">
+        <tr><th>Axis</th><th class="n">Offset</th><th class="n">Cumulative</th></tr>
+        <tr><td class="k">1</td><td class="n">&mdash;</td><td class="n" id="gx0">0</td></tr>
+        <tr><td class="k">2</td><td class="n" id="gxa">21</td><td class="n" id="gx1">21</td></tr>
+        <tr><td class="k">3</td><td class="n" id="gxb">18</td><td class="n" id="gx2">39</td></tr>
+        <tr class="tot"><td class="k">4</td><td class="n" id="gxc">21</td><td class="n" id="gx3">60</td></tr>
+      </table></div>
+    </div>
+    <div>
+      <div class="vtag" style="margin-bottom:.5rem">Y grid &mdash; B + 16 + B</div>
+      <div class="tw"><table class="dt">
+        <tr><th>Axis</th><th class="n">Offset</th><th class="n">Cumulative</th></tr>
+        <tr><td class="k">A</td><td class="n">&mdash;</td><td class="n">0</td></tr>
+        <tr><td class="k">B</td><td class="n" id="gya">18</td><td class="n" id="gy1">18</td></tr>
+        <tr><td class="k">C</td><td class="n">16</td><td class="n" id="gy2">34</td></tr>
+        <tr class="tot"><td class="k">D</td><td class="n" id="gyc">18</td><td class="n" id="gy3">52</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="diagram-card">
+    <h4>Framing plan &mdash; grid, column positions and Beam AB</h4>
+    <svg id="planSvg" viewBox="0 0 460 420" class="calc-fig" style="max-width:460px" role="img"
+         aria-label="Framing plan showing the three-by-three bay grid, sixteen column positions, and Beam AB along the top grid line"></svg>
+    <p class="cap">Sixteen columns at the grid intersections. The highlighted node is the circled
+    column for your schedule; Beam AB is the three-span line along the top.</p>
+  </div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Story data</h3>
+  <p>Enter these in <span class="path">Edit &rsaquo; Stories and Grid Systems &rsaquo; Modify/Show Story Data</span>.
+  Build them bottom-up. Only the ten typical floors are similar to each other &mdash; make Story 1 the
+  master and set Stories 2&ndash;10 as similar to it, which is what lets you assign loads once.</p>
+
+  <div class="tw"><table class="dt">
+    <tr><th>Level</th><th class="n">Height</th><th class="n">Elevation</th><th>Master / similar to</th><th>Notes</th></tr>
+    <tr><td class="k">Base</td><td class="n">&mdash;</td><td class="n">0</td><td>&mdash;</td><td>Fixed restraint, all 16 columns</td></tr>
+    <tr><td class="k">GB</td><td class="n">6&prime;-0&Prime;</td><td class="n">6&prime;-0&Prime;</td><td>Master</td><td>Grade beams only &mdash; no slab, no veranda</td></tr>
+    <tr><td class="k">Story 1</td><td class="n" id="stH">11&prime;-0&Prime;</td><td class="n" id="st1">17&prime;-0&Prime;</td><td>Master</td><td>Beam AB lives here</td></tr>
+    <tr><td class="k">Story 2&ndash;10</td><td class="n" id="stH2">11&prime;-0&Prime; each</td><td class="n" id="stR">up to 116&prime;-0&Prime;</td><td>Similar to Story 1</td><td>Typical floors</td></tr>
+    <tr class="tot"><td class="k">Lift / stair top</td><td class="n">7&prime;-6&Prime;</td><td class="n" id="stL">123&prime;-6&Prime;</td><td>Master</td><td>Machine room over core only</td></tr>
+  </table></div>
+
+  <div class="core"><span>The two things people get wrong here</span>
+    <p><b>1.</b> The GB level carries grade beams but no slab &mdash; if you draw a floor there, you
+    add roughly <span id="ghostSlab">367</span> kip of dead load that does not exist.
+    <b>2.</b> The lift/stair top is not a full floor. Draw it over the core footprint only,
+    or your seismic weight and your base shear both come out high.</p>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <div class="sec-h"><span class="sec-n">03</span><h2>Materials and Sections</h2></div>
+  <p class="lead">Two concrete grades, one steel grade. The trap is that the slabs and stair are
+  4000 psi while everything else is 4500 &mdash; define both materials before you define any section.</p>
+
+  <div class="tw"><table class="dt">
+    <tr><th>Material</th><th class="n">f&prime;c / fy</th><th class="n">E (ksi)</th><th>Used by</th></tr>
+    <tr><td class="k">CONC4500</td><td class="n">4500 psi</td><td class="n">3824</td><td>All columns, all beams, shear wall</td></tr>
+    <tr><td class="k">CONC4000</td><td class="n">4000 psi</td><td class="n">3605</td><td>Floor slabs, stair slab</td></tr>
+    <tr><td class="k">Gr60</td><td class="n">60 ksi</td><td class="n">29000</td><td>All reinforcement</td></tr>
+  </table></div>
+  <p class="small">\( E_c = 57000\sqrt&#123;f'_c&#125; \) psi &mdash; 3824 ksi and 3605 ksi respectively. ETABS
+  fills these in once you type f&prime;c, but check them; a wrong E changes every drift and period
+  you report.</p>
+
+  <p><span class="path">Define &rsaquo; Section Properties &rsaquo; Frame Sections</span> for the
+  line elements, <span class="path">&rsaquo; Slab Sections</span> and
+  <span class="path">&rsaquo; Wall Sections</span> for the shells.</p>
+
+  <div class="grid2">
+    <div>
+      <div class="vtag" style="margin-bottom:.5rem">Frame sections &mdash; f&prime;c 4500, fy 60</div>
+      <div class="tw"><table class="dt">
+        <tr><th>Name</th><th class="n">b &times; h (in)</th><th class="n">Ag (in&sup2;)</th><th>Type</th></tr>
+        <tr><td class="k">C1</td><td class="n">12 &times; 18</td><td class="n">216</td><td>Column</td></tr>
+        <tr><td class="k">C2</td><td class="n">15 &times; 18</td><td class="n">270</td><td>Column</td></tr>
+        <tr><td class="k">C3</td><td class="n">18 &times; 18</td><td class="n">324</td><td>Column</td></tr>
+        <tr><td class="k">GB</td><td class="n">12 &times; 18</td><td class="n">216</td><td>Grade beam</td></tr>
+        <tr><td class="k">FB</td><td class="n">12 &times; 20</td><td class="n">240</td><td>Floor beam</td></tr>
+        <tr><td class="k">SB</td><td class="n">12 &times; 12</td><td class="n">144</td><td>Secondary beam</td></tr>
+      </table></div>
+    </div>
+    <div>
+      <div class="vtag" style="margin-bottom:.5rem">Shell sections</div>
+      <div class="tw"><table class="dt">
+        <tr><th>Name</th><th class="n">t</th><th class="n">f&prime;c</th><th>Modelling type</th></tr>
+        <tr><td class="k">SLAB5</td><td class="n">5&Prime;</td><td class="n">4000</td><td>Shell &mdash; thin, membrane f11/f22 &times; 0.25 cracked</td></tr>
+        <tr><td class="k">STAIR6</td><td class="n">6&Prime;</td><td class="n">4000</td><td>Shell &mdash; thin</td></tr>
+        <tr><td class="k">SW10</td><td class="n">10&Prime;</td><td class="n">4500</td><td>Shell &mdash; thin, pier-labelled</td></tr>
+      </table></div>
+      <p class="small">Label the core walls as piers (<span class="path">Assign &rsaquo; Shell &rsaquo;
+      Pier Label</span>) or ETABS reports wall forces element by element and you will not be able to
+      design the core.</p>
+    </div>
+  </div>
+
+  <div class="why-matters"><span>&#128290;</span><div>
+    <b>Property modifiers matter more than the section sizes.</b> For a dual system the slab in-plane
+    stiffness is what drags load into the core. Use cracked-section modifiers per BNBC 2020 /
+    ACI 318: beams 0.35Ig, columns 0.70Ig, walls 0.35Ig (uncracked 0.70Ig), slabs 0.25Ig.
+    Set them at <span class="path">Assign &rsaquo; Frame &rsaquo; Property Modifiers</span>.
+    Leave them at 1.0 and your period comes out short, your base shear high, and your drift
+    unrealistically small.
+  </div></div>
+</section>
+
+<section class="sec" id="s4">
+  <div class="sec-h"><span class="sec-n">04</span><h2>The Column Layout Problem</h2></div>
+  <p class="lead">Sixteen columns, three section types, and a pattern that is not symmetric. This
+  is the one part of the model you cannot infer &mdash; you have to read it off the plan.</p>
+
+  <p>The grid gives you sixteen intersections: four X axes &times; four Y axes. What it does
+  <em>not</em> give you is which of C1, C2 and C3 sits at each one. The plan in your assignment has
+  a C1 at an interior position on the second row, which breaks any rule of thumb like
+  &ldquo;corners are small, interiors are big.&rdquo; If you guess, you will get a plausible-looking
+  model that is wrong in a way nobody catches until the column schedule.</p>
+
+  <p>Transcribe the layout into this table from your PDF before you draw anything:</p>
+
+  <div class="tw"><table class="dt">
+    <tr><th>Grid</th><th class="n">X (ft)</th><th class="n">Y (ft)</th><th>Section</th><th>Position</th></tr>
+    <tr><td class="k">1-A</td><td class="n">0</td><td class="n">0</td><td class="fillin">from plan</td><td>Corner</td></tr>
+    <tr><td class="k">2-A</td><td class="n" id="cxA">21</td><td class="n">0</td><td class="fillin">from plan</td><td>Edge</td></tr>
+    <tr><td class="k">3-A</td><td class="n" id="cxB">39</td><td class="n">0</td><td class="fillin">from plan</td><td>Edge</td></tr>
+    <tr><td class="k">4-A</td><td class="n" id="cxC">60</td><td class="n">0</td><td class="fillin">from plan</td><td>Corner</td></tr>
+    <tr><td class="k">1-B</td><td class="n">0</td><td class="n" id="cyA">18</td><td class="fillin">from plan</td><td>Edge</td></tr>
+    <tr style="background:var(--adim)"><td class="k"><b>2-B</b></td><td class="n" id="cxA2">21</td><td class="n" id="cyA2">18</td><td class="k"><b>C3 &mdash; the circled one</b></td><td>Interior</td></tr>
+    <tr><td class="k">3-B</td><td class="n" id="cxB2">39</td><td class="n" id="cyA3">18</td><td class="fillin">from plan &mdash; watch for the C1</td><td>Interior</td></tr>
+    <tr><td class="k">4-B</td><td class="n" id="cxC2">60</td><td class="n" id="cyA4">18</td><td class="fillin">from plan</td><td>Edge</td></tr>
+    <tr><td class="k">1-C &hellip; 4-C</td><td class="n">&mdash;</td><td class="n" id="cyB">34</td><td class="fillin">from plan</td><td>Edge / interior</td></tr>
+    <tr><td class="k">1-D &hellip; 4-D</td><td class="n">&mdash;</td><td class="n" id="cyC">52</td><td class="fillin">from plan</td><td>Corner / edge</td></tr>
+  </table></div>
+
+  <div class="warnbox"><b>Verify the circled column before you commit.</b> Read as the C3 at
+  X&nbsp;=&nbsp;<span id="ccx">21</span>&prime;, Y&nbsp;=&nbsp;<span id="ccy">18</span>&prime;
+  &mdash; grid 2-B, the first interior intersection. That is the reading this page's Check&nbsp;1
+  is built on. If the circle on your PDF is on a different node, the tributary area changes and so
+  does every number in section 08. Confirm it against the original before you draft the schedule.</div>
+
+  <p>Columns are drawn once and then replicated up the building. Draw the GB-to-Story-1 lift at
+  the grid intersections, select all of them, and use
+  <span class="path">Edit &rsaquo; Replicate &rsaquo; Story</span> to carry them to Story 10.
+  Orientation matters for C1 and C2 since they are rectangular &mdash; the 18&Prime; dimension
+  normally runs parallel to the beam that frames the weaker direction, so check the plan for which
+  way each one is turned.</p>
+</section>
+
+<section class="sec" id="s5">
+  <div class="sec-h"><span class="sec-n">05</span><h2>Loads and Where They Go</h2></div>
+  <p class="lead">Four load patterns carry gravity, and the mistake that ruins models is putting a
+  load on the wrong kind of object &mdash; area loads onto slabs, line loads onto beams, and never
+  both for the same physical thing.</p>
+
+  <p><span class="path">Define &rsaquo; Load Patterns</span>. Self-weight multiplier is
+  <b>1 on DEAD only</b> and <b>0 on everything else</b>. If you leave it at 1 on the superimposed
+  pattern too, you count the whole concrete frame twice.</p>
+
+  <div class="tw"><table class="dt">
+    <tr><th>Pattern</th><th>Type</th><th class="n">Self-wt mult.</th><th>What it carries</th></tr>
+    <tr><td class="k">DEAD</td><td>Dead</td><td class="n">1</td><td>Concrete self-weight, computed by ETABS</td></tr>
+    <tr><td class="k">SDL</td><td>Super Dead</td><td class="n">0</td><td>FF 25 psf + PW 30 psf = 55 psf on slabs</td></tr>
+    <tr><td class="k">WALL</td><td>Super Dead</td><td class="n">0</td><td>425 lb/ft line load on wall-supporting beams</td></tr>
+    <tr><td class="k">LIVE</td><td>Live</td><td class="n">0</td><td>40 psf floors, 100 psf stair</td></tr>
+    <tr><td class="k">EQX / EQY</td><td>Seismic</td><td class="n">0</td><td>BNBC 2020 auto-lateral</td></tr>
+    <tr><td class="k">WX / WY</td><td>Wind</td><td class="n">0</td><td>BNBC 2020 auto-lateral</td></tr>
+  </table></div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Dead load accounting</h3>
+  <p>The 5&Prime; slab weighs 62.5 psf on its own and ETABS adds that itself through DEAD. Your
+  superimposed dead load is only the finish and partition allowance:</p>
+
+  <div class="tw"><table class="dt">
+    <tr><th>Component</th><th class="n">Value</th><th>Pattern</th><th>Applied to</th></tr>
+    <tr><td class="k">Slab self-weight</td><td class="n">62.5 psf</td><td>DEAD (auto)</td><td>&mdash; do not enter</td></tr>
+    <tr><td class="k">Floor finish</td><td class="n">25 psf</td><td>SDL</td><td>All floor slabs</td></tr>
+    <tr><td class="k">Partition wall allowance</td><td class="n">30 psf</td><td>SDL</td><td>All floor slabs</td></tr>
+    <tr class="tot"><td class="k">Total slab dead load</td><td class="n">117.5 psf</td><td>&mdash;</td><td>&mdash;</td></tr>
+  </table></div>
+
+  <div class="pathline">Assign &rsaquo; Shell Loads &rsaquo; Uniform &nbsp;&rarr;&nbsp; SDL, 0.055 ksf, Gravity direction</div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Wall load &mdash; the 425 lb/ft line</h3>
+  <p>This is a 5&Prime; brick wall carried on a beam. It goes on <em>beams</em>, not slabs, and only
+  on the beams that actually have a wall over them: the full perimeter at every floor, plus the
+  interior partition lines shown on your architectural plan.</p>
+
+  <div class="pathline">Assign &rsaquo; Frame Loads &rsaquo; Distributed &nbsp;&rarr;&nbsp; WALL, 0.425 kip/ft, Gravity</div>
+
+  <div class="analogy"><span class="an-icon">&#129513;</span><div>
+    A quick sanity check on the 425 figure: a 5&Prime; brick wall at about 120 pcf, 10&prime; clear
+    height, is \(0.417 \times 10 \times 120 \approx 500\) lb/ft gross. Take out the door and window
+    openings and 425 lb/ft is about right for a residential floor. If your plan has a solid
+    party wall with no openings, that line deserves more.
+  </div></div>
+
+  <div class="warnbox"><b>Do not put the wall load on the perimeter at the GB level unless there
+  is a plinth wall there.</b> And do not put it on the roof. Both are easy to catch afterwards
+  because the total will not match: your WALL pattern base reaction should be roughly
+  <span id="wallTot">1462</span> kip for ten floors at the assumed wall lengths.</div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Live load</h3>
+  <div class="tw"><table class="dt">
+    <tr><th>Area</th><th class="n">Live load</th><th>Note</th></tr>
+    <tr><td class="k">All floor slabs</td><td class="n">40 psf</td><td>Residential occupancy</td></tr>
+    <tr><td class="k">Stair slab</td><td class="n">100 psf</td><td>Egress &mdash; applies to the 6&Prime; stair shell</td></tr>
+    <tr><td class="k">Roof</td><td class="n">40 psf</td><td>Unless your brief says otherwise</td></tr>
+  </table></div>
+  <p class="small">Live load reduction: ETABS will not apply it unless you switch it on, and for a
+  ten-storey column it makes a real difference &mdash; see Check&nbsp;1, where it takes the
+  accumulated live load from <span id="llFull">133</span> kip down to <span id="llRed">53</span> kip.</p>
+</section>
+
+<section class="sec" id="s6">
+  <div class="sec-h"><span class="sec-n">06</span><h2>The Four Load Combinations</h2></div>
+  <p class="lead">Define exactly these four at <span class="path">Define &rsaquo; Load Combinations</span>.
+  Not ETABS's auto-generated set &mdash; these specific four, with these names.</p>
+
+  <div class="tw"><table class="dt">
+    <tr><th>Name</th><th>Definition</th><th>Type</th><th>What it is for</th></tr>
+    <tr><td class="k">UFL</td><td>1.0 DL + 1.0 LL</td><td>Service</td><td>Deflection, drift, unfactored reactions</td></tr>
+    <tr><td class="k">FDL</td><td>1.2 DL + 1.6 LL</td><td>Strength</td><td>Governing gravity case</td></tr>
+    <tr><td class="k">FDLEQy</td><td>0.9 DL + 1.2 LL + 1.32 EQy</td><td>Strength</td><td>Gravity + seismic, Y direction</td></tr>
+    <tr><td class="k">FDLWx</td><td>0.9 DL + 1.2 LL + 1.2 Wx</td><td>Strength</td><td>Gravity + wind, X direction</td></tr>
+  </table></div>
+
+  <div class="why-matters"><span>&#128200;</span><div>
+    <b>&ldquo;DL&rdquo; here means all three dead patterns.</b> When you build these combinations,
+    DL expands to DEAD + SDL + WALL. So FDL is really
+    <em>1.2(DEAD) + 1.2(SDL) + 1.2(WALL) + 1.6(LIVE)</em> &mdash; four rows in the combination
+    dialog, not two. Leaving WALL out of the combinations is the single most common reason a
+    student's beam moments come out low against a hand check.
+  </div></div>
+
+  <p>Two of these are one-directional by design. FDLEQy only covers seismic in Y and FDLWx only
+  covers wind in X, which is what the brief asks for. Be aware that means the combination set is
+  not a complete design envelope &mdash; a real design needs EQx and Wy too, plus the negative
+  senses of each. Say so on your sheet rather than quietly implying the four are sufficient.</p>
+
+  <p>For the Beam AB envelope in section 11, take the worst of FDL, FDLEQy and FDLWx at each
+  station. Under the lateral combinations the support moments grow and can reverse sign, which is
+  exactly why the bottom steel has to be continued into the supports.</p>
+</section>
+
+<section class="sec" id="s7">
+  <div class="sec-h"><span class="sec-n">07</span><h2>Seismic and Wind Parameters</h2></div>
+  <p class="lead">Both are auto-lateral loads in ETABS. Enter the code parameters and let it build
+  the storey force distribution &mdash; then check the total against section 10.</p>
+
+  <div class="grid2">
+    <div class="vcard v-rust"><span class="vtag">Seismic &mdash; BNBC 2020</span>
+      <h4>Dhaka, Zone 2</h4>
+      <p>
+        Z = 0.20 &middot; I = 1.0 &middot; Site Class SD<br>
+        S = 1.5, T<sub>B</sub> = 0.2 s, T<sub>C</sub> = 0.8 s, T<sub>D</sub> = 2.0 s<br>
+        R = choose for your system, state it<br>
+        &eta; = 1.0 at 5% damping
+      </p>
+    </div>
+    <div class="vcard v-blu"><span class="vtag">Wind &mdash; BNBC 2020</span>
+      <h4>Dhaka, urban</h4>
+      <p>
+        V = 147 mph (65.7 m/s), 3-second gust<br>
+        Exposure A (urban) &middot; I = 1.0<br>
+        K<sub>d</sub> = 0.85, K<sub>zt</sub> = 1.0, G = 0.85<br>
+        C<sub>p</sub> = +0.8 windward, &minus;0.5 leeward
+      </p>
+    </div>
+  </div>
+
+  <div class="warnbox"><b>Two values to confirm rather than take from this page.</b> Z = 0.20 and
+  the Site Class SD spectral parameters both come from BNBC 2020 Part 6 Chapter 2, and the site
+  class in particular depends on the soil report for your site, not on the city. Look them up and
+  cite the table on your sheet. If your site is on soft Dhaka alluvium, SE is plausible and it
+  changes S from 1.5 to 2.4 &mdash; a 60% jump in base shear.</div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Choosing R</h3>
+  <p>You have a dual system: moment frames plus a lift-core shear wall. The R value depends on the
+  detailing level you commit to, and it is a factor-of-1.3 swing in your design forces, so it is
+  not a throwaway choice:</p>
+
+  <div class="tw"><table class="dt">
+    <tr><th>System</th><th class="n">R</th><th class="n">Resulting V</th><th>Detailing burden</th></tr>
+    <tr><td class="k">Dual &mdash; intermediate frame + ordinary RC wall</td><td class="n">5.5</td><td class="n" id="vR55">620 k</td><td>Moderate; realistic for Zone 2</td></tr>
+    <tr><td class="k">Dual &mdash; special frame + special RC wall</td><td class="n">7.0</td><td class="n" id="vR70">487 k</td><td>Full seismic detailing throughout</td></tr>
+  </table></div>
+  <p class="small">Both rows assume the frames can independently resist at least 25% of the base
+  shear, which is the defining condition for a dual system. Check that in your model by running the
+  frames without the wall &mdash; if they cannot, it is a wall system and R drops again.</p>
+
+  <div class="core"><span>State your assumption</span>
+    <p>Whichever R you pick, write it on the sheet with a one-line reason. &ldquo;R = 5.5, dual
+    system with intermediate RC moment frames and ordinary RC shear walls, BNBC 2020 Table 6.2.19&rdquo;
+    is a defensible sentence. An R with no justification is the first thing a reviewer circles.</p>
+  </div>
+</section>
+
+<section class="sec" id="s8">
+  <div class="sec-h"><span class="sec-n">08</span><h2>Check 1 &mdash; Column Axial Load</h2></div>
+  <p class="lead">The circled C3 at grid 2-B, at ground floor, where it is carrying everything above
+  it. This is the check that tells you whether your load assignment is right, because it depends on
+  every pattern at once.</p>
+
+  <div class="example">
+    <div class="ex-h"><span>Worked check</span><h4>Factored axial load on C3 at grid 2-B</h4></div>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Tributary area.</strong> Half a bay each way.
+        X: <span id="t1x">10.5 + 9.0 = 19.5</span> ft. Y: <span id="t1y">9.0 + 8.0 = 17.0</span> ft.
+        \( A_T = \) <span id="t1a">331.5</span> ft&sup2; per floor.</div></div>
+      <div class="step"><b>2</b><div><strong>Slab load into the column.</strong> At 117.5 psf dead
+        and 40 psf live: DL = <span id="t1sd">39.0</span> kip, LL = <span id="t1sl">13.3</span> kip
+        per floor.</div></div>
+      <div class="step"><b>3</b><div><strong>Beams framing in.</strong> The FB 12&times;20 stem below
+        the slab is 12&Prime; &times; 15&Prime; = 0.1875 kip/ft. Tributary beam length is
+        <span id="t1bl">36.5</span> ft, giving <span id="t1bd">6.8</span> kip per floor.</div></div>
+      <div class="step"><b>4</b><div><strong>Column self-weight.</strong> 18&times;18 over
+        <span id="t1ch">11</span> ft = <span id="t1cd">3.7</span> kip per storey.</div></div>
+      <div class="step"><b>5</b><div><strong>Wall load.</strong> This is the judgement call. If both
+        grid lines through 2-B carry partition walls, that is <span id="t1w2">15.5</span> kip per
+        floor; if only one does, <span id="t1w1">8.3</span> kip. Read it off the plan &mdash; it
+        swings the answer by 11%.</div></div>
+      <div class="step"><b>6</b><div><strong>Live load reduction.</strong> A column supporting ten
+        floors gets the full reduction.
+        \( L = L_o(0.25 + 15/\sqrt&#123;K_&#123;LL&#125;A_T&#125;) \) with \(K_&#123;LL&#125; = 4\)
+        and \(A_T = \) <span id="t1at">3315</span> ft&sup2; gives
+        <span id="t1lr">16.0</span> psf, at the \(0.4L_o\) floor.</div></div>
+      <div class="step"><b>7</b><div><strong>Accumulate and factor.</strong>
+        \( P_u = 1.2D + 1.6L \).</div></div>
+    </div>
+
+    <div class="calc-results" style="margin-top:1rem">
+      <div class="res"><span>Dead load, 10 floors (walls both lines)</span><b id="r1d2">650 kip</b></div>
+      <div class="res"><span>Dead load, 10 floors (wall one line)</span><b id="r1d1">578 kip</b></div>
+      <div class="res"><span>Reduced live load, 10 floors</span><b id="r1l">53 kip</b></div>
+      <div class="res"><span>P<sub>u</sub> &mdash; walls both lines</span><b id="r1u2">865 kip</b></div>
+      <div class="res"><span>P<sub>u</sub> &mdash; wall one line</span><b id="r1u1">778 kip</b></div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Is 18 &times; 18 enough?</h3>
+  <p>For a tied column the code caps the pure-axial capacity at
+  \( \phi P_&#123;n,max&#125; = 0.80\phi[0.85f'_c(A_g - A_&#123;st&#125;) + f_y A_&#123;st&#125;] \)
+  with \(\phi = 0.65\). At \(A_g\) = 324 in&sup2;:</p>
+
+  <div class="calc-results">
+    <div class="res"><span>8-#8 &nbsp;(&rho; = 1.95%)</span><b id="cap1">829 kip</b></div>
+    <div class="res"><span>8-#9 &nbsp;(&rho; = 2.47%)</span><b id="cap2">878 kip</b></div>
+    <div class="res"><span>12-#8 (&rho; = 2.93%)</span><b id="cap3">921 kip</b></div>
+  </div>
+  <div id="v1" style="margin-top:.6rem"></div>
+
+  <div class="warnbox"><b>This column is tight, and that is the real finding.</b> Pure axial
+  capacity at 2% steel is about <span id="capNote">829</span> kip against a demand between
+  <span id="demLo">778</span> and <span id="demHi">865</span> kip &mdash; and that is before any
+  moment from the lateral combinations, which a corner or interior column always picks up.
+  Expect the ETABS design to want 2.5&ndash;3% steel here, or a bigger section in the lower
+  storeys. If ETABS comes back with 1% at ground floor, something is not being applied.</div>
+
+  <div class="core"><span>How to read this against ETABS</span>
+    <p>Pull the axial force at the base of the 2-B column under FDL. It should land in the
+    <span id="bandLo">780</span>&ndash;<span id="bandHi">870</span> kip band. Over that band means
+    you have doubled a load somewhere &mdash; usually self-weight on two patterns, or a slab drawn
+    at the GB level. Well under it means a pattern is not reaching the slab, or live load reduction
+    is set more aggressively than the hand calc.</p>
+  </div>
+</section>
+
+<section class="sec" id="s9">
+  <div class="sec-h"><span class="sec-n">09</span><h2>Check 2 &mdash; Beam AB Moments</h2></div>
+  <p class="lead">Beam AB runs along the top grid line, Y = <span id="abY">52</span>&prime;, at Story 1.
+  Three continuous spans of <span id="abSpans">21&prime; &ndash; 18&prime; &ndash; 21&prime;</span>,
+  section FB 12&times;20.</p>
+
+  <p>The ACI approximate moment coefficients are legitimate here, and worth using because they give
+  you an independent number that owes nothing to your model. Check the conditions first &mdash; all
+  four hold:</p>
+
+  <div class="tw"><table class="dt">
+    <tr><th>Condition</th><th>This beam</th><th class="n">OK?</th></tr>
+    <tr><td class="k">Two or more spans</td><td>Three</td><td class="n">&check;</td></tr>
+    <tr><td class="k">Adjacent spans differ by &le; 20%</td><td id="c2span">21 vs 18 &rarr; 14.3%</td><td class="n">&check;</td></tr>
+    <tr><td class="k">Loads uniformly distributed</td><td>Slab + wall, both uniform</td><td class="n">&check;</td></tr>
+    <tr><td class="k">Unfactored L/D &le; 3</td><td id="c2ld">0.19</td><td class="n">&check;</td></tr>
+  </table></div>
+
+  <div class="example">
+    <div class="ex-h"><span>Worked check</span><h4>Load on the beam, then the moments</h4></div>
+    <div class="steps">
+      <div class="step"><b>1</b><div><strong>Slab load onto an edge beam.</strong> AB is on the
+        perimeter, so slab arrives from one side only. The panel is
+        <span id="c2panel">18&prime; &times; 21&prime;</span> and the load pattern is trapezoidal,
+        not a plain half-bay strip. The equivalent uniform load on the long beam is
+        \( w_&#123;eq&#125; = \dfrac&#123;wS&#125;&#123;2&#125;\left(1 - \dfrac&#123;1&#125;&#123;3m^2&#125;\right) \),
+        \( m = L/S \).</div></div>
+      <div class="step"><b>2</b><div><strong>End span, 21&prime;.</strong> \(m = \) <span id="c2m">1.167</span>,
+        so \(w_&#123;eq&#125;\) = <span id="c2wd">0.799</span> k/ft dead and
+        <span id="c2wl">0.272</span> k/ft live from the slab.</div></div>
+      <div class="step"><b>3</b><div><strong>Add the beam and the wall.</strong> Stem 0.1875 k/ft,
+        brick wall 0.425 k/ft. Total D = <span id="c2D">1.411</span> k/ft, L =
+        <span id="c2L">0.272</span> k/ft.</div></div>
+      <div class="step"><b>4</b><div><strong>Factor.</strong>
+        \(w_u = 1.2D + 1.6L = \) <span id="c2wu">2.128</span> k/ft on the end spans,
+        <span id="c2wum">1.965</span> k/ft on the middle span.</div></div>
+      <div class="step"><b>5</b><div><strong>Clear spans.</strong> With 18&Prime; columns,
+        \(l_n\) = <span id="c2lne">19.50</span> ft (end) and <span id="c2lnm">16.50</span> ft (middle);
+        the interior support uses the average, <span id="c2lna">18.00</span> ft.</div></div>
+    </div>
+
+    <div class="tw" style="margin-top:1rem"><table class="dt">
+      <tr><th>Location</th><th>Coefficient</th><th class="n">M<sub>u</sub> (k-ft)</th><th class="n">A<sub>s</sub> req (in&sup2;)</th><th>Bars</th></tr>
+      <tr><td class="k">&minus;M exterior support</td><td>w<sub>u</sub>l<sub>n</sub>&sup2;/16</td><td class="n" id="m1">50.6</td><td class="n" id="a1">0.70</td><td id="b1">2-#6</td></tr>
+      <tr><td class="k">+M end span (21&prime;)</td><td>w<sub>u</sub>l<sub>n</sub>&sup2;/14</td><td class="n" id="m2">57.8</td><td class="n" id="a2">0.76</td><td id="b2">2-#6</td></tr>
+      <tr><td class="k">&minus;M first interior support</td><td>w<sub>u</sub>l<sub>n</sub>&sup2;/10</td><td class="n" id="m3">69.0</td><td class="n" id="a3">0.91</td><td id="b3">2-#7</td></tr>
+      <tr><td class="k">+M middle span (18&prime;)</td><td>w<sub>u</sub>l<sub>n</sub>&sup2;/16</td><td class="n" id="m4">33.4</td><td class="n" id="a4">0.70</td><td id="b4">2-#6</td></tr>
+    </table></div>
+    <p class="small">\(A_s\) from \(R_n = M_u/\phi bd^2\) with \(d\) = 17.5&Prime;, then
+    \(\rho = \dfrac&#123;0.85f'_c&#125;&#123;f_y&#125;\left(1-\sqrt&#123;1-\dfrac&#123;2R_n&#125;&#123;0.85f'_c&#125;&#125;\right)\).
+    Minimum steel \(\rho_&#123;min&#125; = 3\sqrt&#123;f'_c&#125;/f_y = 0.00335\) governs three of the
+    four locations &mdash; \(A_&#123;s,min&#125;\) = <span id="asmin">0.70</span> in&sup2;.</p>
+
+    <div class="ans" style="margin-top:.8rem"><strong>The number to check against ETABS:</strong>
+    positive moment at the 21&prime; end span &asymp; <span id="ansM">58</span> k-ft under FDL,
+    negative at the interior supports &asymp; <span id="ansM2">69</span> k-ft. ETABS solves the
+    frame properly rather than with coefficients, so expect it to land within about 10&ndash;15%
+    &mdash; usually a little lower at midspan and a little higher at the supports.</div>
+  </div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Shear</h3>
+  <p>\( \phi V_c = 0.75 \times 2\sqrt&#123;f'_c&#125;b_wd = \) <span id="phiVc">21.1</span> kip,
+  against a maximum \(V_u\) of <span id="vumax">23.9</span> kip at the face of the first interior
+  support. Stirrups are needed but the demand is small &mdash; \(V_s\) required is only
+  <span id="vsreq">3.6</span> kip, so the maximum spacing \(d/2\) governs everywhere.</p>
+  <div class="ans">#3 double-leg stirrups @ <span id="sMax">8</span>&Prime; c/c throughout, tightened
+  to 4&Prime; over 2h = 40&Prime; from each support face for seismic detailing.</div>
+</section>
+
+<section class="sec" id="s10">
+  <div class="sec-h"><span class="sec-n">10</span><h2>Check 3 &mdash; Base Shear</h2></div>
+  <p class="lead">The global check. If your seismic weight is wrong, everything lateral is wrong,
+  and this catches it in five minutes.</p>
+
+  <div class="example">
+    <div class="ex-h"><span>Worked check</span><h4>Seismic weight and V = S<sub>a</sub>W</h4></div>
+    <p class="prob">Floor area is <span id="s3area">3120</span> ft&sup2;. Build the weight up
+    component by component for one typical floor:</p>
+    <div class="tw"><table class="dt">
+      <tr><th>Component</th><th>Basis</th><th class="n">kip / floor</th></tr>
+      <tr><td class="k">Slab + finishes</td><td>117.5 psf over the plan area</td><td class="n" id="w1">366.6</td></tr>
+      <tr><td class="k">Beams</td><td>0.1875 k/ft stem, all grid lines</td><td class="n" id="w2">84.0</td></tr>
+      <tr><td class="k">Columns</td><td>16 columns, average 15&times;18</td><td class="n" id="w3">49.5</td></tr>
+      <tr><td class="k">Brick walls</td><td>0.425 k/ft, perimeter + partitions</td><td class="n" id="w4">146.2</td></tr>
+      <tr><td class="k">Lift core wall</td><td>10&Prime; wall, ~26 ft net length</td><td class="n" id="w5">35.8</td></tr>
+      <tr class="tot"><td class="k">W per floor</td><td id="wpsf">219 psf</td><td class="n" id="w6">682</td></tr>
+      <tr class="tot"><td class="k">W total</td><td id="wnst">10 floors</td><td class="n" id="w7">6,821</td></tr>
+    </table></div>
+
+    <div class="steps" style="margin-top:1rem">
+      <div class="step"><b>1</b><div><strong>Period.</strong> \(T = C_t h_n^m\) with
+        \(h_n\) = <span id="s3hn">116</span> ft = <span id="s3hnm">35.4</span> m. For a dual system
+        (\(C_t\) = 0.0488, m = 0.75), \(T\) = <span id="s3T">0.708</span> s.</div></div>
+      <div class="step"><b>2</b><div><strong>Spectrum.</strong> That falls between \(T_B\) = 0.2 s
+        and \(T_C\) = 0.8 s, so \(C_s = 2.5S\eta\) = <span id="s3Cs">3.750</span>.</div></div>
+      <div class="step"><b>3</b><div><strong>Design acceleration.</strong>
+        \( S_a = \dfrac&#123;2&#125;&#123;3&#125;\dfrac&#123;ZI&#125;&#123;R&#125;C_s \).</div></div>
+      <div class="step"><b>4</b><div><strong>Base shear.</strong> \(V = S_aW\).</div></div>
+    </div>
+
+    <div class="calc-results" style="margin-top:.8rem">
+      <div class="res"><span>V &mdash; R = 5.5, T = 0.71 s</span><b id="s3v1">620 kip</b></div>
+      <div class="res"><span>V &mdash; R = 7.0, T = 0.71 s</span><b id="s3v2">487 kip</b></div>
+      <div class="res"><span>V &mdash; R = 5.5, longer T = 1.15 s</span><b id="s3v3">430 kip</b></div>
+      <div class="res"><span>Wind, X direction (on the <span id="s3fx">52</span>&prime; face)</span><b id="s3wx">282 kip</b></div>
+      <div class="res"><span>Wind, Y direction (on the <span id="s3fy">60</span>&prime; face)</span><b id="s3wy">326 kip</b></div>
+    </div>
+  </div>
+
+  <div class="core"><span>What this tells you</span>
+    <p>Seismic base shear should land somewhere around
+    <span id="s3band">5&ndash;9%</span> of W, i.e. roughly
+    <span id="s3lo">340</span>&ndash;<span id="s3hi">620</span> kip depending on the R and the
+    period you end up with. Wind is <span id="s3windcmp">smaller but not negligible</span> at
+    <span id="s3wmax">326</span> kip. Compare both against your ETABS auto-lateral totals under
+    <span class="path">Display &rsaquo; Load Cases &rsaquo; Base Reactions</span>.</p>
+  </div>
+
+  <div class="why-matters"><span>&#128336;</span><div>
+    <b>Your period will not match the code formula, and that is normal.</b> \(C_th_n^m\) is a
+    deliberately short empirical estimate; the ETABS modal period from a cracked-section model will
+    typically be 1.3&ndash;1.6&times; longer. The code caps how much of that you may use
+    (\(T \le C_uT_a\)), so the design base shear stays near the empirical value even when the model
+    is softer. Report both periods and say which one drove the design.
+  </div></div>
+</section>
+
+<section class="sec" id="s11">
+  <div class="sec-h"><span class="sec-n">11</span><h2>Beam AB &mdash; Detailing and Curtailment</h2></div>
+  <p class="lead">This is what the AutoCAD long section has to show: where the bars are, where they
+  stop, and why they stop there.</p>
+
+  <p>Pull the moment envelope from ETABS first. Take the worst of FDL, FDLEQy and FDLWx at every
+  station along the beam, not just the FDL diagram &mdash; under the lateral combinations the
+  support moments grow and the end-span support moment can reverse.</p>
+
+  <div class="pathline">Display &rsaquo; Force/Stress Diagrams &rsaquo; Frame/Pier/Spandrel Forces &nbsp;&rarr;&nbsp; Moment 3-3, envelope, show values</div>
+
+  <div class="diagram-card">
+    <h4>Beam AB long section &mdash; bar arrangement and cut-off points</h4>
+    <svg id="beamSvg" viewBox="0 0 640 250" class="calc-fig" style="max-width:640px" role="img"
+         aria-label="Long section of the three-span beam AB showing top bars over supports, bottom bars in the spans, and the cut-off dimensions"></svg>
+    <p class="cap">Top steel over the supports, bottom steel in the spans, and the cut-off distances
+    measured from each support face. Dimensions update with your span lengths.</p>
+  </div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Curtailment rules that set those dimensions</h3>
+  <div class="tw"><table class="dt">
+    <tr><th>Bar</th><th>Rule</th><th class="n">This beam</th></tr>
+    <tr><td class="k">Top, interior support</td><td>Extend l<sub>n</sub>/4 past the face each side</td><td class="n" id="cut1">4&prime;-11&Prime;</td></tr>
+    <tr><td class="k">Top, into the 18&prime; span</td><td>l<sub>n</sub>/4 of the shorter span</td><td class="n" id="cut2">4&prime;-2&Prime;</td></tr>
+    <tr><td class="k">Top, exterior support</td><td>l<sub>n</sub>/5, hooked into the column</td><td class="n" id="cut3">3&prime;-11&Prime;</td></tr>
+    <tr><td class="k">Bottom, into support</td><td>At least &frac14; of +A<sub>s</sub> continuous, 6&Prime; min into the support</td><td class="n">2-#6 through</td></tr>
+    <tr><td class="k">Development, #7 top</td><td>l<sub>d</sub>, top-bar factor &psi;<sub>t</sub> = 1.3</td><td class="n" id="ld7">4&prime;-3&Prime;</td></tr>
+    <tr><td class="k">Development, #6 bottom</td><td>l<sub>d</sub>, &psi;<sub>s</sub> = 0.8</td><td class="n" id="ld6">1&prime;-9&Prime;</td></tr>
+    <tr><td class="k">Standard hook, #7</td><td>l<sub>dh</sub>, 90&deg; hook</td><td class="n" id="ldh7">1&prime;-1&Prime;</td></tr>
+  </table></div>
+
+  <div class="warnbox"><b>Check the cut-off against development length, not just against l<sub>n</sub>/4.</b>
+  The #7 top bar needs <span id="ld7b">4&prime;-3&Prime;</span> of embedment from the point of
+  maximum stress, and l<sub>n</sub>/4 here is <span id="cut1b">4&prime;-11&Prime;</span>. Those are
+  close enough that a slightly shorter span or a larger bar flips which one governs. Take the
+  larger of the two and round up to the next 3&Prime;.</div>
+
+  <div class="core"><span>Also required by ACI at every cut-off</span>
+    <p>Extend every bar a distance \(d\) or \(12d_b\) beyond the point where it is no longer needed
+    for flexure &mdash; here that is 17.5&Prime; and 10.5&Prime; for a #7, so 17.5&Prime; governs.
+    And at least one third of the negative steel must run past the inflection point by \(d\),
+    \(12d_b\), or \(l_n/16\), whichever is greatest. Show both on the drawing; markers are what
+    the checker looks for.</p>
+  </div>
+</section>
+
+<section class="sec" id="s12">
+  <div class="sec-h"><span class="sec-n">12</span><h2>The AutoCAD Drawing Set</h2></div>
+  <p class="lead">Four drawings, and each one has a specific job. Draw them at a real scale in
+  model space and plot through a layout &mdash; do not draw to fit the paper.</p>
+
+  <div class="grid2">
+    <div class="vcard v-teal"><span class="vtag">Drawing 1</span><h4>Framing plan</h4>
+      <p>Grid with dimensions, all sixteen columns with their section marks, beam marks on every
+      line, slab panel callouts. Scale 1/8&Prime; = 1&prime;-0&Prime;. This is the drawing that
+      proves your column layout matches the architectural plan.</p></div>
+    <div class="vcard v-amb"><span class="vtag">Drawing 2</span><h4>Column schedule</h4>
+      <p>The circled column, storey by storey: section size, bar count and size, tie size and
+      spacing, and the splice location. One row per storey group. Include the load it was designed
+      for so the numbers are traceable.</p></div>
+    <div class="vcard v-vio"><span class="vtag">Drawing 3</span><h4>Beam AB long section</h4>
+      <p>Three spans at 1/4&Prime; = 1&prime;-0&Prime; horizontal. Top and bottom bars with
+      cut-off dimensions, stirrup zones and spacings, support faces marked. Add the moment envelope
+      above it at the same horizontal scale so the steel visibly follows the moment.</p></div>
+    <div class="vcard v-blu"><span class="vtag">Drawing 4</span><h4>Sections</h4>
+      <p>Cut through the beam at midspan and at a support, 1&Prime; = 1&prime;-0&Prime;. Two
+      sections, because the bar arrangement is different at each &mdash; that difference is the
+      whole point of the drawing.</p></div>
+  </div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Layer discipline</h3>
+  <div class="tw"><table class="dt">
+    <tr><th>Layer</th><th>Colour</th><th>Lineweight</th><th>Contents</th></tr>
+    <tr><td class="k">S-GRID</td><td>Grey 8</td><td class="n">0.09</td><td>Grid lines, bubbles</td></tr>
+    <tr><td class="k">S-CONC</td><td>Cyan 4</td><td class="n">0.35</td><td>Concrete outlines</td></tr>
+    <tr><td class="k">S-REBAR</td><td>Red 1</td><td class="n">0.50</td><td>Main bars &mdash; heaviest line on the sheet</td></tr>
+    <tr><td class="k">S-STIRRUP</td><td>Green 3</td><td class="n">0.25</td><td>Stirrups, ties</td></tr>
+    <tr><td class="k">S-DIM</td><td>Yellow 2</td><td class="n">0.13</td><td>Dimensions, leaders</td></tr>
+    <tr><td class="k">S-TEXT</td><td>White 7</td><td class="n">0.18</td><td>Notes, bar callouts</td></tr>
+  </table></div>
+
+  <div class="why-matters"><span>&#128207;</span><div>
+    <b>Reinforcement is the subject of these drawings, so it gets the heaviest line.</b> The most
+    common presentation failure is a beam section where the concrete outline is bolder than the
+    bars, which reads as a drawing about a rectangle. Set S-REBAR to 0.50 mm and let everything
+    else sit behind it.
+  </div></div>
+
+  <p>Annotate every bar as <em>count &ndash; size &ndash; length</em>, for example
+  <span class="path">2-#7 &times; 12&prime;-6&Prime;</span>, and give each a bar mark that matches
+  a bar bending schedule on the same sheet. A drawing with bars but no schedule cannot be
+  fabricated from.</p>
+</section>
+
+<section class="sec" id="s13">
+  <div class="sec-h"><span class="sec-n">13</span><h2>When ETABS Disagrees With You</h2></div>
+  <p class="lead">A 15% gap between hand check and model is normal. Beyond that, it is almost
+  always one of these six things, roughly in order of how often it happens.</p>
+
+  <div class="tw"><table class="dt">
+    <tr><th class="n">#</th><th>Symptom</th><th>Cause</th><th>Fix</th></tr>
+    <tr><td class="n">1</td><td>Everything is ~50% heavy</td><td>Self-weight multiplier left at 1 on SDL as well as DEAD</td><td>Set SDL and WALL multipliers to 0</td></tr>
+    <tr><td class="n">2</td><td>Base reaction high by ~360 kip</td><td>A slab drawn at the GB level</td><td>Delete it &mdash; GB carries beams only</td></tr>
+    <tr><td class="k n">3</td><td>Beam moments low by ~25%</td><td>WALL pattern missing from the combinations</td><td>DL means DEAD + SDL + WALL, three rows each</td></tr>
+    <tr><td class="n">4</td><td>Column axial low</td><td>Slab not meshed, so load never reaches the beams</td><td>Auto-mesh the floor, or check the load path</td></tr>
+    <tr><td class="n">5</td><td>Base shear high, drift tiny</td><td>Property modifiers left at 1.0</td><td>Apply cracked-section modifiers</td></tr>
+    <tr><td class="n">6</td><td>Wall forces unusable</td><td>Core walls not pier-labelled</td><td>Assign pier labels to the whole core</td></tr>
+  </table></div>
+
+  <div class="core"><span>The order to check things in</span>
+    <p>Always start with the total base reaction under DEAD alone and compare it to
+    <span id="tbLo">6800</span> kip &plusmn; 10% for a building this size. That one number catches
+    causes 1, 2 and 4 immediately. Only once the gravity total is right does it make sense to look
+    at individual members.</p>
+  </div>
+
+  <h3 style="font-family:'Space Mono',monospace;font-size:.95rem;color:var(--txt);margin:1.6rem 0 .3rem">Quick reference</h3>
+  <div class="qref">
+    <div><span>Plan</span><span id="q1">60&prime; &times; 52&prime;</span></div>
+    <div><span>Roof elevation</span><span id="q2">116&prime;-0&Prime;</span></div>
+    <div><span>Slab dead load</span><span>117.5 psf</span></div>
+    <div><span>Floor live load</span><span>40 psf</span></div>
+    <div><span>Wall line load</span><span>0.425 k/ft</span></div>
+    <div><span>Seismic weight</span><span id="q3">6,821 kip</span></div>
+    <div><span>C3 tributary</span><span id="q4">331.5 ft&sup2;</span></div>
+    <div><span>C3 P<sub>u</sub> band</span><span id="q5">780&ndash;870 kip</span></div>
+    <div><span>Beam AB +M end span</span><span id="q6">57.8 k-ft</span></div>
+    <div><span>Beam AB &minus;M interior</span><span id="q7">69.0 k-ft</span></div>
+    <div><span>Seismic base shear</span><span id="q8">340&ndash;620 kip</span></div>
+    <div><span>Wind base shear</span><span id="q9">282&ndash;326 kip</span></div>
+  </div>
+
+  <div class="why-matters"><span>&#9997;&#65039;</span><div>
+    <b>State your assumptions on the sheet.</b> Four of them matter enough to write down: the R
+    value and why; the site class and where it came from; whether the wall load sits on one or both
+    grid lines through the circled column; and the fact that the four required combinations cover
+    only EQy and Wx, so they are not a full design envelope. Assumptions that are written down are
+    engineering judgement. The same assumptions left implicit are just gaps.
+  </div></div>
+</section>
+
+<nav class="chapter-nav">
+  <a href="/civil">&larr; Civil Engineering</a>
+  <span class="next">Build it, check it, then draw it.</span>
+</nav>
+
+<script is:inline>
+(function(){
+  const g = id => document.getElementById(id);
+  const MID_Y = 16, GB = 6, LIFT = 7.5;          /* fixed by the plan */
+  const wc = 0.150, tsl = 5/12;
+  const FF = 0.025, PW = 0.030, LLo = 0.040, WALL = 0.425;
+  const DLslab = tsl*wc + FF + PW;               /* 0.1175 ksf */
+  const fbStem = (12*15/144)*wc;                 /* 0.1875 k/ft */
+  const fc = 4.5, fy = 60;
+
+  const f1 = n => n.toFixed(1), f2 = n => n.toFixed(2), f3 = n => n.toFixed(3);
+  const r0 = n => Math.round(n).toLocaleString();
+  const set = (id,v) => { const e = g(id); if(e) e.innerHTML = v; };
+  /* decimal feet -> 12'-3" , rounding inches to the nearest whole inch */
+  function fi(x){
+    let ft = Math.floor(x), inch = Math.round((x-ft)*12);
+    if(inch === 12){ ft++; inch = 0; }
+    return ft + "&prime;-" + inch + "&Prime;";
+  }
+  const BARS = [["2-#6",0.88],["2-#7",1.20],["3-#6",1.32],["2-#8",1.58],["3-#7",1.80],["4-#7",2.40]];
+  const pick = As => (BARS.find(b => b[1] >= As) || BARS[BARS.length-1])[0];
+
+  /* equivalent UDL delivered to the LONG beam of a two-way panel S x L */
+  function weq(w,S,L){ const m = L/S; return (w*S/2)*(1 - 1/(3*m*m)); }
+
+  /* As from Mu (k-ft) for a singly reinforced rectangular section */
+  function AsReq(Mkft,b,d){
+    const Rn = Mkft*12/(0.9*b*d*d);
+    const inner = 1 - 2*Rn/(0.85*fc);
+    if(inner < 0) return NaN;
+    return (0.85*fc/fy)*(1-Math.sqrt(inner))*b*d;
+  }
+
+  function recalc(){
+    const A = +g('pA').value || 21, B = +g('pB').value || 18;
+    const C = +g('pC').value || 11, N = Math.max(1, Math.round(+g('pN').value || 10));
+    const Lx = 2*A + B, Ly = 2*B + MID_Y;
+    const X = [0, A, A+B, Lx], Y = [0, B, B+MID_Y, Ly];
+    const area = Lx*Ly, hn = GB + N*C;
+
+    /* ---------- 02 grid + stories ---------- */
+    set('gxa',f1(A)); set('gxb',f1(B)); set('gxc',f1(A));
+    X.forEach((v,i)=>set('gx'+i,f1(v)));
+    set('gya',f1(B)); set('gyc',f1(B));
+    for(let i=1;i<4;i++) set('gy'+i,f1(Y[i]));
+    set('stH',fi(C)); set('st1',fi(GB+C)); set('stH2',fi(C)+" each");
+    set('stR',"up to "+fi(hn)); set('stL',fi(hn+LIFT));
+    set('ghostSlab',r0(area*DLslab));
+
+    /* ---------- 04 column grid coords ---------- */
+    ['cxA','cxA2'].forEach(i=>set(i,f1(X[1]))); ['cxB','cxB2'].forEach(i=>set(i,f1(X[2])));
+    ['cxC','cxC2'].forEach(i=>set(i,f1(X[3])));
+    ['cyA','cyA2','cyA3','cyA4'].forEach(i=>set(i,f1(Y[1])));
+    set('cyB',f1(Y[2])); set('cyC',f1(Y[3]));
+    set('ccx',f1(X[1])); set('ccy',f1(Y[1]));
+
+    /* ---------- 08 column axial ---------- */
+    const tX = (X[1]-X[0])/2 + (X[2]-X[1])/2, tY = (Y[1]-Y[0])/2 + (Y[2]-Y[1])/2;
+    const AT = tX*tY, beamLen = tX + tY;
+    const slabD = AT*DLslab, slabL = AT*LLo;
+    const beamD = beamLen*fbStem, colD = (324/144)*wc*C;
+    const wall2 = beamLen*WALL, wall1 = tX*WALL;
+    const ATtot = N*AT;
+    let Lred = LLo*1000*(0.25 + 15/Math.sqrt(4*ATtot));
+    Lred = Math.max(Lred, 0.4*LLo*1000);
+    const LLr = N*AT*Lred/1000, LLfull = N*slabL;
+    const D2 = N*(slabD+beamD+wall2+colD), D1 = N*(slabD+beamD+wall1+colD);
+    const Pu2 = 1.2*D2 + 1.6*LLr, Pu1 = 1.2*D1 + 1.6*LLr;
+
+    set('t1x',f1((X[1]-X[0])/2)+" + "+f1((X[2]-X[1])/2)+" = "+f1(tX));
+    set('t1y',f1((Y[1]-Y[0])/2)+" + "+f1((Y[2]-Y[1])/2)+" = "+f1(tY));
+    set('t1a',f1(AT)); set('t1sd',f1(slabD)); set('t1sl',f1(slabL));
+    set('t1bl',f1(beamLen)); set('t1bd',f1(beamD)); set('t1ch',f1(C)); set('t1cd',f1(colD));
+    set('t1w2',f1(wall2)); set('t1w1',f1(wall1));
+    set('t1at',r0(ATtot)); set('t1lr',f1(Lred));
+    set('r1d2',r0(D2)+" kip"); set('r1d1',r0(D1)+" kip"); set('r1l',r0(LLr)+" kip");
+    set('r1u2',r0(Pu2)+" kip"); set('r1u1',r0(Pu1)+" kip");
+    set('llFull',r0(LLfull)); set('llRed',r0(LLr));
+
+    const caps = [["8-#8",6.32],["8-#9",8.00],["12-#8",9.48]].map(b =>
+      0.65*0.80*(0.85*fc*(324-b[1]) + fy*b[1]));
+    caps.forEach((c,i)=>set('cap'+(i+1), r0(c)+" kip"));
+    set('capNote',r0(caps[0])); set('demLo',r0(Pu1)); set('demHi',r0(Pu2));
+    set('bandLo',r0(Math.round(Pu1/10)*10)); set('bandHi',r0(Math.round(Pu2/10)*10));
+    const ok = caps[0] >= Pu2;
+    set('v1','<div class="verdict '+(ok?'v-pass':'v-fail')+'">'+
+      '<span>18&times;18 with 8-#8 vs P<sub>u</sub> = '+r0(Pu2)+' kip (walls both lines)</span>'+
+      '<b>'+(ok?'OK':'NOT ENOUGH — go to 8-#9 or larger')+'</b></div>');
+
+    /* ---------- 09 beam AB ---------- */
+    const col = 1.5, lnE = A-col, lnM = B-col, lnA = (lnE+lnM)/2;
+    const wdE = weq(DLslab,B,A), wlE = weq(LLo,B,A);
+    const wdM = weq(DLslab,B,B), wlM = weq(LLo,B,B);
+    const DE = wdE + fbStem + WALL, DM = wdM + fbStem + WALL;
+    const wuE = 1.2*DE + 1.6*wlE, wuM = 1.2*DM + 1.6*wlM;
+    const Ms = [wuE*lnE*lnE/16, wuE*lnE*lnE/14, wuE*lnA*lnA/10, wuM*lnM*lnM/16];
+    const bw = 12, d = 17.5;
+    const rmin = Math.max(3*Math.sqrt(fc*1000)/60000, 200/60000), Asmin = rmin*bw*d;
+
+    set('abY',f1(Y[3])); set('abSpans',f1(A)+"&prime; &ndash; "+f1(B)+"&prime; &ndash; "+f1(A)+"&prime;");
+    set('c2span',f1(A)+" vs "+f1(B)+" &rarr; "+f1(100*Math.abs(A-B)/Math.max(A,B))+"%");
+    set('c2ld',f2(wlE/DE));
+    set('c2panel',f1(B)+"&prime; &times; "+f1(A)+"&prime;");
+    set('c2m',f3(A/B)); set('c2wd',f3(wdE)); set('c2wl',f3(wlE));
+    set('c2D',f3(DE)); set('c2L',f3(wlE)); set('c2wu',f3(wuE)); set('c2wum',f3(wuM));
+    set('c2lne',f2(lnE)); set('c2lnm',f2(lnM)); set('c2lna',f2(lnA));
+    Ms.forEach((M,i)=>{
+      const As = Math.max(AsReq(M,bw,d), Asmin);
+      set('m'+(i+1), f1(M)); set('a'+(i+1), f2(As)); set('b'+(i+1), pick(As));
+    });
+    set('asmin',f2(Asmin)); set('ansM',r0(Ms[1])); set('ansM2',r0(Ms[2]));
+
+    const phiVc = 0.75*2*Math.sqrt(fc*1000)*bw*d/1000;
+    const Vu = 1.15*wuE*lnE/2, Vs = Math.max(0,(Vu-phiVc)/0.75);
+    set('phiVc',f1(phiVc)); set('vumax',f1(Vu)); set('vsreq',f1(Vs));
+    set('sMax', Math.min(Math.floor(d/2),24));
+
+    /* ---------- 11 curtailment ---------- */
+    const ld7 = (60000*1.3/(20*Math.sqrt(fc*1000)))*0.875/12;
+    const ld6 = (60000*0.8/(25*Math.sqrt(fc*1000)))*0.75/12;
+    const ldh7 = (60000/(55*Math.sqrt(fc*1000)))*Math.pow(0.875,1.5)/12;
+    set('cut1',fi(lnE/4)); set('cut1b',fi(lnE/4));
+    set('cut2',fi(lnM/4)); set('cut3',fi(lnE/5));
+    set('ld7',fi(ld7)); set('ld7b',fi(ld7)); set('ld6',fi(ld6)); set('ldh7',fi(ldh7));
+
+    /* ---------- 10 base shear ---------- */
+    const Wslab = area*DLslab, Wbeam = (4*Lx + 4*Ly)*fbStem;
+    const Wcol = 16*(270/144)*wc*C, Wwall = (2*(Lx+Ly) + 120)*WALL;
+    const Wcore = 26*(10/12)*C*wc;
+    const Wfl = Wslab+Wbeam+Wcol+Wwall+Wcore, W = N*Wfl;
+    [['w1',Wslab],['w2',Wbeam],['w3',Wcol],['w4',Wwall],['w5',Wcore]].forEach(p=>set(p[0],f1(p[1])));
+    set('w6',r0(Wfl)); set('w7',r0(W));
+    set('wpsf',r0(Wfl/area*1000)+" psf"); set('wnst',N+" floors");
+    set('s3area',r0(area)); set('wallTot',r0(N*Wwall));
+    set('tbLo',r0(Math.round(W/100)*100));
+
+    const hnm = hn*0.3048, S = 1.5, TB = 0.2, TC = 0.8, TD = 2.0, Z = 0.20, I = 1.0;
+    function CsOf(T){
+      if(T <= TB) return S*(1 + T/TB*1.5);
+      if(T <= TC) return 2.5*S;
+      if(T <= TD) return 2.5*S*(TC/T);
+      return 2.5*S*(TC*TD/(T*T));
+    }
+    const Td = 0.0488*Math.pow(hnm,0.75), Tf = 0.0466*Math.pow(hnm,0.9);
+    const Sa = (T,R) => (2/3)*(Z*I/R)*CsOf(T);
+    const V55 = Sa(Td,5.5)*W, V70 = Sa(Td,7.0)*W, V55f = Sa(Tf,5.5)*W;
+    set('s3hn',r0(hn)); set('s3hnm',f1(hnm)); set('s3T',f3(Td)); set('s3Cs',f3(CsOf(Td)));
+    set('s3v1',r0(V55)+" kip"); set('s3v2',r0(V70)+" kip"); set('s3v3',r0(V55f)+" kip");
+    set('vR55',r0(V55)+" k"); set('vR70',r0(V70)+" k");
+
+    /* wind: integrate windward q(z) up the height, leeward at qh */
+    const Vw = 147, Kd = 0.85, G = 0.85, alpha = 7.0, zg = 1200;
+    const Kz = z => 2.01*Math.pow(Math.max(z,15)/zg, 2/alpha);
+    const qh = 0.00256*Kz(hn)*Kd*Vw*Vw;
+    function windV(width){
+      let V = 0;
+      for(let z = 0; z < hn; z += 1){
+        const dz = Math.min(1, hn-z), qw = 0.00256*Kz(z+dz/2)*Kd*Vw*Vw;
+        V += G*(0.8*qw + 0.5*qh)*width*dz/1000;
+      }
+      return V;
+    }
+    const Wx = windV(Ly), Wy = windV(Lx);
+    set('s3fx',r0(Ly)); set('s3fy',r0(Lx));
+    set('s3wx',r0(Wx)+" kip"); set('s3wy',r0(Wy)+" kip");
+    const vLo = Math.min(V55,V70,V55f), vHi = Math.max(V55,V70,V55f), wMax = Math.max(Wx,Wy);
+    set('s3lo',r0(vLo)); set('s3hi',r0(vHi)); set('s3wmax',r0(wMax));
+    set('s3band',f1(100*vLo/W)+"&ndash;"+f1(100*vHi/W)+"%");
+    set('s3windcmp', wMax < vLo ? "smaller but not negligible"
+      : wMax > vHi ? "actually governing here — check both" : "overlapping the seismic range");
+
+    /* ---------- quick reference ---------- */
+    set('q1',r0(Lx)+"&prime; &times; "+r0(Ly)+"&prime;"); set('q2',fi(hn));
+    set('q3',r0(W)+" kip"); set('q4',f1(AT)+" ft&sup2;");
+    set('q5',r0(Math.round(Pu1/10)*10)+"&ndash;"+r0(Math.round(Pu2/10)*10)+" kip");
+    set('q6',f1(Ms[1])+" k-ft"); set('q7',f1(Ms[2])+" k-ft");
+    set('q8',r0(vLo)+"&ndash;"+r0(vHi)+" kip");
+    set('q9',r0(Math.min(Wx,Wy))+"&ndash;"+r0(wMax)+" kip");
+
+    drawPlan(X,Y); drawBeam(A,B,lnE,lnM);
+  }
+
+  /* ---------------- framing plan ---------------- */
+  function drawPlan(X,Y){
+    const svg = g('planSvg'); if(!svg) return;
+    const W = 460, H = 420, mL = 52, mR = 30, mT = 30, mB = 70;
+    const Lx = X[3], Ly = Y[3];
+    const s = Math.min((W-mL-mR)/Lx, (H-mT-mB)/Ly);
+    const px = x => mL + x*s, py = y => H - mB - y*s;
+    const XL = ['1','2','3','4'], YL = ['A','B','C','D'];
+    let o = '';
+    Y.forEach(y => o += `<line x1="${px(0)}" y1="${py(y)}" x2="${px(Lx)}" y2="${py(y)}" stroke="#2e3548" stroke-width="1"/>`);
+    X.forEach(x => o += `<line x1="${px(x)}" y1="${py(0)}" x2="${px(x)}" y2="${py(Ly)}" stroke="#2e3548" stroke-width="1"/>`);
+    /* Beam AB along the top grid line */
+    o += `<line x1="${px(0)}" y1="${py(Ly)}" x2="${px(Lx)}" y2="${py(Ly)}" stroke="#9b7fe8" stroke-width="3"/>`;
+    o += `<text x="${px(Lx/2)}" y="${py(Ly)-9}" fill="#9b7fe8" font-size="11" font-family="monospace" text-anchor="middle">BEAM AB</text>`;
+    X.forEach((x,i)=>{
+      o += `<circle cx="${px(x)}" cy="${py(0)+34}" r="10" fill="none" stroke="#6b7280" stroke-width="1"/>`;
+      o += `<text x="${px(x)}" y="${py(0)+38}" fill="#6b7280" font-size="10" font-family="monospace" text-anchor="middle">${XL[i]}</text>`;
+    });
+    Y.forEach((y,i)=>{
+      o += `<circle cx="${px(0)-32}" cy="${py(y)}" r="10" fill="none" stroke="#6b7280" stroke-width="1"/>`;
+      o += `<text x="${px(0)-32}" y="${py(y)+4}" fill="#6b7280" font-size="10" font-family="monospace" text-anchor="middle">${YL[i]}</text>`;
+    });
+    /* bay dimensions */
+    for(let i=0;i<3;i++){
+      o += `<text x="${px((X[i]+X[i+1])/2)}" y="${py(0)+17}" fill="#c8cede" font-size="9.5" font-family="monospace" text-anchor="middle">${(X[i+1]-X[i]).toFixed(0)}'</text>`;
+      o += `<text x="${px(0)-15}" y="${py((Y[i]+Y[i+1])/2)+3}" fill="#c8cede" font-size="9.5" font-family="monospace" text-anchor="middle">${(Y[i+1]-Y[i]).toFixed(0)}'</text>`;
+    }
+    /* columns */
+    X.forEach(x => Y.forEach(y => {
+      const hot = (x===X[1] && y===Y[1]);
+      o += `<rect x="${px(x)-5}" y="${py(y)-5}" width="10" height="10" rx="1.5"
+        fill="${hot?'#d4a94a':'#4ec9b0'}" stroke="${hot?'#d4a94a':'#4ec9b0'}"
+        stroke-width="${hot?3:1}" opacity="${hot?1:0.85}"/>`;
+    }));
+    o += `<circle cx="${px(X[1])}" cy="${py(Y[1])}" r="14" fill="none" stroke="#d4a94a" stroke-width="1.5" stroke-dasharray="3 2"/>`;
+    o += `<text x="${px(X[1])-22}" y="${py(Y[1])+21}" fill="#d4a94a" font-size="10" font-family="monospace" text-anchor="end">C3 — circled</text>`;
+    o += `<text x="${W/2}" y="${H-8}" fill="#6b7280" font-size="9.5" font-family="monospace" text-anchor="middle">C1/C2/C3 assignment: read off your plan</text>`;
+    svg.innerHTML = o;
+  }
+
+  /* ---------------- beam AB long section ---------------- */
+  function drawBeam(A,B,lnE,lnM){
+    const svg = g('beamSvg'); if(!svg) return;
+    const W = 640, H = 250, mL = 26, mR = 26, yTop = 100, hBeam = 46;
+    const total = A + B + A, s = (W-mL-mR)/total;
+    const xs = [0, A, A+B, total].map(v => mL + v*s);
+    const yB = yTop + hBeam, cw = 10;
+    let o = '';
+    /* columns at each support */
+    xs.forEach(x => o += `<rect x="${x-cw/2}" y="${yTop-8}" width="${cw}" height="${hBeam+42}" fill="#1a1e2a" stroke="#2e3548" stroke-width="1"/>`);
+    /* stirrups first, so the bars read on top of them */
+    for(let x = xs[0]+10; x < xs[3]-6; x += 19)
+      o += `<line x1="${x}" y1="${yTop+4}" x2="${x}" y2="${yB-4}" stroke="#5cb85c" stroke-width="0.8" opacity="0.35"/>`;
+    /* beam body */
+    o += `<rect x="${xs[0]}" y="${yTop}" width="${xs[3]-xs[0]}" height="${hBeam}" fill="none" stroke="#6ab0e0" stroke-width="1.6"/>`;
+    const seg = (x1,x2,y,col) => `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${col}" stroke-width="3.4" stroke-linecap="round"/>`;
+    const yT = yTop + 8, yBt = yB - 8;
+    /* top bars: ln/5 at the exterior supports, ln/4 each side of the interior ones */
+    o += seg(xs[0], xs[0] + (lnE/5)*s, yT, '#c25a3b');
+    o += seg(xs[3] - (lnE/5)*s, xs[3], yT, '#c25a3b');
+    [1,2].forEach(i => o += seg(xs[i] - (lnE/4)*s, xs[i] + (lnM/4)*s, yT, '#c25a3b'));
+    /* bottom steel runs through */
+    o += seg(xs[0]+3, xs[3]-3, yBt, '#4ec9b0');
+    /* dimension line */
+    const yd = yB + 48;
+    o += `<line x1="${xs[0]}" y1="${yd}" x2="${xs[3]}" y2="${yd}" stroke="#6b7280" stroke-width="0.8"/>`;
+    xs.forEach(x => o += `<line x1="${x}" y1="${yd-5}" x2="${x}" y2="${yd+5}" stroke="#6b7280" stroke-width="0.8"/>`);
+    [[0,A],[1,B],[2,A]].forEach(p => {
+      const mid = (xs[p[0]] + xs[p[0]+1])/2;
+      o += `<text x="${mid}" y="${yd+17}" fill="#c8cede" font-size="11" font-family="monospace" text-anchor="middle">${p[1].toFixed(0)}'-0"</text>`;
+    });
+    const ann = (x,y,t,col,anch) => `<text x="${x}" y="${y}" fill="${col}" font-size="9.5" font-family="monospace" text-anchor="${anch||'middle'}">${t}</text>`;
+    /* cut-off callouts, one per distinct rule */
+    o += ann(xs[0] + (lnE/5)*s/2, yT-10, `ln/5 = ${(lnE/5).toFixed(1)}'`, '#c25a3b');
+    o += ann(xs[1], yT-10, `ln/4 = ${(lnE/4).toFixed(1)}' each side of support`, '#c25a3b');
+    o += ann(xs[2], yBt+18, `bottom steel continuous through supports`, '#4ec9b0');
+    /* legend */
+    o += `<text x="${mL}" y="26" fill="#e0e4ef" font-size="11" font-family="monospace">FB 12×20 — three spans continuous</text>`;
+    o += `<text x="${mL}" y="44" fill="#6b7280" font-size="9.5" font-family="monospace">red = top bars · teal = bottom bars · green = stirrups</text>`;
+    o += `<text x="${W-mR}" y="26" fill="#6b7280" font-size="9.5" font-family="monospace" text-anchor="end">cut-offs measured from support face</text>`;
+    svg.innerHTML = o;
+  }
+
+  ['pA','pB','pC','pN'].forEach(id => {
+    const e = g(id); if(e){ e.addEventListener('input', recalc); e.addEventListener('change', recalc); }
+  });
+  recalc();
+})();
+</script>
+
+</Base>
