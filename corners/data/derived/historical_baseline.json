@@ -1,0 +1,79 @@
+{
+  "source": "football-data.co.uk, 18 divisions, seasons 2015/16-2024/25",
+  "n_matches": 60331,
+  "total_corners": {
+    "mean": 9.899,
+    "sd": 3.422,
+    "quantiles": {
+      "5": 5,
+      "25": 7,
+      "50": 10,
+      "75": 12,
+      "95": 16
+    }
+  },
+  "variance_budget": {
+    "cells": 162.0,
+    "mean": 9.8989,
+    "var": 11.4065,
+    "poisson_var": 9.8989,
+    "sys_var": 1.5151,
+    "sys_share": 0.1328
+  },
+  "r2_ceiling_match_total": 0.1328,
+  "model_r2_out_of_sample": {
+    "league_mean": 0.012,
+    "prematch": 0.026,
+    "plus_halftime_scoreline": 0.031
+  },
+  "burn_off": [
+    {
+      "minute": 0,
+      "exp_remaining": 9.9,
+      "sd_of_final_total": 3.38,
+      "vs_prematch": "100%"
+    },
+    {
+      "minute": 15,
+      "exp_remaining": 8.25,
+      "sd_of_final_total": 3.05,
+      "vs_prematch": "90%"
+    },
+    {
+      "minute": 30,
+      "exp_remaining": 6.6,
+      "sd_of_final_total": 2.7,
+      "vs_prematch": "80%"
+    },
+    {
+      "minute": 45,
+      "exp_remaining": 4.95,
+      "sd_of_final_total": 2.31,
+      "vs_prematch": "68%"
+    },
+    {
+      "minute": 60,
+      "exp_remaining": 3.3,
+      "sd_of_final_total": 1.86,
+      "vs_prematch": "55%"
+    },
+    {
+      "minute": 63,
+      "exp_remaining": 2.97,
+      "sd_of_final_total": 1.76,
+      "vs_prematch": "52%"
+    },
+    {
+      "minute": 75,
+      "exp_remaining": 1.65,
+      "sd_of_final_total": 1.3,
+      "vs_prematch": "39%"
+    },
+    {
+      "minute": 85,
+      "exp_remaining": 0.55,
+      "sd_of_final_total": 0.74,
+      "vs_prematch": "22%"
+    }
+  ]
+}

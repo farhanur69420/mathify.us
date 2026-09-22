@@ -5,3 +5,7 @@ dist/
 
 # Vercel adapter build output
 .vercel/
+
+# Corners project: raw third-party CSV/feed downloads are not redistributed.
+# Only derived aggregates in corners/data/derived/ are committed.
+corners/data/raw/
